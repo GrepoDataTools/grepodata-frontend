@@ -1,0 +1,34 @@
+<div style="font-size: 18px;">
+  <a (click)="dialogRef.close()" class="close"></a>
+  <h1 class="mat-primary" style="color: #18BC9C; margin-top: 0px;" mat-dialog-title>Disclaimer</h1>
+
+  <div mat-dialog-content>
+    <p>Grepolis is a browser game by InnoGames GmbH. This is an unofficial 3rd party site.</p>
+    <br/>
+    <p>Some images on this website, relating to the gameplay of Grepolis, are copyright of InnoGames GmbH.</p>
+    <br/>
+    <p>All data related to game statistics is collected once every hour from the official Grepolis API.</p>
+    <br/>
+    <p>We use cookies to analyze website traffic and enhance your experience. <a href="http://cookiesandyou.com/">More info</a> </p>
+    <br/>
+    <p>
+      Grepodata will sometimes request personal data. We may for example ask for your e-mail address if you would like to use our city indexer tool.
+      Grepodata respects the privacy of the visitors on our website, and will solely use the information you provide to us for previously determined purposes, in accordance with GDPR.
+      Grepodata does not send marketing emails, but may send you a message to authenticate you when you wish to use some of our functionality.
+    </p>
+    <br/>
+    <p>
+      Please read our <a routerLink="/privacy" (click)="dialogRef.close()">Privacy Policy</a> for more information.
+    </p>
+    <br/>
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-button class="mat-raised-button mat-primary" (click)="dialogRef.close()">
+      Close
+    </button>
+    <p style="float: right;">Copyright © Grepodata {{date| date:'yyyy'}}</p>
+  </div>
+
+
+</div>

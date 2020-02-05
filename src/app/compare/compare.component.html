@@ -1,0 +1,467 @@
+<div class="compare-container">
+
+  <div class="sidebar-compare">
+    <div class="row">
+
+      <div class="col-xs-12 text-center">
+        <div class="alert alert-default alert-gd-1" style="margin-top: 10px;">
+          <h5><strong><i class="fa fa-search"></i> Use the search function to add players or alliances to the comparison</strong></h5>
+        </div>
+      </div>
+
+      <div class="col-xs-12 player-list">
+        <div class="compare-list" *ngIf="playerWorlds.length > 0">
+          <div class="compare-world" *ngFor="let w of playerWorlds">
+            <div class="compare-box">
+
+              <div class="form-group row compare-title text-center">
+                <div class="compare-info">
+	                <img src="../../assets/images/player_ico.png"/> {{w.id}} ({{w.name}})
+                </div>
+
+                <div class="compare-action">
+                  <button class="btn btn-info compare-btn" [ngClass]="playerWorld==w.id && comparingPlayers ? 'compare-btn-active':''" (click)="doComparePlayers(w.id)">
+                    Compare <i class="fa fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="compare-entity" *ngFor="let p of comparedPlayers[w.id]">
+                <div class="compare-entity-delete" (click)="compare.removePlayer(p.id, w.id)">
+                  <mat-icon style="margin-top: -4px;">
+                    <i class="fa fa-times gd-white"></i>
+                  </mat-icon>
+                </div>
+                <div class="compare-entity-info">
+                  <a routerLink="/player/{{w.id}}/{{p.id}}">{{p.name}}</a>
+                </div>
+              </div>
+
+              <!--<button class="btn btn-info btn-xs compare-btn" style="width: 100%;" (click)="doComparePlayers(w.id)">-->
+                <!--Show comparison <i class="fa fa-arrow-right"></i>-->
+              <!--</button>-->
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-xs-12 alliance-list">
+        <div class="compare-list" *ngIf="allianceWorlds.length > 0">
+          <div class="compare-world" *ngFor="let w of allianceWorlds">
+            <div class="compare-box">
+
+              <div class="form-group row compare-title text-center">
+                <div class="compare-info">
+	                <img src="../../assets/images/ally_ico.png"/> {{w.id}} ({{w.name}})
+                </div>
+
+                <div class="compare-action">
+                  <button class="btn btn-info compare-btn" [ngClass]="allianceWorld==w.id && comparingAlliances ? 'compare-btn-active':''" (click)="doCompareAlliances(w.id)">
+                    Compare <i class="fa fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="compare-entity" *ngFor="let p of comparedAlliances[w.id]">
+                <div class="compare-entity-delete" (click)="compare.removeAlliance(p.id, w.id)">
+                  <mat-icon style="margin-top: -4px;">
+                    <i class="fa fa-times gd-white"></i>
+                  </mat-icon>
+                </div>
+                <div class="compare-entity-info">
+                  <a routerLink="/alliance/{{w.id}}/{{p.id}}">{{p.name}}</a>
+                </div>
+              </div>
+
+              <!--<button class="btn btn-info btn-xs compare-btn" style="width: 100%;" (click)="doCompareAlliances(w.id)">-->
+              <!--Show comparison <i class="fa fa-arrow-right"></i>-->
+              <!--</button>-->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--<div class="col-xs-12 text-center" *ngIf="allianceWorlds.length == 0 && playerWorlds.length == 0">-->
+        <!--<div class="alert alert-warning" style="margin-top: 10px;">-->
+          <!--<h4><strong>Empty comparison list!</strong></h4>-->
+          <!--<br/>-->
+          <!--<h5>Use the search function to add players or alliances and start comparing!</h5>-->
+        <!--</div>-->
+      <!--</div>-->
+
+    </div>
+  </div>
+
+  <div class="compare-content">
+
+    <div id="pagehead">
+      <div style="padding: 0px;">
+        <div>
+	        <app-search [secondary]="false" [compare]="true" [close]="showSearch$"></app-search>
+
+          <div class="mobile-compare-container">
+            <div class="row">
+              <div class="player-list" [ngClass]="(allianceWorlds.length==0&&playerWorlds.length>0?'col-xs-12':'col-xs-6')">
+                <div class="compare-list" *ngIf="playerWorlds.length > 0">
+                  <div class="compare-world" *ngFor="let w of playerWorlds">
+                    <div class="compare-box">
+
+                      <div class="form-group row compare-title text-center">
+                        <div class="compare-info">
+	                        <img src="../../assets/images/player_ico.png"/> {{w.id}} ({{w.name}})
+                        </div>
+
+                        <div class="compare-action">
+                          <button class="btn btn-info compare-btn" [ngClass]="playerWorld==w.id && comparingPlayers ? 'compare-btn-active':''" (click)="doComparePlayers(w.id)">
+                            Compare <i class="fa fa-arrow-right"></i>
+                          </button>
+                        </div>
+                      </div>
+
+                      <div class="compare-entity" *ngFor="let p of comparedPlayers[w.id]">
+                        <div class="compare-entity-delete" (click)="compare.removePlayer(p.id, w.id)">
+                          <mat-icon style="margin-top: -4px;">
+                            <i class="fa fa-times gd-white"></i>
+                          </mat-icon>
+                        </div>
+                        <div class="compare-entity-info">
+                          <a routerLink="/player/{{w.id}}/{{p.id}}">{{p.name}}</a>
+                        </div>
+                      </div>
+
+                      <!--<button class="btn btn-info btn-xs compare-btn" style="width: 100%;" (click)="doComparePlayers(w.id)">-->
+                      <!--Show comparison <i class="fa fa-arrow-right"></i>-->
+                      <!--</button>-->
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="alliance-list" [ngClass]="(playerWorlds.length==0&&allianceWorlds.length>0?'col-xs-12':'col-xs-6')">
+                <div class="compare-list" *ngIf="allianceWorlds.length > 0">
+                  <div class="compare-world" *ngFor="let w of allianceWorlds">
+                    <div class="compare-box">
+
+                      <div class="form-group row compare-title text-center">
+                        <div class="compare-info">
+	                        <img src="../../assets/images/ally_ico.png"/> {{w.id}} ({{w.name}})
+                        </div>
+
+                        <div class="compare-action">
+                          <button class="btn btn-info compare-btn" [ngClass]="allianceWorld==w.id && comparingAlliances ? 'compare-btn-active':''" (click)="doCompareAlliances(w.id)">
+                            Compare <i class="fa fa-arrow-right"></i>
+                          </button>
+                        </div>
+                      </div>
+
+                      <div class="compare-entity" *ngFor="let p of comparedAlliances[w.id]">
+                        <div class="compare-entity-delete" (click)="compare.removeAlliance(p.id, w.id)">
+                          <mat-icon style="margin-top: -4px;">
+                            <i class="fa fa-times gd-white"></i>
+                          </mat-icon>
+                        </div>
+                        <div class="compare-entity-info">
+                          <a routerLink="/alliance/{{w.id}}/{{p.id}}">{{p.name}}</a>
+                        </div>
+                      </div>
+
+                      <!--<button class="btn btn-info btn-xs compare-btn" style="width: 100%;" (click)="doCompareAlliances(w.id)">-->
+                      <!--Show comparison <i class="fa fa-arrow-right"></i>-->
+                      <!--</button>-->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="container-fluid" *ngIf="!comparingPlayers && !comparingAlliances">
+            <br/>
+            <br/>
+            <br/>
+            <div class="col-xs-8 col-xs-offset-2 text-center alert alert-warning alert-gd-1" style="margin-top: 10px;">
+              <h3><strong>Empty comparison list!</strong></h3>
+              <br/>
+              <h4>Use the search function to add players or alliances and start comparing!</h4>
+            </div>
+            <br/>
+            <br/>
+          </div>
+
+          <div class="container-fluid" style="margin-left: 20px;" *ngIf="comparingPlayers || comparingAlliances">
+            <div class="row">
+              <!--OVERVIEW-->
+              <div class="col-md-12 text-left" *ngIf="!firstRun && !loadingStats">
+                <h2 class="gd-primary">Overview</h2>
+                <div class="alert alert-warning" *ngIf="infoData.length == 1">
+                  You have only added 1 item to the comparison. Use the search function to add more.
+                </div>
+                <table class="table table-no-more">
+                  <tbody *ngIf="comparingPlayers">
+                    <tr>
+                      <th>Name</th>
+                      <td *ngFor="let i of infoData;">
+                        <a routerLink="/player/{{i.world}}/{{i.grep_id}}">{{i.name}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Alliance</th>
+                      <td *ngFor="let i of infoData;">
+                        <a *ngIf="i.alliance_id != 0 && i.alliance_name != ''" routerLink="/alliance/{{i.world}}/{{i.alliance_id}}">{{i.alliance_name}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>World</th>
+                      <td *ngFor="let i of infoData;">
+                        <a *ngIf="i.alliance_id != 0 && i.alliance_name != ''" routerLink="/points/{{i.world}}">{{i.world}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Rank</th>
+                      <td *ngFor="let i of infoData;">
+                        <a routerLink="/ranking/player/{{i.world}}">{{i.rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Towns</th>
+                      <td *ngFor="let i of infoData;">
+                        <a routerLink="/conquest/player/{{i.world}}/{{i.grep_id}}">{{i.towns}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Points</th>
+                      <td *ngFor="let i of infoData;">{{i.points | NumberFilter}}</td>
+                    </tr>
+                    <tr>
+                      <th>Fighting</th>
+                      <td *ngFor="let i of infoData;">{{i.att + i.def | NumberFilter}}</td>
+                    </tr>
+                    <tr>
+                      <th>Attacking</th>
+                      <td *ngFor="let i of infoData;">{{i.att | NumberFilter}}</td>
+                    </tr>
+                    <tr>
+                      <th>Defending</th>
+                      <td *ngFor="let i of infoData;">{{i.def |NumberFilter}}</td>
+                    </tr>
+                    <tr>
+                      <th></th>
+                      <td *ngFor="let i of infoData;">
+                        <button name="open_bb" class="btn btn-danger btn-xs" style="margin-top: -5px;" (click)="removePlayer(i.grep_id, i.world)">
+                          Remove <i class="fa fa-times"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="comparingAlliances">
+                    <tr>
+                      <th>Name</th>
+                      <td *ngFor="let i of infoData;">
+                        <a routerLink="/alliance/{{i.world}}/{{i.grep_id}}">{{i.name}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>World</th>
+                      <td *ngFor="let i of infoData;">
+                        <a *ngIf="i.alliance_id != 0 && i.alliance_name != ''" routerLink="/points/{{i.world}}">{{i.world}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Rank</th>
+                      <td *ngFor="let i of infoData;">
+                        <a routerLink="/ranking/alliance/{{i.world}}">{{i.rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Towns</th>
+                      <td *ngFor="let i of infoData;">
+                        <a routerLink="/conquest/alliance/{{i.world}}/{{i.grep_id}}">{{i.towns}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Members</th>
+                      <td *ngFor="let i of infoData;">{{i.members}}</td>
+                    </tr>
+                    <tr>
+                      <th>Points</th>
+                      <td *ngFor="let i of infoData;">{{i.points | NumberFilter}}</td>
+                    </tr>
+                    <tr>
+                      <th>Fighting</th>
+                      <td *ngFor="let i of infoData;">{{i.att + i.def | NumberFilter}}</td>
+                    </tr>
+                    <tr>
+                      <th>Attacking</th>
+                      <td *ngFor="let i of infoData;">{{i.att | NumberFilter}}</td>
+                    </tr>
+                    <tr>
+                      <th>Defending</th>
+                      <td *ngFor="let i of infoData;">{{i.def |NumberFilter}}</td>
+                    </tr>
+                    <tr>
+                      <th></th>
+                      <td *ngFor="let i of infoData;">
+                        <button name="open_bb" class="btn btn-danger btn-xs" style="margin-top: -5px;" (click)="removePlayer(i.grep_id, i.world)">
+                          Remove <i class="fa fa-times"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!--PIE-->
+              <div class="col-md-12 text-left" *ngIf="!firstRun && !loadingStats">
+                <h2 class="gd-primary">Fighting points</h2>
+                <div class="col-xs-12 col-sm-6 col-md-4 text-center compare-chart-container">
+                  <h3 class="gd-primary">Warrior points</h3>
+                  <ngx-charts-pie-chart
+                          [scheme]="colorScheme"
+                          [results]="data_fight_gauge"
+                          [legend]="false"
+                          [explodeSlices]="false"
+                          [labels]="true"
+                          [doughnut]="true"
+                          [gradient]="true"
+                          (select)="onSelect($event)">
+                  </ngx-charts-pie-chart>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 text-center compare-chart-container">
+                  <h3 class="gd-primary">Attack points</h3>
+                  <ngx-charts-pie-chart
+                          [scheme]="colorScheme"
+                          [results]="data_att_gauge"
+                          [legend]="false"
+                          [explodeSlices]="false"
+                          [labels]="true"
+                          [doughnut]="true"
+                          [gradient]="true"
+                          (select)="onSelect($event)">
+                  </ngx-charts-pie-chart>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4 text-center compare-chart-container">
+                  <h3 class="gd-primary">Defence points</h3>
+                  <ngx-charts-pie-chart
+                          [scheme]="colorScheme"
+                          [results]="data_def_gauge"
+                          [legend]="false"
+                          [explodeSlices]="false"
+                          [labels]="true"
+                          [doughnut]="true"
+                          [gradient]="true"
+                          (select)="onSelect($event)">
+                  </ngx-charts-pie-chart>
+                </div>
+                <div class="hidden-xs col-sm-6 hidden-md hidden-lg text-center compare-chart-container">
+                </div>
+
+              </div>
+
+              <!--POINTS-->
+              <div class="col-md-12 text-left" *ngIf="!firstRun && !loadingHistory">
+
+                <br/>
+                <br/>
+
+                <h2 class="gd-primary">Points history</h2>
+
+                <div class="ngx-chart-container compare-chart-container">
+                  <ngx-charts-line-chart
+                          [scheme]="colorScheme"
+                          [results]="data_points"
+                          [gradient]="gradient"
+                          [xAxis]="showXAxis"
+                          [yAxis]="showYAxis"
+                          [legend]="showLegend"
+                          [showXAxisLabel]="showXAxisLabel"
+                          [showYAxisLabel]="showYAxisLabel"
+                          [xAxisLabel]="xAxisLabel"
+                          [yAxisLabel]="yAxisLabel"
+                          [autoScale]="autoScale"
+                          (select)="onSelect($event)">
+                  </ngx-charts-line-chart>
+                </div>
+              </div>
+              <!--ATTACK-->
+              <div class="col-md-12 text-left">
+                <h2 class="gd-primary">Attack points history</h2>
+
+                <div *ngIf="!firstRun" class="ngx-chart-container compare-chart-container">
+                  <ngx-charts-line-chart
+                          [scheme]="colorScheme"
+                          [results]="data_att"
+                          [gradient]="gradient"
+                          [xAxis]="showXAxis"
+                          [yAxis]="showYAxis"
+                          [legend]="showLegend"
+                          [showXAxisLabel]="showXAxisLabel"
+                          [showYAxisLabel]="showYAxisLabel"
+                          [xAxisLabel]="xAxisLabel"
+                          [yAxisLabel]="yAxisLabel"
+                          [autoScale]="autoScale"
+                          (select)="onSelect($event)">
+                  </ngx-charts-line-chart>
+                </div>
+              </div>
+              <!--DEFENCE-->
+              <div class="col-md-12 text-left">
+                <h2 class="gd-primary">Defence points history</h2>
+
+                <div *ngIf="!firstRun" class="ngx-chart-container compare-chart-container">
+                  <ngx-charts-line-chart
+                          [scheme]="colorScheme"
+                          [results]="data_def"
+                          [gradient]="gradient"
+                          [xAxis]="showXAxis"
+                          [yAxis]="showYAxis"
+                          [legend]="showLegend"
+                          [showXAxisLabel]="showXAxisLabel"
+                          [showYAxisLabel]="showYAxisLabel"
+                          [xAxisLabel]="xAxisLabel"
+                          [yAxisLabel]="yAxisLabel"
+                          [autoScale]="autoScale"
+                          (select)="onSelect($event)">
+                  </ngx-charts-line-chart>
+                </div>
+              </div>
+              <!--TOWNS-->
+              <div class="col-md-12 text-left">
+                <h2 class="gd-primary">Towns history</h2>
+
+                <div *ngIf="!firstRun" class="ngx-chart-container compare-chart-container">
+                  <ngx-charts-line-chart
+                          [scheme]="colorScheme"
+                          [results]="data_towns"
+                          [gradient]="gradient"
+                          [xAxis]="showXAxis"
+                          [yAxis]="showYAxis"
+                          [legend]="showLegend"
+                          [showXAxisLabel]="showXAxisLabel"
+                          [showYAxisLabel]="showYAxisLabel"
+                          [xAxisLabel]="xAxisLabel"
+                          [yAxisLabel]="yAxisLabel"
+                          [autoScale]="autoScale"
+                          (select)="onSelect($event)">
+                  </ngx-charts-line-chart>
+                </div>
+              </div>
+              <!--CONQUESTS-->
+              <!--<div class="col-md-12 text-left">-->
+                <!--<h2 class="gd-primary">Conquests</h2>-->
+              <!--</div>-->
+            </div>
+          </div>
+
+          <br/>
+          <br/>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

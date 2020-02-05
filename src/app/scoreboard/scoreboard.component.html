@@ -1,0 +1,683 @@
+<app-search [compare]="true"></app-search>
+
+<div style="width: 100% !important;" (scroll)="clearTip()">
+
+  <!--<div class="ticker-label">-->
+    <!--Attack points (last hour):-->
+  <!--</div>-->
+  <div class="ticker-wrap" *ngIf="!loadingDiffs && playerDiffs != ''">
+    <div class="ticker">
+      <div class="ticker__item" *ngIf="playerDiffs.att">
+        <span class="item-red">Attack points in last update: &nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <span *ngFor="let d of playerDiffs.att">
+          {{d.name}} <span class="item-red">+{{d.diff | NumberFilter}}</span> &nbsp;&nbsp;|&nbsp;&nbsp;
+        </span>
+      </div>
+      <div class="ticker__item" *ngIf="playerDiffs.def">
+        <span class="item-blue">Defence points in last update: &nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <span *ngFor="let d of playerDiffs.def">
+          {{d.name}} <span class="item-blue">+{{d.diff | NumberFilter}}</span> &nbsp;&nbsp;|&nbsp;&nbsp;
+        </span>
+      </div>
+      <div class="ticker__item" *ngIf="playerDiffs.att">
+        <span class="item-red">Attack points in last update: &nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <span *ngFor="let d of playerDiffs.att">
+          {{d.name}} <span class="item-red">+{{d.diff | NumberFilter}}</span> &nbsp;&nbsp;|&nbsp;&nbsp;
+        </span>
+      </div>
+      <div class="ticker__item" *ngIf="playerDiffs.def">
+        <span class="item-blue">Defence points in last update: &nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <span *ngFor="let d of playerDiffs.def">
+          {{d.name}} <span class="item-blue">+{{d.diff | NumberFilter}}</span> &nbsp;&nbsp;|&nbsp;&nbsp;
+        </span>
+      </div>
+      <div class="ticker__item" *ngIf="playerDiffs.att">
+        <span class="item-red">Attack points in last update: &nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <span *ngFor="let d of playerDiffs.att">
+          {{d.name}} <span class="item-red">+{{d.diff | NumberFilter}}</span> &nbsp;&nbsp;|&nbsp;&nbsp;
+        </span>
+      </div>
+      <div class="ticker__item" *ngIf="playerDiffs.def">
+        <span class="item-blue">Defence points in last update: &nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <span *ngFor="let d of playerDiffs.def">
+          {{d.name}} <span class="item-blue">+{{d.diff | NumberFilter}}</span> &nbsp;&nbsp;|&nbsp;&nbsp;
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="scoreboard" id="pagehead" style="width: 100% !important;">
+    <mat-card style="width: 100% !important;">
+      <mat-card-title>
+
+        <div style="margin-bottom: 5px; width: 100% !important;" *ngIf="nextUpdate != ''">
+          <app-advertorial></app-advertorial>
+        </div>
+
+        <div class="container-fluid">
+          <div class="row" id="timeline">
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+              <h2 style='font-weight: 300; color: #304357;'>
+                <i class="fa fa-trophy" aria-hidden="true"></i>&nbsp;Daily<span class="hidden-xs"> Grepolis</span> scoreboard&nbsp;<span class='world-title' style='color: #18BC9C;'>{{world}} ({{worldName}})</span>
+              </h2>
+              <h3 style='font-weight: 300; color: #304357;'>
+                Showing points gained <span class='world-title' style='color: #18BC9C;'>{{scoreboardDateInfo}}</span>
+              </h3>
+              <h4 *ngIf="nextUpdate != ''" style='font-weight: 300; color: #304357;' class="hidden-xs">
+                {{nextUpdate}}&nbsp;<i class="fa fa-history" aria-hidden="true"></i>
+              </h4>
+              <h4 *ngIf="!loadingPlayers && nextUpdate == ''" style='font-weight: 300; color: #304357;' class="hidden-xs">
+                <span class="label label-danger">You are viewing historic data</span> Go to <a class="a-link-dialog" routerLink="/points/{{world}}">today</a>
+              </h4>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 text-right">
+
+              <div class="row">
+                <div class="col-xs-12">
+	                <mat-icon class="icon-margin input-icon"><div class="bg-flag flag-{{server}}"></div></mat-icon>
+                  <mat-form-field class="input-server">
+                    <mat-select placeholder="Server" [ngModel]="server" (ngModelChange)="updateWorlds($event)" #select>
+                      <mat-option *ngFor="let s of servers" value="{{s}}">
+	                      <div class="bg-flag flag-inline flag-{{s}}"></div>&nbsp;{{s}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>&nbsp;
+                  <mat-form-field class="input-world">
+                    <mat-select placeholder="World" [ngModel]="world" (ngModelChange)="setWorld($event)">
+                      <mat-option *ngFor="let w of worlds" value="{{w.id}}">{{w.id}} ({{w.name}})</mat-option>
+                    </mat-select>
+                  </mat-form-field>&nbsp;
+                  <mat-form-field class="input-date">
+                    <input matInput (ngModelChange)="setDate($event)" [matDatepicker]="picker" [ngModel]="selectedDate" [min]="minDate" [max]="maxDate" placeholder="Date">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="col-xs-12 noselect">
+                  <mat-chip-list style="float: right;" [multiple]="true" [selectable]="true">
+                    <mat-chip class="btn-chip" (click)="prevDay()"><mat-icon matChipAvatar>chevron_left</mat-icon>Previous day</mat-chip>
+                    <mat-chip class="btn-chip" *ngIf="paramsDate != ''" (click)="nextDay()">Next day<mat-icon matChipRemove style="color: #fff; opacity: 1;">chevron_right</mat-icon></mat-chip>
+                    <mat-chip class="btn-chip" *ngIf="paramsDate != ''" (click)="today()">Today<mat-icon matChipRemove style="color: #fff; opacity: 1;">last_page</mat-icon></mat-chip>
+                    <mat-chip class="btn-chip" *ngIf="paramsDate == ''" (click)="refresh()">Refresh<mat-icon matChipRemove style="color: #fff; opacity: 1;">refresh</mat-icon></mat-chip>
+                  </mat-chip-list>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-title>
+      <mat-card-content style="width: 100% !important;">
+
+        <hr/>
+
+        <div class="container-fluid text-center" id="player_scoreboard" style="width: 100% !important;">
+          <div *ngIf="loadingPlayers" style="position: relative; top: -40px; height: 0px;">
+            <br/><mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          </div>
+          <h1 class="mat-title table-title">Players</h1>
+          <div class="row" *ngIf="noticePlayer != ''">
+            <div class="col-xs-8 col-xs-offset-2">
+              <div class="alert alert-warning text-center">
+                <strong>Not found</strong> {{noticePlayer}}.
+              </div>
+            </div>
+          </div>
+	        <div style="display: flex; place-content: center; width: 100%;">
+	          <div style="max-width: 100%;"
+	               #overviewContainer class="row hidden-xs text-center"
+	               *ngIf="!noPlayerData && playerData.overview && playerData.overview.length > 2"
+	               [ngStyle]="{'width': (150*playerData.overview.length)+'px'}">
+	            <ngx-charts-bar-vertical-stacked
+	                    [view]="[overviewContainer.offsetWidth,140]"
+	                    [scheme]="{domain: ['#ea6153', '#297fb9']}"
+	                    [results]="data_default"
+	                    [gradient]="false"
+	                    [animations]="false"
+	                    [xAxis]="true"
+	                    [yAxis]="false"
+	                    [legend]="false"
+	                    [showXAxisLabel]="false"
+	                    [showYAxisLabel]="true"
+	                    [roundDomains]="true"
+	                    [barPadding]="1"
+	                    [xAxisLabel]="'Hour'"
+	                    [yAxisLabel]="'Score'"
+	                    (select)="onOverviewSelect($event)">
+	            </ngx-charts-bar-vertical-stacked>
+	          </div>
+	        </div>
+          <div class="row" *ngIf="!noPlayerData">
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 scoreboard-table">
+              <!--<h3 class="mat-title table-title">Best attackers</h3>-->
+
+              <h3 class="mat-title table-title" style="float: left;">
+                <button name="open_bb" style="" class="btn btn-primary btn-xs" (click)="openBBdialog('players_att')">
+                  <i class="fa fa-code"></i>&nbsp;BB code
+                </button>&nbsp;
+                <span>Best attackers</span>
+              </h3>
+              <div class="table" id="table_attacking_players" style="border-collapse: collapse;">
+                <div class="row_custom header">
+                  <div class="cell hidden-xs">Rank</div>
+                  <div class="cell">Player</div>
+                  <div class="cell">Points</div>
+	                <div class="cell hidden-xs hidden-sm" *ngIf="!mobile && hasOverview"></div>
+                </div>
+
+                <div *ngFor="let p of playerData.att; let i = index;" class="row_custom {{i>=(mobile?10:20) && toggleMore ? 'hidden-cell' : '' }}">
+                  <!--<div class="cell hidden-xs" *ngIf="i==0"><i class="fa fa-trophy fa-2x" aria-hidden="true" style="padding: 5px; color: #233140;"></i></div>-->
+                  <div class="cell hidden-xs" *ngIf="i==0">🏆</div>
+                  <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
+                  <div class="cell" style="
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;">
+                    <a routerLink="/player/{{playerData.world}}/{{p.i}}">{{p.n}}</a>
+                  </div>
+                  <div *ngIf="hasOverview && p.s > 0" class="cell score-expand hidden-xs" (click)="openPlayerOverview(p.i, p.n)">
+                    {{p.s | NumberFilter}}
+                  </div>
+	                <div class="cell" [ngClass]="{'hidden-sm hidden-md hidden-lg':hasOverview && p.s > 0}">
+                    {{p.s | NumberFilter}}
+                  </div>
+
+	                <div *ngIf="p.s > 0 && !mobile && hasOverview" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="openPlayerOverview(p.i, p.n)">
+		                <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
+	                </div>
+	                <div *ngIf="p.s <= 0 && !mobile && hasOverview" class="cell hidden-xs"></div>
+                </div>
+
+	              <div *ngFor="let p of searchResults; let i = index;" class="row_custom search_result" [ngClass]="{'search_result_top':i==0}">
+		              <div class="cell hidden-xs">{{p.att_rank_scoreboard?p.att_rank_scoreboard:'>50'}}</div>
+		              <div class="cell formatted-cell">
+			              <a routerLink="/player/{{playerData.world}}/{{p.id}}">{{p.name}}</a>
+		              </div>
+		              <div *ngIf="hasOverview && p.att - p.att_old > 0" class="cell score-expand hidden-xs" (click)="openPlayerOverview(p.id, p.name)">
+			              {{p.att - p.att_old | NumberFilter}}
+		              </div>
+		              <div class="cell" [ngClass]="{'hidden-sm hidden-md hidden-lg':hasOverview && p.att - p.att_old > 0}">
+			              {{p.att - p.att_old | NumberFilter}}
+		              </div>
+		              <div *ngIf="!mobile && hasOverview" class="cell hidden-xs"></div>
+	              </div>
+
+              </div>
+
+	            <div class="table">
+		            <div class="row_banner text-center search_result search_result_top" *ngIf="searching">
+			            Searching <mat-spinner style="margin:2px auto;" mode="indeterminate" strokeWidth="2" [diameter]="16"></mat-spinner>
+		            </div>
+
+		            <div class="row_banner text-center search_result search_result_top" *ngIf="playerInput!=''&&!searching&&!searchInputting">
+			            <span *ngIf="playerInput.length>2&&searchResults.length<=0">No results for <span class="gd-primary">{{playerInput}}</span></span>
+			            <span *ngIf="playerInput.length<3">Type at least 3 characters</span>
+		            </div>
+
+		            <div class="text-center" *ngIf="!loadingPlayers && nextUpdate != ''">
+			            <div class="input-wrapper" style="font-size: 18px;">
+				            <input [disabled]="searching" #searchPlayerOff id="searchPlayerOff" autocomplete="off"
+				                   type="text" placeholder="Search player" (keyup)="filterKeyup($event)"
+				                   style="text-align: inherit; width: calc(100% - 1px); max-width: calc(100% - 1px); border: 2px solid #77777778;">
+				            <label *ngIf="playerInput != ''" class="fa fa-times input-right" (click)="clearSearch()"></label>
+			            </div>
+		            </div>
+	            </div>
+
+              <div class="text-center show-more">
+                <button class="mat-primary mat-hue-1 mat-button mat-ink-ripple" type="button" (click)="toggleMore = !toggleMore">
+                  <span *ngIf="toggleMore" class="ng-scope">
+                    Show more <span class="fa fa-chevron-down"></span>
+                  </span>
+                  <span *ngIf="!toggleMore" class="ng-scope">
+                    Show less <span class="fa fa-chevron-up"></span>
+                  </span>
+                  <div class="mat-ripple-container" style=""></div>
+                </button>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 scoreboard-table">
+              <!--<h3 class="mat-title table-title">Best defenders</h3>-->
+
+              <h3 class="mat-title table-title" style="float: left;">
+                <button name="open_bb" style="" class="btn btn-primary btn-xs" (click)="openBBdialog('players_def')">
+                  <i class="fa fa-code"></i>&nbsp;BB code
+                </button>&nbsp;
+                <span>Best defenders</span>
+              </h3>
+              <div class="table" id="table_defending_players" style="border-collapse: collapse;">
+                <div class="row_custom header blue">
+                  <div class="cell hidden-xs">Rank</div>
+                  <div class="cell">Player</div>
+                  <div class="cell">Points</div>
+	                <div class="cell hidden-xs hidden-sm" *ngIf="!mobile && hasOverview"></div>
+                </div>
+
+                <div *ngFor="let p of playerData.def; let i = index;" class="row_custom {{i>=(mobile?10:20) && toggleMore ? 'hidden-cell' : '' }}">
+                  <div class="cell hidden-xs" *ngIf="i==0">🏆</div>
+                  <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
+                  <div class="cell formatted-cell">
+                    <a routerLink="/player/{{playerData.world}}/{{p.i}}">{{p.n}}</a>
+                  </div>
+                  <div *ngIf="hasOverview && p.s > 0" class="cell score-expand hidden-xs" (click)="openPlayerOverview(p.i, p.n)">
+                    {{p.s | NumberFilter}}
+                  </div>
+                  <div class="cell" [ngClass]="{'hidden-sm hidden-md hidden-lg':hasOverview && p.s > 0}">
+                    {{p.s | NumberFilter}}
+                  </div>
+
+	                <div *ngIf="p.s > 0 && !mobile && hasOverview" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="openPlayerOverview(p.i, p.n)">
+		                <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
+	                </div>
+	                <div *ngIf="p.s <= 0 && !mobile && hasOverview" class="cell hidden-xs"></div>
+                </div>
+
+	              <div *ngFor="let p of searchResults; let i = index;" class="row_custom search_result" [ngClass]="{'search_result_top':i==0}">
+	                <div class="cell hidden-xs">{{p.def_rank_scoreboard?p.def_rank_scoreboard:'>50'}}</div>
+                  <div class="cell formatted-cell">
+                    <a routerLink="/player/{{playerData.world}}/{{p.id}}">{{p.name}}</a>
+                  </div>
+		              <div *ngIf="hasOverview && p.def - p.def_old > 0" class="cell score-expand hidden-xs" (click)="openPlayerOverview(p.id, p.name)">
+			              {{p.def - p.def_old | NumberFilter}}
+		              </div>
+		              <div class="cell" [ngClass]="{'hidden-sm hidden-md hidden-lg':hasOverview && p.def - p.def_old > 0}">
+			              {{p.def - p.def_old | NumberFilter}}
+		              </div>
+
+		              <div *ngIf="!mobile && hasOverview" class="cell hidden-xs"></div>
+                </div>
+
+              </div>
+
+	            <div class="table">
+		            <div class="row_banner text-center search_result search_result_top" *ngIf="searching">
+			            Searching <mat-spinner style="margin:2px auto;" mode="indeterminate" strokeWidth="2" [diameter]="16"></mat-spinner>
+		            </div>
+
+		            <div class="row_banner text-center search_result search_result_top" *ngIf="playerInput!=''&&!searching&&!searchInputting">
+			            <span *ngIf="playerInput.length>2&&searchResults.length<=0">No results for <span class="gd-primary">{{playerInput}}</span></span>
+			            <span *ngIf="playerInput.length<3">Type at least 3 characters</span>
+		            </div>
+
+		            <div class="text-center" *ngIf="!loadingPlayers && nextUpdate != ''">
+			            <div class="input-wrapper" style="font-size: 18px;">
+				            <input [disabled]="searching" #searchPlayerDef id="searchPlayerDef" autocomplete="off"
+				                   type="text" placeholder="Search player" (keyup)="filterKeyup($event)"
+				                   style="text-align: inherit; width: calc(100% - 1px); max-width: calc(100% - 1px); border: 2px solid #77777778;">
+				            <label *ngIf="playerInput != ''" class="fa fa-times input-right" (click)="clearSearch()"></label>
+			            </div>
+		            </div>
+
+              </div>
+
+
+	            <div class="text-center show-more">
+                <button class="mat-primary mat-hue-1 mat-button mat-ink-ripple" type="button" (click)="toggleMore = !toggleMore">
+                  <span *ngIf="toggleMore" class="ng-scope">
+                    Show more <span class="fa fa-chevron-down"></span>
+                  </span>
+                  <span *ngIf="!toggleMore" class="ng-scope">
+                    Show less <span class="fa fa-chevron-up"></span>
+                  </span>
+                  <div class="mat-ripple-container" style=""></div>
+                </button>
+              </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 scoreboard-table">
+              <!--<h3 class="mat-title table-title">Most conquests</h3>-->
+
+              <h3 class="mat-title table-title" style="float: left;">
+                <button name="open_bb" style="" class="btn btn-primary btn-xs" (click)="openBBdialog('players_con')">
+                  <i class="fa fa-code"></i>&nbsp;BB code
+                </button>&nbsp;
+                <span>Most conquests</span>
+              </h3>
+              <div class="table" id="table_conquests_players" style="">
+                <div class="row_custom header green">
+                  <div class="cell hidden-xs">Rank</div>
+                  <div class="cell">Player</div>
+                  <div class="cell">Towns</div>
+	                <div class="cell hidden-xs hidden-sm" *ngIf="!mobile"></div>
+                </div>
+
+                <div *ngFor="let p of playerData.con; let i = index;" class="row_custom {{i>=(mobile?10:20) && toggleMore ? 'hidden-cell' : '' }}">
+                  <div class="cell hidden-xs" *ngIf="i==0">🏆</div>
+                  <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
+                  <div class="cell formatted-cell">
+                    <a routerLink="/player/{{playerData.world}}/{{p.i}}">{{p.n}}</a>
+                  </div>
+                  <div *ngIf="p.s > 0 && !mobile" class="cell score-expand" (click)="showConquests('player', p.i, p.n)">
+	                  {{p.s}}
+                  </div>
+	                <div *ngIf="p.s <= 0 || mobile">{{p.s}}</div>
+	                <div *ngIf="p.s > 0 && !mobile" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="showConquests('player', p.i, p.n)">
+		                <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
+	                </div>
+	                <div *ngIf="p.s <= 0 && !mobile" class="cell hidden-xs"></div>
+                </div>
+
+              </div>
+              <div class="text-center show-more">
+                <button class="mat-primary mat-hue-1 mat-button mat-ink-ripple" type="button" (click)="toggleMore = !toggleMore">
+                  <span *ngIf="toggleMore" class="ng-scope">
+                    Show more <span class="fa fa-chevron-down"></span>
+                  </span>
+                  <span *ngIf="!toggleMore" class="ng-scope">
+                    Show less <span class="fa fa-chevron-up"></span>
+                  </span>
+                  <div class="mat-ripple-container" style=""></div>
+                </button>
+              </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 scoreboard-table">
+              <!--<h3 class="mat-title table-title">Losing cities</h3>-->
+
+              <h3 class="mat-title table-title" style="float: left;">
+                <button name="open_bb" style="" class="btn btn-primary btn-xs" (click)="openBBdialog('players_los')">
+                  <i class="fa fa-code"></i>&nbsp;BB code
+                </button>&nbsp;
+                <span>Losing cities</span>
+              </h3>
+              <div class="table" id="table_losses_players" style="">
+                <div class="row_custom header dark">
+                  <div class="cell hidden-xs">Rank</div>
+                  <div class="cell">Player</div>
+                  <div class="cell">Towns</div>
+	                <div class="cell hidden-xs hidden-sm" *ngIf="!mobile"></div>
+                </div>
+
+                <div *ngFor="let p of playerData.los; let i = index;" class="row_custom {{i>=(mobile?10:20) && toggleMore ? 'hidden-cell' : '' }}">
+                  <div class="cell hidden-xs" *ngIf="i==0">🚫</div>
+                  <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
+                  <div class="cell formatted-cell">
+                    <a routerLink="/player/{{playerData.world}}/{{p.i}}">{{p.n}}</a>
+                  </div>
+	                <div *ngIf="p.s > 0 && !mobile" class="cell score-expand" (click)="showConquests('player', p.i, p.n)">
+		                -{{p.s}}
+	                </div>
+	                <div *ngIf="p.s <= 0 || mobile">-{{p.s}}</div>
+	                <div *ngIf="p.s > 0 && !mobile" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="showConquests('player', p.i, p.n)">
+		                <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
+	                </div>
+	                <div *ngIf="p.s <= 0 && !mobile" class="cell hidden-xs"></div>
+                </div>
+
+              </div>
+              <div class="text-center show-more">
+                <button class="mat-primary mat-hue-1 mat-button mat-ink-ripple" type="button" (click)="toggleMore = !toggleMore">
+                  <span *ngIf="toggleMore" class="ng-scope">
+                    Show more <span class="fa fa-chevron-down"></span>
+                  </span>
+                  <span *ngIf="!toggleMore" class="ng-scope">
+                    Show less <span class="fa fa-chevron-up"></span>
+                  </span>
+                  <div class="mat-ripple-container" style=""></div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr/>
+
+	      <!--<div style="margin-bottom: 5px; width: 100% !important;">-->
+		      <!--<app-advertorial></app-advertorial>-->
+	      <!--</div>-->
+
+        <div class="container-fluid text-center" id="alliance_scoreboard">
+          <h1 class="mat-title table-title">Alliances</h1>
+          <div *ngIf="loadingAlliances">
+            <br/><mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          </div>
+          <div class="row" *ngIf="noticeAlliance != ''">
+            <div class="col-xs-8 col-xs-offset-2">
+              <div class="alert alert-warning text-center">
+                <strong>Not found</strong> {{noticeAlliance}}.
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="!noAllianceData">
+
+            <div class="col-xs-12 col-sm-12 {{allianceChangesData == '' && !(!loadingPlayers && showMap && !mobile) ? 'col-md-12' : 'col-md-6'}}">
+              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 scoreboard-table">
+                <h3 class="mat-title table-title" style="float: left;">
+                  <button name="open_bb" style="" class="btn btn-primary btn-xs" (click)="openBBdialog('alliances_att')">
+                    <i class="fa fa-code"></i>&nbsp;BB code
+                  </button>&nbsp;
+                  <span>Best attackers</span>
+                </h3>
+                <div class="table" id="table_attacking_alliances" style="">
+                  <div class="row_custom header">
+                    <div class="cell hidden-xs">Rank</div>
+                    <div class="cell">Alliance</div>
+                    <div class="cell">Points</div>
+	                  <div class="cell hidden-xs hidden-sm" *ngIf="!mobile && hasOverview"></div>
+                  </div>
+
+                  <div class="row_custom" *ngFor="let p of allianceData.att; let i = index;">
+                    <div class="cell hidden-xs" *ngIf="i==0">🏆</div>
+                    <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
+                    <div class="cell formatted-cell">
+                      <a routerLink="/alliance/{{allianceData.world}}/{{p.i}}">{{p.n}}</a>
+                    </div>
+	                  <div *ngIf="hasOverview && p.s > 0" class="cell score-expand hidden-xs" (click)="openAllianceOverview(p.i, p.n)">
+		                  {{p.s | NumberFilter}}
+	                  </div>
+	                  <div class="cell" [ngClass]="{'hidden-sm hidden-md hidden-lg':hasOverview && p.s > 0}">
+		                  {{p.s | NumberFilter}}
+	                  </div>
+
+	                  <div *ngIf="p.s > 0 && !mobile && hasOverview" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="openAllianceOverview(p.i, p.n)">
+		                  <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
+	                  </div>
+	                  <div *ngIf="p.s <= 0 && !mobile && hasOverview" class="cell hidden-xs"></div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 scoreboard-table">
+                <h3 class="mat-title table-title" style="float: left;">
+                  <button name="open_bb" style="" class="btn btn-primary btn-xs" (click)="openBBdialog('alliances_def')">
+                    <i class="fa fa-code"></i>&nbsp;BB code
+                  </button>&nbsp;
+                  <span>Best defenders</span>
+                </h3>
+                <div class="table" id="table_defending_alliances" style="">
+                  <div class="row_custom header blue">
+                    <div class="cell hidden-xs">Rank</div>
+                    <div class="cell">Alliance</div>
+                    <div class="cell">Points</div>
+	                  <div class="cell hidden-xs hidden-sm" *ngIf="!mobile && hasOverview"></div>
+                  </div>
+
+                  <div class="row_custom" *ngFor="let p of allianceData.def; let i = index;">
+                    <div class="cell hidden-xs" *ngIf="i==0">🏆</div>
+                    <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
+                    <div class="cell formatted-cell">
+                      <a routerLink="/alliance/{{allianceData.world}}/{{p.i}}">{{p.n}}</a>
+                    </div>
+	                  <div *ngIf="hasOverview && p.s > 0" class="cell score-expand hidden-xs" (click)="openAllianceOverview(p.i, p.n)">
+		                  {{p.s | NumberFilter}}
+	                  </div>
+	                  <div class="cell" [ngClass]="{'hidden-sm hidden-md hidden-lg':hasOverview && p.s > 0}">
+		                  {{p.s | NumberFilter}}
+	                  </div>
+
+	                  <div *ngIf="p.s > 0 && !mobile && hasOverview" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="openAllianceOverview(p.i, p.n)">
+		                  <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
+	                  </div>
+	                  <div *ngIf="p.s <= 0 && !mobile && hasOverview" class="cell hidden-xs"></div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 scoreboard-table">
+                <h3 class="mat-title table-title" style="float: left;">
+                  <button name="open_bb" style="" class="btn btn-primary btn-xs" (click)="openBBdialog('alliances_con')">
+                    <i class="fa fa-code"></i>&nbsp;BB code
+                  </button>&nbsp;
+                  <span>Most conquests</span>
+                </h3>
+                <div class="table" id="table_conquests_alliances" style="">
+                  <div class="row_custom header green">
+                    <div class="cell hidden-xs">Rank</div>
+                    <div class="cell">Alliance</div>
+                    <div class="cell">Towns</div>
+	                  <div class="cell hidden-xs hidden-sm" *ngIf="!mobile"></div>
+                  </div>
+
+                  <div class="row_custom" *ngFor="let p of allianceData.con; let i = index;">
+                    <div class="cell hidden-xs" *ngIf="i==0">🏆</div>
+                    <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
+                    <div class="cell formatted-cell">
+                      <a routerLink="/alliance/{{allianceData.world}}/{{p.i}}">{{p.n}}</a>
+                    </div>
+	                  <div *ngIf="p.s > 0 && !mobile" class="cell score-expand" (click)="showConquests('alliance', p.i, p.n)">
+		                  {{p.s}}
+	                  </div>
+	                  <div *ngIf="p.s <= 0 || mobile">{{p.s}}</div>
+	                  <div *ngIf="p.s > 0 && !mobile" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="showConquests('alliance', p.i, p.n)">
+		                  <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
+	                  </div>
+	                  <div *ngIf="p.s <= 0 && !mobile" class="cell hidden-xs"></div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 scoreboard-table">
+                <h3 class="mat-title table-title" style="float: left;">
+                  <button name="open_bb" style="" class="btn btn-primary btn-xs" (click)="openBBdialog('alliances_los')">
+                    <i class="fa fa-code"></i>&nbsp;BB code
+                  </button>&nbsp;
+                  <span>Losing cities</span>
+                </h3>
+                <div class="table" id="table_losses_alliances" style="">
+                  <div class="row_custom header dark">
+                    <div class="cell hidden-xs">Rank</div>
+                    <div class="cell">Alliance</div>
+                    <div class="cell">Towns</div>
+                    <div class="cell hidden-xs hidden-sm" *ngIf="!mobile"></div>
+                  </div>
+
+                  <div class="row_custom" *ngFor="let p of allianceData.los; let i = index;">
+                    <div class="cell hidden-xs" *ngIf="i==0">🚫</div>
+                    <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
+                    <div class="cell formatted-cell">
+                      <a routerLink="/alliance/{{allianceData.world}}/{{p.i}}">{{p.n}}</a>
+                    </div>
+	                  <div *ngIf="p.s > 0 && !mobile" class="cell score-expand" (click)="showConquests('alliance', p.i, p.n)">
+		                  -{{p.s}}
+	                  </div>
+	                  <div *ngIf="p.s <= 0 || mobile">-{{p.s}}</div>
+	                  <div *ngIf="p.s > 0 && !mobile" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="showConquests('alliance', p.i, p.n)">
+		                  <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
+	                  </div>
+	                  <div *ngIf="p.s <= 0 && !mobile" class="cell hidden-xs"></div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div [ngClass]="!loadingPlayers && showMap && !mobile ? 'col-xs-12 col-sm-12 col-md-6' : 'hidden-xs hidden-sm hidden-md hidden-lg'">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scoreboard-table text-center">
+	              <h3 class="mat-title table-title">World map<span class="hidden-xs"> (alliance island domination)</span></h3>
+	              <div class="map-container noselect">
+		              <div class="map-controls">
+			              <div class="static-controls">
+				              <mat-chip-list style="" [multiple]="true" [selectable]="true">
+					              <mat-chip *ngIf="!animated" class="btn-chip" (click)="mapZoom($event, +1)">Zoom in<mat-icon matChipRemove style="color: #fff; opacity: 1;">add_circle_outline</mat-icon></mat-chip>
+					              <mat-chip *ngIf="!animated && currentZoom>0" class="btn-chip" (click)="mapZoom($event, -1)">Zoom out<mat-icon matChipRemove style="color: #fff; opacity: 1;">zoom_out_map</mat-icon></mat-chip>
+					              <mat-chip *ngIf="!animated" class="btn-chip" (click)="animate(true)">Animate map history<mat-icon matChipRemove style="color: #fff; opacity: 1;">play_circle_outline</mat-icon></mat-chip>
+					              <mat-chip *ngIf="animated" class="btn-chip" (click)="animate(false)">Stop animation<mat-icon matChipRemove style="color: #fff; opacity: 1;">pause_circle_outline</mat-icon></mat-chip>
+				              </mat-chip-list>
+			              </div>
+		              </div>
+
+		              <div class="nav-controls" *ngIf="currentZoom>0">
+			              <div class="map-nav up" (click)="mapNav($event, 0, -1)"><mat-icon style="color: #fff; opacity: 1;">keyboard_arrow_up</mat-icon></div>
+			              <div class="map-nav right" (click)="mapNav($event, +1, 0)"><mat-icon style="color: #fff; opacity: 1;">keyboard_arrow_right</mat-icon></div>
+			              <div class="map-nav down" (click)="mapNav($event, 0, +1)"><mat-icon style="color: #fff; opacity: 1;">keyboard_arrow_down</mat-icon></div>
+			              <div class="map-nav left" (click)="mapNav($event, -1, 0)"><mat-icon style="color: #fff; opacity: 1;">keyboard_arrow_left</mat-icon></div>
+		              </div>
+
+		              <div #worldMapContainer class="map-overlay">
+			              <img #worldMap (mousemove)="mapTooltip($event)" (load)="buildCanvas($event)"
+			                   (mouseleave)="clearTip();" (mouseout)="clearTip();" (dragstart)="dragStartJs($event)"
+			                   style="max-width: 100%; display: none;" src="" alt="Alliance map for world {{world}} on {{selectedDate.toString()}}"/>
+		              </div>
+	              </div>
+	              <div #mapTooltipContainer style="display: none;position:fixed;background:#fff; padding: 4px;">
+		              <div #mapTip style=" width: 180px; height: 18px; "></div>
+	              </div>
+              </div>
+            </div>
+
+            <div [ngClass]="allianceChangesData.length > 0 ? 'col-xs-12 col-sm-12 col-md-6' : 'hidden-xs hidden-sm hidden-md hidden-lg'">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scoreboard-table">
+                <h3 class="mat-title table-title">Alliance changes</h3>
+	              <div class="table-container">
+	                <div class="table" id="table_alliance_changes" style="">
+	                  <div class="row_custom header green">
+	                    <div class="cell">Player</div>
+	                    <div class="cell">Old alliance</div>
+	                    <div class="cell hidden-xs"> </div>
+	                    <div class="cell">New alliance</div>
+	                    <div class="cell hidden-xs">Time</div>
+	                  </div>
+
+	                  <div class="row_custom" *ngFor="let p of allianceChangesData; let i = index;">
+	                    <div class="cell formatted-cell">
+	                      <a routerLink="/player/{{p.world}}/{{p.player_grep_id}}">{{p.player_name}}</a>
+	                      <br/>
+	                      <!--{{p.player_points | NumberFilter}} points - -->
+	                      rank {{p.player_rank}}
+	                    </div>
+	                    <div class="cell formatted-cell">
+	                      <span *ngIf="p.old_alliance_grep_id != 0">
+	                        <a routerLink="/alliance/{{p.world}}/{{p.old_alliance_grep_id}}">{{p.old_alliance_name}}</a>
+	                        <br/>
+	                        rank {{p.old_alliance_rank}}
+	                      </span>
+	                      <span *ngIf="p.old_alliance_grep_id == 0" class="diff-null">
+	                        None
+	                      </span>
+	                    </div>
+	                    <div class="cell hidden-xs">
+	                      <i class="fa fa-arrow-right gd-secondary" aria-hidden="true"></i>
+	                    </div>
+	                    <div class="cell formatted-cell">
+	                      <span *ngIf="p.new_alliance_grep_id != 0">
+	                        <a routerLink="/alliance/{{p.world}}/{{p.new_alliance_grep_id}}">{{p.new_alliance_name}}</a>
+	                        <br/>
+	                        rank {{p.new_alliance_rank}}
+	                      </span>
+	                      <span *ngIf="p.new_alliance_grep_id == 0" class="diff-null">
+	                        None
+	                      </span>
+	                    </div>
+	                    <div class="cell hidden-xs">
+	                      {{p.date.date | Datex : "D MMM ~HH:mm"}}
+	                    </div>
+	                  </div>
+
+	                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+	      <div class="text-center">
+		      <h4 class="gd-secondary">Official data can have a delay of up to 120 minutes. All times are in the same timezone as the local Grepolis server.</h4>
+	      </div>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+
+</div>
+
+

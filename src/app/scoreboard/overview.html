@@ -1,0 +1,75 @@
+<div style="font-size: 18px; max-height: 75vh; min-height: 40vh; max-width: 70vw; min-width: 70vw; overflow: hidden;">
+	<a (click)="dialogRef.close()" class="close"></a>
+
+	<!--<h1 class="mat-primary" style="text-align: center; color: #18BC9C; margin-top: 0px;" mat-dialog-title>Points gained between {{hourStart}} and {{hourRaw}} on {{date}}</h1>-->
+
+	<div class="text-center" style="width: 100%;">
+		<h2 mat-dialog-title>Points gained between <span class="gd-primary">{{hourStart}}</span> and <span class="gd-primary">{{hourRaw}}</span> on <span class="gd-primary">{{date}}</span></h2>
+	</div>
+
+	<mat-progress-bar *ngIf="loading" mode="indeterminate" style="margin: 25px 0px;"></mat-progress-bar>
+
+
+	<div mat-dialog-content style="overflow-y: auto; overflow-x: hidden; max-height: 85%; height: 85%;">
+
+		<div *ngIf="error">
+			Unable to load data for this hour.
+		</div>
+
+		<div *ngIf="!loading && !error">
+			<div class="container-fluid" style="padding-right: 40px;">
+				<div class="row" style="overflow: hidden;">
+					<div #overviewLeft class="col-xs-6">
+						<h3 class="mat-secondary" style="text-align: center;">Attacking</h3>
+						<div class="overview-container-scroll">
+							<ngx-charts-bar-horizontal
+								[animations]="false"
+								[view]="[overviewLeft.offsetWidth-50, 30 + data.att.length * 30]"
+								[scheme]="{domain: ['#ea6153']}"
+								[results]="data.att"
+								[gradient]="false"
+								[xAxis]="true"
+								[yAxis]="true"
+								[legend]="false"
+								[showXAxisLabel]="false"
+								[showYAxisLabel]="false"
+								[noBarWhenZero]="true"
+								[roundDomains]="true"
+								[barPadding]="2"
+								[showDataLabel]="true"
+								[xAxisLabel]="'Hour'"
+								[yAxisLabel]="'Score'"
+								(select)="onAttSelect($event)">
+							</ngx-charts-bar-horizontal>
+						</div>
+					</div>
+					<div #overviewRight class="col-xs-6">
+						<h3 class="mat-secondary" style="text-align: center;">Defending</h3>
+						<div class="overview-container-scroll">
+							<ngx-charts-bar-horizontal
+								[animations]="false"
+								[view]="[overviewRight.offsetWidth-50, 30 + data.def.length * 30]"
+								[scheme]="{domain: ['#297fb9']}"
+								[results]="data.def"
+								[gradient]="false"
+								[xAxis]="true"
+								[yAxis]="true"
+								[noBarWhenZero]="true"
+								[legend]="false"
+								[showXAxisLabel]="false"
+								[showYAxisLabel]="false"
+								[roundDomains]="true"
+								[barPadding]="2"
+								[showDataLabel]="true"
+								[xAxisLabel]="'Hour'"
+								[yAxisLabel]="'Score'"
+								(select)="onDefSelect($event)">
+							</ngx-charts-bar-horizontal>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

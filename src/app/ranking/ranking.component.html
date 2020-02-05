@@ -1,0 +1,175 @@
+<app-search [compare]="true"></app-search>
+
+<div>
+
+  <div class="ranking" id="pagehead">
+    <mat-card>
+      <mat-card-title>
+	      <app-advertorial></app-advertorial>
+
+        <div class="container-fluid">
+          <div class="row" id="timeline">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+              <h2 style='font-weight: 300; color: #304357;'>
+                <i class="fa fa-line-chart" aria-hidden="true"></i>&nbsp;Grepolis ranking
+              </h2>
+              <h3>
+                World: <div class="bg-flag flag-inline flag-{{serverDisplayed}}"></div>&nbsp;<span class='world-title' style='color: #18BC9C;'>{{world}} ({{worldName}})</span>
+              </h3>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 text-right">
+
+              <div>
+                <mat-icon class="icon-margin"><div class="bg-flag flag-{{server}}"></div></mat-icon>
+                <mat-form-field class="input-server">
+                  <mat-select placeholder="Server" [ngModel]="server" (ngModelChange)="updateWorlds($event)" #select>
+                    <mat-option *ngFor="let s of servers" value="{{s}}">
+	                    <div class="bg-flag flag-inline flag-{{s}}"></div>&nbsp;{{s}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>&nbsp;
+                <mat-form-field class="input-world">
+                  <mat-select placeholder="World" [ngModel]="world" (ngModelChange)="setWorld($event)">
+                    <mat-option *ngFor="let w of worlds" value="{{w.id}}">{{w.id}} ({{w.name}})</mat-option>
+                  </mat-select>
+                </mat-form-field>&nbsp;
+                <mat-form-field class="input-date">
+                  <mat-select placeholder="Type" [ngModel]="type" (ngModelChange)="setType($event)">
+                    <mat-option value="player" selected>Players</mat-option>
+                    <mat-option value="alliance">Alliances</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-title>
+      <mat-card-content>
+
+        <hr/>
+
+        <div class="container-fluid" id="player_ranking">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div fxLayout="row">
+                <h1 *ngIf="type=='player'" class="mat-title table-title hidden-xs"><span class="fa fa-user"></span> Player ranking {{worldName}}</h1>
+                <h1 *ngIf="type=='alliance'" class="mat-title table-title hidden-xs"><span class="fa fa-group"></span> Alliance ranking {{worldName}}</h1>
+                <mat-spinner style="margin-left: 30px;" *ngIf="loading" strokeWidth="4" [diameter]="40"></mat-spinner>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+              <mat-paginator [length]="count"
+                             [pageSize]="size"
+                             [pageSizeOptions]="[10, 30, 50, 100, 200]"
+                             (page)="paginatorEvent($event)">
+              </mat-paginator>
+            </div>
+          </div>
+          <div *ngIf="error" class="alert alert-warning text-center alert-gd-1">
+            <h3>Unable to load ranking.</h3>
+          </div>
+          <div class="row scroll-table" *ngIf="!error">
+            <div class="table" id="player_ranking_table" style="">
+              <div class="row_custom header default">
+	              <div class="cell">
+		              #
+	              </div>
+                <div *ngIf="type=='player'" class="cell">
+                  Player name
+                </div>
+                <div class="cell">
+                  Alliance name
+                </div>
+                <div class="cell hidden-xs" (click)="sort('Points')">
+                  <span class="ranking-control {{sort_field=='Points' ? 'selected' : ''}}">Points</span>
+                  &nbsp;
+                  <i class="fa fa-caret-up {{sort_field=='Points'&&sort_order=='asc' ? 'selected' : ''}}"></i>
+                  <i class="fa fa-caret-down {{sort_field=='Points'&&sort_order=='desc' ? 'selected' : ''}}"></i>
+                </div>
+	              <div class="cell custom-cell" (click)="sort('Rank')">
+		              <span class="ranking-control {{sort_field=='Rank' ? 'selected' : ''}}">General rank</span>
+		              &nbsp;
+		              <i class="fa fa-caret-up {{sort_field=='Rank'&&sort_order=='asc' ? 'selected' : ''}}"></i>
+		              <i class="fa fa-caret-down {{sort_field=='Rank'&&sort_order=='desc' ? 'selected' : ''}}"></i>
+	              </div>
+                <div class="cell" (click)="sort('Towns')">
+                  <span class="ranking-control {{sort_field=='Towns' ? 'selected' : ''}}">Towns</span>
+                  &nbsp;
+                  <i class="fa fa-caret-up {{sort_field=='Towns'&&sort_order=='asc' ? 'selected' : ''}}"></i>
+                  <i class="fa fa-caret-down {{sort_field=='Towns'&&sort_order=='desc' ? 'selected' : ''}}"></i>
+                </div>
+                <div *ngIf="type=='alliance'" class="cell" (click)="sort('Members')">
+                  <span class="ranking-control {{sort_field=='Members' ? 'selected' : ''}}">Members</span>
+                  &nbsp;
+                  <i class="fa fa-caret-up {{sort_field=='Members'&&sort_order=='asc' ? 'selected' : ''}}"></i>
+                  <i class="fa fa-caret-down {{sort_field=='Members'&&sort_order=='desc' ? 'selected' : ''}}"></i>
+                </div>
+                <div class="cell" (click)="sort('Att')">
+                  <span class="ranking-control {{sort_field=='Att' ? 'selected' : ''}}">Attack points</span>
+                  &nbsp;
+                  <i class="fa fa-caret-up {{sort_field=='Att'&&sort_order=='asc' ? 'selected' : ''}}"></i>
+                  <i class="fa fa-caret-down {{sort_field=='Att'&&sort_order=='desc' ? 'selected' : ''}}"></i>
+                </div>
+                <div class="cell" (click)="sort('Def')">
+                  <span class="ranking-control {{sort_field=='Def' ? 'selected' : ''}}">Defence points</span>
+                  &nbsp;
+                  <i class="fa fa-caret-up {{sort_field=='Def'&&sort_order=='asc' ? 'selected' : ''}}"></i>
+                  <i class="fa fa-caret-down {{sort_field=='Def'&&sort_order=='desc' ? 'selected' : ''}}"></i>
+                </div>
+                <div class="cell" (click)="sort('AttDef')">
+                  <span class="ranking-control {{sort_field=='AttDef' ? 'selected' : ''}}">Combined points</span>
+                  &nbsp;
+                  <i class="fa fa-caret-up {{sort_field=='AttDef'&&sort_order=='asc' ? 'selected' : ''}}"></i>
+                  <i class="fa fa-caret-down {{sort_field=='AttDef'&&sort_order=='desc' ? 'selected' : ''}}"></i>
+                </div>
+              </div>
+
+              <div *ngFor="let result of results; let i = index;" class="row_custom" [ngClass]="{row_winner:i==0&&fromResult==0}">
+                <div class="cell custom-cell">
+	                <div *ngIf="i==0&&fromResult==0&&sort_order=='desc'&&sort_field!='Rank'">🏆</div>
+	                <div *ngIf="i==1&&fromResult==0&&sort_order=='desc'&&sort_field!='Rank'">🥈</div>
+	                <div *ngIf="i==2&&fromResult==0&&sort_order=='desc'&&sort_field!='Rank'">🥉</div>
+	                <span *ngIf="i>=3||fromResult!=0||sort_order=='asc'||sort_field=='Rank'">{{i+fromResult+1}}</span>
+                </div>
+                <div *ngIf="type=='player'" class="cell">
+                  <a routerLink="/player/{{result?.world}}/{{result?.id}}">{{result?.name}}</a>
+                </div>
+                <div class="cell">
+                  <a *ngIf="type=='player'" routerLink="/alliance/{{result?.world}}/{{result?.alliance_id}}">{{result?.alliance_name}}</a>
+                  <a *ngIf="type=='alliance'" routerLink="/alliance/{{result?.world}}/{{result?.id}}">{{result?.name}}</a>
+                </div>
+                <div class="cell hidden-xs">
+                  {{result?.points | NumberFilter}}
+                </div>
+	              <div class="cell custom-cell">
+		              {{result?.rank}}
+	              </div>
+                <div class="cell">
+                  <a routerLink="/conquest/{{type}}/{{world}}/{{result?.id}}">{{result?.towns}}</a>
+                </div>
+                <div *ngIf="type=='alliance'" class="cell">
+                  {{result?.members}}
+                </div>
+                <div class="cell">
+                  {{result?.att | NumberFilter}}
+                </div>
+                <div class="cell">
+                  {{result?.def | NumberFilter}}
+                </div>
+                <div class="cell">
+                  {{result?.def + result?.att | NumberFilter}}
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+
+</div>
+
+

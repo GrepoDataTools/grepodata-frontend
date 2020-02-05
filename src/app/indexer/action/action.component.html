@@ -1,0 +1,91 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 text-center">
+      <br/>
+      <br/>
+      <div *ngIf="error != ''" class="alert alert-danger" style="margin-top: 33%;">
+        <strong>Error:</strong> {{error}}
+        <br/>
+        If you require any assistance, please contact us.
+      </div>
+      <div *ngIf="loading" style="margin-top: 33%;">
+	      <div class="gd-spinner">
+		      <div class="blob top"></div>
+		      <div class="blob bottom"></div>
+		      <div class="blob left"></div>
+
+		      <div class="blob move-blob"></div>
+	      </div>
+	      <br/>
+	      <br/>
+        <h1>Processing index action.. Please wait</h1>
+	      <p>{{token}}</p>
+      </div>
+      <div *ngIf="!loading && error == ''" style="margin-top: 10%;">
+        <div *ngIf="moved">
+          <mat-card class="decorated-card">
+            <mat-card-title class='decorated-card-header decorated-title'>
+              <h3>Your index has been moved!</h3>
+            </mat-card-title>
+            <mat-card-content class="decorated-card-content">
+              Your request has been processed successfully. Find your new index key below:
+              <br/><br/>
+              <div class="alert alert-success">
+                <strong>New index key: </strong>{{moved_to_index}}
+              </div>
+              <br/><br/>
+              <h3><a class="a-link-dialog" routerLink="/indexer/{{moved_to_index}}">Go to new index <mat-icon style="opacity: 1; vertical-align: bottom;">launch</mat-icon></a></h3>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div *ngIf="action == 'exclude_index_owner'">
+          <mat-card class="decorated-card">
+            <mat-card-title class='decorated-card-header decorated-title'>
+              <h3>Successfully saved index owners.</h3>
+            </mat-card-title>
+            <mat-card-content class="decorated-card-content">
+              <br/><br/>
+              <div class="alert alert-success">
+                Alliance '{{alliance_name}}' has been removed from the list of index owners.
+              </div>
+              <br/><br/>
+              <h3><a class="a-link-dialog" routerLink="/indexer/{{key}}">Return to index {{key}} <mat-icon style="opacity: 1; vertical-align: bottom;">launch</mat-icon></a></h3>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div *ngIf="action == 'include_index_owner'">
+          <mat-card class="decorated-card">
+            <mat-card-title class='decorated-card-header decorated-title'>
+              <h3>Successfully saved index owners.</h3>
+            </mat-card-title>
+            <mat-card-content class="decorated-card-content">
+              <br/><br/>
+              <div class="alert alert-success">
+                Alliance '{{alliance_name}}' has been added to the list of index owners.
+              </div>
+              <br/><br/>
+              <h3><a class="a-link-dialog" routerLink="/indexer/{{key}}">Return to index {{key}} <mat-icon style="opacity: 1; vertical-align: bottom;">launch</mat-icon></a></h3>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div *ngIf="action == 'reset_index_owner'">
+          <mat-card class="decorated-card">
+            <mat-card-title class='decorated-card-header decorated-title'>
+              <h3>Successfully saved index owners.</h3>
+            </mat-card-title>
+            <mat-card-content class="decorated-card-content">
+              <br/><br/>
+              <div class="alert alert-success">
+                Index owners have been reset (index {{key}}). We will automatically find the latest owners when you index some new reports.
+              </div>
+              <br/><br/>
+              <h3><a class="a-link-dialog" routerLink="/indexer/{{key}}">Return to index {{key}} <mat-icon style="opacity: 1; vertical-align: bottom;">launch</mat-icon></a></h3>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+      <br/>
+      <br/>
+    </div>
+  </div>
+</div>

@@ -11,6 +11,10 @@
     .second {
         color: #18BC9C
     }
+
+    &:hover {
+        text-decoration: none;
+    }
 }
 
 .nav-link {

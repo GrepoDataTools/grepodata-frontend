@@ -48,10 +48,12 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="language" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
-                    {{ 'header.menu.language' | translate }}
+	                <!--{{ 'header.menu.language' | translate }}<br/>-->
+	                <div class="bg-flag flag-inline-middle flag-{{translate.currentLang}}"></div> ({{translate.currentLang}})
                 </a>
                 <div #langSelect class="dropdown-menu" aria-labelledby="language">
-                        <a class="dropdown-item" (click)="translate.use(lang)" *ngFor="let lang of translate.getLangs()" (click)="lang === translate.currentLang">{{ lang }}</a>
+                    <a class="dropdown-item" (click)="translate.use(lang);" *ngFor="let lang of translate.getLangs()"
+                       [ngClass]="{'active': translate.currentLang==lang}">{{ lang }}</a>
                 </div>
             </li>
         </ul>

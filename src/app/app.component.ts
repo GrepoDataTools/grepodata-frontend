@@ -9,10 +9,10 @@ export class AppComponent {
   title = 'GrepodataFrontend';
 
   constructor(public translate: TranslateService) {
-    translate.addLangs(['en', 'cs']);
+    translate.addLangs(['en', 'cs', 'nl']);
     translate.setDefaultLang('en');
 
     const browserLang = translate.getBrowserLang();
-    translate.use(browserLang.match(/en|cs/) ? browserLang : 'en');
+    translate.use(browserLang.match(/en|cs|nl/) ? browserLang : 'en');
   }
 }

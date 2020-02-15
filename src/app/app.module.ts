@@ -11,6 +11,7 @@ import { HeaderModule } from './shared/components/header/header.module';
 import { SearchModule } from './shared/components/search/search.module';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoaderInterceptor } from './shared/interceptors/loader.interceptor';
+import { HomeModule } from './home/home.module';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -28,6 +29,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SlimLoadingBarModule.forRoot(),
     HeaderModule,
     SearchModule,
+    HomeModule,
     FontAwesomeModule,
     TranslateModule.forRoot({
       loader: {

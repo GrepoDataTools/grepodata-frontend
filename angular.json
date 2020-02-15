@@ -30,11 +30,15 @@
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": [
+              "src/assets",
+              "src/.htaccess",
               "src/favicon.ico",
-              "src/assets"
+              "src/ads.txt"
             ],
             "styles": [
               "src/styles.scss",
+              "src/assets/styles/icons.scss",
+              "src/assets/styles/table.scss"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
@@ -47,6 +51,34 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "acceptance": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.acc.ts"
                 }
               ],
               "optimization": true,
@@ -97,12 +129,16 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "assets": [
+              "src/assets",
+              "src/.htaccess",
               "src/favicon.ico",
-              "src/assets"
+              "src/ads.txt"
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/purple-green.css",
-              "src/styles.sass"
+              "src/styles.sass",
+              "src/assets/styles/icons.scss",
+              "src/assets/styles/table.scss"
             ],
             "scripts": []
           }

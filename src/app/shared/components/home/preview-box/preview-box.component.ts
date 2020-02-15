@@ -12,7 +12,7 @@ export class PreviewBoxComponent implements OnInit {
   title: string;
 
   @Input()
-  icon: Icon
+  icon: Icon;
 
   @Input()
   description: string;

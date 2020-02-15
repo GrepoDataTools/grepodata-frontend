@@ -1,26 +1,52 @@
 {
-  "header": {
-      "menu": {
-          "home": "Homepage",
-          "link": "Link",
-          "dropdown": "Dropdown",
-          "language": "Language"
-      }
-  },
-  "search": {
     "header": {
-      "player": "Player name",
-      "alliance": "Alliance name",
-      "members": "Members",
-      "world": "World",
-      "alliance_name": "Alliance",
-      "rank": "Rank",
-      "points": "points",
-      "towns": "Towns"
+        "menu": {
+            "home": "Homepage",
+            "stats": "Statistics",
+            "discord": "Discord",
+            "scoreboard": "Daily scoreboard",
+            "ranking": "Ranking",
+            "compare": "Compare",
+            "indexer": "Indexer",
+            "link": "Link",
+            "dropdown": "Dropdown",
+            "language": "Language",
+            "contact": "Contact"
+        }
     },
-    "input": {
-      "player": "Search player...",
-      "alliance": "Search alliance..."
+    "search": {
+        "header": {
+            "player": "Player name",
+            "alliance": "Alliance name",
+            "members": "Members",
+            "world": "World",
+            "alliance_name": "Alliance",
+            "rank": "Rank",
+            "points": "points",
+            "towns": "Towns"
+        },
+        "input": {
+            "player": "Search player...",
+            "alliance": "Search alliance..."
+        }
+    },
+    "contact": {
+        "title": "Contact us",
+        "description": "If you want us to reply, please also enter your email address.",
+        "send": "Send message",
+        "sending": "Sending message",
+        "alt": "Or send us an email at"
+    },
+    "inputs": {
+        "email": "Email",
+        "message": "Message",
+        "optional": "optional",
+        "privacy": "By submitting this form you agree with our"
+    },
+    "names": {
+        "privacyPol": "Privacy Policy"
+    },
+    "errors": {
+        "inputGeneric": "Invalid input"
     }
-  }
 }

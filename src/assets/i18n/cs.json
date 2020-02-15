@@ -2,25 +2,51 @@
     "header": {
         "menu": {
             "home": "Hlavní strana",
+            "stats": "Statistics",
+            "discord": "Discord",
+            "scoreboard": "Daily scoreboard",
+            "ranking": "Ranking",
+            "compare": "Compare",
+            "indexer": "Indexer",
             "link": "Odkaz",
             "dropdown": "Submenu",
-            "lanugage": "Jazyk"
+            "lanugage": "Jazyk",
+            "contact": "Contact"
         }
     },
     "search": {
-    "header": {
-        "player": "Jméno hráče",
-        "alliance": "Jméno aliance",
-        "members": "Členů",
-        "world": "Svět",
-        "alliance_name": "Aliance",
-        "rank": "Pořadí",
-        "points": "Body",
-        "towns": "Města"
+        "header": {
+            "player": "Jméno hráče",
+            "alliance": "Jméno aliance",
+            "members": "Členů",
+            "world": "Svět",
+            "alliance_name": "Aliance",
+            "rank": "Pořadí",
+            "points": "Body",
+            "towns": "Města"
         },
-      "input": {
-        "player": "Vyhledat hráče...",
-        "alliance": "Vyhledat allianci..."
-      }
+        "input": {
+            "player": "Vyhledat hráče...",
+            "alliance": "Vyhledat allianci..."
+        }
+    },
+    "contact": {
+        "title": "Contact us",
+        "description": "If you want us to reply, please also enter your email address.",
+        "send": "Send message",
+        "sending": "Sending message",
+        "alt": "Or send us an email at"
+    },
+    "inputs": {
+        "email": "Email",
+        "message": "Message",
+        "optional": "optional",
+        "privacy": "By submitting this form you agree with our"
+    },
+    "names": {
+        "privacyPol": "Privacy Policy"
+    },
+    "errors": {
+        "inputGeneric": "Invalid input"
     }
   }

@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-header">
-    <a href="#" class="brand-text">
+    <a [routerLink]="['/']" class="brand-text">
         <span class="first">Grepo</span>
         <span class="second">Data</span>
     </a>
@@ -11,24 +11,40 @@
 
     <div class="collapse navbar-collapse justify-content-end mr-5" id="navbarSupportedContent">
         <ul class="navbar-nav nav-pills ml-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">{{ 'header.menu.home' | translate }} <span class="sr-only">(current)</span></a>
-            </li>
+	        <li class="nav-item dropdown">
+		        <a class="nav-link dropdown-toggle" id="navbarDropdownStats" role="button" data-toggle="dropdown"
+		           aria-haspopup="true" aria-expanded="false" [ngClass]="{'active': (active=='points' || active=='ranking' || active=='compare')}">
+			        {{ 'header.menu.stats' | translate }}
+		        </a>
+		        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+			        <a class="dropdown-item" [routerLink]="['/points']">{{ 'header.menu.scoreboard' | translate }}</a>
+			        <a class="dropdown-item" [routerLink]="['/ranking']">{{ 'header.menu.ranking' | translate }}</a>
+			        <a class="dropdown-item" [routerLink]="['/compare']">{{ 'header.menu.compare' | translate }}</a>
+			        <!--<div class="dropdown-divider"></div>-->
+			        <!--<a class="dropdown-item">Something else here</a>-->
+		        </div>
+	        </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">{{ 'header.menu.link' | translate }}</a>
+                <a class="nav-link" [routerLink]="['/indexer']">{{ 'header.menu.indexer' | translate }}</a>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    {{ 'header.menu.dropdown' | translate }}
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-            </li>
+	        <li class="nav-item">
+		        <a class="nav-link" [routerLink]="['/discord']">{{ 'header.menu.discord' | translate }}</a>
+	        </li>
+            <!--<li class="nav-item dropdown">-->
+                <!--<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"-->
+                    <!--aria-haspopup="true" aria-expanded="false">-->
+                    <!--{{ 'header.menu.dropdown' | translate }}-->
+                <!--</a>-->
+                <!--<div class="dropdown-menu" aria-labelledby="navbarDropdown">-->
+                    <!--<a class="dropdown-item">Action</a>-->
+                    <!--<a class="dropdown-item">Another action</a>-->
+                    <!--<div class="dropdown-divider"></div>-->
+                    <!--<a class="dropdown-item">Something else here</a>-->
+                <!--</div>-->
+            <!--</li>-->
+	        <li class="nav-item" (click)="showContactDialog()">
+		        <a class="nav-link"><fa-icon [icon]="icon.faEnvelope"></fa-icon> {{ 'header.menu.contact' | translate }}</a>
+	        </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="language" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">

@@ -2,8 +2,35 @@
 @import "../node_modules/bootstrap/scss/variables";
 
 $theme-colors: (
-  primary: #18bc9c
+        primary: #18bc9c
 );
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$GrepodataFrontend-primary: mat-palette($mat-teal);
+$GrepodataFrontend-accent: mat-palette($mat-teal, 500, 900, A100);
+
+// The warn palette is optional (defaults to red).
+$GrepodataFrontend-warn: mat-palette($mat-deep-orange);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$GrepodataFrontend-theme: mat-light-theme($GrepodataFrontend-primary, $GrepodataFrontend-accent, $GrepodataFrontend-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($GrepodataFrontend-theme);
 
 @import "../node_modules/bootstrap/scss/bootstrap";
 
@@ -109,6 +136,19 @@ body {
   }
 }
 
+.alert-gd-1 {
+  background-color: #fafafa;
+  border: 2px solid #cdcdcd;
+  color: #334254 !important;
+
+  h1, h2, h3 {
+    margin-top: 0px; color: #18BC9C
+  }
+  p {
+    color: #334254 !important;
+  }
+}
+
 @media screen and (max-width: 991px) {
   .table__thead {
     display: none;
@@ -181,3 +221,6 @@ body {
     width: 100%;
   }
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

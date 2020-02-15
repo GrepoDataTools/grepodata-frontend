@@ -1,0 +1,26 @@
+{
+  "header": {
+      "menu": {
+          "home": "Homepage",
+          "link": "Link",
+          "dropdown": "Dropdown",
+          "language": "Language"
+      }
+  },
+  "search": {
+    "header": {
+      "player": "Player name",
+      "alliance": "Alliance name",
+      "members": "Members",
+      "world": "World",
+      "alliance_name": "Alliance",
+      "rank": "Rank",
+      "points": "points",
+      "towns": "Towns"
+    },
+    "input": {
+      "player": "Search player...",
+      "alliance": "Search alliance..."
+    }
+  }
+}

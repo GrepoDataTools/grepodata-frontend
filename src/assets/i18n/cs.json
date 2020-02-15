@@ -1,0 +1,26 @@
+{
+    "header": {
+        "menu": {
+            "home": "Hlavní strana",
+            "link": "Odkaz",
+            "dropdown": "Submenu",
+            "lanugage": "Jazyk"
+        }
+    },
+    "search": {
+    "header": {
+        "player": "Jméno hráče",
+        "alliance": "Jméno aliance",
+        "members": "Členů",
+        "world": "Svět",
+        "alliance_name": "Aliance",
+        "rank": "Pořadí",
+        "points": "Body",
+        "towns": "Města"
+        },
+      "input": {
+        "player": "Vyhledat hráče...",
+        "alliance": "Vyhledat allianci..."
+      }
+    }
+  }

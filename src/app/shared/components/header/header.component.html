@@ -1,0 +1,43 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-header">
+    <a href="#" class="brand-text">
+        <span class="first">Grepo</span>
+        <span class="second">Data</span>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-end mr-5" id="navbarSupportedContent">
+        <ul class="navbar-nav nav-pills ml-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">{{ 'header.menu.home' | translate }} <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">{{ 'header.menu.link' | translate }}</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    {{ 'header.menu.dropdown' | translate }}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="language" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    {{ 'header.menu.language' | translate }}
+                </a>
+                <div #langSelect class="dropdown-menu" aria-labelledby="language">
+                        <a class="dropdown-item" (click)="translate.use(lang)" *ngFor="let lang of translate.getLangs()" (click)="lang === translate.currentLang">{{ lang }}</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>

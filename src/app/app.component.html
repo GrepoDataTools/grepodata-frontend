@@ -1,9 +1,4 @@
+<ng2-slim-loading-bar class="loading-bar" color="#18BC9C" height="4px"></ng2-slim-loading-bar>
 <app-header></app-header>
-<div class="Site" id="content" (scroll)="scrollContent($event)">
-    <div class="Site-content">
-        <router-outlet></router-outlet>
-    </div>
-    <footer>
-        <app-footer></app-footer>
-    </footer>
-</div>
+<app-search></app-search>
+<router-outlet></router-outlet>

@@ -1,0 +1,200 @@
+<div class="card shadow-sm">
+  <div class="row justify-content-center no-gutters">
+    <div class="col-12 col-lg-8">
+      <div class="card-body">
+        <div class="row" style="flex: 1 1 0%">
+          <div class="col-12 col-lg-6">
+            <div class="input-group mb-2 search-group">
+              <input
+                type="text"
+                class="form-control search-input"
+                id="inlineFormInputGroup"
+                [attr.placeholder]="'search.input.player' | translate"
+                placeholder="Search player..."
+                (keyup)="fetchPlayersByName($event)"
+              />
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <fa-icon [icon]="faUser"></fa-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-6">
+            <div class="input-group mb-2 search-group">
+              <input
+                type="text"
+                class="form-control search-input"
+                id="inlineFormInputGroup"
+                [attr.placeholder]="'search.input.alliance' | translate"
+                (keyup)="fetchAlliancesByName($event)"
+              />
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <fa-icon [icon]="faUserFriends"></fa-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        *ngIf="players$.length > 0 && searchingFor === 'player'"
+        class="col-md-12"
+      >
+        <div class="table-container">
+          <table class="table">
+            <thead class="table__thead">
+              <tr>
+                <th class="table__th" scope="col">
+                  {{ "search.header.player" | translate }}
+                </th>
+                <th class="table__th" scope="col">
+                  {{ "search.header.world" | translate }}
+                </th>
+                <th class="table__th" scope="col">
+                  {{ "search.header.alliance_name" | translate }}
+                </th>
+                <th class="table__th" scope="col">
+                  {{ "search.header.rank" | translate }}
+                </th>
+                <th class="table__th" scope="col">
+                  {{ "search.header.points" | translate }}
+                </th>
+                <th class="table__th" scope="col">
+                  {{ "search.header.towns" | translate }}
+                </th>
+              </tr>
+            </thead>
+            <tbody class="table__tbody">
+              <tr class="table-row" *ngFor="let player of players$">
+                <td
+                  class="table-row__td"
+                  scope="row"
+                  [attr.data-column]="'search.header.player' | translate"
+                >
+                  <span>{{ player.name }}</span>
+                </td>
+                <td
+                  class="table-row__td"
+                  scope="row"
+                  [attr.data-column]="'search.header.world' | translate"
+                >
+                  {{ player.world }}
+                </td>
+                <td
+                  class="table-row__td"
+                  scope="row"
+                  [attr.data-column]="'search.header.alliance_name' | translate"
+                >
+                  {{ player.alliance_name }}
+                </td>
+                <td
+                  class="table-row__td"
+                  scope="row"
+                  [attr.data-column]="'search.header.rank' | translate"
+                >
+                  {{ player.rank }}
+                </td>
+                <td
+                  class="table-row__td"
+                  scope="row"
+                  [attr.data-column]="'search.header.points' | translate"
+                >
+                  {{ player.points }}
+                </td>
+                <td
+                  class="table-row__td"
+                  scope="row"
+                  [attr.data-column]="'search.header.player' | translate"
+                >
+                  {{ player.towns }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div
+        *ngIf="alliances$.length > 0 && searchingFor === 'alliance'"
+        class="col-md-12"
+      >
+        <div class="table-container">
+          <table class="table">
+            <thead class="table__thead">
+              <tr>
+                <th class="table__th" scope="col">
+                  {{ "search.header.alliance" | translate }}
+                </th>
+                <th class="table__th" scope="col">
+                  {{ "search.header.world" | translate }}
+                </th>
+                <th class="table__th" scope="col">
+                  {{ "search.header.rank" | translate }}
+                </th>
+                <th class="table__th" scope="col">
+                  {{ "search.header.members" | translate }}
+                </th>
+                <th class="table__th" scope="col">
+                  {{ "search.header.points" | translate }}
+                </th>
+                <th class="table__th" scope="col">
+                  {{ "search.header.towns" | translate }}
+                </th>
+              </tr>
+            </thead>
+            <tbody class="table__tbody">
+              <tr
+                class="table-row"
+                *ngFor="let alliance of alliances$"
+              >
+                <td
+                  class="table-row__td"
+                  scope="row"
+                  [attr.data-column]="'search.header.alliance' | translate"
+                >
+                  <span>{{ alliance.name }}</span>
+                </td>
+                <td
+                  class="table-row__td"
+                  scope="row"
+                  [attr.data-column]="'search.header.world' | translate"
+                >
+                  {{ alliance.world }}
+                </td>
+                <td
+                  class="table-row__td"
+                  scope="row"
+                  [attr.data-column]="'search.header.rank' | translate"
+                >
+                  {{ alliance.rank }}
+                </td>
+                <td
+                class="table-row__td"
+                scope="row"
+                [attr.data-column]="'search.header.members' | translate"
+              >
+                {{ alliance.members }}
+              </td>
+                <td
+                  class="table-row__td"
+                  scope="row"
+                  [attr.data-column]="'search.header.points' | translate"
+                >
+                  {{ alliance.points }}
+                </td>
+                <td
+                  class="table-row__td"
+                  scope="row"
+                  [attr.data-column]="'search.header.towns' | translate"
+                >
+                  {{ alliance.towns }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

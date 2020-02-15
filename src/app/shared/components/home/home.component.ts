@@ -8,7 +8,7 @@ import * as icon from '@fortawesome/free-solid-svg-icons';
 })
 export class HomeComponent implements OnInit {
 
-  icon = icon
+  icon = icon;
 
   constructor() { }
 

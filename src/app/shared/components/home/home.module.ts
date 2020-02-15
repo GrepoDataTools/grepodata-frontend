@@ -1,8 +1,9 @@
 import { NgModule } from "@angular/core";
 import { HomeComponent } from './home.component';
 import { CommonModule } from '@angular/common';
-import { PreviewBoxModule } from '../shared/preview-box/preview-box.module';
+import { PreviewBoxModule } from './preview-box/preview-box.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {HomeRoutingModule} from './home-routing.module';
 
 @NgModule({
   declarations: [HomeComponent],
@@ -10,7 +11,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   imports: [
     CommonModule,
     PreviewBoxModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    HomeRoutingModule
   ]
 })
 

@@ -203,6 +203,10 @@ mat-paginator {
     text-decoration: underline;
     color: #5e7a92;
 }
+.a-link-dialog:not([href]) {
+    text-decoration: underline !important;
+    color: #5e7a92 !important;
+}
 .a-link-dialog:hover {cursor: pointer;}
 
 .success-snack {

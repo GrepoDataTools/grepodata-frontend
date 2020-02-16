@@ -9,7 +9,6 @@ const routes: Routes = [
   { path: 'alliance', loadChildren: () => import('./alliance/alliance.module').then(m => m.AllianceModule) },
   { path: 'town', loadChildren: () => import('./town/town.module').then(m => m.TownModule) },
   { path: 'action', loadChildren: () => import('./action/action.module').then(m => m.ActionModule) },
-  { path: 'faq', loadChildren: () => import('./faq/faq.module').then(m => m.FaqModule) },
   { path: ':key', loadChildren: () => import('./index-home/index-home.module').then(m => m.IndexHomeModule) },
 ];
 

@@ -12,6 +12,7 @@ import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common
 import { LoaderInterceptor } from './shared/interceptors/loader.interceptor';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NumberFilterPipe } from './shared/pipes/number-filter.pipe';
+import {Globals} from './globals';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -45,7 +46,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     { provide: HTTP_INTERCEPTORS,
       useClass: LoaderInterceptor,
       multi: true
-    }
+    },
+    Globals
   ],
   bootstrap: [AppComponent]
 })

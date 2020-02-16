@@ -31,6 +31,8 @@ export class SearchComponent implements OnInit {
         let path = val.url;
         if (path.includes('/indexer')) {
           this.hidden = true;
+        } else {
+          this.hidden = false;
         }
       }
     });

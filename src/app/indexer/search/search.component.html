@@ -82,8 +82,7 @@
 								<!--<button *ngIf="!hide_results" type="button" class="btn btn-link search-control" (click)="hide_results = true;">-->
 								<!--Hide results <i class="fa fa-caret-up"></i>-->
 								<!--</button>-->
-								<button type="button" class="btn btn-link search-control" (click)="searching_players = false;">
-								<!--<button type="button" class="btn btn-link search-control" (click)="searching_players = false; cdr.detectChanges();">-->
+								<button type="button" class="btn btn-link search-control" (click)="searching_players = false; cdr.detectChanges();">
 									Close search results <i class="fa fa-close"></i>
 								</button>
 							</div>
@@ -135,8 +134,7 @@
 								<!--<button *ngIf="!hide_results" type="button" class="btn btn-link search-control" (click)="hide_results = true;">-->
 								<!--Hide results <i class="fa fa-caret-up"></i>-->
 								<!--</button>-->
-								<button type="button" class="btn btn-link search-control" (click)="searching_alliances = false;">
-								<!--<button type="button" class="btn btn-link search-control" (click)="searching_alliances = false; cdr.detectChanges();">-->
+								<button type="button" class="btn btn-link search-control" (click)="searching_alliances = false; cdr.detectChanges();">
 									Close search results <i class="fa fa-close"></i>
 								</button>
 								<!--<mat-spinner class="search-control" *ngIf="loading" strokeWidth="4" [diameter]="40"></mat-spinner>-->
@@ -183,8 +181,7 @@
 								<!--<button *ngIf="!hide_results" type="button" class="btn btn-link search-control" (click)="hide_results = true;">-->
 								<!--Hide results <i class="fa fa-caret-up"></i>-->
 								<!--</button>-->
-								<button type="button" class="btn btn-link search-control" (click)="searching_towns = false;">
-								<!--<button type="button" class="btn btn-link search-control" (click)="searching_towns = false; cdr.detectChanges();">-->
+								<button type="button" class="btn btn-link search-control" (click)="searching_towns = false; cdr.detectChanges();">
 									Close search results <i class="fa fa-close"></i>
 								</button>
 								<!--<mat-spinner class="search-control" *ngIf="loading" strokeWidth="4" [diameter]="40"></mat-spinner>-->
@@ -239,8 +236,7 @@
 								<button *ngIf="num_results > 0" name="open_bb" class="btn btn-success btn-xs" (click)="openBBdialog('island')">
 									<i class="fa fa-code"></i> BB code
 								</button>
-								<button type="button" class="btn btn-link search-control" (click)="searching_islands = false;">
-								<!--<button type="button" class="btn btn-link search-control" (click)="searching_islands = false; cdr.detectChanges();">-->
+								<button type="button" class="btn btn-link search-control" (click)="searching_islands = false; cdr.detectChanges();">
 									Close search results <i class="fa fa-close"></i>
 								</button>
 							</div>

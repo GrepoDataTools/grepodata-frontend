@@ -34,10 +34,10 @@
 						You can help your alliance by<span class="hidden-md"> installing the userscript to start</span> contributing enemy intel<span class="hidden-md"> to this index</span>
 					</div>
 					<div class="col-5 col-lg-4" style="padding-right: 40px;">
-						<button mat-button class="mat-raised-button bg-gd-2" style="font-size: 22px; padding: 8px; width: 80%; top: 5px;color: white;" (click)="openInstalldialog()">
+						<button mat-button class="mat-raised-button bg-gd-2" style="font-size: 22px; padding: 8px; width: 80%; top: 5px;color: white;" (click)="openInstalldialog(); cdr.detectChanges()">
 							<i class="fa fa-download"></i> Install userscript <span class="gd-primary d-none d-md-inline" style="vertical-align: baseline;">{{key}}</span>
 						</button>
-						<a (click)="hideHelp()" class="close" style="top: 15px;"></a>
+						<a (click)="hideHelp(); cdr.detectChanges()" class="close" style="top: 15px;"></a>
 					</div>
 				</div>
 			</div>

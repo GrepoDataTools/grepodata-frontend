@@ -255,7 +255,7 @@
 												<button mat-button class="mat-raised-button bg-gd-2 gd-white" style="margin-top: 10px; width: 100%; overflow: hidden; text-overflow: ellipsis;" (click)="showEditOwnersDialog()">
 													<i class="fa fa-pencil"></i> {{'indexer.actions.editOwners' | translate}}
 												</button>
-												<button *ngIf="csa==false" mat-button class="mat-raised-button bg-gd-2 gd-white" style="margin-top: 10px; width: 100%; overflow: hidden; text-overflow: ellipsis;" (click)="showCleanupDialog()"
+												<button *ngIf="csa==false||csa==undefined" mat-button class="mat-raised-button bg-gd-2 gd-white" style="margin-top: 10px; width: 100%; overflow: hidden; text-overflow: ellipsis;" (click)="showCleanupDialog()"
 												        matTooltip="{{'indexer.tooltips.startCleanupInfo' | translate}}">
 													<i class="fa fa-pencil"></i> {{'indexer.actions.cleanupIntel' | translate}}
 												</button>
@@ -317,12 +317,11 @@
 									</mat-card>
 								</div>
 
-								<div *ngIf="csa!=false" class="alert alert-warning text-center">
-									<h4 class="gd-secondary">
-										{{'indexer.cleanup.loggedIn' | translate}}
-										<br/>{{'indexer.cleanup.deletedAfter24Hrs' | translate}}
+								<div *ngIf="csa!=false&&csa!=undefined" class="alert alert-warning text-center">
+									<h6 class="gd-secondary">
+										{{'indexer.cleanup.loggedIn' | translate}} {{'indexer.cleanup.deletedAfter24Hrs' | translate}}
 										<br/>{{'actions.click' | translate}} <a class="a-link-dialog" (click)="cleanupLogout();">{{'actions.here' | translate}}</a> {{'indexer.cleanup.signOut' | translate}}.
-									</h4>
+									</h6>
 								</div>
 
 							</div>
@@ -404,20 +403,21 @@
 							</div>
 						</mat-card-title>
 						<mat-card-content>
-							<div style="max-height: 400px; overflow-y: auto;">
-								<div class="table" id="table_alliances" style='margin: auto; margin-bottom: 0px;'>
-
-									<div class="row_custom header" >
-										<div class="cell">
-											{{'fields.alliance' | translate}}
-										</div>
-										<div class="cell">
-											{{'fields.intelCount' | translate}}
-										</div>
-										<div class="cell">
-											{{'actions.view' | translate}}
-										</div>
+							<div class="table" id="table_alliances" style='margin: auto; margin-bottom: 0px;'>
+								<div class="row_custom header" >
+									<div class="cell" style="width: 39%;">
+										{{'fields.alliance' | translate}}
 									</div>
+									<div class="cell" style="width: 22%;">
+										{{'fields.intelCount' | translate}}
+									</div>
+									<div class="cell" style="width: 30%;">
+										{{'actions.view' | translate}}
+									</div>
+								</div>
+							</div>
+							<div style="max-height: 372px; overflow-y: auto;">
+								<div class="table" id="table_alliances_rows" style='margin: auto; margin-bottom: 0px;'>
 
 									<div class='row_custom' *ngFor="let alliance of data.alliances_indexed">
 										<div class="cell">

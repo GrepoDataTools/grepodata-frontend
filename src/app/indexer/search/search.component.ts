@@ -38,13 +38,12 @@ export class IndexSearchComponent implements AfterViewInit {
   constructor(
     private searchService: SearchService,
     private router: Router,
-    // public cdr: ChangeDetectorRef,
+    public cdr: ChangeDetectorRef,
     public dialog: MatDialog) {
   }
 
   ngAfterViewInit() {
-    // this.cdr.detach();
-    console.log(this.indexKey);
+    this.cdr.detach();
   }
 
   searching_false() {
@@ -202,7 +201,7 @@ export class IndexSearchComponent implements AfterViewInit {
       if (this.num_results != towns.count) this.num_results = towns.count;
     }
     this.loading = false;
-    // this.cdr.detectChanges();
+    this.cdr.detectChanges();
   }
 
   renderIslandOutput(towns) {
@@ -217,7 +216,7 @@ export class IndexSearchComponent implements AfterViewInit {
       }
     }
     this.loading = false;
-    // this.cdr.detectChanges();
+    this.cdr.detectChanges();
   }
 
   renderPlayerOutput(players) {
@@ -227,7 +226,7 @@ export class IndexSearchComponent implements AfterViewInit {
       if (this.num_results != players.count) this.num_results = players.count;
     }
     this.loading = false;
-    // this.cdr.detectChanges();
+    this.cdr.detectChanges();
   }
 
   renderAllianceOutput(alliances) {
@@ -237,7 +236,7 @@ export class IndexSearchComponent implements AfterViewInit {
       if (this.num_results != alliances.count) this.num_results = alliances.count;
     }
     this.loading = false;
-    // this.cdr.detectChanges();
+    this.cdr.detectChanges();
   }
 
   public openBBdialog(type) {
@@ -268,6 +267,6 @@ export class IndexSearchComponent implements AfterViewInit {
     //
     // dialogRef.afterClosed().subscribe(result => {});
 
-    // this.cdr.detectChanges();
+    this.cdr.detectChanges();
   }
 }

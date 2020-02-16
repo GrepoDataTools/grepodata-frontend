@@ -5,12 +5,13 @@ import {IndexerService} from '../../shared/services/indexer.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import {ContactDialog} from '../../shared/dialogs/contact/contact.component';
+import {LocalStorageService} from '../../shared/services/local-storage.service';
 
 @Component({
   selector: 'app-index-home',
   templateUrl: './index-home.component.html',
   styleUrls: ['./index-home.component.scss'],
-  providers: [IndexerService]
+  providers: [IndexerService, LocalStorageService]
 })
 export class IndexHomeComponent implements OnInit {
 
@@ -70,7 +71,7 @@ export class IndexHomeComponent implements OnInit {
   }
 
   cleanupLogout() {
-    //LocalCacheService.set('csa'+this.key, false, 0);
+    LocalStorageService.set('csa'+this.key, false, 0);
     this.csa = false;
     this.router.navigate(['/indexer/'+this.key]);
   }
@@ -94,7 +95,7 @@ export class IndexHomeComponent implements OnInit {
       this.globals.set_active_index(key);
       this.globals.set_active_intel(data.world, key);
       this.key = key;
-      //this.csa = LocalCacheService.get('csa'+this.key);
+      this.csa = LocalStorageService.get('csa'+this.key);
       this.world = data.world;
       this.data = data;
       if (data.latest_intel) {

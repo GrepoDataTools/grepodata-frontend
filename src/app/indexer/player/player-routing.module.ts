@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { PlayerComponent } from './player.component';
+import {IndexPlayerComponent} from './player.component';
 
-const routes: Routes = [{ path: ':key/:world/:id', component: PlayerComponent }];
+const routes: Routes = [{ path: ':key/:world/:id', component: IndexPlayerComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

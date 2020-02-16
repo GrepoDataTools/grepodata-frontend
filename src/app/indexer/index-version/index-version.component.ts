@@ -62,12 +62,9 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class IndexVersionComponent implements OnInit, AfterViewInit {
 
-  @Input()
-  message: any = '';
-  @Input()
-  version: any = '';
-  @Input()
-  key: any = '';
+  @Input() message: any = '';
+  @Input() version: any = '';
+  @Input() key: any = '';
 
   encrypted: any = '';
   showHelp = false;
@@ -75,7 +72,7 @@ export class IndexVersionComponent implements OnInit, AfterViewInit {
   searchTime = 2500;
 
   constructor(
-    private cdr: ChangeDetectorRef,
+    public cdr: ChangeDetectorRef,
     public dialog: MatDialog) {
   }
 

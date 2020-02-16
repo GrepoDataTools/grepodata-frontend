@@ -15,6 +15,8 @@ export class LocalStorageService {
 
       return item.data;
     }
+
+    return false;
   }
 
   public static set(key, content, expiration) {

@@ -1,1 +1,229 @@
-<p>player works!</p>
+<div style="overflow-x: hidden;">
+
+	<mat-card class="decorated-card" [ngClass]="{'embedded-padding': embedded}" style="box-shadow: none !important;"
+	          [ngStyle]="{'background': !embedded?'#fbfbfb':''}">
+		<mat-card-title class='decorated-card-header decorated-title' *ngIf="!embedded" style="margin-bottom: 0px;">
+
+			<div style="position: absolute; top: 10px; max-width: 200px;">
+				<button mat-button class="mat-raised-button bg-gd-2" style="width: 100%; overflow: hidden; text-overflow: ellipsis;" routerLink="/indexer/{{key}}">
+					<i class="fa fa-arrow-left"></i> Index: {{key}}
+				</button>
+			</div>
+
+			<h1>
+				Showing collected intel for:
+				<i class="fa fa-user gd-secondary" aria-hidden="true"></i>&nbsp;
+				<span>{{playerName}}</span>
+			</h1>
+			<h3>
+        <span class="index-title d-none d-sm-inline">
+          Index: <span class='world-title'><a class="a-link-dialog" style="color: #334254 !important;" routerLink="/indexer/{{key}}">{{key}}</a></span>
+        </span>
+				<span class="index-title">
+          World: <span class='world-title gd-secondary' *ngIf="world"><div class="bg-flag flag-inline-title flag-{{world.substr(0,2)}}"></div>&nbsp;<a class="a-link-dialog" style="color: #334254 !important;" routerLink="/points/{{world}}">{{worldName}}&nbsp;({{world}})</a></span>
+        </span>
+				<span class="index-title" *ngIf="allianceId != 0">
+          Alliance: <span class='world-title gd-secondary'><a class="a-link-dialog" style="color: #334254 !important;" routerLink="/indexer/alliance/{{key}}/{{world}}/{{allianceId}}">{{allianceName}}</a></span>
+        </span>
+				<span class="index-title">
+          Stats: <span class='world-title gd-secondary'><a class="a-link-dialog" style="color: #334254 !important;" routerLink="/player/{{world}}/{{id}}">View player statistics</a></span>
+        </span>
+			</h3>
+
+		</mat-card-title>
+		<mat-card-content class="decorated-card-content" [ngClass]="{'embedded-padding': embedded}" style="padding: 0 !important;">
+
+			<index-search indexKey="{{key}}" *ngIf="!embedded"></index-search>
+
+			<div *ngIf="embedded">
+				<h4 class="gd-primary text-center">
+		          <span class="index-title">
+		            Index: <span class='world-title'><a class="a-link-dialog" style="color: #334254 !important;" routerLink="/indexer/{{key}}">{{key}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="d-none d-sm-inline">launch</mat-icon></a></span>
+		          </span>
+					<span class="index-title" *ngIf="allianceId != 0">
+		            Alliance intel: <span class='world-title gd-secondary'><a class="a-link-dialog" style="color: #334254 !important;" routerLink="/indexer/alliance/{{key}}/{{world}}/{{allianceId}}">{{allianceName}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="d-none d-sm-inline">launch</mat-icon></a></span>
+		          </span>
+				</h4>
+			</div>
+
+			<div *ngIf="err != ''" class="text-center">
+				<br/>
+				<br/>
+				<div class="alert alert-gd-1 text-center">
+					<h2 class="gd-primary">No intel available</h2>
+					<h4>
+						Index {{key}} contains no intel for this player. Note: Intel about your allies (index owners) is unavailable.
+					</h4>
+				</div>
+			</div>
+
+			<div *ngIf="err == ''">
+
+				<!--<app-advertorial *ngIf="!loading && !embedded && totalCount > 30"></app-advertorial>-->
+
+				<div style="width: calc(100vw - 68px); margin: auto;">
+					<app-index-version *ngIf="!embedded && !loading" version="{{version}}" message="{{message}}" key="{{key}}"></app-index-version>
+				</div>
+
+				<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
+				<div *ngIf="!noIntel && !loading" >
+
+					<div *ngIf="mobile">
+						<mat-tab-group mat-stretch-tabs>
+						<!--<mat-tab-group mat-stretch-tabs (click)="cdr.detectChanges();">-->
+							<mat-tab>
+								<ng-template mat-tab-label>
+									<div class="unit_icon40x40 unknown_naval" style="border-radius: 30px;"></div>&nbsp;&nbsp;Sea units
+								</ng-template>
+								<ng-container *ngTemplateOutlet="seaunits"></ng-container>
+							</mat-tab>
+							<mat-tab>
+								<ng-template mat-tab-label>
+									<div class="unit_icon40x40 unknown" style="border-radius: 30px;"></div>&nbsp;&nbsp;Land units
+								</ng-template>
+								<ng-container *ngTemplateOutlet="landunits"></ng-container>
+							</mat-tab>
+						</mat-tab-group>
+					</div>
+
+					<div *ngIf="!mobile" class="container-fluid" style="max-width: 1700px; margin: auto;">
+						<div class="row no-gutters">
+							<div class="col-6 col-padding-xs">
+								<ng-container *ngTemplateOutlet="seaunits"></ng-container>
+							</div>
+							<div class="col-6 col-padding-xs">
+								<ng-container *ngTemplateOutlet="landunits"></ng-container>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+				<div *ngIf="!embedded && !loading" style="max-width: 1700px; margin: auto;">
+					<br/>
+					<br/>
+
+					<mat-card>
+						<mat-card-title>
+							<div>
+								<h3 style='font-weight: 300; color: #304357;'>
+									<span class='world-title' style='color: #18BC9C;'>All indexed towns</span>
+								</h3>
+							</div>
+						</mat-card-title>
+						<mat-card-content>
+							<div class="table" id="table_all" style='margin: auto; margin-bottom: 0px;'>
+
+								<div class="row_custom header bg-gd-2" >
+									<div class="cell">
+										Town
+									</div>
+									<div class="cell">
+										Reports collected
+									</div>
+								</div>
+
+								<div class='row_custom' *ngFor="let town of allCities | ValuesPipe">
+									<div class="cell">
+										<a routerLink="/indexer/town/{{key}}/{{world}}/{{town.town_id}}">{{town.name}}</a>
+									</div>
+									<div class="cell">
+										{{town.count}}
+									</div>
+								</div>
+							</div>
+						</mat-card-content>
+					</mat-card>
+				</div>
+
+				<div *ngIf="noIntel && !loading">
+					<div class="container">
+						<div class="row">
+							<br/>
+							<br/>
+							<div class="alert alert-danger text-center">
+								<h3>This index has not yet received any intel on player <strong>{{playerName}}</strong></h3>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</mat-card-content>
+	</mat-card>
+
+	<div class="row" *ngIf="!noIntel && err=='' && !loading">
+		<div class="col-lg-12 text-center">
+			<h4 class="gd-secondary">Images on this page are subject to Copyright © InnoGames GmbH</h4>
+		</div>
+	</div>
+
+</div>
+
+<!--sea units-->
+<ng-template #seaunits>
+	<mat-card class="text-center">
+
+		<mat-card-title>
+			<div class="form-group row" style='margin: 0px;'>
+				<h1 style='font-weight: 300; color: #304357; margin: 0; width: 100%;'>
+					<span class='world-title' style='color: #18BC9C;'>Sea units</span>
+					<span class="d-none d-sm-inline" *ngIf="!embedded">
+            &nbsp;<img src="../../../assets/images/player_ico.png" style="height: 28px; margin-top: -5px;"/>&nbsp;<span>{{playerName}}</span>
+          </span>
+				</h1>
+			</div>
+		</mat-card-title>
+
+		<div class="chip-list-wrapper">
+			<mat-chip-list>
+				<mat-chip class="gd-chip gd-chip-lg" [selected]="tabsSeaIndex===0" (click)="setSeaIndex(0)"><div class="gd-icon icon-fireship"></div> {{world.substring(0, 2)=='en'?'Light ships':'Fireships'}}</mat-chip>
+				<mat-chip class="gd-chip gd-chip-lg" [selected]="tabsSeaIndex===1" (click)="setSeaIndex(1)"><div class="gd-icon icon-bireme"></div> Biremes</mat-chip>
+			</mat-chip-list>
+		</div>
+
+		<div  *ngIf="tabsSeaIndex===0" style="padding-top: 16px;">
+			<intel-table [type]="'fire'" [containsDuplicates]="fireCities.contains_duplicates" [seaTowns]="fireCities.towns || []" [key]="key" [world]="world" [id]="id" [playerName]="playerName" [allianceName]="allianceName"></intel-table>
+		</div>
+		<div  *ngIf="tabsSeaIndex===1" style="padding-top: 16px;">
+			<intel-table [type]="'bir'" [containsDuplicates]="birCities.contains_duplicates" [seaTowns]="birCities.towns || []" [key]="key" [world]="world" [id]="id" [playerName]="playerName" [allianceName]="allianceName"></intel-table>
+		</div>
+	</mat-card>
+</ng-template>
+
+<!--land units-->
+<ng-template #landunits>
+	<mat-card class="text-center">
+		<mat-card-title>
+			<div class="form-group row" style='margin: 0px;'>
+				<h1 style='font-weight: 300; color: #304357; margin: 0; width: 100%;'>
+					<span class='world-title' style='color: #18BC9C;'>Land units</span>
+					<span class="d-none d-sm-inline" *ngIf="!embedded">
+	          &nbsp;<img src="../../assets/images/player_ico.png" style="height: 28px; margin-top: -5px;"/>&nbsp;<span>{{playerName}}</span>
+	        </span>
+				</h1>
+			</div>
+		</mat-card-title>
+
+		<div class="chip-list-wrapper">
+			<mat-chip-list>
+				<mat-chip class="gd-chip gd-chip-lg" [selected]="tabsLandIndex===0" (click)="setLandIndex(0)"><div class="gd-icon icon-manti"></div> Mythical</mat-chip>
+				<mat-chip class="gd-chip gd-chip-lg" [selected]="tabsLandIndex===1" (click)="setLandIndex(1)"><div class="gd-icon icon-slinger"></div> Offensive</mat-chip>
+				<mat-chip class="gd-chip gd-chip-lg" [selected]="tabsLandIndex===2" (click)="setLandIndex(2)"><div class="gd-icon icon-sword"></div> Defensive</mat-chip>
+			</mat-chip-list>
+		</div>
+
+		<div *ngIf="tabsLandIndex===0" style="padding-top: 16px;">
+			<intel-table [type]="'myth'" [containsDuplicates]="mythCities.contains_duplicates" [landTowns]="mythCities.towns || []" [key]="key" [world]="world" [id]="id" [playerName]="playerName" [allianceName]="allianceName"></intel-table>
+		</div>
+		<div *ngIf="tabsLandIndex===1" style="padding-top: 16px;">
+			<intel-table [type]="'off'" [containsDuplicates]="offCities.contains_duplicates" [landTowns]="offCities.towns || []" [key]="key" [world]="world" [id]="id" [playerName]="playerName" [allianceName]="allianceName"></intel-table>
+		</div>
+		<div *ngIf="tabsLandIndex===2" style="padding-top: 16px;">
+			<intel-table [type]="'def'" [containsDuplicates]="defCities.contains_duplicates" [landTowns]="defCities.towns || []" [key]="key" [world]="world" [id]="id" [playerName]="playerName" [allianceName]="allianceName"></intel-table>
+		</div>
+
+	</mat-card>
+</ng-template>

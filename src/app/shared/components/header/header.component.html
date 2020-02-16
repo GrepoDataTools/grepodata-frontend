@@ -25,12 +25,14 @@
 		        </div>
 	        </li>
             <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/indexer']">
+                <a class="nav-link" [routerLink]="['/indexer']" [ngClass]="{'active': (active=='indexer')}">
 	                <!--<mat-icon>account_balance</mat-icon> -->
 	                {{ 'header.menu.indexer' | translate }}</a>
             </li>
 	        <li class="nav-item">
-		        <a class="nav-link" [routerLink]="['/discord']">{{ 'header.menu.discord' | translate }}</a>
+		        <a class="nav-link" [routerLink]="['/discord']" [ngClass]="{'active': (active=='discord')}">
+			        {{ 'header.menu.discord' | translate }}
+		        </a>
 	        </li>
             <!--<li class="nav-item dropdown">-->
                 <!--<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"-->

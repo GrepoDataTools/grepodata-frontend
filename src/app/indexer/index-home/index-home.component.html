@@ -2,7 +2,7 @@
 
 	<div *ngIf="loading" class="text-center">
 		<div class="align-middle" style="position: fixed; top: 50%; left: 25%; width: 50%;">
-			<h3 class="gd-primary"><strong>Loading index...</strong></h3>
+			<h3 class="gd-primary"><strong>{{'indexer.loadingIndex' | translate}}...</strong></h3>
 			<mat-progress-bar mode="indeterminate"></mat-progress-bar>
 		</div>
 	</div>
@@ -13,20 +13,20 @@
 				<div class="container-fluid">
 					<!--suppress XmlDuplicatedId -->
 					<div class="row" id="timeline">
-						<div class="col-12 col-sm-3 col-md-2 col-lg-3 text-left" style="padding: 0px;">
+						<div class="col-12 col-sm-3 col-md-3 col-lg-3 text-left" style="padding: 0px;">
 							<!--<div class="col-12 col-sm-12">-->
 							<!--<button mat-button class="mat-raised-button bg-gd-2" style="z-index: 999; width: 100%; overflow: hidden; text-overflow: ellipsis;" routerLink="/profile">-->
 							<!--<i class="fa fa-arrow-left"></i>&nbsp;My account-->
 							<!--</button>-->
 							<!--</div>-->
-							<div class="col-12">
+							<div class="col-12 col-lg-9">
 								<button mat-button class="mat-raised-button bg-gd-2" style="z-index: 999; width: 100%; overflow: hidden; text-overflow: ellipsis;" routerLink="/indexer/0">
-									<i class="fa fa-arrow-left"></i>&nbsp;<span class="d-inline d-sm-none d-lg-inline">Indexer homepage</span><span class="d-none d-sm-inline d-lg-none">Home</span>
+									<i class="fa fa-arrow-left"></i>&nbsp;<span class="d-inline d-sm-none d-lg-inline">{{'indexer.homeLong' | translate}}</span><span class="d-none d-sm-inline d-lg-none">{{'indexer.home' | translate}}</span>
 								</button>
 							</div>
-							<div class="col-12 d-none d-sm-block" *ngIf="data.total_reports > 0">
+							<div class="col-12 col-lg-9 d-none d-sm-block" *ngIf="data.total_reports > 0">
 								<button mat-button class="mat-raised-button bg-gd-2" style="z-index: 999; width: 100%; overflow: hidden; text-overflow: ellipsis;" (click)="newIndex();">
-									<i class="fa fa-plus"></i>&nbsp;<span class="d-inline d-sm-none d-lg-inline">Create new index</span><span class="d-none d-sm-inline d-lg-none">New</span>
+									<i class="fa fa-plus"></i>&nbsp;<span class="d-inline d-sm-none d-lg-inline">{{'indexer.actions.createNewLong' | translate}}</span><span class="d-none d-sm-inline d-lg-none">{{'indexer.actions.createNewShort' | translate}}</span>
 								</button>
 							</div>
 							<div class="col-12 d-block d-md-none">
@@ -35,11 +35,11 @@
 								</button>
 							</div>
 						</div>
-						<div class="col-12 col-sm-9 col-md-7 col-lg-6 text-center">
-							<h1><i class="fa fa-university gd-secondary" aria-hidden="true"></i>&nbsp; Enemy city index</h1>
+						<div class="col-12 col-sm-9 col-md-6 col-lg-6 text-center">
+							<h1><i class="fa fa-university gd-secondary" aria-hidden="true"></i>&nbsp; {{'indexer.title' | translate}}</h1>
 							<h3>
-								&nbsp;&nbsp;&nbsp;Key: <span class='world-title gd-secondary'>{{key}}</span>
-								World: <span class='world-title gd-secondary'>{{world}}</span>
+								&nbsp;&nbsp;&nbsp;{{'fields.indexKey' | translate}}: <span class='world-title gd-secondary'>{{key}}</span>
+								{{'fields.world' | translate}}: <span class='world-title gd-secondary'>{{world}}</span>
 
 								<!--<span class="d-none d-sm-block">-->
 				                <!--<share-buttons [theme]="'material-dark'"-->
@@ -56,17 +56,17 @@
 
 							<div class="col-12 d-none d-md-block">
 								<button mat-button class="mat-raised-button bg-gd-2" style="width: 100%; overflow: hidden; text-overflow: ellipsis;" (click)="indexDisclaimer()">
-									<i class="fa fa-question-circle"></i> Frequently asked questions
+									<i class="fa fa-question-circle"></i> {{'indexer.questions' | translate}}
 								</button>
 							</div>
 							<div id="new_index_install" class="col-12 d-none d-md-block" *ngIf="data.total_reports > 0">
 								<button mat-button class="mat-raised-button bg-gd-2" style="width: 100%; overflow: hidden; text-overflow: ellipsis;" (click)="openInstalldialog()">
-									<i class="fa fa-download"></i> Download script<span class="gd-primary" style="vertical-align: baseline;"> {{key}}</span>
+									<i class="fa fa-download"></i> {{'indexer.actions.downloadScript' | translate}}<span class="gd-primary" style="vertical-align: baseline;"> {{key}}</span>
 								</button>
 							</div>
 							<div class="col-12 d-none d-md-block" *ngIf="data.total_reports > 0">
 								<button mat-button class="mat-raised-button bg-gd-3" style="width: 100%; overflow: hidden; text-overflow: ellipsis;" (click)="showChangekeyDialog()">
-									<i class="fa fa-key"></i> Request new index key
+									<i class="fa fa-key"></i> {{'indexer.actions.newKey' | translate}}
 								</button>
 							</div>
 							<!--<button mat-button class="mat-raised-button mat-primary" disabled (click)="showChangekeyDialog()">-->
@@ -92,13 +92,13 @@
 							<mat-tab-group mat-stretch-tabs>
 								<mat-tab>
 									<ng-template mat-tab-label>
-										<img style="height: 20px; margin-top: 0;" src="../../../assets/images/player_ico.png"/>&nbsp;Players
+										<img style="height: 20px; margin-top: 0;" src="../../../assets/images/player_ico.png"/>&nbsp;{{'fields.players' | translate}}
 									</ng-template>
 									<ng-container *ngTemplateOutlet="players"></ng-container>
 								</mat-tab>
 								<mat-tab>
 									<ng-template mat-tab-label>
-										<img style="height: 20px; margin-top: 0;" src="../../../assets/images/ally_ico.png"/>&nbsp;Alliances
+										<img style="height: 20px; margin-top: 0;" src="../../../assets/images/ally_ico.png"/>&nbsp;{{'fields.alliances' | translate}}
 									</ng-template>
 									<ng-container *ngTemplateOutlet="allys"></ng-container>
 								</mat-tab>
@@ -114,15 +114,15 @@
 						</mat-card>
 					</div>
 
-					<div class="container-fluid d-none d-md-block">
-						<div class="row">
-							<div class="col-4">
+					<div class="container-fluid d-none d-md-block" style="padding: 0;">
+						<div class="row no-gutters">
+							<div class="col-4 col-padding-xs">
 								<ng-container *ngTemplateOutlet="info"></ng-container>
 							</div>
-							<div class="col-4">
+							<div class="col-4 col-padding-xs">
 								<ng-container *ngTemplateOutlet="players"></ng-container>
 							</div>
-							<div class="col-4">
+							<div class="col-4 col-padding-xs">
 								<ng-container *ngTemplateOutlet="allys"></ng-container>
 							</div>
 						</div>
@@ -133,11 +133,11 @@
 					<!--</div>-->
 
 					<!--recent latest intel-->
-					<div *ngIf="latest_intel && latest_intel.length>0" class="d-none d-md-block">
+					<div *ngIf="latest_intel && latest_intel.length>0" class="d-none d-md-block col-padding-xs">
 						<mat-card>
 							<mat-card-title>
 								<div class="form-group row" style='margin: 0px;'>
-									<h3 style='font-weight: 300; color: #304357; margin-top: 0px;'><span class='world-title' style='color: #18BC9C;'>Latest reports indexed</span></h3>
+									<h3 style='font-weight: 300; color: #304357; margin-top: 0px;'><span class='world-title' style='color: #18BC9C;'>{{'indexer.latestTitle' | translate}}</span></h3>
 								</div>
 							</mat-card-title>
 							<mat-card-content>
@@ -145,22 +145,22 @@
 									<div class="table intel-table" id="table_all">
 										<div class="row_custom header bg-gd-2" >
 											<div class="cell">
-												Type
+												{{'fields.type' | translate}}
 											</div>
 											<div class="cell">
-												Town
+												{{'fields.town' | translate}}
 											</div>
 											<div class="cell">
-												Player
+												{{'fields.player' | translate}}
 											</div>
 											<div class="cell">
-												Alliance
+												{{'fields.alliance' | translate}}
 											</div>
 											<div class="cell">
-												Date
+												{{'fields.date' | translate}}
 											</div>
 											<div class="cell" style="width: 50%;">
-												Units
+												{{'fields.units' | translate}}
 											</div>
 										</div>
 
@@ -214,15 +214,16 @@
 						</mat-card-title>
 						<mat-card-content>
 							<div style="max-height: 390px; height: 390px; min-height: 390px; overflow-y: auto;">
-								<table class="table table-no-more">
+								<table class="table table-no-more text-left">
 									<tbody>
 									<tr>
-										<th>World</th>
+										<th>{{'fields.world' | translate}}</th>
 										<td><div class="bg-flag flag-inline flag-{{world.substr(0,2)}}"></div>&nbsp;<a class="decorated" routerLink="/points/{{world}}">{{world}}</a></td>
 									</tr>
 									<tr>
-										<th>Index code</th>
-										<td style="padding: 0 8px !important;">
+										<th>{{'fields.indexCode' | translate}}</th>
+										<td style="">
+										<!--<td style="padding: 0 8px !important;">-->
 											{{key}}
 											<!--<span class="d-none d-sm-block">-->
 							                <!--<share-buttons [theme]="'material-dark'"-->
@@ -236,25 +237,25 @@
 										</td>
 									</tr>
 
-									<tr matTooltip="There is a small delay of up to 3 minutes before new reports are shown on this page.">
-										<th>last addition</th>
+									<tr matTooltip="{{'indexer.tooltips.delayInfo' | translate}}">
+										<th>{{'indexer.lastAddition' | translate}}</th>
 										<td>{{data.latest_report}}</td>
 									</tr>
 									<tr>
 										<th>
-											Index owners
+											{{'indexer.indexOwners' | translate}}
 										</th>
 										<td>
-											<div *ngFor="let owner of data.owners" matTooltip="Any alliance with atleast a 5% contribution is considered an owner and will not be indexed. The index administrator can add or remove alliances.">
+											<div *ngFor="let owner of data.owners" matTooltip="{{'indexer.tooltips.allianceContributionInfo' | translate}}">
 												<p class="gd-primary">{{owner.alliance_name}} [{{owner.contributions | number : '1.2-2'}}%]</p>
 											</div>
 											<div>
 												<button mat-button class="mat-raised-button bg-gd-2 gd-white" style="margin-top: 10px; width: 100%; overflow: hidden; text-overflow: ellipsis;" (click)="showEditOwnersDialog()">
-													<i class="fa fa-pencil"></i> Edit owners
+													<i class="fa fa-pencil"></i> {{'indexer.actions.editOwners' | translate}}
 												</button>
 												<button *ngIf="csa==false" mat-button class="mat-raised-button bg-gd-2 gd-white" style="margin-top: 10px; width: 100%; overflow: hidden; text-overflow: ellipsis;" (click)="showCleanupDialog()"
-												        matTooltip="Start a cleanup session that will allow you to remove selected intel records.">
-													<i class="fa fa-pencil"></i> Cleanup intel
+												        matTooltip="{{'indexer.tooltips.startCleanupInfo' | translate}}">
+													<i class="fa fa-pencil"></i> {{'indexer.actions.cleanupIntel' | translate}}
 												</button>
 												<!--<button mat-button class="mat-raised-button bg-gd-3 gd-white" style="width: 100%; overflow: hidden; text-overflow: ellipsis;" (click)="showResetOwnersDialog()">-->
 												<!--<i class="fa fa-refresh"></i> Reset owners-->
@@ -262,20 +263,20 @@
 											</div>
 										</td>
 									</tr>
-									<tr *ngIf="toggleMore" class="d-none d-md-block" matTooltip="Intel gets deleted if a town is conquested by another player.">
-										<th>total reports</th>
+									<tr *ngIf="toggleMore" class="d-none d-md-block" matTooltip="{{'indexer.tooltips.intelDeletedInfo' | translate}}">
+										<th>{{'indexer.fields.totalReports' | translate}}</th>
 										<td>{{data.total_reports}}</td>
 									</tr>
-									<tr *ngIf="toggleMore" class="d-none d-md-block" matTooltip="Intel gets deleted if a town is conquested by another player.">
-										<th>spy reports</th>
+									<tr *ngIf="toggleMore" class="d-none d-md-block" matTooltip="{{'indexer.tooltips.intelDeletedInfo' | translate}}">
+										<th>{{'indexer.fields.spyReports' | translate}}</th>
 										<td>{{data.spy_reports}}</td>
 									</tr>
-									<tr *ngIf="toggleMore" class="d-none d-md-block" matTooltip="Intel gets deleted if a town is conquested by another player.">
-										<th>enemy attacks</th>
+									<tr *ngIf="toggleMore" class="d-none d-md-block" matTooltip="{{'indexer.tooltips.intelDeletedInfo' | translate}}">
+										<th>{{'indexer.fields.enemyAttacks' | translate}}</th>
 										<td>{{data.enemy_attacks}}</td>
 									</tr>
-									<tr *ngIf="toggleMore" class="d-none d-md-block" matTooltip="Intel gets deleted if a town is conquested by another player.">
-										<th>attacks on enemy</th>
+									<tr *ngIf="toggleMore" class="d-none d-md-block" matTooltip="{{'indexer.tooltips.intelDeletedInfo' | translate}}">
+										<th>{{'indexer.fields.attacksOnEnemy' | translate}}</th>
 										<td>{{data.friendly_attacks}}</td>
 									</tr>
 									</tbody>
@@ -286,7 +287,7 @@
 									<mat-card>
 										<mat-card-title>
 											<div fxLayout="row">
-												<h4 style='font-weight: 300; color: #304357;'><span class='world-title' style='color: #18BC9C;'>Most contributions</span></h4>
+												<h4 style='font-weight: 300; color: #304357;'><span class='world-title' style='color: #18BC9C;'>{{'indexer.fields.mostContributions' | translate}}</span></h4>
 											</div>
 										</mat-card-title>
 										<mat-card-content>
@@ -316,9 +317,9 @@
 
 								<div *ngIf="csa!=false" class="alert alert-warning text-center">
 									<h4 class="gd-secondary">
-										You are currently logged in to delete records.
-										<br/>Records marked for deletion will be deleted after 24 hours.
-										<br/>Click <a class="a-link-dialog" (click)="cleanupLogout();">here</a> if you wish to sign out.
+										{{'indexer.cleanup.loggedIn' | translate}}
+										<br/>{{'indexer.cleanup.deletedAfter24Hrs' | translate}}
+										<br/>{{'actions.click' | translate}} <a class="a-link-dialog" (click)="cleanupLogout();">{{'actions.here' | translate}}</a> {{'indexer.cleanup.signOut' | translate}}.
 									</h4>
 								</div>
 
@@ -328,10 +329,10 @@
 								<button class="mat-primary mat-hue-1 mat-button mat-ink-ripple" type="button"
 								        (click)="toggleMore = !toggleMore" style="font-size: 18px;">
 				                  <span *ngIf="!toggleMore" class="ng-scope">
-				                    Show contribution info <span class="fa fa-chevron-down"></span>
+				                    {{'indexer.actions.showContributionInfo' | translate}} <span class="fa fa-chevron-down"></span>
 				                  </span>
 									<span *ngIf="toggleMore" class="ng-scope">
-				                    Show less <span class="fa fa-chevron-up"></span>
+				                    {{'actions.expandShowLess' | translate}} <span class="fa fa-chevron-up"></span>
 				                  </span>
 									<div class="mat-ripple-container" style=""></div>
 								</button>
@@ -345,9 +346,9 @@
 						<mat-card-title>
 							<div class="form-group row" style='margin: 0px;'>
 								<h3 style='font-weight: 300; color: #304357; width: 100%;'>
-									<span class='world-title' style='color: #18BC9C;'>Most indexed players</span>
+									<span class='world-title' style='color: #18BC9C;'>{{'indexer.mostIndexedPlayers' | translate}}</span>
 									<button name="open_bb" style="float: right;" class="btn btn-success btn-xs" (click)="openBBdialog('players_indexed')">
-										<i class="fa fa-code"></i> BB code
+										<i class="fa fa-code"></i> {{'actions.bbCode' | translate}}
 									</button>
 								</h3>
 							</div>
@@ -356,13 +357,13 @@
 							<div class="table" id="table_players" style='margin: auto; margin-bottom: 0px;'>
 								<div class="row_custom header" >
 									<div class="cell" style="width: 39%;">
-										Player
+										{{'fields.player' | translate}}
 									</div>
 									<div class="cell" style="width: 22%;">
-										Intel count
+										{{'fields.intelCount' | translate}}
 									</div>
 									<div class="cell" style="width: 30%;">
-										View
+										{{'actions.view' | translate}}
 									</div>
 								</div>
 							</div>
@@ -393,9 +394,9 @@
 						<mat-card-title>
 							<div class="form-group row" style='margin: 0px;'>
 								<h3 style='font-weight: 300; color: #304357; width: 100%;'>
-									<span class='world-title' style='color: #18BC9C;'>Most indexed alliances</span>
+									<span class='world-title' style='color: #18BC9C;'>{{'indexer.mostIndexedAlliances' | translate}}</span>
 									<button name="open_bb" style="float: right;" class="btn btn-success btn-xs" (click)="openBBdialog('alliances_indexed')">
-										<i class="fa fa-code"></i> BB code
+										<i class="fa fa-code"></i> {{'actions.bbCode' | translate}}
 									</button>
 								</h3>
 							</div>
@@ -406,13 +407,13 @@
 
 									<div class="row_custom header" >
 										<div class="cell">
-											Alliance
+											{{'fields.alliance' | translate}}
 										</div>
 										<div class="cell">
-											Intel count
+											{{'fields.intelCount' | translate}}
 										</div>
 										<div class="cell">
-											View
+											{{'actions.view' | translate}}
 										</div>
 									</div>
 
@@ -448,42 +449,41 @@
 					<div class="container-fluid" id="new_index_install_tips">
 						<div class="row">
 							<div class="col-12 text-center">
-								<h1 class="gd-primary">Welcome to your unique enemy city indexer page!</h1>
-								<h3 *ngIf="!clicked">Follow the 2 steps below to install the userscript and start collecting enemy intel.</h3>
-								<p class="gd-secondary">If you experience any issues please feel free to <a class="a-link-dialog" (click)="showContactDialog()">contact</a> us.</p>
+								<h1 class="gd-primary">{{'indexer.explain.welcomeToYourIndex' | translate}}</h1>
+								<h3 *ngIf="!clicked">{{'indexer.explain.followThese2Steps' | translate}}</h3>
 								<br/>
 
 								<div class="container">
 									<div class="row">
 										<div class="col-12" *ngIf="!clicked">
 											<div class="alert alert-gd-1">
-												<h3><strong>Step 1:</strong> Install Tampermonkey for your browser</h3>
-												<p class="gd-secondary">Tampermonkey is the world's most popular userscript manager.</p>
+												<h3><strong>{{'indexer.explain.step1' | translate}}:</strong> {{'indexer.explain.step1InstallTampermonkey' | translate}}</h3>
+												<p class="gd-secondary">{{'indexer.explain.aboutTampermonkey' | translate}}</p>
 												<br/>
 												<div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center">
 													<div fxLayout="column" fxLayoutAlign="center center" style="width: 20%;">
 														<i style="font-size: 54px;" class="fa fa-chrome"></i><div>Chrome</div>
-														<a tabindex="-1" href="https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo" target="_blank">Install</a>
+														<a tabindex="-1" href="https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo" target="_blank">{{'actions.install' | translate}}</a>
 													</div>
 													<div fxLayout="column" fxLayoutAlign="center center" style="width: 20%;">
 														<i style="font-size: 54px;" class="fa fa-safari"></i><div>Safari</div>
-														<a tabindex="-1" href="https://tampermonkey.net/?browser=safari" target="_blank">Install</a>
+														<a tabindex="-1" href="https://tampermonkey.net/?browser=safari" target="_blank">{{'actions.install' | translate}}</a>
 													</div>
 													<div fxLayout="column" fxLayoutAlign="center center" style="width: 20%;">
 														<i style="font-size: 54px;" class="fa fa-firefox"></i><div>Firefox</div>
-														<a tabindex="-1" href="https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/?src=ss" target="_blank">Install</a>
+														<a tabindex="-1" href="https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/?src=ss" target="_blank">{{'actions.install' | translate}}</a>
 													</div>
 													<div fxLayout="column" fxLayoutAlign="center center" style="width: 20%;">
 														<i style="font-size: 54px;" class="fa fa-opera"></i><div>Opera</div>
-														<a tabindex="-1" href="https://addons.opera.com/en/extensions/details/tampermonkey-beta/" target="_blank">Install</a>
+														<a tabindex="-1" href="https://addons.opera.com/en/extensions/details/tampermonkey-beta/" target="_blank">{{'actions.install' | translate}}</a>
 													</div>
 													<div fxLayout="column" fxLayoutAlign="center center" style="width: 20%;">
 														<i style="font-size: 54px;" class="fa fa-edge"></i><div>Edge</div>
-														<a tabindex="-1" href="https://tampermonkey.net/?browser=edge" target="_blank">Install</a>
+														<a tabindex="-1" href="https://tampermonkey.net/?browser=edge" target="_blank">{{'actions.install' | translate}}</a>
 													</div>
 												</div>
 												<br/>
-												<p class="gd-secondary">Restart your browser if you just installed Tampermonkey.</p>
+												<p class="gd-secondary">{{'indexer.explain.restart' | translate}}</p>
 											</div>
 
 											<div fxLayout="row" fxLayoutAlign="center center" style="margin-bottom: 15px;">
@@ -492,14 +492,13 @@
 
 											<div class="alert alert-gd-1">
 												<h3><strong>Step 2:</strong> Install the userscript for index {{key}}</h3>
-												<p>Each index has a uniquely generated userscript that will allow you to upload intelligence to this specific index.
-													<br/>Install the userscript and share it with your allies to start collecting intelligence in index {{key}}.</p>
+												<p>{{'indexer.explain.step2ExplainScript' | translate}} {{key}}.</p>
 												<br/>
 												<a tabindex="-1" mat-button class="mat-raised-button bg-gd-2"
 												   style="font-size: 20px; padding: 8px; width: 80%; margin: 0 10%; color: white; overflow: hidden; text-overflow: ellipsis;"
 												   href="https://api.grepodata.com/userscript/cityindexer_{{encrypted}}.user.js" target="_blank"
 												   (click)="clicked=true">
-													<span class="fa fa-download"></span> Install userscript <span class="gd-primary" style="vertical-align: baseline;">{{key}}</span>
+													<span class="fa fa-download"></span> {{'indexer.actions.installScript' | translate}} <span class="gd-primary" style="vertical-align: baseline;">{{key}}</span>
 												</a>
 											</div>
 										</div>
@@ -511,29 +510,29 @@
 														<h3><strong>Done!</strong> Start collecting intel</h3>
 														<br/>
 														<p>
-															Restart your browser and start collecting intel!
-															The userscript will allow you to index reports from your alliance forum or from your personal inbox.
-															Simply click the <strong>index +</strong> button to upload a new report.
+															{{'indexer.explain.installedOkInfo' | translate}}
 															<br/><br/>
-															Spread the index to your alliance members so they can help you collect more intelligence about your enemies.
+															{{'indexer.explain.spreadTheIndex' | translate}}
 															<br/><br/>
-															<strong>It may take up to 3 minutes before new reports are shown on your index overview.</strong>
+															<strong>
+																{{'indexer.tooltips.delayInfo' | translate}}
+															</strong>
 														</p>
 														<br/>
 														<div *ngIf="clicked" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="25px">
 															<button mat-button class="mat-raised-button mat-primary"
 															        style="width: 40%; font-size: 18px; padding: 8px; color: white;" (click)="refresh()">
-																Reload this page
+																{{'actions.reloadThisPage' | translate}}
 															</button>
 															<a class="gd-gray a-link"
 															   style="font-size: 16px; padding: 14px;"
 															   (click)="clicked = false">
-																<span class="fa fa-backward"></span> Show instructions
+																<span class="fa fa-backward"></span> {{'indexer.actions.showInstructions' | translate}}
 															</a>
 															<a class="gd-gray a-link"
 															   style="font-size: 16px; padding: 14px;"
 															   href="https://api.grepodata.com/userscript/cityindexer_{{encrypted}}.user.js" target="_blank">
-																<span class="fa fa-download"></span> Download userscript
+																<span class="fa fa-download"></span> {{'indexer.actions.downloadScript' | translate}}
 															</a>
 														</div>
 													</div>
@@ -546,8 +545,7 @@
 										<br/><br/>
 
 										<div class="col-12 alert alert-warning">
-											We have not yet received any reports for this index. <strong>It may take up to 3 minutes before reports are shown here.</strong><br/>
-											If there are no reports showing up or if you encounter any other problems please feel free to <a class="a-link-dialog" (click)="showContactDialog()">contact</a> us.
+											{{'indexer.explain.notYetReceivedAnyReports' | translate}}. <strong>{{'indexer.explain.mayTake3Minutes' | translate}}</strong><br/>
 										</div>
 
 									</div>
@@ -632,8 +630,7 @@
 
 				<div class="container">
 					<div class="col-12 alert alert-info text-center">
-						<h1><strong>Sorry,</strong> this index has been moved by the index owner!</h1>
-						<h3>Contact the owner of this index to get a new link to the moved index.</h3>
+						<h3><strong>Sorry,</strong> {{'indexer.indexMoved' | translate}}</h3>
 					</div>
 				</div>
 

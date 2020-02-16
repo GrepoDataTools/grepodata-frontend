@@ -15,6 +15,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatTabsModule} from '@angular/material/tabs';
 import {ContactModule} from '../../shared/dialogs/contact/contact.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatButtonModule} from '@angular/material/button';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     MatProgressSpinnerModule,
     MatTooltipModule,
     MatDialogModule,
+    MatButtonModule,
     RouterModule,
     MatIconModule,
     MatTabsModule,

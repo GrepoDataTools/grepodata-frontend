@@ -37,6 +37,32 @@
         "sending": "Sending message",
         "alt": "Or send us an email at"
     },
+    "actions": {
+        "expandShowLess": "Show less",
+        "bbCode": "BB code",
+        "view": "View",
+        "click": "click",
+        "here": "here",
+        "install": "Install",
+        "reloadThisPage": "Reload this page"
+    },
+    "fields": {
+        "world": "World",
+        "indexKey": "Key",
+        "indexCode": "Index code",
+        "type": "Type",
+        "name": "Name",
+        "reports": "Reports",
+        "intelCount": "Intel count",
+        "date": "Date",
+        "units": "Units",
+        "town": "Town",
+        "towns": "Towns",
+        "player": "Player",
+        "players": "Players",
+        "alliance": "Alliance",
+        "alliances": "Alliances"
+    },
     "inputs": {
         "email": "Email",
         "message": "Message",
@@ -45,5 +71,61 @@
     },
     "errors": {
         "inputGeneric": "Invalid input"
+    },
+    "indexer": {
+        "home": "Home",
+        "homeLong": "Indexer homepage",
+        "latestTitle": "Latest reports indexed",
+        "title": "Enemy city index",
+        "lastAddition": "Last addition",
+        "indexOwners": "Index owners",
+        "loadingIndex": "Loading index",
+        "questions": "Frequently asked questions",
+        "mostIndexedPlayers": "Most indexed players",
+        "mostIndexedAlliances": "Most indexed alliances",
+        "indexMoved": "this index has been moved by the index owner! Contact the owner of this index to get a new link to the moved index.",
+        "cleanup": {
+            "loggedIn": "You are currently logged in to delete records.",
+            "deletedAfter24Hrs": "Records marked for deletion will be deleted after 24 hours.",
+            "signOut": "if you wish to sign out."
+        },
+        "tooltips": {
+            "startCleanupInfo": "Start a cleanup session that will allow you to remove selected intel records.",
+            "delayInfo": "There is a small delay of up to 3 minutes before new reports are shown on this page.",
+            "allianceContributionInfo": "Any alliance with atleast a 5% contribution is considered an owner and will not be indexed. The index administrator can add or remove alliances.",
+            "intelDeletedInfo": "Intel gets deleted if a town is conquested by another player."
+        },
+        "actions": {
+            "editOwners": "Edit owners",
+            "cleanupIntel": "Cleanup intel",
+            "createNewLong": "Create new index",
+            "createNewShort": "New",
+            "newKey": "Request new index key",
+            "showContributionInfo": "Show contribution info",
+            "downloadScript": "Download script",
+            "installScript": "Install userscript",
+            "showInstructions": "Show instructions"
+        },
+        "fields": {
+            "mostContributions": "Most contributions",
+            "totalReports": "Total reports",
+            "spyReports": "Spy reports",
+            "enemyAttacks": "Enemy attacks",
+            "attacksOnEnemy": "Attacks on enemy"
+        },
+        "explain": {
+            "welcomeToYourIndex": "Welcome to your unique enemy city indexer page!",
+            "followThese2Steps": "Follow the 2 steps below to install the userscript and start collecting enemy intel.",
+            "step1": "Step 1",
+            "step2": "Step 2",
+            "step1InstallTampermonkey": "Install Tampermonkey for your browser",
+            "aboutTampermonkey": "Tampermonkey is the world's most popular userscript manager.",
+            "restart": "Restart your browser if you just installed Tampermonkey.",
+            "step2ExplainScript": "Each index has a uniquely generated userscript that will allow you to upload intelligence to this specific index. Install the userscript and share it with your allies to start collecting intelligence in index ",
+            "installedOkInfo": "Restart your browser and start collecting intel! The userscript will allow you to index reports from your alliance forum or from your personal inbox. Simply click the 'index +' button to upload a new report.",
+            "spreadTheIndex": "Spread the index to your alliance members so they can help you collect more intelligence about your enemies.",
+            "mayTake3Minutes": "It may take up to 3 minutes before new reports are shown on your index overview.",
+            "notYetReceivedAnyReports": "We have not yet received any reports for this index"
+        }
     }
 }

@@ -37,6 +37,32 @@
         "sending": "Bericht verzenden",
         "alt": "Of stuur ons een email via"
     },
+    "actions": {
+        "expandShowLess": "Minder",
+        "bbCode": "BB code",
+        "view": "Bekijken",
+        "click": "klik",
+        "here": "hier",
+        "install": "Installeer",
+        "reloadThisPage": "Herlaad deze pagina"
+    },
+    "fields": {
+        "world": "Wereld",
+        "indexKey": "Code",
+        "indexCode": "Index code",
+        "type": "Type",
+        "name": "Naam",
+        "reports": "Rapporten",
+        "intelCount": "Aantal intel",
+        "date": "Datum",
+        "units": "Eenheden",
+        "town": "Stad",
+        "towns": "Steden",
+        "player": "Speler",
+        "players": "Spelers",
+        "alliance": "Alliantie",
+        "alliances": "Allianties"
+    },
     "inputs": {
         "email": "Email",
         "message": "Bericht",
@@ -45,5 +71,60 @@
     },
     "errors": {
         "inputGeneric": "Ongeldige input"
+    },
+    "indexer": {
+        "home": "Home",
+        "homeLong": "Indexer homepage",
+        "latestTitle": "Laatst geindexeerde rapporten",
+        "title": "Vijandige steden index",
+        "lastAddition": "Laatste toevoeging",
+        "indexOwners": "Index eigenaren",
+        "loadingIndex": "Index laden",
+        "questions": "Meeste gestelde vragen",
+        "mostIndexedPlayers": "Meest geindexeerde spelers",
+        "mostIndexedAlliances": "Meest geindexeerde allianties",
+        "indexMoved": "Deze index is door de eigenaar verplaatst! Vraag de oorspronkelijke index eigenaar om de nieuwe code.",
+        "cleanup": {
+            "loggedIn": "U bent momenteel ingelogd om intel te verwijderen.",
+            "deletedAfter24Hrs": "Rapporten die u markeert om te verwijderen worden na 24 uur verwijderd.",
+            "signOut": "om uit te loggen."
+        },
+        "tooltips": {
+            "startCleanupInfo": "Begin een opruim sessie waarin u geselecteerde rapporten kunt verwijderen uit de index.",
+            "delayInfo": "Er is een vertraging van ongeveer 3 minuten voordat nieuwe rapporten hier verschijnen",
+            "allianceContributionInfo": "Eigenaren zijn niet zichtbaar in de index. Iedere alliantie met een bijdrage van minimaal 5% van de rapporten is automatisch een index eigenaar. De index beheerder kan handmatig eigenaren toevoegen of verwijderen.",
+            "intelDeletedInfo": "Intel zal automatisch worden verwijderd wanneer een stad is veroverd door een andere speler."
+        },
+        "actions": {
+            "editOwners": "Eigenaren bewerken",
+            "cleanupIntel": "Intel opruimen",
+            "createNewLong": "Maal eem nieuwe index",
+            "createNewShort": "Nieuw",
+            "newKey": "Nieuwe index code aanvragen",
+            "showContributionInfo": "Bijdrage informatie",
+            "downloadScript": "Download script",
+            "installScript": "Installeer userscript",
+            "showInstructions": "Laat instructies zien"
+        },
+        "fields": {
+            "mostContributions": "Meeste bijdragen",
+            "totalReports": "Totaal aantal rapporten",
+            "spyReports": "Spionages",
+            "enemyAttacks": "Vijandige aanvallen",
+            "attacksOnEnemy": "Eigen aanvallen"
+        },
+        "explain": {
+            "welcomeToYourIndex": "Welkom in jou unieke vijandige steden index!",
+            "followThese2Steps": "Volg de volgende 2 stappen om het userscript te installeren en om te beginnen met het verzamelen van vijandige steden intel.",
+            "step1": "Stap 1",
+            "step2": "Stap 2",
+            "step1InstallTampermonkey": "Installeer Tampermonkey voor je browser",
+            "aboutTampermonkey": "Tampermonkey is s'werelds meest gebruikte userscript manager.",
+            "restart": "Herstart je browser als je zojuist Tampermonkey voor het eerst geinstalleerd hebt.",
+            "step2ExplainScript": "Iedere index heeft een uniek userscript waarmee je intel kunt uploaden naar deze specifieke index. Installeer het script en deel het met je alliantie om te beginnen met het verzmalen van vijandige steden intel",
+            "installedOkInfo": "Herstart je browser en begin met het verzamelen van intel! Met het userscript kun je in-game rapporten indexeren vanuit je rapporten inbox of het alliantie forum. Klik simpelweg op de 'indexeren +' knop om het rapport toe te voegen aan deze index.",
+            "spreadTheIndex": "Deel de index met je alliantiegenoten om samen zoveel mogelijk informatie te verzamelen.",
+            "notYetReceivedAnyReports": "We hebben nog geen nieuwe rapporten ontvangen voor deze index"
+        }
     }
 }

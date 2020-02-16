@@ -98,7 +98,6 @@ export class IndexHomeComponent implements OnInit {
       this.world = data.world;
       this.data = data;
       if (data.latest_intel) {
-        console.log(data.latest_intel.length);
         this.latest_intel = data.latest_intel;
       }
       // if (data.total_reports != undefined && data.total_reports <= 0 && this.max_retries > 0) {

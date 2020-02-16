@@ -1,1 +1,256 @@
-<p>search works!</p>
+<!--<div class="top-container" *ngIf="indexKey != ''">-->
+<div class="top-container">
+	<div fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="5px">
+		<mat-card fxFlex>
+			<mat-card-content>
+
+				<div class="search-container container-fluid">
+
+					<div class="row">
+						<!--<h4 class="text-center index-search-title gd-secondary">Search collected intel for index <span class="gd-primary">{{indexKey}}</span>:</h4>-->
+						<div class="col-12 col-md-3 search-group">
+							<div id="sb-search-players" class="sb-search">
+								<form>
+									<input autocomplete="off" class="sb-search-input" placeholder="Search players..." type="search" value="" name="search" id="search-players" (keyup)="searchPlayers($event)">
+									<input class="sb-search-submit" type="button" value="">
+									<span class="sb-icon-search" (click)="doSearchPlayers()"><i class="fa fa-user" ></i></span>
+								</form>
+							</div>
+						</div>
+						<div class="col-12 col-md-3 search-group">
+							<div id="sb-search-alliances" class="sb-search">
+								<form>
+									<input autocomplete="off" class="sb-search-input" placeholder="Search alliances..." type="search" value="" name="search" id="search-alliances" (keyup)="searchAlliances($event)">
+									<input class="sb-search-submit" type="button" value="">
+									<span class="sb-icon-search" (click)="doSearchAlliances()"><i class="fa fa-group" ></i></span>
+								</form>
+							</div>
+						</div>
+						<div class="col-12 col-md-3 search-group">
+							<div id="sb-search-towns" class="sb-search">
+								<form>
+									<input autocomplete="off" class="sb-search-input" placeholder="Search towns..." type="search" value="" name="search" id="search-towns" (keyup)="searchTowns($event)">
+									<input class="sb-search-submit" type="button" value="">
+									<span class="sb-icon-search" (click)="doSearchTowns()"><i class="fa fa-university" ></i></span>
+								</form>
+							</div>
+						</div>
+						<div class="d-none d-md-block col-12 col-md-3 search-group">
+							<div id="sb-search-islands" class="sb-search">
+								<form>
+									<input autocomplete="off" class="sb-search-input" placeholder="Search islands..." type="search" value="" name="search" id="search-islands" (keyup)="searchIslands($event)">
+									<input class="sb-search-submit" type="button" value="">
+									<span class="sb-icon-search" (click)="doSearchIslands()"><i class="fa fa-globe" ></i></span>
+								</form>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+
+						<!--Player results-->
+						<div *ngIf="searching_players" class="col-12 col-md-3">
+							<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+							<div *ngIf="players?.length < 1 && !loading" class="text-center">
+								<div class="alert alert-gd-1">
+									<h3>No intel found for '<span class="gd-secondary">{{playerInput}}</span>'</h3>
+								</div>
+							</div>
+							<div *ngIf="!hide_results && num_results > 0 && !loading" id="search_output">
+								<div class="table">
+									<div class="row_custom header default">
+										<div class="cell custom-cell">Player name</div>
+										<div class="cell">Intel</div>
+									</div>
+
+									<div *ngFor="let player of players" class="row_custom">
+										<div class="cell custom-cell">
+											<a routerLink="/indexer/player/{{indexKey}}/{{world}}/{{player?.id}}">{{player?.name}}</a>
+										</div>
+										<div class="cell">
+											<a routerLink="/indexer/player/{{indexKey}}/{{world}}/{{player?.id}}">{{player?.count}}</a>
+										</div>
+									</div>
+								</div>
+
+							</div>
+
+							<div *ngIf="!loading" fxLayout="row" fxLayoutAlign="center center">
+								<!--<button *ngIf="hide_results" type="button" class="btn btn-link search-control" (click)="hide_results = false;">-->
+								<!--Show results <i class="fa fa-caret-down"></i>-->
+								<!--</button>-->
+								<!--<button *ngIf="!hide_results" type="button" class="btn btn-link search-control" (click)="hide_results = true;">-->
+								<!--Hide results <i class="fa fa-caret-up"></i>-->
+								<!--</button>-->
+								<button type="button" class="btn btn-link search-control" (click)="searching_players = false;">
+								<!--<button type="button" class="btn btn-link search-control" (click)="searching_players = false; cdr.detectChanges();">-->
+									Close search results <i class="fa fa-close"></i>
+								</button>
+							</div>
+						</div>
+
+						<!--Alliance results-->
+						<div *ngIf="searching_alliances" class="col-12 col-md-3 offset-md-3">
+							<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+							<div *ngIf="alliances?.length < 1 && !loading" class="text-center">
+								<div class="alert alert-gd-1">
+									<h3>No intel found for '<span class="gd-secondary">{{allianceInput}}</span>'</h3>
+								</div>
+							</div>
+							<div *ngIf="!hide_results && num_results > 0 && !loading" id="search_output_alliances">
+								<div class="table">
+									<div class="row_custom header default">
+										<div class="cell custom-cell">Alliance name</div>
+										<div class="cell d-none d-md-table-cell">Rank</div>
+										<!--<div class="cell hidden-xs hidden-sm">Members</div>-->
+										<div class="cell d-none d-sm-table-cell">Points</div>
+										<!--<div class="cell hidden-xs">Towns</div>-->
+									</div>
+
+									<div *ngFor="let alliance of alliances" class="row_custom">
+										<div class="cell custom-cell">
+											<a routerLink="/indexer/alliance/{{indexKey}}/{{alliance?.world}}/{{alliance?.id}}">{{alliance?.name}}</a>
+										</div>
+										<!--<div class="cell hidden-xs">-->
+											<!--{{alliance?.members}}-->
+										<!--</div>-->
+										<div class="cell d-none d-md-table-cell">
+											{{alliance?.rank}}
+										</div>
+										<div class="cell d-none d-sm-table-cell">
+											{{alliance?.points | NumberFilter}}
+										</div>
+										<!--<div class="cell hidden-xs">-->
+										<!--{{alliance?.towns}}-->
+										<!--</div>-->
+									</div>
+								</div>
+
+							</div>
+							<div *ngIf="!loading" fxLayout="row" fxLayoutAlign="center center">
+								<!--<h4 style="margin: 0px;">Found {{num_results}} <span style='color: #18BC9C;'>alliance{{num_results!=1? 's':''}}</span> for your search '<span style='color: #18BC9C;'>{{allianceInput}}</span>'</h4>-->
+								<!--<button *ngIf="hide_results" type="button" class="btn btn-link search-control" (click)="hide_results = false;">-->
+								<!--Show results <i class="fa fa-caret-down"></i>-->
+								<!--</button>-->
+								<!--<button *ngIf="!hide_results" type="button" class="btn btn-link search-control" (click)="hide_results = true;">-->
+								<!--Hide results <i class="fa fa-caret-up"></i>-->
+								<!--</button>-->
+								<button type="button" class="btn btn-link search-control" (click)="searching_alliances = false;">
+								<!--<button type="button" class="btn btn-link search-control" (click)="searching_alliances = false; cdr.detectChanges();">-->
+									Close search results <i class="fa fa-close"></i>
+								</button>
+								<!--<mat-spinner class="search-control" *ngIf="loading" strokeWidth="4" [diameter]="40"></mat-spinner>-->
+
+							</div>
+						</div>
+
+						<!--Town results-->
+						<div *ngIf="searching_towns" class="col-12 col-md-3 offset-md-6">
+							<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+							<div *ngIf="towns?.length < 1 && !loading" class="text-center">
+								<div class="alert alert-gd-1">
+									<h3>No intel found for '<span class="gd-secondary">{{townInput}}</span>'</h3>
+								</div>
+							</div>
+							<div *ngIf="!hide_results && num_results > 0 && !loading" id="search_output_towns">
+								<div class="table">
+									<div class="row_custom header default">
+										<div class="cell custom-cell">Town name</div>
+										<div class="cell">Player</div>
+										<div class="cell d-none d-md-table-cell">Intel</div>
+									</div>
+
+									<div *ngFor="let town of towns" class="row_custom">
+										<div class="cell custom-cell">
+											<a routerLink="/indexer/town/{{indexKey}}/{{world}}/{{town?.id}}">{{town?.name}}</a>
+										</div>
+										<div class="cell">
+											<a routerLink="/indexer/player/{{indexKey}}/{{world}}/{{town?.player_id}}">{{town?.player_name}}</a>
+										</div>
+										<div class="cell d-none d-md-table-cell">
+											<a routerLink="/indexer/town/{{indexKey}}/{{world}}/{{town?.id}}">{{town?.count}}</a>
+										</div>
+									</div>
+								</div>
+
+							</div>
+
+							<div *ngIf="!loading" fxLayout="row" fxLayoutAlign="center center">
+								<!--<h4 style="margin: 0px;">Found {{num_results}} <span style='color: #18BC9C;'>town{{num_results!=1? 's':''}}</span> for your search '<span style='color: #18BC9C;'>{{townInput}}</span>'</h4>-->
+								<!--<button *ngIf="hide_results" type="button" class="btn btn-link search-control" (click)="hide_results = false;">-->
+								<!--Show results <i class="fa fa-caret-down"></i>-->
+								<!--</button>-->
+								<!--<button *ngIf="!hide_results" type="button" class="btn btn-link search-control" (click)="hide_results = true;">-->
+								<!--Hide results <i class="fa fa-caret-up"></i>-->
+								<!--</button>-->
+								<button type="button" class="btn btn-link search-control" (click)="searching_towns = false;">
+								<!--<button type="button" class="btn btn-link search-control" (click)="searching_towns = false; cdr.detectChanges();">-->
+									Close search results <i class="fa fa-close"></i>
+								</button>
+								<!--<mat-spinner class="search-control" *ngIf="loading" strokeWidth="4" [diameter]="40"></mat-spinner>-->
+
+							</div>
+						</div>
+
+						<!--Island results-->
+						<!--173399-->
+						<div *ngIf="searching_islands" class="col-12 col-md-3 offset-md-9">
+							<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+							<div *ngIf="invalid_island" class="text-center">
+								<div class="alert alert-gd-1">
+									<h3>Island does not exist '<span class="gd-secondary">{{islandInput}}</span>'</h3>
+								</div>
+							</div>
+							<div *ngIf="towns?.length < 1 && !loading && !invalid_island" class="text-center">
+								<div class="alert alert-gd-1">
+									<h3>No intel found for <span class="gd-secondary">{{islandInput}}</span></h3>
+								</div>
+							</div>
+							<div *ngIf="!hide_results && num_results > 0 && !loading" id="search_output_islands">
+								<div class="table">
+									<div class="row_custom header default">
+										<div class="cell custom-cell">Town name</div>
+										<div class="cell">Player</div>
+										<div class="cell hidden-sm hidden-xs">Intel</div>
+									</div>
+
+									<div *ngFor="let town of towns" class="row_custom">
+										<div class="cell custom-cell">
+											<a routerLink="/indexer/town/{{indexKey}}/{{world}}/{{town?.id}}">{{town?.name}}</a>
+										</div>
+										<div class="cell">
+											<a routerLink="/indexer/player/{{indexKey}}/{{world}}/{{town?.player_id}}">{{town?.player_name}}</a>
+										</div>
+										<div class="cell hidden-sm hidden-xs">
+											<a routerLink="/indexer/town/{{indexKey}}/{{world}}/{{town?.id}}">{{town?.count}}</a>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div *ngIf="!loading" fxLayout="row" fxLayoutAlign="center center">
+								<!--<h4 style="margin: 0px;">Found {{num_results}} indexed <span style='color: #18BC9C;'>town{{num_results!=1? 's':''}}</span> on island <span style='color: #18BC9C;'>{{islandInput}}</span></h4>-->
+								<!--<button *ngIf="hide_results" type="button" class="btn btn-link search-control" (click)="hide_results = false;">-->
+								<!--Show results <i class="fa fa-caret-down"></i>-->
+								<!--</button>-->
+								<!--<button *ngIf="!hide_results" type="button" class="btn btn-link search-control" (click)="hide_results = true;">-->
+								<!--Hide results <i class="fa fa-caret-up"></i>-->
+								<!--</button>-->
+								<button *ngIf="num_results > 0" name="open_bb" class="btn btn-success btn-xs" (click)="openBBdialog('island')">
+									<i class="fa fa-code"></i> BB code
+								</button>
+								<button type="button" class="btn btn-link search-control" (click)="searching_islands = false;">
+								<!--<button type="button" class="btn btn-link search-control" (click)="searching_islands = false; cdr.detectChanges();">-->
+									Close search results <i class="fa fa-close"></i>
+								</button>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+
+			</mat-card-content>
+		</mat-card>
+	</div>
+</div>

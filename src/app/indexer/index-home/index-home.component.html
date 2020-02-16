@@ -82,10 +82,12 @@
 			<mat-card-content class="decorated-card-content">
 
 				<div *ngIf="data.total_reports != 0">
-					<!--<app-index-search [indexKey]="key"></app-index-search>-->
+					<div style="padding: 0 3px;">
+						<index-search indexKey="{{key}}"></index-search>
+					</div>
 
-					<!--<app-index-version *ngIf="data.total_reports != 0 && !loading"-->
-					                   <!--[version]="data.latest_version" [message]="data.update_message" [key]="key"></app-index-version>-->
+					<app-index-version *ngIf="data.total_reports != 0 && !loading"
+					                   version="{{data.latest_version}}" message="{{data.update_message}}" key="{{key}}"></app-index-version>
 
 					<div class="d-block d-md-none">
 						<mat-card>

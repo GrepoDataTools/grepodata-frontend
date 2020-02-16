@@ -10,7 +10,7 @@ import { IndexVersionComponent } from './index-version/index-version.component';
 
 
 @NgModule({
-  declarations: [IndexerComponent, IndexVersionComponent],
+  declarations: [IndexerComponent],
   imports: [
     CommonModule,
     AboutModule,

@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { TownComponent } from './town.component';
+import { IndexTownComponent } from './town.component';
 
-const routes: Routes = [{ path: '', component: TownComponent }];
+const routes: Routes = [{ path: ':key/:world/:id', component: IndexTownComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class TownRoutingModule { }
+export class IndexTownRoutingModule { }

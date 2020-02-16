@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { PlayerRoutingModule } from './player-routing.module';
 import { PlayerComponent } from './player.component';
+import {RouterModule} from '@angular/router';
 
 
 @NgModule({

@@ -1,1 +1,50 @@
-<p>index-version works!</p>
+<div class="index-version-wrapper d-none d-md-block">
+
+	<!--If new version is available show this-->
+	<div id="update_available">
+		<div *ngIf="showUpdate">
+			<div class="col-12 alert alert-warning text-center alert-gd-1" style="width: 100vw; position: absolute;"
+			     [@helpAnim]>
+				<div class="row install-hint">
+					<div class="col-9">
+						<h3><i class="fa fa-exclamation-triangle"></i> New userscript version available! {{version!=''?'v'+version:''}}</h3>
+						<span [innerHTML]="(message != '') ? message : ''"></span>
+						&nbsp;(See <a routerLink="/changelog" style="text-decoration: underline;">Changelog</a>)
+					</div>
+					<div class="col-3" style="padding-right: 40px;">
+						<a mat-button class="mat-raised-button bg-gd-2" style="font-size: 22px; padding: 8px; width: 80%; top: 5px; color: white;"  href="https://api.grepodata.com/userscript/cityindexer_{{encrypted}}.user.js" target="_blank">
+							<i class="fa fa-download"></i> Update now!
+						</a>
+						<a (click)="hideUpdate()" class="close" style="top: 15px;"></a>
+					</div>
+				</div>
+			</div>
+			<div [@animPush] style="height: 100px;"></div>
+		</div>
+	</div>
+
+	<!--If no script is installed show this-->
+	<div id="help_by_contributing">
+		<div *ngIf="showHelp">
+			<div class="col-12 alert alert-warning text-center alert-gd-1" style="width: 100vw; position: absolute;"
+			     [@helpAnim]>
+				<div class="row install-hint">
+					<div class="col-7 col-lg-8">
+						<h3>Help by contributing to this index!</h3>
+						You can help your alliance by<span class="hidden-md"> installing the userscript to start</span> contributing enemy intel<span class="hidden-md"> to this index</span>
+					</div>
+					<div class="col-5 col-lg-4" style="padding-right: 40px;">
+						<button mat-button class="mat-raised-button bg-gd-2" style="font-size: 22px; padding: 8px; width: 80%; top: 5px;color: white;" (click)="openInstalldialog()">
+							<i class="fa fa-download"></i> Install userscript <span class="gd-primary d-none d-md-inline" style="vertical-align: baseline;">{{key}}</span>
+						</button>
+						<a (click)="hideHelp()" class="close" style="top: 15px;"></a>
+					</div>
+				</div>
+			</div>
+			<div [@animPush] style="height: 100px;"></div>
+		</div>
+	</div>
+
+</div>
+
+<span style="display: none;" id="userscript_version"></span>

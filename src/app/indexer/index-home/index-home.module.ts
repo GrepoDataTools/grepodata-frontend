@@ -16,6 +16,8 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {ContactModule} from '../../shared/dialogs/contact/contact.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatButtonModule} from '@angular/material/button';
+import {IndexSearchModule} from '../search/search.module';
+import {IndexVersionModule} from '../index-version/index-version.module';
 
 
 @NgModule({
@@ -36,7 +38,9 @@ import {MatButtonModule} from '@angular/material/button';
     MatIconModule,
     MatTabsModule,
     ContactModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    IndexSearchModule,
+    IndexVersionModule
   ]
 })
 export class IndexHomeModule { }

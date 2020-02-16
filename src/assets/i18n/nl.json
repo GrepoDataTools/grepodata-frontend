@@ -98,7 +98,7 @@
         "actions": {
             "editOwners": "Eigenaren bewerken",
             "cleanupIntel": "Intel opruimen",
-            "createNewLong": "Maal eem nieuwe index",
+            "createNewLong": "Maak eem nieuwe index",
             "createNewShort": "Nieuw",
             "newKey": "Nieuwe index code aanvragen",
             "showContributionInfo": "Bijdrage informatie",

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import * as icon from '@fortawesome/free-regular-svg-icons';
 import {Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import {ContactDialog} from '../../dialogs/contact/contact.component';
@@ -12,7 +11,6 @@ import {ContactDialog} from '../../dialogs/contact/contact.component';
 })
 export class HeaderComponent implements OnInit {
 
-  icon = icon;
   active = '';
 
   constructor(public translate: TranslateService,

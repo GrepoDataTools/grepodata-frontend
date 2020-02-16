@@ -4,6 +4,7 @@ import { faUser, faUserFriends } from '@fortawesome/free-solid-svg-icons';
 import { Player } from '../../core/interfaces/player';
 import { Alliance } from '../../core/interfaces/alliance';
 import { AllianceService } from '../../services/alliance.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-search',
@@ -15,10 +16,25 @@ export class SearchComponent implements OnInit {
   alliances$: Alliance[] = [];
   searchingFor: string;
 
+  hidden = false;
   faUser = faUser;
   faUserFriends = faUserFriends;
 
-  constructor(private _playerService: PlayerService, private _allianceService: AllianceService) {}
+  constructor(
+    private _playerService: PlayerService,
+    private _allianceService: AllianceService,
+    private router: Router
+  ) {
+    router.events.subscribe((params) => {
+      let val: any = params;
+      if ('url' in val) {
+        let path = val.url;
+        if (path.includes('/indexer')) {
+          this.hidden = true;
+        }
+      }
+    });
+  }
 
   ngOnInit(): void {
   }

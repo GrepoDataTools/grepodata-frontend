@@ -43,9 +43,6 @@
         "optional": "optional",
         "privacy": "By submitting this form you agree with our"
     },
-    "names": {
-        "privacyPol": "Privacy Policy"
-    },
     "errors": {
         "inputGeneric": "Invalid input"
     }

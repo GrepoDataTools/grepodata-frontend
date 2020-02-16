@@ -43,9 +43,6 @@
         "optional": "optioneel",
         "privacy": "Door dit formulier te verzenden gaat u akkoord met onze"
     },
-    "names": {
-        "privacyPol": "Privacy Policy"
-    },
     "errors": {
         "inputGeneric": "Ongeldige input"
     }

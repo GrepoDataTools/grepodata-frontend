@@ -25,7 +25,9 @@
 		        </div>
 	        </li>
             <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/indexer']">{{ 'header.menu.indexer' | translate }}</a>
+                <a class="nav-link" [routerLink]="['/indexer']">
+	                <!--<mat-icon>account_balance</mat-icon> -->
+	                {{ 'header.menu.indexer' | translate }}</a>
             </li>
 	        <li class="nav-item">
 		        <a class="nav-link" [routerLink]="['/discord']">{{ 'header.menu.discord' | translate }}</a>
@@ -43,13 +45,15 @@
                 <!--</div>-->
             <!--</li>-->
 	        <li class="nav-item" (click)="showContactDialog()">
-		        <a class="nav-link"><fa-icon [icon]="icon.faEnvelope"></fa-icon> {{ 'header.menu.contact' | translate }}</a>
+		        <a class="nav-link">
+			        <!--<fa-icon [icon]="icon.faEnvelope"></fa-icon> -->
+			        {{ 'header.menu.contact' | translate }}</a>
 	        </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="language" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
 	                <!--{{ 'header.menu.language' | translate }}<br/>-->
-	                <div class="bg-flag flag-inline-middle flag-{{translate.currentLang}}"></div> ({{translate.currentLang}})
+	                <div class="bg-flag flag-inline-middle flag-{{translate.currentLang}}"></div> {{translate.currentLang}}
                 </a>
                 <div #langSelect class="dropdown-menu" aria-labelledby="language">
                     <a class="dropdown-item" (click)="translate.use(lang);" *ngFor="let lang of translate.getLangs()"

@@ -1,0 +1,260 @@
+<div id="pagehead" style="height: 100%;">
+
+	<div class="no-index-container">
+		<mat-card class="no-index-card decorated-card">
+			<mat-card-title class='decorated-card-header decorated-title'>
+				<h1>
+					<mat-icon>account_balance</mat-icon>&nbsp;<span><strong class="gd-secondary">userscript:</strong> Enemy city indexer</span>
+				</h1>
+				<h4 class="gd-tertiary">Easily collect intelligence about enemy cities with your own private index</h4>
+			</mat-card-title>
+			<mat-card-content>
+
+				<div class="container">
+					<div class="row">
+						<!--<div class="col-xs-12 text-center">-->
+						<!--<h1 class="gd-primary">-->
+						<!--<i class="fa fa-university" aria-hidden="true"></i>&nbsp;<span>Enemy city indexer</span>-->
+						<!--</h1>-->
+						<!--<h4 class="gd-secondary">Easily collect intelligence about enemy cities with your own private index</h4>-->
+						<!--</div>-->
+						<div class="col-12 index-input-container">
+							<div class="row">
+								<div class="col-xs-12 col-sm-6 index-input index-input-left">
+									<h1>Create a new index</h1>
+									<br/>
+									<p>You can create a new index for every world you play in.</p>
+									<p>We recommend you to share the same index with your alliance members!</p>
+									<br/>
+									<button (click)="newIndex()" class="gd-btn-1" style="position: absolute; bottom: 40px; height: 45px; overflow: hidden; text-overflow: ellipsis; border-radius: 5px; border: 2px solid #334254;">
+										Create new index &nbsp; <i class="fa fa-arrow-circle-right"></i>
+									</button>
+
+								</div>
+								<div class="col-xs-12 col-sm-6 index-input index-input-right">
+									<h1>View existing index</h1>
+									<p style="color: #18bc9b;">Enter the index code to view an existing index</p>
+									<form (submit)="openIndex()">
+										<!--<mat-form-field class="input-world">-->
+											<!--<input autocomplete #trigger="matAutocompleteTrigger" matInput placeholder="Index key" name="key_input"-->
+											       <!--[ngModel]="key_input" [matAutocomplete]="auto" (ngModelChange)="key_input=$event">-->
+											<!--<mat-icon *ngIf="objectKeys(all_indexes).length > 1" class="dropdown-caret" (click)="openAutocompleteIndex()">{{trigger.panelOpen?'expand_less':'expand_more'}}</mat-icon>-->
+											<!--<mat-autocomplete #auto="matAutocomplete">-->
+												<!--<mat-option style="font-size: 21px !important;" *ngFor="let index of all_indexes | keyvalue" [value]="index.value">-->
+			                    <!--<span class="gd-secondary">-->
+				                    <!--<div class="bg-flag flag-inline flag-{{index.key.substr(0,2)}}"></div>-->
+				                    <!--{{index.key}} ({{index.value}})-->
+			                    <!--</span>-->
+												<!--</mat-option>-->
+											<!--</mat-autocomplete>-->
+										<!--</mat-form-field>-->
+										<br/>
+										<div *ngIf="error!=''" style="color: #a94442; margin-top: -20px;">
+											<strong>Invalid index key!</strong> There exists no index for this key. Please try again.
+										</div>
+										<button *ngIf="!openingIndex" type="submit" class="gd-btn-1" style="position: absolute; bottom: 40px; height: 45px; overflow: hidden; text-overflow: ellipsis; border-radius: 5px;">
+											Load existing index &nbsp; <i class="fa fa-arrow-circle-right"></i>
+										</button>
+										<div class="col-xs-8" *ngIf="openingIndex">
+											Loading...
+											<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+										</div>
+									</form>
+									<p style="position: absolute; bottom: 0; right: 10px;" class="gd-secondary">Click <a class="a-link-dialog" (click)="showForgotDialog()">here</a> if you forgot your key</p>
+								</div>
+							</div>
+						</div>
+						<div class="hidden-xs col-sm-12 text-center gd-secondary" style="margin-top: 50px;">
+							<div fxLayout="row" fxLayoutAlign="center center">
+								<div fxFlex="45" fxLayout="column" fxLayoutAlign="end center">
+									<img class="lib-img" style="max-width: 65%; display: block; border: 1px solid #334254;" src="../../../assets/images/index.png" alt="Grepolis index report">
+									<h3>1. Index new reports</h3>
+								</div>
+								<div fxFlex="10" style="font-size: 40px;"><i class="fa fa-arrow-right gd-secondary" aria-hidden="true"></i></div>
+								<div fxFlex="45" fxLayout="column" fxLayoutAlign="start center">
+									<img class="lib-img" style="max-width: 90%; display: block;" src="../../../assets/images/indexer_town.png" alt="Grepolis town intel">
+									<h3>2. Browse collected intelligence</h3>
+								</div>
+
+								<!--<div class="col-xs-2">-->
+								<!--</div>-->
+								<!--<div class="col-xs-5">-->
+								<!--<h3>Easily browse collected intelligence</h3>-->
+								<!--<h5 class="gd-secondary" style="float: right;">Images copyright © InnoGames GmbH</h5>-->
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<br/>
+				<br/>
+				<br/>
+
+				<div class="container-fluid" *ngIf="stats != ''">
+					<div class="col-12 text-center">
+
+						<h1 style="font-family: Montserrat !important;" class="gd-primary">Currently in our database:</h1>
+						<br/>
+
+						<div class="container">
+							<div class="row">
+								<div class="col-lg-2 col-sm-2 col-xs-4">
+									<div class="circle-tile ">
+										<div class="circle-tile-heading dark-blue"><i class="fa fa-list fa-fw fa-2x"></i></div>
+										<div class="circle-tile-content dark-blue">
+											<div class="circle-tile-description text-faded"> Indexes created</div>
+											<div class="circle-tile-number text-faded ">{{stats.index_count}}</div>
+											<!--<a class="circle-tile-footer" href="#">More Info <i class="fa fa-chevron-circle-right"></i></a>-->
+										</div>
+									</div>
+								</div>
+
+								<div class="col-lg-2 col-sm-2 col-xs-4">
+									<div class="circle-tile ">
+										<div class="circle-tile-heading dark-blue"><i class="fa fa-code fa-fw fa-2x"></i></div>
+										<div class="circle-tile-content dark-blue">
+											<div class="circle-tile-description text-faded"> Active intelligence</div>
+											<div class="circle-tile-number text-faded " sty>{{stats.reports | NumberFilter}}</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-lg-2 col-sm-2 col-xs-4">
+									<div class="circle-tile ">
+										<div class="circle-tile-heading red"><i class="fa fa-university fa-fw fa-2x"></i></div>
+										<div class="circle-tile-content red">
+											<div class="circle-tile-description text-faded"> Fireship cities</div>
+											<div class="circle-tile-number text-faded ">{{stats.fire_count | NumberFilter}}</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-lg-2 col-sm-2 col-xs-4">
+									<div class="circle-tile ">
+										<div class="circle-tile-heading blue"><i class="fa fa-university fa-fw fa-2x"></i></div>
+										<div class="circle-tile-content blue">
+											<div class="circle-tile-description text-faded"> Mythical cities</div>
+											<div class="circle-tile-number text-faded ">{{stats.myth_count | NumberFilter}}</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-lg-2 col-sm-2 col-xs-4">
+									<div class="circle-tile ">
+										<div class="circle-tile-heading green"><i class="fa fa-user fa-fw fa-2x"></i></div>
+										<div class="circle-tile-content green">
+											<div class="circle-tile-description text-faded"> Enemy players</div>
+											<div class="circle-tile-number text-faded ">{{stats.player_count | NumberFilter}}</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-lg-2 col-sm-2 col-xs-4">
+									<div class="circle-tile ">
+										<div class="circle-tile-heading green"><i class="fa fa-users fa-fw fa-2x"></i></div>
+										<div class="circle-tile-content green">
+											<div class="circle-tile-description text-faded"> Enemy alliances</div>
+											<div class="circle-tile-number text-faded ">{{stats.alliance_count | NumberFilter}}</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<br/>
+				<br/>
+				<br/>
+				<div class="container">
+
+					<div class="row bs-wizard" style="border-bottom:0;">
+
+						<div class="col-xs-3 bs-wizard-step complete">
+							<div class="text-center bs-wizard-stepnum">Step 1</div>
+							<div class="progress"><div class="progress-bar"></div></div>
+							<a class="bs-wizard-dot" (click)="newIndex()"></a>
+							<div class="bs-wizard-info text-center"><strong>Create</strong> a new private index<br/><strong>Or,</strong> use an existing index</div>
+						</div>
+
+						<div class="col-xs-3 bs-wizard-step complete"><!-- complete -->
+							<div class="text-center bs-wizard-stepnum">Step 2</div>
+							<div class="progress"><div class="progress-bar"></div></div>
+							<a class="bs-wizard-dot" (click)="newIndex()"></a>
+							<div class="bs-wizard-info text-center"><strong>Install</strong> our userscript</div>
+						</div>
+
+						<div class="col-xs-3 bs-wizard-step complete"><!-- complete -->
+							<div class="text-center bs-wizard-stepnum">Step 3</div>
+							<div class="progress"><div class="progress-bar"></div></div>
+							<a class="bs-wizard-dot" (click)="newIndex()"></a>
+							<div class="bs-wizard-info text-center"><strong>Upload</strong> new reports<span class="hidden-xs hidden-sm"> from within the game by using the 'index +' button.</span></div>
+						</div>
+
+						<!--<div class="col-xs-3 bs-wizard-step disabled">&lt;!&ndash; complete &ndash;&gt;-->
+						<!--<div class="text-center bs-wizard-stepnum">Step 4</div>-->
+						<!--<div class="progress"><div class="progress-bar"></div></div>-->
+						<!--<a href="#" class="bs-wizard-dot"></a>-->
+						<!--<div class="bs-wizard-info text-center"><strong>Done!</strong> Share the index key with your allies and browse the intel.</div>-->
+						<!--</div>-->
+
+						<div class="col-xs-3 bs-wizard-step complete"><!-- complete -->
+							<div class="text-center bs-wizard-stepnum">Step 4</div>
+							<div class="progress"><div class="progress-bar"></div></div>
+							<a class="bs-wizard-dot" (click)="newIndex()"></a>
+							<div class="bs-wizard-info text-center"><strong>Done!</strong><span class="hidden-xs"> Browse the intel</span><span class="hidden-sm hidden-xs"> and share the index key with your allies.</span></div>
+						</div>
+
+					</div>
+				</div>
+				<br/>
+				<br/>
+
+				<!--FaQ-->
+				<div class="container">
+					<div class="row">
+						<div class="col-xs-12 col-sm-12">
+							<mat-card class="decorated-card">
+								<mat-card-title class='decorated-card-header decorated-title text-center' style="margin-bottom: 0px;">
+									<h3><i class="fa fa-question-circle"></i> Frequently asked questions</h3>
+								</mat-card-title>
+								<mat-card-content class="decorated-card-content" style="border: 1px solid #138F77;">
+									<br/>
+									<!--<app-faq></app-faq>-->
+								</mat-card-content>
+							</mat-card>
+						</div>
+					</div>
+				</div>
+
+
+
+
+				<div class="container">
+					<div class="col-xs-10 col-xs-offset-1 text-center">
+						<br/>
+						<h2 class="gd-secondary">Preview: </h2>
+						<img class="img-thumbnail" src="../../../assets/images/indexer.png" alt="Enemy city indexer">
+					</div>
+				</div>
+				<br/>
+				<br/>
+
+				<br/>
+				<br/>
+				<div class="container text-center">
+					<div class="col-xs-12 col-xs-offset-0 col-sm-6 col-sm-offset-3">
+						<button style="font-size: 30px; padding: 10px; width: 100%;" mat-button class="mat-raised-button mat-primary btn-no-index" (click)="newIndex()">
+							Create a new index!
+						</button>
+					</div>
+				</div>
+				<br/>
+				<br/>
+
+			</mat-card-content>
+		</mat-card>
+	</div>
+
+</div>

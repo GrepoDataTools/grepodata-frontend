@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { IndexerComponent } from './indexer.component';
+import {IndexHomeComponent} from './index-home.component';
 
-const routes: Routes = [{ path: '', component: IndexerComponent }];
+const routes: Routes = [{ path: '', component: IndexHomeComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class IndexerRoutingModule { }
+export class IndexHomeRoutingModule { }

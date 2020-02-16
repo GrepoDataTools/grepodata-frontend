@@ -33,6 +33,7 @@
     "@ngx-translate/http-loader": "^4.0.0",
     "angular-loading-bar": "^0.9.0",
     "bootstrap": "^4.4.1",
+    "font-awesome": "^4.7.0",
     "jquery": "^3.4.1",
     "ng-bootstrap": "^1.6.3",
     "ng-recaptcha": "^5.0.0",

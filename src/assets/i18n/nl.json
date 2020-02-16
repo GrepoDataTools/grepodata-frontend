@@ -1,0 +1,49 @@
+{
+    "header": {
+        "menu": {
+            "home": "Home",
+            "stats": "Statistieken",
+            "discord": "Discord",
+            "scoreboard": "Dagelijks scoreboard",
+            "ranking": "Ranking",
+            "compare": "Vergelijk",
+            "indexer": "Indexer",
+            "link": "Link",
+            "dropdown": "Dropdown",
+            "language": "Taal",
+            "contact": "Contact"
+        }
+    },
+    "search": {
+        "header": {
+            "player": "Speler naam",
+            "alliance": "Alliantie naam",
+            "members": "Leden",
+            "world": "Wereld",
+            "alliance_name": "Alliantie",
+            "rank": "Rank",
+            "points": "Punten",
+            "towns": "Steden"
+        },
+        "input": {
+            "player": "Zoek speler...",
+            "alliance": "Zoek alliantie..."
+        }
+    },
+    "contact": {
+        "title": "Stuur ons een bericht",
+        "description": "Als u een reactie wilt, laat dan ook uw email adres achter.",
+        "send": "Bericht verzenden",
+        "sending": "Bericht verzenden",
+        "alt": "Of stuur ons een email via"
+    },
+    "inputs": {
+        "email": "Email",
+        "message": "Bericht",
+        "optional": "optioneel",
+        "privacy": "Door dit formulier te verzenden gaat u akkoord met onze"
+    },
+    "errors": {
+        "inputGeneric": "Ongeldige input"
+    }
+}

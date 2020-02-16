@@ -11,6 +11,10 @@
     .second {
         color: #18BC9C
     }
+
+    &:hover {
+        text-decoration: none;
+    }
 }
 
 .nav-link {
@@ -24,6 +28,17 @@
     &:hover, &:active, &:focus {
         background-color: #18bc9c;
     }
+
+}
+
+.nav-item.show {
+    .nav-link {
+        background-color: #18bc9c !important;
+    }
+}
+
+.nav-link.active {
+    background-color: #18bc9c !important;
 }
 
 .bg-header {

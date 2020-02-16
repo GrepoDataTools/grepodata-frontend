@@ -1,0 +1,66 @@
+<div style="font-size: 18px; width: auto; max-width: 600px; min-width: 40vw;">
+	<a (click)="dialogRef.close()" class="close"></a>
+	<h1 class="mat-primary" style="color: #18BC9C; margin-top: 0px;" mat-dialog-title>{{ 'contact.title' | translate }}</h1>
+	<p>{{ 'contact.description' | translate }}</p>
+
+	<div mat-dialog-content *ngIf="submitted==false" style=" min-width: 40%;">
+
+		<div class="alert alert-gd-1 text-center" style="margin: 0 5% 5% 5%;">
+			<div fxLayout="column" fxLayoutAlign="center center" style="width: 100% !important;">
+				<mat-form-field style="width: 100% !important; max-width: 500px !important;">
+					<textarea name="message" ngDefaultControl [disabled]="loading" style="font-size: 20px;" [ngModel]="contact_message"
+					          (ngModelChange)="contact_message=$event" required matInput placeholder="{{ 'inputs.message' | translate }}" rows="4"></textarea>
+				</mat-form-field>
+				<mat-form-field style="width: 100% !important; max-width: 500px !important;">
+					<input name="email" ngDefaultControl autocomplete="email" [disabled]="loading" [ngModel]="contact_mail"
+					       (ngModelChange)="contact_mail=$event" matInput placeholder="{{ 'inputs.email' | translate }} ({{ 'inputs.optional' | translate }})">
+				</mat-form-field>
+
+				<div class="row" *ngIf="contact_mail != ''">
+					<div class="col-1" style="align-self: center;">
+						<mat-checkbox name="privacy" [disabled]="loading" [(ngModel)]="privacy_agreed"></mat-checkbox>
+					</div>
+					<div class="col-11" style="text-align: left;">
+						<p>{{ 'inputs.privacy' | translate }} <a routerLink="/privacy" (click)="dialogRef.close()">Privacy Policy</a></p>
+					</div>
+				</div>
+				<br/>
+
+				<div *ngIf="error!=''" class="alert alert-danger">
+					<strong>{{ 'errors.inputGeneric' | translate }}!</strong> {{error}}.
+				</div>
+
+				<div fxLayout="column" fxLayoutAlign="center" style="width: 100% !important;">
+					<button [disabled]="loading" style="font-size: 22px; padding: 8px; width: 100%;" mat-button class="mat-raised-button mat-primary"(click)="captchaRef.execute()">
+						<div *ngIf="loading" style="margin-top: -5px; margin-bottom: 5px;">{{ 'contact.sending' | translate }}..</div>
+						<span *ngIf="!loading">{{ 'contact.send' | translate }}</span>
+					</button>
+					<mat-progress-bar style="margin-top: -10px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px;" *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+					<p style="font-size: 12px; height: 20px; color: gray; padding-top: 10px; text-align: center;">
+						{{ 'contact.alt' | translate }} <span id="mail" class="a-link" (click)="copy()" style="text-decoration: underline; color: #5cc4ef;">admin@grepodata.com</span>
+						<br/><span *ngIf="copied"><strong>Copied address to clipboard!</strong></span>
+					</p>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div *ngIf="submitted==true" style="min-width: 300px;">
+		<p>Thanks for reaching out! <span *ngIf="contact_mail!=''">We will respond as soon as possible.</span></p>
+	</div>
+
+	<div *ngIf="submitted==false" mat-dialog-actions fxLayout="column" fxLayoutAlign="center" style="width: 100% !important;">
+
+		<div fxLayoutAlign="center center">
+			<re-captcha
+				size="invisible"
+				badge="inline"
+				#captchaRef="reCaptcha"
+				siteKey="{{recaptcha_key}}"
+				(resolved)="$event && resolved($event)">
+			</re-captcha>
+		</div>
+	</div>
+
+
+</div>

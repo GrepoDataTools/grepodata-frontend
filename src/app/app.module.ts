@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -12,6 +11,9 @@ import { SearchModule } from './shared/components/search/search.module';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoaderInterceptor } from './shared/interceptors/loader.interceptor';
 import { HomeModule } from './home/home.module';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { NumberFilterPipe } from './shared/pipes/number-filter.pipe';
+import {Globals} from './globals';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -19,17 +21,17 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
     HttpClientModule,
     SlimLoadingBarModule.forRoot(),
     HeaderModule,
     SearchModule,
     HomeModule,
+    NumberFilterPipe,
     FontAwesomeModule,
     TranslateModule.forRoot({
       loader: {
@@ -38,6 +40,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         deps: [HttpClient]
       }
     }),
+    NoopAnimationsModule,
   ],
   exports: [
     TranslateModule
@@ -46,7 +49,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     { provide: HTTP_INTERCEPTORS,
       useClass: LoaderInterceptor,
       multi: true
-    }
+    },
+    Globals
   ],
   bootstrap: [AppComponent]
 })

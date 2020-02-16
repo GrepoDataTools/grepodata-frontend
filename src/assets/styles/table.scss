@@ -1,0 +1,289 @@
+.table-container {
+  overflow-x: auto;
+}
+
+.table-sticky {
+  display: none !important;
+  position: sticky;
+  top: 0;
+}
+
+.table-header-non-sticky {
+  display: table-row !important;
+}
+
+@media (max-width: 1279px) {
+  .table-sticky {
+    display: table !important;
+  }
+  .table-header-non-sticky {
+    display: none !important;
+  }
+}
+
+.table {
+  margin: 0 0 0px 0;
+  text-align: center;
+  font-size: 18px;
+  display: table;
+
+  a {
+    color: #5e7a92;
+  }
+
+  p {
+    color: #fff;
+  }
+
+  .input-xs {
+    height: 22px;
+    padding: 2px 5px;
+    font-size: 12px;
+    line-height: 1.5; /* If Placeholder of the input is moved up, rem/modify this. */
+    border-radius: 3px;
+  }
+
+  .submenu { top: 22px !important; }
+
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 400;
+    color: #3b3b3b;
+    -webkit-font-smoothing: antialiased;
+    font-smoothing: antialiased;
+    background: #2C3E50;
+    /*background: -webkit-linear-gradient(left, #1b2631, #0c5a4b);*/
+    /*background: linear-gradient(to right, #1b2631, #0c5a4b);*/
+
+    margin-bottom: 60px;
+  }
+
+  @media only screen and (min-width : 768px) {
+    /* Make Navigation Toggle on Desktop Hover */
+    .dropdown:hover .dropdown-menu {
+      display: block;
+      margin-top: 0;
+    }
+  }
+
+  @media screen and (max-width: 576px) {
+    .row_custom {
+      /*padding: 8px 0;*/
+      /*display: block;*/
+    }
+
+  }
+
+  .table-title {
+    text-align: center;
+    font-weight: 300;
+    color: #233140;
+  }
+
+  .row_custom {
+    display: table-row;
+    background: #f6f6f6;
+  }
+  .row_custom:nth-of-type(odd) {
+    background: #e9e9e9;
+  }
+  .row_custom:hover {
+    background-color: #EEEEEE;
+  }
+  .row_custom.header {
+    font-weight: 700;
+    color: #ffffff;
+    background: #ea6153;
+    height: 25px;
+  }
+  .row_custom.green {
+    background: #497949;
+  }
+  .row_custom.blue {
+    background: #2980b9;
+  }
+  .row_custom.dark {
+    background: #233140;
+  }
+  .row_custom.default {
+    /*background: #6d87a2;*/
+    /*background: #647e9a;*/
+    /*background: #617e9c;*/
+    background: #324255;
+  }
+
+  .row_winner {
+    height: 40px;
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+
+  .cell {
+    max-width: 150px;
+    vertical-align: middle;
+    padding: 0px 2px;
+    display: table-cell;
+  }
+
+  .formatted-cell {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .header_cell {
+    font-weight: 400;
+    color: #ffffff;
+    background: #2f3d4d;
+    height: 30px;
+  }
+
+  .responsive_tables {
+    margin-left: 15%;
+    margin-right: 15%;
+  }
+
+  .sticky-cell {
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    left: 0 !important;
+    background: inherit !important;
+  }
+
+  /*Inputs*/
+  .filter-cell {
+    padding: 2px;
+  }
+  /*.input-icon{*/
+  /*position: absolute;*/
+  /*left: 7px;*/
+  /*top: calc(50% - 0.5em); !* Keep icon in center of input, regardless of the input height *!*/
+  /*}*/
+  .input-right {
+    text-align: end;
+    right: 12px;
+    position: absolute;
+    top: calc(50% - 0.5em);
+  }
+  .input-right:hover {
+    cursor: pointer;
+  }
+  .filter-input {
+    /*padding-left: 7px;*/
+    text-align: inherit;
+    width: calc(100% - 5px);
+    max-width: calc(100% - 5px);
+    border: 2px solid #77777778;
+  }
+  .input-wrapper{
+    position: relative;
+  }
+  .row_banner {
+    background: #e9e9e9;
+    margin: 0 !important;
+  }
+
+  .search_result {
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+  }
+  .search_result_top {
+    border-top: 1px solid black;
+  }
+
+  @media screen and (max-width: 680px) {
+    .cell {
+      padding: 2px 12px;
+      /*display: block;*/
+    }
+  }
+
+  @media screen and (max-width: 992px) {
+    .mobile_cell {
+      display: none;
+    }
+    .alliance_mobile_cell {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 1280px) {
+    .responsive_tables {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+
+    .cell {
+      max-width: 70px;
+    }
+
+    .date-cell {
+      max-width: 90px;
+    }
+  }
+
+  @media only screen and (max-device-width: 580px) {
+    .cell {
+      max-width: 120px;
+    }
+
+    .responsive_tables {
+      margin-left: 2%;
+      margin-right: 2%;
+    }
+  }
+
+}
+
+
+
+/*Bootstrap small*/
+@media screen and (min-width: 576px) {
+  .table {
+    font-size: 12px;
+  }
+}
+
+/*Bootstrap medium*/
+@media screen and (min-width: 768px) {
+  .table {
+    font-size: 14px;
+  }
+}
+
+/*Bootstrap large*/
+@media screen and (min-width: 992px) {
+  .table {
+    font-size: 14px;
+  }
+}
+
+/*Bootstrap extra large*/
+@media screen and (min-width: 1200px) {
+  .table {
+    font-size: 14px;
+  }
+}
+
+/*Bootstrap extra large*/
+@media screen and (min-width: 1400px) {
+  .table {
+    font-size: 16px;
+  }
+}
+
+/*Bootstrap extra large*/
+@media screen and (min-width: 1600px) {
+  .table {
+    font-size: 18px;
+  }
+}
+
+/*Bootstrap extra large*/
+@media screen and (min-width: 1800px) {
+  .table {
+    font-size: 20px;
+  }
+}

@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ApiResponse } from '../core/interfaces/api-response';
+import { ApiResponse } from '../core/interfaces/responses/api-response';
 import { Alliance } from '../core/interfaces/alliance';
 
 

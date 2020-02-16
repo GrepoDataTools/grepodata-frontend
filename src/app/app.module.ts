@@ -31,7 +31,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     HeaderModule,
     SearchModule,
     HomeModule,
-    NumberFilterPipe,
     FontAwesomeModule,
     TranslateModule.forRoot({
       loader: {

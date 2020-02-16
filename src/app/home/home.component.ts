@@ -10,7 +10,9 @@ export class HomeComponent implements OnInit {
 
   icon = icon;
 
-  constructor() { }
+  constructor() {
+    console.log(navigator.language)
+   }
 
   ngOnInit(): void {
   }

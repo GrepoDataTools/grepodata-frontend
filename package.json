@@ -33,6 +33,7 @@
     "angular-loading-bar": "^0.9.0",
     "bootstrap": "^4.4.1",
     "jquery": "^3.4.1",
+    "moment": "^2.24.0",
     "ng-bootstrap": "^1.6.3",
     "ng2-slim-loading-bar": "^4.0.0",
     "node-sass": "^4.13.1",

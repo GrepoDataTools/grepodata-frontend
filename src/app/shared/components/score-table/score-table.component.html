@@ -1,0 +1,19 @@
+<div class="col-md-12">
+  <div class="table-container">
+    <table class="table">
+      <thead class="table__thead">
+        <tr>
+          <th *ngFor="let header of headers" class="table__th" scope="col">
+            {{ 'scoreboard.header.' + header | translate }}
+          </th>
+        </tr>
+      </thead>
+      <tbody class="table__tbody">
+        <tr class="table-row" *ngFor="let column of data">
+        <td class="table-row__td"
+        scope="row" *ngFor="let key of keys">{{ column[key] }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,8 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {IndexerService} from '../../shared/services/indexer.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
 import {Globals} from '../../globals';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'indexer-about',
@@ -23,7 +24,9 @@ export class AboutComponent implements OnInit {
   constructor(
     private indexerService: IndexerService,
     private route: ActivatedRoute,
-    private globals: Globals
+    public router: Router,
+    private globals: Globals,
+    public dialog: MatDialog
   ) {
     this.route.params.subscribe( params => this.load(params));
   }
@@ -58,15 +61,37 @@ export class AboutComponent implements OnInit {
   }
 
   openIndex() {
-
+    this.openingIndex = true;
+    this.indexerService.isValid(this.key_input).subscribe(
+      (response) => {
+        this.router.navigate(['/indexer/'+this.key_input])
+        // console.log("Valid!");
+      },
+      (error) => {
+        this.error = 'Invalid index key!';
+        this.openingIndex = false;
+      });
   }
 
   newIndex() {
-
+    // let dialogRef = this.dialog.open(NewIndexDialog, {
+    //   // width: '80%',
+    //   // height: '90%'
+    //   autoFocus: false,
+    //   disableClose: true
+    // });
+    //
+    // dialogRef.afterClosed().subscribe(result => {});
   }
 
   showForgotDialog() {
-
+    // let dialogRef = this.dialog.open(ForgotKeysDialog, {
+    //   // width: '600px',
+    //   // height: '90%'
+    //   autoFocus: false
+    // });
+    //
+    // dialogRef.afterClosed().subscribe(result => {});
   }
 
 }

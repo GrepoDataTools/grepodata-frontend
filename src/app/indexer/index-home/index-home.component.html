@@ -1,1 +1,647 @@
-<p>index-home works!</p>
+<div id="pagehead" style="height: 100%;">
+
+	<div *ngIf="loading" class="text-center">
+		<div class="align-middle" style="position: fixed; top: 50%; left: 25%; width: 50%;">
+			<h3 class="gd-primary"><strong>Loading index...</strong></h3>
+			<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+		</div>
+	</div>
+
+	<div *ngIf="key != '' && !moved && !loading">
+		<mat-card class="index-overview decorated-card">
+			<mat-card-title class='decorated-card-header decorated-title' style="z-index: 1001;">
+				<div class="container-fluid">
+					<!--suppress XmlDuplicatedId -->
+					<div class="row" id="timeline">
+						<div class="col-12 col-sm-3 col-md-2 col-lg-3 text-left" style="padding: 0px;">
+							<!--<div class="col-12 col-sm-12">-->
+							<!--<button mat-button class="mat-raised-button bg-gd-2" style="z-index: 999; width: 100%; overflow: hidden; text-overflow: ellipsis;" routerLink="/profile">-->
+							<!--<i class="fa fa-arrow-left"></i>&nbsp;My account-->
+							<!--</button>-->
+							<!--</div>-->
+							<div class="col-12">
+								<button mat-button class="mat-raised-button bg-gd-2" style="z-index: 999; width: 100%; overflow: hidden; text-overflow: ellipsis;" routerLink="/indexer/0">
+									<i class="fa fa-arrow-left"></i>&nbsp;<span class="d-inline d-sm-none d-lg-inline">Indexer homepage</span><span class="d-none d-sm-inline d-lg-none">Home</span>
+								</button>
+							</div>
+							<div class="col-12 d-none d-sm-block" *ngIf="data.total_reports > 0">
+								<button mat-button class="mat-raised-button bg-gd-2" style="z-index: 999; width: 100%; overflow: hidden; text-overflow: ellipsis;" (click)="newIndex();">
+									<i class="fa fa-plus"></i>&nbsp;<span class="d-inline d-sm-none d-lg-inline">Create new index</span><span class="d-none d-sm-inline d-lg-none">New</span>
+								</button>
+							</div>
+							<div class="col-12 d-block d-md-none">
+								<button mat-button class="mat-raised-button bg-gd-2" style="z-index: 999; width: 100%; overflow: hidden; text-overflow: ellipsis;" (click)="indexDisclaimer()">
+									<i class="fa fa-question-circle"></i> FaQ
+								</button>
+							</div>
+						</div>
+						<div class="col-12 col-sm-9 col-md-7 col-lg-6 text-center">
+							<h1><i class="fa fa-university gd-secondary" aria-hidden="true"></i>&nbsp; Enemy city index</h1>
+							<h3>
+								&nbsp;&nbsp;&nbsp;Key: <span class='world-title gd-secondary'>{{key}}</span>
+								World: <span class='world-title gd-secondary'>{{world}}</span>
+
+								<!--<span class="d-none d-sm-block">-->
+				                <!--<share-buttons [theme]="'material-dark'"-->
+				                               <!--[include]="['copy']"-->
+				                               <!--[showText]="true"-->
+				                               <!--[show]="1"-->
+				                               <!--[size]="1"-->
+				                               <!--[url]="'https://grepodata.com'+router.url"-->
+				                <!--&gt;</share-buttons>-->
+				                <!--</span>-->
+							</h3>
+						</div>
+						<div class="col-12 col-sm-12 col-md-3 col-lg-3 text-right">
+
+							<div class="col-12 d-none d-md-block">
+								<button mat-button class="mat-raised-button bg-gd-2" style="width: 100%; overflow: hidden; text-overflow: ellipsis;" (click)="indexDisclaimer()">
+									<i class="fa fa-question-circle"></i> Frequently asked questions
+								</button>
+							</div>
+							<div id="new_index_install" class="col-12 d-none d-md-block" *ngIf="data.total_reports > 0">
+								<button mat-button class="mat-raised-button bg-gd-2" style="width: 100%; overflow: hidden; text-overflow: ellipsis;" (click)="openInstalldialog()">
+									<i class="fa fa-download"></i> Download script<span class="gd-primary" style="vertical-align: baseline;"> {{key}}</span>
+								</button>
+							</div>
+							<div class="col-12 d-none d-md-block" *ngIf="data.total_reports > 0">
+								<button mat-button class="mat-raised-button bg-gd-3" style="width: 100%; overflow: hidden; text-overflow: ellipsis;" (click)="showChangekeyDialog()">
+									<i class="fa fa-key"></i> Request new index key
+								</button>
+							</div>
+							<!--<button mat-button class="mat-raised-button mat-primary" disabled (click)="showChangekeyDialog()">-->
+							<!--<i class="fa fa-compress"></i> Merge this index with another one-->
+							<!--</button>-->
+							<!--<button mat-button class="mat-raised-button mat-primary" disabled (click)="showChangekeyDialog()">-->
+							<!--<i class="fa fa-code-fork"></i> Fork this index into a new index-->
+							<!--</button>-->
+						</div>
+					</div>
+				</div>
+			</mat-card-title>
+			<mat-card-content class="decorated-card-content">
+
+				<div *ngIf="data.total_reports != 0">
+					<!--<app-index-search [indexKey]="key"></app-index-search>-->
+
+					<!--<app-index-version *ngIf="data.total_reports != 0 && !loading"-->
+					                   <!--[version]="data.latest_version" [message]="data.update_message" [key]="key"></app-index-version>-->
+
+					<div class="d-block d-md-none">
+						<mat-card>
+							<mat-tab-group mat-stretch-tabs>
+								<mat-tab>
+									<ng-template mat-tab-label>
+										<img style="height: 20px; margin-top: 0;" src="../../../assets/images/player_ico.png"/>&nbsp;Players
+									</ng-template>
+									<ng-container *ngTemplateOutlet="players"></ng-container>
+								</mat-tab>
+								<mat-tab>
+									<ng-template mat-tab-label>
+										<img style="height: 20px; margin-top: 0;" src="../../../assets/images/ally_ico.png"/>&nbsp;Alliances
+									</ng-template>
+									<ng-container *ngTemplateOutlet="allys"></ng-container>
+								</mat-tab>
+								<mat-tab>
+									<ng-template mat-tab-label>
+										<mat-icon style="opacity: 1; vertical-align: bottom;">account_balance</mat-icon>&nbsp;
+										<span class="d-none d-sm-block">Index info</span>
+										<span class="d-block d-sm-none">Info</span>
+									</ng-template>
+									<ng-container *ngTemplateOutlet="info"></ng-container>
+								</mat-tab>
+							</mat-tab-group>
+						</mat-card>
+					</div>
+
+					<div class="container-fluid d-none d-md-block">
+						<div class="row">
+							<div class="col-4">
+								<ng-container *ngTemplateOutlet="info"></ng-container>
+							</div>
+							<div class="col-4">
+								<ng-container *ngTemplateOutlet="players"></ng-container>
+							</div>
+							<div class="col-4">
+								<ng-container *ngTemplateOutlet="allys"></ng-container>
+							</div>
+						</div>
+					</div>
+
+					<!--<div style="padding: 0; margin-top: 25px;" *ngIf="data.total_reports > 100">-->
+						<!--<app-advertorial></app-advertorial>-->
+					<!--</div>-->
+
+					<!--recent latest intel-->
+					<div *ngIf="latest_intel && latest_intel.length>0" class="d-none d-md-block">
+						<mat-card>
+							<mat-card-title>
+								<div class="form-group row" style='margin: 0px;'>
+									<h3 style='font-weight: 300; color: #304357; margin-top: 0px;'><span class='world-title' style='color: #18BC9C;'>Latest reports indexed</span></h3>
+								</div>
+							</mat-card-title>
+							<mat-card-content>
+								<div>
+									<div class="table intel-table" id="table_all">
+										<div class="row_custom header bg-gd-2" >
+											<div class="cell">
+												Type
+											</div>
+											<div class="cell">
+												Town
+											</div>
+											<div class="cell">
+												Player
+											</div>
+											<div class="cell">
+												Alliance
+											</div>
+											<div class="cell">
+												Date
+											</div>
+											<div class="cell" style="width: 50%;">
+												Units
+											</div>
+										</div>
+
+										<div class='row_custom' *ngFor="let town of latest_intel" style="height: 40px;">
+											<div class="cell unit-cell-small" matTooltip="{{town.type}}" style="transform: scale(.55); margin-top: -8px;">
+												<img src="../../../assets/images/game/towninfo/attack.png" *ngIf="town.type === 'friendly_attack'">
+												<div *ngIf="town.type === 'enemy_attack'" style="-moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); filter: FlipH; -ms-filter: ;">
+													<img src="../../../assets/images/game/towninfo/attack.png">
+												</div>
+												<img src="../../../assets/images/game/towninfo/support.png" *ngIf="town.type === 'support'">
+												<img src="../../../assets/images/game/towninfo/conquer.png" *ngIf="town.type === 'attack_on_conquest'">
+												<img src="../../../assets/images/game/towninfo/espionage_2.67.png" *ngIf="town.type === 'spy'">
+											</div>
+											<div class="cell">
+												<a routerLink="/indexer/town/{{key}}/{{world}}/{{town?.town_id}}">{{town?.town_name}}</a>
+											</div>
+											<div class="cell">
+												<a routerLink="/indexer/player/{{key}}/{{world}}/{{town?.player_id}}">{{town?.player_name}}</a>
+											</div>
+											<div class="cell">
+												<a routerLink="/indexer/alliance/{{key}}/{{world}}/{{town?.alliance_id}}">{{town?.alliance_name}}</a>
+											</div>
+											<div class="cell">
+												{{town.date | IndexDate}}
+											</div>
+											<div class="cell" style="width: 50%; display: flex;">
+                        <span style="transform: scale(.8); margin-right: 32px;" *ngFor="let unit of town.units | ValuesPipe; let i = index;"
+                              matTooltip="{{unit.name.replace('_',' ')}}">
+                          <div class="unit_icon40x40 {{unit.name}}"></div>
+	                        <div class="unit-val" style="margin-right: -40px; top: 0px; background: #9898986e; height: 40px; width: 40px;">
+	                          <div>{{unit.count}}</div>
+	                          <div style="color: #d00; margin-top: -6px;" *ngIf="unit.killed>0">-{{unit.killed}}</div>
+	                        </div>
+                        </span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</mat-card-content>
+						</mat-card>
+					</div>
+
+				</div>
+
+				<ng-template #info>
+					<mat-card style="max-height: 500px; height: 500px; min-height: 500px;">
+						<mat-card-title>
+							<div fxLayout="row">
+								<h4 style='font-weight: 300; color: #304357;'><span class='world-title' style='color: #18BC9C;'>Index info</span></h4>
+							</div>
+						</mat-card-title>
+						<mat-card-content>
+							<div style="max-height: 390px; height: 390px; min-height: 390px; overflow-y: auto;">
+								<table class="table table-no-more">
+									<tbody>
+									<tr>
+										<th>World</th>
+										<td><div class="bg-flag flag-inline flag-{{world.substr(0,2)}}"></div>&nbsp;<a class="decorated" routerLink="/points/{{world}}">{{world}}</a></td>
+									</tr>
+									<tr>
+										<th>Index code</th>
+										<td style="padding: 0 8px !important;">
+											{{key}}
+											<!--<span class="d-none d-sm-block">-->
+							                <!--<share-buttons [theme]="'material-dark'"-->
+				                               <!--[include]="['copy']"-->
+				                               <!--[showText]="true"-->
+				                               <!--[show]="1"-->
+				                               <!--[size]="1"-->
+				                               <!--[url]="'https://grepodata.com'+router.url"-->
+							                <!--&gt;</share-buttons>-->
+						                <!--</span>-->
+										</td>
+									</tr>
+
+									<tr matTooltip="There is a small delay of up to 3 minutes before new reports are shown on this page.">
+										<th>last addition</th>
+										<td>{{data.latest_report}}</td>
+									</tr>
+									<tr>
+										<th>
+											Index owners
+										</th>
+										<td>
+											<div *ngFor="let owner of data.owners" matTooltip="Any alliance with atleast a 5% contribution is considered an owner and will not be indexed. The index administrator can add or remove alliances.">
+												<p class="gd-primary">{{owner.alliance_name}} [{{owner.contributions | number : '1.2-2'}}%]</p>
+											</div>
+											<div>
+												<button mat-button class="mat-raised-button bg-gd-2 gd-white" style="margin-top: 10px; width: 100%; overflow: hidden; text-overflow: ellipsis;" (click)="showEditOwnersDialog()">
+													<i class="fa fa-pencil"></i> Edit owners
+												</button>
+												<button *ngIf="csa==false" mat-button class="mat-raised-button bg-gd-2 gd-white" style="margin-top: 10px; width: 100%; overflow: hidden; text-overflow: ellipsis;" (click)="showCleanupDialog()"
+												        matTooltip="Start a cleanup session that will allow you to remove selected intel records.">
+													<i class="fa fa-pencil"></i> Cleanup intel
+												</button>
+												<!--<button mat-button class="mat-raised-button bg-gd-3 gd-white" style="width: 100%; overflow: hidden; text-overflow: ellipsis;" (click)="showResetOwnersDialog()">-->
+												<!--<i class="fa fa-refresh"></i> Reset owners-->
+												<!--</button>-->
+											</div>
+										</td>
+									</tr>
+									<tr *ngIf="toggleMore" class="d-none d-md-block" matTooltip="Intel gets deleted if a town is conquested by another player.">
+										<th>total reports</th>
+										<td>{{data.total_reports}}</td>
+									</tr>
+									<tr *ngIf="toggleMore" class="d-none d-md-block" matTooltip="Intel gets deleted if a town is conquested by another player.">
+										<th>spy reports</th>
+										<td>{{data.spy_reports}}</td>
+									</tr>
+									<tr *ngIf="toggleMore" class="d-none d-md-block" matTooltip="Intel gets deleted if a town is conquested by another player.">
+										<th>enemy attacks</th>
+										<td>{{data.enemy_attacks}}</td>
+									</tr>
+									<tr *ngIf="toggleMore" class="d-none d-md-block" matTooltip="Intel gets deleted if a town is conquested by another player.">
+										<th>attacks on enemy</th>
+										<td>{{data.friendly_attacks}}</td>
+									</tr>
+									</tbody>
+								</table>
+
+								<!--Most contributions-->
+								<div *ngIf="toggleMore" class="d-none d-md-block">
+									<mat-card>
+										<mat-card-title>
+											<div fxLayout="row">
+												<h4 style='font-weight: 300; color: #304357;'><span class='world-title' style='color: #18BC9C;'>Most contributions</span></h4>
+											</div>
+										</mat-card-title>
+										<mat-card-content>
+											<table class="table">
+												<thead>
+												<tr>
+													<th>Name</th>
+													<th>Reports</th>
+												</tr>
+												</thead>
+												<tbody>
+
+												<tr *ngFor="let player of data.contributors">
+													<td>
+														{{player.player_name}}
+													</td>
+													<td>
+														{{player.count}}
+													</td>
+												</tr>
+
+												</tbody>
+											</table>
+										</mat-card-content>
+									</mat-card>
+								</div>
+
+								<div *ngIf="csa!=false" class="alert alert-warning text-center">
+									<h4 class="gd-secondary">
+										You are currently logged in to delete records.
+										<br/>Records marked for deletion will be deleted after 24 hours.
+										<br/>Click <a class="a-link-dialog" (click)="cleanupLogout();">here</a> if you wish to sign out.
+									</h4>
+								</div>
+
+							</div>
+
+							<div class="text-center show-more d-none d-sm-none d-md-block">
+								<button class="mat-primary mat-hue-1 mat-button mat-ink-ripple" type="button"
+								        (click)="toggleMore = !toggleMore" style="font-size: 18px;">
+				                  <span *ngIf="!toggleMore" class="ng-scope">
+				                    Show contribution info <span class="fa fa-chevron-down"></span>
+				                  </span>
+									<span *ngIf="toggleMore" class="ng-scope">
+				                    Show less <span class="fa fa-chevron-up"></span>
+				                  </span>
+									<div class="mat-ripple-container" style=""></div>
+								</button>
+							</div>
+						</mat-card-content>
+					</mat-card>
+				</ng-template>
+
+				<ng-template #players>
+					<mat-card style="max-height: 500px; height: 500px; min-height: 500px;">
+						<mat-card-title>
+							<div class="form-group row" style='margin: 0px;'>
+								<h3 style='font-weight: 300; color: #304357; width: 100%;'>
+									<span class='world-title' style='color: #18BC9C;'>Most indexed players</span>
+									<button name="open_bb" style="float: right;" class="btn btn-success btn-xs" (click)="openBBdialog('players_indexed')">
+										<i class="fa fa-code"></i> BB code
+									</button>
+								</h3>
+							</div>
+						</mat-card-title>
+						<mat-card-content>
+							<div class="table" id="table_players" style='margin: auto; margin-bottom: 0px;'>
+								<div class="row_custom header" >
+									<div class="cell" style="width: 39%;">
+										Player
+									</div>
+									<div class="cell" style="width: 22%;">
+										Intel count
+									</div>
+									<div class="cell" style="width: 30%;">
+										View
+									</div>
+								</div>
+							</div>
+							<div style="max-height: 372px; overflow-y: auto;">
+								<div class="table" id="table_players_rows" style='margin: auto; margin-bottom: 0px;'>
+									<div class='row_custom' *ngFor="let player of data.players_indexed">
+										<div class="cell" style="width: 45%;">
+											<a routerLink="/indexer/player/{{key}}/{{world}}/{{player?.player_id}}">{{player?.player_name}}</a>
+										</div>
+										<div class="cell" style="width: 25%;">
+											{{player.count}}
+										</div>
+										<div class="cell" style="width: 30%;">
+											<a routerLink="/indexer/player/{{key}}/{{world}}/{{player?.player_id}}">intel</a>
+											<span class="d-none d-sm-inline">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+											<br class="d-block d-sm-none"/>
+											<a routerLink="/player/{{world}}/{{player?.player_id}}">stats</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</mat-card-content>
+					</mat-card>
+				</ng-template>
+
+				<ng-template #allys>
+					<mat-card style="max-height: 500px; height: 500px; min-height: 500px;">
+						<mat-card-title>
+							<div class="form-group row" style='margin: 0px;'>
+								<h3 style='font-weight: 300; color: #304357; width: 100%;'>
+									<span class='world-title' style='color: #18BC9C;'>Most indexed alliances</span>
+									<button name="open_bb" style="float: right;" class="btn btn-success btn-xs" (click)="openBBdialog('alliances_indexed')">
+										<i class="fa fa-code"></i> BB code
+									</button>
+								</h3>
+							</div>
+						</mat-card-title>
+						<mat-card-content>
+							<div style="max-height: 400px; overflow-y: auto;">
+								<div class="table" id="table_alliances" style='margin: auto; margin-bottom: 0px;'>
+
+									<div class="row_custom header" >
+										<div class="cell">
+											Alliance
+										</div>
+										<div class="cell">
+											Intel count
+										</div>
+										<div class="cell">
+											View
+										</div>
+									</div>
+
+									<div class='row_custom' *ngFor="let alliance of data.alliances_indexed">
+										<div class="cell">
+											<a routerLink="/indexer/alliance/{{key}}/{{world}}/{{alliance?.alliance_id}}">{{alliance?.alliance_name}}</a>
+										</div>
+										<div class="cell">
+											{{alliance.count}}
+										</div>
+										<div class="cell">
+											<a routerLink="/indexer/alliance/{{key}}/{{world}}/{{alliance?.alliance_id}}">intel</a>
+											<span class="d-none d-sm-inline">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+											<br class="d-block d-sm-none"/>
+											<a routerLink="/alliance/{{world}}/{{alliance?.alliance_id}}">stats</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</mat-card-content>
+					</mat-card>
+				</ng-template>
+
+				<!--<div *ngIf="data.total_reports != 0" class="col-12 alert alert-gd-1 text-center">-->
+				<!--<h3>-->
+				<!--This tool is still in development. Some features may be offline at times. If you have any questions or remarks, please <a class="a-link-dialog" (click)="showContactDialog()">contact</a> us. [<a routerLink="/changelog" style="text-decoration: underline;">Changelog</a>]-->
+				<!--</h3>-->
+				<!--</div>-->
+
+				<div *ngIf="data.total_reports == 0">
+					<div id="help_by_contributing" style="display: none;"></div>
+
+					<div class="container-fluid" id="new_index_install_tips">
+						<div class="row">
+							<div class="col-12 text-center">
+								<h1 class="gd-primary">Welcome to your unique enemy city indexer page!</h1>
+								<h3 *ngIf="!clicked">Follow the 2 steps below to install the userscript and start collecting enemy intel.</h3>
+								<p class="gd-secondary">If you experience any issues please feel free to <a class="a-link-dialog" (click)="showContactDialog()">contact</a> us.</p>
+								<br/>
+
+								<div class="container">
+									<div class="row">
+										<div class="col-12" *ngIf="!clicked">
+											<div class="alert alert-gd-1">
+												<h3><strong>Step 1:</strong> Install Tampermonkey for your browser</h3>
+												<p class="gd-secondary">Tampermonkey is the world's most popular userscript manager.</p>
+												<br/>
+												<div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center">
+													<div fxLayout="column" fxLayoutAlign="center center" style="width: 20%;">
+														<i style="font-size: 54px;" class="fa fa-chrome"></i><div>Chrome</div>
+														<a tabindex="-1" href="https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo" target="_blank">Install</a>
+													</div>
+													<div fxLayout="column" fxLayoutAlign="center center" style="width: 20%;">
+														<i style="font-size: 54px;" class="fa fa-safari"></i><div>Safari</div>
+														<a tabindex="-1" href="https://tampermonkey.net/?browser=safari" target="_blank">Install</a>
+													</div>
+													<div fxLayout="column" fxLayoutAlign="center center" style="width: 20%;">
+														<i style="font-size: 54px;" class="fa fa-firefox"></i><div>Firefox</div>
+														<a tabindex="-1" href="https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/?src=ss" target="_blank">Install</a>
+													</div>
+													<div fxLayout="column" fxLayoutAlign="center center" style="width: 20%;">
+														<i style="font-size: 54px;" class="fa fa-opera"></i><div>Opera</div>
+														<a tabindex="-1" href="https://addons.opera.com/en/extensions/details/tampermonkey-beta/" target="_blank">Install</a>
+													</div>
+													<div fxLayout="column" fxLayoutAlign="center center" style="width: 20%;">
+														<i style="font-size: 54px;" class="fa fa-edge"></i><div>Edge</div>
+														<a tabindex="-1" href="https://tampermonkey.net/?browser=edge" target="_blank">Install</a>
+													</div>
+												</div>
+												<br/>
+												<p class="gd-secondary">Restart your browser if you just installed Tampermonkey.</p>
+											</div>
+
+											<div fxLayout="row" fxLayoutAlign="center center" style="margin-bottom: 15px;">
+												<i class="fa fa-arrow-down"></i>
+											</div>
+
+											<div class="alert alert-gd-1">
+												<h3><strong>Step 2:</strong> Install the userscript for index {{key}}</h3>
+												<p>Each index has a uniquely generated userscript that will allow you to upload intelligence to this specific index.
+													<br/>Install the userscript and share it with your allies to start collecting intelligence in index {{key}}.</p>
+												<br/>
+												<a tabindex="-1" mat-button class="mat-raised-button bg-gd-2"
+												   style="font-size: 20px; padding: 8px; width: 80%; margin: 0 10%; color: white; overflow: hidden; text-overflow: ellipsis;"
+												   href="https://api.grepodata.com/userscript/cityindexer_{{encrypted}}.user.js" target="_blank"
+												   (click)="clicked=true">
+													<span class="fa fa-download"></span> Install userscript <span class="gd-primary" style="vertical-align: baseline;">{{key}}</span>
+												</a>
+											</div>
+										</div>
+
+										<div class="col-12" *ngIf="clicked">
+											<div class="row">
+												<div class="col-12">
+													<div class="alert alert-gd-1">
+														<h3><strong>Done!</strong> Start collecting intel</h3>
+														<br/>
+														<p>
+															Restart your browser and start collecting intel!
+															The userscript will allow you to index reports from your alliance forum or from your personal inbox.
+															Simply click the <strong>index +</strong> button to upload a new report.
+															<br/><br/>
+															Spread the index to your alliance members so they can help you collect more intelligence about your enemies.
+															<br/><br/>
+															<strong>It may take up to 3 minutes before new reports are shown on your index overview.</strong>
+														</p>
+														<br/>
+														<div *ngIf="clicked" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="25px">
+															<button mat-button class="mat-raised-button mat-primary"
+															        style="width: 40%; font-size: 18px; padding: 8px; color: white;" (click)="refresh()">
+																Reload this page
+															</button>
+															<a class="gd-gray a-link"
+															   style="font-size: 16px; padding: 14px;"
+															   (click)="clicked = false">
+																<span class="fa fa-backward"></span> Show instructions
+															</a>
+															<a class="gd-gray a-link"
+															   style="font-size: 16px; padding: 14px;"
+															   href="https://api.grepodata.com/userscript/cityindexer_{{encrypted}}.user.js" target="_blank">
+																<span class="fa fa-download"></span> Download userscript
+															</a>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row" *ngIf="!clicked">
+
+										<br/><br/>
+
+										<div class="col-12 alert alert-warning">
+											We have not yet received any reports for this index. <strong>It may take up to 3 minutes before reports are shown here.</strong><br/>
+											If there are no reports showing up or if you encounter any other problems please feel free to <a class="a-link-dialog" (click)="showContactDialog()">contact</a> us.
+										</div>
+
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div style="display: none;" id="new_index_waiting">
+						<div class="row">
+							<div class="col-12 text-center">
+								<h1 class="gd-primary"><strong>Success!</strong> Userscript is installed successfully</h1>
+
+								<br/>
+
+								<div class="container">
+									<div class="row">
+										<div class="alert alert-gd-1">
+											<h3>Start collecting enemy intel in world <strong>{{world}}</strong></h3>
+											<p>
+												Reload your Grepolis game window to activate the script and start collecting intel.
+												<br/>When you browse your inbox or alliance forum in-game, you can upload reports by clicking the 'index +' button.
+												<br/>The collected intel will then be viewable here.
+												<br/>
+												<strong>Note that it may take up to 3 minutes before the intel appears on this page</strong>
+												<br/>
+												<br/>
+												If you experience any issues please feel free to <a class="a-link-dialog" (click)="showContactDialog()">contact</a> us.
+												<br/>
+												<br/>
+												<a class="gd-gray a-link"
+												   style="font-size: 14px;"
+												   (click)="openInstalldialog()">
+													<span class="fa fa-download"></span> Show install instructions
+												</a>
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<br/>
+
+			</mat-card-content>
+		</mat-card>
+	</div>
+	<div *ngIf="moved">
+		<mat-card class="index-overview decorated-card">
+			<mat-card-title class='decorated-card-header decorated-title'>
+				<div class="container-fluid">
+					<!--suppress XmlDuplicatedId -->
+					<div class="row" id="timeline">
+						<div class="col-12 col-sm-6 col-md-4 col-lg-4 text-right">
+							<div class="col-12">
+								<button mat-button class="mat-raised-button bg-gd-2" style="z-index: 999; width: 100%; overflow: hidden; text-overflow: ellipsis;" routerLink="/indexer/0">
+									<i class="fa fa-arrow-left"></i>&nbsp;<span class="d-inline d-sm-none d-lg-inline">Indexer homepage</span><span class="d-none d-sm-inline d-lg-none">Home</span>
+								</button>
+							</div>
+							<div class="col-12">
+								<button mat-button class="mat-raised-button bg-gd-2" style="width: 100%;" (click)="indexDisclaimer()">
+									<i class="fa fa-info"></i> Frequently asked questions
+								</button>
+							</div>
+						</div>
+						<div class="col-12 col-sm-6 col-md-8 col-lg-8 text-center">
+							<h1><i class="fa fa-university gd-secondary" aria-hidden="true"></i>&nbsp;Enemy city index</h1>
+							<h3>
+								&nbsp;&nbsp;&nbsp;Key: <span class='world-title gd-secondary'>{{key}}</span>
+							</h3>
+						</div>
+					</div>
+				</div>
+			</mat-card-title>
+			<mat-card-content class="decorated-card-content">
+
+				<br/>
+				<br/>
+
+				<div class="container">
+					<div class="col-12 alert alert-info text-center">
+						<h1><strong>Sorry,</strong> this index has been moved by the index owner!</h1>
+						<h3>Contact the owner of this index to get a new link to the moved index.</h3>
+					</div>
+				</div>
+
+				<br/>
+				<br/>
+
+			</mat-card-content>
+		</mat-card>
+	</div>
+
+</div>

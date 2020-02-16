@@ -11,8 +11,7 @@ import { SearchModule } from './shared/components/search/search.module';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoaderInterceptor } from './shared/interceptors/loader.interceptor';
 import { HomeModule } from './home/home.module';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { NumberFilterPipe } from './shared/pipes/number-filter.pipe';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {Globals} from './globals';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -39,7 +38,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    NoopAnimationsModule,
+    BrowserAnimationsModule
   ],
   exports: [
     TranslateModule

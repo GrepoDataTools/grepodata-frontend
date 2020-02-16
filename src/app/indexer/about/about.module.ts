@@ -12,6 +12,7 @@ import {FaqModule} from '../faq/faq.module';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInput, MatInputModule} from '@angular/material/input';
+import {TranslateModule} from '@ngx-translate/core';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import {MatInput, MatInputModule} from '@angular/material/input';
   exports: [AboutComponent],
   imports: [
     CommonModule,
+    TranslateModule,
     MatIconModule,
     PipesModule,
     FormsModule,

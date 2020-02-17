@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AllianceComponent } from './alliance.component';
 
-const routes: Routes = [{ path: '', component: AllianceComponent }];
+const routes: Routes = [{ path: ':world/:id', component: AllianceComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

@@ -131,7 +131,7 @@ export class IndexAllianceComponent implements AfterViewInit {
     this.filterType = '';
 
     // Load alliance info
-    this.allianceService.loadAllianceInfo(this.world, this.id)
+    this.allianceService.loadInfo(this.world, this.id)
       .subscribe(
         (response) => this.renderAllianceInfo(response),
         (error) => this.allianceName = "Not found"

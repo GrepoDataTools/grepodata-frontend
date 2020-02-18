@@ -90,7 +90,7 @@ export class IndexPlayerComponent implements AfterViewInit {
     this.totalCount = 0;
 
     // Load player info
-    this.playerService.loadPlayerInfo(this.world, this.id, true)
+    this.playerService.loadInfo(this.world, this.id, true)
       .subscribe(
         (response) => this.renderPlayerInfo(response),
         (error) => this.playerName = "Not found"

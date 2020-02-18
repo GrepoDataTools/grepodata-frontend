@@ -14,11 +14,11 @@ export class PlayerService {
   constructor(private http: HttpClient) { }
 
 
-  fetchPlayersByName(name: string): Observable<Player[]> {
+  searchByName(name: string): Observable<Player[]> {
     return this.http.get(`${apiUrl}/player/search?query=${name}`).pipe(map((response: ApiResponse<Player[]>) => response.results));
   }
 
-  loadPlayerDiffs(world: string): Observable<PlayerDifferenceResponse> {
+  loadDifferences(world: string): Observable<PlayerDifferenceResponse> {
     return this.http.get<PlayerDifferenceResponse>(`${apiUrl}/player/diffs?${world && `world=${world}`}`);
   }
 
@@ -34,19 +34,19 @@ export class PlayerService {
     return this.http.get(`${apiUrl}/scoreboard/daydiffs?${world && `world=${world}&`}${server && `server=${server}&`}${date && `date=${date}`}`);
   }
 
-  loadPlayerInfo(world: string, id: string, name: boolean) {
+  loadInfo(world: string, id: string, name: boolean) {
     return this.http.get(`${apiUrl}/player/info?${world && `world=${world}&`}${id && `id=${id}&`}${name && `a_name=${name}`}`);
   }
 
-  loadPlayerHistory(world: string, id: string) {
+  loadHistory(world: string, id: string) {
     return this.http.get(`${apiUrl}/player/history?${world && `world=${world}&`}${id && `id=${id}`}`);
   }
 
-  loadPlayerChanges(world: string, id: any, from: any = undefined, size: any = undefined) {
+  loadChanges(world: string, id: any, from: any = undefined, size: any = undefined) {
     return this.http.get(`${apiUrl}/player/changes?${world && `world=${world}&`}${id && `id=${id}&`}${from && `from=${from}&`}${size && `size=${size}`}`);
   }
 
-  loadPlayerHistoryRange(world: string, id: string, from: string, to: string) {
+  loadHistoryRange(world: string, id: string, from: string, to: string) {
     return this.http.get(`${apiUrl}/player/rangehistory?${world && `world=${world}&`}${id && `id=${id}&`}${from && `from=${from}&`}${to && `to=${to}`}`);
   }
 

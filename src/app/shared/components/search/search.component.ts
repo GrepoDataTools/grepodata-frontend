@@ -44,12 +44,12 @@ export class SearchComponent implements OnInit {
   fetchPlayersByName(event: KeyboardEvent) {
     if ((event.target as HTMLInputElement).value.length < 2) return this.players$ = [];
     this.searchingFor = 'player';
-    this._playerService.fetchPlayersByName((event.target as HTMLInputElement).value).subscribe((players) => this.players$ = players.slice(0, 20));
+    this._playerService.searchByName((event.target as HTMLInputElement).value).subscribe((players) => this.players$ = players.slice(0, 20));
   }
 
   fetchAlliancesByName(event: KeyboardEvent) {
     if ((event.target as HTMLInputElement).value.length < 2) return this.alliances$ = [];
     this.searchingFor = 'alliance';
-    this._allianceService.fetchAlliancesByName((event.target as HTMLInputElement).value).subscribe((alliances) => this.alliances$ = alliances.slice(0, 20));
+    this._allianceService.searchByName((event.target as HTMLInputElement).value).subscribe((alliances) => this.alliances$ = alliances.slice(0, 20));
   }
 }

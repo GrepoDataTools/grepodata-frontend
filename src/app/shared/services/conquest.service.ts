@@ -1,54 +1,46 @@
-import {Component, Inject, Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from "@angular/common/http";
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
-import {environment} from '../../../environments/environment';
-import {ConquestDialog} from '../dialogs/conquest/conquest.component';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { MatDialog } from "@angular/material/dialog";
+import { environment } from "../../../environments/environment";
+import { ConquestDialogComponent } from "../components/conquest-dialog/conquest-dialog.component";
 
 const apiUrl = environment.apiUrl;
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ConquestService {
 
-  constructor(
-		private dialog: MatDialog,
-		private http: HttpClient) {}
+  constructor(private http: HttpClient, private dialog: MatDialog) {}
 
-  getConquests(type, world, id, from, size, filters) {
-    const url = apiUrl + '/conquest';
-    let params = new HttpParams();
-    if (typeof type != 'undefined') params = params.append('type', type);
-    if (typeof world != 'undefined') params = params.append('world', world);
-    if (typeof id != 'undefined') params = params.append('id', id);
-    if (typeof from != 'undefined') params = params.append('from', from);
-    if (typeof size != 'undefined') params = params.append('size', size);
-		Object.keys(filters).forEach(e => {
-			let value = filters[e];
-			if (value === null || value === '') {
-				value = '_';
-			}
-			params = params.append(e, value);
-		});
-    return this.http.get(url, { params: params });
+  getConquests(type: string, world: string, id: string, from: string, size: string, filters: Object) {
+    const httpParams: HttpParams = new HttpParams();
+
+    type && httpParams.append('type', type);
+    world && httpParams.append('world', world);
+    id && httpParams.append('id', id);
+    from && httpParams.append('from', from);
+    size && httpParams.append('size', size);
+
+    Object.keys(filters).map((filter: string) => {
+      filters[filter] ? httpParams.append(filter, filters[filter]) : httpParams.append(filter, '_');
+    })
+
+    return this.http.get(`${apiUrl}/conquest`, { params: httpParams });
   }
 
-	public showConquestDialog(type, id, name, world, date=null): void {
-  	let filters = {
-			id: id,
-			type: type,
-			world: world,
-			date: date,
-		};
-
-		let dialogRef = this.dialog.open(ConquestDialog, {
-			// width: '70%',
-			// height: '85%',
-			autoFocus: false,
-			data: {
-				filters: filters,
-				name: name
-			}
-		});
-
-		dialogRef.afterClosed().subscribe(result => {});
-	}
+  showDialog(type: string, id: string, name: string, world: string, date: Date) {
+    this.dialog.open(ConquestDialogComponent, {
+      autoFocus: false,
+      data: {
+        filters: {
+          id,
+          type,
+          world,
+          date
+        },
+        name
+      }
+    }).afterClosed().subscribe(() => {});
+  }
 }

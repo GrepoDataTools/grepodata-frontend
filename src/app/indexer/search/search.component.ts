@@ -89,7 +89,6 @@ export class IndexSearchComponent implements AfterViewInit {
   }
 
   searchTowns($event) {
-    console.log($event)
     if (typeof $event != 'undefined') {
       this.townInput = $event.target.value;
       this.searching_false()

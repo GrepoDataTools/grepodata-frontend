@@ -22,8 +22,8 @@ export class AllianceService {
     return this.http.get(`${apiUrl}/alliance/history?${world && `world=${world}&`}${id && `id=${id}`}`);
   }
 
-  loadChanges(world: string, id: any, from: any = undefined, size: any = undefined) {
-    return this.http.get(`${apiUrl}/alliance/changes?${world && `world=${world}&`}${id && `id=${id}&`}${from && `from=${from}&`}${size && `size=${size}`}`);
+  loadChanges(world: string, date: string, id: any, from: any = undefined, size: any = undefined) {
+    return this.http.get(`${apiUrl}/alliance/changes?${world && `world=${world}&`}${date && `date=${date}&`}${id && `id=${id}&`}${from && `from=${from}&`}${size && `size=${size}`}`);
   }
 
   loadHistoryRange(world: string, id: string, from: string, to: string) {
@@ -34,8 +34,8 @@ export class AllianceService {
     return this.http.get(`${apiUrl}/alliance/members?${world && `world=${world}&`}${id && `id=${id}`}`);
   }
 
-  loadDayDifferences(world: string) {
-    return this.http.get(`${apiUrl}/alliance/daydiffs?${world && `world=${world}`}`);
+  loadDayDifferences(world: string, date: string, id: string) {
+    return this.http.get(`${apiUrl}/alliance/daydiffs?${world && `world=${world}&`}${date && `date=${date}&`}${id && `id=${id}`}`);
   }
 
   loadScoreboard(world: string, date: string, server: string) {

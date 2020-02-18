@@ -13,6 +13,12 @@ import { LoaderInterceptor } from './shared/interceptors/loader.interceptor';
 import { HomeModule } from './home/home.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {Globals} from './globals';
+import { PlayerOverviewDialogComponent } from './shared/components/dialogs/player-overview-dialog/player-overview-dialog.component';
+import { AllianceOverviewDialogComponent } from './shared/components/dialogs/alliance-overview-dialog/alliance-overview-dialog.component';
+import { OverviewDialogComponent } from './shared/components/dialogs/overview-dialog/overview-dialog.component';
+import { BbScoreboardDialogComponent } from './shared/components/dialogs/bb-scoreboard-dialog/bb-scoreboard-dialog.component';
+import { NgxChartsModule } from "@swimlane/ngx-charts";
+import { MatProgressBarModule } from "@angular/material/progress-bar";
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -20,7 +26,11 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PlayerOverviewDialogComponent,
+    AllianceOverviewDialogComponent,
+    OverviewDialogComponent,
+    BbScoreboardDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +48,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxChartsModule,
+    MatProgressBarModule
   ],
   exports: [
     TranslateModule

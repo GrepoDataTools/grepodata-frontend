@@ -2,8 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'home', loadChildren: () => import('./home/home.module').then(m => m.HomeModule) },
+  { path: '', loadChildren: () => import('./home/home.module').then(m => m.HomeModule) },
   { path: 'alliance', loadChildren: () => import('./shared/components/alliance/alliance.module').then(m => m.AllianceModule) },
   { path: 'changelog', loadChildren: () => import('./shared/components/changelog/changelog.module').then(m => m.ChangelogModule) },
   { path: 'compare', loadChildren: () => import('./shared/components/compare/compare.module').then(m => m.CompareModule) },

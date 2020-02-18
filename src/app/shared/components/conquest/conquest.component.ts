@@ -10,7 +10,6 @@ import {
 } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import { PageEvent } from "@angular/material/paginator";
-import {hasOwnProperty} from "tslint/lib/utils";
 import {ConquestService} from '../../services/conquest.service';
 
 @Component({
@@ -40,8 +39,8 @@ export class ConquestComponent implements AfterViewInit, OnChanges {
   world = '';
   id = '';
   data = [];
-  from = 0;
-  size = 30;
+  from:any = 0;
+  size:any = 30;
   count = 0;
   pageEvent: PageEvent;
 
@@ -231,7 +230,7 @@ export class ConquestComponent implements AfterViewInit, OnChanges {
       'new_owner': (this.filterNewName?this.filterNewName.nativeElement.value:''),
     };
 
-    if (hasOwnProperty(params, 'date')) {
+    if (params.hasOwnProperty('date')) {
       filters['date'] = params['date'];
       this.filtering = true;
     }
@@ -273,7 +272,7 @@ export class ConquestComponent implements AfterViewInit, OnChanges {
     this.cdr.detectChanges();
     setTimeout(_ => this.cdr.detectChanges(), 250);
     setTimeout(_ => {
-      if (this.filterDate && hasOwnProperty(filters, 'date')) {
+      if (this.filterDate && filters.hasOwnProperty('date')) {
         this.filtering = true;
         this.filterDate.nativeElement.value = filters['date'];
       }

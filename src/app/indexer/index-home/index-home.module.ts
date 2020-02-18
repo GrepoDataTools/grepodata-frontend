@@ -13,7 +13,7 @@ import {RouterModule} from '@angular/router';
 import {TranslateModule} from '@ngx-translate/core';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTabsModule} from '@angular/material/tabs';
-import {ContactModule} from '../../shared/dialogs/contact/contact.module';
+import {ContactModule} from '../../shared/dialogs/contact-dialog/contact.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatButtonModule} from '@angular/material/button';
 import {IndexSearchModule} from '../search/search.module';

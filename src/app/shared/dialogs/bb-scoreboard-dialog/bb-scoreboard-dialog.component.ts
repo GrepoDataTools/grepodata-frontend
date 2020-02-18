@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { GoogleAnalyticsEventsService } from "../../../services/google-analytics-events.service";
+import { GoogleAnalyticsEventsService } from "../../services/google-analytics-events.service";
 
 @Component({
   selector: 'app-bb-scoreboard-dialog',

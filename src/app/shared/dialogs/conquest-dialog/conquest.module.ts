@@ -7,6 +7,7 @@ import {ConquestModule} from '../../components/conquest/conquest.module';
 
 @NgModule({
   declarations: [ConquestDialog],
+  exports: [ConquestDialog],
   imports: [
     CommonModule,
     TranslateModule,

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import {Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
-import {ContactDialog} from '../../dialogs/contact/contact.component';
+import {ContactDialog} from '../../dialogs/contact-dialog/contact.component';
 
 @Component({
   selector: 'app-header',

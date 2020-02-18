@@ -1,21 +1,22 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit } from "@angular/core";
-import { PlayerService } from "../../../services/player.service";
-import { AllianceService } from "../../../services/alliance.service";
+import { PlayerService } from "../../services/player.service";
+import { AllianceService } from "../../services/alliance.service";
 import { Router } from "@angular/router";
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { PlayerOverviewDialogComponent } from "../player-overview-dialog/player-overview-dialog.component";
 
 @Component({
-  selector: 'app-overview-dialog',
-  templateUrl: './overview-dialog.component.html',
-  styleUrls: ['./overview-dialog.component.scss'],
+  selector: 'app-alliance-overview-dialog',
+  templateUrl: './alliance-overview-dialog.component.html',
+  styleUrls: ['./alliance-overview-dialog.component.scss'],
   providers: [PlayerService, AllianceService]
 })
-export class OverviewDialogComponent implements AfterViewInit {
+export class AllianceOverviewDialogComponent implements AfterViewInit {
 
   world;
   date;
-  hour;
+  alliance_id;
+  alliance_name;
   hourRaw;
   hourStart;
   data;
@@ -26,19 +27,18 @@ export class OverviewDialogComponent implements AfterViewInit {
   constructor(
     private cdr: ChangeDetectorRef,
     private router: Router,
-    public dialogRef: MatDialogRef<OverviewDialogComponent>,
+    public dialogRef: MatDialogRef<AllianceOverviewDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public dialogData: any,
     private playerService: PlayerService,
     private allianceService: AllianceService,
     public dialog: MatDialog) {
     this.world = dialogData.world;
     this.date = dialogData.date;
-    this.hourRaw = dialogData.hour;
-    this.hour = this.hourRaw.replace(":00","").replace(/^0+/, '');
-    this.hourStart = (this.hour < 10 ? '0':'') + (this.hour-1) + ':00';
+    this.alliance_id = dialogData.id;
+    this.alliance_name = dialogData.name;
 
     this.loading = true;
-    this.playerService.loadHourDifferences(this.world, this.date, this.hour)
+    this.allianceService.loadDayDifferences(this.world, this.date, this.alliance_id)
       .subscribe(
         (response) => this.renderResults(response),
         (error) => {console.log(error); this.error = true; this.loading = false;}
@@ -57,24 +57,6 @@ export class OverviewDialogComponent implements AfterViewInit {
     setTimeout(_ => this.cdr.detectChanges(), 250);
   }
 
-  onDefSelect(event) {
-    let player = this.data.def.filter(obj => obj.name === event.name);
-    this.dialogRef.close('navigate');
-    // this.router.navigate(['/player/'+this.world+'/'+player[0].id]);
-    this.openPlayerOverviewdialog(player[0].id, event.name);
-    this.cdr.detectChanges();
-    setTimeout(_ => this.cdr.detectChanges(), 250);
-  }
-
-  onAttSelect(event) {
-    let player = this.data.att.filter(obj => obj.name === event.name);
-    this.dialogRef.close('navigate');
-    // this.router.navigate(['/player/'+this.world+'/'+player[0].id]);
-    this.openPlayerOverviewdialog(player[0].id, event.name);
-    this.cdr.detectChanges();
-    setTimeout(_ => this.cdr.detectChanges(), 250);
-  }
-
   public openPlayerOverviewdialog(id, name) {
     let dialogRef = this.dialog.open(PlayerOverviewDialogComponent, {
       autoFocus: false,
@@ -88,10 +70,15 @@ export class OverviewDialogComponent implements AfterViewInit {
     dialogRef.afterClosed().subscribe(result => {});
   }
 
+  onSelect(event) {
+    let player = this.data.filter(obj => obj.name === event.series)[0];
+    this.dialogRef.close('navigate');
+    this.openPlayerOverviewdialog(player.id, player.name);
+  }
+
   renderResults(json) {
     this.data = json;
     this.loading = false;
-    //console.log(json);
     this.cdr.detectChanges();
     setTimeout(_ => this.cdr.detectChanges(), 250);
   }

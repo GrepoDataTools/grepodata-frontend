@@ -4,7 +4,7 @@ import {Md5} from 'ts-md5/dist/md5';
 import {IndexerService} from '../../shared/services/indexer.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
-import {ContactDialog} from '../../shared/dialogs/contact/contact.component';
+import {ContactDialog} from '../../shared/dialogs/contact-dialog/contact.component';
 import {LocalStorageService} from '../../shared/services/local-storage.service';
 
 @Component({

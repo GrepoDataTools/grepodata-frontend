@@ -1,9 +1,8 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit } from "@angular/core";
-import { PlayerService } from "../../../services/player.service";
-import { AllianceService } from "../../../services/alliance.service";
+import { AfterViewInit, ChangeDetectorRef, Component, Inject } from "@angular/core";
+import { PlayerService } from "../../services/player.service";
+import { AllianceService } from "../../services/alliance.service";
 import { Router } from "@angular/router";
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
-import { OverviewDialogComponent } from "../overview-dialog/overview-dialog.component";
 
 @Component({
   selector: 'app-player-overview-dialog',
@@ -60,25 +59,26 @@ export class PlayerOverviewDialogComponent implements AfterViewInit {
   }
 
   public openOverviewDialog(hour) {
-    let dialogRef = this.dialog.open(OverviewDialogComponent, {
-      // width: '90%',
-      // height: '80%',
-      autoFocus: false,
-      data: {
-        world: this.world,
-        date: this.date,
-        hour: hour
-      }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 'navigate') {
-        this.onNoClick();
-        this.cdr.detectChanges();
-        setTimeout(_ => this.cdr.detectChanges(), 250);
-      }
-    });
-    this.cdr.detectChanges();
-    setTimeout(_ => this.cdr.detectChanges(), 250);
+    // TODO
+    // let dialogRef = this.dialog.open(OverviewDialogComponent, {
+    //   // width: '90%',
+    //   // height: '80%',
+    //   autoFocus: false,
+    //   data: {
+    //     world: this.world,
+    //     date: this.date,
+    //     hour: hour
+    //   }
+    // });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if (result === 'navigate') {
+    //     this.onNoClick();
+    //     this.cdr.detectChanges();
+    //     setTimeout(_ => this.cdr.detectChanges(), 250);
+    //   }
+    // });
+    // this.cdr.detectChanges();
+    // setTimeout(_ => this.cdr.detectChanges(), 250);
   }
 
   onSelect(event) {

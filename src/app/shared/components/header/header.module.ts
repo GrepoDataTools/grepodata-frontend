@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 import {RouterModule} from '@angular/router';
 import {MatDialogModule} from '@angular/material/dialog';
-import {ContactModule} from '../../dialogs/contact/contact.module';
+import {ContactModule} from '../../dialogs/contact-dialog/contact.module';
 
 @NgModule({
   declarations: [HeaderComponent],

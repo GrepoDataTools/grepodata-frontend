@@ -16,10 +16,10 @@ import { environment } from "../../environments/environment";
 import { ConquestService } from "../shared/services/conquest.service";
 import { PlayerService } from "../shared/services/player.service";
 import { AllianceService } from "../shared/services/alliance.service";
-import { AllianceOverviewDialogComponent } from "../shared/components/dialogs/alliance-overview-dialog/alliance-overview-dialog.component";
-import { PlayerOverviewDialogComponent } from "../shared/components/dialogs/player-overview-dialog/player-overview-dialog.component";
-import { OverviewDialogComponent } from "../shared/components/dialogs/overview-dialog/overview-dialog.component";
-import { BbScoreboardDialogComponent } from "../shared/components/dialogs/bb-scoreboard-dialog/bb-scoreboard-dialog.component";
+import { AllianceOverviewDialogComponent } from "../shared/dialogs/alliance-overview-dialog/alliance-overview-dialog.component";
+import { PlayerOverviewDialogComponent } from "../shared/dialogs/player-overview-dialog/player-overview-dialog.component";
+import { OverviewDialogComponent } from "../shared/dialogs/overview-dialog/overview-dialog.component";
+import { BbScoreboardDialogComponent } from "../shared/dialogs/bb-scoreboard-dialog/bb-scoreboard-dialog.component";
 
 @Component({
   selector: "app-home",
@@ -752,6 +752,6 @@ export class HomeComponent implements OnInit {
   }
 
   showConquests(type, id, name) {
-    this.conquestService.showDialog(type, id, name, this.world, this.selectedDate);
+    // this.conquestService.showDialog(type, id, name, this.world, this.selectedDate);
   }
 }

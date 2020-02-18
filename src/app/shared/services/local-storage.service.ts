@@ -6,13 +6,16 @@ export class LocalStorageService {
   constructor() {}
 
   public static get(key: string): any {
-    if (localStorage.key) {
+    const exists = localStorage.hasOwnProperty(key) && localStorage[key] !== null;
+
+    if (exists) {
       const item = JSON.parse(localStorage.getItem(key));
 
       if(moment(item.expires) < moment()) return false;
 
       return item.content;
     }
+
     return false;
   }
 

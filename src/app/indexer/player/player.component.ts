@@ -103,7 +103,15 @@ export class IndexPlayerComponent implements AfterViewInit {
         (error) => this.renderPlayerIntel(null)
       );
 
+<<<<<<< HEAD
     this.worldService.getWorldInfo(this.world).subscribe(world => this.worldName = world.name).add(() => this.cdr.detectChanges());
+=======
+    if (!this.embedded) {
+      this.worldService.getWorldInfo(this.world).then((response) => {
+        this.worldName = response.name
+      });
+    }
+>>>>>>> 4aeb28dd5fed9ac6e465003cac22ed59a3c7ed91
   }
 
   private renderPlayerInfo(data) {

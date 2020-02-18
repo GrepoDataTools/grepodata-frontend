@@ -31,6 +31,7 @@
     "@ng-bootstrap/ng-bootstrap": "^5.2.3",
     "@ngx-translate/core": "^12.1.1",
     "@ngx-translate/http-loader": "^4.0.0",
+    "@swimlane/ngx-charts": "^13.0.2",
     "angular-loading-bar": "^0.9.0",
     "bootstrap": "^4.4.1",
     "font-awesome": "^4.7.0",

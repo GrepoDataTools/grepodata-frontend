@@ -1,1 +1,300 @@
-<p>conquest works!</p>
+<div *ngIf="embedded==false" style="min-height: calc(100vh - 160px);">
+
+	<div class="decorated-card">
+		<div class='decorated-card-header decorated-title'>
+			<h1>
+				Showing conquests for:
+				<i *ngIf="type == 'town'" class="fa fa-university gd-secondary" aria-hidden="true"></i>
+				<i *ngIf="type == 'player'" class="fa fa-user gd-secondary" aria-hidden="true"></i>
+				<i *ngIf="type == 'alliance'" class="fa fa-group gd-secondary" aria-hidden="true"></i>
+				&nbsp;
+				<a *ngIf="type!='town'" routerLink="/{{type}}/{{world}}/{{id}}"><span class="gd-secondary">{{name}}</span></a>
+				<span *ngIf="type=='town'" class="gd-secondary">{{name}}</span>
+			</h1>
+			<h3>
+				World: <span class='world-title gd-secondary'><div class="bg-flag flag-inline-title flag-{{world.substr(0,2)}}"></div>&nbsp;<a class="a-link-dialog" style="color: #334254 !important;" routerLink="/points/{{world}}">{{world}}</a></span>
+			</h3>
+		</div>
+		<!--<app-search></app-search>-->
+		<div style="margin-top: 5px;" class="decorated-card-content">
+
+			<div>
+
+				<mat-card>
+					<ng-container *ngTemplateOutlet="conquest"></ng-container>
+				</mat-card>
+
+			</div>
+
+		</div>
+	</div>
+
+</div>
+
+<div *ngIf="embedded===true">
+	<ng-container *ngTemplateOutlet="conquest"></ng-container>
+</div>
+
+<ng-template #conquest>
+
+	<mat-card-title>
+		<div style="user-select: none;">
+			<div class="row" *ngIf="!embedded && !noData">
+				<h3 class="mat-title table-title" style="margin-bottom: 0px;">Browse conquests:
+					<a *ngIf="type!='town'" routerLink="/{{type}}/{{world}}/{{id}}"><span class="gd-primary">{{name}}</span></a>
+					<span *ngIf="type=='town'" class="gd-primary">{{name}}</span>
+				</h3>
+				<!--<mat-spinner style="margin-left: 30px;" *ngIf="loading" strokeWidth="4" [diameter]="40"></mat-spinner>-->
+			</div>
+			<div class="row">
+				<div class="col-sm-12 col-md-6" style="padding-bottom: 7px; font-size: 18px !important;" *ngIf="!embedded">
+					<div *ngIf="type!=='town'"><ng-container *ngTemplateOutlet="filters"></ng-container></div>
+				</div>
+
+				<div class="col-xs-2" *ngIf="embedded && !minimal">
+					<h4 style='font-weight: 300; color: #304357;'>
+						<span class='world-title' style='color: #18BC9C;'>Conquests</span>
+					</h4>
+				</div>
+
+				<div class="{{embedded?(minimal?'col-xs-12':'col-xs-10'):'col-sm-12 col-md-6'}}" *ngIf="!noData" [ngClass]="{'disabled-div':loading}">
+					<div style="max-height: 40px; margin-top: -12px;" (mousemove)="cdr.detectChanges();" *ngIf="count > 10">
+						<mat-paginator [length]="count"
+						               [pageSize]="size"
+						               [pageIndex]="from/size"
+						               [pageSizeOptions]="[10, 30, 50, 100]"
+						               (page)="paginatorEvent($event)"
+						               (click)="cdr.detectChanges()"
+						               style="background: none !important;">
+						</mat-paginator>
+					</div>
+				</div>
+			</div>
+			<div *ngIf="embedded && !(noData&&toggleFriendly&&toggleInternal&&toggleEnemy)" class="row">
+				<div class="col-xs-12" style="padding: 2px 2px 5px 15px; font-size: 16px !important;">
+					<ng-container *ngTemplateOutlet="filters"></ng-container>
+				</div>
+			</div>
+		</div>
+	</mat-card-title>
+	<mat-card-content style="margin: 0 !important;">
+
+		<mat-progress-bar *ngIf="noData && loading" mode="indeterminate" style="
+			margin: 0;">
+		</mat-progress-bar>
+		<div *ngIf="!noData && loading" style="position: absolute; z-index: 9999; width: calc(100% - 32px);">
+			<mat-spinner style="margin:80px auto;" mode="indeterminate" strokeWidth="6" [diameter]="50"></mat-spinner>
+		</div>
+
+		<div *ngIf="noData && !loading && !filtering">
+			<div class="container-fluid">
+				<div class="row">
+					<br/>
+					<br/>
+					<div class="alert alert-warning text-center alert-gd-1">
+						<h2 *ngIf="toggleFriendly&&toggleInternal&&toggleEnemy">This {{type}} does not yet have any conquests.</h2>
+						<h2 *ngIf="toggleFriendly&&!toggleInternal&&!toggleEnemy">This {{type}} has not yet conquered any new towns.</h2>
+						<h2 *ngIf="toggleInternal&&!toggleFriendly&&!toggleEnemy">This {{type}} does not yet have any internal takeovers.</h2>
+						<h2 *ngIf="toggleEnemy&&!toggleFriendly&&!toggleInternal">This {{type}} has not yet lost any towns.</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="table-container" *ngIf="(!noData && data.length>0) || filtering" [ngClass]="{'loading-overlay': loading && !loadingFiltered}">
+			<div class="table" id="player_conquests_table" style="">
+				<div class="row_custom header default">
+					<div class="cell hidden-xs" *ngIf="!embedded">Date</div>
+					<div class="cell" *ngIf="embedded && !mobile">Date</div>
+					<div class="cell" *ngIf="type != 'town'">City</div>
+					<div class="cell">Old owner</div>
+					<div class="cell hidden-xs" *ngIf="!embedded">Old alliance</div>
+					<div class="cell">New owner</div>
+					<div class="cell hidden-xs" *ngIf="!embedded">New alliance</div>
+					<div class="cell hidden-xs" *ngIf="!embedded">Points</div>
+					<div class="cell" *ngIf="embedded && mobile">Date</div>
+				</div>
+
+				<div class="row_custom row_filters" *ngIf="!mobile && embedded && (data.length > 9 || filtering || from > 0)">
+					<div class="cell filter-cell" *ngIf="!mobile">
+						<ng-container *ngTemplateOutlet="dateInput"></ng-container>
+					</div>
+					<div class="cell filter-cell">
+						<div class="input-wrapper">
+							<input [disabled]="loading" #conqcity class="filter-input" id="conqcity" autocomplete="townname"
+							       type="text" placeholder="Search City" (keyup)="filterKeyup($event)">
+							<label *ngIf="filterCity?.nativeElement?.value != ''" class="fa fa-times input-right" (click)="toggleEvent(30)"></label>
+						</div>
+					</div>
+					<div class="cell filter-cell">
+						<div class="input-wrapper">
+							<input [disabled]="loading" #conqoname class="filter-input" id="conqoname" autocomplete="playername"
+							       type="text" placeholder="Search owner" (keyup)="filterKeyup($event)">
+							<label *ngIf="filterOldName?.nativeElement?.value != ''" class="fa fa-times input-right" (click)="toggleEvent(30)"></label>
+						</div>
+					</div>
+					<div class="cell filter-cell">
+						<div class="input-wrapper">
+							<input [disabled]="loading" #conqnname class="filter-input" id="conqnname" autocomplete="playername"
+							       type="text" placeholder="Search owner" (keyup)="filterKeyup($event)">
+							<label *ngIf="filterNewName?.nativeElement?.value != ''" class="fa fa-times input-right" (click)="toggleEvent(30)"></label>
+						</div>
+					</div>
+					<div class="cell filter-cell" *ngIf="mobile">
+						<ng-container *ngTemplateOutlet="dateInput"></ng-container>
+					</div>
+				</div>
+
+				<div class="row_custom" *ngFor="let c of data; let i = index;" [ngClass]="{'loading-overlay': loadingFiltered}">
+
+					<div class="cell hidden-xs" *ngIf="!embedded">
+						{{c.time | Datex : "D MMM YYYY HH:mm"}}
+					</div>
+					<div class="cell" *ngIf="embedded && !mobile">
+						{{c.time | Datex : "D MMM YYYY"}}
+						<br/>
+						{{c.time | Datex : "HH:mm"}}
+					</div>
+
+					<!--Check loss or gain-->
+					<div class="cell formatted-cell" *ngIf="type != 'town'">
+						<a routerLink="/conquest/town/{{world}}/{{c.town_id}}" *ngIf="type=='player'">
+							<span ngClass="{{(c.type == 'internal'?'diff-neutral':(c.type == 'enemy' ? 'diff-neg' : 'diff-pos'))}}">{{c.town_name}}</span>
+							<!--<span class="diff-pos" *ngIf="c.n_p_id == id && c.o_p_id != id && c.n_a_id != c.o_a_id">{{c.town_name}} - {{c.type}}</span>-->
+							<!--<span class="diff-neutral" *ngIf="c.n_a_id == c.o_a_id">{{c.town_name}} - {{c.type}}</span>-->
+							<!--<span class="diff-neg" *ngIf="c.n_p_id != id && c.o_p_id == id && c.n_a_id != c.o_a_id">{{c.town_name}} - {{c.type}}</span>-->
+						</a>
+						<a routerLink="/conquest/town/{{world}}/{{c.town_id}}" *ngIf="type=='alliance'">
+							<span class="diff-pos" *ngIf="c.n_a_id == id && c.o_a_id != id">{{c.town_name}}</span>
+							<span class="diff-neutral" *ngIf="c.n_a_id == c.o_a_id">{{c.town_name}}</span>
+							<span class="diff-neg" *ngIf="c.n_a_id != id && c.o_a_id == id">{{c.town_name}}</span>
+						</a>
+						<div *ngIf="embedded" style="transform: scale(.7);">
+							{{ c.points | NumberFilter }} points
+						</div>
+					</div>
+
+					<!--Old player (might be ghost)-->
+					<div class="cell formatted-cell diff-null" *ngIf="c.o_p_id == 0">
+						Ghost city
+					</div>
+					<div class="cell formatted-cell" *ngIf="c.o_p_id != 0">
+						<a class="player-hover" routerLink="/player/{{world}}/{{c.o_p_id}}" (click)="linkScrollTop()">
+							<span *ngIf="c.o_p_name == null" class="diff-null">Unknown</span>
+							<span *ngIf="c.o_p_name != null"
+							      ngClass="{{(type=='town'?(c.type == 'internal'?'diff-neutral':'diff-neg'):'')}}">
+								{{c.o_p_name}}</span>
+						</a>
+						<div *ngIf="embedded" style="transform: scale(.7);">
+							<a class="ally-hover" *ngIf="c.o_a_name != null && c.o_a_name != ''" routerLink="/alliance/{{world}}/{{c.o_a_id}}" (click)="linkScrollTop()">
+								<span>{{c.o_a_name}}</span>
+							</a>
+						</div>
+					</div>
+
+					<div class="cell hidden-xs formatted-cell" *ngIf="!embedded">
+						<a *ngIf="c.o_a_name != null && c.o_a_name != ''" routerLink="/alliance/{{world}}/{{c.o_a_id}}">{{c.o_a_name}}</a>
+					</div>
+
+					<div class="cell formatted-cell">
+						<a class="player-hover" routerLink="/player/{{world}}/{{c.n_p_id}}" ngClass="{{(type=='town'?(c.type == 'internal'?'diff-neutral':'diff-pos'):'')}}" (click)="linkScrollTop()">
+							<span>{{c.n_p_name}}</span>
+						</a>
+						<div *ngIf="embedded" style="transform: scale(.7);">
+							<a class="ally-hover" *ngIf="c.n_a_name != null && c.n_a_name != ''" routerLink="/alliance/{{world}}/{{c.n_a_id}}" (click)="linkScrollTop()">
+								<span>{{c.n_a_name}}</span>
+							</a>
+						</div>
+					</div>
+
+					<div class="cell hidden-xs formatted-cell" *ngIf="!embedded">
+						<a *ngIf="c.n_a_name != null && c.n_a_name != ''" routerLink="/alliance/{{world}}/{{c.n_a_id}}">{{c.n_a_name}}</a>
+					</div>
+
+					<div class="cell hidden-xs" *ngIf="!embedded">
+						{{ c.points | NumberFilter }}
+					</div>
+
+					<div class="cell" *ngIf="embedded && mobile" style="transform: scale(.7);">
+						{{c.time | Datex : "D MMM YYYY"}}
+						<br/>
+						{{c.time | Datex : "HH:mm"}}
+					</div>
+
+				</div>
+			</div>
+
+			<div class="row_banner text-center" *ngIf="filtering && data.length <= 0">
+				<h4 style="margin: 0 !important; padding: 5px;" class="gd-secondary">No conquests found for these filters: <a class="a-link-dialog" (click)="toggleEvent(30)">Clear filters</a>.</h4>
+			</div>
+
+		</div>
+
+		<div class="container-fluid text-center" *ngIf="!noData" [ngClass]="{'disabled-div':loading}">
+			<div style="max-height: 40px; margin-top: -12px;" (mousemove)="cdr.detectChanges();" *ngIf="(count >= 30 && size >= 30) || (count > 10 && mobile)">
+				<mat-paginator [length]="count"
+				               [pageSize]="size"
+				               [pageIndex]="from/size"
+				               [pageSizeOptions]="[10, 30, 50, 100]"
+				               (page)="paginatorEvent($event)"
+				               (click)="cdr.detectChanges()"
+				               style="background: none !important;">
+				</mat-paginator>
+			</div>
+		</div>
+
+	</mat-card-content>
+
+</ng-template>
+
+<ng-template #dateInput>
+	<div class="input-wrapper">
+		<input [disabled]="loading" style="text-align: right;" #conqdate class="filter-input" type="date"
+		       id="start" name="conqdate" value="" (change)="filterKeyup($event)">
+	</div>
+</ng-template>
+
+<ng-template #filters>
+	<!--<div fxLayout="row wrap" fxLayoutGap="10px" fxLayoutAlign="space-around center">-->
+	<!--&lt;!&ndash;<div fxLayout="row" fxLayoutGap="40px" fxLayoutAlign="center" class="table-controls">&ndash;&gt;-->
+	<!--&lt;!&ndash;<div fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="center center">&ndash;&gt;-->
+	<!--<div>-->
+	<!--<mat-checkbox class="diff-pos" [disabled]="loading" [(ngModel)]="toggleFriendly" (change)="toggleEvent()">Show conquests<span class="hidden-xs hidden-sm"> (towns gained)</span></mat-checkbox>-->
+	<!--</div>-->
+	<!--&lt;!&ndash;<div fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="center center">&ndash;&gt;-->
+	<!--<div>-->
+	<!--<mat-checkbox class="diff-neutral" [disabled]="loading" [(ngModel)]="toggleInternal" (change)="toggleEvent()">Show internal takeovers</mat-checkbox>-->
+	<!--</div>-->
+	<!--&lt;!&ndash;<div fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="center center" *ngIf="type != 'town'">&ndash;&gt;-->
+	<!--<div>-->
+	<!--<mat-checkbox class="diff-neg" [disabled]="loading" [(ngModel)]="toggleEnemy" (change)="toggleEvent()">Show enemy takeovers</mat-checkbox>-->
+	<!--</div>-->
+	<!--</div>-->
+
+	<!--<mat-select placeholder="Conquest type" [ngModel]="cType" (ngModelChange)="setType($event)" (click)="cdr.detectChanges()">-->
+	<!--<mat-option value="all">Show all</mat-option>-->
+	<!--<mat-option value="friendly">New towns gained</mat-option>-->
+	<!--<mat-option value="internal">Internal takeovers</mat-option>-->
+	<!--<mat-option value="enemy">Enemy takeovers</mat-option>-->
+	<!--</mat-select>-->
+
+	<div class="mobile-filter-push"></div>
+	<mat-chip-list [disabled]="loading" [ngClass]="{'disabled-div':loading}">
+		<mat-chip [selected]="toggleFriendly&&toggleInternal&&toggleEnemy"
+		          (click)="toggleFriendly = toggleInternal = toggleEnemy = true; cdr.detectChanges(); toggleEvent(30);">
+			All conquests
+		</mat-chip>
+		<mat-chip [selected]="toggleFriendly&&!toggleInternal&&!toggleEnemy" style="border: 1px solid #008000"
+		          (click)="toggleFriendly = true; toggleInternal = toggleEnemy = false; cdr.detectChanges(); filterClearInput();">
+			Player takeovers
+		</mat-chip>
+		<mat-chip [selected]="toggleInternal&&!toggleFriendly&&!toggleEnemy" style="border: 1px solid #ff9900"
+		          (click)="toggleInternal = true; toggleFriendly = toggleEnemy = false; cdr.detectChanges(); filterClearInput();">
+			Internal takeovers
+		</mat-chip>
+		<mat-chip [selected]="toggleEnemy&&!toggleFriendly&&!toggleInternal" style="border: 1px solid #ff0000"
+		          (click)="toggleEnemy = true; toggleInternal = toggleFriendly = false; cdr.detectChanges(); filterClearInput();">
+			Enemy takeovers
+		</mat-chip>
+	</mat-chip-list>
+</ng-template>

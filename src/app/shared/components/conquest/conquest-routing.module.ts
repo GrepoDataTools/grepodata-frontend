@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { ConquestComponent } from './conquest.component';
 
-const routes: Routes = [{ path: '', component: ConquestComponent }];
+const routes: Routes = [{ path: ':type/:world/:id', component: ConquestComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

@@ -1,0 +1,50 @@
+<div style="font-size: 18px; max-height: 75vh; min-height: 40vh; overflow: hidden; min-width: 40vw; max-width: 90vw;">
+  <a (click)="dialogRef.close()" class="close"></a>
+
+  <!--<h1 class="mat-primary" style="text-align: center; color: #18BC9C; margin-top: 0px;" mat-dialog-title>Points gained by <a routerLink="/player/{{world}}/{{player_id}}">{{player_name}}</a> on {{date}}</h1>-->
+
+  <div class="text-center" style="width: 100%;">
+    <h2 mat-dialog-title>Points gained by <a routerLink="/player/{{world}}/{{player_id}}"><img src="../../assets/images/player_ico.png" style="height: 28px; margin-top: -5px;"/> {{player_name}}</a> on <span class="gd-primary">{{date}}</span></h2>
+  </div>
+
+  <mat-progress-bar *ngIf="loading" mode="indeterminate" style="margin: 25px 0px;"></mat-progress-bar>
+
+
+  <div mat-dialog-content style="overflow-y: auto; overflow-x: hidden; max-height: 85%; height: 85%; padding: 10px;">
+
+    <div *ngIf="error">
+      Unable to load data for this player.
+    </div>
+
+    <div *ngIf="!loading && !error" style="display: flex; align-content: center;">
+      <div class="container-fluid" style="background: #fbfbfb; box-shadow: 0px 0px 15px -6px rgba(0, 0, 0, 0.4); padding: 15px 30px 5px 5px;">
+        <div class="row" style="overflow: hidden; max-width: 80vw;" [ngStyle]="{'width': (300+100*data.length)+'px'}">
+          <div #overviewDay class="col-sm-12">
+            <ngx-charts-bar-vertical-2d
+              [animations]="false"
+              [view]="[overviewDay.offsetWidth, overviewDay.offsetWidth/2.5>400?overviewDay.offsetWidth/2.5:400]"
+              [scheme]="{domain: ['#ea6153', '#297fb9']}"
+              [results]="data"
+              [gradient]="false"
+              [xAxis]="true"
+              [yAxis]="true"
+              [legend]="true"
+              [showXAxisLabel]="true"
+              [showYAxisLabel]="true"
+              [roundDomains]="true"
+              [barPadding]="2"
+              [noBarWhenZero]="true"
+              [groupPadding]="3"
+              [showDataLabel]="true"
+              [xAxisLabel]="'Hour'"
+              [yAxisLabel]="'Score'"
+              (select)="onSelect($event)">
+            </ngx-charts-bar-vertical-2d>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>

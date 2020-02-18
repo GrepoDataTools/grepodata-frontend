@@ -12,7 +12,6 @@ export class ConquestService {
   getConquests(type: string, world: string, id: string, from: string, size: string, filters: Object) {
     let httpParams: HttpParams = new HttpParams();
 
-    console.log(type, world, id);
     if (typeof type != 'undefined') httpParams = httpParams.append('type', type);
     if (typeof world != 'undefined') httpParams = httpParams.append('world', world);
     if (typeof id != 'undefined') httpParams = httpParams.append('id', id);
@@ -27,7 +26,6 @@ export class ConquestService {
       httpParams = httpParams.append(e, value);
     });
 
-    console.log(httpParams);
     return this.http.get(`${apiUrl}/conquest`, { params: httpParams });
   }
 

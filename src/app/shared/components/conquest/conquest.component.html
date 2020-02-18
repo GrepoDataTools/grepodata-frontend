@@ -2,14 +2,14 @@
 
 	<mat-card>
 		<mat-card-title>
-			<h3 class="text-center">
+			<h3 class="text-center gd-primary" style="margin-bottom: 30px;">
 				Showing conquests for:&nbsp;&nbsp;&nbsp;
 				<i *ngIf="type == 'town'" class="fa fa-university gd-secondary" aria-hidden="true"></i>
 				<i *ngIf="type == 'player'" class="fa fa-user gd-secondary" aria-hidden="true"></i>
 				<i *ngIf="type == 'alliance'" class="fa fa-group gd-secondary" aria-hidden="true"></i>
 				<a *ngIf="type!='town'" routerLink="/{{type}}/{{world}}/{{id}}"><span class="gd-secondary">{{name}}</span></a>
 				<span *ngIf="type=='town'" class="gd-secondary">{{name}}</span>
-				&nbsp;&nbsp;&nbsp;(<span class='world-title gd-secondary'><div class="bg-flag flag-inline-title flag-{{world.substr(0,2)}}"></div>&nbsp;<a class="a-link-dialog" style="color: #334254 !important;" routerLink="/points/{{world}}">{{world}}</a></span>)
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='world-title gd-secondary'><div class="bg-flag flag-inline flag-{{world.substr(0,2)}}"></div>&nbsp;<a class="a-link-dialog" style="color: #334254 !important;" routerLink="/points/{{world}}">{{world}}</a></span>
 			</h3>
 		</mat-card-title>
 		<mat-card-content>
@@ -40,17 +40,17 @@
 				<!--</h3>-->
 			<!--</div>-->
 			<div class="row">
-				<div class="col-sm-12 col-md-6" style="padding-bottom: 7px; font-size: 18px !important;" *ngIf="!embedded">
+				<div class="col-12 col-md-6" style="padding-bottom: 7px; font-size: 18px !important;" *ngIf="!embedded && !noData">
 					<div *ngIf="type!=='town'"><ng-container *ngTemplateOutlet="filters"></ng-container></div>
 				</div>
 
-				<div class="col-xs-2" *ngIf="embedded && !minimal">
+				<div class="col-2" *ngIf="embedded && !minimal">
 					<h4 style='font-weight: 300; color: #304357;'>
 						<span class='world-title' style='color: #18BC9C;'>Conquests</span>
 					</h4>
 				</div>
 
-				<div class="{{embedded?(minimal?'col-xs-12':'col-xs-10'):'col-sm-12 col-md-6'}}" *ngIf="!noData" [ngClass]="{'disabled-div':loading}">
+				<div class="{{embedded?(minimal?'col-12':'col-10'):'col-12 col-md-6'}}" *ngIf="!noData" [ngClass]="{'disabled-div':loading}">
 					<div style="max-height: 40px; margin-top: -12px;" (mousemove)="cdr.detectChanges();" *ngIf="count > 10">
 						<mat-paginator [length]="count"
 						               [pageSize]="size"
@@ -64,7 +64,7 @@
 				</div>
 			</div>
 			<div *ngIf="embedded && !(noData&&toggleFriendly&&toggleInternal&&toggleEnemy)" class="row">
-				<div class="col-xs-12" style="padding: 2px 2px 5px 15px; font-size: 16px !important;">
+				<div class="col-12" style="padding: 2px 2px 5px 15px; font-size: 16px !important;">
 					<ng-container *ngTemplateOutlet="filters"></ng-container>
 				</div>
 			</div>
@@ -79,9 +79,9 @@
 			<mat-spinner style="margin:80px auto;" mode="indeterminate" strokeWidth="6" [diameter]="50"></mat-spinner>
 		</div>
 
-		<div *ngIf="noData && !loading && !filtering">
-			<div class="container-fluid">
-				<div class="row">
+		<div *ngIf="noData && !loading && !filtering" class="container-fluid">
+			<div class="row">
+				<div class="col-12">
 					<br/>
 					<br/>
 					<div class="alert alert-warning text-center alert-gd-1">
@@ -97,14 +97,14 @@
 		<div class="table-container" *ngIf="(!noData && data.length>0) || filtering" [ngClass]="{'loading-overlay': loading && !loadingFiltered}">
 			<div class="table" id="player_conquests_table" style="">
 				<div class="row_custom header default">
-					<div class="cell hidden-xs" *ngIf="!embedded">Date</div>
+					<div class="cell d-none d-sm-table-cell" *ngIf="!embedded">Date</div>
 					<div class="cell" *ngIf="embedded && !mobile">Date</div>
 					<div class="cell" *ngIf="type != 'town'">City</div>
 					<div class="cell">Old owner</div>
-					<div class="cell hidden-xs" *ngIf="!embedded">Old alliance</div>
+					<div class="cell d-none d-sm-table-cell" *ngIf="!embedded">Old alliance</div>
 					<div class="cell">New owner</div>
-					<div class="cell hidden-xs" *ngIf="!embedded">New alliance</div>
-					<div class="cell hidden-xs" *ngIf="!embedded">Points</div>
+					<div class="cell d-none d-sm-table-cell" *ngIf="!embedded">New alliance</div>
+					<div class="cell d-none d-sm-table-cell" *ngIf="!embedded">Points</div>
 					<div class="cell" *ngIf="embedded && mobile">Date</div>
 				</div>
 
@@ -140,7 +140,7 @@
 
 				<div class="row_custom" *ngFor="let c of data; let i = index;" [ngClass]="{'loading-overlay': loadingFiltered}">
 
-					<div class="cell hidden-xs" *ngIf="!embedded">
+					<div class="cell d-none d-sm-table-cell" *ngIf="!embedded">
 						{{c.time | Datex : "D MMM YYYY HH:mm"}}
 					</div>
 					<div class="cell" *ngIf="embedded && !mobile">
@@ -185,7 +185,7 @@
 						</div>
 					</div>
 
-					<div class="cell hidden-xs formatted-cell" *ngIf="!embedded">
+					<div class="cell d-none d-sm-table-cell formatted-cell" *ngIf="!embedded">
 						<a *ngIf="c.o_a_name != null && c.o_a_name != ''" routerLink="/alliance/{{world}}/{{c.o_a_id}}">{{c.o_a_name}}</a>
 					</div>
 
@@ -200,11 +200,11 @@
 						</div>
 					</div>
 
-					<div class="cell hidden-xs formatted-cell" *ngIf="!embedded">
+					<div class="cell d-none d-sm-table-cell formatted-cell" *ngIf="!embedded">
 						<a *ngIf="c.n_a_name != null && c.n_a_name != ''" routerLink="/alliance/{{world}}/{{c.n_a_id}}">{{c.n_a_name}}</a>
 					</div>
 
-					<div class="cell hidden-xs" *ngIf="!embedded">
+					<div class="cell d-none d-sm-table-cell" *ngIf="!embedded">
 						{{ c.points | NumberFilter }}
 					</div>
 

@@ -4,9 +4,10 @@ import {NumberFilterPipe} from './number-filter.pipe';
 import {ValuesPipe} from './values.pipe';
 import {IndexDatePipe} from './index-date.pipe';
 import {HideNoLossPipe} from './hide-no-loss.pipe';
+import {DatexPipe} from './datex.pipe';
 
 @NgModule({
-  declarations: [NumberFilterPipe, ValuesPipe, IndexDatePipe, HideNoLossPipe],
+  declarations: [NumberFilterPipe, ValuesPipe, IndexDatePipe, HideNoLossPipe, DatexPipe],
   imports: [
     CommonModule
   ],
@@ -14,7 +15,8 @@ import {HideNoLossPipe} from './hide-no-loss.pipe';
     NumberFilterPipe,
     ValuesPipe,
     IndexDatePipe,
-    HideNoLossPipe
+    HideNoLossPipe,
+    DatexPipe
   ]
 })
 export class PipesModule { }

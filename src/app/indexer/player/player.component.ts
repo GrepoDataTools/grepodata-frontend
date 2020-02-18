@@ -1,10 +1,10 @@
-import {AfterViewInit, ChangeDetectorRef, Component, Input, OnChanges} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnChanges } from '@angular/core';
+import { ActivatedRoute, Router } from "@angular/router";
 import { MatDialog } from "@angular/material/dialog";
-import {PlayerService} from '../../shared/services/player.service';
-import {IndexerService} from '../../shared/services/indexer.service';
-import {WorldService} from '../../shared/services/world.service';
-import {LocalStorageService} from '../../shared/services/local-storage.service';
+import { PlayerService } from '../../shared/services/player.service';
+import { IndexerService } from '../../shared/services/indexer.service';
+import { WorldService } from '../../shared/services/world.service';
+import { LocalStorageService } from '../../shared/services/local-storage.service';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
@@ -51,7 +51,7 @@ export class IndexPlayerComponent implements AfterViewInit {
     private indexerService: IndexerService,
     private router: Router,
     private route: ActivatedRoute) {
-    this.route.params.subscribe( params => this.routeParams = params );
+    this.route.params.subscribe(params => this.routeParams = params);
   }
 
   ngAfterViewInit() {
@@ -103,15 +103,10 @@ export class IndexPlayerComponent implements AfterViewInit {
         (error) => this.renderPlayerIntel(null)
       );
 
-<<<<<<< HEAD
-    this.worldService.getWorldInfo(this.world).subscribe(world => this.worldName = world.name).add(() => this.cdr.detectChanges());
-=======
     if (!this.embedded) {
-      this.worldService.getWorldInfo(this.world).then((response) => {
-        this.worldName = response.name
-      });
+      this.worldService.getWorldInfo(this.world).subscribe(world => this.worldName = world.name).add(() => this.cdr.detectChanges());
+
     }
->>>>>>> 4aeb28dd5fed9ac6e465003cac22ed59a3c7ed91
   }
 
   private renderPlayerInfo(data) {
@@ -131,7 +126,7 @@ export class IndexPlayerComponent implements AfterViewInit {
       this.err = '';
       this.version = data.latest_version;
       this.message = data.update_message;
-      if (data.cities.players[this.id] != undefined) this.allCities  = data.cities.players[this.id].towns || [];
+      if (data.cities.players[this.id] != undefined) this.allCities = data.cities.players[this.id].towns || [];
       if (data.fire.players[this.id] != undefined) this.fireCities = data.fire.players[this.id] || [];
       if (data.bir.players[this.id] != undefined) this.birCities = data.bir.players[this.id] || [];
       if (data.myth.players[this.id] != undefined) this.mythCities = data.myth.players[this.id] || [];
@@ -139,14 +134,14 @@ export class IndexPlayerComponent implements AfterViewInit {
       if (data.def.players[this.id] != undefined) this.defCities = data.def.players[this.id] || [];
       this.noIntel = false;
 
-      this.totalCount = this.fireCities.towns?this.fireCities.towns.length:0
-      + this.birCities.towns?this.birCities.towns.length:0
-      + this.mythCities.towns?this.mythCities.towns.length:0
-      + this.offCities.towns?this.offCities.towns.length:0
-      + this.defCities.towns?this.defCities.towns.length:0;
+      this.totalCount = this.fireCities.towns ? this.fireCities.towns.length : 0
+        + this.birCities.towns ? this.birCities.towns.length : 0
+          + this.mythCities.towns ? this.mythCities.towns.length : 0
+            + this.offCities.towns ? this.offCities.towns.length : 0
+              + this.defCities.towns ? this.defCities.towns.length : 0;
 
-      this.tabsSeaIndex = this.fireCities.towns&&this.fireCities.towns.length>0?0:(this.birCities.towns&&this.birCities.towns.length>0?1:0);
-      this.tabsLandIndex = this.mythCities.towns&&this.mythCities.towns.length>0?0:(this.offCities.towns&&this.offCities.towns.length>0?1:(this.defCities.towns&&this.defCities.towns.length>0?2:0));
+      this.tabsSeaIndex = this.fireCities.towns && this.fireCities.towns.length > 0 ? 0 : (this.birCities.towns && this.birCities.towns.length > 0 ? 1 : 0);
+      this.tabsLandIndex = this.mythCities.towns && this.mythCities.towns.length > 0 ? 0 : (this.offCities.towns && this.offCities.towns.length > 0 ? 1 : (this.defCities.towns && this.defCities.towns.length > 0 ? 2 : 0));
       // console.log(this.mythCities.length);
       // console.log(this.offCities);
       // console.log(this.defCities);

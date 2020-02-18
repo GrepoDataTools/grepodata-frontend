@@ -1,10 +1,10 @@
-import {AfterViewInit, ChangeDetectorRef, Component, Input} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import { AfterViewInit, ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ActivatedRoute, Router } from "@angular/router";
 import { MatDialog } from "@angular/material/dialog";
-import {AllianceService} from '../../shared/services/alliance.service';
-import {IndexerService} from '../../shared/services/indexer.service';
-import {WorldService} from '../../shared/services/world.service';
-import {LocalStorageService} from '../../shared/services/local-storage.service';
+import { AllianceService } from '../../shared/services/alliance.service';
+import { IndexerService } from '../../shared/services/indexer.service';
+import { WorldService } from '../../shared/services/world.service';
+import { LocalStorageService } from '../../shared/services/local-storage.service';
 
 @Component({
   selector: 'app-index-alliance',
@@ -50,7 +50,7 @@ export class IndexAllianceComponent implements AfterViewInit {
     private indexerService: IndexerService,
     private router: Router,
     private route: ActivatedRoute) {
-    this.route.params.subscribe( params => this.routeParams = params );
+    this.route.params.subscribe(params => this.routeParams = params);
   }
 
   ngAfterViewInit() {
@@ -73,14 +73,14 @@ export class IndexAllianceComponent implements AfterViewInit {
   playerNameFilterSea = '';
   playerNameFilterLand = '';
   filterPlayers(filterType) {
-    if (filterType=='sea') {
+    if (filterType == 'sea') {
       this.playerNameFilter = this.playerNameFilterSea;
       this.playerNameFilterLand = '';
     } else {
       this.playerNameFilter = this.playerNameFilterLand;
       this.playerNameFilterSea = '';
     }
-    this.hasMatch=false;
+    this.hasMatch = false;
     this.filterType = filterType;
     this.cdr.detectChanges();
     setTimeout(_ => {
@@ -92,17 +92,17 @@ export class IndexAllianceComponent implements AfterViewInit {
     if (type != this.filterType) {
       return true;
     }
-    let match = this.playerNameFilter==''||name.toLowerCase().search(this.playerNameFilter.toLowerCase())>=0;
+    let match = this.playerNameFilter == '' || name.toLowerCase().search(this.playerNameFilter.toLowerCase()) >= 0;
     if (match) {
       this.hasMatch = true;
     }
     return match;
   }
   clearFilter() {
-    this.playerNameFilter='';
-    this.playerNameFilterSea='';
-    this.playerNameFilterLand='';
-    this.hasMatch=true;
+    this.playerNameFilter = '';
+    this.playerNameFilterSea = '';
+    this.playerNameFilterLand = '';
+    this.hasMatch = true;
     this.filterType = '';
     this.cdr.detectChanges();
   }
@@ -144,9 +144,7 @@ export class IndexAllianceComponent implements AfterViewInit {
         (error) => this.renderAllianceIntel(null)
       );
 
-    this.worldService.getWorldInfo(this.world).then((response) => {
-      this.worldName = response.name
-    });
+    this.worldService.getWorldInfo(this.world).subscribe((response) => this.worldName = response.name);
   }
 
   private renderAllianceInfo(data) {
@@ -173,8 +171,8 @@ export class IndexAllianceComponent implements AfterViewInit {
       this.defPlayers = data.def.players;
       this.noIntel = false;
 
-      this.tabsSeaIndex = Object.keys(this.firePlayers).length>0?0:(Object.keys(this.birPlayers).length>0?1:0);
-      this.tabsLandIndex = Object.keys(this.mythPlayers).length>0?0:(Object.keys(this.offPlayers).length>0?1:(Object.keys(this.defPlayers).length>0?2:0));
+      this.tabsSeaIndex = Object.keys(this.firePlayers).length > 0 ? 0 : (Object.keys(this.birPlayers).length > 0 ? 1 : 0);
+      this.tabsLandIndex = Object.keys(this.mythPlayers).length > 0 ? 0 : (Object.keys(this.offPlayers).length > 0 ? 1 : (Object.keys(this.defPlayers).length > 0 ? 2 : 0));
     }
     this.loading = false;
     this.cdr.detectChanges();

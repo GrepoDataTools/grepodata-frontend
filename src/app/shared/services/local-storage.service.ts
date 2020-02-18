@@ -13,7 +13,7 @@ export class LocalStorageService {
 
       if(moment(item.expires) < moment()) return false;
 
-      return item.data;
+      return item.content;
     }
 
     return false;

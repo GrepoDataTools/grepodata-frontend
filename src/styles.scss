@@ -778,6 +778,7 @@ mat-paginator {
     animation: blob-spinner-mover 1s infinite ease-in;
 }
 
+
 @-webkit-keyframes blob-bottom {
     25%, 50%, 75% {
         top: 50%;
@@ -885,6 +886,24 @@ mat-paginator {
 
 .dropdown-caret:hover {
     cursor: pointer;
+}
+
+.dropdown .dropdown-item:hover {
+    background-color: #31bc9c;
+    color: #fff;
+}
+.dropdown-menu.show.language-select {
+        border-radius: 0;
+    background-color: #2f4357;
+    color: #939ea7;
+    position: absolute;
+    top: 75px;
+    width: calc(5px + 100%);
+    border-right: 1px solid #2f4357;
+    border-left: 1px solid #2f4357;
+    border-bottom: 1px solid #2f4357;
+    padding: 0;
+    line-height: 2rem;
 }
 
 .noselect {

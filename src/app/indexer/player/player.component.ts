@@ -5,6 +5,7 @@ import {PlayerService} from '../../shared/services/player.service';
 import {IndexerService} from '../../shared/services/indexer.service';
 import {WorldService} from '../../shared/services/world.service';
 import {LocalStorageService} from '../../shared/services/local-storage.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-index-player',
@@ -27,7 +28,7 @@ export class IndexPlayerComponent implements AfterViewInit {
   loading = true;
   noIntel = false;
   err = '';
-  worldName = '';
+  worldName;
   allCities: any = [];
   fireCities: any = [];
   birCities: any = [];
@@ -102,9 +103,7 @@ export class IndexPlayerComponent implements AfterViewInit {
         (error) => this.renderPlayerIntel(null)
       );
 
-    this.worldService.getWorldInfo(this.world).then((response) => {
-      this.worldName = response.name
-    });
+    this.worldService.getWorldInfo(this.world).subscribe(world => this.worldName = world.name).add(() => this.cdr.detectChanges());
   }
 
   private renderPlayerInfo(data) {

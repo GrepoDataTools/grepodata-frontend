@@ -7,6 +7,8 @@ import {IndexHomeModule} from './index-home/index-home.module';
 import {AboutModule} from './about/about.module';
 import {TranslateModule} from '@ngx-translate/core';
 import { IndexVersionComponent } from './index-version/index-version.component';
+import { WorldService } from '../shared/services/world.service';
+import { LocalStorageService } from '../shared/services/local-storage.service';
 
 
 @NgModule({
@@ -17,6 +19,7 @@ import { IndexVersionComponent } from './index-version/index-version.component';
     IndexerRoutingModule,
     IndexHomeModule,
     TranslateModule
-  ]
+  ],
+  providers: [WorldService, LocalStorageService]
 })
 export class IndexerModule { }

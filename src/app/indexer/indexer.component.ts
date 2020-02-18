@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { WorldService } from '../shared/services/world.service';
 
 @Component({
   selector: 'app-indexer',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IndexerComponent implements OnInit {
 
-  constructor() { }
+  constructor(private worldService: WorldService) { }
 
   ngOnInit(): void {
+    console.log(this.worldService.getDefaultServer())
   }
 
 }

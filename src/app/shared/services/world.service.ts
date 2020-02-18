@@ -3,57 +3,33 @@ import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from './local-storage.service';
 import {environment} from '../../../environments/environment';
 import {Globals} from '../../globals';
-import {promise} from 'selenium-webdriver';
+import { mergeMap, map } from 'rxjs/operators';
 
 const apiUrl = environment.apiUrl;
 
 @Injectable()
 export class WorldService {
+  userLocale: string;
+  userCountry: string;
   servers = ['ar', 'br', 'cz', 'de', 'dk', 'en', 'es', 'fi', 'fr', 'gr', 'hu', 'it', 'nl', 'no', 'pl', 'pt', 'ro', 'ru', 'se', 'sk', 'tr', 'us'];
 
   constructor(private http: HttpClient,
-              private globals: Globals,
-              private localStorage: LocalStorageService) {}
+              private localStorage: LocalStorageService,
+              private globals: Globals) {
+                this.userLocale = navigator.language.slice(0, 2);
+                this.userCountry = navigator.language.slice(3, 5).toLowerCase()
+              }
 
   getDefaultServer() {
-    try {
-      let active_server = this.globals.get_active_server();
-      if (active_server !== false) {
-        return active_server;
-      }
+      if (this.globals.get_active_server()) return this.globals.get_active_server();
 
-      let userLang = navigator.language || navigator['userLanguage'];
-      userLang = userLang.toLowerCase();
-      if (userLang === 'nl' || userLang === 'nl-nl' || userLang === 'nl-be') {
-        return 'nl';
-      } else if (userLang === 'fr' || userLang === 'fr-fr') {
-        return 'fr';
-      } else if (userLang === 'de' || userLang === 'de-de') {
-        return 'de';
-      } else if (userLang === 'en' || userLang === 'en-gb') {
-        return 'en';
-      } else if (userLang === 'en-us') {
-        return 'us';
-      } else {
-        // Match BCP47 country (prefixed by '-')
-        let match = this.servers.filter(server => (userLang.search('-'+server) != -1));
-        if (match.length > 0) {
-          console.log("matched country: " + match[0]);
-          return match[0];
-        }
-
-        // Match BCP47 language
-        match = this.servers.filter(server => (userLang.search(server) != -1));
-        if (match.length > 0) {
-          console.log("matched language: " + match[0]);
-          return match[0];
-        } else {
-          return 'en';
-        }
+      switch(this.userCountry) {
+        case 'us': return 'us';
+        case 'gb': return 'en';
+        default: this.servers.includes(this.userLocale) ? this.userLocale : this.servers.includes(this.userCountry) ? this.userCountry : 'en';
       }
-    } catch (e) {}
-    return 'en';
   }
+
 
   getServers() {
     return this.servers;
@@ -83,16 +59,17 @@ export class WorldService {
     return this.http.get(apiUrl + url);
   }
 
-  getWorldInfo(id) {
-    return this.getWorlds().then((response) => {
-      for (let i of (<any>response)) {
-        for (let w of (<any>i).worlds) {
-          if (w.id == id)  {
-            return w;
-          }
-        }
-      }
-    });
+  filterWorldList(list: Array<any>, worldId: string) {
+    return list.filter((record) => record.server === worldId.slice(0, 2))[0].worlds.filter((server) => server.id === worldId)[0];
+  }
+
+  getWorldInfo(worldId: string) {
+    return this.http.get(`${apiUrl}/world/active`).pipe(map(response => { 
+      LocalStorageService.set('/world/active', response, (20))
+
+      return response;
+      }),
+      map((response: any) => this.filterWorldList(response, worldId)));
   }
 
 }

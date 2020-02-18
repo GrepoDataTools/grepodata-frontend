@@ -10,6 +10,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatChipsModule} from '@angular/material/chips';
 import {PipesModule} from '../../pipes/pipes.module';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {RouterModule} from '@angular/router';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatChipsModule,
-    PipesModule
+    PipesModule,
+    RouterModule
   ]
 })
 export class ConquestModule { }

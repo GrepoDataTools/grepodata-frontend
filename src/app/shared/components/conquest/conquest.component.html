@@ -1,33 +1,27 @@
 <div *ngIf="embedded==false" style="min-height: calc(100vh - 160px);">
 
-	<div class="decorated-card">
-		<div class='decorated-card-header decorated-title'>
-			<h1>
-				Showing conquests for:
+	<mat-card>
+		<mat-card-title>
+			<h3 class="text-center">
+				Showing conquests for:&nbsp;&nbsp;&nbsp;
 				<i *ngIf="type == 'town'" class="fa fa-university gd-secondary" aria-hidden="true"></i>
 				<i *ngIf="type == 'player'" class="fa fa-user gd-secondary" aria-hidden="true"></i>
 				<i *ngIf="type == 'alliance'" class="fa fa-group gd-secondary" aria-hidden="true"></i>
-				&nbsp;
 				<a *ngIf="type!='town'" routerLink="/{{type}}/{{world}}/{{id}}"><span class="gd-secondary">{{name}}</span></a>
 				<span *ngIf="type=='town'" class="gd-secondary">{{name}}</span>
-			</h1>
-			<h3>
-				World: <span class='world-title gd-secondary'><div class="bg-flag flag-inline-title flag-{{world.substr(0,2)}}"></div>&nbsp;<a class="a-link-dialog" style="color: #334254 !important;" routerLink="/points/{{world}}">{{world}}</a></span>
+				&nbsp;&nbsp;&nbsp;(<span class='world-title gd-secondary'><div class="bg-flag flag-inline-title flag-{{world.substr(0,2)}}"></div>&nbsp;<a class="a-link-dialog" style="color: #334254 !important;" routerLink="/points/{{world}}">{{world}}</a></span>)
 			</h3>
-		</div>
-		<!--<app-search></app-search>-->
-		<div style="margin-top: 5px;" class="decorated-card-content">
-
-			<div>
-
-				<mat-card>
-					<ng-container *ngTemplateOutlet="conquest"></ng-container>
-				</mat-card>
-
+		</mat-card-title>
+		<mat-card-content>
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<ng-container *ngTemplateOutlet="conquest"></ng-container>
+					</div>
+				</div>
 			</div>
-
-		</div>
-	</div>
+		</mat-card-content>
+	</mat-card>
 
 </div>
 
@@ -39,13 +33,12 @@
 
 	<mat-card-title>
 		<div style="user-select: none;">
-			<div class="row" *ngIf="!embedded && !noData">
-				<h3 class="mat-title table-title" style="margin-bottom: 0px;">Browse conquests:
-					<a *ngIf="type!='town'" routerLink="/{{type}}/{{world}}/{{id}}"><span class="gd-primary">{{name}}</span></a>
-					<span *ngIf="type=='town'" class="gd-primary">{{name}}</span>
-				</h3>
-				<!--<mat-spinner style="margin-left: 30px;" *ngIf="loading" strokeWidth="4" [diameter]="40"></mat-spinner>-->
-			</div>
+			<!--<div class="row" *ngIf="!embedded && !noData">-->
+				<!--<h3 class="mat-title table-title" style="margin-bottom: 0px;">Browse conquests:-->
+					<!--<a *ngIf="type!='town'" routerLink="/{{type}}/{{world}}/{{id}}"><span class="gd-primary">{{name}}</span></a>-->
+					<!--<span *ngIf="type=='town'" class="gd-primary">{{name}}</span>-->
+				<!--</h3>-->
+			<!--</div>-->
 			<div class="row">
 				<div class="col-sm-12 col-md-6" style="padding-bottom: 7px; font-size: 18px !important;" *ngIf="!embedded">
 					<div *ngIf="type!=='town'"><ng-container *ngTemplateOutlet="filters"></ng-container></div>

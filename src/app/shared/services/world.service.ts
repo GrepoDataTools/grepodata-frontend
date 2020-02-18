@@ -65,9 +65,8 @@ export class WorldService {
 
   getWorldInfo(worldId: string) {
     return this.http.get(`${apiUrl}/world/active`).pipe(map(response => { 
-      LocalStorageService.set('/world/active', response, (20))
-
-      return response;
+        LocalStorageService.set('/world/active', response, (20));
+        return response;
       }),
       map((response: any) => this.filterWorldList(response, worldId)));
   }

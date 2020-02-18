@@ -10,18 +10,24 @@ export class ConquestService {
   constructor(private http: HttpClient) {}
 
   getConquests(type: string, world: string, id: string, from: string, size: string, filters: Object) {
-    const httpParams: HttpParams = new HttpParams();
+    let httpParams: HttpParams = new HttpParams();
 
-    type && httpParams.append('type', type);
-    world && httpParams.append('world', world);
-    id && httpParams.append('id', id);
-    from && httpParams.append('from', from);
-    size && httpParams.append('size', size);
+    console.log(type, world, id);
+    if (typeof type != 'undefined') httpParams = httpParams.append('type', type);
+    if (typeof world != 'undefined') httpParams = httpParams.append('world', world);
+    if (typeof id != 'undefined') httpParams = httpParams.append('id', id);
+    if (typeof from != 'undefined') httpParams = httpParams.append('from', from);
+    if (typeof size != 'undefined') httpParams = httpParams.append('size', size);
 
-    Object.keys(filters).map((filter: string) => {
-      filters[filter] ? httpParams.append(filter, filters[filter]) : httpParams.append(filter, '_');
+    Object.keys(filters).forEach(e => {
+      let value = filters[e];
+      if (value === null || value === '') {
+        value = '_';
+      }
+      httpParams = httpParams.append(e, value);
     });
 
+    console.log(httpParams);
     return this.http.get(`${apiUrl}/conquest`, { params: httpParams });
   }
 

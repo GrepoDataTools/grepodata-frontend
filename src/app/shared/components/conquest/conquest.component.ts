@@ -104,14 +104,14 @@ export class ConquestComponent implements AfterViewInit, OnChanges {
     });
     this.route.params.subscribe( params => {
       console.log(this.route);
-      // if (this.route.routeConfig && this.route.routeConfig.path.search('conquest/') >= 0) {
+      if (window.location.href.search('conquest/') >= 0) {
         console.log(params);
         this.embedded = false;
         this.usedInput = null;
         this.cdr.detectChanges();
         // this.clearFilter();
         this.load(params);
-      // }
+      }
     });
   }
 

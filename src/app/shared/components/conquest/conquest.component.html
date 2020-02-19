@@ -9,7 +9,7 @@
 				<i *ngIf="type == 'alliance'" class="fa fa-group gd-secondary" aria-hidden="true"></i>
 				<a *ngIf="type!='town'" routerLink="/{{type}}/{{world}}/{{id}}"><span class="gd-secondary">{{name}}</span></a>
 				<span *ngIf="type=='town'" class="gd-secondary">{{name}}</span>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='world-title gd-secondary'><div class="bg-flag flag-inline flag-{{world.substr(0,2)}}"></div>&nbsp;<a class="a-link-dialog" style="color: #334254 !important;" routerLink="/points/{{world}}">{{world}}</a></span>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class='world-title gd-secondary'><div *ngIf="world" class="bg-flag flag-inline flag-{{world.substr(0,2)}}"></div>&nbsp;<a class="a-link-dialog" style="color: #334254 !important;" routerLink="/points/{{world}}">{{world}}</a></span>
 			</h3>
 		</mat-card-title>
 		<mat-card-content>

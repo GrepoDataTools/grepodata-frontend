@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', loadChildren: () => import('./home/home.module').then(m => m.HomeModule) },
+  { path: '', redirectTo: '/points', pathMatch: 'full' },
+  { path: 'points', loadChildren: () => import('./home/home.module').then(m => m.HomeModule) },
   { path: 'alliance', loadChildren: () => import('./shared/components/alliance/alliance.module').then(m => m.AllianceModule) },
   { path: 'changelog', loadChildren: () => import('./shared/components/changelog/changelog.module').then(m => m.ChangelogModule) },
   { path: 'compare', loadChildren: () => import('./shared/components/compare/compare.module').then(m => m.CompareModule) },
@@ -13,7 +14,7 @@ const routes: Routes = [
   { path: 'privacy', loadChildren: () => import('./shared/components/privacy/privacy.module').then(m => m.PrivacyModule) },
   { path: 'donated', loadChildren: () => import('./shared/components/donated/donated.module').then(m => m.DonatedModule) },
   { path: 'ranking', loadChildren: () => import('./shared/components/ranking/ranking.module').then(m => m.RankingModule) },
-  { path: 'points', loadChildren: () => import('./shared/components/points/points.module').then(m => m.PointsModule) },
+  // { path: 'points', loadChildren: () => import('./shared/components/points/points.module').then(m => m.PointsModule) },
   { path: 'contact', loadChildren: () => import('./shared/components/contact/contact.module').then(m => m.ContactModule) },
   { path: 'changes', loadChildren: () => import('./shared/components/changes/changes.module').then(m => m.ChangesModule) }
 ];

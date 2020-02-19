@@ -20,6 +20,7 @@ import { AllianceOverviewDialogComponent } from "../shared/dialogs/alliance-over
 import { PlayerOverviewDialogComponent } from "../shared/dialogs/player-overview-dialog/player-overview-dialog.component";
 import { OverviewDialogComponent } from "../shared/dialogs/overview-dialog/overview-dialog.component";
 import { BbScoreboardDialogComponent } from "../shared/dialogs/bb-scoreboard-dialog/bb-scoreboard-dialog.component";
+import { ConquestDialog } from "../shared/dialogs/conquest-dialog/conquest.component";
 
 @Component({
   selector: "app-home",
@@ -333,7 +334,7 @@ export class HomeComponent implements OnInit {
 
   load(params) {
     // Save params
-    if (typeof params["date"] != "undefined") {
+    if (params["date"]) {
       this.paramsDate = params["date"];
     }
     if (typeof params["world"] != "undefined") {
@@ -361,6 +362,7 @@ export class HomeComponent implements OnInit {
     this.zoomOriginX = null;
     this.zoomOriginY = null;
     this.setInputValue("");
+    console.log(this.paramsDate)
     this.playerService
       .loadScoreboard(this.world, params["date"], this.server)
       .subscribe(
@@ -627,6 +629,7 @@ export class HomeComponent implements OnInit {
   loadPlayerDiffs() {
     this.playerService.loadDifferences(this.world).subscribe(
       response => {
+        console.log(response)
         this.playerDiffs = response;
         this.loadingDiffs = false;
       },
@@ -752,6 +755,17 @@ export class HomeComponent implements OnInit {
   }
 
   showConquests(type, id, name) {
-    // this.conquestService.showDialog(type, id, name, this.world, this.selectedDate);
+    this.dialog.open(ConquestDialog, {
+      autoFocus: false,
+      data: {
+        filters: {
+          id,
+          type,
+          world: this.world,
+          date: this.selectedDate
+        },
+        name
+      }
+    });
   }
 }

@@ -15,30 +15,30 @@ export class AllianceService {
   }
 
   loadInfo(world: string, id: string) {
-    return this.http.get(`${apiUrl}/alliance/info?${world && `world=${world}&`}${id && `id=${id}`}`);
+    return this.http.get(`${apiUrl}/alliance/info?${world ? `world=${world}&` : ''}${id ? `id=${id}` : ''}`);
   }
 
   loadHistory(world: string, id: string) {
-    return this.http.get(`${apiUrl}/alliance/history?${world && `world=${world}&`}${id && `id=${id}`}`);
+    return this.http.get(`${apiUrl}/alliance/history?${world ? `world=${world}&` : ''}${id ? `id=${id}` : ''}`);
   }
 
-  loadChanges(world: string, date: string, id: any, from: any = undefined, size: any = undefined) {
-    return this.http.get(`${apiUrl}/alliance/changes?${world && `world=${world}&`}${date && `date=${date}&`}${id && `id=${id}&`}${from && `from=${from}&`}${size && `size=${size}`}`);
+  loadChanges(world: string, date: string, id: any, from: any = null, size: any = null) {
+    return this.http.get(`${apiUrl}/alliance/changes?${world ? `world=${world}&` : ''}${id ? `id=${id}&` : ''}${date ? `date=${date}&` : ''}${from ? `from=${from}&` : ''}${size ? `size=${size}` : ''}`);
   }
 
   loadHistoryRange(world: string, id: string, from: string, to: string) {
-    return this.http.get(`${apiUrl}/alliance/rangehistory?${world && `world=${world}&`}${id && `id=${id}&`}${from && `from=${from}&`}${to && `to=${to}`}`);
+    return this.http.get(`${apiUrl}/alliance/rangehistory?${world ? `world=${world}&` : ''}${id ? `id=${id}&` : ''}${from ? `from=${from}&` : ''}${to ? `to=${to}` : ''}`);
   }
 
   loadMembers(world: string, id: string) {
-    return this.http.get(`${apiUrl}/alliance/members?${world && `world=${world}&`}${id && `id=${id}`}`);
+    return this.http.get(`${apiUrl}/alliance/members?${world ? `world=${world}&` : ''}${id ? `id=${id}` : ''}`);
   }
 
   loadDayDifferences(world: string, date: string, id: string) {
-    return this.http.get(`${apiUrl}/alliance/daydiffs?${world && `world=${world}&`}${date && `date=${date}&`}${id && `id=${id}`}`);
+    return this.http.get(`${apiUrl}/alliance/daydiffs?${world ? `world=${world}&` : ''}${date ? `date=${date}&` : ''}${id ? `id=${id}` : ''}`);
   }
 
   loadScoreboard(world: string, date: string, server: string) {
-    return this.http.get(`${apiUrl}/scoreboard/alliance?${world && `world=${world}&`}${server && `server=${server}&`}${date && `date=${date}`}`);
+    return this.http.get(`${apiUrl}/scoreboard/alliance?${world ? `world=${world}&` : ''}${server ? `server=${server}&` : ''}${date ? `date=${date}` : ''}`);
   }
 }

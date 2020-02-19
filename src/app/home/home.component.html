@@ -1,11 +1,9 @@
-<app-search></app-search>
-
 <div style="width: 100% !important;" (scroll)="clearTip()">
 
   <!--<div class="ticker-label">-->
     <!--Attack points (last hour):-->
   <!--</div>-->
-  <div class="ticker-wrap" *ngIf="!loadingDiffs && playerDiffs != ''">
+  <div class="ticker-wrap" *ngIf="!loadingDiffs && playerDiffs">
     <div class="ticker">
       <div class="ticker__item" *ngIf="playerDiffs.att">
         <span class="item-red">Attack points in last update: &nbsp;&nbsp;&nbsp;&nbsp;</span>

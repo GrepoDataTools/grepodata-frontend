@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { environment } from "../../../environments/environment";
+import { MatDialog } from "@angular/material/dialog";
+import { ConquestDialog } from "../dialogs/conquest-dialog/conquest.component";
 
 const apiUrl = environment.apiUrl;
 
 @Injectable()
 export class ConquestService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private dialog: MatDialog) {}
 
   getConquests(type: string, world: string, id: string, from: string, size: string, filters: Object) {
     let httpParams: HttpParams = new HttpParams();
@@ -29,18 +31,18 @@ export class ConquestService {
     return this.http.get(`${apiUrl}/conquest`, { params: httpParams });
   }
 
-  // showDialog(type: string, id: string, name: string, world: string, date: Date) {
-  //   this.dialog.open(ConquestDialog, {
-  //     autoFocus: false,
-  //     data: {
-  //       filters: {
-  //         id,
-  //         type,
-  //         world,
-  //         date
-  //       },
-  //       name
-  //     }
-  //   }).afterClosed().subscribe(() => {});
-  // }
+  showDialog(type: string, id: string, name: string, world: string, date: Date) {
+    this.dialog.open(ConquestDialog, {
+      autoFocus: false,
+      data: {
+        filters: {
+          id,
+          type,
+          world,
+          date
+        },
+        name
+      }
+    }).afterClosed().subscribe(() => {});
+  }
 }

@@ -21,6 +21,7 @@ import { PlayerOverviewDialogComponent } from "../shared/dialogs/player-overview
 import { OverviewDialogComponent } from "../shared/dialogs/overview-dialog/overview-dialog.component";
 import { BbScoreboardDialogComponent } from "../shared/dialogs/bb-scoreboard-dialog/bb-scoreboard-dialog.component";
 import { ConquestDialog } from "../shared/dialogs/conquest-dialog/conquest.component";
+import * as icon from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: "app-home",
@@ -46,6 +47,7 @@ export class HomeComponent implements OnInit {
   worldData = "" as any;
 
   // Form vars
+  icon = icon
   server: any = "nl"; // TODO: dynamic default??
   world: any = ""; // TODO: dynamic default??
   worldName = "";
@@ -726,14 +728,12 @@ export class HomeComponent implements OnInit {
 
   public openPlayerOverviewdialog(id, name) {
     let dialogRef = this.dialog.open(PlayerOverviewDialogComponent, {
-      // width: '80%',
-      // height: '70%',
       autoFocus: false,
       data: {
         world: this.world,
         date: this.selectedDate.toString(),
-        id: id,
-        name: name
+        id,
+        name
       }
     });
     dialogRef.afterClosed().subscribe(result => {});

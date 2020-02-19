@@ -3,6 +3,7 @@ import { PlayerService } from "../../services/player.service";
 import { AllianceService } from "../../services/alliance.service";
 import { Router } from "@angular/router";
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { PlayerOverviewDialogComponent } from "../player-overview-dialog/player-overview-dialog.component";
 
 @Component({
   selector: 'app-overview-dialog',
@@ -75,17 +76,15 @@ export class OverviewDialogComponent implements AfterViewInit {
   }
 
   public openPlayerOverviewdialog(id, name) {
-    // TODO
-    // let dialogRef = this.dialog.open(PlayerOverviewDialogComponent, {
-    //   autoFocus: false,
-    //   data: {
-    //     world: this.world,
-    //     date: this.date,
-    //     id: id,
-    //     name: name
-    //   }
-    // });
-    // dialogRef.afterClosed().subscribe(result => {});
+    this.dialog.open(PlayerOverviewDialogComponent, {
+      autoFocus: false,
+      data: {
+        world: this.world,
+        date: this.date,
+        id: id,
+        name: name
+      }
+    }).afterClosed().subscribe(result => {});
   }
 
   renderResults(json) {

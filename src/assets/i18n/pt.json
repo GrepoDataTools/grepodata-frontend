@@ -1,0 +1,131 @@
+{
+  "header": {
+    "menu": {
+      "home": "Página inicial",
+      "stats": "Estatisticas",
+      "discord": "Discord",
+      "scoreboard": "Classificação diária",
+      "ranking": "Classificação",
+      "compare": "Comparar",
+      "indexer": "Indexador",
+      "link": "Ligação",
+      "dropdown": "Dropdown",
+      "language": "Língua",
+      "contact": "Contacto"
+    }
+  },
+  "search": {
+    "header": {
+      "player": "Nome do jogador",
+      "alliance": "Nome da aliança",
+      "members": "Membros",
+      "world": "Mundo",
+      "alliance_name": "Aliança",
+      "rank": "Classificação",
+      "points": "Pontos",
+      "towns": "Cidades"
+    },
+    "input": {
+      "player": "Procurar jogador...",
+      "alliance": "Procurar aliança..."
+    }
+  },
+  "contact": {
+    "title": "Contacta-nos",
+    "description": "Para receber uma resposta, por favor adicione o seu correio electronico.",
+    "send": "Enviar mensagem",
+    "sending": "Mensagem está a ser enviada",
+    "alt": "Ou contacta-nos por email: "
+  },
+  "actions": {
+    "expandShowLess": "Diminuir visão",
+    "bbCode": "Códigos BB",
+    "view": "Visão",
+    "click": "Clique",
+    "here": "Aqui",
+    "install": "Instalar",
+    "reloadThisPage": "Reiniciar esta página"
+  },
+  "fields": {
+    "world": "Mundo",
+    "indexKey": "Chave",
+    "indexCode": "Código do índice",
+    "type": "Tipo",
+    "name": "Nome",
+    "reports": "Relatorios",
+    "intelCount": "Contagem de inteligência",
+    "date": "Data",
+    "units": "Unidades",
+    "town": "Cidade",
+    "towns": "Cidades",
+    "player": "Jogador",
+    "players": "Jogadores",
+    "alliance": "Aliança",
+    "alliances": "Alianças"
+  },
+  "inputs": {
+    "email": "Correio eletrônico",
+    "message": "Mensagem",
+    "optional": "Opcional",
+    "privacy": "Ao enviar este formulário, está a concordar com nossa política de privicidade"
+  },
+  "errors": {
+    "inputGeneric": "Entrada inválida"
+  },
+  "indexer": {
+    "home": "Início",
+    "homeLong": "Página inicial do indexador",
+    "latestTitle": "Relatórios recém indexados",
+    "title": "Indice de cidades dos inimigos",
+    "lastAddition": "Publicação mais recem",
+    "indexOwners": "Donos do índice",
+    "loadingIndex": "Carregando índice",
+    "questions": "Perguntas frequentes",
+    "mostIndexedPlayers": "Jogadores mais indexados",
+    "mostIndexedAlliances": "Alianças mais indexadas",
+    "indexMoved": "Esse índice foi movido pelo dono do índice! Contacta o dono desse índice para obter uma nova ligaçao.",
+    "cleanup": {
+      "loggedIn": "Estas ligado para eliminar dados",
+      "deletedAfter24Hrs": "Dados marcados para ser eliminados serão apagados depois 24 horas",
+      "signOut": "Terminar sessão"
+    },
+    "tooltips": {
+      "startCleanupInfo": "Visão de gerencia para eliminar dados em massa.",
+      "delayInfo": "Novos relatórios podem demorar mais ou menos 3 minutos para aparecer nesta página.",
+      "allianceContributionInfo": "Qualquer aliança com pelo menos uma contribuição de 5% do índice é considerada uma dona do índice e não será indexada. O administrador do índice pode adicionar ou remover alianças.",
+      "intelDeletedInfo": "Inteligência sobre uma cidade qualquer é eliminada se a cidade for conquistada por outro jogador."
+    },
+    "actions": {
+      "editOwners": "Editar donos",
+      "cleanupIntel": "Gerência de conteúdos",
+      "createNewLong": "Crie um novo índice",
+      "createNewShort": "Novo",
+      "newKey": "Peça nova chave de índice",
+      "showContributionInfo": "Mostrar informação de contribuidores",
+      "downloadScript": "Descarregar ferramenta",
+      "installScript": "Instalar ferramenta",
+      "showInstructions": "Mostrar instruções"
+    },
+    "fields": {
+      "mostContributions": "Maior contribuidor",
+      "totalReports": "Total de relatórios",
+      "spyReports": "Relatórios de espionagem",
+      "enemyAttacks": "Ataques do inimigo",
+      "attacksOnEnemy": "Ataques sobre o inimigo"
+    },
+    "explain": {
+      "welcomeToYourIndex": "Bem-vindo à sua página personalizada do indexador das cidades!",
+      "followThese2Steps": "Instruções para instalar a ferramenta e começar indexar cidades:",
+      "step1": "Passe 1",
+      "step2": "Passe 2",
+      "step1InstallTampermonkey": "Adicione o Tampermonkey no seu navegador",
+      "aboutTampermonkey": "Tampermonkey é o gerenciador de scripts e ferramentas mais popular do mundo.",
+      "restart": "Reinicie o navegador depois de instalar o tampermonkey.",
+      "step2ExplainScript": "Cada índice é criada com propriedades unicas para segurar que só os relatorios que pertencem ao servidor especificado sejam possiveis de adicionar.  Mesmo assim, é possivel compartilhar a ferramenta com os teus aliados.  Arranja a ferramenta hoje e começa já coletar informaçao sobre os teus inimigos! ",
+      "installedOkInfo": "Reinicie o seu navegador e comece a indexar os relatorios todos! A ferramenta deixara-te indexar os relatórios do fórum interno ou da caixa de mensagems. Basta clicar no botão 'index +' para indexar-lo.",
+      "spreadTheIndex": "Compartilha o índice com os teus membros da aliança para que eles ajudem-te arranjar inteligencia a mais sobre os vossos inimigos.",
+      "mayTake3Minutes": "O indice pode demorar mais ou menos 3 minutos para atualizar novos relatórios na visão geral do índice.",
+      "notYetReceivedAnyReports": "Um relatório ainda não foi adicionado no índex"
+    }
+  }
+}

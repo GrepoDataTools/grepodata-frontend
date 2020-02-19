@@ -1002,3 +1002,29 @@ mat-paginator {
 .flag-us {
     background: url('assets/images/flags.png') -32px -128px;
 }
+
+.expand-icon {
+  cursor: pointer;
+}
+
+.player-tab:before {
+  content: url("assets/images/player_ico.png");
+  margin-right: 5px;
+}
+
+.alliance-tab:before {
+  content: url("assets/images/ally_ico.png");
+  margin-right: 5px;
+}
+
+#player_scoreboard {
+  margin-top: 50px;
+}
+
+.scoreboard-tabs {
+  margin-bottom: 30px;
+}
+
+.scoreboard-option-buttons * {
+  margin-right: 5px;
+}

@@ -21,6 +21,7 @@ import { ConquestService } from "../shared/services/conquest.service";
 import { GoogleAnalyticsEventsService } from "../shared/services/google-analytics-events.service";
 import { PlayerService } from "../shared/services/player.service";
 import { AllianceService } from "../shared/services/alliance.service";
+import { MatTabsModule } from "@angular/material/tabs";
 
 @NgModule({
   declarations: [HomeComponent],
@@ -43,7 +44,8 @@ import { AllianceService } from "../shared/services/alliance.service";
     MatNativeDateModule,
     SearchModule,
     FormsModule,
-    NgxChartsModule
+    NgxChartsModule,
+    MatTabsModule
   ],
   providers: [ConquestService, GoogleAnalyticsEventsService, PlayerService, AllianceService]
 })

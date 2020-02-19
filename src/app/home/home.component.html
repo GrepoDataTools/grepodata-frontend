@@ -3,7 +3,7 @@
   <!--<div class="ticker-label">-->
     <!--Attack points (last hour):-->
   <!--</div>-->
-  <div class="ticker-wrap" *ngIf="!loadingDiffs && playerDiffs">
+  <div class="ticker-wrap d-none" *ngIf="!loadingDiffs && playerDiffs">
     <div class="ticker">
       <div class="ticker__item" *ngIf="playerDiffs.att">
         <span class="item-red">Attack points in last update: &nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -55,7 +55,7 @@
         <div class="container-fluid">
           <div class="row" id="timeline">
 
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
               <h2 style='font-weight: 300; color: #304357;'>
                 <i class="fa fa-trophy" aria-hidden="true"></i>&nbsp;Daily<span class="hidden-xs"> Grepolis</span> scoreboard&nbsp;<span class='world-title' style='color: #18BC9C;'>{{world}} ({{worldName}})</span>
               </h2>
@@ -68,10 +68,15 @@
               <h4 *ngIf="!loadingPlayers && nextUpdate == ''" style='font-weight: 300; color: #304357;' class="hidden-xs">
                 <span class="label label-danger">You are viewing historic data</span> Go to <a class="a-link-dialog" routerLink="/points/{{world}}">today</a>
               </h4>
+              <div class="d-flex justify-content-center scoreboard-option-buttons">
+              <mat-chip class="btn-chip"><mat-icon fontIcon="chevron_left" class="mr-1">chevron_left</mat-icon>Previous day</mat-chip>
+              <mat-chip class="btn-chip"><mat-icon fontIcon="searching" class="mr-1">search</mat-icon>Search</mat-chip>
+              <mat-chip class="btn-chip"><fa-icon [icon]="icon.faGlobeEurope" class="mr-1"></fa-icon>Select world</mat-chip>
+              </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 text-right">
 
-              <div class="row">
+              <div class="row d-none">
                 <div class="col-xs-12">
 	                <mat-icon class="icon-margin input-icon"><div class="bg-flag flag-{{server}}"></div></mat-icon>
                   <mat-form-field class="input-server">
@@ -113,7 +118,18 @@
           <div *ngIf="loadingPlayers" style="position: relative; top: -40px; height: 0px;">
             <br/><mat-progress-bar mode="indeterminate"></mat-progress-bar>
           </div>
-          <h1 class="mat-title table-title">Players</h1>
+          <mat-tab-group mat-stretch-tabs class="stretched-tabs mat-elevation-z1 scoreboard-tabs">
+            <mat-tab>
+              <ng-template mat-tab-label>
+              <label class="player-tab">Player scoreboard</label>
+              </ng-template>
+            </mat-tab>
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <label class="alliance-tab">Alliance scoreboard</label>
+              </ng-template>
+            </mat-tab>
+          </mat-tab-group>
           <div class="row" *ngIf="noticePlayer != ''">
             <div class="col-xs-8 col-xs-offset-2">
               <div class="alert alert-warning text-center">
@@ -121,7 +137,7 @@
               </div>
             </div>
           </div>
-	        <div style="display: flex; place-content: center; width: 100%;">
+	        <div class="d-none" style="display: flex; place-content: center; width: 100%;">
 	          <div style="max-width: 100%;"
 	               #overviewContainer class="row hidden-xs text-center"
 	               *ngIf="!noPlayerData && playerData.overview && playerData.overview.length > 2"
@@ -173,15 +189,15 @@
                 text-overflow: ellipsis;">
                     <a routerLink="/player/{{playerData.world}}/{{p.i}}">{{p.n}}</a>
                   </div>
-                  <div *ngIf="hasOverview && p.s > 0" class="cell score-expand hidden-xs" (click)="openPlayerOverview(p.i, p.n)">
+                  <div *ngIf="hasOverview && p.s > 0" class="cell score-expand d-none d-sm-table-cell" (click)="openPlayerOverview(p.i, p.n)">
                     {{p.s | NumberFilter}}
                   </div>
-	                <div class="cell" [ngClass]="{'hidden-sm hidden-md hidden-lg':hasOverview && p.s > 0}">
+	                <div class="cell" [ngClass]="{'d-table-cell d-sm-none':hasOverview && p.s > 0}">
                     {{p.s | NumberFilter}}
                   </div>
 
-	                <div *ngIf="p.s > 0 && !mobile && hasOverview" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="openPlayerOverview(p.i, p.n)">
-		                <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
+	                <div *ngIf="p.s > 0 && !mobile && hasOverview" class="cell d-none d-md-table-cell score-expand expand-icon" (click)="openPlayerOverview(p.i, p.n)">
+                    <fa-icon [icon]="icon.faExpandAlt" ></fa-icon>
 	                </div>
 	                <div *ngIf="p.s <= 0 && !mobile && hasOverview" class="cell hidden-xs"></div>
                 </div>
@@ -257,15 +273,15 @@
                   <div class="cell formatted-cell">
                     <a routerLink="/player/{{playerData.world}}/{{p.i}}">{{p.n}}</a>
                   </div>
-                  <div *ngIf="hasOverview && p.s > 0" class="cell score-expand hidden-xs" (click)="openPlayerOverview(p.i, p.n)">
+                  <div *ngIf="hasOverview && p.s > 0" class="cell score-expand d-none d-sm-table-cell" (click)="openPlayerOverview(p.i, p.n)">
                     {{p.s | NumberFilter}}
                   </div>
-                  <div class="cell" [ngClass]="{'hidden-sm hidden-md hidden-lg':hasOverview && p.s > 0}">
+                  <div class="cell" [ngClass]="{'d-table-cell d-sm-none':hasOverview && p.s > 0}">
                     {{p.s | NumberFilter}}
                   </div>
 
 	                <div *ngIf="p.s > 0 && !mobile && hasOverview" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="openPlayerOverview(p.i, p.n)">
-		                <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
+		                <fa-icon [icon]="icon.faInfo"></fa-icon>
 	                </div>
 	                <div *ngIf="p.s <= 0 && !mobile && hasOverview" class="cell hidden-xs"></div>
                 </div>

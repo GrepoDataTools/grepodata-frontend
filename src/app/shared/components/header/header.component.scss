@@ -45,6 +45,21 @@
     background-color: #304357;
 }
 
+@media (max-width:1200px) {
+    .sticky-top {
+        position: relative;
+    }
+//    .bg-header {
+//        position: -webkit-sticky; /* Safari */
+//        position: sticky;
+//        top: 0;
+//        z-index: 1000;
+//        //max-height: calc(100vh - 68px);
+//        overflow-y: auto;
+//        overflow-x: hidden;
+//    }
+}
+
 @media only screen and (min-width: 991px) {
     .navbar {
       padding-top: 0;

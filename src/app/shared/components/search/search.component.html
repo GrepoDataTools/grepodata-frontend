@@ -8,7 +8,7 @@
 				<div [ngClass]="(secondary==true)?'container':'container-fluid'">
 
 					<div class="row">
-						<div class="col-6 search-group" *ngIf="!(mobile && searching_alliances)">
+						<div class="col-12 col-sm-6 search-group" [ngClass]="(mobile && searching_alliances)?'d-none d-sm-block':''">
 							<div id="sb-search-players" class="sb-search">
 								<form>
 									<input autocomplete="off" class="sb-search-input" placeholder="Search players..." type="search" value="" name="search" id="search-players" (keyup)="searchPlayers($event)">
@@ -17,7 +17,7 @@
 								</form>
 							</div>
 						</div>
-						<div class="col-6 search-group" *ngIf="!(mobile && searching_players)">
+						<div class="col-12 col-sm-6 search-group" [ngClass]="(mobile && searching_players)?'d-none d-sm-block':''">
 							<div id="sb-search-alliances" class="sb-search">
 								<form>
 									<input autocomplete="off" class="sb-search-input" placeholder="Search alliances..." type="search" value="" name="search" id="search-alliances" (keyup)="searchAlliances($event)">
@@ -163,7 +163,7 @@
 														<div class="cell" *ngIf="compare">
 															<div class="form-group row" style="margin: 0px !important;">
 																<button style="width: 48%; margin-right: 4%;" name="add_compare" class="btn btn-success btn-xs" (click)="compareService.addPlayer(player?.id, player?.name, player?.world)">
-																	<i class="fa fa-plus"></i>&nbsp;<span class="d-none d-sm-inline">Compare</span><span class="hidden-sm hidden-md hidden-lg">Compare</span>
+																	<i class="fa fa-plus"></i>&nbsp;Compare
 																</button>
 																<button style="width: 48%;" name="add_compare" class="btn btn-info btn-xs" routerLink="/player/{{player?.world}}/{{player?.id}}">
 																	<i class="fa fa-arrow-circle-right"></i>&nbsp;View
@@ -237,7 +237,7 @@
 										<div class="cell" *ngIf="compare">
 											<div class="form-group row" style="margin: 0px !important;">
 												<button style="width: 48%; margin-right: 4%;"  name="add_compare" class="btn btn-success btn-xs" (click)="compareService.addAlliance(alliance?.id, alliance?.name, alliance?.world)">
-													<i class="fa fa-plus"></i>&nbsp;<span class="d-none d-sm-inline">Compare</span><span class="hidden-sm hidden-md hidden-lg">Compare</span>
+													<i class="fa fa-plus"></i>&nbsp;Compare
 												</button>
 												<button style="width: 48%;"  name="add_compare" class="btn btn-info btn-xs" routerLink="/alliance/{{alliance?.world}}/{{alliance?.id}}">
 													<i class="fa fa-arrow-circle-right"></i>&nbsp;View

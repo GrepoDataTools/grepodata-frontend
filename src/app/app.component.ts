@@ -2,18 +2,22 @@ import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
+import { addBackToTop } from 'vanilla-back-to-top'
+import {NgcCookieConsentService} from 'ngx-cookieconsent';
 
 declare let ga: Function;
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  providers: [NgcCookieConsentService]
 })
 export class AppComponent {
   title = 'GrepodataFrontend';
 
   constructor(
+    private ccService: NgcCookieConsentService,
     private router: Router,
     private dialogRef: MatDialog,
     public translate: TranslateService) {
@@ -39,6 +43,20 @@ export class AppComponent {
 
       // Close all open dialogs on navigate
       this.dialogRef.closeAll()
+    });
+  }
+
+  ngOnInit() {
+    addBackToTop({
+      diameter: 56,
+      backgroundColor: '#304356',
+      textColor: '#18BC9C',
+      // scrollContainer: document.getElementById('content'),
+      // innerHTML: '<svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path></svg>',
+      onClickScrollTo: 0, // px
+      scrollDuration: 100, // ms
+      showWhenScrollTopIs: 200, // px
+      zIndex: 1
     });
   }
 }

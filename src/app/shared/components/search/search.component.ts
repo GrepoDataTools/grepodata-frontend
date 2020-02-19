@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, Input, OnInit} from '@angular/core';
 import { Router} from "@angular/router";
 import { PageEvent } from "@angular/material/paginator";
 import {Globals} from '../../../globals';
@@ -101,16 +101,27 @@ export class SearchComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (window.screen.width > 560) { // 768px portrait
-      this.mobile = false;
-    } else {
-      this.debounceTime = 600; // Larger debounce time on mobile
-    }
+    this.isMobile();
 
     this.cdr.detach();
     this.cdr.detectChanges();
 
     setTimeout(_ => this.cdr.detectChanges(), 250);
+  }
+
+  isMobile() {
+    if (window.screen.width > 768) { // 768px portrait
+      this.mobile = false;
+    } else {
+      this.mobile = true;
+      this.debounceTime = 600; // Larger debounce time on mobile
+    }
+    this.cdr.detectChanges();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.isMobile();
   }
 
   toggleFilter() {

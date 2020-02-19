@@ -21,10 +21,33 @@ import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatIconModule } from "@angular/material/icon";
 import {RouterModule} from '@angular/router';
+import {NgcCookieConsentConfig, NgcCookieConsentModule} from 'ngx-cookieconsent';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
 }
+
+const cookieConfig:NgcCookieConsentConfig = {
+  cookie: {
+    domain: 'grepodata.com'
+  },
+  content: {
+    dismiss: 'Accept cookies'
+  },
+  palette: {
+    popup: {
+      background: '#2e3c4b',
+      text: '#d6d6d6'
+    },
+    button: {
+      background: '#18BC9C',
+      text: '#2e3c4b'
+    }
+  },
+  position: 'bottom-right',
+  theme: 'block',
+  // type: 'opt-out' // TODO: Allow users to opt-out of cookies, can handle opOut like this: https://tinesoft.github.io/ngx-cookieconsent/doc/index.html
+};
 
 @NgModule({
   declarations: [
@@ -54,7 +77,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     BrowserAnimationsModule,
     NgxChartsModule,
     MatProgressBarModule,
-    MatTabsModule
+    MatTabsModule,
+    NgcCookieConsentModule.forRoot(cookieConfig)
   ],
   exports: [
     TranslateModule

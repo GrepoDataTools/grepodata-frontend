@@ -1,0 +1,88 @@
+<div style="font-size: 18px;">
+  <a (click)="dialogRef.close()" class="close"></a>
+    <h1 class="mat-primary" style="color: #18BC9C; margin: 0;" mat-dialog-title>BB code</h1>
+
+    <div mat-dialog-content>
+
+	    <div style="display: flex;">
+	      Number of {{typeDisplay}}s:
+		    <div class="slidecontainer" style="margin: 8px 15px; padding-bottom: 5px;">
+			    <input class="slider" type="range" name="points" id="points" min="3"
+	         max="40" data-show-value="true" data-popup-enabled="true" [(ngModel)]="slider"/>
+		    </div>
+		    {{slider}}
+	    </div>
+
+      <div class="container-fluid" style="padding: 0px;">
+        <button class="btn btn-success" style="margin-bottom: 5px; width: 100%" (click)="copyBB()">
+          <i class="fa fa-clipboard" aria-hidden="true"></i>&nbsp;<span *ngIf="!copied">copy to clipboard</span><span *ngIf="copied">Copied to clipboard!</span>
+        </button>
+      </div>
+
+<!--Player att-->
+<!--suppress XmlDuplicatedId -->
+      <pre *ngIf="type=='players_att' || type=='alliances_att'" id="bb_code">[quote]
+[size=12][b][color=#D60101]Daily best attackers[/color] in world [url=https://grepodata.com/points/{{dataBB.world}}]{{dataBB.world}} ({{dataBB.worldName}})[/url][/b][/size]
+<span *ngIf="dataBB.dateInfo.indexOf('today') !== -1">[b]Showing best attackers for {{dataBB.dateInfo}} ({{dataBB.date}})[/b] [[i]Updates are available [url=https://grepodata.com/points/{{dataBB.world}}]here[/url][/i]]</span>
+<span *ngIf="dataBB.dateInfo.indexOf('today') === -1">[b]Showing the top {{slider}} attackers {{dataBB.dateInfo}}[/b]</span>
+
+[table]
+    [**]Rank[||]{{typeDisplay}}[||]Attack points gained on {{dataBB.date}}[/**]<span *ngFor="let data of dataBB.data; let i = index;"><span *ngIf="i < slider">
+        <span *ngIf="i==0">[*][size=13][b]{{i+1}}[/b][/size][|][size=12][{{typeBB}}]{{data.n}}[/{{typeBB}}][/size][|][size=12][url=https://grepodata.com/player/{{dataBB.world}}/{{data.i}}]{{data.s | NumberFilter}}[/url][/size][/*]</span><span *ngIf="i>0">[*][b]{{i+1}}[/b][|][{{typeBB}}]{{data.n}}[/{{typeBB}}][|][url=https://grepodata.com/player/{{dataBB.world}}/{{data.i}}]{{data.s | NumberFilter}}[/url][/*]</span></span></span>
+    [/table]
+[i]This table was generated on [b]{{generated_at}}[/b]. [url=https://grepodata.com/points/{{dataBB.world}}/{{dataBB.date}}]View on grepodata.com[/url][/i]
+
+[/quote]</pre>
+
+<!--Player def-->
+<!--suppress XmlDuplicatedId -->
+      <pre *ngIf="type=='players_def' || type=='alliances_def'" id="bb_code">[quote]
+[size=12][b][color=#2980b9]Daily best defenders[/color] in world [url=https://grepodata.com/points/{{dataBB.world}}]{{dataBB.world}} ({{dataBB.worldName}})[/url][/b][/size]
+<span *ngIf="dataBB.dateInfo.indexOf('today') !== -1">[b]Showing best defenders for {{dataBB.dateInfo}} ({{dataBB.date}})[/b] [[i]Updates are available [url=https://grepodata.com/points/{{dataBB.world}}]here[/url][/i]]</span>
+<span *ngIf="dataBB.dateInfo.indexOf('today') === -1">[b]Showing the top {{slider}} defenders {{dataBB.dateInfo}}[/b]</span>
+
+[table]
+    [**]Rank[||]{{typeDisplay}}[||]Defence points gained on {{dataBB.date}}[/**]<span *ngFor="let data of dataBB.data; let i = index;"><span *ngIf="i < slider">
+        <span *ngIf="i==0">[*][size=13][b]{{i+1}}[/b][/size][|][size=12][{{typeBB}}]{{data.n}}[/{{typeBB}}][/size][|][size=12][url=https://grepodata.com/player/{{dataBB.world}}/{{data.i}}]{{data.s | NumberFilter}}[/url][/size][/*]</span><span *ngIf="i>0">[*][b]{{i+1}}[/b][|][{{typeBB}}]{{data.n}}[/{{typeBB}}][|][url=https://grepodata.com/player/{{dataBB.world}}/{{data.i}}]{{data.s | NumberFilter}}[/url][/*]</span></span></span>
+    [/table]
+[i]This table was generated on [b]{{generated_at}}[/b]. [url=https://grepodata.com/points/{{dataBB.world}}/{{dataBB.date}}]View on grepodata.com[/url][/i]
+
+[/quote]</pre>
+
+<!--Player con-->
+<!--suppress XmlDuplicatedId -->
+      <pre *ngIf="type=='players_con' || type=='alliances_con'" id="bb_code">[quote]
+[size=12][b][color=#497949]Daily best conquerors[/color] in world [url=https://grepodata.com/points/{{dataBB.world}}]{{dataBB.world}} ({{dataBB.worldName}})[/url][/b][/size]
+<span *ngIf="dataBB.dateInfo.indexOf('today') !== -1">[b]Showing best conquerors for {{dataBB.dateInfo}} ({{dataBB.date}})[/b] [[i]Updates are available [url=https://grepodata.com/points/{{dataBB.world}}]here[/url][/i]]</span>
+<span *ngIf="dataBB.dateInfo.indexOf('today') === -1">[b]Showing the top {{slider}} conquerors {{dataBB.dateInfo}}[/b]</span>
+
+[table]
+    [**]Rank[||]{{typeDisplay}}[||]Conquests on {{dataBB.date}}[/**]<span *ngFor="let data of dataBB.data; let i = index;"><span *ngIf="i < slider">
+        <span *ngIf="i==0">[*][size=13][b]{{i+1}}[/b][/size][|][size=12][{{typeBB}}]{{data.n}}[/{{typeBB}}][/size][|][size=12][url=https://grepodata.com/player/{{dataBB.world}}/{{data.i}}]{{data.s | NumberFilter}}[/url][/size][/*]</span><span *ngIf="i>0">[*][b]{{i+1}}[/b][|][{{typeBB}}]{{data.n}}[/{{typeBB}}][|][url=https://grepodata.com/player/{{dataBB.world}}/{{data.i}}]{{data.s | NumberFilter}}[/url][/*]</span></span></span>
+    [/table]
+[i]This table was generated on [b]{{generated_at}}[/b]. [url=https://grepodata.com/points/{{dataBB.world}}/{{dataBB.date}}]View on grepodata.com[/url][/i]
+
+[/quote]</pre>
+
+<!--Player los-->
+<!--suppress XmlDuplicatedId -->
+      <pre *ngIf="type=='players_los' || type=='alliances_los'" id="bb_code">[quote]
+[size=12][b][color=#233140]Daily town losses[/color] in world [url=https://grepodata.com/points/{{dataBB.world}}]{{dataBB.world}} ({{dataBB.worldName}})[/url][/b][/size]
+<span *ngIf="dataBB.dateInfo.indexOf('today') !== -1">[b]Showing town losses for {{dataBB.dateInfo}} ({{dataBB.date}})[/b] [[i]Updates are available [url=https://grepodata.com/points/{{dataBB.world}}]here[/url][/i]]</span>
+<span *ngIf="dataBB.dateInfo.indexOf('today') === -1">[b]Showing the worst {{slider}} losses {{dataBB.dateInfo}}[/b]</span>
+
+[table]
+    [**]Rank[||]{{typeDisplay}}[||]Towns lost on {{dataBB.date}}[/**]<span *ngFor="let data of dataBB.data; let i = index;"><span *ngIf="i < slider">
+        <span *ngIf="i==0">[*][size=13][b]{{i+1}}[/b][/size][|][size=12][{{typeBB}}]{{data.n}}[/{{typeBB}}][/size][|][size=12][url=https://grepodata.com/player/{{dataBB.world}}/{{data.i}}]{{data.s | NumberFilter}}[/url][/size][/*]</span><span *ngIf="i>0">[*][b]{{i+1}}[/b][|][{{typeBB}}]{{data.n}}[/{{typeBB}}][|][url=https://grepodata.com/player/{{dataBB.world}}/{{data.i}}]{{data.s | NumberFilter}}[/url][/*]</span></span></span>
+    [/table]
+[i]This table was generated on [b]{{generated_at}}[/b]. [url=https://grepodata.com/points/{{dataBB.world}}/{{dataBB.date}}]View on grepodata.com[/url][/i]
+
+[/quote]</pre>
+    </div>
+
+    <!--<div mat-dialog-actions>-->
+        <!--<button type="button" name="close" class="btn btn-danger" (click)="dialogRef.close()"><i class="fa fa-times"></i> Close</button>-->
+    <!--</div>-->
+
+
+</div>

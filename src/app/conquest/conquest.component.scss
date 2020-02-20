@@ -1,0 +1,50 @@
+
+mat-card-title {
+  margin-bottom: 0px !important;
+}
+
+
+.table-controls {
+  p {
+    color: #233140;
+    font-size: 13px;
+    margin: 13px 0px !important;
+  }
+}
+
+@media screen and (min-width: 1800px) {
+  .table {
+    font-size: 18px !important;
+  }
+}
+
+.mat-select-panel .mat-option {
+  font-size: initial !important;
+  line-height: 3em !important;
+  height: 3em !important;
+}
+
+.loading-overlay {
+  opacity: 0.2;
+  pointer-events: none !important;
+}
+
+//.mobile-filter-push {
+//  display: none;
+//}
+//@media (max-width: 479px) {
+//  .mobile-filter-push {
+//    display: block;
+//    height: 20px;
+//  }
+//}
+//@media (min-width: 480px) and (max-width: 766px) {
+//  .mobile-filter-push {
+//    display: block;
+//    height: 20px;
+//  }
+//}
+
+mat-chip:hover {
+  cursor: pointer !important;
+}

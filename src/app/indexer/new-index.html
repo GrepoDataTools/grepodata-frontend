@@ -1,0 +1,114 @@
+<div style="font-size: 18px; width: auto; max-width: 700px; min-width: 40vw;">
+  <a (click)="dialogRef.close()" class="close" *ngIf="building==false"></a>
+  <h1 class="mat-primary" style="color: #18BC9C; margin-top: 0px;" mat-dialog-title>
+	  <span *ngIf="submitted==false && building!=true">Create a new index</span>
+	  <span *ngIf="submitted==false && building==true">Creating index..</span>
+  </h1>
+
+  <!--<div mat-dialog-content *ngIf="login_required" style="width: 100%;">-->
+	  <!--<app-login [embedded]="true" [embeddedCallback]="login_callback"></app-login>-->
+  <!--</div>-->
+  <!--<div mat-dialog-content *ngIf="!login_required && submitted==false && building==false" style="width: 100%;">-->
+
+  <div mat-dialog-content *ngIf="submitted==false && building==false" style="width: 100%;">
+    <p>Submit this form to create a new unique index.</p>
+	  <p class="gd-primary">Your email address will only be used to confirm your ownership of the index when you wish to edit the index settings. This information will remain private.</p>
+	  <br/>
+
+	  <div class="alert alert-gd-1 text-center" style="margin: 0 0 15px 0;">
+
+	    <div class="container-fluid">
+
+	      <div class="row">
+	        <div class="col-xs-12 col-sm-4">
+	          <mat-form-field style="margin-right: 15px; width: 70% !important;">
+	            <mat-select placeholder="Server" [ngModel]="server" (ngModelChange)="updateWorlds($event)" #select>
+	              <mat-option *ngFor="let s of servers" value="{{s}}">
+		              <div class="bg-flag flag-inline flag-{{s}}"></div>&nbsp;{{s}}
+	              </mat-option>
+	            </mat-select>
+	          </mat-form-field>
+	          <mat-icon class="icon-margin" *ngIf="server" style="display: contents; width: calc(30% - 15px) !important;">
+		          <div class="bg-flag flag-inline flag-{{server}}" style="vertical-align: middle;"></div>
+	          </mat-icon>
+	        </div>
+
+		      <div class="col-xs-12 col-sm-8">
+			      <mat-form-field style="margin-right: 10px; width: 100% !important;">
+				      <mat-select placeholder="Select a world" [ngModel]="world" required (ngModelChange)="world = $event">
+					      <mat-option *ngFor="let w of worlds" value="{{w.id}}">{{w.id}} ({{w.name}})</mat-option>
+				      </mat-select>
+			      </mat-form-field>
+		      </div>
+	      </div>
+
+	      <div class="row">
+	        <div class="col-xs-12">
+	          <mat-form-field style="width: 100% !important;">
+	            <input autocomplete="email" style="width: 320px !important;" [ngModel]="contact_mail" (ngModelChange)="contact_mail=$event" required matInput placeholder="Enter your email address">
+	          </mat-form-field>
+	        </div>
+	      </div>
+
+	      <div class="row">
+	        <div class="col-xs-1" style="height: 50px; padding: 12px 15px 0 27px;">
+		        <mat-checkbox [(ngModel)]="privacy_agreed"></mat-checkbox>
+	        </div>
+	        <div class="col-xs-11" style="text-align: left;">
+		        <p>By submitting this form you agree with the storage and handling of your data by
+			        this website in accordance with our <a routerLink="/privacy" (click)="dialogRef.close()">Privacy Policy</a></p>
+	        </div>
+	      </div>
+
+	      <br/>
+
+	      <div class="row">
+	        <div *ngIf="error!=''" class="alert alert-danger">
+	          <strong>{{error}}</strong>
+	        </div>
+	      </div>
+	    </div>
+
+		  <div fxLayout="column" fxLayoutAlign="center" style="width: 100% !important;">
+			  <button *ngIf="submitted==false && building==false" style="font-size: 22px; padding: 8px; width: 100%;" mat-button class="mat-raised-button mat-primary" (click)="captchaRef.execute()">
+				  Create index
+			  </button>
+			  <button *ngIf="submitted==true && building==false" style="font-size: 22px; padding: 8px; width: 100%;" mat-button class="mat-raised-button mat-primary" (click)="dialogRef.close()">
+				  Close
+			  </button>
+		  </div>
+
+	  </div>
+
+  </div>
+
+  <div class="alert alert-gd-1" *ngIf="building==true">
+	  <br/>
+	  <br/>
+    <p class="text-center">This may take a few seconds</p>
+	  <div class="gd-spinner">
+		  <div class="blob top"></div>
+		  <div class="blob bottom"></div>
+		  <div class="blob left"></div>
+
+		  <div class="blob move-blob"></div>
+	  </div>
+  </div>
+  <div *ngIf="submitted==true">
+    <h2>Index created successfully!</h2>
+    <h4 *ngIf="createError != ''">{{createError}}</h4>
+    <h4><a routerLink="/indexer/{{key}}">Go to your index page</a></h4>
+  </div>
+
+	<!--<div class="row text-center" style="text-align: -webkit-center;" *ngIf="!login_required && building!=true">-->
+	<div class="row text-center" style="text-align: -webkit-center;" *ngIf="building!=true">
+		<re-captcha
+			size="invisible" badge="inline"
+			#captchaRef="reCaptcha"
+			siteKey="{{recaptcha_key}}"
+			(resolved)="$event && createNewIndex($event)">
+		</re-captcha>
+	</div>
+
+
+</div>

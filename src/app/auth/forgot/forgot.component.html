@@ -1,0 +1,65 @@
+<div class="container-fluid" style="
+		position: fixed;
+    top: 20%;
+    left: 5%;
+    width: 90%;
+		padding: 0 !important;">
+
+	<div class="row">
+		<div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-4 col-lg-offset-4">
+
+			<div class="alert alert-gd-1" style="margin: 0 0 15px 0;">
+
+				<div>
+					<h2>Password reset</h2>
+					<p class="gd-secondary" *ngIf="!success">You will receive an email containing a link to reset your password.</p>
+
+					<form *ngIf="!success" [formGroup]="loginForm" (ngSubmit)="environment.production==true?captchaRef.execute():sendRequest()">
+						<div class="form-group">
+							<label for="mail">Email Address</label>
+							<input autocomplete="email" type="text" formControlName="mail" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.mail.errors }" />
+							<div *ngIf="submitted && f.mail.errors" class="invalid-feedback">
+								<div *ngIf="f.mail.errors.required">Email address is required</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<button [disabled]="loading" class="btn btn-primary">
+								<span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+								Reset password
+							</button>
+							<a routerLink="/login" class="btn btn-link" style="float: right;">Login</a>
+						</div>
+
+						<p class="invalid-feedback" *ngIf="error!=''" style="color: #a94442 !important;">{{error}}</p>
+						<a *ngIf="error!=''" routerLink="/register">Register for a new account</a>
+					</form>
+
+					<div *ngIf="success">
+						<p><strong>Request successful!</strong> You will receive an email with instructions to reset your password.</p>
+						<p><strong>Check your spam folder if needed.</strong></p>
+					</div>
+				</div>
+
+
+			</div>
+
+			<div class="row text-center" style="text-align: -webkit-center;" *ngIf="!success">
+				<re-captcha
+					size="invisible" badge="inline"
+					#captchaRef="reCaptcha"
+					siteKey="{{recaptcha_key}}"
+					(resolved)="$event && resolved($event)">
+				</re-captcha>
+			</div>
+
+		</div>
+	</div>
+
+	<!--<div *ngIf="submitted==true && error == ''">-->
+	<!--<br/>-->
+	<!--<p>Logged in! We will redirect you now..</p>-->
+	<!--<br/>-->
+	<!--</div>-->
+
+
+</div>

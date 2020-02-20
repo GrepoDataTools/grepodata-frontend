@@ -1,0 +1,33 @@
+<div class="text-center footer-content" [ngClass]="{'footer-background': !sidebar, 'height-2':height_adjust, 'height-1':!height_adjust}">
+  <div class="footer-below" [ngClass]="sidebar == true ? 'sidebarred':''">
+    <div [ngClass]="sidebar == true ? 'container-fluid':'container'">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 footer-share">
+          <!--Grepolis is a browser game by InnoGames GmbH. This is an unofficial 3rd party site-->
+          <share-buttons [theme]="'material-light'"
+                         [include]="['facebook','twitter','whatsapp','copy']"
+                         [showText]="true"
+                         [show]="4"
+                         [size]="4"
+                         [url]="'https://grepodata.com'+router.url"
+          ></share-buttons>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 disclaimer">
+          Copyright &copy; Grepodata {{date| date:'yyyy'}}
+          <br/>
+          <a class="a-link-dialog" (click)="showDisclaimerDialog()">Disclaimer</a>
+          &nbsp; | &nbsp;
+          <a class="a-link-dialog" routerLink="/privacy">Privacy</a>
+        </div>
+
+
+      </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <strong>Copyright notices: </strong>
+                &nbsp;Gameplay images related to Grepolis are copyright of InnoGames GmbH.
+            </div>
+        </div>
+    </div>
+  </div>
+</div>

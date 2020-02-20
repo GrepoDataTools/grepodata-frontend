@@ -22,6 +22,7 @@ import { OverviewDialogComponent } from "../shared/dialogs/overview-dialog/overv
 import { BbScoreboardDialogComponent } from "../shared/dialogs/bb-scoreboard-dialog/bb-scoreboard-dialog.component";
 import { ConquestDialog } from "../shared/dialogs/conquest-dialog/conquest.component";
 import * as icon from "@fortawesome/free-solid-svg-icons";
+import { HttpParams } from "@angular/common/http";
 
 @Component({
   selector: "app-home",
@@ -124,12 +125,28 @@ export class HomeComponent implements OnInit {
         this.router.navigate(["/points/" + params.world + "/" + params.date]);
       else if (params.world != undefined) this.router.navigate(["/points/" + params.world]);
     });
-    this.route.params.subscribe(params => this.load(params));
+    //this.route.params.subscribe(params => this.load(params));
 
     this.worldService.getWorlds().then(response => this.loadWorlds(response));
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.route.params.subscribe((httpParams: HttpParams) =>
+    {
+      httpParams['date'] ? this.paramsDate = httpParams['date'] : this.paramsDate = '';
+      if (httpParams['world']) {
+        this.world = httpParams['world'];
+        this.server = this.world.slice(0, 2);
+        this.globals.set_active_world(this.world);
+        this.globals.set_active_server(this.server);
+      } else {
+        this.world = this.globals.get_active_world();
+        this.server = this.world.slice(0, 2);
+      }
+
+      this.loadPlayersStatistics()
+    })
+  }
 
   @HostListener("window:resize", ["$event"])
   onResize(event) {
@@ -332,6 +349,28 @@ export class HomeComponent implements OnInit {
     if (!this.mobile && this.mapTooltipContainer) {
       this.renderer.setStyle(this.mapTooltipContainer.nativeElement, "display", "none");
     }
+  }
+
+  loadPlayersStatistics() {
+    console.log('22')
+    this.loadingPlayers = true;
+    this.loadingDiffs = true;
+    this.playerDiffs = "";
+    this.searchResults = [];
+    this.searching = false;
+    this.showMap = false;
+    this.showTodaysMap = false;
+    this.animated = false;
+    this.currentZoom = 0;
+    this.zoomOriginX = null;
+    this.zoomOriginY = null;
+    this.setInputValue("");
+    this.playerService
+      .loadScoreboard(this.world, this.paramsDate, this.server)
+      .subscribe(
+        response => this.renderPlayerScoreboard(response, this.paramsDate),
+        error => this.renderPlayerScoreboard(null, this.paramsDate)
+      );
   }
 
   load(params) {

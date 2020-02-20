@@ -1,9 +1,11 @@
+<app-search [compare]="true"></app-search>
+
 <div style="width: 100% !important;" (scroll)="clearTip()">
 
   <!--<div class="ticker-label">-->
     <!--Attack points (last hour):-->
   <!--</div>-->
-  <div class="ticker-wrap d-none" *ngIf="!loadingDiffs && playerDiffs">
+  <div class="ticker-wrap" *ngIf="!loadingDiffs && playerDiffs != ''">
     <div class="ticker">
       <div class="ticker__item" *ngIf="playerDiffs.att">
         <span class="item-red">Attack points in last update: &nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -49,13 +51,13 @@
       <mat-card-title>
 
         <div style="margin-bottom: 5px; width: 100% !important;" *ngIf="nextUpdate != ''">
-
+          <app-advertorial></app-advertorial>
         </div>
 
         <div class="container-fluid">
           <div class="row" id="timeline">
 
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
               <h2 style='font-weight: 300; color: #304357;'>
                 <i class="fa fa-trophy" aria-hidden="true"></i>&nbsp;Daily<span class="hidden-xs"> Grepolis</span> scoreboard&nbsp;<span class='world-title' style='color: #18BC9C;'>{{world}} ({{worldName}})</span>
               </h2>
@@ -68,15 +70,10 @@
               <h4 *ngIf="!loadingPlayers && nextUpdate == ''" style='font-weight: 300; color: #304357;' class="hidden-xs">
                 <span class="label label-danger">You are viewing historic data</span> Go to <a class="a-link-dialog" routerLink="/points/{{world}}">today</a>
               </h4>
-              <div class="d-flex justify-content-center scoreboard-option-buttons">
-              <mat-chip class="btn-chip"><mat-icon fontIcon="chevron_left" class="mr-1">chevron_left</mat-icon>Previous day</mat-chip>
-              <mat-chip class="btn-chip"><mat-icon fontIcon="searching" class="mr-1">search</mat-icon>Search</mat-chip>
-              <mat-chip class="btn-chip"><fa-icon [icon]="icon.faGlobeEurope" class="mr-1"></fa-icon>Select world</mat-chip>
-              </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 text-right">
 
-              <div class="row d-none">
+              <div class="row">
                 <div class="col-xs-12">
 	                <mat-icon class="icon-margin input-icon"><div class="bg-flag flag-{{server}}"></div></mat-icon>
                   <mat-form-field class="input-server">
@@ -110,11 +107,6 @@
           </div>
         </div>
       </mat-card-title>
-      <mat-tab-group (selectedTabChange)="loadPlayersStatistics()" mat-stretch-tabs animationDuration="0ms" class="stretched-tabs mat-elevation-z1 scoreboard-tabs">
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <label class="player-tab">Player scoreboard</label>
-          </ng-template>
       <mat-card-content style="width: 100% !important;">
 
         <hr/>
@@ -123,6 +115,7 @@
           <div *ngIf="loadingPlayers" style="position: relative; top: -40px; height: 0px;">
             <br/><mat-progress-bar mode="indeterminate"></mat-progress-bar>
           </div>
+          <h1 class="mat-title table-title">Players</h1>
           <div class="row" *ngIf="noticePlayer != ''">
             <div class="col-xs-8 col-xs-offset-2">
               <div class="alert alert-warning text-center">
@@ -130,7 +123,7 @@
               </div>
             </div>
           </div>
-	        <div class="d-none" style="display: flex; place-content: center; width: 100%;">
+	        <div style="display: flex; place-content: center; width: 100%;">
 	          <div style="max-width: 100%;"
 	               #overviewContainer class="row hidden-xs text-center"
 	               *ngIf="!noPlayerData && playerData.overview && playerData.overview.length > 2"
@@ -182,15 +175,15 @@
                 text-overflow: ellipsis;">
                     <a routerLink="/player/{{playerData.world}}/{{p.i}}">{{p.n}}</a>
                   </div>
-                  <div *ngIf="hasOverview && p.s > 0" class="cell score-expand d-none d-sm-table-cell" (click)="openPlayerOverview(p.i, p.n)">
+                  <div *ngIf="hasOverview && p.s > 0" class="cell score-expand hidden-xs" (click)="openPlayerOverview(p.i, p.n)">
                     {{p.s | NumberFilter}}
                   </div>
-	                <div class="cell" [ngClass]="{'d-table-cell d-sm-none':hasOverview && p.s > 0}">
+	                <div class="cell" [ngClass]="{'hidden-sm hidden-md hidden-lg':hasOverview && p.s > 0}">
                     {{p.s | NumberFilter}}
                   </div>
 
-	                <div *ngIf="p.s > 0 && !mobile && hasOverview" class="cell d-none d-md-table-cell score-expand expand-icon" (click)="openPlayerOverview(p.i, p.n)">
-                    <fa-icon [icon]="icon.faExpandAlt" ></fa-icon>
+	                <div *ngIf="p.s > 0 && !mobile && hasOverview" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="openPlayerOverview(p.i, p.n)">
+		                <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
 	                </div>
 	                <div *ngIf="p.s <= 0 && !mobile && hasOverview" class="cell hidden-xs"></div>
                 </div>
@@ -266,15 +259,15 @@
                   <div class="cell formatted-cell">
                     <a routerLink="/player/{{playerData.world}}/{{p.i}}">{{p.n}}</a>
                   </div>
-                  <div *ngIf="hasOverview && p.s > 0" class="cell score-expand d-none d-sm-table-cell" (click)="openPlayerOverview(p.i, p.n)">
+                  <div *ngIf="hasOverview && p.s > 0" class="cell score-expand hidden-xs" (click)="openPlayerOverview(p.i, p.n)">
                     {{p.s | NumberFilter}}
                   </div>
-                  <div class="cell" [ngClass]="{'d-table-cell d-sm-none':hasOverview && p.s > 0}">
+                  <div class="cell" [ngClass]="{'hidden-sm hidden-md hidden-lg':hasOverview && p.s > 0}">
                     {{p.s | NumberFilter}}
                   </div>
 
 	                <div *ngIf="p.s > 0 && !mobile && hasOverview" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="openPlayerOverview(p.i, p.n)">
-                    <fa-icon [icon]="icon.faExpandAlt" ></fa-icon>
+		                <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
 	                </div>
 	                <div *ngIf="p.s <= 0 && !mobile && hasOverview" class="cell hidden-xs"></div>
                 </div>
@@ -359,7 +352,7 @@
                   </div>
 	                <div *ngIf="p.s <= 0 || mobile">{{p.s}}</div>
 	                <div *ngIf="p.s > 0 && !mobile" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="showConquests('player', p.i, p.n)">
-		                <fa-icon [icon]="icon.faExpandAlt" ></fa-icon>
+		                <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
 	                </div>
 	                <div *ngIf="p.s <= 0 && !mobile" class="cell hidden-xs"></div>
                 </div>
@@ -406,7 +399,7 @@
 	                </div>
 	                <div *ngIf="p.s <= 0 || mobile">-{{p.s}}</div>
 	                <div *ngIf="p.s > 0 && !mobile" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="showConquests('player', p.i, p.n)">
-		                <fa-icon [icon]="icon.faExpandAlt" ></fa-icon>
+		                <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
 	                </div>
 	                <div *ngIf="p.s <= 0 && !mobile" class="cell hidden-xs"></div>
                 </div>
@@ -426,13 +419,6 @@
             </div>
           </div>
         </div>
-      </mat-card-content>
-        </mat-tab>
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <label class="alliance-tab">Alliance scoreboard</label>
-          </ng-template>
-        <mat-card-content  style="width: 100% !important;">
 
         <hr/>
 
@@ -484,7 +470,7 @@
 	                  </div>
 
 	                  <div *ngIf="p.s > 0 && !mobile && hasOverview" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="openAllianceOverview(p.i, p.n)">
-                      <fa-icon [icon]="icon.faExpandAlt" ></fa-icon>
+		                  <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
 	                  </div>
 	                  <div *ngIf="p.s <= 0 && !mobile && hasOverview" class="cell hidden-xs"></div>
                   </div>
@@ -520,7 +506,7 @@
 	                  </div>
 
 	                  <div *ngIf="p.s > 0 && !mobile && hasOverview" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="openAllianceOverview(p.i, p.n)">
-                      <fa-icon [icon]="icon.faExpandAlt" ></fa-icon>
+		                  <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
 	                  </div>
 	                  <div *ngIf="p.s <= 0 && !mobile && hasOverview" class="cell hidden-xs"></div>
                   </div>
@@ -553,7 +539,7 @@
 	                  </div>
 	                  <div *ngIf="p.s <= 0 || mobile">{{p.s}}</div>
 	                  <div *ngIf="p.s > 0 && !mobile" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="showConquests('alliance', p.i, p.n)">
-		                  <fa-icon [icon]="icon.faExpandAlt" ></fa-icon>
+		                  <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
 	                  </div>
 	                  <div *ngIf="p.s <= 0 && !mobile" class="cell hidden-xs"></div>
                   </div>
@@ -586,7 +572,7 @@
 	                  </div>
 	                  <div *ngIf="p.s <= 0 || mobile">-{{p.s}}</div>
 	                  <div *ngIf="p.s > 0 && !mobile" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="showConquests('alliance', p.i, p.n)">
-		                  <fa-icon [icon]="icon.faExpandAlt" ></fa-icon>
+		                  <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
 	                  </div>
 	                  <div *ngIf="p.s <= 0 && !mobile" class="cell hidden-xs"></div>
                   </div>
@@ -618,7 +604,7 @@
 		              </div>
 
 		              <div #worldMapContainer class="map-overlay">
-			              <img #worldMap (mousemove)="mapTooltip($event)" (load)="buildCanvas()"
+			              <img #worldMap (mousemove)="mapTooltip($event)" (load)="buildCanvas($event)"
 			                   (mouseleave)="clearTip();" (mouseout)="clearTip();" (dragstart)="dragStartJs($event)"
 			                   style="max-width: 100%; display: none;" src="" alt="Alliance map for world {{world}} on {{selectedDate.toString()}}"/>
 		              </div>
@@ -688,10 +674,10 @@
 		      <h4 class="gd-secondary">Official data can have a delay of up to 120 minutes. All times are in the same timezone as the local Grepolis server.</h4>
 	      </div>
       </mat-card-content>
-        </mat-tab>
-      </mat-tab-group>
     </mat-card>
 
   </div>
 
 </div>
+
+

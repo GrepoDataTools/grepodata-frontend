@@ -1,0 +1,66 @@
+<div style="font-size: 18px;">
+  <a (click)="dialogRef.close()" class="close"></a>
+  <h1 class="mat-primary" style="color: #18BC9C; margin-top: 0px;" mat-dialog-title>Clean intel records</h1>
+
+  <div mat-dialog-content *ngIf="submitted == false || error != ''">
+	  <p>After submitting this form you will receive an email with an authentication link.</p>
+	  <p>Clicking on that link will grant you temporary access to delete any intel records you choose.</p>
+    <br/>
+
+	  <div class="alert alert-gd-1 text-center" style="margin: 0 15px 15px 15px;">
+		  <p class="gd-primary">Enter the email address that was used to create this index.</p>
+
+		  <div class="container-fluid">
+
+			  <div class="row">
+				  <div class="col-xs-12 col-sm-10 col-sm-offset-1">
+					  <mat-form-field style="width: 100% !important;">
+						  <input autocomplete="email" [disabled]="loading" [ngModel]="contact_mail" (ngModelChange)="contact_mail=$event" required matInput placeholder="Email address">
+					  </mat-form-field>
+				  </div>
+			  </div>
+
+			  <div class="row">
+				  <div *ngIf="error != ''" class="alert alert-danger">
+					  {{error}}
+				  </div>
+			  </div>
+
+			  <div *ngIf="loading">
+				  <div class="alert alert-info" style="margin-bottom: 0;">
+					  <strong>Submitting request..</strong> This may take a few seconds
+				  </div>
+			  </div>
+			  <div *ngIf="!loading" fxLayout="column" fxLayoutAlign="center" style="width: 100% !important;">
+				  <button style="font-size: 22px; padding: 8px; width: 100%;" mat-button class="mat-raised-button mat-primary" (click)="captchaRef.execute()">
+					  Send authentication email
+				  </button>
+			  </div>
+
+		  </div>
+	  </div>
+
+	  <div class="row text-center" style="text-align: -webkit-center;">
+		  <re-captcha
+			  size="invisible" badge="inline"
+			  #captchaRef="reCaptcha"
+			  siteKey="{{recaptcha_key}}"
+			  (resolved)="$event && resolved($event)">
+		  </re-captcha>
+	  </div>
+
+  </div>
+
+	<div *ngIf="submitted==true && error ==''">
+		<br/>
+		<p>Your request was received successfully. Please click the link in the email you received to confirm the action <strong>(check your spam folder if needed)</strong>.</p>
+		<br/>
+	</div>
+
+	<div mat-dialog-actions>
+		<button *ngIf="submitted==true" mat-button class="mat-raised-button mat-primary" (click)="dialogRef.close()">
+			Close
+		</button>
+	</div>
+
+</div>

@@ -4,12 +4,14 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
 import {Globals} from '../../globals';
 import {MatDialog} from '@angular/material/dialog';
+import {AuthService} from '../../shared/services/auth.service';
+import {NewIndexDialog} from '../../shared/dialogs/new-index-dialog/new-index.component';
 
 @Component({
   selector: 'indexer-about',
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss'],
-  providers: [IndexerService]
+  providers: [IndexerService, AuthService]
 })
 export class AboutComponent implements OnInit {
   @ViewChild('trigger', {static: false}) trigger: MatAutocompleteTrigger;
@@ -17,17 +19,20 @@ export class AboutComponent implements OnInit {
   stats: any = '';
   error = '';
   key_input: any = '';
+  loggedIn = false;
   openingIndex = false;
   all_indexes: any = {};
   objectKeys = Object.keys;
 
   constructor(
     private indexerService: IndexerService,
+    private authService: AuthService,
     private route: ActivatedRoute,
     public router: Router,
     private globals: Globals,
     public dialog: MatDialog
   ) {
+    this.loggedIn = this.authService.loggedIn;
     this.route.params.subscribe( params => this.load(params));
   }
 
@@ -74,14 +79,17 @@ export class AboutComponent implements OnInit {
   }
 
   newIndex() {
-    // let dialogRef = this.dialog.open(NewIndexDialog, {
-    //   // width: '80%',
-    //   // height: '90%'
-    //   autoFocus: false,
-    //   disableClose: true
-    // });
+    // if (this.authService.loggedIn) {
     //
-    // dialogRef.afterClosed().subscribe(result => {});
+    // }
+    let dialogRef = this.dialog.open(NewIndexDialog, {
+      // width: '80%',
+      // height: '90%'
+      autoFocus: false,
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {});
   }
 
   showForgotDialog() {

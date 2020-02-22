@@ -27,7 +27,9 @@
 								<span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
 								Reset password
 							</button>
-							<a routerLink="/auth/login" class="btn btn-link" style="float: right;">Login</a>
+							<button [disabled]="loading" type="button" routerLink="/auth/login" class="btn btn-secondary" style="float: right;">
+								Back to login
+							</button>
 						</div>
 
 						<p class="invalid-feedback" *ngIf="error!=''" style="color: #a94442 !important;">{{error}}</p>

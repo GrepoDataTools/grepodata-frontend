@@ -7,7 +7,7 @@ import {ProfileComponent} from './profile.component';
 import {ProfileRoutingModule} from './profile-routing.module';
 import {PipesModule} from '../../shared/pipes/pipes.module';
 import {MatCardModule} from '@angular/material/card';
-import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 
 @NgModule({
@@ -20,7 +20,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     ReactiveFormsModule,
     PipesModule,
     MatCardModule,
-    FlexLayoutModule
+    MatProgressBarModule
   ]
 })
 export class ProfileModule { }

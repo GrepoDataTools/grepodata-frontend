@@ -52,15 +52,20 @@
 										<div *ngIf="error!=''" style="color: #a94442; margin-top: -20px;">
 											<strong>Invalid index key!</strong> There exists no index for this key. Please try again.
 										</div>
-										<button *ngIf="!openingIndex" type="submit" class="gd-btn-1" style="position: absolute; bottom: 40px; height: 45px; overflow: hidden; text-overflow: ellipsis; border-radius: 5px;">
-											Load existing index &nbsp; <i class="fa fa-arrow-circle-right"></i>
-										</button>
+										<div *ngIf="!openingIndex" class="form-group row" style='margin: 0px;'>
+											<button type="submit" class="gd-btn-1" style="position: absolute; bottom: 40px; height: 45px; overflow: hidden; text-overflow: ellipsis; border-radius: 5px;">
+												Load existing index &nbsp; <i class="fa fa-arrow-circle-right"></i>
+											</button>
+											<button type="button" routerLink="/auth/profile" class="gd-btn-1" style="position: absolute; bottom: 40px; right: 40px; height: 45px; overflow: hidden; text-overflow: ellipsis; border-radius: 5px;">
+												My indexes <mat-icon style="opacity: 1; vertical-align: bottom;">launch</mat-icon>
+											</button>
+										</div>
 										<div class="col-xs-8" *ngIf="openingIndex">
 											Loading...
 											<mat-progress-bar mode="indeterminate"></mat-progress-bar>
 										</div>
 									</form>
-									<p style="position: absolute; bottom: 0; right: 10px;" class="gd-secondary">Click <a class="a-link-dialog" (click)="showForgotDialog()">here</a> if you forgot your key</p>
+									<!--<p *ngIf="loggedIn" style="position: absolute; bottom: 0; right: 10px;" class="gd-secondary">Click <a class="a-link-dialog" (click)="showForgotDialog()">here</a> if you forgot your key</p>-->
 								</div>
 							</div>
 						</div>

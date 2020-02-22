@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
-import {JwtService} from "./jwt.service";
+import {HttpClient, HttpParams} from "@angular/common/http";
+import {AuthService} from "./auth.service";
 import {Router} from "@angular/router";
 import {environment} from '../../../environments/environment';
 
@@ -9,7 +9,7 @@ const apiUrl = environment.apiUrl;
 export class ProfileService {
 
 	constructor(private http: HttpClient,
-							private authService: JwtService,
+							private authService: AuthService,
 							private router: Router) {}
 
 	getIndexes() {

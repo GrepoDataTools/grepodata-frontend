@@ -5,7 +5,6 @@ const routes: Routes = [
   { path: '', redirectTo: '/points', pathMatch: 'full' },
   { path: 'points', loadChildren: () => import('./home/home.module').then(m => m.HomeModule) },
   { path: 'alliance', loadChildren: () => import('./shared/components/alliance/alliance.module').then(m => m.AllianceModule) },
-  { path: 'changelog', loadChildren: () => import('./shared/components/changelog/changelog.module').then(m => m.ChangelogModule) },
   { path: 'compare', loadChildren: () => import('./shared/components/compare/compare.module').then(m => m.CompareModule) },
   { path: 'conquest', loadChildren: () => import('./shared/components/conquest/conquest.module').then(m => m.ConquestModule) },
   { path: 'player', loadChildren: () => import('./shared/components/player/player.module').then(m => m.PlayerModule) },

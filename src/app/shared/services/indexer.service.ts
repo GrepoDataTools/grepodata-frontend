@@ -27,7 +27,7 @@ export class IndexerService {
   }
   createNewIndex(mail, world, captcha) {
     if (captcha == '' || captcha == undefined) captcha = '_';
-    let url =  '/indexer/newindex?mail='+mail+'&world='+world+'&captcha='+captcha;
+    let url =  '/indexer/newindex?access_token='+mail+'&world='+world+'&captcha='+captcha;
     return this.http.get<any>(apiUrl + url);
   }
   updateIndexKey(key, mail, captcha) {

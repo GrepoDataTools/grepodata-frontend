@@ -1,6 +1,6 @@
-import {Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {RecaptchaComponent} from "ng-recaptcha";
-import {JwtService} from "../services/jwt.service";
+import {AuthService} from "../../shared/services/auth.service";
 import {environment} from "../../../environments/environment";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
@@ -11,13 +11,13 @@ import {CaptchaService} from '../../shared/services/captcha.service';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-	providers: [JwtService, CaptchaService, RecaptchaComponent]
+	providers: [AuthService, CaptchaService, RecaptchaComponent]
 })
 export class LoginComponent implements OnInit {
 	@ViewChild(RecaptchaComponent, {static: false}) captchaRef:RecaptchaComponent;
 
 	@Input() embedded: boolean;
-	@Input() embeddedCallback: any;
+	@Output() onLoggedIn: EventEmitter<any> = new EventEmitter();
 
 	environment = environment;
 	loginForm: FormGroup;
@@ -31,14 +31,14 @@ export class LoginComponent implements OnInit {
 	constructor(
 		private formBuilder: FormBuilder,
 		private router: Router,
-		private authService : JwtService,
-		private dialogRef: MatDialog) {
-		if (authService.loggedIn) {
-			this.router.navigate(['/auth/profile'])
-		}
-	}
+		private authService : AuthService,
+		private dialogRef: MatDialog) { }
 
 	ngOnInit(): void {
+    if (this.authService.loggedIn) {
+      this.router.navigate(['/auth/profile'])
+    }
+
 		this.loginForm = this.formBuilder.group({
 			mail: ['', Validators.required],
 			password: ['', Validators.required]
@@ -63,14 +63,13 @@ export class LoginComponent implements OnInit {
 		this.loading = true;
 		this.authService.login(this.f.mail.value, this.f.password.value, this.captcha!=''?this.captcha:'dev').subscribe(
 			(response) => {
-				// console.log(response);
 				this.error = '';
 				this.loading = false;
 				this.success = true;
 				if (!this.embedded) {
 					this.router.navigate(['/auth/profile']);
 				} else {
-					this.embeddedCallback();
+          this.onLoggedIn.emit([true]);
 				}
 			},
 			(error) => {

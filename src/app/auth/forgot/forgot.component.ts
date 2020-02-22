@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {JwtService} from "../services/jwt.service";
+import {AuthService} from "../../shared/services/auth.service";
 import {RecaptchaComponent} from "ng-recaptcha";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
@@ -9,7 +9,7 @@ import {environment} from "../../../environments/environment";
   selector: 'app-forgot',
   templateUrl: './forgot.component.html',
   styleUrls: ['./forgot.component.scss'],
-	providers: [JwtService, RecaptchaComponent]
+	providers: [AuthService, RecaptchaComponent]
 })
 export class ForgotComponent implements OnInit {
 	@ViewChild(RecaptchaComponent, {static: false}) captchaRef:RecaptchaComponent;
@@ -26,7 +26,7 @@ export class ForgotComponent implements OnInit {
 	constructor(
 		private formBuilder: FormBuilder,
 		private router: Router,
-		private authService : JwtService) {
+		private authService : AuthService) {
 		if (authService.loggedIn) {
 			this.router.navigate(['/auth/profile'])
 		}

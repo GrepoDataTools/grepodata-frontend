@@ -5,6 +5,8 @@ import {RecaptchaModule} from 'ng-recaptcha';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RegisterRoutingModule} from './register-routing.module';
 import {RegisterComponent} from './register.component';
+import {MatIconModule} from '@angular/material/icon';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 
 @NgModule({
@@ -14,7 +16,9 @@ import {RegisterComponent} from './register.component';
     RegisterRoutingModule,
     RecaptchaModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatIconModule,
+    MatCheckboxModule
   ]
 })
 export class RegisterModule { }

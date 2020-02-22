@@ -11,8 +11,10 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {FaqModule} from '../faq/faq.module';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInput, MatInputModule} from '@angular/material/input';
+import {MatInputModule} from '@angular/material/input';
 import {TranslateModule} from '@ngx-translate/core';
+import {NewIndexDialogModule} from '../../shared/dialogs/new-index-dialog/new-index.module';
+import {RouterModule} from '@angular/router';
 
 
 @NgModule({
@@ -30,7 +32,9 @@ import {TranslateModule} from '@ngx-translate/core';
     FaqModule,
     MatInputModule,
     MatFormFieldModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    NewIndexDialogModule,
+    RouterModule
   ]
 })
 export class AboutModule { }

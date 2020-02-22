@@ -2,14 +2,14 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {environment} from "../../../environments/environment";
-import {JwtService} from "../services/jwt.service";
+import {AuthService} from "../../shared/services/auth.service";
 import {RecaptchaComponent} from "ng-recaptcha";
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
-	providers: [JwtService, RecaptchaComponent]
+	providers: [AuthService, RecaptchaComponent]
 })
 export class RegisterComponent implements OnInit {
 	@ViewChild(RecaptchaComponent, {static: false}) captchaRef:RecaptchaComponent;
@@ -26,7 +26,7 @@ export class RegisterComponent implements OnInit {
 	constructor(
 		private formBuilder: FormBuilder,
 		private router: Router,
-		private authService : JwtService) {
+		private authService : AuthService) {
 		if (authService.loggedIn) {
 			this.router.navigate(['/auth/profile'])
 		}

@@ -1,27 +1,31 @@
-<div class="container" fxLayout="row" fxLayoutAlign="center center" style="margin-top: 20px;">
-	<div fxFlex>
-		<h2 class="gd-primary">Welcome back!</h2>
-	</div>
-	<div fxFlex>
-		<button class="btn btn-primary" (click)="logout()" style="float: right;">
-			Logout
-		</button>
-	</div>
-</div>
-
 <div class="container" style="margin-top: 20px;">
 	<div class="row">
-		<div class="col-12">
-			<mat-card>
+		<div class="col-8">
+			<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+			<mat-card *ngIf="!confirmed && !loading">
+				<mat-card-title>
+					<h2 class="gd-primary">Confirm your email address to continue</h2>
+				</mat-card-title>
+				<mat-card-content class="text-center">
+					<div class="alert alert-warning">
+						Your email address has not yet been confirmed. Check the email you received or request a new confirmation email below.
+					</div>
+					<button class="btn btn-primary">
+						Request new confirmation email
+					</button>
+				</mat-card-content>
+			</mat-card>
+			<mat-card *ngIf="confirmed && !loading">
 				<mat-card-title>
 					<h2 class="gd-primary">Your indexes</h2>
 				</mat-card-title>
 				<mat-card-content>
-					<div *ngIf="indexes.length <= 0">
+
+					<div *ngIf="!loading && indexes.length <= 0">
 						<p class="gd-secondary">You have not yet created any indexes.</p>
 					</div>
 
-					<div *ngIf="indexes.length > 0">
+					<div *ngIf="!loading && indexes.length > 0">
 
 						<div class="table-container">
 							<div class="table" id="player_changes_table" style="">
@@ -53,10 +57,10 @@
 										{{index.overview.total_reports}}
 									</div>
 									<div class="cell hidden-xs">
-										{{index.updated_at!=null?(index.updated_at.date | Datex : "D MMM YYYY"):''}}
+										{{index.updated_at!=null?(index.updated_at | Datex : "D MMM YYYY"):''}}
 									</div>
 									<div class="cell hidden-xs">
-										{{index.created_at!=null?(index.created_at.date | Datex : "D MMM YYYY"):''}}
+										{{index.created_at!=null?(index.created_at | Datex : "D MMM YYYY"):''}}
 									</div>
 									<div class="cell hidden-xs">
 										<div class="form-group row" style="margin: 3px !important; text-align: -webkit-right;">
@@ -82,6 +86,30 @@
 				</mat-card-content>
 			</mat-card>
 
+		</div>
+		<div class="col-4">
+
+			<div class="container-fluid profile-banner">
+				<div class="row text-center">
+					<div class="col-12">
+						<h2 class="gd-primary">Welcome back!</h2>
+					</div>
+				</div>
+				<div class="row profile-banner-buttons">
+					<button [disabled]="!confirmed" class="btn btn-secondary mb-2" (click)="newIndex()">
+						Create new index
+					</button>
+					<button [disabled]="!confirmed" class="btn btn-secondary mb-2" (click)="changePassword()">
+						Change password
+					</button>
+					<button class="btn btn-primary mb-2" (click)="logout()">
+						Logout
+					</button>
+					<button [disabled]="!confirmed" class="btn btn-danger" (click)="changePassword()">
+						Delete account
+					</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

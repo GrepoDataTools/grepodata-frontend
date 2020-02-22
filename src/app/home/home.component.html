@@ -110,11 +110,6 @@
           </div>
         </div>
       </mat-card-title>
-      <mat-tab-group (selectedTabChange)="loadPlayersStatistics()" mat-stretch-tabs animationDuration="0ms" class="stretched-tabs mat-elevation-z1 scoreboard-tabs">
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <label class="player-tab">Player scoreboard</label>
-          </ng-template>
       <mat-card-content style="width: 100% !important;">
 
         <hr/>
@@ -123,6 +118,18 @@
           <div *ngIf="loadingPlayers" style="position: relative; top: -40px; height: 0px;">
             <br/><mat-progress-bar mode="indeterminate"></mat-progress-bar>
           </div>
+          <mat-tab-group mat-stretch-tabs class="stretched-tabs mat-elevation-z1 scoreboard-tabs">
+            <mat-tab>
+              <ng-template mat-tab-label>
+              <label class="player-tab">Player scoreboard</label>
+              </ng-template>
+            </mat-tab>
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <label class="alliance-tab">Alliance scoreboard</label>
+              </ng-template>
+            </mat-tab>
+          </mat-tab-group>
           <div class="row" *ngIf="noticePlayer != ''">
             <div class="col-xs-8 col-xs-offset-2">
               <div class="alert alert-warning text-center">
@@ -274,7 +281,7 @@
                   </div>
 
 	                <div *ngIf="p.s > 0 && !mobile && hasOverview" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="openPlayerOverview(p.i, p.n)">
-                    <fa-icon [icon]="icon.faExpandAlt" ></fa-icon>
+		                <fa-icon [icon]="icon.faInfo"></fa-icon>
 	                </div>
 	                <div *ngIf="p.s <= 0 && !mobile && hasOverview" class="cell hidden-xs"></div>
                 </div>
@@ -359,7 +366,7 @@
                   </div>
 	                <div *ngIf="p.s <= 0 || mobile">{{p.s}}</div>
 	                <div *ngIf="p.s > 0 && !mobile" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="showConquests('player', p.i, p.n)">
-		                <fa-icon [icon]="icon.faExpandAlt" ></fa-icon>
+		                <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
 	                </div>
 	                <div *ngIf="p.s <= 0 && !mobile" class="cell hidden-xs"></div>
                 </div>
@@ -406,7 +413,7 @@
 	                </div>
 	                <div *ngIf="p.s <= 0 || mobile">-{{p.s}}</div>
 	                <div *ngIf="p.s > 0 && !mobile" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="showConquests('player', p.i, p.n)">
-		                <fa-icon [icon]="icon.faExpandAlt" ></fa-icon>
+		                <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
 	                </div>
 	                <div *ngIf="p.s <= 0 && !mobile" class="cell hidden-xs"></div>
                 </div>
@@ -426,13 +433,6 @@
             </div>
           </div>
         </div>
-      </mat-card-content>
-        </mat-tab>
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <label class="alliance-tab">Alliance scoreboard</label>
-          </ng-template>
-        <mat-card-content  style="width: 100% !important;">
 
         <hr/>
 
@@ -484,7 +484,7 @@
 	                  </div>
 
 	                  <div *ngIf="p.s > 0 && !mobile && hasOverview" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="openAllianceOverview(p.i, p.n)">
-                      <fa-icon [icon]="icon.faExpandAlt" ></fa-icon>
+		                  <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
 	                  </div>
 	                  <div *ngIf="p.s <= 0 && !mobile && hasOverview" class="cell hidden-xs"></div>
                   </div>
@@ -520,7 +520,7 @@
 	                  </div>
 
 	                  <div *ngIf="p.s > 0 && !mobile && hasOverview" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="openAllianceOverview(p.i, p.n)">
-                      <fa-icon [icon]="icon.faExpandAlt" ></fa-icon>
+		                  <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
 	                  </div>
 	                  <div *ngIf="p.s <= 0 && !mobile && hasOverview" class="cell hidden-xs"></div>
                   </div>
@@ -553,7 +553,7 @@
 	                  </div>
 	                  <div *ngIf="p.s <= 0 || mobile">{{p.s}}</div>
 	                  <div *ngIf="p.s > 0 && !mobile" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="showConquests('alliance', p.i, p.n)">
-		                  <fa-icon [icon]="icon.faExpandAlt" ></fa-icon>
+		                  <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
 	                  </div>
 	                  <div *ngIf="p.s <= 0 && !mobile" class="cell hidden-xs"></div>
                   </div>
@@ -586,7 +586,7 @@
 	                  </div>
 	                  <div *ngIf="p.s <= 0 || mobile">-{{p.s}}</div>
 	                  <div *ngIf="p.s > 0 && !mobile" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="showConquests('alliance', p.i, p.n)">
-		                  <fa-icon [icon]="icon.faExpandAlt" ></fa-icon>
+		                  <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
 	                  </div>
 	                  <div *ngIf="p.s <= 0 && !mobile" class="cell hidden-xs"></div>
                   </div>
@@ -688,8 +688,6 @@
 		      <h4 class="gd-secondary">Official data can have a delay of up to 120 minutes. All times are in the same timezone as the local Grepolis server.</h4>
 	      </div>
       </mat-card-content>
-        </mat-tab>
-      </mat-tab-group>
     </mat-card>
 
   </div>

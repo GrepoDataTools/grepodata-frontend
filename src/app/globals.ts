@@ -1,5 +1,6 @@
 // globals.ts
 import { Injectable } from '@angular/core';
+import {WorldService} from './shared/services/world.service';
 
 @Injectable()
 export class Globals {
@@ -13,13 +14,16 @@ export class Globals {
   private active_index:   string = '';
   private active_intel:   any = null;
 
+  constructor(private worldService: WorldService) {
+  }
+
   get_active_world() {
     if (this.active_world != '') {
       return this.active_world;
     } else if (localStorage.getItem(this.ACTIVE_WORLD)) {
       return localStorage.getItem(this.ACTIVE_WORLD);
     } else {
-      return false;
+      return this.worldService.getNewestWorldForServer(this.worldService.getDefaultServer());
     }
   }
   set_active_world(world) {
@@ -33,7 +37,7 @@ export class Globals {
     } else if (localStorage.getItem(this.ACTIVE_SERVER)) {
       return localStorage.getItem(this.ACTIVE_SERVER);
     } else {
-      return false;
+      return this.worldService.getDefaultServer();
     }
   }
   set_active_server(server) {

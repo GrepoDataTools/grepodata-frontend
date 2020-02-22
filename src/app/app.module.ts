@@ -22,6 +22,8 @@ import { MatTabsModule } from "@angular/material/tabs";
 import { MatIconModule } from "@angular/material/icon";
 import {RouterModule} from '@angular/router';
 import {NgcCookieConsentConfig, NgcCookieConsentModule} from 'ngx-cookieconsent';
+import {WorldService} from './shared/services/world.service';
+import {LocalStorageService} from './shared/services/local-storage.service';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -88,7 +90,9 @@ const cookieConfig:NgcCookieConsentConfig = {
       useClass: LoaderInterceptor,
       multi: true
     },
-    Globals
+    Globals,
+    WorldService,
+    LocalStorageService
   ],
   bootstrap: [AppComponent]
 })

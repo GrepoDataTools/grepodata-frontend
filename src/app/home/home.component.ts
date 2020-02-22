@@ -346,7 +346,7 @@ export class HomeComponent implements OnInit {
       this.globals.set_active_server(this.server);
     } else if (this.server != "" && this.world != "" && this.server != this.world.substr(0, 2)) {
       this.world = "";
-    } else if (this.globals.get_active_world() != false) {
+    } else if (this.globals.get_active_world()) {
       this.world = this.globals.get_active_world();
       this.server = this.world.substr(0, 2);
     }

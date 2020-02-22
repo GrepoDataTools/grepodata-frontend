@@ -221,7 +221,7 @@ export class SearchComponent implements AfterViewInit {
       }
 
       let preferred_server = this.globals.get_active_server();
-      if (preferred_server==null || preferred_server==false) {
+      if (preferred_server==null || !preferred_server) {
         preferred_server = '';
       }
 

@@ -14,8 +14,6 @@ export class Globals {
   private active_index:   string = '';
   private active_intel:   any = null;
 
-  constructor(private worldService: WorldService) {
-  }
 
   get_active_world() {
     if (this.active_world != '') {
@@ -23,7 +21,7 @@ export class Globals {
     } else if (localStorage.getItem(this.ACTIVE_WORLD)) {
       return localStorage.getItem(this.ACTIVE_WORLD);
     } else {
-      return this.worldService.getNewestWorldForServer(this.worldService.getDefaultServer());
+      return false
     }
   }
   set_active_world(world) {
@@ -37,7 +35,7 @@ export class Globals {
     } else if (localStorage.getItem(this.ACTIVE_SERVER)) {
       return localStorage.getItem(this.ACTIVE_SERVER);
     } else {
-      return this.worldService.getDefaultServer();
+      return false
     }
   }
   set_active_server(server) {

@@ -68,7 +68,7 @@ export class SearchComponent implements AfterViewInit {
       this.hide_results = true;
       if ('url' in val) {
         let path = val.url;
-        if (path.includes('/indexer')) {
+        if (path.includes('/indexer') || path.includes('/auth')) {
           this.hide_search = true;
         } else {
           this.hide_search = false;

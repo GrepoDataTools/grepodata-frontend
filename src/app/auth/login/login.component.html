@@ -1,0 +1,71 @@
+<div class="container-fluid" [ngClass]="{'login-fixed':!embedded}">
+
+	<div class="row">
+		<div class="{{(embedded==true?'col-12':'col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-4 offset-lg-4')}}">
+
+			<div *ngIf="embedded">
+				<p class="gd-secondary">
+					<strong>You need to be logged in to edit these settings.</strong>
+					Please register for a new account with the same email address if you created this index previously.
+				</p>
+			</div>
+
+			<div class="alert alert-gd-1" style="margin: 0 0 15px 0;">
+
+				<div>
+					<h2>Login</h2>
+					<form *ngIf="!success" [formGroup]="loginForm" (ngSubmit)="environment.production==true?captchaRef.execute():sendRequest()">
+						<div class="form-group">
+							<label for="mail">Email Address</label>
+							<input autocomplete="email" type="text" formControlName="mail" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.mail.errors }" />
+							<div *ngIf="submitted && f.mail.errors" class="invalid-feedback">
+								<div *ngIf="f.mail.errors.required">Email address is required</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="password">Password</label>
+							<input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+							<div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+								<div *ngIf="f.password.errors.required">Password is required</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<button [disabled]="loading" class="btn btn-primary">
+								<span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+								Login
+							</button>
+							<a routerLink="/auth/register" class="btn btn-link">Register</a>
+							<a routerLink="/auth/forgot" class="btn btn-link" style="float: right;">Password reset</a>
+						</div>
+
+						<p class="invalid-feedback" *ngIf="error!=''" style="color: #a94442 !important;">{{error}}</p>
+					</form>
+
+					<div *ngIf="success">
+						<p><strong>Login successful!</strong> Redirecting..</p>
+					</div>
+				</div>
+
+
+			</div>
+
+			<div class="row" style="text-align: -webkit-center; place-content: center; align-items: center;" *ngIf="!success">
+				<re-captcha
+					size="invisible" badge="inline"
+					#captchaRef="reCaptcha"
+					siteKey="{{recaptcha_key}}"
+					(resolved)="$event && resolved($event)">
+				</re-captcha>
+			</div>
+
+		</div>
+	</div>
+
+	<!--<div *ngIf="submitted==true && error == ''">-->
+		<!--<br/>-->
+		<!--<p>Logged in! We will redirect you now..</p>-->
+		<!--<br/>-->
+	<!--</div>-->
+
+
+</div>

@@ -16,7 +16,8 @@ const routes: Routes = [
   { path: 'ranking', loadChildren: () => import('./shared/components/ranking/ranking.module').then(m => m.RankingModule) },
   // { path: 'points', loadChildren: () => import('./shared/components/points/points.module').then(m => m.PointsModule) },
   { path: 'contact', loadChildren: () => import('./shared/components/contact/contact.module').then(m => m.ContactModule) },
-  { path: 'changes', loadChildren: () => import('./shared/components/changes/changes.module').then(m => m.ChangesModule) }
+  { path: 'changes', loadChildren: () => import('./shared/components/changes/changes.module').then(m => m.ChangesModule) },
+  { path: 'auth', loadChildren: () => import('./auth/auth-routing.module').then(m => m.AuthRoutingModule) }
 ];
 
 @NgModule({

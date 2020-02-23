@@ -1,25 +1,35 @@
 <div class="container" style="margin-top: 20px;">
 	<div class="row">
 		<div class="col-8">
-			<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
-			<mat-card *ngIf="!confirmed && !loading">
+			<mat-card *ngIf="loading">
+				<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+			</mat-card>
+			<mat-card *ngIf="!confirmed && !loading" class="text-center">
 				<mat-card-title>
 					<h2 class="gd-primary">Confirm your email address to continue</h2>
 				</mat-card-title>
-				<mat-card-content class="text-center">
-					<div class="alert alert-warning">
+				<mat-card-content>
+					<div *ngIf="confirmError=='' && !confirmRequestDone" class="alert alert-warning">
 						Your email address has not yet been confirmed. Check the email you received or request a new confirmation email below.
 					</div>
-					<button class="btn btn-primary">
+					<div *ngIf="confirmError=='' && confirmRequestDone" class="alert alert-success">
+						We have sent a new confirmation email to your email address. <strong>Check your spam folder if needed.</strong>
+					</div>
+					<div *ngIf="confirmError!=''" class="alert alert-danger">
+						{{confirmError}}
+					</div>
+					<button [disabled]="loadingNewConfirm" class="btn btn-primary" (click)="requestNewConfirmation()">
+						<span *ngIf="loadingNewConfirm" class="spinner-border spinner-border-sm mr-1"></span>
 						Request new confirmation email
 					</button>
 				</mat-card-content>
 			</mat-card>
 			<mat-card *ngIf="confirmed && !loading">
-				<mat-card-title>
+				<mat-card-content *ngIf="changingPassword">
+					<h2 class="gd-primary">Change your password</h2>
+				</mat-card-content>
+				<mat-card-content *ngIf="!changingPassword">
 					<h2 class="gd-primary">Your indexes</h2>
-				</mat-card-title>
-				<mat-card-content>
 
 					<div *ngIf="!loading && indexes.length <= 0">
 						<p class="gd-secondary">You have not yet created any indexes.</p>
@@ -27,59 +37,90 @@
 
 					<div *ngIf="!loading && indexes.length > 0">
 
-						<div class="table-container">
-							<div class="table" id="player_changes_table" style="">
-								<div class="row_custom header default">
-									<div class="cell hidden-xs">#</div>
-									<div class="cell">Index key</div>
-									<div class="cell">World</div>
-									<div class="cell">Reports</div>
-									<div class="cell hidden-xs">Last update</div>
-									<div class="cell hidden-xs">Created on</div>
-									<div class="cell hidden-xs">Action</div>
-								</div>
-
-								<div class="row_custom" *ngFor="let index of indexes; let i = index;">
-									<div class="cell hidden-xs">
-										{{i+1}}
-									</div>
-									<div class="cell">
-										<a routerLink="/indexer/{{index.key}}">
-											{{index.key}}
-										</a>
-									</div>
-									<div class="cell">
-										<a routerLink="/points/{{index.world}}">
-											{{index.world}}
-										</a>
-									</div>
-									<div class="cell">
-										{{index.overview.total_reports}}
-									</div>
-									<div class="cell hidden-xs">
-										{{index.updated_at!=null?(index.updated_at | Datex : "D MMM YYYY"):''}}
-									</div>
-									<div class="cell hidden-xs">
-										{{index.created_at!=null?(index.created_at | Datex : "D MMM YYYY"):''}}
-									</div>
-									<div class="cell hidden-xs">
-										<div class="form-group row" style="margin: 3px !important; text-align: -webkit-right;">
-											<button style="width: 45%; margin-right: 2%;" name="load_index" class="btn btn-primary btn-xs"
+						<div class="index-list">
+							<div class="index-list-entry" *ngFor="let index of indexes; let i = index;" routerLink="/indexer/{{index.key}}">
+								<div class="container-fluid">
+									<div class="row">
+										<div class="info col-3">
+											<div class="label gd-secondary ">
+												<a routerLink="/indexer/{{index.key}}">{{index.key}}</a>
+											</div>
+											<div class="number">
+												<a routerLink="/points/{{index.world}}"><div class="bg-flag flag-inline flag-{{index.world.substr(0,2)}}" style="transform: scale(0.7); vertical-align: middle;"></div> {{index.world}}</a>
+											</div>
+										</div>
+										<div class="count col-3">
+											<div class="label">Reports</div>
+											<div class="number">{{index.overview.total_reports}}</div>
+										</div>
+										<div class="dates col-3">
+											<div class="label">Last update</div>
+											<div class="number">{{index.updated_at.date!=null?(index.updated_at.date | Datex : "D MMM YYYY"):''}}</div>
+										</div>
+										<div class="actions col-3">
+											<button class="btn btn-link"
 											        (click)="editOwners(index.key, index.world, index.overview.owners)">
-												<i class="fa fa-cog"></i>&nbsp;Settings
+												<i class="fa fa-cog"></i>
 											</button>
-											<button style="width: 53%;" name="load_index" class="btn btn-success btn-xs" routerLink="/indexer/{{index.key}}">
-												<i class="fa fa-arrow-circle-right"></i>&nbsp;Go to index
-											</button>
-											<!--<button style="width: 48%;" name="add_compare" class="btn btn-info btn-xs" routerLink="/player/{{player?.world}}/{{player?.id}}">-->
-												<!--<i class="fa fa-arrow-circle-right"></i>&nbsp;View-->
-											<!--</button>-->
 										</div>
 									</div>
 								</div>
-
 							</div>
 						</div>
+
+						<!--<div class="table-container">-->
+							<!--<div class="table" id="player_changes_table" style="">-->
+								<!--<div class="row_custom header default">-->
+									<!--<div class="cell hidden-xs">#</div>-->
+									<!--<div class="cell">Index key</div>-->
+									<!--<div class="cell">World</div>-->
+									<!--<div class="cell">Reports</div>-->
+									<!--<div class="cell hidden-xs">Last update</div>-->
+									<!--<div class="cell hidden-xs">Created on</div>-->
+									<!--<div class="cell hidden-xs">Action</div>-->
+								<!--</div>-->
+
+								<!--<div class="row_custom" *ngFor="let index of indexes; let i = index;">-->
+									<!--<div class="cell hidden-xs">-->
+										<!--{{i+1}}-->
+									<!--</div>-->
+									<!--<div class="cell">-->
+										<!--<a routerLink="/indexer/{{index.key}}">-->
+											<!--{{index.key}}-->
+										<!--</a>-->
+									<!--</div>-->
+									<!--<div class="cell">-->
+										<!--<a routerLink="/points/{{index.world}}">-->
+											<!--{{index.world}}-->
+										<!--</a>-->
+									<!--</div>-->
+									<!--<div class="cell">-->
+										<!--{{index.overview.total_reports}}-->
+									<!--</div>-->
+									<!--<div class="cell hidden-xs">-->
+										<!--{{index.updated_at!=null?(index.updated_at | Datex : "D MMM YYYY"):''}}-->
+									<!--</div>-->
+									<!--<div class="cell hidden-xs">-->
+										<!--{{index.created_at!=null?(index.created_at | Datex : "D MMM YYYY"):''}}-->
+									<!--</div>-->
+									<!--<div class="cell hidden-xs">-->
+										<!--<div class="form-group row" style="margin: 3px !important; text-align: -webkit-right;">-->
+											<!--<button style="width: 45%; margin-right: 2%;" name="load_index" class="btn btn-primary btn-xs"-->
+											        <!--(click)="editOwners(index.key, index.world, index.overview.owners)">-->
+												<!--<i class="fa fa-cog"></i>&nbsp;Settings-->
+											<!--</button>-->
+											<!--<button style="width: 53%;" name="load_index" class="btn btn-success btn-xs" routerLink="/indexer/{{index.key}}">-->
+												<!--<i class="fa fa-arrow-circle-right"></i>&nbsp;Go to index-->
+											<!--</button>-->
+											<!--&lt;!&ndash;<button style="width: 48%;" name="add_compare" class="btn btn-info btn-xs" routerLink="/player/{{player?.world}}/{{player?.id}}">&ndash;&gt;-->
+												<!--&lt;!&ndash;<i class="fa fa-arrow-circle-right"></i>&nbsp;View&ndash;&gt;-->
+											<!--&lt;!&ndash;</button>&ndash;&gt;-->
+										<!--</div>-->
+									<!--</div>-->
+								<!--</div>-->
+
+							<!--</div>-->
+						<!--</div>-->
 
 					</div>
 
@@ -91,16 +132,20 @@
 
 			<div class="container-fluid profile-banner">
 				<div class="row text-center">
-					<div class="col-12">
+					<div class="col-12" *ngIf="confirmed">
 						<h2 class="gd-primary">Welcome back!</h2>
+					</div>
+					<div class="col-10 offset-1" *ngIf="!confirmed">
+						<h2 class="gd-primary">Welcome!</h2>
+						<p class="gd-secondary">Please confirm your email address to start using our tools.</p>
 					</div>
 				</div>
 				<div class="row profile-banner-buttons">
 					<button [disabled]="!confirmed" class="btn btn-secondary mb-2" (click)="newIndex()">
-						Create new index
+						<i class="fa fa-plus"></i> Create new index
 					</button>
 					<button [disabled]="!confirmed" class="btn btn-secondary mb-2" (click)="changePassword()">
-						Change password
+						<i class="fa fa-key"></i> Change password
 					</button>
 					<button class="btn btn-primary mb-2" (click)="logout()">
 						Logout

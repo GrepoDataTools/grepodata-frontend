@@ -1,0 +1,78 @@
+<div class="container-fluid" style="
+		position: fixed;
+    top: 20%;
+    left: 5%;
+    width: 90%;
+		padding: 0 !important;">
+
+	<div class="row">
+		<div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-4 offset-lg-4">
+
+			<div class="alert alert-gd-1" style="margin: 0 0 15px 0;">
+
+				<div *ngIf="invalid_token">
+					<h2>Password reset</h2>
+					<p style="color: #a94442 !important;">
+						<strong>Invalid reset token.</strong> Please request a new password reset email to try again.
+					</p>
+					<button class="btn btn-primary" type="button" routerLink="/auth/forgot">
+						Request new email
+					</button>
+				</div>
+
+				<div *ngIf="!invalid_token">
+					<h2>Password reset</h2>
+					<p class="gd-secondary" *ngIf="!success">Enter your new password.</p>
+
+					<form *ngIf="!success" [formGroup]="loginForm" (ngSubmit)="environment.production==true?captchaRef.execute():sendRequest()">
+						<div class="form-group">
+							<label for="password">New password</label>
+							<input autocomplete="off" type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+							<div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+								<div *ngIf="f.password.errors.required">Password is required</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="password2">Repeat your new password</label>
+							<input autocomplete="off" type="password" formControlName="password2" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password2.errors }" />
+							<div *ngIf="submitted && f.password2.errors" class="invalid-feedback">
+								<div *ngIf="f.password2.errors.required">Password verification is required</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<button [disabled]="loading" class="btn btn-primary">
+								<span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+								Change password
+							</button>
+							<button [disabled]="loading" type="button" routerLink="/auth/login" class="btn btn-secondary" style="float: right;">
+								Back to login
+							</button>
+						</div>
+
+						<p *ngIf="error!=''" style="color: #a94442 !important;">{{error}}</p>
+					</form>
+
+					<div *ngIf="success">
+						<p><strong>Your password has been changed!</strong> You can now login with your new password.</p>
+
+						<button [disabled]="loading" type="button" routerLink="/auth/login" class="btn btn-secondary">
+							Go to login
+						</button>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="row" style="text-align: -webkit-center; place-content: center; align-items: center;" *ngIf="!success">
+				<re-captcha
+					size="invisible" badge="inline"
+					#captchaRef="reCaptcha"
+					siteKey="{{recaptcha_key}}"
+					(resolved)="$event && resolved($event)">
+				</re-captcha>
+			</div>
+
+		</div>
+	</div>
+
+</div>

@@ -24,6 +24,7 @@ import {RouterModule} from '@angular/router';
 import {NgcCookieConsentConfig, NgcCookieConsentModule} from 'ngx-cookieconsent';
 import {WorldService} from './shared/services/world.service';
 import {LocalStorageService} from './shared/services/local-storage.service';
+import {environment} from '../environments/environment';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -31,7 +32,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
 
 const cookieConfig:NgcCookieConsentConfig = {
   cookie: {
-    domain: 'grepodata.com'
+    domain: environment.production?'grepodata.com':'localhost'
   },
   content: {
     dismiss: 'Accept cookies'

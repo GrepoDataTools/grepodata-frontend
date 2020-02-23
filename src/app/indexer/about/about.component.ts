@@ -78,6 +78,14 @@ export class AboutComponent implements OnInit {
       });
   }
 
+  openProfile() {
+    if (this.authService.loggedIn) {
+      this.router.navigate(['/auth/profile']);
+    } else {
+      this.router.navigate(['/auth/login']);
+    }
+  }
+
   newIndex() {
     // if (this.authService.loggedIn) {
     //

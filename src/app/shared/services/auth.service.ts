@@ -58,6 +58,31 @@ export class AuthService {
 		}))
 	}
 
+	public newConfirmation() {
+		let data = new HttpParams()
+      .set('access_token', this.accessToken);
+		return this.httpClient.post<any>(apiUrl + '/auth/newconfirm', data,
+			{headers: new HttpHeaders({'Content-Type':'application/x-www-form-urlencoded'})});
+	}
+
+	public resetPassword(token:string, password:string, captcha:string) {
+		let data = new HttpParams()
+      .set('token', token)
+      .set('new_password', password)
+      .set('captcha', captcha);
+		return this.httpClient.post<any>(apiUrl + '/auth/changepassword', data,
+			{headers: new HttpHeaders({'Content-Type':'application/x-www-form-urlencoded'})});
+	}
+
+	public changePassword(password:string, captcha:string) {
+		let data = new HttpParams()
+      .set('access_token', this.accessToken)
+      .set('new_password', password)
+      .set('captcha', captcha);
+		return this.httpClient.post<any>(apiUrl + '/auth/changepassword', data,
+			{headers: new HttpHeaders({'Content-Type':'application/x-www-form-urlencoded'})});
+	}
+
 	public forgot(email:string, captcha:string) {
 		let data = new HttpParams()
 			.set('mail', email)

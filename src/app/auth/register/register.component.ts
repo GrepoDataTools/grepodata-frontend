@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {environment} from "../../../environments/environment";
 import {AuthService} from "../../shared/services/auth.service";
 import {RecaptchaComponent} from "ng-recaptcha";
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
@@ -51,6 +52,12 @@ export class RegisterComponent implements OnInit {
 
 	public sendRequest() {
 		this.submitted = true;
+
+    if (this.f.privacy.value!=true) {
+      this.loginForm.controls.privacy.setErrors({'required': true});
+      return;
+    }
+
 		if (this.loginForm.invalid) {
 			if (this.captchaRef != undefined) { this.captchaRef.reset(); }
 			return;
@@ -58,16 +65,16 @@ export class RegisterComponent implements OnInit {
 
 		if (this.f.password.value.length < 8) {
 			this.error = 'Your password must be at least 8 characters long.';
-			this.loginForm.controls.password.setErrors({'incorrect': true});
-			this.loginForm.controls.password2.setErrors({'incorrect': true});
+			this.loginForm.controls.password.setErrors({'required': true});
+			this.loginForm.controls.password2.setErrors({'required': true});
 			if (this.captchaRef != undefined) { this.captchaRef.reset(); }
 			return;
 		}
 
 		if (this.f.password.value != this.f.password2.value) {
 			this.error = 'Passwords do not match.';
-			this.loginForm.controls.password.setErrors({'incorrect': true});
-			this.loginForm.controls.password2.setErrors({'incorrect': true});
+			this.loginForm.controls.password.setErrors({'required': true});
+			this.loginForm.controls.password2.setErrors({'required': true});
 			if (this.captchaRef != undefined) { this.captchaRef.reset(); }
 			return;
 		}
@@ -81,16 +88,22 @@ export class RegisterComponent implements OnInit {
 				this.success = true;
 				this.router.navigate(['/auth/profile'])
 			},
-			(error) => {
-				this.captcha = '';
-				this.error = "Invalid email address or password.";
-				console.log(error);
-				if (error.error.message != undefined && error.error.message.search('Invalid captcha') != -1) {
-					this.error = 'Sorry, we could not verify the captcha. Please try again later or contact us if this error persists.';
-				}
-				if (error.error.message != undefined && error.error.message.search('already in use') != -1) {
-					this.error = 'The email address you entered is already in use. Please reset your password or use a different address.';
-				}
+			(error: HttpErrorResponse) => {
+			  if (error.status === 500) {
+			    this.error = "Sorry, we are unable to handle this request right now.";
+        } else {
+          this.error = "Invalid email address or password.";
+          console.log(error);
+          if (error.error.message != undefined && error.error.message.search('Invalid captcha') != -1) {
+            this.error = 'Sorry, we could not verify the captcha. Please try again later or contact us if this error persists.';
+          }
+          if (error.error.message != undefined && error.error.message.search('already in use') != -1) {
+            this.loginForm.controls.mail.setErrors({'required': true});
+            this.error = 'The email address you entered is already in use. Please reset your password for this address or use a different email address.';
+          }
+        }
+
+        this.captcha = '';
 				this.loading = false;
 				if (this.captchaRef != undefined) {
 					this.captchaRef.reset();

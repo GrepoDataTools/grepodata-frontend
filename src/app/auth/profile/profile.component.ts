@@ -15,6 +15,13 @@ export class ProfileComponent implements OnInit {
 	indexes: IndexList[] = [];
 	loading = true;
 	confirmed = true;
+	userMail = '';
+
+	loadingNewConfirm = false;
+	confirmError = '';
+	confirmRequestDone = false;
+
+	changingPassword = false;
 
   constructor(
   	private authService: AuthService,
@@ -25,18 +32,21 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.authService.verifyToken().subscribe(
-      (response) => this.load(),
-      (error: HttpErrorResponse) => {
-        if (error.status === 403) {
-          console.log('Email unconfirmed');
+      (response) => {
+        if (response.success===true && response.is_confirmed===true) {
+          this.load();
+        } else {
           this.confirmed = false;
           this.loading = false;
-        } else if (error.status === 401) {
+        }
+      },
+      (error: HttpErrorResponse) => {
+        if (error.status === 401) {
           this.logout();
         } else {
           console.log(error.error);
         }
-      },
+      }
     );
   }
 
@@ -55,6 +65,27 @@ export class ProfileComponent implements OnInit {
 
   changePassword() {
     //TODO
+    this.changingPassword = true;
+  }
+
+  requestNewConfirmation() {
+    this.loadingNewConfirm = true;
+    this.authService.newConfirmation().subscribe(
+      (response) => {
+        this.confirmError = "";
+        this.confirmRequestDone = true;
+        this.loadingNewConfirm = false;
+      },
+      (error: HttpErrorResponse) => {
+        if (error.status === 401) {
+          this.logout();
+        } else {
+          console.log(error.error);
+        }
+        this.confirmError = "Sorry, we can not handle that request right now";
+        this.loadingNewConfirm = false;
+      }
+    );
   }
 
   loadIndexes() {

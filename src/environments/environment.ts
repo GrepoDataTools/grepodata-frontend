@@ -6,8 +6,8 @@
 export const environment = {
   production: false,
   url: 'https://grepodata.com',
-  apiUrl: 'https://api.grepodata.com',
-  // apiUrl: 'https://apitest.grepodata.com',
+  // apiUrl: 'https://api.grepodata.com',
+  apiUrl: 'https://apitest.grepodata.com',
   // apiUrl: 'http://api-grepodata-com.local:8080',
   recaptcha: '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
 };

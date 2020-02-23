@@ -5,6 +5,7 @@ import {LoginComponent} from './login/login.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'reset', loadChildren: () => import('./reset/reset.module').then(m => m.ResetModule) },
   { path: 'forgot', loadChildren: () => import('./forgot/forgot.module').then(m => m.ForgotModule) },
   { path: 'register', loadChildren: () => import('./register/register.module').then(m => m.RegisterModule) },
   { path: 'profile', loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule) }

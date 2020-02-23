@@ -25,10 +25,11 @@
 				</mat-card-content>
 			</mat-card>
 			<mat-card *ngIf="confirmed && !loading">
-				<mat-card-title>
+				<mat-card-content *ngIf="changingPassword">
+					<h2 class="gd-primary">Change your password</h2>
+				</mat-card-content>
+				<mat-card-content *ngIf="!changingPassword">
 					<h2 class="gd-primary">Your indexes</h2>
-				</mat-card-title>
-				<mat-card-content>
 
 					<div *ngIf="!loading && indexes.length <= 0">
 						<p class="gd-secondary">You have not yet created any indexes.</p>

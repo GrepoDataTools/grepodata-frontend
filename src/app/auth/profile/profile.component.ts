@@ -21,6 +21,8 @@ export class ProfileComponent implements OnInit {
 	confirmError = '';
 	confirmRequestDone = false;
 
+	changingPassword = false;
+
   constructor(
   	private authService: AuthService,
 		private profileService: ProfileService,
@@ -63,6 +65,7 @@ export class ProfileComponent implements OnInit {
 
   changePassword() {
     //TODO
+    this.changingPassword = true;
   }
 
   requestNewConfirmation() {

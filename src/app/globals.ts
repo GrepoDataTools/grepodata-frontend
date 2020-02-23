@@ -35,7 +35,7 @@ export class Globals {
     } else if (localStorage.getItem(this.ACTIVE_SERVER)) {
       return localStorage.getItem(this.ACTIVE_SERVER);
     } else {
-      return false
+      return '';
     }
   }
   set_active_server(server) {

@@ -105,6 +105,14 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "camiel": {
+                "fileReplacements": [
+                    {
+                        "replace": "src/environments/environment.ts",
+                        "with": "src/environments/environment.camiel.ts"
+                    }
+                ]
             }
           }
         },
@@ -116,6 +124,9 @@
           "configurations": {
             "production": {
               "browserTarget": "GrepodataFrontend:build:production"
+            },
+            "camiel": {
+              "browserTarget": "GrepodataFrontend:build:camiel"
             }
           }
         },

@@ -10,25 +10,20 @@ export class IndexerService {
   constructor(private http: HttpClient) {}
 
   getStats() {
-    let url =  '/indexer/stats';
-    return this.http.get(apiUrl + url);
+    return this.http.get(`${apiUrl}/indexer/stats`);
   }
-  getIndex(key) {
-    let url =  '/indexer/getindex?key='+key;
-    return this.http.get(apiUrl + url);
+  getIndex(key, access_token = '') {
+    return this.http.get(`${apiUrl}/indexer/getindex?key=${key}&access_token=${access_token}`);
   }
   getWorlds() {
-    let url =  '/indexer/worlds';
-    return this.http.get(apiUrl + url);
+    return this.http.get(`${apiUrl}/indexer/worlds`);
   }
   isValid(key) {
-    let url =  '/indexer/isvalid?key='+key;
-    return this.http.get(apiUrl + url);
+    return this.http.get(`${apiUrl}/indexer/isvalid?key=${key}`);
   }
-  createNewIndex(mail, world, captcha) {
+  createNewIndex(access_token, world, captcha) {
     if (captcha == '' || captcha == undefined) captcha = '_';
-    let url =  '/indexer/newindex?access_token='+mail+'&world='+world+'&captcha='+captcha;
-    return this.http.get<any>(apiUrl + url);
+    return this.http.get<any>(`${apiUrl}/indexer/newindex?access_token=${access_token}&world=${world}&captcha=${captcha}`);
   }
   updateIndexKey(key, mail, captcha) {
     if (captcha == '' || captcha == undefined) captcha = '_';

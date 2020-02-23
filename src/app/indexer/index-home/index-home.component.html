@@ -64,7 +64,7 @@
 									<i class="fa fa-download"></i> {{'indexer.actions.downloadScript' | translate}}<span class="gd-primary" style="vertical-align: baseline;"> {{key}}</span>
 								</button>
 							</div>
-							<div class="col-12 d-none d-md-block" *ngIf="data.total_reports > 0">
+							<div class="col-12 d-none d-md-block" *ngIf="data.total_reports > 0 && is_admin">
 								<button mat-button class="mat-raised-button bg-gd-3" style="width: 100%; overflow: hidden; text-overflow: ellipsis;" (click)="showChangekeyDialog()">
 									<i class="fa fa-key"></i> {{'indexer.actions.newKey' | translate}}
 								</button>
@@ -252,13 +252,13 @@
 												<p class="gd-primary">{{owner.alliance_name}} [{{owner.contributions | number : '1.2-2'}}%]</p>
 											</div>
 											<div>
-												<button mat-button class="mat-raised-button bg-gd-2 gd-white" style="margin-top: 10px; width: 100%; overflow: hidden; text-overflow: ellipsis;" (click)="showEditOwnersDialog()">
+												<button *ngIf="is_admin" mat-button class="mat-raised-button bg-gd-2 gd-white" style="margin-top: 10px; width: 100%; overflow: hidden; text-overflow: ellipsis;" (click)="showEditOwnersDialog()">
 													<i class="fa fa-pencil"></i> {{'indexer.actions.editOwners' | translate}}
 												</button>
-												<button *ngIf="csa==false||csa==undefined" mat-button class="mat-raised-button bg-gd-2 gd-white" style="margin-top: 10px; width: 100%; overflow: hidden; text-overflow: ellipsis;" (click)="showCleanupDialog()"
-												        matTooltip="{{'indexer.tooltips.startCleanupInfo' | translate}}">
-													<i class="fa fa-pencil"></i> {{'indexer.actions.cleanupIntel' | translate}}
-												</button>
+												<!--<button *ngIf="csa==false||csa==undefined" mat-button class="mat-raised-button bg-gd-2 gd-white" style="margin-top: 10px; width: 100%; overflow: hidden; text-overflow: ellipsis;" (click)="showCleanupDialog()"-->
+												        <!--matTooltip="{{'indexer.tooltips.startCleanupInfo' | translate}}">-->
+													<!--<i class="fa fa-pencil"></i> {{'indexer.actions.cleanupIntel' | translate}}-->
+												<!--</button>-->
 												<!--<button mat-button class="mat-raised-button bg-gd-3 gd-white" style="width: 100%; overflow: hidden; text-overflow: ellipsis;" (click)="showResetOwnersDialog()">-->
 												<!--<i class="fa fa-refresh"></i> Reset owners-->
 												<!--</button>-->

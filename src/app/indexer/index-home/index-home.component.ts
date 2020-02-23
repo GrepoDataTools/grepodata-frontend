@@ -6,12 +6,13 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import {ContactDialog} from '../../shared/dialogs/contact-dialog/contact.component';
 import {LocalStorageService} from '../../shared/services/local-storage.service';
+import {AuthService} from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-index-home',
   templateUrl: './index-home.component.html',
   styleUrls: ['./index-home.component.scss'],
-  providers: [IndexerService, LocalStorageService]
+  providers: [IndexerService, LocalStorageService, AuthService]
 })
 export class IndexHomeComponent implements OnInit {
 
@@ -25,12 +26,14 @@ export class IndexHomeComponent implements OnInit {
   loading = true;
   toggleMore = false;
   openingIndex = true;
+  is_admin = false;
   latest_intel: any = [];
 
   csa:any = false;
 
   constructor(
     private globals: Globals,
+    private authService: AuthService,
     private indexerService: IndexerService,
     public router: Router,
     private route: ActivatedRoute,
@@ -53,7 +56,7 @@ export class IndexHomeComponent implements OnInit {
     // Save params
     if (typeof params['key'] != 'undefined' && params['key'].length == 8) {
       this.encrypted = Md5.hashAsciiStr(params['key']);
-      this.indexerService.getIndex(params['key']).subscribe(
+      this.indexerService.getIndex(params['key'], this.authService.accessToken).subscribe(
         (response) => this.loadIndex(response, params['key']),
         (error) => {
           this.globals.set_active_index('');
@@ -96,6 +99,7 @@ export class IndexHomeComponent implements OnInit {
       this.globals.set_active_intel(data.world, key);
       this.key = key;
       this.csa = LocalStorageService.get('csa'+this.key);
+      this.is_admin = data.is_admin;
       this.world = data.world;
       this.data = data;
       if (data.latest_intel) {

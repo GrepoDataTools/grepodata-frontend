@@ -58,6 +58,13 @@ export class AuthService {
 		}))
 	}
 
+	public newConfirmation() {
+		let data = new HttpParams()
+      .set('access_token', this.accessToken);
+		return this.httpClient.post<any>(apiUrl + '/auth/newconfirm', data,
+			{headers: new HttpHeaders({'Content-Type':'application/x-www-form-urlencoded'})});
+	}
+
 	public forgot(email:string, captcha:string) {
 		let data = new HttpParams()
 			.set('mail', email)

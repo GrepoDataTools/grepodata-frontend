@@ -37,7 +37,11 @@ $theme-colors: (
 
 /* You can add global styles to this file, and also import other style files */
 body {
-  background-color: #f8f8f8;
+    background-color: #f8f8f8;
+}
+
+a {
+    color: #5e7a92;
 }
 
 .loading-bar {

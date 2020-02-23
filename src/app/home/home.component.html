@@ -1,4 +1,4 @@
-<div style="width: 100% !important;" (scroll)="clearTip()">
+<div style="width: 100% !important;">
 
   <!--<div class="ticker-label">-->
     <!--Attack points (last hour):-->
@@ -57,7 +57,7 @@
 
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
               <h2 style='font-weight: 300; color: #304357;'>
-                <i class="fa fa-trophy" aria-hidden="true"></i>&nbsp;Daily<span class="hidden-xs"> Grepolis</span> scoreboard&nbsp;<span class='world-title' style='color: #18BC9C;'>{{world}} ({{worldName}})</span>
+                <i class="fa fa-trophy" aria-hidden="true"></i>&nbsp;Daily<span class="hidden-xs"> Grepolis</span> scoreboard&nbsp;<span class='world-title' style='color: #18BC9C;'>{{worldName}} ({{world}})</span>
               </h2>
               <h3 style='font-weight: 300; color: #304357;'>
                 Showing points gained <span class='world-title' style='color: #18BC9C;'>{{scoreboardDateInfo}}</span>
@@ -100,9 +100,9 @@
                 <div class="col-xs-12 noselect">
                   <mat-chip-list style="float: right;" [multiple]="true" [selectable]="true">
                     <mat-chip class="btn-chip" (click)="prevDay()"><mat-icon matChipAvatar>chevron_left</mat-icon>Previous day</mat-chip>
-                    <mat-chip class="btn-chip" *ngIf="paramsDate != ''" (click)="nextDay()">Next day<mat-icon matChipRemove style="color: #fff; opacity: 1;">chevron_right</mat-icon></mat-chip>
-                    <mat-chip class="btn-chip" *ngIf="paramsDate != ''" (click)="today()">Today<mat-icon matChipRemove style="color: #fff; opacity: 1;">last_page</mat-icon></mat-chip>
-                    <mat-chip class="btn-chip" *ngIf="paramsDate == ''" (click)="refresh()">Refresh<mat-icon matChipRemove style="color: #fff; opacity: 1;">refresh</mat-icon></mat-chip>
+                    <mat-chip class="btn-chip" (click)="nextDay()">Next day<mat-icon matChipRemove style="color: #fff; opacity: 1;">chevron_right</mat-icon></mat-chip>
+                    <mat-chip class="btn-chip" (click)="today()">Today<mat-icon matChipRemove style="color: #fff; opacity: 1;">last_page</mat-icon></mat-chip>
+                    <mat-chip class="btn-chip" (click)="refresh()">Refresh<mat-icon matChipRemove style="color: #fff; opacity: 1;">refresh</mat-icon></mat-chip>
                   </mat-chip-list>
                 </div>
               </div>
@@ -110,26 +110,19 @@
           </div>
         </div>
       </mat-card-title>
+
       <mat-card-content style="width: 100% !important;">
 
         <hr/>
-
+        <mat-tab-group mat-stretch-tabs class="stretched-tabs mat-elevation-z1 scoreboard-tabs">
+          <mat-tab>
+            <ng-template class="scoreboard-tab-label" mat-tab-label>
+              <label class="player-tab" (click)="loadPlayers()">Player scoreboard</label>
+            </ng-template>
         <div class="container-fluid text-center" id="player_scoreboard" style="width: 100% !important;">
           <div *ngIf="loadingPlayers" style="position: relative; top: -40px; height: 0px;">
             <br/><mat-progress-bar mode="indeterminate"></mat-progress-bar>
           </div>
-          <mat-tab-group mat-stretch-tabs class="stretched-tabs mat-elevation-z1 scoreboard-tabs">
-            <mat-tab>
-              <ng-template mat-tab-label>
-              <label class="player-tab">Player scoreboard</label>
-              </ng-template>
-            </mat-tab>
-            <mat-tab>
-              <ng-template mat-tab-label>
-                <label class="alliance-tab">Alliance scoreboard</label>
-              </ng-template>
-            </mat-tab>
-          </mat-tab-group>
           <div class="row" *ngIf="noticePlayer != ''">
             <div class="col-xs-8 col-xs-offset-2">
               <div class="alert alert-warning text-center">
@@ -281,7 +274,7 @@
                   </div>
 
 	                <div *ngIf="p.s > 0 && !mobile && hasOverview" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="openPlayerOverview(p.i, p.n)">
-		                <fa-icon [icon]="icon.faInfo"></fa-icon>
+                    <fa-icon [icon]="icon.faExpandAlt" ></fa-icon>
 	                </div>
 	                <div *ngIf="p.s <= 0 && !mobile && hasOverview" class="cell hidden-xs"></div>
                 </div>
@@ -366,7 +359,7 @@
                   </div>
 	                <div *ngIf="p.s <= 0 || mobile">{{p.s}}</div>
 	                <div *ngIf="p.s > 0 && !mobile" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="showConquests('player', p.i, p.n)">
-		                <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
+		                <fa-icon [icon]="icon.faExpandAlt" ></fa-icon>
 	                </div>
 	                <div *ngIf="p.s <= 0 && !mobile" class="cell hidden-xs"></div>
                 </div>
@@ -413,7 +406,7 @@
 	                </div>
 	                <div *ngIf="p.s <= 0 || mobile">-{{p.s}}</div>
 	                <div *ngIf="p.s > 0 && !mobile" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="showConquests('player', p.i, p.n)">
-		                <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
+		                <fa-icon [icon]="icon.faExpandAlt" ></fa-icon>
 	                </div>
 	                <div *ngIf="p.s <= 0 && !mobile" class="cell hidden-xs"></div>
                 </div>
@@ -434,6 +427,12 @@
           </div>
         </div>
 
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <label (click)="loadAlliances()" class="alliance-tab">Alliance scoreboard</label>
+            </ng-template>
+
         <hr/>
 
 	      <!--<div style="margin-bottom: 5px; width: 100% !important;">-->
@@ -441,7 +440,6 @@
 	      <!--</div>-->
 
         <div class="container-fluid text-center" id="alliance_scoreboard">
-          <h1 class="mat-title table-title">Alliances</h1>
           <div *ngIf="loadingAlliances">
             <br/><mat-progress-bar mode="indeterminate"></mat-progress-bar>
           </div>
@@ -452,10 +450,10 @@
               </div>
             </div>
           </div>
-          <div class="row" *ngIf="!noAllianceData">
+          <div *ngIf="!noAllianceData">
 
-            <div class="col-xs-12 col-sm-12 {{allianceChangesData == '' && !(!loadingPlayers && showMap && !mobile) ? 'col-md-12' : 'col-md-6'}}">
-              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 scoreboard-table">
+            <div class="row">
+              <div class="col-12 col-sm-6 col-md-3 scoreboard-table">
                 <h3 class="mat-title table-title" style="float: left;">
                   <button name="open_bb" style="" class="btn btn-primary btn-xs" (click)="openBBdialog('alliances_att')">
                     <i class="fa fa-code"></i>&nbsp;BB code
@@ -484,14 +482,14 @@
 	                  </div>
 
 	                  <div *ngIf="p.s > 0 && !mobile && hasOverview" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="openAllianceOverview(p.i, p.n)">
-		                  <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
+		                  <fa-icon [icon]="icon.faExpandAlt" ></fa-icon>
 	                  </div>
 	                  <div *ngIf="p.s <= 0 && !mobile && hasOverview" class="cell hidden-xs"></div>
                   </div>
 
                 </div>
               </div>
-              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 scoreboard-table">
+              <div class="col-12 col-sm-6 col-md-3 scoreboard-table">
                 <h3 class="mat-title table-title" style="float: left;">
                   <button name="open_bb" style="" class="btn btn-primary btn-xs" (click)="openBBdialog('alliances_def')">
                     <i class="fa fa-code"></i>&nbsp;BB code
@@ -520,14 +518,14 @@
 	                  </div>
 
 	                  <div *ngIf="p.s > 0 && !mobile && hasOverview" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="openAllianceOverview(p.i, p.n)">
-		                  <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
+		                  <fa-icon [icon]="icon.faExpandAlt" ></fa-icon>
 	                  </div>
 	                  <div *ngIf="p.s <= 0 && !mobile && hasOverview" class="cell hidden-xs"></div>
                   </div>
 
                 </div>
               </div>
-              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 scoreboard-table">
+              <div class="col-12 col-sm-6 col-md-3 scoreboard-table">
                 <h3 class="mat-title table-title" style="float: left;">
                   <button name="open_bb" style="" class="btn btn-primary btn-xs" (click)="openBBdialog('alliances_con')">
                     <i class="fa fa-code"></i>&nbsp;BB code
@@ -553,14 +551,14 @@
 	                  </div>
 	                  <div *ngIf="p.s <= 0 || mobile">{{p.s}}</div>
 	                  <div *ngIf="p.s > 0 && !mobile" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="showConquests('alliance', p.i, p.n)">
-		                  <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
+		                  <fa-icon [icon]="icon.faExpandAlt" ></fa-icon>
 	                  </div>
 	                  <div *ngIf="p.s <= 0 && !mobile" class="cell hidden-xs"></div>
                   </div>
 
                 </div>
               </div>
-              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 scoreboard-table">
+              <div class="col-12 col-sm-6 col-md-3 scoreboard-table">
                 <h3 class="mat-title table-title" style="float: left;">
                   <button name="open_bb" style="" class="btn btn-primary btn-xs" (click)="openBBdialog('alliances_los')">
                     <i class="fa fa-code"></i>&nbsp;BB code
@@ -586,46 +584,12 @@
 	                  </div>
 	                  <div *ngIf="p.s <= 0 || mobile">-{{p.s}}</div>
 	                  <div *ngIf="p.s > 0 && !mobile" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="showConquests('alliance', p.i, p.n)">
-		                  <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
+		                  <fa-icon [icon]="icon.faExpandAlt" ></fa-icon>
 	                  </div>
 	                  <div *ngIf="p.s <= 0 && !mobile" class="cell hidden-xs"></div>
                   </div>
 
                 </div>
-              </div>
-            </div>
-
-            <div [ngClass]="!loadingPlayers && showMap && !mobile ? 'col-xs-12 col-sm-12 col-md-6' : 'hidden-xs hidden-sm hidden-md hidden-lg'">
-              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scoreboard-table text-center">
-	              <h3 class="mat-title table-title">World map<span class="hidden-xs"> (alliance island domination)</span></h3>
-	              <div class="map-container noselect">
-		              <div class="map-controls">
-			              <div class="static-controls">
-				              <mat-chip-list style="" [multiple]="true" [selectable]="true">
-					              <mat-chip *ngIf="!animated" class="btn-chip" (click)="mapZoom($event, +1)">Zoom in<mat-icon matChipRemove style="color: #fff; opacity: 1;">add_circle_outline</mat-icon></mat-chip>
-					              <mat-chip *ngIf="!animated && currentZoom>0" class="btn-chip" (click)="mapZoom($event, -1)">Zoom out<mat-icon matChipRemove style="color: #fff; opacity: 1;">zoom_out_map</mat-icon></mat-chip>
-					              <mat-chip *ngIf="!animated" class="btn-chip" (click)="animate(true)">Animate map history<mat-icon matChipRemove style="color: #fff; opacity: 1;">play_circle_outline</mat-icon></mat-chip>
-					              <mat-chip *ngIf="animated" class="btn-chip" (click)="animate(false)">Stop animation<mat-icon matChipRemove style="color: #fff; opacity: 1;">pause_circle_outline</mat-icon></mat-chip>
-				              </mat-chip-list>
-			              </div>
-		              </div>
-
-		              <div class="nav-controls" *ngIf="currentZoom>0">
-			              <div class="map-nav up" (click)="mapNav($event, 0, -1)"><mat-icon style="color: #fff; opacity: 1;">keyboard_arrow_up</mat-icon></div>
-			              <div class="map-nav right" (click)="mapNav($event, +1, 0)"><mat-icon style="color: #fff; opacity: 1;">keyboard_arrow_right</mat-icon></div>
-			              <div class="map-nav down" (click)="mapNav($event, 0, +1)"><mat-icon style="color: #fff; opacity: 1;">keyboard_arrow_down</mat-icon></div>
-			              <div class="map-nav left" (click)="mapNav($event, -1, 0)"><mat-icon style="color: #fff; opacity: 1;">keyboard_arrow_left</mat-icon></div>
-		              </div>
-
-		              <div #worldMapContainer class="map-overlay">
-			              <img #worldMap (mousemove)="mapTooltip($event)" (load)="buildCanvas()"
-			                   (mouseleave)="clearTip();" (mouseout)="clearTip();" (dragstart)="dragStartJs($event)"
-			                   style="max-width: 100%; display: none;" src="" alt="Alliance map for world {{world}} on {{selectedDate.toString()}}"/>
-		              </div>
-	              </div>
-	              <div #mapTooltipContainer style="display: none;position:fixed;background:#fff; padding: 4px;">
-		              <div #mapTip style=" width: 180px; height: 18px; "></div>
-	              </div>
               </div>
             </div>
 
@@ -683,7 +647,8 @@
             </div>
           </div>
         </div>
-
+          </mat-tab>
+        </mat-tab-group>
 	      <div class="text-center">
 		      <h4 class="gd-secondary">Official data can have a delay of up to 120 minutes. All times are in the same timezone as the local Grepolis server.</h4>
 	      </div>

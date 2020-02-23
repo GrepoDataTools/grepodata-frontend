@@ -1074,3 +1074,16 @@ mat-paginator {
 .scoreboard-option-buttons * {
   margin-right: 5px;
 }
+
+.mat-tab-label .mat-tab-label-content {
+  height: 100%;
+  width: 100%;
+
+  label {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

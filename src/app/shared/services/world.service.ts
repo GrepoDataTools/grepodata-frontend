@@ -4,6 +4,7 @@ import {LocalStorageService} from './local-storage.service';
 import {environment} from '../../../environments/environment';
 import {Globals} from '../../globals';
 import {mergeMap, map, filter} from 'rxjs/operators';
+import {Subscription} from 'rxjs';
 
 const apiUrl = environment.apiUrl;
 
@@ -20,7 +21,7 @@ export class WorldService {
     this.userCountry = navigator.language.slice(3, 5).toLowerCase();
   }
 
-  getDefaultServer(): string {
+  getDefaultServer(): string | false {
     if (this.globals.get_active_server()) return this.globals.get_active_server();
 
     switch (this.userCountry) {
@@ -51,20 +52,12 @@ export class WorldService {
 
   getWorlds() {
     const url = '/world/active';
-    const data = LocalStorageService.get(url);
-    if (data !== false) {
-      return new Promise(resolve => {
-        resolve(data);
+    if (LocalStorageService.get(url)) return new Promise(resolve => resolve(LocalStorageService.get(url)));
+    return this.loadWorlds().toPromise().then(
+      (response) => {
+        LocalStorageService.set(url, response, (20));
+        return response;
       });
-    } else {
-      return new Promise(resolve => {
-        this.loadWorlds().subscribe(
-          (response) => {
-            LocalStorageService.set(url, response, (20));
-            resolve(response);
-          });
-      });
-    }
   }
 
   loadWorlds() {

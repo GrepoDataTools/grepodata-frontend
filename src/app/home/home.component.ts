@@ -1,58 +1,49 @@
-import {
-  Component,
-  ElementRef,
-  HostListener,
-  OnInit,
-  Renderer2,
-  ViewChild
-} from "@angular/core";
-import { LocalStorageService } from "../shared/services/local-storage.service";
-import { WorldService } from "../shared/services/world.service";
-import { ActivatedRoute, Router } from "@angular/router";
-import { MatDialog } from "@angular/material/dialog";
-import { Globals } from "../globals";
-import { SearchService } from "../shared/services/search.service";
-import { environment } from "../../environments/environment";
-import { ConquestService } from "../shared/services/conquest.service";
-import { PlayerService } from "../shared/services/player.service";
-import { AllianceService } from "../shared/services/alliance.service";
-import { AllianceOverviewDialogComponent } from "../shared/dialogs/alliance-overview-dialog/alliance-overview-dialog.component";
-import { PlayerOverviewDialogComponent } from "../shared/dialogs/player-overview-dialog/player-overview-dialog.component";
-import { OverviewDialogComponent } from "../shared/dialogs/overview-dialog/overview-dialog.component";
-import { BbScoreboardDialogComponent } from "../shared/dialogs/bb-scoreboard-dialog/bb-scoreboard-dialog.component";
-import { ConquestDialog } from "../shared/dialogs/conquest-dialog/conquest.component";
-import * as icon from "@fortawesome/free-solid-svg-icons";
+import {Component, ElementRef, OnInit, Renderer2, ViewChild, ViewEncapsulation} from '@angular/core';
+import {LocalStorageService} from '../shared/services/local-storage.service';
+import {WorldService} from '../shared/services/world.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {MatDialog} from '@angular/material/dialog';
+import {Globals} from '../globals';
+import {SearchService} from '../shared/services/search.service';
+import {environment} from '../../environments/environment';
+import {ConquestService} from '../shared/services/conquest.service';
+import {PlayerService} from '../shared/services/player.service';
+import {AllianceService} from '../shared/services/alliance.service';
+import {AllianceOverviewDialogComponent} from '../shared/dialogs/alliance-overview-dialog/alliance-overview-dialog.component';
+import {PlayerOverviewDialogComponent} from '../shared/dialogs/player-overview-dialog/player-overview-dialog.component';
+import {OverviewDialogComponent} from '../shared/dialogs/overview-dialog/overview-dialog.component';
+import {BbScoreboardDialogComponent} from '../shared/dialogs/bb-scoreboard-dialog/bb-scoreboard-dialog.component';
+import {ConquestDialog} from '../shared/dialogs/conquest-dialog/conquest.component';
+import * as icon from '@fortawesome/free-solid-svg-icons';
+import * as moment from 'moment';
 
 @Component({
-  selector: "app-home",
-  templateUrl: "./home.component.html",
-  styleUrls: ["./home.component.scss"],
-  providers: [LocalStorageService, WorldService, SearchService]
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss'],
+  providers: [LocalStorageService, WorldService, SearchService],
+  encapsulation: ViewEncapsulation.None
 })
 export class HomeComponent implements OnInit {
-  @ViewChild("searchPlayerOff", { static: false, read: ElementRef }) searchPlayerOff: ElementRef;
-  @ViewChild("searchPlayerDef", { static: false, read: ElementRef }) searchPlayerDef: ElementRef;
-  @ViewChild("overviewContainer", { static: false }) overviewContainer: ElementRef;
-  @ViewChild("worldMap", { static: false }) worldMap: ElementRef;
-  @ViewChild("worldMapContainer", { static: false }) worldMapContainer: ElementRef;
-  @ViewChild("mapTooltipContainer", { static: false }) mapTooltipContainer: ElementRef;
-  @ViewChild("mapTip", { static: false }) mapTip: ElementRef;
+  @ViewChild('searchPlayerOff', { static: false, read: ElementRef }) searchPlayerOff: ElementRef;
+  @ViewChild('searchPlayerDef', { static: false, read: ElementRef }) searchPlayerDef: ElementRef;
+  @ViewChild('overviewContainer', { static: false }) overviewContainer: ElementRef;
 
   // API data
-  playerData = "" as any;
-  playerDiffs = "" as any;
-  allianceData = "" as any;
+  playerData = '' as any;
+  playerDiffs = '' as any;
+  allianceData = '' as any;
   allianceChangesData = [] as any;
   data_default: any[];
-  worldData = "" as any;
+  worldData = '' as any;
 
   // Form vars
-  icon = icon
-  server: any = "nl"; // TODO: dynamic default??
-  world: any = ""; // TODO: dynamic default??
-  worldName = "";
-  nextUpdate = "";
-  playerInput = "";
+  icon = icon;
+  server: any = 'nl'; // TODO: dynamic default??
+  world: any = ''; // TODO: dynamic default??
+  worldName = '';
+  nextUpdate = '';
+  playerInput = '';
   searchResults = [];
   servers = [];
   worlds = [];
@@ -66,34 +57,20 @@ export class HomeComponent implements OnInit {
   searching = false;
   searchInputting = false;
   mobile = false;
-  noticePlayer = "";
-  noticeAlliance = "";
+  noticePlayer = '';
+  noticeAlliance = '';
 
   // Datepicker
-  minDate = "";
+  minDate = '';
   maxDate = new Date();
   selectedDate = new Date();
-  scoreboardDateInfo = "";
-  paramsDate = "";
+  scoreboardDateInfo = '';
+  paramsDate = moment().format('YYYY-MM-DD');
 
   // Debounce
   typingTimer;
   debounceTime = 400;
   usedInput: any;
-
-  // Map
-  showMap = false;
-  showTodaysMap = false;
-  animated = false;
-  mapCanvas: any = null;
-  legend: any = {};
-  tipTimer;
-  tipTimout = 3000;
-  maxZoom = 8;
-  minZoom = 0;
-  currentZoom = 1;
-  zoomOriginX = 0;
-  zoomOriginY = 0;
 
   env = environment;
   constructor(
@@ -109,32 +86,23 @@ export class HomeComponent implements OnInit {
     private renderer: Renderer2
   ) {
     if (window.screen.width < 560) {
-      // 768px portrait
       this.mobile = true;
       this.debounceTime = 750;
     }
-
-    // Object.assign(this, {data_default});ve
 
     this.server = worldService.getDefaultServer();
 
     // Load scoreboard using params. if no params are supplied, they will be generated by backend
     this.route.queryParams.subscribe(params => {
       if (params.world != undefined && params.date != undefined)
-        this.router.navigate(["/points/" + params.world + "/" + params.date]);
-      else if (params.world != undefined) this.router.navigate(["/points/" + params.world]);
+        this.router.navigate(['/points/' + params.world + '/' + params.date]);
+      else if (params.world != undefined) this.router.navigate(['/points/' + params.world]);
     });
     this.route.params.subscribe(params => this.load(params));
-
-    this.worldService.getWorlds().then(response => this.loadWorlds(response));
   }
 
-  ngOnInit() {}
-
-  @HostListener("window:resize", ["$event"])
-  onResize(event) {
-    this.clearTip();
-    this.buildCanvas();
+  ngOnInit() {
+    this.worldService.getWorlds().then(response => this.loadWorlds(response));
   }
 
   setInputValue(val) {
@@ -144,19 +112,19 @@ export class HomeComponent implements OnInit {
   }
 
   clearSearch() {
-    this.setInputValue("");
+    this.setInputValue('');
     this.searchResults = [];
   }
 
   filterKeyup($event) {
-    if (typeof $event != "undefined") {
+    if (typeof $event != 'undefined') {
       this.searchInputting = true;
       this.usedInput = $event.target;
       this.setInputValue($event.target.value);
     }
 
     clearTimeout(this.typingTimer);
-    let that = this;
+    const that = this;
     this.typingTimer = setTimeout(function() {
       that.filterEvent();
     }, this.debounceTime);
@@ -167,7 +135,7 @@ export class HomeComponent implements OnInit {
     if (this.playerInput.length > 2) {
       this.searching = true;
       this.searchService
-        .searchPlayers(this.playerInput, 0, 7, this.server, this.world, false, null, null, true, "")
+        .searchPlayers(this.playerInput, 0, 7, this.server, this.world, false, null, null, true, '')
         .subscribe(
           response => this.renderSearchResults(response),
           error => {
@@ -188,7 +156,7 @@ export class HomeComponent implements OnInit {
       this.searchResults = [];
     }
 
-    let that = this;
+    const that = this;
     this.searchResults.forEach(function(i) {
       Object.keys(that.playerData.att).forEach(function(j) {
         if (that.playerData.att[j].i == i.id) {
@@ -209,143 +177,22 @@ export class HomeComponent implements OnInit {
   }
 
   refresh() {
-    let params = { world: this.world };
+    const params = { world: this.world };
     this.load(params);
-  }
-
-  animate(animated: boolean) {
-    this.animated = animated;
-    if (this.animated && this.showMap) {
-      this.mapCanvas = null;
-      let url = this.env.url + "/m/" + this.world + "/animated.gif";
-      if (!this.env.production) {
-        url = "../../assets/images/m/animated.gif";
-      }
-      this.worldMap.nativeElement.setAttribute("src", url);
-    } else {
-      this.reloadMap();
-    }
-    this.mapZoom(null, -100); // reset zoom
-  }
-
-  mapNav(event, modX, modY) {
-    const mod = 40 - this.currentZoom * 3;
-    this.zoomOriginX += modX * mod;
-    this.zoomOriginY += modY * mod;
-    this.renderer.setStyle(
-      this.worldMapContainer.nativeElement,
-      "transform-origin",
-      this.zoomOriginX + "px " + this.zoomOriginY + "px"
-    );
-    this.buildCanvas();
-  }
-
-  mapZoom(event, mod) {
-    this.currentZoom += mod;
-    if (this.currentZoom < this.minZoom) {
-      this.currentZoom = this.minZoom;
-    } else if (this.currentZoom > this.maxZoom) {
-      this.currentZoom = this.maxZoom;
-    }
-    if (this.currentZoom == 0) {
-      this.resetMapPivot();
-    }
-
-    //zoom
-    let zoom = 1 + 0.4 * this.currentZoom;
-    if (this.currentZoom == 1) {
-      zoom = 1.5;
-    }
-    this.renderer.setStyle(this.worldMapContainer.nativeElement, "transform", "scale(" + zoom + ")");
-    if (zoom > 1) {
-      this.renderer.setStyle(
-        this.worldMapContainer.nativeElement,
-        "transform-origin",
-        this.zoomOriginX + "px " + this.zoomOriginY + "px"
-      );
-    }
-  }
-
-  dragStartJs(event) {
-    event.preventDefault();
-    let img = new Image();
-    img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=";
-    event.dataTransfer.setDragImage(img, 0, 0);
-  }
-
-  mapTooltip(event) {
-    if (this.mapCanvas != null && !this.mobile && !this.animated) {
-      let pixelData = this.mapCanvas.getContext("2d").getImageData(event.offsetX, event.offsetY, 1, 1).data;
-      // console.log(pixelData);
-      let colorId = pixelData.toString().replace(/,/g, "");
-      let match = null;
-      Object.keys(this.legend).forEach(k => {
-        if (k === colorId) {
-          match = k;
-        } else {
-          let colorDistance =
-            Math.abs(pixelData[0] - this.legend[k].pixel[0]) +
-            Math.abs(pixelData[1] - this.legend[k].pixel[1]) +
-            Math.abs(pixelData[2] - this.legend[k].pixel[2]);
-          if (colorDistance <= 5) {
-            match = k;
-          }
-          // else {
-          // console.log("===");
-          // console.log(colorDistance);
-          // console.log(pixelData);
-          // console.log(this.legend[k]);
-          // }
-        }
-      });
-      if (match != null) {
-        let legendData = this.legend[match];
-        // Create tooltip
-        this.renderer.setStyle(
-          this.mapTip.nativeElement,
-          "background",
-          "url(" +
-            this.worldMap.nativeElement.src +
-            ") -" +
-            legendData.namex +
-            "px -" +
-            legendData.namey +
-            "px no-repeat"
-        );
-        this.renderer.setStyle(this.mapTooltipContainer.nativeElement, "top", event.clientY - 30 + "px");
-        this.renderer.setStyle(this.mapTooltipContainer.nativeElement, "left", event.clientX + 5 + "px");
-        this.renderer.setStyle(this.mapTooltipContainer.nativeElement, "display", "block");
-
-        // Hide after a while
-        clearTimeout(this.tipTimer);
-        let that = this;
-        this.tipTimer = setTimeout(function() {
-          that.renderer.setStyle(that.mapTooltipContainer.nativeElement, "display", "none");
-        }, this.tipTimout);
-      } else {
-        this.renderer.setStyle(this.mapTooltipContainer.nativeElement, "display", "none");
-      }
-    }
-  }
-
-  clearTip() {
-    if (!this.mobile && this.mapTooltipContainer) {
-      this.renderer.setStyle(this.mapTooltipContainer.nativeElement, "display", "none");
-    }
   }
 
   load(params) {
     // Save params
-    if (params["date"]) {
-      this.paramsDate = params["date"];
+    if (params.date) {
+      this.paramsDate = params.date;
     }
-    if (typeof params["world"] != "undefined") {
-      this.world = params["world"];
+    if (typeof params.world != 'undefined') {
+      this.world = params.world;
       this.server = this.world.substr(0, 2);
       this.globals.set_active_world(this.world);
       this.globals.set_active_server(this.server);
-    } else if (this.server != "" && this.world != "" && this.server != this.world.substr(0, 2)) {
-      this.world = "";
+    } else if (this.server != '' && this.world != '' && this.server != this.world.substr(0, 2)) {
+      this.world = '';
     } else if (this.globals.get_active_world()) {
       this.world = this.globals.get_active_world();
       this.server = this.world.substr(0, 2);
@@ -353,38 +200,44 @@ export class HomeComponent implements OnInit {
 
     this.loadingPlayers = true;
     this.loadingDiffs = true;
-    this.playerDiffs = "";
+    this.playerDiffs = '';
     this.searchResults = [];
     this.searching = false;
-    // this.hasOverview = false;
-    this.showMap = false;
-    this.showTodaysMap = false;
-    this.animated = false;
-    this.currentZoom = 0;
-    this.zoomOriginX = null;
-    this.zoomOriginY = null;
-    this.setInputValue("");
-    console.log(this.paramsDate)
+    this.setInputValue('');
     this.playerService
-      .loadScoreboard(this.world, params["date"], this.server)
+      .loadScoreboard(this.world, params.date, this.server)
       .subscribe(
-        response => this.renderPlayerScoreboard(response, params["date"]),
-        error => this.renderPlayerScoreboard(null, params["date"])
-      );
+        response => this.renderPlayerScoreboard(response, params.date),
+        error => this.renderPlayerScoreboard(null, params.date)
+      ).add(() => this.loadingPlayers = false);
+  }
 
+  loadPlayers() {
+    this.loadingPlayers = true;
+    this.loadingDiffs = true;
+
+    this.playerService
+      .loadScoreboard(this.world, this.paramsDate, this.server)
+      .subscribe(
+        response => this.renderPlayerScoreboard(response, this.paramsDate),
+        error => this.renderPlayerScoreboard(null, this.paramsDate)
+      ).add(() => this.loadingPlayers = false);
+  }
+
+  loadAlliances() {
     this.loadingAlliances = true;
     this.allianceService
-      .loadScoreboard(this.world, params["date"], this.server)
+      .loadScoreboard(this.world, this.paramsDate, this.server)
       .subscribe(
-        response => this.renderAllianceScoreboard(response, params["date"]),
-        error => this.renderAllianceScoreboard(null, params["date"])
+        response => this.renderAllianceScoreboard(response, this.paramsDate),
+        error => this.renderAllianceScoreboard(null, this.paramsDate)
       );
 
     this.allianceService
-      .loadChanges(this.world, params["date"], this.server, 0, 22)
+      .loadChanges(this.world, this.paramsDate, this.server, 0, 22)
       .subscribe(
-        response => this.renderAllianceChanges(response, params["date"]),
-        error => this.renderAllianceChanges(null, params["date"])
+        response => this.renderAllianceChanges(response, this.paramsDate),
+        error => this.renderAllianceChanges(null, this.paramsDate)
       );
   }
 
@@ -392,66 +245,63 @@ export class HomeComponent implements OnInit {
     this.worldData = worldData;
     this.servers = [];
     this.worlds = [];
-    for (let i of this.worldData) {
-      this.servers.push((<any>i).server);
-      if ((<any>i).server == this.server) {
-        for (let w of (<any>i).worlds) {
+    for (const i of this.worldData) {
+      this.servers.push((i as any).server);
+      if ((i as any).server === this.server) {
+        for (const w of (i as any).worlds) {
           this.worlds.push(w);
-          if (w.id == this.world) this.worldName = w.name;
+          if (w.id === this.world) this.worldName = w.name;
         }
       }
     }
-
-    // Cache data
-    // LocalCacheService.set('worlds', json);
   }
 
   setWorld(event) {
     this.globals.set_active_world(event);
     this.globals.set_active_server(event.substr(0, 2));
-    if (this.nextUpdate == "") {
-      this.router.navigate(["/points/" + event + "/" + this.selectedDate]);
+    if (this.nextUpdate == '') {
+      this.router.navigate(['/points/' + event + '/' + this.selectedDate]);
     } else {
-      this.router.navigate(["/points/" + event]);
+      this.router.navigate(['/points/' + event]);
     }
   }
   setDate(event) {
-    let dateString =
-      event.getFullYear() + "-" + ("0" + (event.getMonth() + 1)).slice(-2) + "-" + ("0" + event.getDate()).slice(-2);
-    this.router.navigate(["/points/" + this.world + "/" + dateString]);
+    const dateString =
+      event.getFullYear() + '-' + ('0' + (event.getMonth() + 1)).slice(-2) + '-' + ('0' + event.getDate()).slice(-2);
+    this.router.navigate(['/points/' + this.world + '/' + dateString]);
   }
   prevDay() {
-    let today = new Date(this.selectedDate);
-    let tomorrow = new Date(this.selectedDate);
+    const today = new Date(this.selectedDate);
+    const tomorrow = new Date(this.selectedDate);
     tomorrow.setDate(today.getDate() - 1);
     this.router.navigate([
-      "/points/" +
+      '/points/' +
         this.world +
-        "/" +
+        '/' +
         (tomorrow.getFullYear().toString() +
-          "-" +
-          ("0" + (tomorrow.getMonth() + 1)).slice(-2) +
-          "-" +
-          ("0" + tomorrow.getDate()).slice(-2))
+          '-' +
+          ('0' + (tomorrow.getMonth() + 1)).slice(-2) +
+          '-' +
+          ('0' + tomorrow.getDate()).slice(-2))
     ]);
   }
   nextDay() {
-    let today = new Date(this.selectedDate);
-    let tomorrow = new Date(this.selectedDate);
+    const today = new Date(this.selectedDate);
+    const tomorrow = new Date(this.selectedDate);
     tomorrow.setDate(today.getDate() + 1);
     this.router.navigate([
-      "/points/" +
+      '/points/' +
         this.world +
-        "/" +
+        '/' +
         (tomorrow.getFullYear().toString() +
-          "-" +
-          ("0" + (tomorrow.getMonth() + 1)).slice(-2) +
-          "-" +
-          ("0" + tomorrow.getDate()).slice(-2))
+          '-' +
+          ('0' + (tomorrow.getMonth() + 1)).slice(-2) +
+          '-' +
+          ('0' + tomorrow.getDate()).slice(-2))
     ]);
   }
   today() {
-    this.router.navigate(["/points/" + this.world]);
+    this.router.navigate(['/points/' + this.world]);
   }
 
   updateWorlds(event) {
@@ -462,18 +312,18 @@ export class HomeComponent implements OnInit {
 
   renderPlayerScoreboard(json, date) {
     if (json == null) {
-      this.noticePlayer = "We found no player scoreboard for " + this.world + " on " + date;
+      this.noticePlayer = 'We found no player scoreboard for ' + this.world + ' on ' + date;
       this.noPlayerData = true;
     } else {
       // Check response date
       if (date != undefined && date != json.date)
         this.noticePlayer =
-          "Unable to find player scoreboard for " +
+          'Unable to find player scoreboard for ' +
           this.world +
-          " on " +
+          ' on ' +
           date +
-          "; showing today's scoreboard instead.";
-      else this.noticePlayer = "";
+          '; showing today\'s scoreboard instead.';
+      else this.noticePlayer = '';
 
       // Update scoreboard form and data
       this.playerData = json;
@@ -487,131 +337,33 @@ export class HomeComponent implements OnInit {
       this.globals.set_active_server(this.server);
 
       if (json.date) {
-        let date = new Date(json.date);
-        let limit = new Date();
+        const date = new Date(json.date);
+        const limit = new Date();
         limit.setMonth(limit.getMonth() - 1);
         this.hasOverview = limit <= date;
-        let mapLim = new Date("2020-01-13");
-        this.showMap = date >= mapLim;
       } else {
         this.hasOverview = false;
-        this.showMap = false;
       }
 
       // Date status
       if (json.allowCache == false) {
         // Today!
-        this.scoreboardDateInfo = "today before " + json.time;
-        if (!json.nextUpdate.includes("after")) {
-          this.nextUpdate = "Next update expected in " + json.nextUpdate;
+        this.scoreboardDateInfo = 'today before ' + json.time;
+        if (!json.nextUpdate.includes('after')) {
+          this.nextUpdate = 'Next update expected in ' + json.nextUpdate;
         } else {
-          this.nextUpdate = "Next update imminent";
-        }
-
-        if (this.showMap) {
-          this.showTodaysMap = true;
-          // let today = new Date(this.selectedDate);
-          // let utcMapTime = new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate(), 6));
-          // if (new Date() < utcMapTime) {
-          // 	console.log("Map for today is not yet available");
-          // 	console.log(utcMapTime);
-          // 	this.showMap = false;
-          // }
+          this.nextUpdate = 'Next update imminent';
         }
 
         this.loadPlayerDiffs();
       } else {
-        this.scoreboardDateInfo = "on " + json.date;
-        this.nextUpdate = "";
-        this.showTodaysMap = false;
+        this.scoreboardDateInfo = 'on ' + json.date;
+        this.nextUpdate = '';
       }
 
       this.loadWorlds(this.worldData);
     }
     this.loadingPlayers = false;
-
-    this.reloadMap();
-  }
-
-  reloadMap() {
-    console.log("Reloading map");
-    setTimeout(_ => {
-      if (this.showMap && this.worldMap && !this.mobile) {
-        this.mapCanvas = null;
-
-        let url =
-          this.env.url + "/m/" + this.world + "/map_" + this.selectedDate.toString().replace(/-/g, "_") + ".png";
-        if (this.env.production) {
-          if (this.showTodaysMap) {
-            url = this.env.url + "/m/" + this.world + "/map_today.png";
-          }
-        } else {
-          url = "../../assets/images/m/map_2020_01_13.png";
-        }
-
-        this.worldMap.nativeElement.setAttribute("src", url);
-        this.worldMap.nativeElement.style.display = "block";
-      }
-    }, 100);
-  }
-
-  resetMapPivot() {
-    console.log("resetting map pivot");
-    let pivot = this.worldMap.nativeElement.height / 2;
-    this.zoomOriginX = pivot;
-    this.zoomOriginY = pivot;
-  }
-
-  buildCanvas() {
-    if (!this.mobile && !this.animated) {
-      // Check initial origin
-      if (this.zoomOriginX == null) {
-        this.resetMapPivot();
-      }
-
-      // Build canvas
-      console.log("Building map canvas");
-      let canvas = document.createElement("canvas");
-      canvas.width = this.worldMap.nativeElement.width;
-      canvas.height = this.worldMap.nativeElement.height;
-      canvas
-        .getContext("2d")
-        .drawImage(
-          this.worldMap.nativeElement,
-          0,
-          0,
-          this.worldMap.nativeElement.width,
-          this.worldMap.nativeElement.height
-        );
-      this.mapCanvas = canvas;
-
-      // Build color legend
-      let canvasTemp = document.createElement("canvas");
-      canvasTemp.width = 1250;
-      canvasTemp.height = 1000;
-      canvasTemp.getContext("2d").drawImage(this.worldMap.nativeElement, 0, 0, 1250, 1000);
-
-      let offset = 90;
-      let legend = {};
-      let i = 0;
-      while (i < 30) {
-        i++;
-        let pixelData = canvasTemp.getContext("2d").getImageData(1015, offset, 1, 1).data;
-        let colorId = pixelData.toString().replace(/,/g, "");
-        if (colorId == "0000") {
-          // end of legend
-          i = 30;
-        } else {
-          legend[colorId] = {
-            namex: 1070,
-            namey: offset - 11,
-            pixel: pixelData
-          };
-        }
-        offset += 20;
-      }
-      this.legend = legend;
-    }
   }
 
   onOverviewSelect(event) {
@@ -631,7 +383,7 @@ export class HomeComponent implements OnInit {
   loadPlayerDiffs() {
     this.playerService.loadDifferences(this.world).subscribe(
       response => {
-        console.log(response)
+        console.log(response);
         this.playerDiffs = response;
         this.loadingDiffs = false;
       },
@@ -643,20 +395,20 @@ export class HomeComponent implements OnInit {
 
   renderAllianceScoreboard(json, date) {
     if (json == null) {
-      this.noticeAlliance = "We found no alliance scoreboard for " + this.world + " on " + date;
-      this.allianceData = "";
+      this.noticeAlliance = 'We found no alliance scoreboard for ' + this.world + ' on ' + date;
+      this.allianceData = '';
       this.noAllianceData = true;
     } else {
       if (date != undefined && date != json.date)
         this.noticeAlliance =
-          "Unable to find alliance scoreboard for " +
+          'Unable to find alliance scoreboard for ' +
           this.world +
-          " on " +
+          ' on ' +
           date +
-          "; showing " +
+          '; showing ' +
           json.date +
-          " instead.";
-      else this.noticeAlliance = "";
+          ' instead.';
+      else this.noticeAlliance = '';
       this.allianceData = json;
       this.noAllianceData = false;
     }
@@ -665,47 +417,45 @@ export class HomeComponent implements OnInit {
 
   renderAllianceChanges(json, date) {
     if (json == null || json.items == undefined) {
-      this.allianceChangesData = "";
+      this.allianceChangesData = '';
     } else {
       this.allianceChangesData = json.items;
     }
   }
 
   public openBBdialog(type) {
-    let dataBB = {
+    const dataBB = {
       data: {},
       world: this.world,
       worldName: this.worldName,
       date: this.selectedDate,
       dateInfo: this.scoreboardDateInfo
     };
-    if (type == "players_att") {
+    if (type == 'players_att') {
       dataBB.data = this.playerData.att;
-    } else if (type == "players_def") {
+    } else if (type == 'players_def') {
       dataBB.data = this.playerData.def;
-    } else if (type == "players_con") {
+    } else if (type == 'players_con') {
       dataBB.data = this.playerData.con;
-    } else if (type == "players_los") {
+    } else if (type == 'players_los') {
       dataBB.data = this.playerData.los;
-    } else if (type == "alliances_att") {
+    } else if (type == 'alliances_att') {
       dataBB.data = this.allianceData.att;
-    } else if (type == "alliances_def") {
+    } else if (type == 'alliances_def') {
       dataBB.data = this.allianceData.def;
-    } else if (type == "alliances_con") {
+    } else if (type == 'alliances_con') {
       dataBB.data = this.allianceData.con;
-    } else if (type == "alliances_los") {
+    } else if (type == 'alliances_los') {
       dataBB.data = this.allianceData.los;
     } else {
       return false;
     }
 
-    let dialogRef = this.dialog.open(BbScoreboardDialogComponent, {
-      // width: '90%',
-      // height: '80%',
+    const dialogRef = this.dialog.open(BbScoreboardDialogComponent, {
       autoFocus: false,
       data: {
-        dataBB: dataBB,
-        type: type
+        dataBB,
+        type
       }
     });
 
@@ -713,21 +463,19 @@ export class HomeComponent implements OnInit {
   }
 
   public openOverviewdialog(hour) {
-    let dialogRef = this.dialog.open(OverviewDialogComponent, {
-      // width: '90%',
-      // height: '80%',
+    const dialogRef = this.dialog.open(OverviewDialogComponent, {
       autoFocus: false,
       data: {
         world: this.world,
         date: this.selectedDate.toString(),
-        hour: hour
+        hour
       }
     });
     dialogRef.afterClosed().subscribe(result => {});
   }
 
   public openPlayerOverviewdialog(id, name) {
-    let dialogRef = this.dialog.open(PlayerOverviewDialogComponent, {
+    const dialogRef = this.dialog.open(PlayerOverviewDialogComponent, {
       autoFocus: false,
       data: {
         world: this.world,
@@ -740,15 +488,13 @@ export class HomeComponent implements OnInit {
   }
 
   public openAllianceOverviewdialog(id, name) {
-    let dialogRef = this.dialog.open(AllianceOverviewDialogComponent, {
-      // width: '80%',
-      // height: '70%',
+    const dialogRef = this.dialog.open(AllianceOverviewDialogComponent, {
       autoFocus: false,
       data: {
         world: this.world,
         date: this.selectedDate.toString(),
-        id: id,
-        name: name
+        id,
+        name
       }
     });
     dialogRef.afterClosed().subscribe(result => {});

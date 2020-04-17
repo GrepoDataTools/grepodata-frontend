@@ -25,6 +25,7 @@ export class IndexTownComponent implements OnInit {
   id = '';
   build = [];
   allCities = [];
+  notes = [];
   version = '';
   message = '';
 
@@ -48,9 +49,10 @@ export class IndexTownComponent implements OnInit {
     this.loading = true;
     this.noIntel = false;
     this.allCities = [];
+    this.notes = [];
 
-		// Check cleanup token
-		this.csa = LocalCacheService.get('csa'+this.key);
+    // Check cleanup token
+    this.csa = LocalCacheService.get('csa'+this.key);
 
     // Load town intel
     this.indexerService.loadTownIntel(this.key, this.id)
@@ -90,6 +92,15 @@ export class IndexTownComponent implements OnInit {
           this.allCities.push(town);
         }
       }
+
+      if (data.notes != undefined) {
+        for (let key in data.notes) {
+          let note = data.notes[key];
+          this.notes.push(note);
+        }
+      }
+      console.log(this.notes);
+
       this.noIntel = false;
     }
     this.loading = false;

@@ -30,7 +30,7 @@
 	      <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
 
 	      <div style="width: calc(100vw - 68px); margin: auto;">
-		      <app-index-version *ngIf="!noI && !loading" [version]="version" [message]="message" [key]="key"></app-index-version>
+		      <app-index-version *ngIf="!noIntel && !loading" [version]="version" [message]="message" [key]="key"></app-index-version>
 	      </div>
 
         <div *ngIf="!noIntel && !loading">
@@ -38,104 +38,170 @@
 
             <mat-card>
               <mat-card-content>
-                <div>
-                  <div *ngIf="build.length > 0">
-                    <h3 style='font-weight: 300; color: #304357;'>
-                      <span class='world-title' style='color: #18BC9C;'>Latest building intelligence</span>
-                    </h3>
-                    <span class="build-cell" style="transform: scale(1.4); float: left; margin: 15px;" *ngFor="let building of build" >
-                      <div class="building_icon40x40 {{building.name}}" matTooltip="{{building.name}}: {{building.val}} ({{building.date}})">
-                        <span class="unit-val">{{building.val}}</span>
-                      </div>
-                    </span>
-	                  <br/><br/><br/>
-                  </div>
-                  <h3 style='font-weight: 300; color: #304357;'>
-                    <span class='world-title' style='color: #18BC9C;'>Unit intelligence history</span>
-                  </h3>
-                  <div class="table intel-table" id="table_all" style="transform: scale(.9);">
 
-                    <div class="row_custom header bg-gd-2" >
-                      <div class="cell">
-                        Type
-                      </div>
-                      <div class="cell">
-                        Date
-                      </div>
-                      <div class="cell">
-                        Units
-                      </div>
-                      <div class="cell">
-                        Hero
-                      </div>
-                      <div class="cell">
-                        God
-                      </div>
-                      <div class="cell">
-                        Silver
-                      </div>
-                      <div class="cell">
-                        Wall
-                      </div>
-                      <div class="cell" *ngIf="csa!=false"></div>
-                    </div>
 
-                    <div class='row_custom' *ngFor="let town of allCities">
-                      <div class="cell" matTooltip="{{town.type}}">
-                        <img src="../../assets/images/game/towninfo/attack.png" *ngIf="town.type === 'friendly_attack'">
-                        <div *ngIf="town.type === 'enemy_attack'" style="-moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); filter: FlipH; -ms-filter: ;">
-                          <img src="../../assets/images/game/towninfo/attack.png">
-                        </div>
-                        <img src="../../assets/images/game/towninfo/support.png" *ngIf="town.type === 'support'">
-                        <img src="../../assets/images/game/towninfo/conquer.png" *ngIf="town.type === 'attack_on_conquest'">
-                        <img src="../../assets/images/game/towninfo/espionage_2.67.png" *ngIf="town.type === 'spy'">
-                      </div>
-                      <div class="cell">
-                        {{town.date | IndexDate}}
-                      </div>
-                      <div class="cell" style="display: flex;">
-                        <span style="transform: scale(1.15); float: left; margin: 15px;" *ngFor="let unit of town.units | ValuesPipe; let i = index;"
-                              matTooltip="{{unit?.name?.replace('_',' ')}}">
-                          <div class="unit_icon40x40 {{unit?.name}}"><span class="unit-val">{{unit?.count}}</span></div>
-                          <span style="color: #d00;" *ngIf="unit?.killed>0">-{{unit?.killed}}</span>
-                        </span>
-                      </div>
-                      <div class="cell">
-                        <span style="transform: scale(1.15); float: left; margin: 15px;"
-                              matTooltip="{{town?.hero?.replace('_',' ')}}">
-                          <div class="unit_icon40x40 {{town?.hero}}"></div>
-                        </span>
-                      </div>
-                      <div class="cell">
-                        {{town.god}}
-                      </div>
-                      <div class="cell">
-                        {{town.silver}}
-                      </div>
-                      <div class="cell">
-                        <span [outerHTML]="town.wall | HideNoLossPipe"></span>
-                      </div>
-	                    <div class="cell" style="" *ngIf="csa!=false">
-		                    <button *ngIf="!town.deleted || town?.deleted==false" name="open_bb" class="btn btn-danger" style=""
-		                            (click)="deleteIntel(town?.id); town.deleted = true;">
-			                    <i class="fa fa-close"></i>&nbsp;Delete
-		                    </button>
-		                    <span *ngIf="town.deleted && town?.deleted==true" title="This record will be deleted within 24 hours.">
-													<p style="font-size: 17px; margin: 0;" class="gd-secondary">Marked for deletion</p>
-													<button name="open_bb" class="btn btn-primary btn-xs" style="margin-top: -6px;"
-													        (click)="deleteIntelUndo(town?.id); town.deleted = false;">
-														<i class="fa fa-arrow-left"></i>&nbsp;Undo
-													</button>
-												</span>
-	                    </div>
-                    </div>
-                  </div>
-                </div>
-	              <div class="row">
-		              <div class="col-lg-12 text-center">
-			              <h4 class="gd-secondary">Game images on this page are subject to Copyright © InnoGames GmbH</h4>
+	              <div class="container">
+		              <div class="row">
+			              <mat-tab-group [selectedIndex]="tabsIndex" (selectedTabChange)="onTabClick($event)" mat-stretch-tabs>
+				              <mat-tab class="history-chart" style="padding: 20px 0; overflow: hidden !important;">
+					              <ng-template mat-tab-label>
+						              <mat-icon style="opacity: 1; vertical-align: bottom;">account_balance</mat-icon>&nbsp;Town intelligence
+					              </ng-template>
+					              <br/>
+
+					              <div *ngIf="build.length > 0">
+						              <h3 style='font-weight: 300; color: #304357;'>
+							              <span class='world-title' style='color: #18BC9C;'>Latest building intelligence</span>
+						              </h3>
+						              <span class="build-cell" style="transform: scale(1.4); float: left; margin: 15px;" *ngFor="let building of build" >
+			                      <div class="building_icon40x40 {{building.name}}" matTooltip="{{building.name}}: {{building.val}} ({{building.date}})">
+			                        <span class="unit-val">{{building.val}}</span>
+			                      </div>
+			                    </span>
+						              <br/><br/><br/>
+					              </div>
+					              <div *ngIf="!allCities.length || allCities.length <= 0">
+						              <br/>
+						              <br/>
+						              <div class="alert alert-warning text-center alert-gd-1">
+							              <h2><strong>No intel available.</strong> Index more reports about this town.</h2>
+							              <p>Note: intel about allies (index contributors) is hidden by default.</p>
+						              </div>
+					              </div>
+					              <div *ngIf="allCities.length > 0">
+						              <h3 style='font-weight: 300; color: #304357;'>
+							              <span class='world-title' style='color: #18BC9C;'>Unit intelligence history</span>
+						              </h3>
+						              <div class="table intel-table" id="table_all" style="">
+
+							              <div class="row_custom header bg-gd-2" >
+								              <div class="cell">
+									              Type
+								              </div>
+								              <div class="cell">
+									              Date
+								              </div>
+								              <div class="cell">
+									              Units
+								              </div>
+								              <div class="cell">
+									              Hero
+								              </div>
+								              <div class="cell">
+									              God
+								              </div>
+								              <div class="cell">
+									              Silver
+								              </div>
+								              <div class="cell">
+									              Wall
+								              </div>
+								              <div class="cell" *ngIf="csa!=false"></div>
+							              </div>
+
+							              <div class='row_custom' *ngFor="let town of allCities">
+								              <div class="cell" matTooltip="{{town.type}}">
+									              <img src="../../assets/images/game/towninfo/attack.png" *ngIf="town.type === 'friendly_attack'">
+									              <div *ngIf="town.type === 'enemy_attack'" style="-moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); filter: FlipH; -ms-filter: ;">
+										              <img src="../../assets/images/game/towninfo/attack.png">
+									              </div>
+									              <img src="../../assets/images/game/towninfo/support.png" *ngIf="town.type === 'support'">
+									              <img src="../../assets/images/game/towninfo/conquer.png" *ngIf="town.type === 'attack_on_conquest'">
+									              <img src="../../assets/images/game/towninfo/espionage_2.67.png" *ngIf="town.type === 'spy'">
+								              </div>
+								              <div class="cell">
+									              {{town.date | IndexDate}}
+								              </div>
+								              <div class="cell" style="display: flex; margin-bottom: 8px;">
+					                      <span style="transform: scale(1.05); float: left; margin: 8px 12px 0 0;" *ngFor="let unit of town.units | ValuesPipe; let i = index;"
+					                            matTooltip="{{unit?.name?.replace('_',' ')}}">
+					                        <div class="unit_icon40x40 {{unit?.name}}"><span class="unit-val">{{unit?.count}}</span></div>
+					                        <span style="color: #d00;" *ngIf="unit?.killed>0">-{{unit?.killed}}</span>
+					                      </span>
+								              </div>
+								              <div class="cell">
+					                      <span style="transform: scale(1.05); float: left; margin: 8px 0;"
+					                            matTooltip="{{town?.hero?.replace('_',' ')}}">
+					                        <div class="unit_icon40x40 {{town?.hero}}"></div>
+					                      </span>
+								              </div>
+								              <div class="cell">
+									              {{town.god}}
+								              </div>
+								              <div class="cell">
+									              {{town.silver}}
+								              </div>
+								              <div class="cell">
+									              <span [outerHTML]="town.wall | HideNoLossPipe"></span>
+								              </div>
+								              <div class="cell" style="" *ngIf="csa!=false">
+									              <button *ngIf="!town.deleted || town?.deleted==false" name="open_bb" class="btn btn-danger" style=""
+									                      (click)="deleteIntel(town?.id); town.deleted = true;">
+										              <i class="fa fa-close"></i>&nbsp;Delete
+									              </button>
+									              <span *ngIf="town.deleted && town?.deleted==true" title="This record will be deleted within 24 hours.">
+																	<p style="font-size: 17px; margin: 0;" class="gd-secondary">Marked for deletion</p>
+																	<button name="open_bb" class="btn btn-primary btn-xs" style="margin-top: -6px;"
+																	        (click)="deleteIntelUndo(town?.id); town.deleted = false;">
+																		<i class="fa fa-arrow-left"></i>&nbsp;Undo
+																	</button>
+																</span>
+								              </div>
+							              </div>
+						              </div>
+					              </div>
+				              </mat-tab>
+
+
+				              <mat-tab class="history-chart" style="padding: 20px 0; overflow: hidden !important;">
+					              <ng-template mat-tab-label>
+						              <mat-icon style="opacity: 1; vertical-align: bottom;">speaker_notes</mat-icon>&nbsp;Notes &nbsp;
+						              <div class="note-count">{{notes.length}}</div>
+					              </ng-template>
+					              <br/>
+					              <div>
+						              <h3 style='font-weight: 300; color: #304357;'>
+							              <span class='world-title' style='color: #18BC9C;'>Town notes</span>
+						              </h3>
+						              <br/>
+						              <div *ngIf="!notes.length || notes.length <= 0">
+							              <div class="alert alert-warning text-center alert-gd-1">
+								              <h2>There are no notes about this town</h2>
+							              </div>
+						              </div>
+						              <div *ngIf="notes.length > 0" class="table intel-table" id="table_notes" style="text-align: left;">
+
+							              <div class="row_custom header bg-gd-2" >
+								              <div class="cell" style="width: 20%;">
+									              Date
+								              </div>
+								              <div class="cell" style="width: 30%;">
+									              Poster
+								              </div>
+								              <div class="cell" style="width: 50%;">
+									              Note
+								              </div>
+							              </div>
+
+							              <div class='row_custom' *ngFor="let note of notes">
+								              <div class="cell">
+									              {{note.date}}
+								              </div>
+								              <div class="cell">
+									              {{note.poster_name}}
+								              </div>
+								              <div class="cell">
+									              {{note.message}}
+								              </div>
+							              </div>
+						              </div>
+
+					              </div>
+				              </mat-tab>
+			              </mat-tab-group>
 		              </div>
 	              </div>
+
               </mat-card-content>
             </mat-card>
           </div>
@@ -146,7 +212,7 @@
               <br/>
               <br/>
               <div class="alert alert-danger text-center">
-                <h3>This index has not yet received any intel on town <strong>{{townName}}</strong></h3>
+                <h3>No intel available for town <strong>{{townName}}</strong></h3>
               </div>
             </div>
           </div>

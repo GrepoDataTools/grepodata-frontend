@@ -43,10 +43,10 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
   }
 
-	donate()
-	{
-		window.open("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WYX6WW65KYQ5N&source=url", "_blank")
-	}
+  donate()
+  {
+    window.open("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WYX6WW65KYQ5N&source=url", "_blank")
+  }
 
   toggleNav()
   {
@@ -149,7 +149,7 @@ export class ContactDialog {
           this.submitted = true;
           this.loading = false;
           if (this.captchaRef != undefined) { this.captchaRef.reset(); }
-          },
+        },
         (error) => {
           this.error = 'Invalid captcha response. Please try again later or contact us if this error persists.';
           this.loading = false;

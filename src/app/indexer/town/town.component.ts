@@ -30,9 +30,9 @@ export class IndexTownComponent implements OnInit {
   version = '';
   message = '';
 
-	private csa : any = false;
+  private csa : any = false;
 
-	constructor(public dialog: MatDialog, private indexerService: IndexerService, private router: Router, private route: ActivatedRoute) {
+  constructor(public dialog: MatDialog, private indexerService: IndexerService, private router: Router, private route: ActivatedRoute) {
     this.route.params.subscribe( params => this.load(params));
   }
 
@@ -54,7 +54,6 @@ export class IndexTownComponent implements OnInit {
 
     // Check cleanup token
     this.csa = LocalCacheService.get('csa'+this.key);
-    this.csa = 'test123';
 
     // Load town intel
     this.indexerService.loadTownIntel(this.key, this.id)
@@ -65,16 +64,16 @@ export class IndexTownComponent implements OnInit {
   }
 
   public copyBB () {
-      var selection = window.getSelection();
-      var txt = document.getElementById('bbcode');
-      var range = document.createRange();
-      range.selectNodeContents(txt);
-      selection.removeAllRanges();
-      selection.addRange(range);
-      document.execCommand("copy");
-      selection.removeAllRanges();
-      this.copied = true;
-      window.setTimeout(()=>{this.copied = false;}, 2000)
+    var selection = window.getSelection();
+    var txt = document.getElementById('bbcode');
+    var range = document.createRange();
+    range.selectNodeContents(txt);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    document.execCommand("copy");
+    selection.removeAllRanges();
+    this.copied = true;
+    window.setTimeout(()=>{this.copied = false;}, 2000)
   }
 
   private renderTownIntel(data) {
@@ -131,25 +130,25 @@ export class IndexTownComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {});
   }
 
-	deleteIntel(id) {
-		if (this.csa != false) {
-			LocalCacheService.set('csa'+this.key, this.csa, (31 * 24 * 60));
-			this.indexerService.deleteRecordById(this.csa, this.key, id).subscribe(_=>{});
-		}
-	}
+  deleteIntel(id) {
+    if (this.csa != false) {
+      LocalCacheService.set('csa'+this.key, this.csa, (31 * 24 * 60));
+      this.indexerService.deleteRecordById(this.csa, this.key, id).subscribe(_=>{});
+    }
+  }
 
-	deleteNote(id) {
-		if (this.csa != false) {
-			LocalCacheService.set('csa'+this.key, this.csa, (31 * 24 * 60));
-			this.indexerService.deleteNoteById(this.csa, this.key, id).subscribe(_=>{});
-		}
-	}
+  deleteNote(id) {
+    if (this.csa != false) {
+      LocalCacheService.set('csa'+this.key, this.csa, (31 * 24 * 60));
+      this.indexerService.deleteNoteById(this.csa, this.key, id).subscribe(_=>{});
+    }
+  }
 
-	deleteIntelUndo(id) {
-		if (this.csa != false) {
-			LocalCacheService.set('csa'+this.key, this.csa, (31 * 24 * 60));
-			this.indexerService.deleteRecordUndo(this.csa, this.key, id).subscribe(_=>{});
-		}
-	}
+  deleteIntelUndo(id) {
+    if (this.csa != false) {
+      LocalCacheService.set('csa'+this.key, this.csa, (31 * 24 * 60));
+      this.indexerService.deleteRecordUndo(this.csa, this.key, id).subscribe(_=>{});
+    }
+  }
 
 }

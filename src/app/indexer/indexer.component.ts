@@ -27,7 +27,7 @@ import {JwtService} from "../auth/services/jwt.service";
 })
 export class IndexerComponent implements OnInit {
 
-	@ViewChild('trigger', {static: false}) trigger: MatAutocompleteTrigger;
+  @ViewChild('trigger', {static: false}) trigger: MatAutocompleteTrigger;
 
   world = '';
   key = '';
@@ -44,9 +44,9 @@ export class IndexerComponent implements OnInit {
   max_retries = 100;
   all_indexes: any = {};
   latest_intel: any = [];
-	objectKeys = Object.keys;
+  objectKeys = Object.keys;
 
-	private csa:any = false;
+  private csa:any = false;
 
   constructor(
     private globals: Globals,
@@ -60,13 +60,13 @@ export class IndexerComponent implements OnInit {
   ngOnInit() {
   }
 
-	openAutocompleteIndex() {
-  	if (this.trigger.panelOpen) {
-			setTimeout(_ => this.trigger.closePanel());
-		} else {
-			setTimeout(_ => this.trigger.openPanel());
-		}
-	}
+  openAutocompleteIndex() {
+    if (this.trigger.panelOpen) {
+      setTimeout(_ => this.trigger.closePanel());
+    } else {
+      setTimeout(_ => this.trigger.openPanel());
+    }
+  }
 
   private load(params) {
     // Reset
@@ -90,12 +90,12 @@ export class IndexerComponent implements OnInit {
       if (this.globals.get_active_index() !== false) {
         this.key_input = this.globals.get_active_index();
       }
-			if (this.globals.get_active_intel() !== false) {
-				this.all_indexes = this.globals.get_active_intel();
-				if (this.objectKeys(this.all_indexes).length < 2) {
-					this.all_indexes = {};
-				}
-			}
+      if (this.globals.get_active_intel() !== false) {
+        this.all_indexes = this.globals.get_active_intel();
+        if (this.objectKeys(this.all_indexes).length < 2) {
+          this.all_indexes = {};
+        }
+      }
       this.openingIndex = false;
       this.loadStats();
     } else if (this.globals.get_active_index() !== false) {
@@ -115,19 +115,25 @@ export class IndexerComponent implements OnInit {
     );
   }
 
+  cleanupLogout() {
+    LocalCacheService.set('csa'+this.key, false, 0);
+    this.csa = false;
+    this.router.navigate(['/indexer/'+this.key]);
+  }
+
   public refresh(): void {
     window.location.reload();
   }
 
   public showForgotDialog(): void {
-		let dialogRef = this.dialog.open(ForgotKeysDialog, {
-			// width: '600px',
-			// height: '90%'
-			autoFocus: false
-		});
+    let dialogRef = this.dialog.open(ForgotKeysDialog, {
+      // width: '600px',
+      // height: '90%'
+      autoFocus: false
+    });
 
-		dialogRef.afterClosed().subscribe(result => {});
-	}
+    dialogRef.afterClosed().subscribe(result => {});
+  }
 
   public showContactDialog(): void {
     let dialogRef = this.dialog.open(ContactDialog, {
@@ -171,13 +177,13 @@ export class IndexerComponent implements OnInit {
       this.globals.set_active_index(key);
       this.globals.set_active_intel(data.world, key);
       this.key = key;
-			this.csa = LocalCacheService.get('csa'+this.key);
+      this.csa = LocalCacheService.get('csa'+this.key);
       this.world = data.world;
       this.data = data;
       if (data.latest_intel) {
-      	console.log(data.latest_intel.length);
-      	this.latest_intel = data.latest_intel;
-			}
+        console.log(data.latest_intel.length);
+        this.latest_intel = data.latest_intel;
+      }
       // if (data.total_reports != undefined && data.total_reports <= 0 && this.max_retries > 0) {
       //   setTimeout(()=>{
       //     this.max_retries -= 1;
@@ -219,14 +225,14 @@ export class IndexerComponent implements OnInit {
 
   public showCleanupDialog(): void {
     let dialogRef = this.dialog.open(CleanIntelDialog, {
-			// width: '600px',
-			autoFocus: false,
-			data: {
-				key: this.key
-			}
-		});
+      // width: '600px',
+      autoFocus: false,
+      data: {
+        key: this.key
+      }
+    });
 
-		dialogRef.afterClosed().subscribe(result => {});
+    dialogRef.afterClosed().subscribe(result => {});
   }
 
   public indexDisclaimer() {
@@ -297,19 +303,19 @@ export class ChangekeyDialog {
   loading = false;
   recaptcha_key = environment.recaptcha;
 
-	login_required = false;
-	login_callback() {
-		// this.login_required = !this.authService.loggedIn
-	}
+  login_required = false;
+  login_callback() {
+    // this.login_required = !this.authService.loggedIn
+  }
 
   constructor(
     public captchaService : CaptchaService,
     public dialogRef: MatDialogRef<ChangekeyDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private indexerService : IndexerService,
-		private authService: JwtService,
+    private authService: JwtService,
     public googleAnalyticsEventsService: GoogleAnalyticsEventsService) {
-		// this.login_required = !this.authService.loggedIn;
+    // this.login_required = !this.authService.loggedIn;
 
     this.key = data.key;
 
@@ -335,59 +341,59 @@ export class ChangekeyDialog {
       this.error = 'Sorry, we could not verify the captcha. Please try again later or contact us if this error persists.';
       if (this.captchaRef != undefined) { if (this.captchaRef != undefined) { this.captchaRef.reset(); } }
     } else {
-			let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{1,}))$/;
-			let valid_mail = re.test(this.contact_mail);
-			if (!valid_mail) {
-				this.error = 'Invalid email address (format: name@example.com)';
-				if (this.captchaRef != undefined) { this.captchaRef.reset(); }
-			} else {
-				try {
-					this.googleAnalyticsEventsService.emitEvent("indexer", "changeKeySendRequest", "changeKeySendRequest", 1);
-				} catch (e) {
-				}
+      let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{1,}))$/;
+      let valid_mail = re.test(this.contact_mail);
+      if (!valid_mail) {
+        this.error = 'Invalid email address (format: name@example.com)';
+        if (this.captchaRef != undefined) { this.captchaRef.reset(); }
+      } else {
+        try {
+          this.googleAnalyticsEventsService.emitEvent("indexer", "changeKeySendRequest", "changeKeySendRequest", 1);
+        } catch (e) {
+        }
 
-				this.loading = true;
-				this.indexerService.updateIndexKey(this.key, this.contact_mail, this.captcha).subscribe(
-					(response) => {
-						try {
-							this.googleAnalyticsEventsService.emitEvent("indexer", "changeKeySuccess", "changeKeySuccess", 1);
-						} catch (e) {
-						}
+        this.loading = true;
+        this.indexerService.updateIndexKey(this.key, this.contact_mail, this.captcha).subscribe(
+          (response) => {
+            try {
+              this.googleAnalyticsEventsService.emitEvent("indexer", "changeKeySuccess", "changeKeySuccess", 1);
+            } catch (e) {
+            }
 
-						let data = response;
-						this.error = '';
-						if (data.status !== undefined && data.status === false) {
-							this.captcha = '';
-							this.error = 'Sorry, our servers are currently not able to handle that request. Please try again later or contact us if this error persists.'
-						} else {
-							this.submitted = true;
-						}
-						this.loading = false;
+            let data = response;
+            this.error = '';
+            if (data.status !== undefined && data.status === false) {
+              this.captcha = '';
+              this.error = 'Sorry, our servers are currently not able to handle that request. Please try again later or contact us if this error persists.'
+            } else {
+              this.submitted = true;
+            }
+            this.loading = false;
 
-						if (this.captchaRef != undefined) {
-							this.captchaRef.reset();
-						}
-					},
-					(error) => {
-						try {
-							this.googleAnalyticsEventsService.emitEvent("indexer", "changeKeyInvalidMail", "changeKeyInvalidMail", 1);
-						} catch (e) {
-						}
+            if (this.captchaRef != undefined) {
+              this.captchaRef.reset();
+            }
+          },
+          (error) => {
+            try {
+              this.googleAnalyticsEventsService.emitEvent("indexer", "changeKeyInvalidMail", "changeKeyInvalidMail", 1);
+            } catch (e) {
+            }
 
-						this.captcha = '';
-						this.error = "The email address you entered does not match the address that was used to create this index. If you feel this is incorrect please contact us."
-						if (error._body != undefined && error._body.search('Invalid captcha') != -1) {
-							this.error = 'Sorry, we could not verify the captcha. Please try again later or contact us if this error persists.';
-						} else {
-							this.contact_mail = '';
-						}
-						this.loading = false;
-						if (this.captchaRef != undefined) {
-							this.captchaRef.reset();
-						}
-					},
-				);
-			}
+            this.captcha = '';
+            this.error = "The email address you entered does not match the address that was used to create this index. If you feel this is incorrect please contact us."
+            if (error._body != undefined && error._body.search('Invalid captcha') != -1) {
+              this.error = 'Sorry, we could not verify the captcha. Please try again later or contact us if this error persists.';
+            } else {
+              this.contact_mail = '';
+            }
+            this.loading = false;
+            if (this.captchaRef != undefined) {
+              this.captchaRef.reset();
+            }
+          },
+        );
+      }
     }
   }
 
@@ -436,61 +442,61 @@ export class ForgotKeysDialog {
       this.error = 'Sorry, we could not verify the captcha. Please try again later or contact us if this error persists.';
       if (this.captchaRef != undefined) { if (this.captchaRef != undefined) { this.captchaRef.reset(); } }
     } else {
-			let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{1,}))$/;
-			let valid_mail = re.test(this.contact_mail);
-			if (!valid_mail) {
-				this.error = 'Invalid email address (format: name@example.com)';
-				if (this.captchaRef != undefined) { this.captchaRef.reset(); }
-			} else {
-				try {
-					this.googleAnalyticsEventsService.emitEvent("indexer", "forgotKeysSendRequest", "forgotKeysSendRequest", 1);
-				} catch (e) {
-				}
+      let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{1,}))$/;
+      let valid_mail = re.test(this.contact_mail);
+      if (!valid_mail) {
+        this.error = 'Invalid email address (format: name@example.com)';
+        if (this.captchaRef != undefined) { this.captchaRef.reset(); }
+      } else {
+        try {
+          this.googleAnalyticsEventsService.emitEvent("indexer", "forgotKeysSendRequest", "forgotKeysSendRequest", 1);
+        } catch (e) {
+        }
 
-				this.loading = true;
-				this.indexerService.forgotIndexKeys(this.contact_mail, this.captcha).subscribe(
-					(response) => {
-						try {
-							this.googleAnalyticsEventsService.emitEvent("indexer", "forgotKeysSuccess", "forgotKeysSuccess", 1);
-						} catch (e) {
-						}
+        this.loading = true;
+        this.indexerService.forgotIndexKeys(this.contact_mail, this.captcha).subscribe(
+          (response) => {
+            try {
+              this.googleAnalyticsEventsService.emitEvent("indexer", "forgotKeysSuccess", "forgotKeysSuccess", 1);
+            } catch (e) {
+            }
 
-						let data = response;
-						this.error = '';
-						if (data.status !== undefined && data.status === false) {
-							this.captcha = '';
-							this.error = 'Sorry, our servers are currently not able to handle that request. Please try again later or contact us if this error persists.'
-						} else {
-							this.submitted = true;
-						}
-						this.loading = false;
+            let data = response;
+            this.error = '';
+            if (data.status !== undefined && data.status === false) {
+              this.captcha = '';
+              this.error = 'Sorry, our servers are currently not able to handle that request. Please try again later or contact us if this error persists.'
+            } else {
+              this.submitted = true;
+            }
+            this.loading = false;
 
-						if (this.captchaRef != undefined) {
-							if (this.captchaRef != undefined) {
-								this.captchaRef.reset();
-							}
-						}
-					},
-					(error) => {
-						try {
-							this.googleAnalyticsEventsService.emitEvent("indexer", "forgotKeysInvalidMail", "forgotKeysInvalidMail", 1);
-						} catch (e) {
-						}
+            if (this.captchaRef != undefined) {
+              if (this.captchaRef != undefined) {
+                this.captchaRef.reset();
+              }
+            }
+          },
+          (error) => {
+            try {
+              this.googleAnalyticsEventsService.emitEvent("indexer", "forgotKeysInvalidMail", "forgotKeysInvalidMail", 1);
+            } catch (e) {
+            }
 
-						this.captcha = '';
-						this.error = "The email address you entered does not own any indexes. If you feel this is incorrect please contact us.";
-						if (error._body != undefined && error._body.search('Invalid captcha') != -1) {
-							this.error = 'Sorry, we could not verify the captcha. Please try again later or contact us if this error persists.';
-						} else {
-							this.contact_mail = '';
-						}
-						this.loading = false;
-						if (this.captchaRef != undefined) {
-							this.captchaRef.reset();
-						}
-					},
-				);
-			}
+            this.captcha = '';
+            this.error = "The email address you entered does not own any indexes. If you feel this is incorrect please contact us.";
+            if (error._body != undefined && error._body.search('Invalid captcha') != -1) {
+              this.error = 'Sorry, we could not verify the captcha. Please try again later or contact us if this error persists.';
+            } else {
+              this.contact_mail = '';
+            }
+            this.loading = false;
+            if (this.captchaRef != undefined) {
+              this.captchaRef.reset();
+            }
+          },
+        );
+      }
     }
   }
 
@@ -631,14 +637,14 @@ export class ResetOwnersDialog {
           this.loading = true;
           this.indexerService.resetIndexOwners(this.key, this.contact_mail, this.captcha).subscribe(
             (response) => {
-            	let data = response;
+              let data = response;
               this.error = '';
               if (data.status !== undefined && data.status === false) {
-								this.captcha = '';
-              	this.error = 'Sorry, our servers are currently not able to handle that request. Please try again later or contact us if this error persists.'
-							} else {
-								this.submitted = true;
-							}
+                this.captcha = '';
+                this.error = 'Sorry, our servers are currently not able to handle that request. Please try again later or contact us if this error persists.'
+              } else {
+                this.submitted = true;
+              }
               this.loading = false;
 
               try {
@@ -670,15 +676,15 @@ export class ResetOwnersDialog {
             this.loading = true;
             this.indexerService.excludeIndexOwner(this.key, this.contact_mail, this.captcha, this.alliance_id).subscribe(
               (response) => {
-								let data = response;
-								this.error = '';
-								if (data.status !== undefined && data.status === false) {
-									this.captcha = '';
-									this.error = 'Sorry, our servers are currently not able to handle that request. Please try again later or contact us if this error persists.'
-								} else {
-									this.submitted = true;
-								}
-								this.loading = false;
+                let data = response;
+                this.error = '';
+                if (data.status !== undefined && data.status === false) {
+                  this.captcha = '';
+                  this.error = 'Sorry, our servers are currently not able to handle that request. Please try again later or contact us if this error persists.'
+                } else {
+                  this.submitted = true;
+                }
+                this.loading = false;
 
                 try {
                   this.googleAnalyticsEventsService.emitEvent("indexer", "IncludeOwnersSuccess", "IncludeOwnersSuccess", 1);
@@ -710,15 +716,15 @@ export class ResetOwnersDialog {
             this.loading = true;
             this.indexerService.includeIndexOwner(this.key, this.contact_mail, this.captcha, this.alliance_id).subscribe(
               (response) => {
-								let data = response;
-								this.error = '';
-								if (data.status !== undefined && data.status === false) {
-									this.captcha = '';
-									this.error = 'Sorry, our servers are currently not able to handle that request. Please try again later or contact us if this error persists.'
-								} else {
-									this.submitted = true;
-								}
-								this.loading = false;
+                let data = response;
+                this.error = '';
+                if (data.status !== undefined && data.status === false) {
+                  this.captcha = '';
+                  this.error = 'Sorry, our servers are currently not able to handle that request. Please try again later or contact us if this error persists.'
+                } else {
+                  this.submitted = true;
+                }
+                this.loading = false;
 
                 try {
                   this.googleAnalyticsEventsService.emitEvent("indexer", "IncludeOwnersSuccess", "IncludeOwnersSuccess", 1);
@@ -765,20 +771,20 @@ export class EditOwnersDialog {
   captcha = '';
   error = '';
   loading = false;
-	login_required = false;
-	login_callback() {
-		// this.login_required = !this.authService.loggedIn
-	}
+  login_required = false;
+  login_callback() {
+    // this.login_required = !this.authService.loggedIn
+  }
 
   constructor(
     public captchaService : CaptchaService,
     public dialogRef: MatDialogRef<EditOwnersDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private indexerService : IndexerService,
-		private authService: JwtService,
+    private authService: JwtService,
     public googleAnalyticsEventsService: GoogleAnalyticsEventsService,
     public dialog: MatDialog) {
-		// this.login_required = !this.authService.loggedIn;
+    // this.login_required = !this.authService.loggedIn;
 
     this.key = data.key;
     this.owners = data.owners;
@@ -821,126 +827,126 @@ export class EditOwnersDialog {
 @Component({
   selector: 'action-cleanintel',
   templateUrl: 'action-cleanintel.html',
-	providers: [IndexerService, CaptchaService, RecaptchaComponent]
+  providers: [IndexerService, CaptchaService, RecaptchaComponent]
 })
 export class CleanIntelDialog {
-	@ViewChild(RecaptchaComponent, {static: false}) captchaRef:RecaptchaComponent;
+  @ViewChild(RecaptchaComponent, {static: false}) captchaRef:RecaptchaComponent;
 
-	contact_mail = '';
-	key = '';
-	submitted = false;
-	captcha = '';
-	error = '';
-	loading = false;
-	recaptcha_key = environment.recaptcha;
+  contact_mail = '';
+  key = '';
+  submitted = false;
+  captcha = '';
+  error = '';
+  loading = false;
+  recaptcha_key = environment.recaptcha;
 
-	login_required = false;
-	login_callback() {
-		// this.login_required = !this.authService.loggedIn
-	}
+  login_required = false;
+  login_callback() {
+    // this.login_required = !this.authService.loggedIn
+  }
 
-	constructor(
-		public captchaService : CaptchaService,
-		public dialogRef: MatDialogRef<CleanIntelDialog>,
-		@Inject(MAT_DIALOG_DATA) public data: any,
-		private indexerService : IndexerService,
-		private authService: JwtService,
-		public googleAnalyticsEventsService: GoogleAnalyticsEventsService) {
-		// this.login_required = !this.authService.loggedIn;
+  constructor(
+    public captchaService : CaptchaService,
+    public dialogRef: MatDialogRef<CleanIntelDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private indexerService : IndexerService,
+    private authService: JwtService,
+    public googleAnalyticsEventsService: GoogleAnalyticsEventsService) {
+    // this.login_required = !this.authService.loggedIn;
 
-		this.key = data.key;
+    this.key = data.key;
 
-		try {
-			this.googleAnalyticsEventsService.emitEvent("indexer", "cleanIntelDialog", "cleanIntelDialog", 1);
-		} catch (e) {}
-	}
+    try {
+      this.googleAnalyticsEventsService.emitEvent("indexer", "cleanIntelDialog", "cleanIntelDialog", 1);
+    } catch (e) {}
+  }
 
-	onNoClick(): void {
-		this.dialogRef.close();
-	}
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
 
-	resolved(captchaResponse: string) {
-		this.captcha = captchaResponse;
-		this.sendRequest();
-	}
+  resolved(captchaResponse: string) {
+    this.captcha = captchaResponse;
+    this.sendRequest();
+  }
 
-	public sendRequest() {
-		if (this.contact_mail == '') {
-			this.error = 'Email address is required';
-			if (this.captchaRef != undefined) { if (this.captchaRef != undefined) { this.captchaRef.reset(); } }
-		} else if (this.captcha == '' || this.captcha == null) {
-			this.error = 'Sorry, we could not verify the captcha. Please try again later or contact us if this error persists.';
-			if (this.captchaRef != undefined) { if (this.captchaRef != undefined) { this.captchaRef.reset(); } }
-		} else {
-			let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{1,}))$/;
-			let valid_mail = re.test(this.contact_mail);
-			if (!valid_mail) {
-				this.error = 'Invalid email address (format: name@example.com)';
-				if (this.captchaRef != undefined) { this.captchaRef.reset(); }
-			} else {
-				try {
-					this.googleAnalyticsEventsService.emitEvent("indexer", "cleanIntelSendRequest", "cleanIntelSendRequest", 1);
-				} catch (e) {
-				}
+  public sendRequest() {
+    if (this.contact_mail == '') {
+      this.error = 'Email address is required';
+      if (this.captchaRef != undefined) { if (this.captchaRef != undefined) { this.captchaRef.reset(); } }
+    } else if (this.captcha == '' || this.captcha == null) {
+      this.error = 'Sorry, we could not verify the captcha. Please try again later or contact us if this error persists.';
+      if (this.captchaRef != undefined) { if (this.captchaRef != undefined) { this.captchaRef.reset(); } }
+    } else {
+      let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{1,}))$/;
+      let valid_mail = re.test(this.contact_mail);
+      if (!valid_mail) {
+        this.error = 'Invalid email address (format: name@example.com)';
+        if (this.captchaRef != undefined) { this.captchaRef.reset(); }
+      } else {
+        try {
+          this.googleAnalyticsEventsService.emitEvent("indexer", "cleanIntelSendRequest", "cleanIntelSendRequest", 1);
+        } catch (e) {
+        }
 
-				this.loading = true;
-				this.indexerService.requestCleanupSession(this.key, this.contact_mail, this.captcha).subscribe(
-					(response) => {
-						try {
-							this.googleAnalyticsEventsService.emitEvent("indexer", "cleanIntelSuccess", "cleanIntelSuccess", 1);
-						} catch (e) {
-						}
+        this.loading = true;
+        this.indexerService.requestCleanupSession(this.key, this.contact_mail, this.captcha).subscribe(
+          (response) => {
+            try {
+              this.googleAnalyticsEventsService.emitEvent("indexer", "cleanIntelSuccess", "cleanIntelSuccess", 1);
+            } catch (e) {
+            }
 
-						let data = response;
-						this.error = '';
-						if (data.status !== undefined && data.status === false) {
-							this.captcha = '';
-							this.error = 'Sorry, our servers are currently not able to handle that request. Please try again later or contact us if this error persists.'
-						} else {
-							this.submitted = true;
-						}
-						this.loading = false;
+            let data = response;
+            this.error = '';
+            if (data.status !== undefined && data.status === false) {
+              this.captcha = '';
+              this.error = 'Sorry, our servers are currently not able to handle that request. Please try again later or contact us if this error persists.'
+            } else {
+              this.submitted = true;
+            }
+            this.loading = false;
 
-						if (this.captchaRef != undefined) {
-							this.captchaRef.reset();
-						}
-					},
-					(error) => {
-						try {
-							this.googleAnalyticsEventsService.emitEvent("indexer", "cleanIntelInvalidMail", "cleanIntelInvalidMail", 1);
-						} catch (e) {
-						}
+            if (this.captchaRef != undefined) {
+              this.captchaRef.reset();
+            }
+          },
+          (error) => {
+            try {
+              this.googleAnalyticsEventsService.emitEvent("indexer", "cleanIntelInvalidMail", "cleanIntelInvalidMail", 1);
+            } catch (e) {
+            }
 
-						this.captcha = '';
-						this.error = "The email address you entered does not match the address that was used to create this index. If you feel this is incorrect please contact us.";
-						if (error._body != undefined && error._body.search('Invalid captcha') != -1) {
-							this.error = 'Sorry, we could not verify the captcha. Please try again later or contact us if this error persists.';
-						} else {
-							this.contact_mail = '';
-						}
-						this.loading = false;
-						if (this.captchaRef != undefined) {
-							this.captchaRef.reset();
-						}
-					},
-				);
-			}
-		}
-	}
+            this.captcha = '';
+            this.error = "The email address you entered does not match the address that was used to create this index. If you feel this is incorrect please contact us.";
+            if (error._body != undefined && error._body.search('Invalid captcha') != -1) {
+              this.error = 'Sorry, we could not verify the captcha. Please try again later or contact us if this error persists.';
+            } else {
+              this.contact_mail = '';
+            }
+            this.loading = false;
+            if (this.captchaRef != undefined) {
+              this.captchaRef.reset();
+            }
+          },
+        );
+      }
+    }
+  }
 
 }
 
 @Component({
   selector: 'new-index',
   templateUrl: 'new-index.html',
-	styleUrls: ['./indexer.component.scss'],
+  styleUrls: ['./indexer.component.scss'],
   providers: [WorldService, IndexerService, CaptchaService, RecaptchaComponent, LocalCacheService, JwtService]
 })
 export class NewIndexDialog {
   @ViewChild(RecaptchaComponent, {static: false}) captchaRef:RecaptchaComponent;
 
   contact_mail = '';
-	privacy_agreed = false;
+  privacy_agreed = false;
   world = '';
   server: any = '';
   key = '';
@@ -954,22 +960,22 @@ export class NewIndexDialog {
   createError = '';
   recaptcha_key = environment.recaptcha;
 
-	login_required = false;
-	login_callback() {
-		// this.login_required = !this.authService.loggedIn;
-	}
+  login_required = false;
+  login_callback() {
+    // this.login_required = !this.authService.loggedIn;
+  }
 
   constructor(
     public captchaService : CaptchaService,
     public dialogRef: MatDialogRef<NewIndexDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private indexerService : IndexerService,
-		private worldService: WorldService,
+    private worldService: WorldService,
     private router: Router,
     private authService: JwtService,
     public googleAnalyticsEventsService: GoogleAnalyticsEventsService) {
-  	// this.login_required = !this.authService.loggedIn;
-		this.server = worldService.getDefaultServer();
+    // this.login_required = !this.authService.loggedIn;
+    this.server = worldService.getDefaultServer();
 
     indexerService.getWorlds().subscribe((response) => this.loadWorlds(response));
 
@@ -1065,7 +1071,7 @@ export class IndexDisclaimerDialog {
 
   constructor(
     public dialogRef: MatDialogRef<IndexDisclaimerDialog>,
-		public dialog: MatDialog,
+    public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   onNoClick(): void {
@@ -1121,8 +1127,8 @@ export class BBDialog {
     this.dataBB = data.dataBB;
     this.generated_at = new Date().toLocaleString();
 
-		this.hideAvailable = this.dataBB.contains_duplicates && this.dataBB.data.length > 6;
-		this.showNonPriority = !this.hideAvailable;
+    this.hideAvailable = this.dataBB.contains_duplicates && this.dataBB.data.length > 6;
+    this.showNonPriority = !this.hideAvailable;
 
     try {
       this.googleAnalyticsEventsService.emitEvent("BB_code", "copyBB", "copyBB", 1);

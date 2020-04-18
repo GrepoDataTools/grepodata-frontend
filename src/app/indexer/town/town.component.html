@@ -17,6 +17,12 @@
         &nbsp;&nbsp;&nbsp;Index: <span class='world-title'><a class="a-link-dialog" style="color: #334254 !important;" routerLink="/indexer/{{key}}">{{key}}</a></span>
         World: <span class='world-title gd-secondary'>{{world}}</span>
         Player: <span class='world-title gd-secondary'><a class="a-link-dialog" style="color: #334254 !important;" routerLink="/indexer/player/{{key}}/{{world}}/{{playerId}}">{{playerName}}</a></span>
+        <span class="hidden-xs hidden-sm" (click)="copyBB()" style="cursor: pointer;">
+	        &nbsp;BB: <span class='world-title gd-secondary' id="bbcode">[town]{{id}}[/town]</span>
+	        &nbsp;<button name="open_bb" style="background: #334254;" class="btn btn-success">
+            <i class="fa fa-clipboard"></i>&nbsp;<span *ngIf="!copied">Copy BB</span><span *ngIf="copied">Copied!&nbsp;</span>
+          </button>
+        </span>
       </h3>
     </mat-card-title>
     <mat-card-content class="decorated-card-content" style="padding: 0 !important;">
@@ -42,7 +48,7 @@
 
 	              <div class="container">
 		              <div class="row">
-			              <mat-tab-group [selectedIndex]="tabsIndex" (selectedTabChange)="onTabClick($event)" mat-stretch-tabs>
+			              <mat-tab-group mat-stretch-tabs>
 				              <mat-tab class="history-chart" style="padding: 20px 0; overflow: hidden !important;">
 					              <ng-template mat-tab-label>
 						              <mat-icon style="opacity: 1; vertical-align: bottom;">account_balance</mat-icon>&nbsp;Town intelligence
@@ -181,9 +187,12 @@
 								              <div class="cell" style="width: 50%;">
 									              Note
 								              </div>
+								              <div class="cell" *ngIf="csa!=false">
+									              Action
+								              </div>
 							              </div>
 
-							              <div class='row_custom' *ngFor="let note of notes">
+							              <div class='row_custom' *ngFor="let note of notes" [style.opacity]="note.deleted?'0.3':'1'">
 								              <div class="cell">
 									              {{note.date}}
 								              </div>
@@ -192,6 +201,13 @@
 								              </div>
 								              <div class="cell">
 									              {{note.message}}
+								              </div>
+								              <div class="cell" style="margin: 5px 0;" *ngIf="csa!=false">
+									              <button name="open_bb" class="btn btn-danger btn-xs" style="" *ngIf="!note.deleted"
+									                      (click)="deleteNote(note?.note_id); note.deleted = true;">
+										              <i class="fa fa-close"></i>&nbsp;Delete
+									              </button>
+									              <span *ngIf="note.deleted">Deleted</span>
 								              </div>
 							              </div>
 						              </div>

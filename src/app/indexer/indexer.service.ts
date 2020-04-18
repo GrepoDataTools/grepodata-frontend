@@ -71,6 +71,11 @@ export class IndexerService {
 		let url =  '/indexer/delete?csa='+csa+'&key='+key+'&id='+id;
 		return this.http.get(apiUrl + url);
 	}
+	deleteNoteById(csa, key, id) {
+		console.log('delete ', id);
+		let url =  '/indexer/delnote?csa='+csa+'&key='+key+'&note_id='+id;
+		return this.http.get(apiUrl + url);
+	}
 	deleteRecordUndo(csa, key, id) {
 		console.log('delete undo ', id);
 		let url =  '/indexer/undodelete?csa='+csa+'&key='+key+'&id='+id;

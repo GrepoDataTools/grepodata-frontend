@@ -1,0 +1,208 @@
+<div>
+
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<h1 class="gd-primary">Usage statistics</h1>
+				<br/>
+
+				<mat-progress-bar *ngIf="loading_index"></mat-progress-bar>
+			</div>
+
+			<div class="col-md-12 text-left" *ngIf="error">
+				<h2 class="gd-primary">Sorry, we are unable to load statistics at this moment.</h2>
+			</div>
+
+			<!--TOTAL-->
+			<div class="col-md-12 text-left" *ngIf="!loading_index && total_per_day.length > 0">
+
+				<h2 class="gd-primary">Number of new reports indexed (per day)</h2>
+
+				<div class="ngx-chart-container">
+					<ngx-charts-line-chart
+						[scheme]="colorScheme"
+						[results]="total_per_day"
+						[gradient]="gradient"
+						[xAxis]="showXAxis"
+						[yAxis]="showYAxis"
+						[legend]="showLegend"
+						[showXAxisLabel]="showXAxisLabel"
+						[showYAxisLabel]="showYAxisLabel"
+						[xAxisLabel]="xAxisLabel"
+						[yAxisLabel]="yAxisLabel"
+						[autoScale]="autoScale"
+						[timeline]="timeline"
+						(select)="onSelect($event)">
+					</ngx-charts-line-chart>
+				</div>
+			</div>
+
+			<!--Users-->
+			<div class="col-md-12 text-left" *ngIf="!loading_index && users_per_day.length > 0">
+
+				<h2 class="gd-primary">Number of unique users (per day)</h2>
+
+				<div class="ngx-chart-container">
+					<ngx-charts-line-chart
+						[scheme]="colorScheme"
+						[results]="users_per_day"
+						[gradient]="gradient"
+						[xAxis]="showXAxis"
+						[yAxis]="showYAxis"
+						[legend]="showLegend"
+						[showXAxisLabel]="showXAxisLabel"
+						[showYAxisLabel]="showYAxisLabel"
+						[xAxisLabel]="xAxisLabel"
+						[yAxisLabel]="yAxisLabel"
+						[autoScale]="autoScale"
+						[timeline]="timeline"
+						(select)="onSelect($event)">
+					</ngx-charts-line-chart>
+				</div>
+			</div>
+
+			<!--Indexes-->
+			<div class="col-md-12 text-left" *ngIf="!loading_index && indexes_per_day.length > 0">
+
+				<h2 class="gd-primary">Number of active indexes (per day)</h2>
+
+				<div class="ngx-chart-container">
+					<ngx-charts-line-chart
+						[scheme]="colorScheme"
+						[results]="indexes_per_day"
+						[gradient]="gradient"
+						[xAxis]="showXAxis"
+						[yAxis]="showYAxis"
+						[legend]="showLegend"
+						[showXAxisLabel]="showXAxisLabel"
+						[showYAxisLabel]="showYAxisLabel"
+						[xAxisLabel]="xAxisLabel"
+						[yAxisLabel]="yAxisLabel"
+						[autoScale]="autoScale"
+						[timeline]="timeline"
+						(select)="onSelect($event)">
+					</ngx-charts-line-chart>
+				</div>
+			</div>
+
+			<!--error rate-->
+			<div class="col-md-12 text-left" *ngIf="!loading_index && indexer_error_rate.length > 0">
+
+				<h2 class="gd-primary">Report parsing error rate (per day)</h2>
+
+				<div class="ngx-chart-container">
+					<ngx-charts-line-chart
+						[scheme]="{domain:['#f07057']}"
+						[results]="indexer_error_rate"
+						[gradient]="gradient"
+						[xAxis]="showXAxis"
+						[yAxis]="showYAxis"
+						[legend]="showLegend"
+						[showXAxisLabel]="showXAxisLabel"
+						[showYAxisLabel]="showYAxisLabel"
+						[xAxisLabel]="xAxisLabel"
+						[yAxisLabel]="yAxisLabel"
+						[autoScale]="autoScale"
+						[timeline]="timeline"
+						(select)="onSelect($event)">
+					</ngx-charts-line-chart>
+				</div>
+			</div>
+
+			<!--Reports total-->
+			<div class="col-md-12 text-left" *ngIf="!loading_index && total_reports.length > 0">
+
+				<h2 class="gd-primary">Active intelligence</h2>
+
+				<div class="ngx-chart-container">
+					<ngx-charts-line-chart
+						[scheme]="colorScheme"
+						[results]="total_reports"
+						[gradient]="gradient"
+						[xAxis]="showXAxis"
+						[yAxis]="showYAxis"
+						[legend]="showLegend"
+						[showXAxisLabel]="showXAxisLabel"
+						[showYAxisLabel]="showYAxisLabel"
+						[xAxisLabel]="xAxisLabel"
+						[yAxisLabel]="yAxisLabel"
+						[autoScale]="autoScale"
+						[timeline]="timeline"
+						(select)="onSelect($event)">
+					</ngx-charts-line-chart>
+				</div>
+			</div>
+
+			<!--Indexes total-->
+			<div class="col-md-12 text-left" *ngIf="!loading_index && total_indexes.length > 0">
+
+				<h2 class="gd-primary">Total number of indexes created (accumulative)</h2>
+
+				<div class="ngx-chart-container">
+					<ngx-charts-line-chart
+						[scheme]="colorScheme"
+						[results]="total_indexes"
+						[gradient]="gradient"
+						[xAxis]="showXAxis"
+						[yAxis]="showYAxis"
+						[legend]="showLegend"
+						[showXAxisLabel]="showXAxisLabel"
+						[showYAxisLabel]="showYAxisLabel"
+						[xAxisLabel]="xAxisLabel"
+						[yAxisLabel]="yAxisLabel"
+						[autoScale]="autoScale"
+						[timeline]="timeline"
+						(select)="onSelect($event)">
+					</ngx-charts-line-chart>
+				</div>
+			</div>
+
+			<!--TYPE-->
+			<div class="col-md-12 text-left" *ngIf="!loading_index && report_type_per_day.length > 0">
+
+				<h2 class="gd-primary">Report source types (per day)</h2>
+
+				<div class="ngx-chart-container">
+					<!--<ngx-charts-area-chart-stacked-->
+					<ngx-charts-area-chart-normalized
+						[scheme]="{domain:['#18bc9c', '#334254']}"
+						[legend]="showLegend"
+						[showXAxisLabel]="showXAxisLabel"
+						[showYAxisLabel]="showYAxisLabel"
+						[xAxis]="showXAxis"
+						[yAxis]="showYAxis"
+						[xAxisLabel]="xAxisLabel"
+						[yAxisLabel]="yAxisLabel"
+						[timeline]="timeline"
+						[results]="report_type_per_day"
+						(select)="onSelect($event)">
+					</ngx-charts-area-chart-normalized>
+				</div>
+			</div>
+
+			<!--STATS-->
+			<div class="col-md-12 text-left" *ngIf="!loading_index && index_types_agg.length > 0">
+
+				<h2 class="gd-primary">Report types (accumulative)</h2>
+
+				<div class="ngx-chart-container">
+					<ngx-charts-area-chart-stacked
+						[scheme]="colorScheme"
+						[legend]="showLegend"
+						[showXAxisLabel]="showXAxisLabel"
+						[showYAxisLabel]="showYAxisLabel"
+						[xAxis]="showXAxis"
+						[yAxis]="showYAxis"
+						[xAxisLabel]="xAxisLabel"
+						[yAxisLabel]="yAxisLabel"
+						[timeline]="timeline"
+						[results]="index_types_agg"
+						(select)="onSelect($event)">
+					</ngx-charts-area-chart-stacked>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>

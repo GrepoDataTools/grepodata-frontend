@@ -136,7 +136,12 @@
         <div class="container-fluid" *ngIf="stats != ''">
           <div class="col-xs-12 text-center">
 
-            <h1 style="font-family: Montserrat !important;" class="gd-primary">Currently in our database:</h1>
+            <h1 style="font-family: Montserrat !important;" class="gd-primary">
+	            Currently in our database:
+	            <button mat-button class="mat-raised-button bg-gd-2" style="vertical-align: bottom;" routerLink="/analytics">
+		            View detailed report&nbsp;<i class="fa fa-arrow-right"></i>
+	            </button>
+            </h1>
             <br/>
 
             <div class="container">

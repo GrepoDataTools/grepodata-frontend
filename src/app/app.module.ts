@@ -78,6 +78,7 @@ import { ForgotComponent } from './auth/forgot/forgot.component';
 import {ConquestDialog} from "./conquest/conquest.service";
 import {UnitModule} from "./advertorial/unit/unit.module";
 import { TableComponent } from './indexer/table/table.component';
+import { AnalyticsComponent } from './indexer/analytics/analytics.component';
 
 const appRoutes: Routes = [
   // { path: 'login', component: LoginComponent },
@@ -99,6 +100,7 @@ const appRoutes: Routes = [
   { path: 'privacy', component: PrivacyComponent },
   { path: 'changelog', component: ChangelogComponent },
   { path: 'compare/:type/:world', component: CompareComponent },
+  { path: 'analytics',  component: AnalyticsComponent },
   { path: 'indexer/player/:key/:world/:id',  component: IndexPlayerComponent },
   { path: 'indexer/alliance/:key/:world/:id',  component: IndexAllianceComponent },
   { path: 'indexer/town/:key/:world/:id',  component: IndexTownComponent },
@@ -183,6 +185,7 @@ export function jwtTokenGetter(): any {
     RegisterComponent,
     ForgotComponent,
     TableComponent,
+    AnalyticsComponent,
   ],
   imports: [
     BrowserModule,

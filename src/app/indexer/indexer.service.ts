@@ -96,4 +96,9 @@ export class IndexerService {
     return this.http.get(apiUrl + url);
   }
 
+  // stats
+  loadStatsIndexer() {
+    let url = '/analytics/indexer';
+    return this.http.get(apiUrl + url);
+  }
 }

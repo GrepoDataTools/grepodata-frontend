@@ -48,7 +48,8 @@ export class AnalyticsComponent implements OnInit {
   indexes_per_day = [];
   report_type_per_day = [];
   indexer_error_rate = [];
-
+  warning_rate = [];
+  script_version = [];
   total_indexes = [];
   total_reports = [];
   index_types_agg = [];
@@ -140,6 +141,22 @@ export class AnalyticsComponent implements OnInit {
       });
     }
 
+    if (data.indexer_generic_warning_rate) {
+      // Build chart data
+      let chart = [];
+      for(let i in data.indexer_generic_warning_rate.data) {
+        let record = data.indexer_generic_warning_rate.data[i];
+        chart.unshift({
+          'name' : new Date(record.date),
+          'value' : record.count,
+        });
+      }
+      this.warning_rate.push({
+        'name': 'Logger warnings',
+        'series': chart,
+      });
+    }
+
     if (data.indexer_num_inbox_per_day && data.indexer_num_forum_per_day) {
       // Build chart data
       let chartI = [];
@@ -218,6 +235,30 @@ export class AnalyticsComponent implements OnInit {
         'name': 'Support reports',
         'series': chartTypeDef,
       });
+    }
+
+    if (data.indexer_script_version) {
+      let series = {};
+      for(let i in data.indexer_script_version.data) {
+        let record = data.indexer_script_version.data[i];
+        let date = new Date(record.date);
+        for (let key in record) {
+          if (key != 'date') {
+            if (!(key in series)) {
+              series[key] = [];
+            }
+            series[key].push({'name': date, 'value': record[key]});
+          }
+        }
+      }
+      console.log(series);
+
+      for (let version in series) {
+        this.script_version.push({
+          'name': version,
+          'series': series[version],
+        });
+      }
     }
 
     this.loading_index = false

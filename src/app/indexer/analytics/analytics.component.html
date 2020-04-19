@@ -11,13 +11,33 @@
 			</div>
 
 			<div class="col-md-12 text-left" *ngIf="error">
-				<h2 class="gd-primary">Sorry, we are unable to load statistics at this moment.</h2>
+				<h2 class="gd-secondary">Sorry, we are unable to load statistics at this moment.</h2>
 			</div>
+
+
+			<!--<div class="col-md-12 text-center">-->
+				<!--<mat-tab-group mat-stretch-tabs>-->
+					<!--<mat-tab class="history-chart" style="padding: 20px 0; overflow: hidden !important;">-->
+						<!--<ng-template mat-tab-label>-->
+							<!--&lt;!&ndash;<mat-icon style="opacity: 1; vertical-align: bottom;">account_balance</mat-icon>&nbsp;&ndash;&gt;-->
+							<!--Daily-->
+						<!--</ng-template>-->
+						<!--<br/>-->
+					<!--</mat-tab>-->
+					<!--<mat-tab class="history-chart" style="padding: 20px 0; overflow: hidden !important;">-->
+						<!--<ng-template mat-tab-label>-->
+							<!--&lt;!&ndash;<mat-icon style="opacity: 1; vertical-align: bottom;">account_balance</mat-icon>&nbsp;&ndash;&gt;-->
+							<!--Hourly-->
+						<!--</ng-template>-->
+						<!--<br/>-->
+					<!--</mat-tab>-->
+				<!--</mat-tab-group>-->
+			<!--</div>-->
 
 			<!--TOTAL-->
 			<div class="col-md-12 text-left" *ngIf="!loading_index && total_per_day.length > 0">
 
-				<h2 class="gd-primary">Number of new reports indexed (per day)</h2>
+				<h2 class="gd-secondary">Number of new reports indexed (per day)</h2>
 
 				<div class="ngx-chart-container">
 					<ngx-charts-line-chart
@@ -41,7 +61,7 @@
 			<!--Users-->
 			<div class="col-md-12 text-left" *ngIf="!loading_index && users_per_day.length > 0">
 
-				<h2 class="gd-primary">Number of unique users (per day)</h2>
+				<h2 class="gd-secondary">Number of unique uploaders (per day)</h2>
 
 				<div class="ngx-chart-container">
 					<ngx-charts-line-chart
@@ -65,7 +85,7 @@
 			<!--Indexes-->
 			<div class="col-md-12 text-left" *ngIf="!loading_index && indexes_per_day.length > 0">
 
-				<h2 class="gd-primary">Number of active indexes (per day)</h2>
+				<h2 class="gd-secondary">Number of active indexes (per day)</h2>
 
 				<div class="ngx-chart-container">
 					<ngx-charts-line-chart
@@ -89,7 +109,7 @@
 			<!--error rate-->
 			<div class="col-md-12 text-left" *ngIf="!loading_index && indexer_error_rate.length > 0">
 
-				<h2 class="gd-primary">Report parsing error rate (per day)</h2>
+				<h2 class="gd-secondary">Report parsing error rate (per day)</h2>
 
 				<div class="ngx-chart-container">
 					<ngx-charts-line-chart
@@ -113,7 +133,7 @@
 			<!--Reports total-->
 			<div class="col-md-12 text-left" *ngIf="!loading_index && total_reports.length > 0">
 
-				<h2 class="gd-primary">Active intelligence</h2>
+				<h2 class="gd-secondary">Active intelligence</h2>
 
 				<div class="ngx-chart-container">
 					<ngx-charts-line-chart
@@ -137,7 +157,7 @@
 			<!--Indexes total-->
 			<div class="col-md-12 text-left" *ngIf="!loading_index && total_indexes.length > 0">
 
-				<h2 class="gd-primary">Total number of indexes created (accumulative)</h2>
+				<h2 class="gd-secondary">Total number of indexes created (accumulative)</h2>
 
 				<div class="ngx-chart-container">
 					<ngx-charts-line-chart
@@ -161,7 +181,7 @@
 			<!--TYPE-->
 			<div class="col-md-12 text-left" *ngIf="!loading_index && report_type_per_day.length > 0">
 
-				<h2 class="gd-primary">Report source types (per day)</h2>
+				<h2 class="gd-secondary">Report source types (per day)</h2>
 
 				<div class="ngx-chart-container">
 					<!--<ngx-charts-area-chart-stacked-->
@@ -184,7 +204,7 @@
 			<!--STATS-->
 			<div class="col-md-12 text-left" *ngIf="!loading_index && index_types_agg.length > 0">
 
-				<h2 class="gd-primary">Report types (accumulative)</h2>
+				<h2 class="gd-secondary">Report types (accumulative)</h2>
 
 				<div class="ngx-chart-container">
 					<ngx-charts-area-chart-stacked
@@ -200,6 +220,53 @@
 						[results]="index_types_agg"
 						(select)="onSelect($event)">
 					</ngx-charts-area-chart-stacked>
+				</div>
+			</div>
+
+			<!--VERSION-->
+			<div class="col-md-12 text-left" *ngIf="!loading_index && script_version.length > 0">
+
+				<h2 class="gd-secondary">Indexer version migration</h2>
+
+				<div class="ngx-chart-container">
+					<!--<ngx-charts-area-chart-stacked-->
+					<ngx-charts-area-chart-normalized
+						[scheme]="colorScheme"
+						[legend]="showLegend"
+						[showXAxisLabel]="showXAxisLabel"
+						[showYAxisLabel]="showYAxisLabel"
+						[xAxis]="showXAxis"
+						[yAxis]="showYAxis"
+						[xAxisLabel]="xAxisLabel"
+						[yAxisLabel]="yAxisLabel"
+						[timeline]="timeline"
+						[results]="script_version"
+						(select)="onSelect($event)">
+					</ngx-charts-area-chart-normalized>
+				</div>
+			</div>
+
+			<!--warning rate-->
+			<div class="col-md-12 text-left" *ngIf="!loading_index && warning_rate.length > 0">
+
+				<h2 class="gd-secondary">GrepoData logger warning rate (per day)</h2>
+
+				<div class="ngx-chart-container">
+					<ngx-charts-line-chart
+						[scheme]="{domain:['#d6be7b']}"
+						[results]="warning_rate"
+						[gradient]="gradient"
+						[xAxis]="showXAxis"
+						[yAxis]="showYAxis"
+						[legend]="showLegend"
+						[showXAxisLabel]="showXAxisLabel"
+						[showYAxisLabel]="showYAxisLabel"
+						[xAxisLabel]="xAxisLabel"
+						[yAxisLabel]="yAxisLabel"
+						[autoScale]="autoScale"
+						[timeline]="timeline"
+						(select)="onSelect($event)">
+					</ngx-charts-line-chart>
 				</div>
 			</div>
 

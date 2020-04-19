@@ -31,7 +31,8 @@
               <tbody>
 	              <tr>
 		              <th>World</th>
-		              <td><div class="bg-flag flag-inline flag-{{world.substr(0,2)}}"></div>&nbsp;<a style="vertical-align: super;" routerLink="/points/{{world}}">{{worldName}}&nbsp;({{world}})</a></td>
+		              <td><div class="bg-flag flag-inline flag-{{world.substr(0,2)}}"></div>&nbsp;
+			              <a style="vertical-align: super;" routerLink="/points" [queryParams]="{world: world}">{{worldName}}&nbsp;({{world}})</a></td>
 	              </tr>
 	              <tr>
 	                <th>Rank</th>
@@ -269,7 +270,7 @@
                       </div>
 
                       <div class="cell formatted-cell">
-                        <a routerLink="/player/{{world}}/{{c.player_grep_id}}">
+                        <a routerLink="/player" [queryParams]="{world: world, id: c.player_grep_id}">
                           <span class="diff-pos" *ngIf="c.new_alliance_grep_id==id">{{c.player_name}}</span>
                           <span class="diff-neg" *ngIf="c.old_alliance_grep_id==id">{{c.player_name}}</span>
                         </a>
@@ -370,10 +371,10 @@
 	                  <div class="row_custom" *ngFor="let m of allianceMembersData.members; let i = index;">
 		                  <div class="cell hidden-xs">{{i+1}}</div>
 	                    <div class="cell">{{m.rank}}</div>
-	                    <div class="cell formatted-cell sticky-cell"><a routerLink="/player/{{world}}/{{m.id}}">{{m.name}}</a></div>
+	                    <div class="cell formatted-cell sticky-cell"><a routerLink="/player" [queryParams]="{world: world, id: m.id}">{{m.name}}</a></div>
 	                    <div class="cell formatted-cell">{{m.points | NumberFilter}}</div>
 	                    <div *ngFor="let h of m.history.slice().reverse(); let i = index;" class="cell">
-	                      <a routerLink="/points/{{world}}/{{h.date}}">
+	                      <a routerLink="/points" [queryParams]="{world: world, date: h.date}">
 	                        <span [innerHTML]="h.points | DiffFilter"></span>
 	                      </a>
 	                    </div>
@@ -403,11 +404,11 @@
 	                  <div class="row_custom" *ngFor="let m of allianceMembersData.members; let i = index;">
 		                  <div class="cell hidden-xs">{{i+1}}</div>
 	                    <div class="cell">{{m.att_rank}}</div>
-	                    <div class="cell formatted-cell sticky-cell"><a routerLink="/player/{{world}}/{{m.id}}">{{m.name}}</a></div>
+	                    <div class="cell formatted-cell sticky-cell"><a routerLink="/player" [queryParams]="{world: world, id: m.id}">{{m.name}}</a></div>
 	                    <div class="cell">{{m.att | NumberFilter}}</div>
 	                    <div *ngFor="let date of allianceMembersData.dates; let i = index;" class="cell{{i<2 ? ' hidden-cell' : ''}}">
 	                      <span *ngFor="let h of m.history; let i = index;">
-	                        <a routerLink="/points/{{world}}/{{h.date}}">
+	                        <a routerLink="/points" [queryParams]="{world: world, date: h.date}">
 	                          <span *ngIf="h.date==date" [outerHTML]="h.att | DiffFilter"></span>
 	                        </a>
 	                      </span>
@@ -438,11 +439,11 @@
 	                  <div class="row_custom" *ngFor="let m of allianceMembersData.members; let i = index;">
 		                  <div class="cell hidden-xs">{{i+1}}</div>
 	                    <div class="cell">{{m.def_rank}}</div>
-	                    <div class="cell formatted-cell sticky-cell"><a routerLink="/player/{{world}}/{{m.id}}">{{m.name}}</a></div>
+	                    <div class="cell formatted-cell sticky-cell"><a routerLink="/player" [queryParams]="{world: world, id: m.id}">{{m.name}}</a></div>
 	                    <div class="cell">{{m.def | NumberFilter}}</div>
 	                    <div *ngFor="let date of allianceMembersData.dates; let i = index;"  class="cell{{i<2 ? ' hidden-cell' : ''}}">
 	                      <span *ngFor="let h of m.history; let i = index;">
-	                        <a routerLink="/points/{{world}}/{{h.date}}">
+	                        <a routerLink="/points" [queryParams]="{world: world, date: h.date}">
 	                          <span *ngIf="h.date==date" [outerHTML]="h.def | DiffFilter"></span>
 	                        </a>
 	                      </span>
@@ -473,11 +474,11 @@
 	                  <div class="row_custom" *ngFor="let m of allianceMembersData.members; let i = index;">
 	                    <div class="cell hidden-xs">{{i+1}}</div>
 	                    <div class="cell">{{m.rank}}</div>
-	                    <div class="cell formatted-cell sticky-cell"><a routerLink="/player/{{world}}/{{m.id}}">{{m.name}}</a></div>
+	                    <div class="cell formatted-cell sticky-cell"><a routerLink="/player" [queryParams]="{world: world, id: m.id}">{{m.name}}</a></div>
 	                    <div class="cell">{{m.towns}}</div>
 	                    <div *ngFor="let date of allianceMembersData.dates; let i = index;" class="cell{{i<2 ? ' hidden-cell' : ''}}">
 	                      <span *ngFor="let h of m.history; let i = index;">
-	                        <a routerLink="/points/{{world}}/{{h.date}}">
+	                        <a routerLink="/points" [queryParams]="{world: world, date: h.date}">
 	                          <span *ngIf="h.date==date" [outerHTML]="h.towns | DiffFilter"></span>
 	                        </a>
 	                      </span>

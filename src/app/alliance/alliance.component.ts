@@ -267,7 +267,7 @@ export class AllianceComponent implements AfterViewInit {
 	onPlayerClick($event) {
 		if (!this.loadingMembers && hasOwnProperty(this.allianceMembersData, 'members')) {
 			let player = this.allianceMembersData.members.filter(obj => obj.name === $event.name);
-			this.router.navigate(['/player/'+this.world+'/'+player[0].id]);
+			this.router.navigate(['/player'], { queryParams: { world: this.world, id: player[0].id} });
 			this.cdr.detectChanges();
 			setTimeout(_ => this.cdr.detectChanges(), 250);
 		}

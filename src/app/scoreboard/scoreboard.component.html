@@ -68,7 +68,7 @@
                 {{nextUpdate}}&nbsp;<i class="fa fa-history" aria-hidden="true"></i>
               </h4>
               <h4 *ngIf="!loadingPlayers && nextUpdate == ''" style='font-weight: 300; color: #304357;' class="hidden-xs">
-                <span class="label label-danger">You are viewing historic data</span> Go to <a class="a-link-dialog" routerLink="/points/{{world}}">today</a>
+                <span class="label label-danger">You are viewing historic data</span> Go to <a class="a-link-dialog" routerLink="/points" [queryParams]="{world: world}">today</a>
               </h4>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 text-right">
@@ -96,10 +96,10 @@
                 </div>
                 <div class="col-xs-12 noselect">
                   <mat-chip-list style="float: right;" [multiple]="true" [selectable]="true">
-                    <mat-chip class="btn-chip" (click)="prevDay()"><mat-icon matChipAvatar>chevron_left</mat-icon>Previous day</mat-chip>
-                    <mat-chip class="btn-chip" *ngIf="paramsDate != ''" (click)="nextDay()">Next day<mat-icon matChipRemove style="color: #fff; opacity: 1;">chevron_right</mat-icon></mat-chip>
-                    <mat-chip class="btn-chip" *ngIf="paramsDate != ''" (click)="today()">Today<mat-icon matChipRemove style="color: #fff; opacity: 1;">last_page</mat-icon></mat-chip>
-                    <mat-chip class="btn-chip" *ngIf="paramsDate == ''" (click)="refresh()">Refresh<mat-icon matChipRemove style="color: #fff; opacity: 1;">refresh</mat-icon></mat-chip>
+                    <mat-chip style="cursor: pointer" class="btn-chip" (click)="prevDay()"><mat-icon matChipAvatar>chevron_left</mat-icon>Previous day</mat-chip>
+                    <mat-chip style="cursor: pointer" class="btn-chip" *ngIf="paramsDate != ''" (click)="nextDay()">Next day<mat-icon matChipRemove style="color: #fff; opacity: 1;">chevron_right</mat-icon></mat-chip>
+                    <mat-chip style="cursor: pointer" class="btn-chip" *ngIf="paramsDate != ''" (click)="today()">Today<mat-icon matChipRemove style="color: #fff; opacity: 1;">last_page</mat-icon></mat-chip>
+                    <mat-chip style="cursor: pointer" class="btn-chip" *ngIf="paramsDate == ''" (click)="refresh()">Refresh<mat-icon matChipRemove style="color: #fff; opacity: 1;">refresh</mat-icon></mat-chip>
                   </mat-chip-list>
                 </div>
               </div>
@@ -173,7 +173,7 @@
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;">
-                    <a routerLink="/player/{{playerData.world}}/{{p.i}}">{{p.n}}</a>
+                    <a routerLink="/player" [queryParams]="{world: playerData.world, id: p.i}">{{p.n}}</a>
                   </div>
                   <div *ngIf="hasOverview && p.s > 0" class="cell score-expand hidden-xs" (click)="openPlayerOverview(p.i, p.n)">
                     {{p.s | NumberFilter}}
@@ -191,7 +191,7 @@
 	              <div *ngFor="let p of searchResults; let i = index;" class="row_custom search_result" [ngClass]="{'search_result_top':i==0}">
 		              <div class="cell hidden-xs">{{p.att_rank_scoreboard?p.att_rank_scoreboard:'>50'}}</div>
 		              <div class="cell formatted-cell">
-			              <a routerLink="/player/{{playerData.world}}/{{p.id}}">{{p.name}}</a>
+			              <a routerLink="/player" [queryParams]="{world: playerData.world, id: p.id}">{{p.name}}</a>
 		              </div>
 		              <div *ngIf="hasOverview && p.att - p.att_old > 0" class="cell score-expand hidden-xs" (click)="openPlayerOverview(p.id, p.name)">
 			              {{p.att - p.att_old | NumberFilter}}
@@ -257,7 +257,7 @@
                   <div class="cell hidden-xs" *ngIf="i==0">🏆</div>
                   <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
                   <div class="cell formatted-cell">
-                    <a routerLink="/player/{{playerData.world}}/{{p.i}}">{{p.n}}</a>
+                    <a routerLink="/player" [queryParams]="{world: playerData.world, id: p.i}">{{p.n}}</a>
                   </div>
                   <div *ngIf="hasOverview && p.s > 0" class="cell score-expand hidden-xs" (click)="openPlayerOverview(p.i, p.n)">
                     {{p.s | NumberFilter}}
@@ -275,7 +275,7 @@
 	              <div *ngFor="let p of searchResults; let i = index;" class="row_custom search_result" [ngClass]="{'search_result_top':i==0}">
 	                <div class="cell hidden-xs">{{p.def_rank_scoreboard?p.def_rank_scoreboard:'>50'}}</div>
                   <div class="cell formatted-cell">
-                    <a routerLink="/player/{{playerData.world}}/{{p.id}}">{{p.name}}</a>
+                    <a routerLink="/player" [queryParams]="{world: playerData.world, id: p.id}">{{p.name}}</a>
                   </div>
 		              <div *ngIf="hasOverview && p.def - p.def_old > 0" class="cell score-expand hidden-xs" (click)="openPlayerOverview(p.id, p.name)">
 			              {{p.def - p.def_old | NumberFilter}}
@@ -345,7 +345,7 @@
                   <div class="cell hidden-xs" *ngIf="i==0">🏆</div>
                   <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
                   <div class="cell formatted-cell">
-                    <a routerLink="/player/{{playerData.world}}/{{p.i}}">{{p.n}}</a>
+                    <a routerLink="/player" [queryParams]="{world: playerData.world, id: p.i}">{{p.n}}</a>
                   </div>
                   <div *ngIf="p.s > 0 && !mobile" class="cell score-expand" (click)="showConquests('player', p.i, p.n)">
 	                  {{p.s}}
@@ -392,7 +392,7 @@
                   <div class="cell hidden-xs" *ngIf="i==0">🚫</div>
                   <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
                   <div class="cell formatted-cell">
-                    <a routerLink="/player/{{playerData.world}}/{{p.i}}">{{p.n}}</a>
+                    <a routerLink="/player" [queryParams]="{world: playerData.world, id: p.i}">{{p.n}}</a>
                   </div>
 	                <div *ngIf="p.s > 0 && !mobile" class="cell score-expand" (click)="showConquests('player', p.i, p.n)">
 		                -{{p.s}}
@@ -588,10 +588,10 @@
 		              <div class="map-controls">
 			              <div class="static-controls">
 				              <mat-chip-list style="" [multiple]="true" [selectable]="true">
-					              <mat-chip *ngIf="!animated" class="btn-chip" (click)="mapZoom($event, +1)">Zoom in<mat-icon matChipRemove style="color: #fff; opacity: 1;">add_circle_outline</mat-icon></mat-chip>
-					              <mat-chip *ngIf="!animated && currentZoom>0" class="btn-chip" (click)="mapZoom($event, -1)">Zoom out<mat-icon matChipRemove style="color: #fff; opacity: 1;">zoom_out_map</mat-icon></mat-chip>
-					              <mat-chip *ngIf="!animated" class="btn-chip" (click)="animate(true)">Animate map history<mat-icon matChipRemove style="color: #fff; opacity: 1;">play_circle_outline</mat-icon></mat-chip>
-					              <mat-chip *ngIf="animated" class="btn-chip" (click)="animate(false)">Stop animation<mat-icon matChipRemove style="color: #fff; opacity: 1;">pause_circle_outline</mat-icon></mat-chip>
+					              <mat-chip style="cursor: pointer" *ngIf="!animated" class="btn-chip" (click)="mapZoom($event, +1)">Zoom in<mat-icon matChipRemove style="color: #fff; opacity: 1;">add_circle_outline</mat-icon></mat-chip>
+					              <mat-chip style="cursor: pointer" *ngIf="!animated && currentZoom>0" class="btn-chip" (click)="mapZoom($event, -1)">Zoom out<mat-icon matChipRemove style="color: #fff; opacity: 1;">zoom_out_map</mat-icon></mat-chip>
+					              <mat-chip style="cursor: pointer" *ngIf="!animated" class="btn-chip" (click)="animate(true)">Animate map history<mat-icon matChipRemove style="color: #fff; opacity: 1;">play_circle_outline</mat-icon></mat-chip>
+					              <mat-chip style="cursor: pointer" *ngIf="animated" class="btn-chip" (click)="animate(false)">Stop animation<mat-icon matChipRemove style="color: #fff; opacity: 1;">pause_circle_outline</mat-icon></mat-chip>
 				              </mat-chip-list>
 			              </div>
 		              </div>
@@ -630,7 +630,7 @@
 
 	                  <div class="row_custom" *ngFor="let p of allianceChangesData; let i = index;">
 	                    <div class="cell formatted-cell">
-	                      <a routerLink="/player/{{p.world}}/{{p.player_grep_id}}">{{p.player_name}}</a>
+	                      <a routerLink="/player" [queryParams]="{world: p.world, id: p.player_grep_id}">{{p.player_name}}</a>
 	                      <br/>
 	                      <!--{{p.player_points | NumberFilter}} points - -->
 	                      rank {{p.player_rank}}

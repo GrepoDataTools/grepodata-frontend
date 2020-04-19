@@ -152,10 +152,10 @@
 
 					              <div *ngFor="let player of players" class="row_custom">
 						              <div class="cell custom-cell">
-							              <a routerLink="/player/{{player?.world}}/{{player?.id}}" (click)="hide_results = true; cdr.detectChanges();">{{player?.name}}</a>
+							              <a routerLink="/player" [queryParams]="{world: player?.world, id: player?.id}" (click)="hide_results = true; cdr.detectChanges();">{{player?.name}}</a>
 						              </div>
 						              <div class="cell">
-							              <div class="bg-flag flag-inline-middle flag-{{player?.server}}"></div>&nbsp;<a routerLink="/points/{{player?.world}}">{{player?.world}}</a>
+							              <div class="bg-flag flag-inline-middle flag-{{player?.server}}"></div>&nbsp;<a routerLink="/points" [queryParams]="{world: player?.world}">{{player?.world}}</a>
 						              </div>
 						              <div class="cell">
 							              <a routerLink="/alliance/{{player?.world}}/{{player?.alliance_id}}" (click)="hide_results = true; cdr.detectChanges();">{{player?.alliance_name}}</a>
@@ -174,7 +174,7 @@
 								              <button style="width: 48%; margin-right: 4%;" name="add_compare" class="btn btn-success btn-xs" (click)="compareService.addPlayer(player?.id, player?.name, player?.world)">
 									              <i class="fa fa-plus"></i>&nbsp;<span class="hidden-xs">Compare</span><span class="hidden-sm hidden-md hidden-lg">Compare</span>
 								              </button>
-								              <button style="width: 48%;" name="add_compare" class="btn btn-info btn-xs" routerLink="/player/{{player?.world}}/{{player?.id}}">
+								              <button style="width: 48%;" name="add_compare" class="btn btn-info btn-xs" routerLink="/player" [queryParams]="{world: player?.world, id: player?.id}">
 									              <i class="fa fa-arrow-circle-right"></i>&nbsp;View
 								              </button>
 							              </div>
@@ -229,7 +229,7 @@
                     <a routerLink="/alliance/{{alliance?.world}}/{{alliance?.id}}" (click)="hide_results = true; cdr.detectChanges();">{{alliance?.name}}</a>
                   </div>
                   <div class="cell">
-	                  <div class="bg-flag flag-inline-middle flag-{{alliance?.server}}"></div>&nbsp;<a routerLink="/points/{{alliance?.world}}">{{alliance?.world}}</a>
+	                  <div class="bg-flag flag-inline-middle flag-{{alliance?.server}}"></div>&nbsp;<a routerLink="/points" [queryParams]="{world: player?.world}">{{alliance?.world}}</a>
                   </div>
                   <div class="cell hidden-sm">
                     {{alliance?.members}}
@@ -280,13 +280,13 @@
 		          <div class="table" *ngIf="players?.length > 0 && !loading && searching_players">
 			          <div *ngFor="let player of players" class="row_custom">
 				          <div class="cell custom-cell">
-					          <a routerLink="/player/{{player?.world}}/{{player?.id}}" (click)="hide_results = true; cdr.detectChanges();">{{player?.name}}</a>
+					          <a routerLink="/player" [queryParams]="{world: player?.world, id: player?.id}" (click)="hide_results = true; cdr.detectChanges();">{{player?.name}}</a>
 				          </div>
 				          <div class="cell">
 					          {{player?.points | NumberFilter}}
 				          </div>
 				          <div class="cell">
-					          <div class="bg-flag flag-inline-middle flag-{{player?.server}}"></div>&nbsp;<a routerLink="/points/{{player?.world}}">{{player?.world}}</a>
+					          <div class="bg-flag flag-inline-middle flag-{{player?.server}}"></div>&nbsp;<a routerLink="/points" [queryParams]="{world: player?.world}">{{player?.world}}</a>
 				          </div>
 			          </div>
 		          </div>
@@ -300,7 +300,7 @@
 					          {{alliance?.points | NumberFilter}}
 				          </div>
 				          <div class="cell">
-					          <div class="bg-flag flag-inline-middle flag-{{alliance?.server}}"></div>&nbsp;<a routerLink="/points/{{alliance?.world}}">{{alliance?.world}}</a>
+					          <div class="bg-flag flag-inline-middle flag-{{alliance?.server}}"></div>&nbsp;<a routerLink="/points" [queryParams]="{world: player?.world}">{{alliance?.world}}</a>
 				          </div>
 			          </div>
 		          </div>

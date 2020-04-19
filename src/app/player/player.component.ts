@@ -150,13 +150,21 @@ export class PlayerComponent implements OnInit {
     }
 
     this.route.queryParams.subscribe( params => {
-      if (params.world != undefined && params.id != undefined) this.router.navigate(['/player/'+params.world+'/'+params.id]);
+      if (params.world != undefined && params.id != undefined) {
+        this.load(params);
+      }
     });
 
-    this.route.params.subscribe( params => this.load(params));
+    this.route.params.subscribe( params => {
+      if (params.world != undefined && params.id != undefined) {
+        this.router.navigate(['/player'], { queryParams: { world: params.world, id: params.id} });
+      }
+    });
   }
 
   private load(params) {
+    console.log("loading with params: ", params);
+
     // Save params
     this.world = params['world'];
     this.worldService.getWorldInfo(this.world).then((response) => {

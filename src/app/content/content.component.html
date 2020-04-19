@@ -53,7 +53,7 @@
                 </div>
               </div>
               <div class="hidden-xs col-md-6 lib-img-container">
-                <a routerLink="/points/{{world}}" routerLinkActive>
+                <a routerLink="/points" [queryParams]="{world: world}" routerLinkActive>
                   <img class="lib-img" src="../../assets/images/scoreboard.png" alt="Grepolis daily scoreboard">
                 </a>
               </div>

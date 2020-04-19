@@ -20,13 +20,13 @@
           Index: <span class='world-title'><a class="a-link-dialog" style="color: #334254 !important;" routerLink="/indexer/{{key}}">{{key}}</a></span>
         </span>
         <span class="index-title">
-          World: <span class='world-title gd-secondary' *ngIf="world"><div class="bg-flag flag-inline-title flag-{{world.substr(0,2)}}"></div>&nbsp;<a class="a-link-dialog" style="color: #334254 !important;" routerLink="/points/{{world}}">{{worldName}}&nbsp;({{world}})</a></span>
+          World: <span class='world-title gd-secondary' *ngIf="world"><div class="bg-flag flag-inline-title flag-{{world.substr(0,2)}}"></div>&nbsp;<a class="a-link-dialog" style="color: #334254 !important;" routerLink="/points" [queryParams]="{world: world}">{{worldName}}&nbsp;({{world}})</a></span>
         </span>
         <span class="index-title" *ngIf="allianceId != 0">
           Alliance: <span class='world-title gd-secondary'><a class="a-link-dialog" style="color: #334254 !important;" routerLink="/indexer/alliance/{{key}}/{{world}}/{{allianceId}}">{{allianceName}}</a></span>
         </span>
         <span class="index-title">
-          Stats: <span class='world-title gd-secondary'><a class="a-link-dialog" style="color: #334254 !important;" routerLink="/player/{{world}}/{{id}}">View player statistics</a></span>
+          Stats: <span class='world-title gd-secondary'><a class="a-link-dialog" style="color: #334254 !important;" routerLink="/player" [queryParams]="{world: world, id: id}">View player statistics</a></span>
         </span>
       </h3>
 

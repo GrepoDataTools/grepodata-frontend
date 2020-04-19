@@ -32,7 +32,7 @@
                 <tr>
                   <th>World</th>
                   <td style="padding-bottom: 0;">
-	                  <div class="bg-flag flag-inline flag-{{world.substr(0,2)}}"></div>&nbsp;<a style="vertical-align: text-bottom;" class="decorated" routerLink="/points/{{world}}">{{worldName}}&nbsp;({{world}})</a>
+	                  <div class="bg-flag flag-inline flag-{{world.substr(0,2)}}"></div>&nbsp;<a style="vertical-align: text-bottom;" class="decorated" routerLink="/points" [queryParams]="{world: world}">{{worldName}}&nbsp;({{world}})</a>
 	                  <div class="hidden-xs" style="float: right; margin-top: -3px;">
 		                  <mat-chip [selected]="true" (click)="searchOtherWorlds()" matTooltip="Search other worlds for this player"><i class="fa fa-search"></i></mat-chip>
 	                  </div>
@@ -120,7 +120,7 @@
                     <table class="table table-no-more">
                       <tbody>
                       <tr *ngFor="let p of comparedPlayers; let i = index;">
-                        <th><a routerLink="/player/{{world}}/{{p.id}}">{{p.name}}</a></th>
+                        <th><a routerLink="/player" [queryParams]="{world: world, id: p.id}">{{p.name}}</a></th>
                         <td>
                           <i class="fa fa-trash" (click)="removeFromCompare(p.id, world)"></i>
                         </td>
@@ -396,31 +396,31 @@
                   </div>
                   <div class="cell">
                     {{ h.points | NumberFilter }}
-                    <a *ngIf="i+1<playerHistoryData.length && i < 90" routerLink="/points/{{world}}/{{h.date}}">
+                    <a *ngIf="i+1<playerHistoryData.length && i < 90" routerLink="/points" [queryParams]="{world: world, date: h.date}">
                       <span [outerHTML]="h.points - playerHistoryData[i+1].points | DiffFilterNonZero"></span>
                     </a>
                   </div>
                   <div class="cell">
                     {{ h.att | NumberFilter }}
-                    <a *ngIf="i+1<playerHistoryData.length && i < 90" routerLink="/points/{{world}}/{{h.date}}">
+                    <a *ngIf="i+1<playerHistoryData.length && i < 90" routerLink="/points" [queryParams]="{world: world, date: h.date}">
                       <span [outerHTML]="h.att - playerHistoryData[i+1].att | DiffFilterNonZero"></span>
                     </a>
                   </div>
                   <div class="cell">
                     {{ h.def | NumberFilter }}
-                    <a *ngIf="i+1<playerHistoryData.length && i < 90" routerLink="/points/{{world}}/{{h.date}}">
+                    <a *ngIf="i+1<playerHistoryData.length && i < 90" routerLink="/points" [queryParams]="{world: world, date: h.date}">
                       <span [outerHTML]="h.def - playerHistoryData[i+1].def | DiffFilterNonZero"></span>
                     </a>
                   </div>
                   <div class="cell hidden-xs hidden-sm">
                     {{ h.rank | NumberFilter }}
-                    <a *ngIf="i+1<playerHistoryData.length && i < 90" routerLink="/points/{{world}}/{{h.date}}">
+                    <a *ngIf="i+1<playerHistoryData.length && i < 90" routerLink="/points" [queryParams]="{world: world, date: h.date}">
                       <span [outerHTML]="playerHistoryData[i+1].rank - h.rank | DiffFilterNonZero"></span>
                     </a>
                   </div>
                   <div class="cell hidden-xs hidden-sm">
                     {{ h.towns | NumberFilter }}
-                    <a *ngIf="i+1<playerHistoryData.length && i < 90" routerLink="/points/{{world}}/{{h.date}}">
+                    <a *ngIf="i+1<playerHistoryData.length && i < 90" routerLink="/points" [queryParams]="{world: world, date: h.date}">
                       <span [outerHTML]="h.towns - playerHistoryData[i+1].towns | DiffFilterNonZero"></span>
                     </a>
                   </div>

@@ -12,7 +12,7 @@
         <span *ngIf="type=='town'" class="gd-secondary">{{name}}</span>
       </h1>
       <h3>
-        World: <span class='world-title gd-secondary'><div class="bg-flag flag-inline-title flag-{{world.substr(0,2)}}"></div>&nbsp;<a class="a-link-dialog" style="color: #334254 !important;" routerLink="/points/{{world}}">{{world}}</a></span>
+        World: <span class='world-title gd-secondary'><div class="bg-flag flag-inline-title flag-{{world.substr(0,2)}}"></div>&nbsp;<a class="a-link-dialog" style="color: #334254 !important;" routerLink="/points" [queryParams]="{world: world}">{{world}}</a></span>
       </h3>
     </div>
     <app-search></app-search>
@@ -70,7 +70,7 @@
 
                 <div class="row_custom" *ngFor="let p of data; let i = index;">
                   <div class="cell formatted-cell">
-                    <a routerLink="/player/{{world}}/{{p.player_grep_id}}">{{p.player_name}}</a>
+                    <a routerLink="/player" [queryParams]="{world: world, id: p.player_grep_id}">{{p.player_name}}</a>
                     <br/>
                     {{p.player_points | NumberFilter}} points - rank {{p.player_rank}}
                   </div>

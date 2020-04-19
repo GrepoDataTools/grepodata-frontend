@@ -515,7 +515,7 @@
 	                <tbody>
 	                <tr>
 	                  <th>World</th>
-	                  <td><div class="bg-flag flag-inline flag-{{world.substr(0,2)}}"></div>&nbsp;<a class="decorated" routerLink="/points/{{world}}">{{world}}</a></td>
+	                  <td><div class="bg-flag flag-inline flag-{{world.substr(0,2)}}"></div>&nbsp;<a class="decorated" routerLink="/points" [queryParams]="{world: world}">{{world}}</a></td>
 	                </tr>
 	                <tr>
 		                <th>Index code</th>
@@ -676,7 +676,7 @@
 					            <a routerLink="/indexer/player/{{key}}/{{world}}/{{player?.player_id}}">intel</a>
 					            <span class="hidden-xs">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
 					            <br class="hidden-sm hidden-md hidden-lg"/>
-					            <a routerLink="/player/{{world}}/{{player?.player_id}}">stats</a>
+					            <a routerLink="/player" [queryParams]="{world: world, id: player?.player_id}">stats</a>
 				            </div>
 			            </div>
 		            </div>

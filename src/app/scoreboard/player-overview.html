@@ -4,7 +4,7 @@
     <!--<h1 class="mat-primary" style="text-align: center; color: #18BC9C; margin-top: 0px;" mat-dialog-title>Points gained by <a routerLink="/player/{{world}}/{{player_id}}">{{player_name}}</a> on {{date}}</h1>-->
 
 		<div class="text-center" style="width: 100%;">
-			<h2 mat-dialog-title>Points gained by <a routerLink="/player/{{world}}/{{player_id}}"><img src="../../assets/images/player_ico.png" style="height: 28px; margin-top: -5px;"/> {{player_name}}</a> on <span class="gd-primary">{{date}}</span></h2>
+			<h2 mat-dialog-title>Points gained by <a routerLink="/player" [queryParams]="{world: world, id: player_id}"><img src="../../assets/images/player_ico.png" style="height: 28px; margin-top: -5px;"/> {{player_name}}</a> on <span class="gd-primary">{{date}}</span></h2>
 		</div>
 
     <mat-progress-bar *ngIf="loading" mode="indeterminate" style="margin: 25px 0px;"></mat-progress-bar>

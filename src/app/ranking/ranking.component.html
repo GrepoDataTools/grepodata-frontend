@@ -132,7 +132,7 @@
 	                <span *ngIf="i>=3||fromResult!=0||sort_order=='asc'||sort_field=='Rank'">{{i+fromResult+1}}</span>
                 </div>
                 <div *ngIf="type=='player'" class="cell">
-                  <a routerLink="/player/{{result?.world}}/{{result?.id}}">{{result?.name}}</a>
+                  <a routerLink="/player" [queryParams]="{world: result?.world, id: result?.id}">{{result?.name}}</a>
                 </div>
                 <div class="cell">
                   <a *ngIf="type=='player'" routerLink="/alliance/{{result?.world}}/{{result?.alliance_id}}">{{result?.alliance_name}}</a>

@@ -45,7 +45,7 @@
 										</a>
 									</div>
 									<div class="cell">
-										<a routerLink="/points/{{index.world}}">
+										<a routerLink="/points" [queryParams]="{world: index.world}">
 											{{index.world}}
 										</a>
 									</div>

@@ -55,7 +55,7 @@ export class ContentComponent implements OnInit {
   }
 
   loadScoreboard() {
-    this.router.navigate(['/points/'+this.world]);
+    this.router.navigate(['/points'], { queryParams: { world: this.world} });
   }
 
   loadRanking() {

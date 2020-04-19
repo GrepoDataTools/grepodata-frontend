@@ -12,7 +12,7 @@
         <span *ngIf="type=='town'" class="gd-secondary">{{name}}</span>
       </h1>
       <h3>
-        World: <span class='world-title gd-secondary'><div class="bg-flag flag-inline-title flag-{{world.substr(0,2)}}"></div>&nbsp;<a class="a-link-dialog" style="color: #334254 !important;" routerLink="/points/{{world}}">{{world}}</a></span>
+        World: <span class='world-title gd-secondary'><div class="bg-flag flag-inline-title flag-{{world.substr(0,2)}}"></div>&nbsp;<a class="a-link-dialog" style="color: #334254 !important;" routerLink="/points" [queryParams]="{world: world}">{{world}}</a></span>
       </h3>
     </div>
     <app-search></app-search>
@@ -179,7 +179,7 @@
 						Ghost city
 					</div>
 					<div class="cell formatted-cell" *ngIf="c.o_p_id != 0">
-						<a class="player-hover" routerLink="/player/{{world}}/{{c.o_p_id}}" (click)="linkScrollTop()">
+						<a class="player-hover" routerLink="/player" [queryParams]="{world: world, id: c.o_p_id}" (click)="linkScrollTop()">
 							<span *ngIf="c.o_p_name == null" class="diff-null">Unknown</span>
 							<span *ngIf="c.o_p_name != null"
 							      ngClass="{{(type=='town'?(c.type == 'internal'?'diff-neutral':'diff-neg'):'')}}">
@@ -197,7 +197,7 @@
 					</div>
 
 					<div class="cell formatted-cell">
-						<a class="player-hover" routerLink="/player/{{world}}/{{c.n_p_id}}" ngClass="{{(type=='town'?(c.type == 'internal'?'diff-neutral':'diff-pos'):'')}}" (click)="linkScrollTop()">
+						<a class="player-hover" routerLink="/player" [queryParams]="{world: world, id: c.n_p_id}" ngClass="{{(type=='town'?(c.type == 'internal'?'diff-neutral':'diff-pos'):'')}}" (click)="linkScrollTop()">
 							<span>{{c.n_p_name}}</span>
 						</a>
 						<div *ngIf="embedded" style="transform: scale(.7);">

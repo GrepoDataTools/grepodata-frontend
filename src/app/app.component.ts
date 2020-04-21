@@ -53,6 +53,7 @@ export class AppComponent {
 
       // Analytics
       try {
+        console.log("pageview: ", evt.urlAfterRedirects);
         ga('set', 'page', evt.urlAfterRedirects);
         ga('send', 'pageview');
       } catch (e) {}

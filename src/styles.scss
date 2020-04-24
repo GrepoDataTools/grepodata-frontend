@@ -27,6 +27,10 @@ pre {
   min-width: 60vw !important;
 }
 
+.cdk-overlay-container {
+  z-index: 100000 !important;
+}
+
 .diff-null {
   color: #9c9c9c !important;
 }

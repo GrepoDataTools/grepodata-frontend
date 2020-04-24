@@ -76,7 +76,7 @@
                   </div>
                   <div class="cell formatted-cell">
                     <span *ngIf="p.old_alliance_grep_id != 0">
-                      <a routerLink="/alliance/{{world}}/{{p.old_alliance_grep_id}}">{{p.old_alliance_name}}</a>
+                      <a routerLink="/alliance" [queryParams]="{world: world, id: p.old_alliance_grep_id}">{{p.old_alliance_name}}</a>
                       <br/>
                       rank {{p.old_alliance_rank}}
                     </span>
@@ -89,7 +89,7 @@
                   </div>
                   <div class="cell formatted-cell">
                     <span *ngIf="p.new_alliance_grep_id != 0">
-                      <a routerLink="/alliance/{{world}}/{{p.new_alliance_grep_id}}">{{p.new_alliance_name}}</a>
+                      <a routerLink="/alliance" [queryParams]="{world: world, id: p.new_alliance_grep_id}">{{p.new_alliance_name}}</a>
                       <br/>
                       rank {{p.new_alliance_rank}}
                     </span>

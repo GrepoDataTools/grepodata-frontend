@@ -1,40 +1,89 @@
 <div style="font-size: 18px; min-width: 40vw; max-width: 90vw; min-height: 40vh; max-height: 80vh;">
   <!--height: calc(100% - 20px);-->
   <a (click)="dialogRef.close()" class="close"></a>
-  <h1 class="mat-primary" style="text-align: center; color: #18BC9C; margin-top: 0px;" mat-dialog-title>{{name}}'s towns</h1>
+  <h1 class="mat-primary" style="text-align: center; color: #18BC9C; margin-top: 0px;">{{name}}'s towns</h1>
 
   <mat-progress-bar *ngIf="loading" mode="indeterminate" style="margin: 25px 0px;"></mat-progress-bar>
 
-  <div mat-dialog-content *ngIf="!loading" style="overflow-y: auto; height: 70%;">
+  <div style="">
 
-    <div class="table" id="town_table">
-      <div class="row_custom header default">
-        <div class="cell">#</div>
-        <div class="cell">Name</div>
-        <div class="cell">Points</div>
-      </div>
+	  <mat-tab-group mat-stretch-tabs *ngIf="!loading">
+		  <mat-tab>
+			  <ng-template mat-tab-label>
+				  <mat-icon style="opacity: 1; vertical-align: bottom;">list</mat-icon>&nbsp;Town list
+			  </ng-template>
 
-      <!--History-->
-      <div class="row_custom" *ngFor="let h of townData; let i = index;">
-        <div class="cell">
-          {{i+1}}
-        </div>
-        <div class="cell">
-          <a routerLink="/conquest/town/{{world}}/{{h.grep_id}}" (click)="dialogRef.close()">{{h.name}}</a>
-        </div>
-        <div class="cell">
-          {{h.points | NumberFilter}}
-        </div>
-      </div>
-    </div>
-  </div>
+			  <div style="max-height: 70vh; overflow: auto;">
+				  <div class="table" id="town_table">
+					  <div class="row_custom header default">
+						  <div class="cell">#</div>
+						  <div class="cell">Name</div>
+						  <div class="cell">Ocean</div>
+						  <div class="cell">Points</div>
+					  </div>
 
-  <div mat-dialog-actions>
-    <br/>
-    <button mat-button class="mat-raised-button mat-primary" (click)="dialogRef.close()">
-      Close
-    </button>
-  </div>
+					  <!--History-->
+					  <div class="row_custom" *ngFor="let town of townData; let i = index;">
+						  <div class="cell">
+							  {{i+1}}
+						  </div>
+						  <div class="cell">
+							  <a routerLink="/conquest/town/{{world}}/{{town.grep_id}}" (click)="dialogRef.close()">{{town.name}}</a>
+						  </div>
+						  <div class="cell">
+							  {{town.ocean}}
+						  </div>
+						  <div class="cell">
+							  {{town.points | NumberFilter}}
+						  </div>
+					  </div>
+				  </div>
+			  </div>
+		  </mat-tab>
+		  <mat-tab>
+			  <ng-template mat-tab-label>
+				  <mat-icon style="opacity: 1; vertical-align: bottom;">code</mat-icon>&nbsp;BB code
+			  </ng-template>
 
+			  <div style="font-size: 18px;">
+				  <div>
+
+					  <div class="container-fluid" style="padding: 0px;">
+						  <button class="btn btn-success" style="margin-bottom: 5px; width: 100%;" (click)="copyBB()">
+							  <i class="fa fa-clipboard" aria-hidden="true"></i>&nbsp;<span *ngIf="!copied">copy to clipboard</span><span *ngIf="copied">Copied to clipboard!</span>
+						  </button>
+					  </div>
+
+					  <pre id="bb_code" style="min-width: unset !important; max-height: 70vh !important;">[quote]
+ [table]
+  [**]#[||]Name[||]Ocean[||]Points[/**]<span *ngFor="let town of townData; let i = index;">
+  [*]{{i+1}}[|][town]{{town.grep_id}}[/town][|]{{town.ocean}}[|]{{town.points}}[/*]</span>
+ [/table]
+[i]This table was generated on [b]{{generated_at}}[/b].
+[url=https://grepodata.com/player?world={{world}}&id={{player_id}}]View on grepodata.com[/url][/i]
+
+[/quote]</pre>
+
+				  </div>
+
+			  </div>
+		  </mat-tab>
+	  </mat-tab-group>
+
+
+
+	</div>
+
+	<div *ngIf="!loading" style="margin-top: 15px;">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-3 col-xs-offset-9">
+					<button mat-button class="mat-raised-button mat-primary" style="width: 100%;" (click)="dialogRef.close()">
+						Close
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 </div>

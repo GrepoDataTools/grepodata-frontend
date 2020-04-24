@@ -70,7 +70,7 @@
                   </mat-icon>
                 </div>
                 <div class="compare-entity-info">
-                  <a routerLink="/alliance/{{w.id}}/{{p.id}}">{{p.name}}</a>
+                  <a routerLink="/alliance" [queryParams]="{world: w.id, id: p.id}">{{p.name}}</a>
                 </div>
               </div>
 
@@ -163,7 +163,7 @@
                           </mat-icon>
                         </div>
                         <div class="compare-entity-info">
-                          <a routerLink="/alliance/{{w.id}}/{{p.id}}">{{p.name}}</a>
+                          <a routerLink="/alliance" [queryParams]="{world: w.id, id: p.id}">{{p.name}}</a>
                         </div>
                       </div>
 
@@ -209,7 +209,7 @@
                     <tr>
                       <th>Alliance</th>
                       <td *ngFor="let i of infoData;">
-                        <a *ngIf="i.alliance_id != 0 && i.alliance_name != ''" routerLink="/alliance/{{i.world}}/{{i.alliance_id}}">{{i.alliance_name}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a>
+                        <a *ngIf="i.alliance_id != 0 && i.alliance_name != ''" routerLink="/alliance" [queryParams]="{world: i.world, id: i.alliance_id}">{{i.alliance_name}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a>
                       </td>
                     </tr>
                     <tr>
@@ -221,7 +221,7 @@
                     <tr>
                       <th>Rank</th>
                       <td *ngFor="let i of infoData;">
-                        <a routerLink="/ranking/player/{{i.world}}">{{i.rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a>
+                        <a routerLink="/ranking/player/{{i.world}}/points/{{i.rank}}/{{i.grep_id}}">{{i.rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a>
                       </td>
                     </tr>
                     <tr>
@@ -259,7 +259,7 @@
                     <tr>
                       <th>Name</th>
                       <td *ngFor="let i of infoData;">
-                        <a routerLink="/alliance/{{i.world}}/{{i.grep_id}}">{{i.name}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a>
+                        <a routerLink="/alliance" [queryParams]="{world: i.world, id: i.grep_id}">{{i.name}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a>
                       </td>
                     </tr>
                     <tr>
@@ -271,7 +271,7 @@
                     <tr>
                       <th>Rank</th>
                       <td *ngFor="let i of infoData;">
-                        <a routerLink="/ranking/alliance/{{i.world}}">{{i.rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a>
+                        <a routerLink="/ranking/player/{{i.world}}/points/{{i.rank}}/{{i.grep_id}}">{{i.rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a>
                       </td>
                     </tr>
                     <tr>

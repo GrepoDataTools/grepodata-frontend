@@ -29,7 +29,7 @@
           Rank: <span class='world-title gd-secondary'>{{rank}}</span>
         </span>
         <span class="index-title">
-          Stats: <span class='world-title gd-secondary'><a class="a-link-dialog" style="color: #334254 !important;" routerLink="/alliance/{{world}}/{{id}}">View alliance statistics</a></span>
+          Stats: <span class='world-title gd-secondary'><a class="a-link-dialog" style="color: #334254 !important;" routerLink="/alliance" [queryParams]="{world: world, id: id}">View alliance statistics</a></span>
         </span>
       </h3>
     </mat-card-title>

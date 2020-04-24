@@ -158,7 +158,7 @@
 							              <div class="bg-flag flag-inline-middle flag-{{player?.server}}"></div>&nbsp;<a routerLink="/points" [queryParams]="{world: player?.world}">{{player?.world}}</a>
 						              </div>
 						              <div class="cell">
-							              <a routerLink="/alliance/{{player?.world}}/{{player?.alliance_id}}" (click)="hide_results = true; cdr.detectChanges();">{{player?.alliance_name}}</a>
+							              <a routerLink="/alliance" [queryParams]="{world: player?.world, id: player?.alliance_id}" (click)="hide_results = true; cdr.detectChanges();">{{player?.alliance_name}}</a>
 						              </div>
 						              <div class="cell hidden-xs hidden-sm">
 							              {{player?.rank}}
@@ -226,7 +226,7 @@
 
                 <div *ngFor="let alliance of alliances" class="row_custom">
                   <div class="cell custom-cell">
-                    <a routerLink="/alliance/{{alliance?.world}}/{{alliance?.id}}" (click)="hide_results = true; cdr.detectChanges();">{{alliance?.name}}</a>
+                    <a routerLink="/alliance" [queryParams]="{world: alliance?.world, id: alliance?.id}" (click)="hide_results = true; cdr.detectChanges();">{{alliance?.name}}</a>
                   </div>
                   <div class="cell">
 	                  <div class="bg-flag flag-inline-middle flag-{{alliance?.server}}"></div>&nbsp;<a routerLink="/points" [queryParams]="{world: player?.world}">{{alliance?.world}}</a>
@@ -248,7 +248,7 @@
                       <button style="width: 48%; margin-right: 4%;"  name="add_compare" class="btn btn-success btn-xs" (click)="compareService.addAlliance(alliance?.id, alliance?.name, alliance?.world)">
                         <i class="fa fa-plus"></i>&nbsp;<span class="hidden-xs">Compare</span><span class="hidden-sm hidden-md hidden-lg">Compare</span>
                       </button>
-                      <button style="width: 48%;"  name="add_compare" class="btn btn-info btn-xs" routerLink="/alliance/{{alliance?.world}}/{{alliance?.id}}">
+                      <button style="width: 48%;"  name="add_compare" class="btn btn-info btn-xs" routerLink="/alliance" [queryParams]="{world: alliance?.world, id: alliance?.id}">
 	                      <i class="fa fa-arrow-circle-right"></i>&nbsp;View
                       </button>
                     </div>
@@ -294,7 +294,7 @@
 		          <div class="table" *ngIf="alliances?.length > 0 && !loading && searching_alliances">
 			          <div *ngFor="let alliance of alliances" class="row_custom">
 				          <div class="cell custom-cell">
-					          <a routerLink="/alliance/{{alliance?.world}}/{{alliance?.id}}" (click)="hide_results = true; cdr.detectChanges();">{{alliance?.name}}</a>
+					          <a routerLink="/alliance" [queryParams]="{world: alliance?.world, id: alliance?.id}" (click)="hide_results = true; cdr.detectChanges();">{{alliance?.name}}</a>
 				          </div>
 				          <div class="cell">
 					          {{alliance?.points | NumberFilter}}

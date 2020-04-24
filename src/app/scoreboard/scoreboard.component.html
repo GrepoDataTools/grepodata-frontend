@@ -1,5 +1,9 @@
 <app-search [compare]="true"></app-search>
 
+<div style="width: 100% !important; background: #fff;">
+	<app-advertorial></app-advertorial>
+</div>
+
 <div style="width: 100% !important;" (scroll)="clearTip()">
 
   <!--<div class="ticker-label">-->
@@ -47,12 +51,12 @@
   </div>
 
   <div class="scoreboard" id="pagehead" style="width: 100% !important;">
-    <mat-card style="width: 100% !important;">
-      <mat-card-title>
+    <mat-card style="width: 100% !important; box-shadow: none !important;">
+      <mat-card-title style="margin-top: 5px;">
 
-        <div style="margin-bottom: 5px; width: 100% !important;" *ngIf="nextUpdate != ''">
-          <app-advertorial></app-advertorial>
-        </div>
+        <!--<div style="margin-bottom: 5px; width: 100% !important;" *ngIf="nextUpdate != ''">-->
+          <!--<app-advertorial></app-advertorial>-->
+        <!--</div>-->
 
         <div class="container-fluid">
           <div class="row" id="timeline">
@@ -460,7 +464,7 @@
                     <div class="cell hidden-xs" *ngIf="i==0">🏆</div>
                     <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
                     <div class="cell formatted-cell">
-                      <a routerLink="/alliance/{{allianceData.world}}/{{p.i}}">{{p.n}}</a>
+                      <a routerLink="/alliance" [queryParams]="{world: allianceData.world, id: p.i}">{{p.n}}</a>
                     </div>
 	                  <div *ngIf="hasOverview && p.s > 0" class="cell score-expand hidden-xs" (click)="openAllianceOverview(p.i, p.n)">
 		                  {{p.s | NumberFilter}}
@@ -496,7 +500,7 @@
                     <div class="cell hidden-xs" *ngIf="i==0">🏆</div>
                     <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
                     <div class="cell formatted-cell">
-                      <a routerLink="/alliance/{{allianceData.world}}/{{p.i}}">{{p.n}}</a>
+                      <a routerLink="/alliance" [queryParams]="{world: allianceData.world, id: p.i}">{{p.n}}</a>
                     </div>
 	                  <div *ngIf="hasOverview && p.s > 0" class="cell score-expand hidden-xs" (click)="openAllianceOverview(p.i, p.n)">
 		                  {{p.s | NumberFilter}}
@@ -532,7 +536,7 @@
                     <div class="cell hidden-xs" *ngIf="i==0">🏆</div>
                     <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
                     <div class="cell formatted-cell">
-                      <a routerLink="/alliance/{{allianceData.world}}/{{p.i}}">{{p.n}}</a>
+                      <a routerLink="/alliance" [queryParams]="{world: allianceData.world, id: p.i}">{{p.n}}</a>
                     </div>
 	                  <div *ngIf="p.s > 0 && !mobile" class="cell score-expand" (click)="showConquests('alliance', p.i, p.n)">
 		                  {{p.s}}
@@ -565,7 +569,7 @@
                     <div class="cell hidden-xs" *ngIf="i==0">🚫</div>
                     <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
                     <div class="cell formatted-cell">
-                      <a routerLink="/alliance/{{allianceData.world}}/{{p.i}}">{{p.n}}</a>
+                      <a routerLink="/alliance" [queryParams]="{world: allianceData.world, id: p.i}">{{p.n}}</a>
                     </div>
 	                  <div *ngIf="p.s > 0 && !mobile" class="cell score-expand" (click)="showConquests('alliance', p.i, p.n)">
 		                  -{{p.s}}
@@ -637,7 +641,7 @@
 	                    </div>
 	                    <div class="cell formatted-cell">
 	                      <span *ngIf="p.old_alliance_grep_id != 0">
-	                        <a routerLink="/alliance/{{p.world}}/{{p.old_alliance_grep_id}}">{{p.old_alliance_name}}</a>
+	                        <a routerLink="/alliance" [queryParams]="{world: p.world, id: p.old_alliance_grep_id}">{{p.old_alliance_name}}</a>
 	                        <br/>
 	                        rank {{p.old_alliance_rank}}
 	                      </span>
@@ -650,7 +654,7 @@
 	                    </div>
 	                    <div class="cell formatted-cell">
 	                      <span *ngIf="p.new_alliance_grep_id != 0">
-	                        <a routerLink="/alliance/{{p.world}}/{{p.new_alliance_grep_id}}">{{p.new_alliance_name}}</a>
+	                        <a routerLink="/alliance" [queryParams]="{world: p.world, id: p.new_alliance_grep_id}">{{p.new_alliance_name}}</a>
 	                        <br/>
 	                        rank {{p.new_alliance_rank}}
 	                      </span>

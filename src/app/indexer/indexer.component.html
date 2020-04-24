@@ -466,6 +466,7 @@
 								        <div *ngIf="town.type === 'enemy_attack'" style="-moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); filter: FlipH; -ms-filter: ;">
 									        <img src="../../assets/images/game/towninfo/attack.png">
 								        </div>
+								        <img src="../../assets/images/game/towninfo/wisdom.png" *ngIf="town.type === 'wisdom'">
 								        <img src="../../assets/images/game/towninfo/support.png" *ngIf="town.type === 'support'">
 								        <img src="../../assets/images/game/towninfo/conquer.png" *ngIf="town.type === 'attack_on_conquest'">
 								        <img src="../../assets/images/game/towninfo/espionage_2.67.png" *ngIf="town.type === 'spy'">
@@ -723,7 +724,7 @@
 	                    <a routerLink="/indexer/alliance/{{key}}/{{world}}/{{alliance?.alliance_id}}">intel</a>
 		                  <span class="hidden-xs">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
 		                  <br class="hidden-sm hidden-md hidden-lg"/>
-	                    <a routerLink="/alliance/{{world}}/{{alliance?.alliance_id}}">stats</a>
+	                    <a routerLink="/alliance" [queryParams]="{world: world, id: alliance?.alliance_id}">stats</a>
 	                  </div>
 	                </div>
 	              </div>

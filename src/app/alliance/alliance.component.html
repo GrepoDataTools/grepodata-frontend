@@ -10,13 +10,12 @@
         <br/>
         <br/>
         <h3><strong>This alliance no longer exists!</strong> No alliance found with id {{id}} in world {{world}}</h3>
+	      <p>Try the search function to find alliances.</p>
         <br/>
         <br/>
       </div>
     </mat-card-content>
     <mat-card-content *ngIf="!notFound">
-
-	    <!--<app-advertorial *ngIf="!loadingHistory && (allianceHistoryJson.length > 10 || rank <= 20)"></app-advertorial>-->
 
       <div class="alliance-cards" style="" fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="5px">
         <mat-card fxFlex="25">
@@ -36,7 +35,7 @@
 	              </tr>
 	              <tr>
 	                <th>Rank</th>
-	                <td><a routerLink="/ranking/alliance/{{world}}">{{rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a></td>
+	                <td><a routerLink="/ranking/alliance/{{world}}/points/{{rank}}/{{id}}">{{rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a></td>
 	              </tr>
 	              <tr>
 	                <th>Members</th>
@@ -83,7 +82,7 @@
                     <table class="table table-no-more">
                       <tbody>
                       <tr *ngFor="let a of comparedAlliances; let i = index;">
-                        <th><a routerLink="/alliance/{{world}}/{{a.id}}">{{a.name}}</a></th>
+                        <th><a routerLink="/alliance" [queryParams]="{world: world, id: a.id}">{{a.name}}</a></th>
                         <td>
                           <i class="fa fa-trash" (click)="removeFromCompare(a.id, world)"></i>
                         </td>
@@ -277,7 +276,7 @@
                       </div>
 
                       <div class="cell formatted-cell">
-                        <a routerLink="/alliance/{{world}}/{{c.old_alliance_grep_id}}">
+                        <a routerLink="/alliance" [queryParams]="{world: world, id: c.old_alliance_grep_id}">
                           {{c.old_alliance_name}}
                         </a>
                       </div>
@@ -286,7 +285,7 @@
                         <span class="diff-neg" *ngIf="c.old_alliance_grep_id==id"><span class="fa fa-angle-double-right fa-2x"></span></span>
                       </div>
                       <div class="cell formatted-cell">
-                        <a routerLink="/alliance/{{world}}/{{c.new_alliance_grep_id}}">
+                        <a routerLink="/alliance" [queryParams]="{world: world, id: c.new_alliance_grep_id}">
                           {{c.new_alliance_name}}
                         </a>
                       </div>
@@ -332,6 +331,8 @@
         </mat-card>
 
       </div>
+
+	    <app-advertorial *ngIf="!loadingInfo && (members > 20 || rank < 50)"></app-advertorial>
 
       <div class="alliance-cards" fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="5px">
 

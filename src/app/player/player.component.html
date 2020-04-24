@@ -10,13 +10,12 @@
         <br/>
         <br/>
         <h3><strong>This player no longer exists!</strong> No player found with id {{id}} in world {{world}}</h3>
+	      <p>Try the search function to find players.</p>
         <br/>
         <br/>
       </div>
     </mat-card-content>
     <mat-card-content *ngIf="!notFound">
-
-	    <!--<app-advertorial *ngIf="!loadingHistory && playerHistoryData.length > 10 && rank <= 500"></app-advertorial>-->
 
       <div class="player-cards" fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="5px">
         <mat-card fxFlex="25">
@@ -41,64 +40,74 @@
                 <tr>
 	                <th>Alliance</th>
 	                <td>
-		                <a *ngIf="alliance_id!='0'" routerLink="/alliance/{{world}}/{{alliance_id}}">{{alliance_name}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a>
+		                <a *ngIf="alliance_id!='0'" routerLink="/alliance" [queryParams]="{world: world, id: alliance_id}">{{alliance_name}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a>
 		                <span *ngIf="alliance_id=='0'">None</span>
 	                </td>
                 </tr>
                 <tr>
                   <th>Rank</th>
-                  <td><a routerLink="/ranking/{{world}}">{{rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a></td>
+                  <td>
+	                  <a routerLink="/ranking/player/{{world}}/points/{{rank}}/{{id}}">{{rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs hidden-sm">launch</mat-icon></a>
+	                  <span *ngIf="playerInfoData.rank_max" style="float: right; font-style: italic; font-size: .9em;" matTooltip="{{datePipe.transform(playerInfoData.rank_date,'D MMM YYYY')}}">
+		                  best: {{playerInfoData.rank_max}}
+	                  </span>
+                  </td>
                 </tr>
                 <tr>
                   <th>Towns</th>
-                  <td><a class="a-link" (click)="showTownDialog()">{{towns}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a></td>
+                  <td>
+	                  <a class="a-link" (click)="showTownDialog()">{{towns}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs hidden-sm">launch</mat-icon></a>
+	                  <span *ngIf="playerInfoData.towns_max" style="float: right; font-style: italic; font-size: .9em;" matTooltip="{{datePipe.transform(playerInfoData.towns_date,'D MMM YYYY')}}">
+		                  best: {{playerInfoData.towns_max}}
+	                  </span>
+                  </td>
                 </tr>
                 <tr>
                   <th>Points</th>
                   <td>{{points | NumberFilter}}</td>
                 </tr>
                 <tr>
-                  <th>Attack points</th>
+                  <th>Attacking</th>
                   <td *ngIf="att">
-	                  {{att | NumberFilter}}
-	                  <span *ngIf="playerInfoData.att_rank" style="float: right; font-style: italic; font-size: .9em;" matTooltip="Attack points ranking">
-		                  <a routerLink="/ranking/player/{{world}}/attack">#{{playerInfoData.att_rank}}</a>
+	                  <a routerLink="/ranking/player/{{world}}/attack/{{playerInfoData.att_rank}}/{{id}}">#{{playerInfoData.att_rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs hidden-sm hidden-md">launch</mat-icon></a> - {{att | NumberFilter}}<span class="hidden-xs"> points</span>
+	                  <span *ngIf="playerInfoData.att_rank_max" style="float: right; font-style: italic; font-size: .9em;" matTooltip="{{datePipe.transform(playerInfoData.att_rank_date,'D MMM YYYY')}}">
+		                  best: {{playerInfoData.att_rank_max}}
 	                  </span>
                   </td>
 	                <td *ngIf="!att">0</td>
                 </tr>
                 <tr>
-                  <th>Defence points</th>
+                  <th>Defending</th>
                   <td *ngIf="def">
-	                  {{def | NumberFilter}}
-	                  <span *ngIf="playerInfoData.def_rank" style="float: right; font-style: italic; font-size: .9em;" matTooltip="Defence points ranking">
-		                  <a routerLink="/ranking/player/{{world}}/defence">#{{playerInfoData.def_rank}}</a>
+	                  <a routerLink="/ranking/player/{{world}}/defence/{{playerInfoData.def_rank}}/{{id}}">#{{playerInfoData.def_rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs hidden-sm hidden-md">launch</mat-icon></a> - {{def | NumberFilter}}<span class="hidden-xs"> points</span>
+	                  <span *ngIf="playerInfoData.def_rank_max" style="float: right; font-style: italic; font-size: .9em;" matTooltip="{{datePipe.transform(playerInfoData.def_rank_date,'D MMM YYYY')}}">
+		                  best: {{playerInfoData.def_rank_max}}
 	                  </span>
                   </td>
 	                <td *ngIf="!def">0</td>
                 </tr>
                 <tr class="hidden-xs">
-                  <th>Total points fighting</th>
+                  <th>Fighting</th>
                   <td *ngIf="def&&att">
-	                  {{def+att | NumberFilter}}
-	                  <span *ngIf="playerInfoData.fight_rank" style="float: right; font-style: italic; font-size: .9em;" matTooltip="Total fighting ranking">
-		                  <a routerLink="/ranking/player/{{world}}/fight">#{{playerInfoData.fight_rank}}</a>
+	                  <a routerLink="/ranking/player/{{world}}/fight/{{playerInfoData.fight_rank}}/{{id}}">#{{playerInfoData.fight_rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs hidden-sm hidden-md">launch</mat-icon></a> - {{def+att | NumberFilter}}<span class="hidden-xs"> points</span>
+	                  <span *ngIf="playerInfoData.fight_rank_max" style="float: right; font-style: italic; font-size: .9em;" matTooltip="{{datePipe.transform(playerInfoData.fight_rank_date,'D MMM YYYY')}}">
+		                  best: {{playerInfoData.fight_rank_max}}
 	                  </span>
                   </td>
 	                <td *ngIf="!def">0</td>
                 </tr>
-                <tr *ngIf="bShowHeatmapTab">
-                  <th>Best time to attack</th>
-                  <td>
-                    <a (click)="setActiveTab('heatmap')" class="a-link">~ {{lowestIndex<10?'0':''}}{{lowestIndex}}:00h <i class="fa fa-arrow-circle-right"></i></a>
-                  </td>
-                </tr>
-                <tr *ngIf="hasIndex!=''">
-                  <th>Town intelligence</th>
-                  <td>
-                      <a (click)="setActiveTab('intel')" class="a-link">{{hasIndex}} <i class="fa fa-arrow-circle-right"></i></a>
-                  </td>
-                </tr>
+                <!--<tr *ngIf="bShowHeatmapTab">-->
+                  <!--<th>Best time to attack</th>-->
+                  <!--<td>-->
+                    <!--<a (click)="setActiveTab('heatmap')" class="a-link">~ {{lowestIndex<10?'0':''}}{{lowestIndex}}:00h <i class="fa fa-arrow-circle-right"></i></a>-->
+                  <!--</td>-->
+                <!--</tr>-->
+                <!--<tr *ngIf="hasIndex!=''">-->
+                  <!--<th>Town intelligence</th>-->
+                  <!--<td>-->
+                      <!--<a (click)="setActiveTab('intel')" class="a-link">{{hasIndex}} <i class="fa fa-arrow-circle-right"></i></a>-->
+                  <!--</td>-->
+                <!--</tr>-->
               </tbody>
             </table>
 
@@ -297,13 +306,13 @@
                       </div>
 
                       <div class="cell formatted-cell">
-                        <a routerLink="/alliance/{{world}}/{{c.old_alliance_grep_id}}">
+                        <a routerLink="/alliance" [queryParams]="{world: world, id: c.old_alliance_grep_id}">
                           {{c.old_alliance_name}}
                         </a>
                       </div>
                       <div class="cell hidden-sm hidden-xs"><span class="fa fa-angle-double-right fa-2x"></span></div>
                       <div class="cell formatted-cell">
-                        <a routerLink="/alliance/{{world}}/{{c.new_alliance_grep_id}}">
+                        <a routerLink="/alliance" [queryParams]="{world: world, id: c.new_alliance_grep_id}">
                           {{c.new_alliance_name}}
                         </a>
                       </div>
@@ -350,6 +359,8 @@
 
       </div>
 
+	    <app-advertorial *ngIf="!loadingInfo && towns > 1 && rank <= 1000"></app-advertorial>
+
       <div class="player-cards" fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="5px">
 
         <mat-card fxFlex fxFlex.gt-md="57" fxFlex.gt-sm="100">
@@ -392,7 +403,7 @@
                     {{h.date | Datex : "D MMM"}}
                   </div>
                   <div class="cell formatted-cell">
-                    <a routerLink="/alliance/{{world}}/{{h.alliance_id}}">{{h.alliance_name}}</a>
+                    <a routerLink="/alliance" [queryParams]="{world: world, id: h.alliance_id}">{{h.alliance_name}}</a>
                   </div>
                   <div class="cell">
                     {{ h.points | NumberFilter }}

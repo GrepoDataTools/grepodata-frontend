@@ -9,12 +9,13 @@ import {CompareService} from "../compare/compare.service";
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import {WorldService} from "../services/world.service";
 import {Globals} from "../globals";
+import {Datex} from '../app.component';
 
 @Component({
   selector: 'app-player',
   templateUrl: './player.component.html',
   styleUrls: ['./player.component.scss'],
-  providers: [PlayerService, WorldService]
+  providers: [PlayerService, WorldService, Datex]
 })
 export class PlayerComponent implements OnInit {
 	@ViewChild("infoTabs", {static: false}) infoTabs: ElementRef;
@@ -143,21 +144,35 @@ export class PlayerComponent implements OnInit {
     private worldService: WorldService,
     private router: Router,
     private route: ActivatedRoute,
+    public datePipe: Datex,
     public compare: CompareService) {
     Object.assign(this, {data_default});
     if (window.innerWidth > 960) {
       this.showLegend = true;
     }
 
+    let noQueryParams = false;
+    let noRouteParams = false;
+
     this.route.queryParams.subscribe( params => {
       if (params.world != undefined && params.id != undefined) {
         this.load(params);
+      } else {
+        noQueryParams = true;
+        if (noRouteParams) {
+          this.notFound = true;
+        }
       }
     });
 
     this.route.params.subscribe( params => {
       if (params.world != undefined && params.id != undefined) {
         this.router.navigate(['/player'], { queryParams: { world: params.world, id: params.id} });
+      } else {
+        noRouteParams = true;
+        if (noQueryParams) {
+          this.notFound = true;
+        }
       }
     });
   }
@@ -457,8 +472,12 @@ export class TownDialog {
 
   name: string;
   world: string;
+  player_id: string;
   townData: any;
   loading: boolean = true;
+  bbMode: boolean = true;
+  generated_at : any;
+  copied = false;
 
   constructor(
     private playerService: PlayerService,
@@ -466,11 +485,14 @@ export class TownDialog {
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.name = data.name;
     this.world = data.world;
+    this.player_id = data.id;
     this.playerService.getTowns(data.world, data.id)
       .subscribe(
         (response) => this.renderTownOutput(response),
         (error) => console.log(error)
       );
+
+    this.generated_at = new Date().toLocaleString();
   }
 
   onNoClick(): void {
@@ -480,6 +502,18 @@ export class TownDialog {
   renderTownOutput(json) {
     this.townData = json;
     this.loading = false;
+  }
+
+  copyBB() {
+    let selection = window.getSelection();
+    let txt = document.getElementById('bb_code');
+    let range = document.createRange();
+    range.selectNodeContents(txt);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    document.execCommand("copy");
+    selection.removeAllRanges();
+    this.copied = true;
   }
 
 }

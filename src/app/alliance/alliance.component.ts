@@ -107,11 +107,30 @@ export class AllianceComponent implements AfterViewInit {
       this.showLegend = true;
     }
 
+    let noQueryParams = false;
+    let noRouteParams = false;
+
     this.route.queryParams.subscribe( params => {
-      if (params.world != undefined && params.id != undefined) this.router.navigate(['/alliance/'+params.world+'/'+params.id]);
+      if (params.world != undefined && params.id != undefined) {
+        this.load(params);
+      } else {
+        noQueryParams = true;
+        if (noRouteParams) {
+          this.notFound = true;
+        }
+      }
     });
 
-    this.route.params.subscribe( params => this.load(params));
+    this.route.params.subscribe( params => {
+      if (params.world != undefined && params.id != undefined) {
+        this.router.navigate(['/alliance'], { queryParams: { world: params.world, id: params.id} });
+      } else {
+        noRouteParams = true;
+        if (noQueryParams) {
+          this.notFound = true;
+        }
+      }
+    });
   }
 
   ngAfterViewInit() {

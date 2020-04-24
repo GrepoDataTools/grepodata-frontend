@@ -53,6 +53,7 @@ export class AnalyticsComponent implements OnInit {
   total_indexes = [];
   total_reports = [];
   index_types_agg = [];
+  index_world_bins = [];
 
   constructor(
     private indexerService: IndexerService
@@ -251,7 +252,6 @@ export class AnalyticsComponent implements OnInit {
           }
         }
       }
-      console.log(series);
 
       for (let version in series) {
         this.script_version.push({
@@ -259,6 +259,15 @@ export class AnalyticsComponent implements OnInit {
           'series': series[version],
         });
       }
+    }
+
+    if (data.indexer_active_server_bins) {
+      this.index_world_bins = [];
+      for(let i in data.indexer_active_server_bins.data) {
+        let record = data.indexer_active_server_bins.data[i];
+        this.index_world_bins.push({'name': record.country, 'value': record.count});
+      }
+      this.index_world_bins.reverse();
     }
 
     this.loading_index = false

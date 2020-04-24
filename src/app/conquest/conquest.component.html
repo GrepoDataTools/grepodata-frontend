@@ -186,14 +186,14 @@
 								{{c.o_p_name}}</span>
 						</a>
 						<div *ngIf="embedded" style="transform: scale(.7);">
-							<a class="ally-hover" *ngIf="c.o_a_name != null && c.o_a_name != ''" routerLink="/alliance/{{world}}/{{c.o_a_id}}" (click)="linkScrollTop()">
+							<a class="ally-hover" *ngIf="c.o_a_name != null && c.o_a_name != ''" routerLink="/alliance" [queryParams]="{world: world, id: c.o_a_id}" (click)="linkScrollTop()">
 								<span>{{c.o_a_name}}</span>
 							</a>
 						</div>
 					</div>
 
 					<div class="cell hidden-xs formatted-cell" *ngIf="!embedded">
-						<a *ngIf="c.o_a_name != null && c.o_a_name != ''" routerLink="/alliance/{{world}}/{{c.o_a_id}}">{{c.o_a_name}}</a>
+						<a *ngIf="c.o_a_name != null && c.o_a_name != ''" routerLink="/alliance" [queryParams]="{world: world, id: c.o_a_id}">{{c.o_a_name}}</a>
 					</div>
 
 					<div class="cell formatted-cell">
@@ -201,14 +201,14 @@
 							<span>{{c.n_p_name}}</span>
 						</a>
 						<div *ngIf="embedded" style="transform: scale(.7);">
-							<a class="ally-hover" *ngIf="c.n_a_name != null && c.n_a_name != ''" routerLink="/alliance/{{world}}/{{c.n_a_id}}" (click)="linkScrollTop()">
+							<a class="ally-hover" *ngIf="c.n_a_name != null && c.n_a_name != ''" routerLink="/alliance" [queryParams]="{world: world, id: c.n_a_id}" (click)="linkScrollTop()">
 								<span>{{c.n_a_name}}</span>
 							</a>
 						</div>
 					</div>
 
 					<div class="cell hidden-xs formatted-cell" *ngIf="!embedded">
-						<a *ngIf="c.n_a_name != null && c.n_a_name != ''" routerLink="/alliance/{{world}}/{{c.n_a_id}}">{{c.n_a_name}}</a>
+						<a *ngIf="c.n_a_name != null && c.n_a_name != ''" routerLink="/alliance" [queryParams]="{world: world, id: c.n_a_id}">{{c.n_a_name}}</a>
 					</div>
 
 					<div class="cell hidden-xs" *ngIf="!embedded">

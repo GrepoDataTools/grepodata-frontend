@@ -3,6 +3,20 @@
   height: 100px;
 }
 
+.row_highlight {
+  border: 5px solid gold;
+}
+
+.sort-carets {
+  cursor: pointer;
+  display: inline-block;
+  margin-left: 4px;
+}
+
+.title-paginator {
+  margin-top: 0;
+}
+
 .scoreboard-table {
   padding-left: 8px !important;
   padding-right: 8px !important;
@@ -55,6 +69,11 @@ mat-paginator {
   }
 }
 
+@media (min-width:1400px) {
+  .title-paginator {
+    margin-top: 36px;
+  }
+}
 @media (min-width:1100px) {
   .ranking-control {
     height: 40px;

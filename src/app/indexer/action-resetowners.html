@@ -197,7 +197,7 @@
 
               <div *ngFor="let alliance of alliances" class="row_custom">
                 <div class="cell custom-cell">
-                  <a routerLink="/alliance/{{alliance?.world}}/{{alliance?.id}}">{{alliance?.name}}</a>
+                  <a routerLink="/alliance" [queryParams]="{world: alliance?.world, id: alliance?.id}">{{alliance?.name}}</a>
                 </div>
                 <div class="cell hidden-sm">
                   {{alliance?.members}}

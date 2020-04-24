@@ -1,10 +1,8 @@
 <div style="font-size: 18px; max-height: 75vh; min-height: 40vh; overflow: hidden; min-width: 40vw; max-width: 90vw;">
     <a (click)="dialogRef.close()" class="close"></a>
 
-    <!--<h1 class="mat-primary" style="text-align: center; color: #18BC9C; margin-top: 0px;" mat-dialog-title>Points gained by <a routerLink="/alliance/{{world}}/{{alliance_id}}">{{alliance_name}}</a> on {{date}}</h1>-->
-
 		<div class="text-center" style="width: 100%;">
-			<h2 mat-dialog-title>Points gained by <a routerLink="/alliance/{{world}}/{{alliance_id}}"><img src="../../assets/images/ally_ico.png" style="height: 28px; margin-top: -5px;"/> {{alliance_name}}</a> on <span class="gd-primary">{{date}}</span></h2>
+			<h2 mat-dialog-title>Points gained by <a routerLink="/alliance" [queryParams]="{world: world, id: alliance_id}"><img src="../../assets/images/ally_ico.png" style="height: 28px; margin-top: -5px;"/> {{alliance_name}}</a> on <span class="gd-primary">{{date}}</span></h2>
 		</div>
 
     <mat-progress-bar *ngIf="loading" mode="indeterminate" style="margin: 25px 0px;"></mat-progress-bar>

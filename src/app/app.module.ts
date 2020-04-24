@@ -90,6 +90,8 @@ const appRoutes: Routes = [
   { path: 'm/:world', component: ScoreboardComponent },
   { path: 'points', component: ScoreboardComponent },
   // { path: 'world/:world', component: WorldComponent },
+  { path: 'ranking/:type/:world/:sort/:offset/:highlight', component: RankingComponent },
+  { path: 'ranking/:type/:world/:sort/:offset', component: RankingComponent },
   { path: 'ranking/:type/:world/:sort', component: RankingComponent },
   { path: 'ranking/:type/:world', component: RankingComponent },
   { path: 'ranking/:world', component: RankingComponent },

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {WorldService} from "../services/world.service";
 import {RankingService} from "./ranking.service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -12,25 +12,27 @@ import {Globals} from '../globals';
   providers: [RankingService, WorldService]
 })
 export class RankingComponent implements OnInit {
-
   // API data
   results = [];
   count = 0;
   worldData = '';
 
   // Form vars
-  server: any = 'nl'; // TODO: dynamic default??
-  serverDisplayed = 'nl'; // TODO: dynamic default??
+  server: any = 'nl';
+  serverDisplayed = 'nl';
   world: any = '';
   type = 'player';
   sort_field = 'Points';
   sort_order = 'desc';
   from = 0;
   size = 30;
+  pageIndex = 0;
+  highlightId = 0;
   fromResult = this.from;
   worldName = '';
   servers = [];
   worlds = [];
+  disableScrollTo = false;
   loading = false;
   error = false;
   pageEvent: PageEvent;
@@ -53,6 +55,8 @@ export class RankingComponent implements OnInit {
   paginatorEvent($event) {
     this.pageEvent = $event;
     if (typeof this.pageEvent != 'undefined') {
+      this.disableScrollTo = true;
+      this.pageIndex = this.pageEvent.pageIndex;
       this.from = this.pageEvent.pageIndex * this.pageEvent.pageSize;
       this.size = this.pageEvent.pageSize;
       this.load([]);
@@ -89,6 +93,15 @@ export class RankingComponent implements OnInit {
       this.server = this.world.substr(0,2);
     }
 
+    if (typeof params['offset'] != 'undefined') {
+      this.pageIndex = Math.floor(params['offset']/this.size);
+      this.from = Math.max(0, params['offset'] - (params['offset'] % this.size));
+    }
+
+    if (typeof params['highlight'] != 'undefined') {
+      this.highlightId = params['highlight'];
+    }
+
     this.loading = true;
     if (this.type == 'player') {
       this.rankingService.loadPlayerRanking(this.world, this.sort_field, this.sort_order, this.from, this.size, this.server)
@@ -106,11 +119,16 @@ export class RankingComponent implements OnInit {
   }
 
   setType(type) {
+    this.from = 0;
+    this.pageIndex = 0;
+    this.highlightId = 0;
     this.type = type;
     this.load([]);
   }
 
   sort(field) {
+    this.from = 0;
+    this.pageIndex = 0;
     if(this.sort_field == field) {
       // Toggle sort
       if (this.sort_order == 'asc') this.sort_order = 'desc';
@@ -174,6 +192,13 @@ export class RankingComponent implements OnInit {
       this.loadWorlds(this.worldData);
     }
     this.loading = false;
+
+    if (this.highlightId > 0 && this.disableScrollTo == false) {
+      setTimeout(() => {
+        console.log("scrolling");
+        document.getElementById("highlightRow").scrollIntoView({ behavior: "smooth", block: "end" });
+      }, 50);
+    }
   }
 
 }

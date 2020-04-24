@@ -178,6 +178,28 @@
 				</div>
 			</div>
 
+			<!--Indexes servers-->
+			<div class="col-md-12 text-left" *ngIf="!loading_index && index_world_bins.length > 0">
+
+				<h2 class="gd-secondary">Number of active indexes by country</h2>
+
+				<div class="ngx-chart-container" style="width: 84%;">
+					<ngx-charts-bar-vertical
+						[scheme]="{domain: ['#334254']}"
+						[results]="index_world_bins"
+						[gradient]="false"
+						[xAxis]="true"
+						[yAxis]="true"
+						[tooltipDisabled]="false"
+						[legend]="false"
+						[showXAxisLabel]="true"
+						[showYAxisLabel]="false"
+						[xAxisLabel]="'country'"
+						[yAxisLabel]="'num indexes'">
+					</ngx-charts-bar-vertical>
+				</div>
+			</div>
+
 			<!--TYPE-->
 			<div class="col-md-12 text-left" *ngIf="!loading_index && report_type_per_day.length > 0">
 

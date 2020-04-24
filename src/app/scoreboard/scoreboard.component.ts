@@ -884,8 +884,6 @@ export class PlayerOverviewDialog implements AfterViewInit {
     this.date = dialogData.date;
     this.player_id = dialogData.id;
     this.player_name = dialogData.name;
-    console.log(this.player_id);
-    console.log(this.player_name);
 
     this.loading = true;
     this.scoreboardService.loadDayDiffs(this.world, this.date, this.player_id)

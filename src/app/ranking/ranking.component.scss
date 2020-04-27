@@ -15,6 +15,7 @@
 
 .title-paginator {
   margin-top: 0;
+  margin-bottom: 10px;
 }
 
 .scoreboard-table {
@@ -71,7 +72,7 @@ mat-paginator {
 
 @media (min-width:1400px) {
   .title-paginator {
-    margin-top: 36px;
+    margin-top: 20px;
   }
 }
 @media (min-width:1100px) {
@@ -101,5 +102,16 @@ mat-paginator {
 @media (max-width:400px) {
   .hidden-custom {
     display: none !important;
+  }
+}
+
+@media (max-width:992px) {
+  .title-selection {
+    margin-top: 10px;
+    text-align: center;
+  }
+  .title-paginator {
+    display: flex;
+    place-content: center;
   }
 }

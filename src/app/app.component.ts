@@ -170,7 +170,8 @@ export class Datex implements PipeTransform {
 @Pipe({ name: 'ValuesPipe',  pure: false })
 export class ValuesPipe implements PipeTransform {
   transform(value: any, args: any[] = null): any {
-    return Object.keys(value).map(key => value[key]);
+    let array = Object.keys(value).map(key => value[key]);
+    return array;
   }
 }
 

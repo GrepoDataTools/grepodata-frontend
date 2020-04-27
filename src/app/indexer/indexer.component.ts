@@ -44,6 +44,7 @@ export class IndexerComponent implements OnInit {
   max_retries = 100;
   all_indexes: any = {};
   latest_intel: any = [];
+  recent_conquests: any = [];
   objectKeys = Object.keys;
 
   private csa:any = false;
@@ -75,6 +76,7 @@ export class IndexerComponent implements OnInit {
     this.error = '';
     this.moved = false;
     this.latest_intel = [];
+    this.recent_conquests = [];
     // this.data = '';
 
     // Save params
@@ -181,8 +183,13 @@ export class IndexerComponent implements OnInit {
       this.world = data.world;
       this.data = data;
       if (data.latest_intel) {
-        console.log(data.latest_intel.length);
         this.latest_intel = data.latest_intel;
+      }
+      if (data.recent_conquests) {
+        this.recent_conquests = data.recent_conquests;
+        this.recent_conquests = this.recent_conquests.concat(data.recent_conquests);
+        this.recent_conquests = this.recent_conquests.concat(data.recent_conquests);
+        this.recent_conquests = this.recent_conquests.concat(data.recent_conquests);
       }
       // if (data.total_reports != undefined && data.total_reports <= 0 && this.max_retries > 0) {
       //   setTimeout(()=>{
@@ -194,6 +201,29 @@ export class IndexerComponent implements OnInit {
     }
     this.openingIndex = false;
     this.loading = false;
+  }
+
+  public loadConquestDetails(conquest): void {
+    let dialogRef = this.dialog.open(ConquestReportDialog, {
+      autoFocus: false,
+      data: {
+        key: this.key,
+        world: this.world,
+        conquest: conquest,
+      }
+    });
+  }
+
+  public loadSiegeListDialog(): void {
+    let dialogRef = this.dialog.open(SiegeListDialog, {
+      autoFocus: false,
+      data: {
+        key: this.key,
+        world: this.world
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {});
   }
 
   public showChangekeyDialog(): void {
@@ -1153,9 +1183,125 @@ export class BBDialog {
 
 }
 
+@Component({
+  selector: 'conquest-dialog',
+  templateUrl: 'conquest-report.html',
+  providers: [IndexerService]
+})
+export class ConquestReportDialog {
+
+  key: any;
+  world: any;
+  conquest: any;
+  loading: any  = true;
+  error: any  = false;
+  reports: any  = [];
+  objectKeys = Object.keys;
+  allianceNames = {};
+
+  constructor(
+    public dialogRef: MatDialogRef<ConquestReportDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public indexerService: IndexerService,
+  ) {
+    this.key = data.key;
+    this.world = data.world;
+    this.conquest = data.conquest;
+
+    this.indexerService.getConquestReports(this.key, this.conquest.conquest_id).subscribe(
+      (response) => this.renderReports(response),
+      (error) => {
+        this.error = true;
+        this.loading = false;
+        console.log(error);
+      });
+  }
+
+  renderReports(data) {
+    if (data.intel) {
+      this.reports = data.intel;
+      if (this.conquest.belligerent_all) {
+        Object.keys(this.conquest.belligerent_all).forEach(key => {
+          console.log(key);
+          this.allianceNames[this.conquest.belligerent_all[key].alliance_id] = this.conquest.belligerent_all[key].alliance_name
+        });
+      }
+      console.log(this.allianceNames);
+    } else {
+      console.log(data);
+      this.error = true;
+    }
+    this.loading = false;
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+}
+
+@Component({
+  selector: 'siegelist-dialog',
+  templateUrl: 'all-sieges.html',
+  providers: [IndexerService]
+})
+export class SiegeListDialog {
+
+  key: any;
+  world: any;
+  loading: any  = true;
+  error: any  = false;
+  sieges: any  = [];
+  objectKeys = Object.keys;
+
+  constructor(
+    public dialogRef: MatDialogRef<SiegeListDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public indexerService: IndexerService,
+    public dialog: MatDialog
+  ) {
+    this.key = data.key;
+    this.world = data.world;
+
+    this.indexerService.getSiegeList(this.key).subscribe(
+      (response) => this.renderSieges(response),
+      (error) => {
+        this.error = true;
+        this.loading = false;
+        console.log(error);
+      });
+  }
+
+  renderSieges(data) {
+    if (data.sieges) {
+      this.sieges = data.sieges;
+    } else {
+      console.log(data);
+      this.error = true;
+    }
+    this.loading = false;
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+  public loadConquestDetails(conquest): void {
+    let dialogRef = this.dialog.open(ConquestReportDialog, {
+      autoFocus: false,
+      data: {
+        key: this.key,
+        world: this.world,
+        conquest: conquest,
+      }
+    });
+  }
+
+}
+
 @Pipe({ name: 'HideNoLossPipe',  pure: false })
 export class HideNoLossPipe implements PipeTransform {
-  transform(value: any): any {
+  transform(value: any, stripBrackets: any = false): any {
     if (typeof value == 'string') {
       let str = value.replace('(-0)', '');
       if (str.includes('(')) {
@@ -1164,6 +1310,10 @@ export class HideNoLossPipe implements PipeTransform {
         let index2 = value.indexOf(')')+1;
         let second = value.substr(index, index2 - index);
         let third = value.substr(index2);
+        if (stripBrackets === true) {
+          second = second.replace('(','');
+          second = second.replace(')','');
+        }
         str = first + ' <span class="diff-neg">'+second+'</span>' + third;
       }
       return str;

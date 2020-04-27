@@ -929,3 +929,61 @@ mat-paginator {
 .flag-us {
   background: url('assets/images/flags.png') -32px -128px;
 }
+
+
+.conquests-container {
+  width: 100%;
+  font-size: 16px;
+  .conquests-scroll {
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .conquests-list {
+    width: 100%;
+  }
+  .conquest-item {
+    max-width: 600px;
+    padding: 5px 15px;
+    vertical-align: top;
+    display: inline-block;
+  }
+  .conquest-contents {
+    max-width: 570px;
+    display: inline-block;
+    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+    .conquest-date {
+      position: absolute;
+      z-index: 30;
+      margin-top: 7px;
+      width: auto;
+    }
+    .conquest-title {
+      font-size: 17px;
+      background: #ebebeb;
+      padding: 8px 5px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .conquest-belligerents {
+      border-top: 1px solid #ddd;
+      padding: 7px 15px !important;
+    }
+    .conquest-losses {
+      border-top: 1px solid #ddd;
+      padding: 7px 15px !important;
+    }
+    .conquest-result {
+      border-top: 1px solid #ddd;
+      padding: 7px 15px !important;
+    }
+    .conquest-reports {
+      padding: 0 15px 10px 15px !important;
+      .diff-neg {
+        text-shadow: none !important;
+        display: block;
+      }
+    }
+  }
+}

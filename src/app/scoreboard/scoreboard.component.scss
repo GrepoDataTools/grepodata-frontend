@@ -138,6 +138,29 @@ $duration: 130s;
 
 }
 
+@media (max-width: 1400px) {
+  .scoreboard-title-container {
+    h2 {
+      margin-top: 0 !important;
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .scoreboard-title-container {
+    text-align: center;
+    margin-top: -10px;
+  }
+  .scoreboard-controls-container {
+    text-align: center;
+  }
+  .scoreboard-control-chips {
+    float: none !important;
+    display: flex;
+    justify-content: center;
+  }
+}
+
 @media (min-width: 1200px) {
   ::ng-deep .ngx-charts {
     text {

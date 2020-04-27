@@ -82,6 +82,15 @@ export class IndexerService {
 		return this.http.get(apiUrl + url);
 	}
 
+	getConquestReports(key, id) {
+		let url =  '/indexer/conquest?key='+key+'&conquest_id='+id;
+		return this.http.get(apiUrl + url);
+	}
+	getSiegeList(key) {
+		let url =  '/indexer/siegelist?key='+key;
+		return this.http.get(apiUrl + url);
+	}
+
   loadPlayerIntel(key, id) {
     let url =  '/indexer/player?key='+key+'&id='+id;
     return this.http.get(apiUrl + url);

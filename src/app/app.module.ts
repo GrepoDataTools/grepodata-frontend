@@ -45,8 +45,21 @@ import { AllianceComponent } from './alliance/alliance.component';
 import { AdvertorialComponent } from './advertorial/advertorial.component';
 import { RankingComponent } from './ranking/ranking.component';
 import {
-	ChangekeyDialog, IndexDisclaimerDialog, IndexerComponent, NewIndexDialog, ResetOwnersDialog, InstallDialog,
-	ForgotKeysDialog, BBDialog, HideNoLossPipe, EditOwnersDialog, BBLossPipe, UnitIconPipe, CleanIntelDialog
+  ChangekeyDialog,
+  IndexDisclaimerDialog,
+  IndexerComponent,
+  NewIndexDialog,
+  ResetOwnersDialog,
+  InstallDialog,
+  ForgotKeysDialog,
+  BBDialog,
+  HideNoLossPipe,
+  EditOwnersDialog,
+  BBLossPipe,
+  UnitIconPipe,
+  CleanIntelDialog,
+  ConquestReportDialog,
+  SiegeListDialog
 } from './indexer/indexer.component';
 import { FooterComponent, DisclaimerDialog } from './footer/footer.component';
 
@@ -154,6 +167,8 @@ export function jwtTokenGetter(): any {
     InstallDialog,
     BBDialog,
     NewIndexDialog,
+    ConquestReportDialog,
+    SiegeListDialog,
     DiffFilterNonZero,
     DiffFilter,
     NumberFilter,
@@ -232,7 +247,7 @@ export function jwtTokenGetter(): any {
     Globals
   ],
   bootstrap: [AppComponent],
-  entryComponents: [TownDialog, DisclaimerDialog, ContactDialog, ChangekeyDialog, CleanIntelDialog, IndexDisclaimerDialog, NewIndexDialog, ResetOwnersDialog, ForgotKeysDialog, EditOwnersDialog, InstallDialog, BBDialog, BBScoreboardDialog, OverviewDialog, ConquestDialog, PlayerOverviewDialog, AllianceOverviewDialog, CompareSnackbar]
+  entryComponents: [TownDialog, DisclaimerDialog, ContactDialog, ChangekeyDialog, CleanIntelDialog, IndexDisclaimerDialog, NewIndexDialog, ResetOwnersDialog, ForgotKeysDialog, EditOwnersDialog, InstallDialog, BBDialog, ConquestReportDialog, BBScoreboardDialog, OverviewDialog, ConquestDialog, SiegeListDialog, PlayerOverviewDialog, AllianceOverviewDialog, CompareSnackbar]
 })
 export class AppModule {
 

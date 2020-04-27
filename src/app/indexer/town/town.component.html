@@ -81,26 +81,29 @@
 						              <div class="table intel-table" id="table_all" style="">
 
 							              <div class="row_custom header bg-gd-2" >
-								              <div class="cell">
+								              <div class="cell" style="max-width: 10% !important; width: 10%;">
 									              Type
 								              </div>
-								              <div class="cell">
+								              <div class="cell" style="max-width: 20% !important; width: 20%;">
 									              Date
 								              </div>
-								              <div class="cell">
+								              <div class="cell text-left">
 									              Units
 								              </div>
-								              <div class="cell">
+								              <div class="cell text-left" *ngIf="hasHero">
 									              Hero
 								              </div>
-								              <div class="cell">
+								              <div class="cell text-left" *ngIf="hasGod">
 									              God
 								              </div>
-								              <div class="cell">
-									              Silver
-								              </div>
-								              <div class="cell">
+								              <div class="cell" *ngIf="hasWall">
 									              Wall
+								              </div>
+								              <div class="cell" *ngIf="hasStonehail">
+									              Stonehail
+								              </div>
+								              <div class="cell" *ngIf="hasSilver">
+									              Silver
 								              </div>
 								              <div class="cell" *ngIf="csa!=false"></div>
 							              </div>
@@ -126,20 +129,37 @@
 					                        <span style="color: #d00;" *ngIf="unit?.killed>0">-{{unit?.killed}}</span>
 					                      </span>
 								              </div>
-								              <div class="cell">
-					                      <span style="transform: scale(1.05); float: left; margin: 8px 0;"
+								              <div class="cell" *ngIf="hasHero" style="min-width: 50px;">
+					                      <span style="transform: scale(1.05); float: left; margin: -19px 0 0 0;"
 					                            matTooltip="{{town?.hero?.replace('_',' ')}}">
 					                        <div class="unit_icon40x40 {{town?.hero}}"></div>
 					                      </span>
 								              </div>
-								              <div class="cell">
-									              {{town.god}}
+								              <div class="cell" *ngIf="hasGod" style="min-width: 50px;">
+									              <span style="transform: scale(1.05); float: left; margin: -18px 0 0 0;"
+									                    matTooltip="{{town.god}}">
+					                        <div class="unit_icon40x40 {{town.god}}"></div>
+					                      </span>
 								              </div>
-								              <div class="cell">
-									              {{town.silver}}
+								              <div class="cell" *ngIf="hasWall" style="padding-top: 7px;">
+									              <!--<span [outerHTML]="town.wall | HideNoLossPipe"></span>-->
+									              <span *ngIf="town.wall!=null" class="build-cell" style="min-width: 70px;">
+						                      <div class="building_icon40x40 wall" matTooltip="Wall: {{town.wall}})"></div>
+										              <div>
+											              <span [outerHTML]="town.wall | HideNoLossPipe"></span>
+										              </div>
+						                    </span>
 								              </div>
-								              <div class="cell">
-									              <span [outerHTML]="town.wall | HideNoLossPipe"></span>
+								              <div class="cell" *ngIf="hasStonehail" style="padding-top: 7px;">
+									              <span *ngIf="town.stonehail!=null" class="build-cell" style="">
+						                      <div class="building_icon40x40 {{town.stonehail.building}}" matTooltip="Stonehail: {{town.stonehail.building}} {{town.stonehail.value}})"></div>
+										              <div>
+											              <span [outerHTML]="town.stonehail.value | HideNoLossPipe"></span>
+										              </div>
+						                    </span>
+								              </div>
+								              <div class="cell" *ngIf="hasSilver">
+									              <span *ngIf="town?.silver">{{town?.silver?.replace('(+',' (+')}}</span>
 								              </div>
 								              <div class="cell" style="" *ngIf="csa!=false">
 									              <button *ngIf="!town.deleted || town?.deleted==false" name="open_bb" class="btn btn-danger" style=""

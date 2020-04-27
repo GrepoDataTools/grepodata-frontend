@@ -19,6 +19,23 @@
   font-size: 18px;
 }
 
+.unit-icon-md {
+  transform: scale(.9);
+  float: left;
+  max-height: 56px !important;
+  //margin: -3px;
+  font-size: 18px;
+}
+
+.unit-icon-lg {
+  transform: scale(1);
+  float: left;
+  margin: 5px;
+  max-height: 56px !important;
+  //margin: -3px;
+  font-size: 18px;
+}
+
 .unit-icon-xs {
   transform: scale(.55);
   float: left;
@@ -463,4 +480,30 @@
 .hero40x40.zyklop,
 .unit_icon40x40.zyklop {
   background: url(../images/game/unit_icons_40x40.png) 0 -320px no-repeat;
+}
+
+// gods
+.hero40x40.zeus,
+.unit_icon40x40.zeus {
+  background: url(../images/game/unit_icons_40x40.png) -80px -320px no-repeat;
+}
+.hero40x40.athena,
+.unit_icon40x40.athena {
+  background: url(../images/game/unit_icons_40x40.png) -120px -320px no-repeat;
+}
+.hero40x40.poseidon,
+.unit_icon40x40.poseidon {
+  background: url(../images/game/unit_icons_40x40.png) -160px -320px no-repeat;
+}
+.hero40x40.hera,
+.unit_icon40x40.hera {
+  background: url(../images/game/unit_icons_40x40.png) -200px -320px no-repeat;
+}
+.hero40x40.hades,
+.unit_icon40x40.hades {
+  background: url(../images/game/unit_icons_40x40.png) -240px -320px no-repeat;
+}
+.hero40x40.artemis,
+.unit_icon40x40.artemis {
+  background: url(../images/game/unit_icons_40x40.png) -280px -320px no-repeat;
 }

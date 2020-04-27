@@ -9,7 +9,7 @@
   <!--<div class="ticker-label">-->
     <!--Attack points (last hour):-->
   <!--</div>-->
-  <div class="ticker-wrap" *ngIf="!loadingDiffs && playerDiffs != ''">
+  <div class="ticker-wrap" *ngIf="!mobile && !loadingDiffs && playerDiffs != ''">
     <div class="ticker">
       <div class="ticker__item" *ngIf="playerDiffs.att">
         <span class="item-red">Attack points in last update: &nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -61,7 +61,7 @@
         <div class="container-fluid">
           <div class="row" id="timeline">
 
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 scoreboard-title-container">
               <h2 style='font-weight: 300; color: #304357;'>
                 <i class="fa fa-trophy" aria-hidden="true"></i>&nbsp;Daily<span class="hidden-xs"> Grepolis</span> scoreboard&nbsp;<span class='world-title' style='color: #18BC9C;'>{{world}} ({{worldName}})</span>
               </h2>
@@ -75,7 +75,7 @@
                 <span class="label label-danger">You are viewing historic data</span> Go to <a class="a-link-dialog" routerLink="/points" [queryParams]="{world: world}">today</a>
               </h4>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 text-right">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 text-right scoreboard-controls-container">
 
               <div class="row">
                 <div class="col-xs-12">
@@ -99,7 +99,7 @@
                   </mat-form-field>
                 </div>
                 <div class="col-xs-12 noselect">
-                  <mat-chip-list style="float: right;" [multiple]="true" [selectable]="true">
+                  <mat-chip-list class="scoreboard-control-chips" style="float: right;" [multiple]="true" [selectable]="true">
                     <mat-chip style="cursor: pointer" class="btn-chip" (click)="prevDay()"><mat-icon matChipAvatar>chevron_left</mat-icon>Previous day</mat-chip>
                     <mat-chip style="cursor: pointer" class="btn-chip" *ngIf="paramsDate != ''" (click)="nextDay()">Next day<mat-icon matChipRemove style="color: #fff; opacity: 1;">chevron_right</mat-icon></mat-chip>
                     <mat-chip style="cursor: pointer" class="btn-chip" *ngIf="paramsDate != ''" (click)="today()">Today<mat-icon matChipRemove style="color: #fff; opacity: 1;">last_page</mat-icon></mat-chip>
@@ -119,7 +119,7 @@
           <div *ngIf="loadingPlayers" style="position: relative; top: -40px; height: 0px;">
             <br/><mat-progress-bar mode="indeterminate"></mat-progress-bar>
           </div>
-          <h1 class="mat-title table-title">Players</h1>
+          <h1 class="mat-title table-title hidden-xs hidden-sm">Players</h1>
           <div class="row" *ngIf="noticePlayer != ''">
             <div class="col-xs-8 col-xs-offset-2">
               <div class="alert alert-warning text-center">

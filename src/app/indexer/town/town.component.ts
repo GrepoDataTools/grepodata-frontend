@@ -30,6 +30,12 @@ export class IndexTownComponent implements OnInit {
   version = '';
   message = '';
 
+  hasStonehail = false;
+  hasSilver = false;
+  hasGod = false;
+  hasHero = false;
+  hasWall = false;
+
   private csa : any = false;
 
   constructor(public dialog: MatDialog, private indexerService: IndexerService, private router: Router, private route: ActivatedRoute) {
@@ -90,12 +96,32 @@ export class IndexTownComponent implements OnInit {
       this.playerId = data.player_id;
       this.playerName = data.player_name;
       this.allianceId = data.alliance_id;
+      this.hasStonehail = data.has_stonehail;
       if (data.buildings != undefined) {
         for (let key in data.buildings) {
+          let level = data.buildings[key].level;
+          let date = data.buildings[key].date;
+
+          try {
+            if (level.indexOf(" (-") >= 0) {
+              let parts = level.split(" (-");
+              let base = parts[0];
+              level = base;
+              if (parts.length > 1) {
+                let mod = parts[1].split(')');
+                if (mod.length > 1 && !isNaN(mod[0])) {
+                  level -= mod[0];
+                }
+              }
+            }
+          } catch (e) {
+            console.log(e);
+          }
+          
           this.build.push({
             'name':key,
-            'val':data.buildings[key].level,
-            'date':data.buildings[key].date
+            'val':level,
+            'date':date
           })
         }
       }
@@ -103,6 +129,11 @@ export class IndexTownComponent implements OnInit {
       if (data.intel != undefined) {
         for (let key in data.intel) {
           let town = data.intel[key];
+          console.log(town);
+          this.hasSilver = town.silver ? true : this.hasSilver;
+          this.hasGod = town.god ? true : this.hasGod;
+          this.hasHero = town.hero ? true : this.hasHero;
+          this.hasWall = town.wall ? true : this.hasWall;
           this.allCities.push(town);
         }
       }
@@ -113,7 +144,6 @@ export class IndexTownComponent implements OnInit {
           this.notes.push(note);
         }
       }
-      console.log(this.notes);
 
       this.noIntel = false;
     }

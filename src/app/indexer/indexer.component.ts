@@ -187,9 +187,6 @@ export class IndexerComponent implements OnInit {
       }
       if (data.recent_conquests) {
         this.recent_conquests = data.recent_conquests;
-        this.recent_conquests = this.recent_conquests.concat(data.recent_conquests);
-        this.recent_conquests = this.recent_conquests.concat(data.recent_conquests);
-        this.recent_conquests = this.recent_conquests.concat(data.recent_conquests);
       }
       // if (data.total_reports != undefined && data.total_reports <= 0 && this.max_retries > 0) {
       //   setTimeout(()=>{

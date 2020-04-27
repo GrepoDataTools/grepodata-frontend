@@ -1,5 +1,6 @@
 mat-card {
-  padding: 20px;
+  padding: 7px 20px !important;
+  box-shadow: none !important;
 }
 
 .top-container {
@@ -10,7 +11,7 @@ mat-card {
   .top-container {
     position: -webkit-sticky; /* Safari */
     position: sticky;
-    top: 70px;
+    top: 67px;
     z-index: 999;
   }
 }

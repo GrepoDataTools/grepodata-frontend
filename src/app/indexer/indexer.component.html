@@ -333,8 +333,8 @@
               </div>
             </div>
             <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 text-center">
-              <h1><i class="fa fa-university gd-secondary" aria-hidden="true"></i>&nbsp; Enemy city index</h1>
-              <h3>
+              <h2 style="margin-top: 5px !important;"><i class="fa fa-university gd-secondary" aria-hidden="true"></i>&nbsp; Enemy city index</h2>
+              <h3 style="margin-top: 0 !important;">
                 &nbsp;&nbsp;&nbsp;Key: <span class='world-title gd-secondary'>{{key}}</span>
                 World: <span class='world-title gd-secondary'>{{world}}</span>
 
@@ -522,7 +522,7 @@
 											        <span *ngIf="!conquest.cs_killed && !conquest.new_owner_player_id">unresolved</span>
 											        <span *ngIf="!conquest.cs_killed && conquest.new_owner_player_id">Successful conquest by defenders</span>
 										        </div>
-										        <div class="text-right" style="float: right;">
+										        <div class="text-right" style="float: right;" *ngIf="conquest?.hide_details != true">
 											        <a class="a-link-dialog" (click)="loadConquestDetails(conquest)">Detailed report <mat-icon style="opacity: 1; vertical-align: bottom;">launch</mat-icon></a>
 										        </div>
 									        </div>

@@ -1,5 +1,5 @@
 // globals.ts
-import { Injectable } from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 
 @Injectable()
 export class Globals {
@@ -12,6 +12,8 @@ export class Globals {
   private active_server:  string = '';
   private active_index:   string = '';
   private active_intel:   any = null;
+  private show_duplicates: any = false;
+  public duplicateVisChange: EventEmitter<any> = new EventEmitter();
 
   get_active_world() {
     if (this.active_world != '') {
@@ -77,5 +79,13 @@ export class Globals {
     }
     this.active_intel[world] = index;
     localStorage.setItem(this.ACTIVE_INTEL_WORLD, JSON.stringify(this.active_intel));
+  }
+
+  get_show_duplicates() {
+    return this.show_duplicates;
+  }
+  set_show_duplicates(show_duplicates) {
+    this.show_duplicates = show_duplicates;
+    this.duplicateVisChange.emit(this.show_duplicates);
   }
 }

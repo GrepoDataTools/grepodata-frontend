@@ -6,6 +6,7 @@ const apiUrl = environment.apiUrl;
 
 @Injectable()
 export class IndexerService {
+  showDuplicates:any;
 
   constructor(private http: HttpClient) {}
 
@@ -82,8 +83,8 @@ export class IndexerService {
 		return this.http.get(apiUrl + url);
 	}
 
-	getConquestReports(key, id) {
-		let url =  '/indexer/conquest?key='+key+'&conquest_id='+id;
+	getConquestReports(key, id, includeConquest = false) {
+		let url =  '/indexer/conquest?key='+key+'&conquest_id='+id+'&include_conquest='+includeConquest;
 		return this.http.get(apiUrl + url);
 	}
 	getSiegeList(key) {

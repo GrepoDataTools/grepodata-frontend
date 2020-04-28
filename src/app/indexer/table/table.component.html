@@ -17,7 +17,7 @@
 		<div *ngIf="iterator.length>0" class="bb-fixed" [ngClass]="{'bb-fixed-lg':hideAvailable}">
 			<div *ngIf="hideAvailable" class="togglecontainer" style="position: absolute; left: 5px; margin-top: -5px;">
 				<label class="switch">
-					<input type="checkbox" [(ngModel)]="showNonPriority" (change)="cdr.detectChanges()">
+					<input type="checkbox" [(ngModel)]="showNonPriority" (change)="cdr.detectChanges(); saveDuplicateVisibility();">
 					<span class="slider round"></span>
 				</label>
 				<span class="toggle-label" style="vertical-align: middle !important;">Show duplicate intel</span>

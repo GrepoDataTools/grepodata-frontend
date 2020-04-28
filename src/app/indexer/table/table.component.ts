@@ -4,6 +4,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {LocalCacheService} from "../../services/local-cache.service";
 import {IndexerService} from "../indexer.service";
 import {Router} from "@angular/router";
+import {Globals} from '../../globals';
 
 @Component({
   selector: 'intel-table',
@@ -35,10 +36,18 @@ export class TableComponent implements OnInit, AfterViewInit {
   private csa = false;
 
   constructor(
+    private globals: Globals,
     private router: Router,
     public dialog: MatDialog,
     private indexerService: IndexerService,
-    private cdr: ChangeDetectorRef) { }
+    private cdr: ChangeDetectorRef) {
+    globals.duplicateVisChange.subscribe(visible => {
+      if (this.parentType == 'player' && this.hideAvailable && this.showNonPriority != visible) {
+        this.showNonPriority = visible;
+        this.cdr.detectChanges();
+      }
+    });
+  }
 
   ngOnInit() {
     switch (this.type) {
@@ -78,6 +87,9 @@ export class TableComponent implements OnInit, AfterViewInit {
     }
     this.hideAvailable = this.containsDuplicates && this.iterator.length > (this.parentType == 'player' ? 10 : 6);
     this.showNonPriority = !this.hideAvailable;
+    if (this.hideAvailable && this.parentType == 'player') {
+      this.showNonPriority = this.globals.get_show_duplicates();
+    }
 
     // Check cleanup token
     this.csa = LocalCacheService.get('csa'+this.key);
@@ -107,6 +119,12 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.cdr.detach();
     this.loading = false;
     this.cdr.detectChanges();
+  }
+
+  saveDuplicateVisibility() {
+    if (this.parentType == 'player') {
+      this.globals.set_show_duplicates(this.showNonPriority);
+    }
   }
 
   public openBBdialog(type) {

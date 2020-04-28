@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ContactDialog} from "../../header/header.component";
 import { MatDialog } from "@angular/material/dialog";
 import {LocalCacheService} from "../../services/local-cache.service";
+import {ConquestReportDialog} from '../indexer.component';
 
 @Component({
   selector: 'app-index-town',
@@ -35,6 +36,7 @@ export class IndexTownComponent implements OnInit {
   hasGod = false;
   hasHero = false;
   hasWall = false;
+  hasConquest = false;
 
   private csa : any = false;
 
@@ -129,11 +131,11 @@ export class IndexTownComponent implements OnInit {
       if (data.intel != undefined) {
         for (let key in data.intel) {
           let town = data.intel[key];
-          console.log(town);
           this.hasSilver = town.silver ? true : this.hasSilver;
           this.hasGod = town.god ? true : this.hasGod;
           this.hasHero = town.hero ? true : this.hasHero;
           this.hasWall = town.wall ? true : this.hasWall;
+          this.hasConquest = town.conquest_id && town.conquest_id > 0 ? true : this.hasConquest;
           this.allCities.push(town);
         }
       }
@@ -158,6 +160,18 @@ export class IndexTownComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {});
+  }
+
+  public loadConquestDetails(conquest_id): void {
+    let dialogRef = this.dialog.open(ConquestReportDialog, {
+      autoFocus: false,
+      data: {
+        key: this.key,
+        world: this.world,
+        conquest: {conquest_id: conquest_id},
+        get_by_id: true,
+      }
+    });
   }
 
   deleteIntel(id) {

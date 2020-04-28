@@ -279,7 +279,7 @@
 	<!--</mat-select>-->
 
 	<div class="mobile-filter-push"></div>
-	<mat-chip-list [disabled]="loading" [ngClass]="{'disabled-div':loading}">
+	<mat-chip-list [disabled]="loading" [ngClass]="{'disabled-div':loading}" *ngIf="type!='town'">
 		<mat-chip [selected]="toggleFriendly&&toggleInternal&&toggleEnemy"
 		          (click)="toggleFriendly = toggleInternal = toggleEnemy = true; cdr.detectChanges(); toggleEvent(30);">
 			All conquests

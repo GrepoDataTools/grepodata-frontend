@@ -933,7 +933,8 @@ mat-paginator {
 
 .conquests-container {
   width: 100%;
-  font-size: 16px;
+  font-size: 17px;
+  color: #334254;
   .conquests-scroll {
     width: 100%;
     overflow-x: auto;
@@ -969,6 +970,7 @@ mat-paginator {
     .conquest-belligerents {
       border-top: 1px solid #ddd;
       padding: 7px 15px !important;
+      min-height: 111px !important;
     }
     .conquest-losses {
       border-top: 1px solid #ddd;
@@ -983,6 +985,36 @@ mat-paginator {
       .diff-neg {
         text-shadow: none !important;
         display: block;
+      }
+      .conquest-unit-row {
+        font-size: 16px;
+        float: none !important;
+        margin: 0 !important;
+        display: flex;
+        place-content: flex-end;
+      }
+      .conquest-unit {
+        font-size: 16px;
+      }
+      .conquest-report-content {
+        display: flex;
+        place-content: space-between;
+        justify-content: space-between;
+        min-height: 70px;
+        margin-top: -5px;
+        .attacker {
+          font-size: 16px;
+        }
+        .defender {
+          font-size: 16px;
+        }
+      }
+      .conquest-report-title {
+        text-align: left;
+        font-size: 16px;
+        img {
+          vertical-align: text-top !important;
+        }
       }
     }
   }

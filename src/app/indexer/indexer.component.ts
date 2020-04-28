@@ -207,6 +207,7 @@ export class IndexerComponent implements OnInit {
         key: this.key,
         world: this.world,
         conquest: conquest,
+        get_by_id: false,
       }
     });
   }
@@ -1192,6 +1193,7 @@ export class ConquestReportDialog {
   conquest: any;
   loading: any  = true;
   error: any  = false;
+  getById: any  = false;
   reports: any  = [];
   objectKeys = Object.keys;
   allianceNames = {};
@@ -1204,8 +1206,9 @@ export class ConquestReportDialog {
     this.key = data.key;
     this.world = data.world;
     this.conquest = data.conquest;
+    this.getById = data.get_by_id;
 
-    this.indexerService.getConquestReports(this.key, this.conquest.conquest_id).subscribe(
+    this.indexerService.getConquestReports(this.key, this.conquest.conquest_id, this.getById).subscribe(
       (response) => this.renderReports(response),
       (error) => {
         this.error = true;
@@ -1215,15 +1218,19 @@ export class ConquestReportDialog {
   }
 
   renderReports(data) {
-    if (data.intel) {
+    if (
+      (this.getById && data.conquest && data.intel)
+      || (!this.getById && data.intel)
+    ) {
       this.reports = data.intel;
+      if (this.getById) {
+        this.conquest = data.conquest;
+      }
       if (this.conquest.belligerent_all) {
         Object.keys(this.conquest.belligerent_all).forEach(key => {
-          console.log(key);
           this.allianceNames[this.conquest.belligerent_all[key].alliance_id] = this.conquest.belligerent_all[key].alliance_name
         });
       }
-      console.log(this.allianceNames);
     } else {
       console.log(data);
       this.error = true;

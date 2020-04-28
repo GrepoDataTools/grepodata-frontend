@@ -220,7 +220,7 @@ export class ConquestComponent implements AfterViewInit, OnChanges {
     this.type = params['type'];
     this.world = params['world'];
     this.id = params['id'];
-		this.cdr.detectChanges();
+    this.cdr.detectChanges();
 
     // Filters
 		let filters = {

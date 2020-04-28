@@ -15,7 +15,7 @@
       </h1>
       <h3>
         &nbsp;&nbsp;&nbsp;Index: <span class='world-title'><a class="a-link-dialog" style="color: #334254 !important;" routerLink="/indexer/{{key}}">{{key}}</a></span>
-        World: <span class='world-title gd-secondary'>{{world}}</span>
+	      World: <span class='world-title gd-secondary'><a class="a-link-dialog" style="color: #334254 !important;" routerLink="/points" [queryParams]="{world: world}">{{world}}</a></span>
         Player: <span class='world-title gd-secondary'><a class="a-link-dialog" style="color: #334254 !important;" routerLink="/indexer/player/{{key}}/{{world}}/{{playerId}}">{{playerName}}</a></span>
         <span class="hidden-xs hidden-sm" (click)="copyBB()" style="cursor: pointer;">
 	        &nbsp;BB: <span class='world-title gd-secondary' id="bbcode">[town]{{id}}[/town]</span>
@@ -105,6 +105,9 @@
 								              <div class="cell" *ngIf="hasSilver">
 									              Silver
 								              </div>
+								              <div class="cell" *ngIf="hasConquest">
+									              Siege report
+								              </div>
 								              <div class="cell" *ngIf="csa!=false"></div>
 							              </div>
 
@@ -143,16 +146,16 @@
 								              </div>
 								              <div class="cell" *ngIf="hasWall" style="padding-top: 7px;">
 									              <!--<span [outerHTML]="town.wall | HideNoLossPipe"></span>-->
-									              <span *ngIf="town.wall!=null" class="build-cell" style="min-width: 70px;">
-						                      <div class="building_icon40x40 wall" matTooltip="Wall: {{town.wall}})"></div>
+									              <span *ngIf="town.wall!=null && town.wall!=''" class="build-cell" style="min-width: 70px;">
+						                      <div class="building_icon40x40 wall" matTooltip="Wall: {{town.wall}}"></div>
 										              <div>
 											              <span [outerHTML]="town.wall | HideNoLossPipe"></span>
 										              </div>
 						                    </span>
 								              </div>
 								              <div class="cell" *ngIf="hasStonehail" style="padding-top: 7px;">
-									              <span *ngIf="town.stonehail!=null" class="build-cell" style="">
-						                      <div class="building_icon40x40 {{town.stonehail.building}}" matTooltip="Stonehail: {{town.stonehail.building}} {{town.stonehail.value}})"></div>
+									              <span *ngIf="town.stonehail!=null && town.stonehail!=''" class="build-cell" style="">
+						                      <div class="building_icon40x40 {{town.stonehail.building}}" matTooltip="Stonehail: {{town.stonehail.building}} {{town.stonehail.value}}"></div>
 										              <div>
 											              <span [outerHTML]="town.stonehail.value | HideNoLossPipe"></span>
 										              </div>
@@ -160,6 +163,11 @@
 								              </div>
 								              <div class="cell" *ngIf="hasSilver">
 									              <span *ngIf="town?.silver">{{town?.silver?.replace('(+',' (+')}}</span>
+								              </div>
+								              <div class="cell" *ngIf="hasConquest">
+									              <div *ngIf="town?.conquest_id && town?.conquest_id > 0">
+										              <a class="a-link-dialog" (click)="loadConquestDetails(town?.conquest_id)">View report <mat-icon style="opacity: 1; vertical-align: bottom;">launch</mat-icon></a>
+									              </div>
 								              </div>
 								              <div class="cell" style="" *ngIf="csa!=false">
 									              <button *ngIf="!town.deleted || town?.deleted==false" name="open_bb" class="btn btn-danger" style=""
@@ -234,6 +242,16 @@
 						              </div>
 
 					              </div>
+				              </mat-tab>
+
+
+				              <mat-tab class="history-chart" style="padding: 20px 0; overflow: hidden !important;">
+					              <ng-template mat-tab-label>
+						              <mat-icon style="opacity: 1; margin-top: -8px; font-weight: 900;">⚔</mat-icon>&nbsp;Conquests
+					              </ng-template>
+
+					              <app-conquest [embedded]="true" [params]="{type: 'town', world: world, id: id}"></app-conquest>
+
 				              </mat-tab>
 			              </mat-tab-group>
 		              </div>

@@ -1,0 +1,43 @@
+<div style="font-size: 18px; width: auto; max-width: 50vw; min-width: 50vw; min-height: 40vh; max-height: 70vh; height: auto;">
+  <a (click)="dialogRef.close()" class="close"></a>
+  <h1 class="mat-primary" style="color: #18BC9C; margin-top: 0px;" mat-dialog-title>Siege list</h1>
+
+	<div class="report-container container-fluid">
+
+		<div class="row">
+
+			<div class="col-xs=12 text-center" *ngIf="loading">
+				<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+				<strong>Loading siege list..</strong>
+			</div>
+
+			<div class="col-xs-12" *ngIf="!loading && error">
+				<h2>Sorry, we can not load the siege list for this index at the moment. try again later.</h2>
+			</div>
+
+			<div class="col-xs-12" style="padding: 0 !important;" *ngIf="!loading && !error">
+				<div class="conquests-container container-fluid">
+					<div class="conquests-list row" style="margin: 0 !important;">
+
+						<div *ngFor="let conquest of sieges" style="padding: 5px 15px;">
+							<app-siege
+								[embedded]="true"
+								[isCard]="true"
+								[hideKey]="false"
+								[conquest]="conquest"
+								[conquestId]="conquest?.conquest_id"
+								[key]="key"
+								[world]="world">
+							</app-siege>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+</div>

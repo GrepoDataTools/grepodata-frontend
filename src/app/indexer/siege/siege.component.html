@@ -1,0 +1,327 @@
+<span *ngIf="embedded==true">
+	<ng-container *ngTemplateOutlet="report"></ng-container>
+</span>
+<span *ngIf="embedded==false">
+	<div style="min-height: calc(100vh - 160px);">
+
+	  <div class=container>
+		  <div class="row">
+			  <div class="col-xs-12 text-center">
+				  <h2 class="gd-primary">Siege report</h2>
+					<ng-container *ngTemplateOutlet="report"></ng-container>
+			  </div>
+		  </div>
+	  </div>
+
+	</div>
+</span>
+
+<ng-template #report>
+	<div class="report-container container-fluid">
+
+		<div class="row">
+
+			<div class="col-xs-12 text-center" *ngIf="!loading && error">
+				<h2 class="gd-secondary">Sorry, we can not load this siege at the moment. try again later.</h2>
+			</div>
+
+			<div class="col-xs-12 text-center" *ngIf="loading && !isCard" style="padding-top: 200px;">
+				<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+				<strong>Loading siege report..</strong>
+			</div>
+
+			<div class="col-xs-12 conquests-container" style="padding: 0 !important; width: 100% !important;" *ngIf="!loading && !error">
+
+				<div class="conquest-item" style="max-width: 100% !important;" [ngStyle]="{'font-size': isCard?'17px':'20px'}">
+					<div class="conquest-contents" style="max-width: 100% !important;" [ngClass]="{ 'conquest-card': isCard || !embedded }">
+						<div class="col-xs-12 text-center conquest-title">
+							<strong *ngIf="!hideKey">
+								<a routerLink="/indexer/town/{{key}}/{{world}}/{{conquest?.town_id}}">
+									<img src="../../assets/images/town_ico.png"/>&nbsp;{{conquest.town_name}}
+								</a>
+								(
+								<span *ngIf="conquest.player_name!=''&&conquest.player_id!=0"><a routerLink="/indexer/player/{{key}}/{{world}}/{{conquest?.player_id}}">
+											        <img src="../../assets/images/player_ico.png"/>&nbsp;{{conquest.player_name}}
+										        </a></span>
+								<span *ngIf="conquest.player_id==0||conquest.player_name==''">Ghost town</span>
+								<span *ngIf="conquest.alliance_name!=''&&conquest.alliance_id!=0"><span *ngIf="conquest.player_name!=''">, </span>
+											        <a routerLink="/indexer/alliance/{{key}}/{{world}}/{{conquest?.alliance_id}}">
+											        <img src="../../assets/images/ally_ico.png"/>&nbsp;{{conquest.alliance_name}}
+										        </a></span>
+								)
+							</strong>
+							<strong *ngIf="hideKey">
+								<a routerLink="/conquest/town/{{world}}/{{conquest?.town_id}}">
+									<img src="../../assets/images/town_ico.png"/>&nbsp;{{conquest.town_name}}
+								</a>
+								(
+								<span *ngIf="conquest.player_name!=''&&conquest.player_id!=0">
+									<a routerLink="/player" [queryParams]="{world: world, id: conquest?.player_id}">
+						        <img src="../../assets/images/player_ico.png"/>&nbsp;{{conquest.player_name}}
+					        </a>
+								</span>
+								<span *ngIf="conquest.player_id==0||conquest.player_name==''">Ghost town</span>
+								<span *ngIf="conquest.alliance_name!=''&&conquest.alliance_id!=0">
+									<span *ngIf="conquest.player_name!=''">, </span>
+					        <a routerLink="/alliance" [queryParams]="{world: world, id: conquest?.alliance_id}">
+						        <img src="../../assets/images/ally_ico.png"/>&nbsp;{{conquest.alliance_name}}
+					        </a>
+								</span>
+								)
+							</strong>
+						</div>
+						<div class="col-xs-12 conquest-belligerents">
+							<div class="row">
+								<div class="col-xs-12 text-center" *ngIf="mobile">
+									<div><mat-icon style="font-weight: 900;">⚔</mat-icon>&nbsp;{{conquest.last_attack_date | Datex : "D MMM YYYY"}}</div>
+								</div>
+								<div class="col-xs-12 text-center" style="position: absolute;" *ngIf="!mobile">
+									<div>{{conquest.last_attack_date | Datex : "D MMM YYYY"}}</div>
+									<mat-icon style="font-weight: 900;">⚔</mat-icon>
+									<div *ngIf="!isCard">
+										<ng-container *ngTemplateOutlet="result"></ng-container>
+									</div>
+								</div>
+								<div class="col-xs-6 text-left left att"  [ngStyle]="{'max-height': isCard?'96px':'144px'}">
+									Attacking
+									<div *ngFor="let bell of conquest.belligerent_all" style="direction: ltr;">
+										<a *ngIf="!hideKey" routerLink="/indexer/alliance/{{key}}/{{world}}/{{bell.alliance_id}}">
+											<img src="../../assets/images/ally_ico.png"/>&nbsp;{{bell.alliance_name}}
+										</a>
+										<a *ngIf="hideKey" routerLink="/alliance" [queryParams]="{world: world, id: bell.alliance_id}">
+											<img src="../../assets/images/ally_ico.png"/>&nbsp;{{bell.alliance_name}}
+										</a>
+									</div>
+								</div>
+								<div class="col-xs-6 text-right right def" style="max-height: 15vh; overflow-y: auto;">
+									Siege lead by
+									<div *ngIf="conquest.belligerent_player_name != ''">
+										<a routerLink="/player" [queryParams]="{world: world, id: conquest.belligerent_player_id}">
+											{{conquest.belligerent_player_name}}&nbsp;<img src="../../assets/images/player_ico.png"/>
+										</a>
+									</div>
+									<div *ngIf="conquest.belligerent_alliance_name != ''">
+										<a routerLink="/alliance" [queryParams]="{world: world, id: conquest.belligerent_alliance_id}">
+											{{conquest.belligerent_alliance_name}}&nbsp;<img src="../../assets/images/ally_ico.png"/>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12 conquest-losses">
+							<div class="row">
+								<div class="col-xs-6 text-left left att">
+									<strong>Attacker losses</strong>&nbsp;<span class="hidden-xs hidden-sm">({{conquest.num_attacks_counted}} attack<span *ngIf="conquest.num_attacks_counted>1">s</span>)</span>
+									<div class="unit-row">
+										<div class="unit-icon-lg" *ngFor="let unit of objectKeys(conquest.total_losses_att)">
+											<div class="unit_icon40x40 {{unit}}">
+												<span class="unit-val" [ngStyle]="{'font-size': conquest.total_losses_att[unit]<=9999?'17px':(conquest.total_losses_att[unit]<=99999?'15px':'13px')}">
+													{{conquest.total_losses_att[unit]}}
+												</span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-6 text-right right def">
+									<strong>Defender losses</strong><br/>
+									<div class="unit-row" style="float: right;" [ngStyle]="{'min-height': isCard?'88px':'44px'}">
+						        <span *ngFor="let unit of objectKeys(conquest.total_losses_def)">
+							        <div class="unit-icon-lg" *ngIf="conquest.total_losses_def[unit] > 20 || conquest.total_losses_def.length <= 5 || unit=='colonize_ship'" style="float: right !important;">
+								        <div class="unit_icon40x40 {{unit}}">
+									        <span class="unit-val" [ngStyle]="{'font-size': conquest.total_losses_def[unit]<=9999?'17px':(conquest.total_losses_def[unit]<=99999?'15px':'13px')}">
+										        {{conquest.total_losses_def[unit]}}
+									        </span>
+								        </div>
+							        </div>
+						        </span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-xs-12 conquest-result" *ngIf="isCard || mobile">
+							<div class="">
+								<div class="text-left" style="float: left; padding: 3px 0;">
+									<ng-container *ngTemplateOutlet="result"></ng-container>
+								</div>
+								<div class="text-right" style="float: right;" *ngIf="!mobile">
+									<button class="gd-btn gd-btn-2" (click)="loadConquestDetails()">Detailed report <mat-icon style="opacity: 1; vertical-align: bottom;">launch</mat-icon></button>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-xs-12 conquest-reports" *ngIf="!isCard">
+
+							<div class="col-xs=12 text-center" *ngIf="loadingReports">
+								<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+								<strong>Loading battle reports..</strong>
+							</div>
+
+							<div class="col-xs-12 text-center" *ngIf="!loadingReports && errorReports">
+								<h2 class="gd-secondary">Sorry, we can not load the reports for this conquest at the moment. try again later.</h2>
+							</div>
+
+							<div class="col-xs-12" *ngIf="!loadingReports && !errorReports" style="padding: 0 !important;">
+
+								<div style="max-height: 45vh; overflow: auto;">
+									<div class="table" id="table_players_rows">
+										<div class='row_custom' *ngFor="let report of reports">
+											<div class="cell hidden-xs hidden-sm" style="max-width: 100px; width: 100px; font-size: 16px; vertical-align: top;">
+												{{report.date | Datex : "D MMM HH:mm"}}
+												<div class="attack_type" style="margin: 10px;">
+													<div class="attack_type32x32 attack" [ngClass]="{ 'sea_attack': report?.attacker?.attack_type == 'sea_attack' }"></div>
+												</div>
+											</div>
+											<div class="cell conquest-report-cell" style="padding-left: 20px;">
+
+												<div class="conquest-report-title">
+													<!--{{report.date | Datex : "D MMM HH:mm"}}&nbsp;&nbsp;-&nbsp;-->
+													<span *ngIf="report?.attacker?.friendly==false && report?.attacker?.town_id > 0">
+														<a *ngIf="!hideKey" routerLink="/indexer/town/{{key}}/{{world}}/{{report?.attacker?.town_id}}">
+															<img src="../../assets/images/town_ico.png"/>&nbsp;{{report?.attacker?.town_name}}
+														</a>
+														<a *ngIf="hideKey" routerLink="/conquest/town/{{world}}/{{report?.attacker?.town_id}}">
+															<img src="../../assets/images/town_ico.png"/>&nbsp;{{report?.attacker?.town_name}}
+														</a>
+													</span>
+													<span *ngIf="report?.attacker?.player_name!=''">
+														&nbsp;
+														<a *ngIf="report?.attacker?.friendly!=true && !hideKey" routerLink="/indexer/player/{{key}}/{{world}}/{{report?.attacker?.player_id}}"><img src="../../assets/images/player_ico.png"/>{{report?.attacker?.player_name}}</a>
+														<a *ngIf="report?.attacker?.friendly==true || hideKey" routerLink="/player" [queryParams]="{world: world, id: report?.attacker?.player_id}"><img src="../../assets/images/player_ico.png"/>{{report?.attacker?.player_name}}</a>
+														&nbsp;
+								          </span>
+													<span *ngIf="report?.attacker?.alliance_id!=0 && allianceNames[report?.attacker?.alliance_id]">
+										        <a *ngIf="report?.attacker?.friendly!=true && !hideKey" routerLink="/indexer/alliance/{{key}}/{{world}}/{{report?.attacker?.alliance_id}}"><img src="../../assets/images/ally_ico.png"/>{{allianceNames[report?.attacker?.alliance_id]}}</a>
+										        <a *ngIf="report?.attacker?.friendly==true || hideKey" routerLink="/alliance" [queryParams]="{world: world, id: report?.attacker?.alliance_id}"><img src="../../assets/images/ally_ico.png"/>&nbsp;{{allianceNames[report?.attacker?.alliance_id]}}</a>
+													</span>
+													<span *ngIf="report?.attacker?.friendly==true && !hideKey">
+														&nbsp;&nbsp;Town hidden: attacker is index owner
+													</span>
+												</div>
+
+												<div class="conquest-report-content">
+
+													<div class="attacker" style="padding-left: 10px;">
+
+														<div class="conquest-unit-row" style="place-content: flex-start !important;">
+											        <span *ngFor="let unit of report?.attacker?.units">
+												        <div class="unit-icon-lg">
+													        <div class="unit_icon40x40 {{unit.name}}">
+														        <span class="unit-val">
+															        {{unit.count}}
+															        <span class="diff-neg" *ngIf="unit.killed>0" style="font-size: 17px;">-{{unit.killed}}</span>
+														        </span>
+													        </div>
+												        </div>
+											        </span>
+														</div>
+													</div>
+
+													<div class="defender" style="margin-left: 80px !important;">
+														<div style="" *ngIf="conquest?.hide_details == true">
+															<div class="conquest-unit-row" style="float: right; margin-top: -30px;" matTooltip="Remaining defenders are still hidden (4hr cooldown)">
+																<div class="unit-icon-lg"><div class="unit_icon40x40 unknown"></div></div>
+																<div class="unit-icon-lg"><div class="unit_icon40x40 unknown_naval"></div></div>
+																<div class="conquest-unit">
+																	<div class="unit-icon-lg">
+																		<div class="building_icon40x40 wall" style="position: static !important;">
+																			<span class="unit-val"><span [outerHTML]="report?.defender?.wall | HideNoLossPipe : true"></span></span>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+
+														<div style="" *ngIf="conquest?.hide_details == false">
+															<div class="conquest-unit-row" style="float: right; margin-top: -30px;">
+
+																<div class="conquest-unit" *ngFor="let unit of report?.defender?.units?.land">
+																	<div class="unit-icon-lg" *ngIf="!mobile || unit.count > 20 || unit.killed > 0">
+																		<div class="unit_icon40x40 {{unit.name}}">
+															        <span class="unit-val" [ngStyle]="{'font-size': unit.count<=9999?'17px':(unit.count<=99999?'15px':'13px')}">
+																        {{unit.count}}
+																        <span class="diff-neg" *ngIf="unit.killed>0" style="font-size: 17px;" [ngStyle]="{'margin-top': unit.count<=9999?'0':(unit.count<=99999?'3px':'5px')}">
+																	        -{{unit.killed}}
+																        </span>
+															        </span>
+																		</div>
+																	</div>
+																</div>
+
+																<div class="conquest-unit" *ngFor="let unit of report?.defender?.units?.sea">
+																	<div class="unit-icon-lg" *ngIf="!mobile || unit.count > 30 || unit.killed > 0 || unit.name == 'colonize_ship'">
+																		<div class="unit_icon40x40 {{unit.name}}">
+															        <span class="unit-val" [ngStyle]="{'font-size': unit.count<=9999?'17px':(unit.count<=99999?'15px':'13px')}">
+																        {{unit.count}}
+																        <span class="diff-neg" *ngIf="unit.killed>0" style="font-size: 17px;" [ngStyle]="{'margin-top': unit.count<=9999?'0':(unit.count<=99999?'3px':'5px')}">
+																	        -{{unit.killed}}
+																        </span>
+															        </span>
+																		</div>
+																	</div>
+																</div>
+
+																<div class="conquest-unit">
+																	<div class="unit-icon-lg">
+																		<div class="building_icon40x40 wall" style="position: static !important;">
+																			<span class="unit-val"><span [outerHTML]="report?.defender?.wall | HideNoLossPipe : true"></span></span>
+																		</div>
+																	</div>
+																</div>
+
+															</div>
+														</div>
+
+													</div>
+
+												</div>
+
+											</div>
+
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-xs-12 text-center" *ngIf="!loading && !error && conquest?.hide_details == true">
+								<h4 class="gd-secondary">This siege is too recent, defender units are still hidden (4 hour cooldown after last attack); check again later to see defender units</h4>
+							</div>
+
+						</div>
+
+						<div class="col-xs-12 conquest-share" *ngIf="!hideKey && !loadingReports && !error && !isCard && conquestId.toString().length == 32">
+							<div class="row">
+								<div class="col-xs-12 col-sm-10 col-md-8 gd-share-link-container">
+									<label style="font-weight: 600">Anonymous sharing link: (index key is hidden for anyone with this url)</label>
+									<br/>
+									<div class="row">
+										<input #shareLink [disabled]="true" class="col-xs-8 ur" type="url" value="https://grepodata.com/siege/{{conquestId}}" id="siegeShareUrl" aria-describedby="inputGroup-sizing-default" style="height: 40px;">
+										<button class="cpy" (click)="copyLink(shareLink)"><i class="fa fa-clone"></i> Copy</button><span class="message" *ngIf="copied"> Link copied!</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+			</div>
+
+		</div>
+
+	</div>
+</ng-template>
+
+<ng-template #result>
+	<strong>Result:&nbsp;</strong>
+	<span *ngIf="conquest.cs_killed || (conquest.new_owner_player_id && conquest.new_owner_player_id == conquest.player_id)">siege broken by attackers</span>
+	<span *ngIf="!conquest.cs_killed && !conquest.new_owner_player_id">unresolved</span>
+	<span *ngIf="!conquest.cs_killed && conquest.new_owner_player_id && conquest.new_owner_player_id != conquest.belligerent_player_id && conquest.new_owner_player_id != conquest.player_id">successful conquest</span>
+	<span *ngIf="!conquest.cs_killed && conquest.new_owner_player_id && conquest.new_owner_player_id == conquest.belligerent_player_id">
+		successful conquest<span *ngIf="conquest.belligerent_player_name!=''"> by</span>
+		<a routerLink="/player" [queryParams]="{world: world, id: conquest.belligerent_player_id}" *ngIf="conquest.belligerent_player_name!=''">
+			{{conquest.belligerent_player_name}}
+		</a>
+	</span>
+</ng-template>

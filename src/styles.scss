@@ -110,6 +110,15 @@ mat-paginator {
 .bg-gd-3 {background: #ea6153 !important; color: rgb(221, 230, 228) !important;}
 .bg-gd-4 {background: #304356 !important; color: rgb(221, 230, 228) !important;}
 
+
+.gd-btn {
+
+}
+.gd-btn.focus,
+.gd-btn:focus {
+  outline: 0;
+  box-shadow: none !important
+}
 .gd-btn-1 {
   background: #f5f5f5;
   border: 2px solid #009688;
@@ -117,6 +126,24 @@ mat-paginator {
   font-family: Montserrat, sans-serif !important;
   font-size: 18px !important;
   font-weight: 900 !important;
+}
+
+.gd-btn-2 {
+  border: none;
+  color: #ffffff;
+  background-color: #334254;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 4px 6px;
+}
+
+.gd-btn-3 {
+  border: none;
+  color: #ffffff;
+  background-color: #334254;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 4px 6px;
 }
 
 .alert-gd-1 {
@@ -214,7 +241,7 @@ mat-paginator {
 
   simple-snack-bar {
     font-size: 20px !important;
-    line-height: 1.8em !important;
+    line-height: 1.4em !important;
 
     button {
       font-size: 20px !important;
@@ -230,16 +257,24 @@ mat-paginator {
     }
   }
 }
+@media (max-width:1200px) {
+
+  .compare-snackbar {
+    width: 95vw !important;
+    max-width: 95vw !important;
+  }
+  simple-snack-bar {
+    font-size: 14px !important;
+    line-height: 1em !important;
+  }
+
+}
 @media (max-width:800px) {
   .mat-paginator-page-size {
     display: none !important;
   }
   .compare-snackbar {
-    width: 95vw !important;
-  }
-  simple-snack-bar {
-    font-size: 14px !important;
-    line-height: 1em !important;
+    min-height: 88px !important;
   }
   .mat-tab-label {
     padding: 0 5px !important;
@@ -667,6 +702,9 @@ fieldset[disabled] .btn-success.active {
   max-height: 95vh !important;
   max-width: 95vw !important;
 }
+.tight-dialog-container .mat-dialog-container {
+  padding: 0 !important;
+}
 
 mat-progress-bar {
   height: 10px !important;
@@ -930,92 +968,41 @@ mat-paginator {
   background: url('assets/images/flags.png') -32px -128px;
 }
 
+.gd-share-link-container {
+  label {
+    font-size: 16px !important;
+  }
+  .ur {
+    font-size: 16px !important;
+    margin-left: 20px;
+    border: none;
+    background-color: #e6e2e2;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px
+  }
+  .cpy {
+    font-size: 20px !important;
+    border: none;
+    color: #ffffff;
+    background-color: #334254;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+    cursor: pointer;
+    padding: 6px;
+  }
+  button.focus,
+  button:focus {
+    outline: 0;
+    box-shadow: none !important
+  }
 
-.conquests-container {
-  width: 100%;
-  font-size: 17px;
-  color: #334254;
-  .conquests-scroll {
-    width: 100%;
-    overflow-x: auto;
-    white-space: nowrap;
+  .ur.focus,
+  .ur:focus {
+    outline: 0;
+    box-shadow: none !important
   }
-  .conquests-list {
-    width: 100%;
-  }
-  .conquest-item {
-    max-width: 600px;
-    padding: 5px 15px;
-    vertical-align: top;
-    display: inline-block;
-  }
-  .conquest-contents {
-    max-width: 570px;
-    display: inline-block;
-    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
-    .conquest-date {
-      position: absolute;
-      z-index: 30;
-      margin-top: 7px;
-      width: auto;
-    }
-    .conquest-title {
-      font-size: 17px;
-      background: #ebebeb;
-      padding: 8px 5px;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      overflow: hidden;
-    }
-    .conquest-belligerents {
-      border-top: 1px solid #ddd;
-      padding: 7px 15px !important;
-      min-height: 111px !important;
-    }
-    .conquest-losses {
-      border-top: 1px solid #ddd;
-      padding: 7px 15px !important;
-    }
-    .conquest-result {
-      border-top: 1px solid #ddd;
-      padding: 7px 15px !important;
-    }
-    .conquest-reports {
-      padding: 0 15px 10px 15px !important;
-      .diff-neg {
-        text-shadow: none !important;
-        display: block;
-      }
-      .conquest-unit-row {
-        font-size: 16px;
-        float: none !important;
-        margin: 0 !important;
-        display: flex;
-        place-content: flex-end;
-      }
-      .conquest-unit {
-        font-size: 16px;
-      }
-      .conquest-report-content {
-        display: flex;
-        place-content: space-between;
-        justify-content: space-between;
-        min-height: 70px;
-        margin-top: -5px;
-        .attacker {
-          font-size: 16px;
-        }
-        .defender {
-          font-size: 16px;
-        }
-      }
-      .conquest-report-title {
-        text-align: left;
-        font-size: 16px;
-        img {
-          vertical-align: text-top !important;
-        }
-      }
-    }
+  .message {
+    font-size: 17px;
+    color: #334254;
   }
 }

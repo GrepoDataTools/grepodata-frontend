@@ -30,7 +30,7 @@
 .unit-icon-lg {
   transform: scale(1);
   float: left;
-  margin: 5px;
+  margin: 2px;
   max-height: 56px !important;
   //margin: -3px;
   font-size: 18px;
@@ -506,4 +506,33 @@
 .hero40x40.artemis,
 .unit_icon40x40.artemis {
   background: url(../images/game/unit_icons_40x40.png) -280px -320px no-repeat;
+}
+
+// attack types
+.attack_type32x32 {
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  width: 32px;
+  height: 32px;
+}
+
+.attack_type32x32.breakthrough {
+  background: url(../images/game/attack_type_sm.png) no-repeat -96px -32px;
+}
+
+.attack_type32x32.attack {
+  background: url(../images/game/attack_type_sm.png) no-repeat -32px -32px;
+}
+
+.attack_type32x32.sea_attack {
+  background: url(../images/game/attack_type_sm.png) no-repeat -64px -32px;
+}
+
+.attack_type32x32.spying {
+  background: url(../images/game/attack_type_sm.png) no-repeat 0 -64px;
+}
+
+.attack_type32x32.conqueror {
+  background: url(../images/game/attack_type_sm.png) no-repeat -32px -64px;
 }

@@ -441,106 +441,17 @@
 				        </div>
 			        </mat-card-title>
 			        <mat-card-content>
-				        <div class="conquests-container">
-					        <div class="conquests-scroll">
-
-						        <div class="conquest-item" *ngFor="let conquest of recent_conquests">
-							        <div class="conquest-contents">
-								        <div class="col-xs-12 text-center conquest-title">
-									        <strong>
-										        <a routerLink="/indexer/town/{{key}}/{{world}}/{{conquest?.town_id}}">
-											        <img src="../../assets/images/town_ico.png"/>&nbsp;{{conquest.town_name}}
-										        </a>
-										        <span *ngIf="conquest.player_name!='' || conquest.alliance_name!=''">(</span>
-										        <span *ngIf="conquest.player_name!=''&&conquest.player_id!=0"><a routerLink="/indexer/player/{{key}}/{{world}}/{{conquest?.player_id}}">
-											        <img src="../../assets/images/player_ico.png"/>&nbsp;{{conquest.player_name}}
-										        </a></span>
-										        <span *ngIf="conquest.player_id==0||conquest.player_name==''">Ghost town</span>
-										        <span *ngIf="conquest.alliance_name!=''&&conquest.alliance_id!=0"><span *ngIf="conquest.player_name!=''">, </span>
-											        <a routerLink="/indexer/alliance/{{key}}/{{world}}/{{conquest?.alliance_id}}">
-											        <img src="../../assets/images/ally_ico.png"/>&nbsp;{{conquest.alliance_name}}
-										        </a></span>
-										        <span *ngIf="conquest.player_name!='' || conquest.alliance_name!=''">)</span>
-									        </strong>
-								        </div>
-								        <div class="col-xs-12 conquest-belligerents">
-									        <div class="row">
-										        <div class="col-xs-12 text-center" style="position: absolute;">
-											        <div>{{conquest.last_attack_date | Datex : "D MMM YYYY"}}</div>
-											        <mat-icon style="font-weight: 900;">⚔</mat-icon>
-										        </div>
-										        <div class="col-xs-6 text-left left att">
-											        Attacking
-											        <div *ngFor="let bell of conquest.belligerent_all">
-												        <a routerLink="/indexer/alliance/{{key}}/{{world}}/{{bell.alliance_id}}">
-													        <img src="../../assets/images/ally_ico.png"/>&nbsp;{{bell.alliance_name}}
-												        </a>
-											        </div>
-										        </div>
-										        <div class="col-xs-6 text-right right def">
-											        Siege lead by
-											        <div *ngIf="conquest.belligerent_player_name != ''">
-												        <a routerLink="/player" [queryParams]="{world: world, id: conquest.belligerent_player_id}">
-													        {{conquest.belligerent_player_name}}&nbsp;<img src="../../assets/images/player_ico.png"/>
-												        </a>
-											        </div>
-											        <div *ngIf="conquest.belligerent_alliance_name != ''">
-												        <a routerLink="/alliance" [queryParams]="{world: world, id: conquest.belligerent_alliance_id}">
-													        {{conquest.belligerent_alliance_name}}&nbsp;<img src="../../assets/images/ally_ico.png"/>
-												        </a>
-											        </div>
-										        </div>
-									        </div>
-								        </div>
-								        <div class="col-xs-12 conquest-losses">
-									        <div class="row">
-										        <div class="col-xs-12 text-center">
-											        <strong>Losses</strong> (after {{conquest.num_attacks_counted}} attacks)
-										        </div>
-										        <div class="col-xs-6 text-left left att">
-											        <div class="unit-row">
-												        <span *ngFor="let unit of objectKeys(conquest.total_losses_att)">
-												        <div class="unit-icon-md" *ngIf="conquest.total_losses_att[unit] > 10 || conquest.total_losses_att.length <= 5" title="{{unit}}">
-													        <div class="unit_icon40x40 {{unit}}"><span class="unit-val">{{conquest.total_losses_att[unit]}}</span></div>
-												        </div>
-												        </span>
-											        </div>
-										        </div>
-										        <div class="col-xs-6 text-right right def">
-											        <div class="unit-row" style="float: right;">
-											        <span *ngFor="let unit of objectKeys(conquest.total_losses_def)">
-												        <div class="unit-icon-md" *ngIf="conquest.total_losses_def[unit] > 20 || conquest.total_losses_def.length <= 5 || unit=='colonize_ship'" title="{{unit}}">
-													        <div class="unit_icon40x40 {{unit}}"><span class="unit-val">{{conquest.total_losses_def[unit]}}</span></div>
-												        </div>
-											        </span>
-											        </div>
-										        </div>
-									        </div>
-								        </div>
-								        <div class="col-xs-12 conquest-result">
-									        <div class="">
-										        <div class="text-left" style="float: left; padding: 3px 0;">
-											        <strong>Result:&nbsp;</strong>
-											        <span *ngIf="conquest.cs_killed || (conquest.new_owner_player_id && conquest.new_owner_player_id == conquest.player_id)">siege broken by attackers</span>
-											        <span *ngIf="!conquest.cs_killed && !conquest.new_owner_player_id">unresolved</span>
-											        <span *ngIf="!conquest.cs_killed && conquest.new_owner_player_id && conquest.new_owner_player_id != conquest.belligerent_player_id && conquest.new_owner_player_id != conquest.player_id">successful conquest</span>
-											        <span *ngIf="!conquest.cs_killed && conquest.new_owner_player_id && conquest.new_owner_player_id == conquest.belligerent_player_id">
-																successful conquest<span *ngIf="conquest.belligerent_player_name!=''"> by</span>
-																<a routerLink="/player" [queryParams]="{world: world, id: conquest.belligerent_player_id}" *ngIf="conquest.belligerent_player_name!=''">
-																	{{conquest.belligerent_player_name}}
-																</a>
-															</span>
-										        </div>
-										        <div class="text-right" style="float: right;">
-											        <a class="a-link-dialog" (click)="loadConquestDetails(conquest)">Detailed report <mat-icon style="opacity: 1; vertical-align: bottom;">launch</mat-icon></a>
-										        </div>
-									        </div>
-								        </div>
-
-
-							        </div>
-						        </div>
-
+				        <div class="conquests-list-vertical">
+					        <div class="conquest-item" *ngFor="let conquest of recent_conquests">
+						        <app-siege
+							        [embedded]="true"
+							        [isCard]="true"
+							        [hideKey]="false"
+							        [conquest]="conquest"
+							        [conquestId]="conquest?.conquest_id"
+							        [world]="world"
+							        [key] = "key">
+						        </app-siege>
 					        </div>
 				        </div>
 			        </mat-card-content>
@@ -549,7 +460,7 @@
 
 	        <!--recent latest intel-->
 	        <div *ngIf="latest_intel && latest_intel.length>0" class="hidden-xs hidden-sm">
-				        <mat-card>
+				        <mat-card style="margin-top: 5px;">
 					        <mat-card-title>
 						        <div class="form-group row" style='margin: 0px;'>
 							        <h3 style='font-weight: 300; color: #304357; margin-top: 0px;'><span class='world-title' style='color: #18BC9C;'>Latest reports indexed</span></h3>

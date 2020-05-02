@@ -57,9 +57,7 @@ import {
   EditOwnersDialog,
   BBLossPipe,
   UnitIconPipe,
-  CleanIntelDialog,
-  ConquestReportDialog,
-  SiegeListDialog
+  CleanIntelDialog
 } from './indexer/indexer.component';
 import { FooterComponent, DisclaimerDialog } from './footer/footer.component';
 
@@ -92,6 +90,8 @@ import {ConquestDialog} from "./conquest/conquest.service";
 import {UnitModule} from "./advertorial/unit/unit.module";
 import { TableComponent } from './indexer/table/table.component';
 import { AnalyticsComponent } from './indexer/analytics/analytics.component';
+import {SiegeComponent} from './indexer/siege/siege.component';
+import {ConquestReportDialog, SiegeListDialog} from './indexer/siege/siege.service';
 
 const appRoutes: Routes = [
   // { path: 'login', component: LoginComponent },
@@ -122,6 +122,8 @@ const appRoutes: Routes = [
   { path: 'indexer/action/:token',  component: ActionComponent },
   { path: 'indexer/:key',  component: IndexerComponent },
   { path: 'indexer',  component: IndexerComponent },
+  { path: 'siege/:id/:key',  component: SiegeComponent },
+  { path: 'siege/:uid',  component: SiegeComponent },
   { path: 'player/:world/:id',  component: PlayerComponent },
   { path: 'player',  component: PlayerComponent },
   { path: 'alliance/:world/:id', component: AllianceComponent },
@@ -203,6 +205,7 @@ export function jwtTokenGetter(): any {
     ForgotComponent,
     TableComponent,
     AnalyticsComponent,
+    SiegeComponent,
   ],
   imports: [
     BrowserModule,

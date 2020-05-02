@@ -86,7 +86,7 @@ export class CompareService {
     // this.snackBar.openFromComponent(CompareSnackbar, {data: 'Player added!', duration: 3000, panelClass: ['success-snack']});
 
     let snackBarRef = this.snackBar.open('Player added!', 'Show comparison',
-      {duration: 5000, horizontalPosition: 'center', verticalPosition: 'bottom', panelClass: ['compare-snackbar']});
+      {duration: 6000, horizontalPosition: 'center', verticalPosition: 'bottom', panelClass: ['compare-snackbar']});
     snackBarRef.onAction().subscribe(response => {
       // if (this.router.url.indexOf('/compare') != -1) {
 			this.router.navigate(['/compare/player/'+world]);
@@ -117,7 +117,7 @@ export class CompareService {
     this.update$.next();
 
     let snackBarRef = this.snackBar.open('Alliance added!', 'Show comparison',
-      {duration: 5000, horizontalPosition: 'center', verticalPosition: 'bottom', panelClass: ['compare-snackbar']});
+      {duration: 6000, horizontalPosition: 'center', verticalPosition: 'bottom', panelClass: ['compare-snackbar']});
     snackBarRef.onAction().subscribe(response => {
       // if (this.router.url.indexOf('/compare') == -1) {
 			this.router.navigate(['/compare/alliance/'+world]);

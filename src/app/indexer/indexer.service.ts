@@ -6,7 +6,6 @@ const apiUrl = environment.apiUrl;
 
 @Injectable()
 export class IndexerService {
-  showDuplicates:any;
 
   constructor(private http: HttpClient) {}
 
@@ -80,15 +79,6 @@ export class IndexerService {
 	deleteRecordUndo(csa, key, id) {
 		console.log('delete undo ', id);
 		let url =  '/indexer/undodelete?csa='+csa+'&key='+key+'&id='+id;
-		return this.http.get(apiUrl + url);
-	}
-
-	getConquestReports(key, id, includeConquest = false) {
-		let url =  '/indexer/conquest?key='+key+'&conquest_id='+id+'&include_conquest='+includeConquest;
-		return this.http.get(apiUrl + url);
-	}
-	getSiegeList(key) {
-		let url =  '/indexer/siegelist?key='+key;
 		return this.http.get(apiUrl + url);
 	}
 

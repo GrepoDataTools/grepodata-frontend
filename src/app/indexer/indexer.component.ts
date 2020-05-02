@@ -18,6 +18,7 @@ import {RecaptchaComponent} from 'ng-recaptcha';
 import {WorldService} from "../services/world.service";
 import {LocalCacheService} from "../services/local-cache.service";
 import {JwtService} from "../auth/services/jwt.service";
+import {SiegeListDialog} from './siege/siege.service';
 
 @Component({
   selector: 'app-indexer',
@@ -198,18 +199,6 @@ export class IndexerComponent implements OnInit {
     }
     this.openingIndex = false;
     this.loading = false;
-  }
-
-  public loadConquestDetails(conquest): void {
-    let dialogRef = this.dialog.open(ConquestReportDialog, {
-      autoFocus: false,
-      data: {
-        key: this.key,
-        world: this.world,
-        conquest: conquest,
-        get_by_id: false,
-      }
-    });
   }
 
   public loadSiegeListDialog(): void {
@@ -1177,128 +1166,6 @@ export class BBDialog {
     document.execCommand("copy");
     selection.removeAllRanges();
     this.copied = true;
-  }
-
-}
-
-@Component({
-  selector: 'conquest-dialog',
-  templateUrl: 'conquest-report.html',
-  providers: [IndexerService]
-})
-export class ConquestReportDialog {
-
-  key: any;
-  world: any;
-  conquest: any;
-  loading: any  = true;
-  error: any  = false;
-  getById: any  = false;
-  reports: any  = [];
-  objectKeys = Object.keys;
-  allianceNames = {};
-
-  constructor(
-    public dialogRef: MatDialogRef<ConquestReportDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    public indexerService: IndexerService,
-  ) {
-    this.key = data.key;
-    this.world = data.world;
-    this.conquest = data.conquest;
-    this.getById = data.get_by_id;
-
-    this.indexerService.getConquestReports(this.key, this.conquest.conquest_id, this.getById).subscribe(
-      (response) => this.renderReports(response),
-      (error) => {
-        this.error = true;
-        this.loading = false;
-        console.log(error);
-      });
-  }
-
-  renderReports(data) {
-    if (
-      (this.getById && data.conquest && data.intel)
-      || (!this.getById && data.intel)
-    ) {
-      this.reports = data.intel;
-      if (this.getById) {
-        this.conquest = data.conquest;
-      }
-      if (this.conquest.belligerent_all) {
-        Object.keys(this.conquest.belligerent_all).forEach(key => {
-          this.allianceNames[this.conquest.belligerent_all[key].alliance_id] = this.conquest.belligerent_all[key].alliance_name
-        });
-      }
-    } else {
-      console.log(data);
-      this.error = true;
-    }
-    this.loading = false;
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-}
-
-@Component({
-  selector: 'siegelist-dialog',
-  templateUrl: 'all-sieges.html',
-  providers: [IndexerService]
-})
-export class SiegeListDialog {
-
-  key: any;
-  world: any;
-  loading: any  = true;
-  error: any  = false;
-  sieges: any  = [];
-  objectKeys = Object.keys;
-
-  constructor(
-    public dialogRef: MatDialogRef<SiegeListDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    public indexerService: IndexerService,
-    public dialog: MatDialog
-  ) {
-    this.key = data.key;
-    this.world = data.world;
-
-    this.indexerService.getSiegeList(this.key).subscribe(
-      (response) => this.renderSieges(response),
-      (error) => {
-        this.error = true;
-        this.loading = false;
-        console.log(error);
-      });
-  }
-
-  renderSieges(data) {
-    if (data.sieges) {
-      this.sieges = data.sieges;
-    } else {
-      console.log(data);
-      this.error = true;
-    }
-    this.loading = false;
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-  public loadConquestDetails(conquest): void {
-    let dialogRef = this.dialog.open(ConquestReportDialog, {
-      autoFocus: false,
-      data: {
-        key: this.key,
-        world: this.world,
-        conquest: conquest,
-      }
-    });
   }
 
 }

@@ -29,9 +29,16 @@
   color: #18bc9b;
 }
 
-// Recent conquests
-.conquests-card {
-  margin-bottom: 5px;
+.conquests-list-vertical {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+.conquest-item {
+  max-width: 600px;
+  display: inline-block;
+  vertical-align: top;
+  padding: 5px 15px;
 }
 
 .no-index-container {

@@ -1,0 +1,99 @@
+
+.conquests-container {
+  width: 100%;
+  font-size: 17px;
+  color: #334254;
+  img {
+    vertical-align: text-top !important;
+  }
+  .conquests-scroll {
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .conquests-list {
+    width: 100%;
+  }
+  .conquest-item {
+    vertical-align: top;
+    display: inline-block;
+  }
+  .conquest-contents.conquest-card {
+    max-width: 570px;
+    display: inline-block;
+    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  }
+  .conquest-contents {
+    .conquest-date {
+      position: absolute;
+      z-index: 30;
+      margin-top: 7px;
+      width: auto;
+    }
+    .conquest-title {
+      font-size: 17px;
+      background: #ebebeb;
+      padding: 8px 5px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .conquest-belligerents {
+      border-top: 1px solid #ddd;
+      padding: 7px 15px !important;
+      min-height: 111px !important;
+      .att {
+        overflow-y: auto;
+        direction: rtl;
+      }
+    }
+    .conquest-losses {
+      border-top: 1px solid #ddd;
+      padding: 7px 15px !important;
+    }
+    .conquest-result {
+      border-top: 1px solid #ddd;
+      padding: 7px 15px !important;
+    }
+    .conquest-reports {
+      padding: 0 20px 10px !important;
+      .diff-neg {
+        text-shadow: none !important;
+        display: block;
+      }
+      .conquest-unit-row {
+        font-size: 16px;
+        float: none !important;
+        margin: 0 !important;
+        display: flex;
+        place-content: flex-end;
+      }
+      .conquest-unit {
+        font-size: 16px;
+      }
+      .conquest-report-content {
+        display: flex;
+        place-content: space-between;
+        justify-content: space-between;
+        min-height: 68px;
+        margin-top: -2px;
+        .attacker {
+          font-size: 16px;
+        }
+        .defender {
+          font-size: 16px;
+        }
+      }
+      .conquest-report-title {
+        text-align: left;
+        font-size: 16px;
+        img {
+          vertical-align: text-top !important;
+        }
+      }
+    }
+    .conquest-share {
+      padding: 10px 50px 20px;
+    }
+  }
+}

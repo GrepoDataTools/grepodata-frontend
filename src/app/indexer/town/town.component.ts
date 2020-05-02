@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ContactDialog} from "../../header/header.component";
 import { MatDialog } from "@angular/material/dialog";
 import {LocalCacheService} from "../../services/local-cache.service";
-import {ConquestReportDialog} from '../indexer.component';
+import {ConquestReportDialog} from '../siege/siege.service';
 
 @Component({
   selector: 'app-index-town',
@@ -164,12 +164,14 @@ export class IndexTownComponent implements OnInit {
 
   public loadConquestDetails(conquest_id): void {
     let dialogRef = this.dialog.open(ConquestReportDialog, {
+      panelClass: 'tight-dialog-container',
       autoFocus: false,
       data: {
         key: this.key,
         world: this.world,
-        conquest: {conquest_id: conquest_id},
-        get_by_id: true,
+        conquest: null,
+        conquest_id: conquest_id,
+        get_by_uid: false,
       }
     });
   }

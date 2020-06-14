@@ -42,7 +42,7 @@ export class ActionComponent implements OnInit {
         (error) => this.actionResult(null)
       );
     } else {
-      this.error = 'Invalid action token!';
+      this.error = 'Invalid url action token!';
       this.loading = false;
     }
   }

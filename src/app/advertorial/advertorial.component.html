@@ -2,7 +2,7 @@
 	<ad-unit></ad-unit>
 </div>
 
-<div class="blocked" *ngIf="!mobile && blocking">
+<div class="blocked" *ngIf="!mobile && blocking && !hideBlockingMsg">
   <div class="col-12 alert alert-warning text-center alert-gd-1" style="width: 100%;">
     <div class="row">
       <div class="col-xs-2">

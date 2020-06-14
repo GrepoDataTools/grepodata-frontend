@@ -99,11 +99,11 @@
                   </mat-form-field>
                 </div>
                 <div class="col-xs-12 noselect">
-                  <mat-chip-list class="scoreboard-control-chips" style="float: right;" [multiple]="true" [selectable]="true">
+                  <mat-chip-list class="scoreboard-control-chips" style="float: right;" [multiple]="true" [selectable]="true" [disabled]="loadingPlayers">
                     <mat-chip style="cursor: pointer" class="btn-chip" (click)="prevDay()"><mat-icon matChipAvatar>chevron_left</mat-icon>Previous day</mat-chip>
-                    <mat-chip style="cursor: pointer" class="btn-chip" *ngIf="paramsDate != ''" (click)="nextDay()">Next day<mat-icon matChipRemove style="color: #fff; opacity: 1;">chevron_right</mat-icon></mat-chip>
-                    <mat-chip style="cursor: pointer" class="btn-chip" *ngIf="paramsDate != ''" (click)="today()">Today<mat-icon matChipRemove style="color: #fff; opacity: 1;">last_page</mat-icon></mat-chip>
-                    <mat-chip style="cursor: pointer" class="btn-chip" *ngIf="paramsDate == ''" (click)="refresh()">Refresh<mat-icon matChipRemove style="color: #fff; opacity: 1;">refresh</mat-icon></mat-chip>
+                    <mat-chip style="cursor: pointer" class="btn-chip" *ngIf="nextUpdate == ''" (click)="nextDay()">Next day<mat-icon matChipRemove style="color: #fff; opacity: 1;">chevron_right</mat-icon></mat-chip>
+                    <mat-chip style="cursor: pointer" class="btn-chip" *ngIf="nextUpdate == ''" (click)="today()">Today<mat-icon matChipRemove style="color: #fff; opacity: 1;">last_page</mat-icon></mat-chip>
+                    <mat-chip style="cursor: pointer" class="btn-chip" *ngIf="nextUpdate != ''" (click)="refresh()">Refresh<mat-icon matChipRemove style="color: #fff; opacity: 1;">refresh</mat-icon></mat-chip>
                   </mat-chip-list>
                 </div>
               </div>

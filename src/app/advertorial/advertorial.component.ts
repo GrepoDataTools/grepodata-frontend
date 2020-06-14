@@ -25,6 +25,7 @@ export class AdvertorialComponent implements OnInit {
 
   public mobile: boolean = true;
   public blocking: boolean = false;
+  public hideBlockingMsg: boolean = false;
 
   constructor() { }
 
@@ -33,19 +34,17 @@ export class AdvertorialComponent implements OnInit {
       this.mobile = false;
     }
 
-    let block = false;
     if(!document.getElementById('MzWAfeDdXbZt')) {
       console.log("Client is blocking ads");
-      block = true;
+      this.blocking = true;
     }
     if (getCookie('gd_adblocker_help')==='1') {
-      block = false;
+      this.hideBlockingMsg = true;
     }
-    this.blocking = block;
   }
 
   public hideHelp() {
-    this.blocking = false;
+    this.hideBlockingMsg = false;
     const date = new Date();
     date.setTime(date.getTime() + (2 * 24 * 60 * 60 * 1000));
     setCookie('gd_adblocker_help','1', date);

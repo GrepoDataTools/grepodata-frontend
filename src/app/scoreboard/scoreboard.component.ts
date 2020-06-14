@@ -71,7 +71,6 @@ export class ScoreboardComponent implements OnInit {
   maxDate = new Date();
   selectedDate = new Date();
   scoreboardDateInfo = '';
-  paramsDate = '';
 
 	// Debounce
 	typingTimer;
@@ -218,6 +217,7 @@ export class ScoreboardComponent implements OnInit {
 	}
 
   refresh() {
+    if (this.loadingPlayers) return;
     let params = {'world': this.world};
     this.load(params)
   }
@@ -326,9 +326,9 @@ export class ScoreboardComponent implements OnInit {
 
   load(params) {
     // Save params
-    if (typeof params['date'] != 'undefined') {
-      this.paramsDate = params['date'];
-    }
+    // if (typeof params['date'] != 'undefined') {
+    //   this.paramsDate = params['date'];
+    // }
     if (typeof params['world'] != 'undefined') {
       this.world = params['world'];
       this.server = this.world.substr(0,2);
@@ -406,6 +406,7 @@ export class ScoreboardComponent implements OnInit {
     this.router.navigate(['/points'], { queryParams: { world: this.world, date: dateString } });
   }
   prevDay() {
+    if (this.loadingPlayers) return;
     let today = new Date(this.selectedDate);
     let tomorrow = new Date(this.selectedDate);
     tomorrow.setDate(today.getDate()-1);
@@ -413,6 +414,7 @@ export class ScoreboardComponent implements OnInit {
     this.router.navigate(['/points'], { queryParams: { world: this.world, date: dateString } });
   }
   nextDay() {
+    if (this.loadingPlayers) return;
     let today = new Date(this.selectedDate);
     let tomorrow = new Date(this.selectedDate);
     tomorrow.setDate(today.getDate()+1);
@@ -420,6 +422,7 @@ export class ScoreboardComponent implements OnInit {
     this.router.navigate(['/points'], { queryParams: { world: this.world, date: dateString } });
   }
   today() {
+    if (this.loadingPlayers) return;
     this.router.navigate(['/points'], { queryParams: { world: this.world} });
   }
 

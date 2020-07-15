@@ -149,7 +149,6 @@ export class IndexPlayerComponent implements AfterViewInit {
       // console.log(this.offCities);
       // console.log(this.defCities);
       // console.log(this.tabsLandIndex);
-      console.log(data);
     }
     this.loading = false;
 

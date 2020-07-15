@@ -45,6 +45,7 @@
 
 .icon-fireship  { background: url(../images/units.png) -80px  -80px no-repeat; }
 .icon-bireme    { background: url(../images/units.png) -120px -40px no-repeat; }
+.icon-trireme   { background: url(../images/units.png) -120px -280px no-repeat; }
 .icon-slinger   { background: url(../images/units.png) -280px -80px no-repeat; }
 .icon-sword     { background: url(../images/units.png) -280px -200px no-repeat; }
 .icon-hoplite   { background: url(../images/units.png) -0px   -0px  no-repeat; }
@@ -163,7 +164,8 @@
 }
 
 .hero40x40.attack_ship,
-.unit_icon40x40.attack_ship {
+.unit_icon40x40.attack_ship,
+.unit_icon40x40.fire {
   background: url(../images/game/unit_icons_40x40.png) -120px 0 no-repeat;
 }
 
@@ -173,8 +175,14 @@
 }
 
 .hero40x40.bireme,
-.unit_icon40x40.bireme {
+.unit_icon40x40.bireme,
+.unit_icon40x40.bir {
   background: url(../images/game/unit_icons_40x40.png) -120px -80px no-repeat;
+}
+
+.hero40x40.trir,
+.unit_icon40x40.trir {
+  background: url(../images/game/unit_icons_40x40.png) -280px -280px no-repeat;
 }
 
 .hero40x40.calydonian_boar,

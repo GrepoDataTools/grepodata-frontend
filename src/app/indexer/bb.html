@@ -73,6 +73,19 @@
 </span>
 [/quote]</pre>
 
+<!--Player trir-->
+<!--num_brackets = 24 + (6*rows || 8*rows) -->
+<!--suppress XmlDuplicatedId -->
+<pre *ngIf="type=='player_trir'" id="bb_code">[quote]
+  [size=12][b]Trireme intel for [player]{{dataBB.name}}[/player][/b][/size]
+      [ally]{{dataBB.a_name}}[/ally]<span *ngIf="!hiddenKey">, index: [url=https://grepodata.com/indexer/{{dataBB.key}}]{{dataBB.key}}[/url]</span>
+  
+  [table]
+  &nbsp;&nbsp;[**]Town[||]Triremes (-lost)[||]Date[/**]<span *ngFor="let town of dataBB.data; let i = index;"><span *ngIf="showNonPriority || town?.priority==true&&!showNonPriority"><br/>&nbsp;&nbsp;[*][town]{{town.town_id}}[/town][|]{{town.units | BBLossPipe}}[|]{{town.date | IndexDate}}[/*]</span></span>
+  [/table][i]This table was generated on [b]{{generated_at}}[/b].[/i]
+  <span *ngIf="!hiddenKey">An up-to-date version can be found [url=https://grepodata.com/indexer/player/{{dataBB.key}}/{{dataBB.world}}/{{dataBB.id}}]here[/url]</span>
+  [/quote]</pre>
+
 <!--Player off-->
 <!--num_brackets = 24 + 6*rows -->
 <!--suppress XmlDuplicatedId -->

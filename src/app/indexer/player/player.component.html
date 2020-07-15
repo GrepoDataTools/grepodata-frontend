@@ -177,7 +177,8 @@
 		<div class="chip-list-wrapper">
 			<mat-chip-list>
 				<mat-chip class="gd-chip gd-chip-lg" [selected]="tabsSeaIndex===0" (click)="setSeaIndex(0)"><div class="gd-icon icon-fireship"></div> {{world.substring(0, 2)=='en'?'Light ships':'Fireships'}}</mat-chip>
-				<mat-chip class="gd-chip gd-chip-lg" [selected]="tabsSeaIndex===1" (click)="setSeaIndex(1)"><div class="gd-icon icon-bireme"></div> Biremes</mat-chip>
+        <mat-chip class="gd-chip gd-chip-lg" [selected]="tabsSeaIndex===1" (click)="setSeaIndex(1)"><div class="gd-icon icon-bireme"></div> Biremes</mat-chip>
+        <mat-chip class="gd-chip gd-chip-lg" [selected]="tabsSeaIndex===2" (click)="setSeaIndex(2)"><div class="gd-icon icon-trireme"></div> Triremes</mat-chip>
 			</mat-chip-list>
 		</div>
 
@@ -186,6 +187,9 @@
 		</div>
 		<div  *ngIf="tabsSeaIndex===1" style="padding-top: 16px;">
 			<intel-table [type]="'bir'" [containsDuplicates]="birCities.contains_duplicates" [seaTowns]="birCities.towns || []" [key]="key" [world]="world" [id]="id" [playerName]="playerName" [allianceName]="allianceName"></intel-table>
+    </div>
+    <div  *ngIf="tabsSeaIndex===2" style="padding-top: 16px;">
+			<intel-table [type]="'trir'" [containsDuplicates]="trirCities.contains_duplicates" [seaTowns]="trirCities.towns || []" [key]="key" [world]="world" [id]="id" [playerName]="playerName" [allianceName]="allianceName"></intel-table>
 		</div>
 	</mat-card>
 </ng-template>

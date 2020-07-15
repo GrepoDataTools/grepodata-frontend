@@ -33,6 +33,7 @@ export class IndexPlayerComponent implements AfterViewInit {
   allCities: any = [];
   fireCities: any = [];
   birCities: any = [];
+  trirCities: any = [];
   offCities: any = [];
   defCities: any = [];
   mythCities: any = [];
@@ -83,6 +84,7 @@ export class IndexPlayerComponent implements AfterViewInit {
     this.noIntel = false;
     this.allCities = [];
     this.fireCities = [];
+    this.trirCities = [];
     this.mythCities = [];
     this.birCities = [];
     this.defCities = [];
@@ -128,23 +130,26 @@ export class IndexPlayerComponent implements AfterViewInit {
       if (data.cities.players[this.id] != undefined) this.allCities  = data.cities.players[this.id].towns || [];
       if (data.fire.players[this.id] != undefined) this.fireCities = data.fire.players[this.id] || [];
       if (data.bir.players[this.id] != undefined) this.birCities = data.bir.players[this.id] || [];
+      if (data.trir.players[this.id] != undefined) this.trirCities = data.trir.players[this.id] || [];
       if (data.myth.players[this.id] != undefined) this.mythCities = data.myth.players[this.id] || [];
       if (data.off.players[this.id] != undefined) this.offCities = data.off.players[this.id] || [];
       if (data.def.players[this.id] != undefined) this.defCities = data.def.players[this.id] || [];
       this.noIntel = false;
 
       this.totalCount = this.fireCities.towns?this.fireCities.towns.length:0
-				+ this.birCities.towns?this.birCities.towns.length:0
+        + this.birCities.towns?this.birCities.towns.length:0
+        + this.trirCities.towns?this.trirCities.towns.length:0
 				+ this.mythCities.towns?this.mythCities.towns.length:0
 				+ this.offCities.towns?this.offCities.towns.length:0
 				+ this.defCities.towns?this.defCities.towns.length:0;
 
-      this.tabsSeaIndex = this.fireCities.towns&&this.fireCities.towns.length>0?0:(this.birCities.towns&&this.birCities.towns.length>0?1:0);
+      this.tabsSeaIndex = this.fireCities.towns&&this.fireCities.towns.length>0?0:(this.birCities.towns&&this.birCities.towns.length>0?1:(this.trirCities.towns&&this.trirCities.towns.length>0?2:0));
       this.tabsLandIndex = this.mythCities.towns&&this.mythCities.towns.length>0?0:(this.offCities.towns&&this.offCities.towns.length>0?1:(this.defCities.towns&&this.defCities.towns.length>0?2:0));
       // console.log(this.mythCities.length);
       // console.log(this.offCities);
       // console.log(this.defCities);
       // console.log(this.tabsLandIndex);
+      console.log(data);
     }
     this.loading = false;
 
@@ -175,6 +180,8 @@ export class IndexPlayerComponent implements AfterViewInit {
     } else if (type == 'player_myth') {
       dataBB.data = this.mythCities
     } else if (type == 'player_bir') {
+      dataBB.data = this.birCities
+    } else if (type == 'player_trir') {
       dataBB.data = this.birCities
     } else if (type == 'player_def') {
       dataBB.data = this.defCities

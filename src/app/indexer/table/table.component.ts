@@ -64,7 +64,7 @@ export class TableComponent implements OnInit, AfterViewInit {
         this.isSeaUnit = true;
         break;
       case 'trir':
-        this.tableHeader = 'Trirems';
+        this.tableHeader = 'Triremes';
         this.headerClass = 'orange';
         this.iterator = this.seaTowns;
         this.isSeaUnit = true;

@@ -125,7 +125,7 @@ export class IndexPlayerComponent implements AfterViewInit {
       this.noIntel = true;
     } else {
       this.err = '';
-      this.version = data.latest_version;
+      this.version = data.latest_version || data.script_version;
       this.message = data.update_message;
       if (data.cities.players[this.id] != undefined) this.allCities  = data.cities.players[this.id].towns || [];
       if (data.fire.players[this.id] != undefined) this.fireCities = data.fire.players[this.id] || [];

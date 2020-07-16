@@ -164,8 +164,9 @@ export class IndexAllianceComponent implements AfterViewInit {
       this.err = data.message;
       this.noIntel = true;
     } else {
-      this.version = data.latest_version;
+      this.version = data.latest_version || data.script_version;
       this.message = data.update_message;
+      console.log(this.version);
       this.allPlayers = data.cities.players;
       this.firePlayers = data.fire.players;
       this.birPlayers = data.bir.players;

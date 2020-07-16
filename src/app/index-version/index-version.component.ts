@@ -90,7 +90,7 @@ export class IndexVersionComponent implements OnInit, AfterViewInit {
         if (version == null) {
           version = document.getElementById('script_version');
         }
-        // console.log("Detected version installed userscript: ", version);
+        console.log("Detected version installed userscript: ", version);
         if (version != null && version.innerText && version.innerText != '') {
           if (this.version != '' && this.version != version.innerText) {
           	console.log("Detected out of sync userscript version. Newest version available: ", this.version);

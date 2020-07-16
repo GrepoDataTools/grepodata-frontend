@@ -181,7 +181,7 @@ export class IndexPlayerComponent implements AfterViewInit {
     } else if (type == 'player_bir') {
       dataBB.data = this.birCities
     } else if (type == 'player_trir') {
-      dataBB.data = this.birCities
+      dataBB.data = this.trirCities
     } else if (type == 'player_def') {
       dataBB.data = this.defCities
     } else if (type == 'player_off') {

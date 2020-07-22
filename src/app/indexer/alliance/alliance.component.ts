@@ -32,6 +32,7 @@ export class IndexAllianceComponent implements AfterViewInit {
   allPlayers = '';
   firePlayers = '';
   birPlayers = '';
+  trirPlayers = '';
   mythPlayers = '';
   offPlayers = '';
   defPlayers = '';
@@ -123,6 +124,7 @@ export class IndexAllianceComponent implements AfterViewInit {
     this.allPlayers = '';
     this.firePlayers = '';
     this.birPlayers = '';
+    this.trirPlayers = '';
     this.mythPlayers = '';
     this.offPlayers = '';
     this.defPlayers = '';
@@ -170,12 +172,13 @@ export class IndexAllianceComponent implements AfterViewInit {
       this.allPlayers = data.cities.players;
       this.firePlayers = data.fire.players;
       this.birPlayers = data.bir.players;
+      this.trirPlayers = data.trir.players;
       this.mythPlayers = data.myth.players;
       this.offPlayers = data.off.players;
       this.defPlayers = data.def.players;
       this.noIntel = false;
 
-      this.tabsSeaIndex = Object.keys(this.firePlayers).length>0?0:(Object.keys(this.birPlayers).length>0?1:0);
+      this.tabsSeaIndex = Object.keys(this.firePlayers).length>0?0:(Object.keys(this.birPlayers).length>0?1:(Object.keys(this.trirPlayers).length>0?2:0));
       this.tabsLandIndex = Object.keys(this.mythPlayers).length>0?0:(Object.keys(this.offPlayers).length>0?1:(Object.keys(this.defPlayers).length>0?2:0));
     }
     this.loading = false;
@@ -207,6 +210,8 @@ export class IndexAllianceComponent implements AfterViewInit {
       dataBB.data = this.mythPlayers[playerId]['towns']
     } else if (type == 'player_bir') {
       dataBB.data = this.birPlayers[playerId]['towns']
+    } else if (type == 'player_trir') {
+      dataBB.data = this.trirPlayers[playerId]['towns']
     } else if (type == 'player_off') {
       dataBB.data = this.offPlayers[playerId]['towns']
     } else if (type == 'player_def') {

@@ -139,6 +139,7 @@
 			<mat-chip-list>
 				<mat-chip class="gd-chip gd-chip-lg" [selected]="tabsSeaIndex===0" (click)="setSeaIndex(0)"><div class="gd-icon icon-fireship"></div> {{world.substring(0, 2)=='en'?'Light ships':'Fireships'}}</mat-chip>
 				<mat-chip class="gd-chip gd-chip-lg" [selected]="tabsSeaIndex===1" (click)="setSeaIndex(1)"><div class="gd-icon icon-bireme"></div> Biremes</mat-chip>
+				<mat-chip class="gd-chip gd-chip-lg" [selected]="tabsSeaIndex===2" (click)="setSeaIndex(2)"><div class="gd-icon icon-trireme"></div> Triremes</mat-chip>
 			</mat-chip-list>
 		</div>
 
@@ -190,6 +191,35 @@
 					<span *ngIf="filterMatch(player.name, 'sea')">
 						<br/>
 						<intel-table [type]="'bir'" [containsDuplicates]="player.contains_duplicates" [seaTowns]="player.towns" [key]="key" [world]="world" [id]="player.id"
+						             [playerName]="player.name" [allianceName]="allianceName" [parentType]="'alliance'"></intel-table>
+					</span>
+				</div>
+				<div *ngIf="playerNameFilterSea!=''&&hasMatch==false&&showNoResults" class="alert alert-warning text-center alert-gd-1">
+					<h3 class="gd-secondary">No intel found for <span class="gd-primary">{{playerNameFilter}}</span> in this alliance.</h3>
+					<p><a class="a-link-dialog" (click)="clearFilter()">
+						Clear</a> your search or try a different name.</p>
+				</div>
+			</mat-card-content>
+		</div>
+		<div *ngIf="tabsSeaIndex===2">
+			<br/>
+			<mat-card-title *ngIf="trirPlayers.length>3">
+				<form class="form-inline" style="font-size: 18px; font-weight: 300;">
+					<label class="gd-secondary" style="margin-right: 5px;">Filter by player name:</label>
+					<input type="text" autocomplete="off" class="form-control" name="playerNameFilter"
+					       [(ngModel)]="playerNameFilterSea" (keyup)="filterPlayers('sea');" style="margin-right: 5px;"/>
+					<label *ngIf="playerNameFilterSea != ''" class="fa fa-times" (click)="clearFilter()"></label>
+				</form>
+			</mat-card-title>
+			<mat-card-content>
+				<div *ngIf="trirPlayers.length<=0" class="alert alert-warning text-center alert-gd-1">
+					<h3>No trireme intel available</h3>
+					<p>Index more reports to collect intel</p>
+				</div>
+				<div *ngFor="let player of trirPlayers | ValuesPipe; trackBy: null">
+					<span *ngIf="filterMatch(player.name, 'sea')">
+						<br/>
+						<intel-table [type]="'trir'" [containsDuplicates]="player.contains_duplicates" [seaTowns]="player.towns" [key]="key" [world]="world" [id]="player.id"
 						             [playerName]="player.name" [allianceName]="allianceName" [parentType]="'alliance'"></intel-table>
 					</span>
 				</div>

@@ -14,7 +14,14 @@
 					<h2>Register</h2>
 					<form *ngIf="!success" [formGroup]="loginForm" (ngSubmit)="environment.production==true?captchaRef.execute():sendRequest()">
 						<div class="form-group">
-							<label for="mail">Email Address</label>
+							<label for="username">Username <span class="lbl-details">(public, this name is visible to other users)</span></label>
+							<input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+							<div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+								<div *ngIf="f.username.errors.required">Username is required</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="mail">Email Address <span class="lbl-details">(private, we only use this to communicate with you)</span></label>
 							<input type="text" formControlName="mail" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.mail.errors }" />
 							<div *ngIf="submitted && f.mail.errors" class="invalid-feedback">
 								<div *ngIf="f.mail.errors.required">Email address is required</div>
@@ -36,7 +43,7 @@
 						</div>
 						<div class="form-check" style="display: flex;">
 							<input type="checkbox" class="form-check-input" id="exampleCheck1" formControlName="privacy">
-							<label for="privacy">&nbsp;&nbsp;By submitting this form you agree with our <a routerLink="/privacy" (click)="dialogRef.close()">Privacy Policy</a></label>
+							<label for="privacy">&nbsp;&nbsp;By submitting this form you agree with our <a routerLink="/privacy" (click)="dialogRef.close()" target="_blank">Privacy Policy</a></label>
 						</div>
 						<div *ngIf="submitted && f.privacy.errors" class="invalid-feedback">
 							<div *ngIf="f.privacy.errors.required">Accept our privacy policy to continue</div>

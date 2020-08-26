@@ -5,7 +5,8 @@
 
 export const environment = {
   production: false,
-  url: 'https://grepodata.com',
+  // url: 'https://grepodata.com',
+  url: 'localhost:4200',
   // apiUrl: 'https://api.grepodata.com',
   // apiUrl: 'https://apitest.grepodata.com',
   apiUrl: 'http://api-grepodata-com.local:8080',

@@ -34,6 +34,7 @@ export class RegisterComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.loginForm = this.formBuilder.group({
+      username: ['', Validators.required],
 			mail: ['', Validators.required],
 			password: ['', Validators.required],
 			password2: ['', Validators.required],
@@ -56,6 +57,13 @@ export class RegisterComponent implements OnInit {
 			return;
 		}
 
+    if (this.f.username.value.length < 3) {
+      this.error = 'Your username must be at least 3 characters long.';
+      this.loginForm.controls.username.setErrors({'incorrect': true});
+      if (this.captchaRef != undefined) { this.captchaRef.reset(); }
+      return;
+    }
+
 		if (this.f.password.value.length < 8) {
 			this.error = 'Your password must be at least 8 characters long.';
 			this.loginForm.controls.password.setErrors({'incorrect': true});
@@ -73,7 +81,7 @@ export class RegisterComponent implements OnInit {
 		}
 
 		this.loading = true;
-		this.authService.register(this.f.mail.value, this.f.password.value, this.captcha!=''?this.captcha:'dev').subscribe(
+		this.authService.register(this.f.username.value, this.f.mail.value, this.f.password.value, this.captcha!=''?this.captcha:'dev').subscribe(
 			(response) => {
 				// console.log(response);
 				this.error = '';
@@ -88,8 +96,12 @@ export class RegisterComponent implements OnInit {
 				if (error.error.message != undefined && error.error.message.search('Invalid captcha') != -1) {
 					this.error = 'Sorry, we could not verify the captcha. Please try again later or contact us if this error persists.';
 				}
-				if (error.error.message != undefined && error.error.message.search('already in use') != -1) {
+				if (error.error.error_code != undefined && error.error.error_code == 3030) {
 					this.error = 'The email address you entered is already in use. Please reset your password or use a different address.';
+				}
+				if (error.error.error_code != undefined && error.error.error_code == 3032) {
+					this.error = 'The username you entered is already in use. Please enter a different username.';
+          this.loginForm.controls.username.setErrors({'incorrect': true});
 				}
 				this.loading = false;
 				if (this.captchaRef != undefined) {

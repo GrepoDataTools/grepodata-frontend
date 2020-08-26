@@ -1,87 +1,169 @@
-<div class="container" fxLayout="row" fxLayoutAlign="center center" style="margin-top: 20px;">
-	<div fxFlex>
-		<h2 class="gd-primary">Welcome back!</h2>
+<div class="profile-container">
+
+	<div class="profile-sidebar" [ngClass]="{'collapsed': collapsed}">
+		<a (click)="changeTab('script')" [ngClass]="{'active': active_tab=='script'}"><mat-icon>code</mat-icon><span *ngIf="!collapsed"> Userscript</span></a>
+		<hr>
+		<a (click)="changeTab('intel')" [ngClass]="{'active': active_tab=='intel'}"><mat-icon>visibility</mat-icon><span *ngIf="!collapsed"> My intel</span></a>
+		<a (click)="changeTab('indexes')" [ngClass]="{'active': ['indexes', 'overview', 'player', 'alliance', 'town'].includes(active_tab)}"><mat-icon>account_balance</mat-icon><span *ngIf="!collapsed"> My indexes</span></a>
+		<a (click)="changeTab('linked')" [ngClass]="{'active': active_tab=='linked'}"><mat-icon>account_circle</mat-icon><span *ngIf="!collapsed"> Linked accounts</span></a>
+		<a (click)="changeTab('settings')" [ngClass]="{'active': active_tab=='settings'}"><mat-icon>settings</mat-icon><span *ngIf="!collapsed"> Settings</span></a>
+		<hr>
+		<a (click)="changeTab('password')" [ngClass]="{'active': active_tab=='password'}"><mat-icon>vpn_key</mat-icon><span *ngIf="!collapsed"> Change password</span></a>
+		<a (click)="changeTab('delete')" [ngClass]="{'active': active_tab=='delete'}"><mat-icon>delete_outline</mat-icon><span *ngIf="!collapsed"> Delete account</span></a>
+		<hr>
+		<a (click)="logout()"><mat-icon>login</mat-icon><span *ngIf="!collapsed">Logout</span></a>
+		<a (click)="changeTab('faq')" [ngClass]="{'active': active_tab=='faq'}"><mat-icon>help_center</mat-icon><span *ngIf="!collapsed"> Help</span></a>
+
+		<a (click)="collapsed=!collapsed" style="position: absolute; bottom: 0px; width: 300px;">
+			<span *ngIf="collapsed">
+				<mat-icon>keyboard_arrow_right</mat-icon>
+			</span>
+			<span *ngIf="!collapsed">
+				<mat-icon>keyboard_arrow_left</mat-icon> Hide menu
+			</span>
+		</a>
 	</div>
-	<div fxFlex>
-		<button class="btn btn-primary" (click)="logout()" style="float: right;">
-			Logout
-		</button>
-	</div>
-</div>
 
-<div class="container" style="margin-top: 20px;">
-	<div class="row">
-		<div class="col-xs-12">
-			<mat-card>
-				<mat-card-title>
-					<h2 class="gd-primary">Your indexes</h2>
-				</mat-card-title>
-				<mat-card-content>
-					<div *ngIf="indexes.length <= 0">
-						<p class="gd-secondary">You have not yet created any indexes.</p>
-					</div>
+	<!--<div class="expand" [ngClass]="{'collapsed': collapsed}" (click)="collapsed = !collapsed">-->
+		<!--<span *ngIf="collapsed">></span><span *ngIf="!collapsed"><</span>-->
+	<!--</div>-->
 
-					<div *ngIf="indexes.length > 0">
+	<div class="profile-content" [ngClass]="{'collapsed': collapsed}">
 
-						<div class="table-container">
-							<div class="table" id="player_changes_table" style="">
-								<div class="row_custom header default">
-									<div class="cell hidden-xs">#</div>
-									<div class="cell">Index key</div>
-									<div class="cell">World</div>
-									<div class="cell">Reports</div>
-									<div class="cell hidden-xs">Last update</div>
-									<div class="cell hidden-xs">Created on</div>
-									<div class="cell hidden-xs">Action</div>
-								</div>
-
-								<div class="row_custom" *ngFor="let index of indexes; let i = index;">
-									<div class="cell hidden-xs">
-										{{i+1}}
-									</div>
-									<div class="cell">
-										<a routerLink="/indexer/{{index.key}}">
-											{{index.key}}
-										</a>
-									</div>
-									<div class="cell">
-										<a routerLink="/points" [queryParams]="{world: index.world}">
-											{{index.world}}
-										</a>
-									</div>
-									<div class="cell">
-										{{index.overview.total_reports}}
-									</div>
-									<div class="cell hidden-xs">
-										{{index.updated_at!=null?(index.updated_at.date | Datex : "D MMM YYYY"):''}}
-									</div>
-									<div class="cell hidden-xs">
-										{{index.created_at!=null?(index.created_at.date | Datex : "D MMM YYYY"):''}}
-									</div>
-									<div class="cell hidden-xs">
-										<div class="form-group row" style="margin: 3px !important; text-align: -webkit-right;">
-											<button style="width: 45%; margin-right: 2%;" name="load_index" class="btn btn-primary btn-xs"
-											        (click)="editOwners(index.key, index.world, index.overview.owners)">
-												<i class="fa fa-cog"></i>&nbsp;Settings
-											</button>
-											<button style="width: 53%;" name="load_index" class="btn btn-success btn-xs" routerLink="/indexer/{{index.key}}">
-												<i class="fa fa-arrow-circle-right"></i>&nbsp;Go to index
-											</button>
-											<!--<button style="width: 48%;" name="add_compare" class="btn btn-info btn-xs" routerLink="/player/{{player?.world}}/{{player?.id}}">-->
-												<!--<i class="fa fa-arrow-circle-right"></i>&nbsp;View-->
-											<!--</button>-->
-										</div>
-									</div>
-								</div>
-
-							</div>
-						</div>
-
-					</div>
-
-				</mat-card-content>
-			</mat-card>
-
+		<div class="alert alert-gd-1 error" *ngIf="!account_confirmed">
+			<h2 class="gd-error"><mat-icon>warning</mat-icon> Confirm your account</h2>
+			<div class="faq-content" style="font-size: 20px;">
+				Your account is not yet verified. You can only share intel with others if your account is activated.<br/>
+				Click the link in the email you received to confirm and activate your account (check your spam folder!).<br/>
+				<br/><a class="a-link-dialog">Click here to request a new confirmation email</a>
+			</div>
 		</div>
+
+		<div class="profile-card">
+			<div *ngIf="active_tab === 'overview'">
+				<p class="gd-secondary profile-breadcrumbs">
+					<a class="a-link" routerLink="/profile/indexes">My indexes</a> > Index <a routerLink="/profile/overview/{{active_index}}">{{active_index}}</a>
+				</p>
+				<app-indexer></app-indexer>
+			</div>
+			<div *ngIf="active_tab === 'player'">
+				<p class="gd-secondary profile-breadcrumbs">
+					<a class="a-link" routerLink="/profile/indexes">My indexes</a> > Index <a routerLink="/profile/overview/{{active_index}}">{{active_index}}</a> > Player
+				</p>
+				<app-index-player></app-index-player>
+			</div>
+			<div *ngIf="active_tab === 'alliance'">
+				<p class="gd-secondary profile-breadcrumbs">
+					<a class="a-link" routerLink="/profile/indexes">My indexes</a> > Index <a routerLink="/profile/overview/{{active_index}}">{{active_index}}</a> > Alliance
+				</p>
+				<app-index-alliance></app-index-alliance>
+			</div>
+			<div *ngIf="active_tab === 'town'">
+				<p class="gd-secondary profile-breadcrumbs">
+					<a class="a-link" routerLink="/profile/indexes">My indexes</a> > Index <a routerLink="/profile/overview/{{active_index}}">{{active_index}}</a> > Town
+				</p>
+				<app-index-town></app-index-town>
+			</div>
+			<div *ngIf="active_tab === 'script'"><app-userscript></app-userscript></div>
+			<div *ngIf="active_tab === 'intel'"><app-intel></app-intel></div>
+			<div *ngIf="active_tab === 'indexes'"><app-indexes></app-indexes></div>
+			<div *ngIf="active_tab === 'linked'"><app-linked-accounts></app-linked-accounts></div>
+			<div *ngIf="active_tab === 'settings'"><app-settings></app-settings></div>
+			<div *ngIf="active_tab === 'password'"><app-change-password></app-change-password></div>
+			<div *ngIf="active_tab === 'delete'"><app-delete-account></app-delete-account></div>
+			<div *ngIf="active_tab === 'faq'"><app-faq></app-faq></div>
+		</div>
+
 	</div>
+
+
+	<!--<div class="container" fxLayout="row" fxLayoutAlign="center center" style="padding-top: 20px;">-->
+		<!--<div fxFlex>-->
+			<!--<h2 class="gd-primary">Welcome back!</h2>-->
+		<!--</div>-->
+		<!--<div fxFlex>-->
+			<!--<button class="btn btn-primary" (click)="logout()" style="float: right;">-->
+				<!--Logout-->
+			<!--</button>-->
+		<!--</div>-->
+	<!--</div>-->
+
+	<!--<div class="container" style="margin-top: 20px;">-->
+		<!--<div class="row">-->
+			<!--<div class="col-xs-12">-->
+				<!--<mat-card>-->
+					<!--<mat-card-title>-->
+						<!--<h2 class="gd-primary">Your indexes</h2>-->
+					<!--</mat-card-title>-->
+					<!--<mat-card-content>-->
+						<!--<div *ngIf="indexes.length <= 0">-->
+							<!--<p class="gd-secondary">You have not yet created any indexes.</p>-->
+						<!--</div>-->
+
+						<!--<div *ngIf="indexes.length > 0">-->
+
+							<!--<div class="table-container">-->
+								<!--<div class="table" id="player_changes_table" style="">-->
+									<!--<div class="row_custom header default">-->
+										<!--<div class="cell hidden-xs">#</div>-->
+										<!--<div class="cell">Index key</div>-->
+										<!--<div class="cell">World</div>-->
+										<!--<div class="cell">Reports</div>-->
+										<!--<div class="cell hidden-xs">Last update</div>-->
+										<!--<div class="cell hidden-xs">Created on</div>-->
+										<!--<div class="cell hidden-xs">Action</div>-->
+									<!--</div>-->
+
+									<!--<div class="row_custom" *ngFor="let index of indexes; let i = index;">-->
+										<!--<div class="cell hidden-xs">-->
+											<!--{{i+1}}-->
+										<!--</div>-->
+										<!--<div class="cell">-->
+											<!--<a routerLink="/indexer/{{index.key}}">-->
+												<!--{{index.key}}-->
+											<!--</a>-->
+										<!--</div>-->
+										<!--<div class="cell">-->
+											<!--<a routerLink="/points" [queryParams]="{world: index.world}">-->
+												<!--{{index.world}}-->
+											<!--</a>-->
+										<!--</div>-->
+										<!--<div class="cell">-->
+											<!--{{index.overview.total_reports}}-->
+										<!--</div>-->
+										<!--<div class="cell hidden-xs">-->
+											<!--{{index.updated_at!=null?(index.updated_at.date | Datex : "D MMM YYYY"):''}}-->
+										<!--</div>-->
+										<!--<div class="cell hidden-xs">-->
+											<!--{{index.created_at!=null?(index.created_at.date | Datex : "D MMM YYYY"):''}}-->
+										<!--</div>-->
+										<!--<div class="cell hidden-xs">-->
+											<!--<div class="form-group row" style="margin: 3px !important; text-align: -webkit-right;">-->
+												<!--<button style="width: 45%; margin-right: 2%;" name="load_index" class="btn btn-primary btn-xs"-->
+												        <!--(click)="editOwners(index.key, index.world, index.overview.owners)">-->
+													<!--<i class="fa fa-cog"></i>&nbsp;Settings-->
+												<!--</button>-->
+												<!--<button style="width: 53%;" name="load_index" class="btn btn-success btn-xs" routerLink="/indexer/{{index.key}}">-->
+													<!--<i class="fa fa-arrow-circle-right"></i>&nbsp;Go to index-->
+												<!--</button>-->
+												<!--&lt;!&ndash;<button style="width: 48%;" name="add_compare" class="btn btn-info btn-xs" routerLink="/player/{{player?.world}}/{{player?.id}}">&ndash;&gt;-->
+													<!--&lt;!&ndash;<i class="fa fa-arrow-circle-right"></i>&nbsp;View&ndash;&gt;-->
+												<!--&lt;!&ndash;</button>&ndash;&gt;-->
+											<!--</div>-->
+										<!--</div>-->
+									<!--</div>-->
+
+								<!--</div>-->
+							<!--</div>-->
+
+						<!--</div>-->
+
+					<!--</mat-card-content>-->
+				<!--</mat-card>-->
+
+			<!--</div>-->
+		<!--</div>-->
+	<!--</div>-->
+
+
 </div>

@@ -1,0 +1,56 @@
+.new-index-form-container {
+  border: 1px solid #233140;
+  background: whitesmoke;
+  padding: 0 15px 15px;
+  min-width: 40%;
+  max-width: 100%;
+  width: 500px;
+}
+
+.indexes-table {
+  text-align: left !important;
+  td {
+    text-align: left !important;
+  }
+}
+
+.index-new {
+  margin-top: 20px;
+}
+
+
+.index-list {
+
+}
+.index-list-entry {
+  border-bottom: 1px dashed #9da3a6;
+  padding: 5px;
+
+  .info {
+  }
+  .count {
+  }
+  .dates {
+  }
+  .actions {
+    button {
+      color: #d1d1d1 !important;
+      font-size: 40px !important;
+      float: right;
+    }
+  }
+
+  .label {
+    font-weight: 700;
+    font-size: 16px;
+  }
+  .number {
+    font-size: 14px;
+  }
+}
+.index-list-entry:hover {
+  border-left: 5px solid #18bc9b;
+  background: #f0f0f0;
+  cursor: pointer;
+  transform: scale(1.01);
+}

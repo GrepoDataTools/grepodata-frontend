@@ -8,12 +8,12 @@ mat-card {
 }
 
 @media (min-width:1200px) {
-  .top-container {
-    position: -webkit-sticky; /* Safari */
-    position: sticky;
-    top: 67px;
-    z-index: 999;
-  }
+  //.top-container {
+  //  position: -webkit-sticky; /* Safari */
+  //  position: sticky;
+  //  top: 67px;
+  //  z-index: 999;
+  //}
 }
 
 .table {

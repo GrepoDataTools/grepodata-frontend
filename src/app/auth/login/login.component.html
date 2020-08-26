@@ -16,7 +16,7 @@
 					<h2>Login</h2>
 					<form *ngIf="!success" [formGroup]="loginForm" (ngSubmit)="environment.production==true?captchaRef.execute():sendRequest()">
 						<div class="form-group">
-							<label for="mail">Email Address</label>
+							<label for="mail">Email Address <span class="lbl-details">or</span> Username</label>
 							<input autocomplete="email" type="text" formControlName="mail" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.mail.errors }" />
 							<div *ngIf="submitted && f.mail.errors" class="invalid-feedback">
 								<div *ngIf="f.mail.errors.required">Email address is required</div>
@@ -30,12 +30,16 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<button [disabled]="loading" class="btn btn-primary">
+							<button [disabled]="loading" class="btn btn-primary mr-1">
 								<span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
 								Login
 							</button>
-							<a routerLink="/register" class="btn btn-link">Register</a>
-							<a routerLink="/forgot" class="btn btn-link" style="float: right;">Password reset</a>
+							<button [disabled]="loading" routerLink="/register" class="btn btn-secondary">
+								Register <mat-icon style="opacity: 1; vertical-align: bottom; height: 20px;">launch</mat-icon>
+							</button>
+							<button [disabled]="loading" routerLink="/forgot" class="btn btn-link" style="float: right;">
+								Password reset <mat-icon style="opacity: 1; vertical-align: bottom; height: 20px;">launch</mat-icon>
+							</button>
 						</div>
 
 						<p class="invalid-feedback" *ngIf="error!=''" style="color: #a94442 !important;">{{error}}</p>

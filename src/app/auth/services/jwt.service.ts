@@ -33,8 +33,9 @@ export class JwtService {
 		}))
 	}
 
-	public register(email:string, password:string, captcha:string) {
+	public register(username:string, email:string, password:string, captcha:string) {
 		let data = new HttpParams()
+			.set('username', username)
 			.set('mail', email)
 			.set('password', password)
 			.set('captcha', captcha);
@@ -52,7 +53,7 @@ export class JwtService {
 	 */
 	public verifyToken() {
 		let data = new HttpParams()
-			.set('access_tokenil', this.accessToken);
+			.set('access_token', this.accessToken);
 		return this.httpClient.post<any>(apiUrl + '/auth/token', data,
 			{headers: new HttpHeaders({'Content-Type':'application/x-www-form-urlencoded'})})
 			.pipe(tap(res => {

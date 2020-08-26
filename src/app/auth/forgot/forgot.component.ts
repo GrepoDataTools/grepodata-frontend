@@ -63,7 +63,7 @@ export class ForgotComponent implements OnInit {
 			},
 			(error) => {
 				this.captcha = '';
-				this.error = "Invalid email address.";
+				this.error = "Unknown email address.";
 				console.log(error);
 				if (error.error.message != undefined && error.error.message.search('Invalid captcha') != -1) {
 					this.error = 'Sorry, we could not verify the captcha. Please try again later or contact us if this error persists.';

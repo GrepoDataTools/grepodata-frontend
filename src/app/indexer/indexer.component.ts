@@ -31,6 +31,7 @@ export class IndexerComponent implements OnInit {
   @ViewChild('trigger', {static: false}) trigger: MatAutocompleteTrigger;
 
   world = '';
+  index_name = '';
   key = '';
   encrypted: any;
   data: any = '';
@@ -81,6 +82,7 @@ export class IndexerComponent implements OnInit {
     // this.data = '';
 
     // Save params
+    console.log(params);
     if (typeof params['key'] != 'undefined' && params['key'].length == 8) {
       this.encrypted = Md5.hashAsciiStr(params['key']);
       this.indexerService.getIndex(params['key']).subscribe(
@@ -182,6 +184,7 @@ export class IndexerComponent implements OnInit {
       this.key = key;
       this.csa = LocalCacheService.get('csa'+this.key);
       this.world = data.world;
+      this.index_name = data.index_name;
       this.data = data;
       if (data.latest_intel) {
         this.latest_intel = data.latest_intel;

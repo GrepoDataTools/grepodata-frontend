@@ -92,12 +92,23 @@ import { TableComponent } from './indexer/table/table.component';
 import { AnalyticsComponent } from './indexer/analytics/analytics.component';
 import {SiegeComponent} from './indexer/siege/siege.component';
 import {ConquestReportDialog, SiegeListDialog} from './indexer/siege/siege.service';
+import { IntelComponent } from './auth/profile/components/intel/intel.component';
+import { IndexesComponent } from './auth/profile/components/indexes/indexes.component';
+import { LinkedAccountsComponent } from './auth/profile/components/linked-accounts/linked-accounts.component';
+import { SettingsComponent } from './auth/profile/components/settings/settings.component';
+import { DeleteAccountComponent } from './auth/profile/components/delete-account/delete-account.component';
+import { ChangePasswordComponent } from './auth/profile/components/change-password/change-password.component';
+import { UserscriptComponent } from './auth/profile/components/userscript/userscript.component';
+import { OverviewComponent } from './auth/profile/components/overview/overview.component';
 
 const appRoutes: Routes = [
-  // { path: 'login', component: LoginComponent },
-  // { path: 'register', component: RegisterComponent },
-  // { path: 'profile', component: ProfileComponent },
-  // { path: 'forgot', component: ForgotComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'profile', component: ProfileComponent },
+  { path: 'profile/:activetab', component: ProfileComponent },
+  { path: 'profile/:activetab/:key', component: ProfileComponent },
+  { path: 'profile/:activetab/:key/:world/:id', component: ProfileComponent },
+  { path: 'forgot', component: ForgotComponent },
   { path: 'points/:world/:date', component: ScoreboardComponent },
   { path: 'points/:world', component: ScoreboardComponent },
   { path: 'm/:world', component: ScoreboardComponent },
@@ -116,11 +127,11 @@ const appRoutes: Routes = [
   { path: 'changelog', component: ChangelogComponent },
   { path: 'compare/:type/:world', component: CompareComponent },
   { path: 'analytics',  component: AnalyticsComponent },
-  { path: 'indexer/player/:key/:world/:id',  component: IndexPlayerComponent },
-  { path: 'indexer/alliance/:key/:world/:id',  component: IndexAllianceComponent },
-  { path: 'indexer/town/:key/:world/:id',  component: IndexTownComponent },
-  { path: 'indexer/action/:token',  component: ActionComponent },
-  { path: 'indexer/:key',  component: IndexerComponent },
+  { path: 'indexer/player/:key/:world/:id', redirectTo: 'profile/player/:key/:world/:id' },
+  { path: 'indexer/alliance/:key/:world/:id', redirectTo: 'profile/alliance/:key/:world/:id' },
+  { path: 'indexer/town/:key/:world/:id', redirectTo: 'profile/town/:key/:world/:id' },
+  { path: 'indexer/action/:token', component: ActionComponent },
+  { path: 'indexer/:key', redirectTo: 'profile/overview/:key' },
   { path: 'indexer',  component: IndexerComponent },
   { path: 'siege/:id/:key',  component: SiegeComponent },
   { path: 'siege/:uid',  component: SiegeComponent },
@@ -206,6 +217,14 @@ export function jwtTokenGetter(): any {
     TableComponent,
     AnalyticsComponent,
     SiegeComponent,
+    IntelComponent,
+    IndexesComponent,
+    LinkedAccountsComponent,
+    SettingsComponent,
+    DeleteAccountComponent,
+    ChangePasswordComponent,
+    UserscriptComponent,
+    OverviewComponent,
   ],
   imports: [
     BrowserModule,

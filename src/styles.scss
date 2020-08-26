@@ -17,7 +17,8 @@ div[ng-view]{
 }
 
 body {
-  background: #fbfbfb;
+  //background: #fbfbfb;
+  background: #F5F6FA;
   //height: 100% !important;
 }
 
@@ -25,6 +26,35 @@ pre {
   max-height: 60vh !important;
   height: 60vh !important;
   min-width: 60vw !important;
+}
+
+.index-card {
+  border-radius: 1rem !important;
+  padding: 30px !important;
+  box-shadow: 0 0 30px 0 rgba(82,63,105,.05) !important;
+  margin: 12px !important;
+  border: 0;
+
+  .card-header {
+    margin: -30px -30px 30px !important;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    padding: 20px 30px 5px !important;
+
+    h1 {
+      margin: 0 !important;
+    }
+  }
+
+  .card-action {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+
+    .mat-icon {
+      font-size: 40px;
+    }
+  }
 }
 
 .cdk-overlay-container {
@@ -102,11 +132,12 @@ mat-paginator {
 .gd-primary {color: #18BC9C !important;}
 .gd-secondary {color: #334254 !important;}
 .gd-tertiary {color: #e7fef3 !important;}
+.gd-error {color: #ea6153 !important;}
 .gd-white {color: #fff !important;}
 .gd-gray {color: rgba(51, 66, 84, 0.77) !important;}
 
 .bg-gd-1 {background: #18BC9C !important; color: #334254 !important;}
-.bg-gd-2 {background: #334254 !important; color: rgb(221, 230, 228) !important;}
+.bg-gd-2 {background: #334254 !important; color: rgb(221, 230, 228) !important; a {color: #18bc9b !important;}}
 .bg-gd-3 {background: #ea6153 !important; color: rgb(221, 230, 228) !important;}
 .bg-gd-4 {background: #304356 !important; color: rgb(221, 230, 228) !important;}
 
@@ -157,6 +188,9 @@ mat-paginator {
   p {
     color: #334254 !important;
   }
+}
+.alert-gd-1.error {
+  border: 2px solid #ea6153;
 }
 
 .entity-name {
@@ -303,7 +337,8 @@ mat-paginator {
 
 .decorated-card-header {
   font-family: Montserrat, sans-serif;
-  background: #18BC9C;
+  //background: #18BC9C;
+  background: #FFF;
   width: 100%;
   //height: 150px;
   padding: 15px;
@@ -569,6 +604,12 @@ mat-option {
   background-color: #2C3E50;
   border-color: #2C3E50;
   font-weight: 700;
+  .mat-icon {
+    font-size: 20px !important;
+    height: 20px !important;
+    width: 20px !important;
+    vertical-align: top !important;
+  }
 }
 .btn-primary:hover,
 .btn-primary:focus,
@@ -606,6 +647,51 @@ fieldset[disabled] .btn-primary.active {
   color: #2C3E50;
   background-color: white;
 }
+
+.btn-secondary {
+  color: #365063;
+  background-color: #fbfbfb;
+  border-color: #365063;
+  font-weight: 700;
+}
+.btn-secondary:hover,
+.btn-secondary:focus,
+.btn-secondary:active,
+.btn-secondary.active,
+.open .dropdown-toggle.btn-secondary {
+  background-color: #2C3E50;
+  border-color: #2C3E50;
+  color: #fbfbfb;
+}
+.btn-secondary:active,
+.btn-secondary.active,
+.open .dropdown-toggle.btn-secondary {
+  background-image: none;
+}
+.btn-secondary.disabled,
+.btn-secondary[disabled],
+fieldset[disabled] .btn-secondary,
+.btn-secondary.disabled:hover,
+.btn-secondary[disabled]:hover,
+fieldset[disabled] .btn-secondary:hover,
+.btn-secondary.disabled:focus,
+.btn-secondary[disabled]:focus,
+fieldset[disabled] .btn-secondary:focus,
+.btn-secondary.disabled:active,
+.btn-secondary[disabled]:active,
+fieldset[disabled] .btn-secondary:active,
+.btn-secondary.disabled.active,
+.btn-secondary[disabled].active,
+fieldset[disabled] .btn-secondary.active {
+  color: #365063;
+  background-color: #fbfbfb;
+  border-color: #365063;
+}
+.btn-secondary .badge {
+  color: #2C3E50;
+  background-color: white;
+}
+
 .btn-success {
   color: white;
   background-color: #18BC9C;
@@ -643,6 +729,9 @@ fieldset[disabled] .btn-success:active,
 fieldset[disabled] .btn-success.active {
   background-color: #18BC9C;
   border-color: #18BC9C;
+}
+.btn-link {
+    color: #337ab7 !important;
 }
 .btn-success .badge {
   color: #18BC9C;
@@ -910,6 +999,9 @@ mat-paginator {
 .flag-cz {
   background: url('assets/images/flags.png') -0 -32px;
 }
+.flag-cs {
+    background: url('assets/images/flags.png') -0 -32px;
+}
 .flag-de {
   background: url('assets/images/flags.png') -32px -32px;
 }
@@ -980,15 +1072,18 @@ mat-paginator {
     border-bottom-left-radius: 4px;
     border-top-left-radius: 4px
   }
+  .ur.copied {
+    border: 2px solid #18bc9b;
+  }
   .cpy {
-    font-size: 20px !important;
+    font-size: 16px !important;
     border: none;
     color: #ffffff;
     background-color: #334254;
     border-bottom-right-radius: 4px;
     border-top-right-radius: 4px;
     cursor: pointer;
-    padding: 6px;
+    padding: 8px 8px 9px;
   }
   button.focus,
   button:focus {
@@ -1005,4 +1100,18 @@ mat-paginator {
     font-size: 17px;
     color: #334254;
   }
+}
+
+.mr-1, .mx-1 {
+  margin-right: .25rem!important;
+}
+
+.lbl-details {
+  color: #8d8d8d;
+}
+
+.mat-icon-title-inline {
+  position: relative;
+  top: 3px;
+  margin-right: 10px;
 }

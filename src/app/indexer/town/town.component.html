@@ -1,37 +1,37 @@
 <div style="min-height: calc(100vh - 160px);">
 
-  <mat-card class="decorated-card">
-    <mat-card-title class='decorated-card-header decorated-title' style="margin-bottom: 0px;">
+	<mat-card class="index-card">
+		<div class="card-header bg-gd-2 text-center" style="margin-bottom: 0;">
 
-      <div style="position: absolute; top: 10px; max-width: 200px;">
-        <button mat-button class="mat-raised-button bg-gd-2" style="width: 100%; overflow: hidden; text-overflow: ellipsis;" routerLink="/indexer/{{key}}">
-          <i class="fa fa-arrow-left"></i> Index: {{key}}
-        </button>
-      </div>
+      <!--<div style="position: absolute; top: 10px; max-width: 200px;">-->
+        <!--<button mat-button class="mat-raised-button bg-gd-2" style="width: 100%; overflow: hidden; text-overflow: ellipsis;" routerLink="/indexer/{{key}}">-->
+          <!--<i class="fa fa-arrow-left"></i> Index: {{key}}-->
+        <!--</button>-->
+      <!--</div>-->
 
       <h1>
         Showing collected intel for:
-        <i class="fa fa-university gd-secondary" aria-hidden="true"></i>&nbsp;<span>{{townName}}</span>
+        <span class="gd-primary">{{townName}}</span>
       </h1>
       <h3>
-        &nbsp;&nbsp;&nbsp;Index: <span class='world-title'><a class="a-link-dialog" style="color: #334254 !important;" routerLink="/indexer/{{key}}">{{key}}</a></span>
-	      World: <span class='world-title gd-secondary'><a class="a-link-dialog" style="color: #334254 !important;" routerLink="/points" [queryParams]="{world: world}">{{world}}</a></span>
-        Player: <span class='world-title gd-secondary'><a class="a-link-dialog" style="color: #334254 !important;" routerLink="/indexer/player/{{key}}/{{world}}/{{playerId}}">{{playerName}}</a></span>
+        &nbsp;&nbsp;&nbsp;Index: <span class='world-title'><a class="a-link-dialog" routerLink="/indexer/{{key}}">{{key}}</a></span>
+	      World: <span class='world-title gd-primary'><a class="a-link-dialog" routerLink="/points" [queryParams]="{world: world}">{{world}}</a></span>
+        Player: <span class='world-title gd-primary'><a class="a-link-dialog" routerLink="/indexer/player/{{key}}/{{world}}/{{playerId}}">{{playerName}}</a></span>
         <span class="hidden-xs hidden-sm" (click)="copyBB()" style="cursor: pointer;">
-	        &nbsp;BB: <span class='world-title gd-secondary' id="bbcode">[town]{{id}}[/town]</span>
-	        &nbsp;<button name="open_bb" style="background: #334254;" class="btn btn-success">
+	        &nbsp;BB: <span class='world-title gd-primary' id="bbcode">[town]{{id}}[/town]</span>
+	        &nbsp;<button name="open_bb" class="btn btn-warning">
             <i class="fa fa-clipboard"></i>&nbsp;<span *ngIf="!copied">Copy BB</span><span *ngIf="copied">Copied!&nbsp;</span>
           </button>
         </span>
       </h3>
-    </mat-card-title>
+    </div>
     <mat-card-content class="decorated-card-content" style="padding: 0 !important;">
 
       <div *ngIf="err != ''" class="alert alert-danger text-center">
         {{err}}
       </div>
       <div *ngIf="err == ''">
-        <app-index-search [indexKey]="key"></app-index-search>
+        <!--<app-index-search [indexKey]="key"></app-index-search>-->
 
 	      <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
 
@@ -42,11 +42,11 @@
         <div *ngIf="!noIntel && !loading">
           <div>
 
-            <mat-card>
-              <mat-card-content>
+            <div>
+              <div>
 
 
-	              <div class="container">
+	              <div class="container-fluid">
 		              <div class="row">
 			              <mat-tab-group mat-stretch-tabs>
 				              <mat-tab class="history-chart" style="padding: 20px 0; overflow: hidden !important;">
@@ -260,8 +260,8 @@
 		              </div>
 	              </div>
 
-              </mat-card-content>
-            </mat-card>
+              </div>
+            </div>
           </div>
         </div>
         <div *ngIf="noIntel && !loading">

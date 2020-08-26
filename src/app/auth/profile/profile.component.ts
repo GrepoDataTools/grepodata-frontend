@@ -1,9 +1,10 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {JwtService} from "../services/jwt.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from '@angular/router';
 import {IndexList, ProfileService} from "../services/profile.service";
 import {EditOwnersDialog} from "../../indexer/indexer.component";
 import { MatDialog } from "@angular/material/dialog";
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-profile',
@@ -12,17 +13,23 @@ import { MatDialog } from "@angular/material/dialog";
 	providers: [ProfileService]
 })
 export class ProfileComponent implements OnInit {
-	indexes: IndexList[] = [];
+	account_confirmed = true;
+	collapsed = false;
+	active_tab = 'intel';
+
+	active_index = '';
+	active_world = '';
+	active_id = '';
 
   constructor(
   	private authService: JwtService,
 		private profileService: ProfileService,
 		private router: Router,
-		public dialog: MatDialog) {
-  	this.authService.verifyToken().subscribe(
-			(response) => {this.load();},
-			(error) => {this.logout();}
-			);
+    private route: ActivatedRoute,
+		public dialog: MatDialog,
+    private location: Location
+  ) {
+    this.route.params.subscribe( params => this.load(params));
 	}
 
   ngOnInit() {
@@ -33,21 +40,36 @@ export class ProfileComponent implements OnInit {
 		this.router.navigate(['/login'])
 	}
 
-	load() {
-  	this.loadIndexes();
+	load(response) {
+    if (response.hasOwnProperty('activetab')) {
+      this.active_tab = response.activetab;
+    }
+    if (response.hasOwnProperty('key')) {
+      this.active_index = response.key;
+    }
+    if (response.hasOwnProperty('world')) {
+      this.active_world = response.world;
+    }
+    if (response.hasOwnProperty('id')) {
+      this.active_id = response.id;
+    }
+
+    this.authService.verifyToken().subscribe(
+      (response) => {this.loadProfile(response);},
+      (error) => {this.logout();}
+    );
 	}
 
-  loadIndexes() {
-		// this.profileService.getIndexes().subscribe(
-		// 	(response) => {
-		// 		this.indexes = response;
-		// 		// console.log(response);
-		// 	},
-		// 	(error) => {
-		// 		console.log(error);
-		// 	},
-		// );
-	}
+	loadProfile(response) {
+    if (response.hasOwnProperty('is_confirmed') && response.is_confirmed === false) {
+      this.account_confirmed = false;
+    }
+  }
+
+  changeTab(tab) {
+    this.active_tab = tab;
+    this.location.replaceState('/profile/'+tab);
+  }
 
 	editOwners(key, world, owners) {
 			let dialogRef = this.dialog.open(EditOwnersDialog, {

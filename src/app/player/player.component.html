@@ -207,61 +207,71 @@
                 <mat-icon style="opacity: 1; vertical-align: bottom;">watch_later</mat-icon>&nbsp;Activity<span class="hidden-xs">&nbsp;heatmap</span>
               </ng-template>
               <br/>
-              <mat-card-title>
-                <div fxLayout="row">
-                  <h4 style='font-weight: 300; color: #304357;'><span class='world-title' style='color: #18BC9C;'>Player activity in the last 4 weeks</span></h4>
-                  <mat-spinner style="margin-left: 30px;" *ngIf="loadingInfo" strokeWidth="3" [diameter]="30"></mat-spinner>
-                </div>
-              </mat-card-title>
-	            <div *ngIf="!heatmapDay[0] || highestHeatmapHour<=2">
-		            <p><strong>Player is inactive.</strong> Sorry, this player is not active enough to display this data.</p>
-		            <p>We need at least a 3 attacks in 1 hour (cumulative over 4 weeks) to start showing this heatmap.</p>
-	            </div>
-	            <div *ngIf="heatmapDay[0] && highestHeatmapHour>2">
-	              <div class="container-fluid heatmap-container" [ngClass]="{'loading-overlay': loadingInfo}">
-	                <div class="row">
-	                  <div class="col-xs-12 col-sm-4 heatmap-day-container">
-	                    <ngx-charts-bar-vertical
-	                            *ngIf="bShowHeatmapChart"
-	                            [scheme]="colorSchemeHeatmap"
-	                            [schemeType]="'linear'"
-	                            [results]="heatmapDay"
-	                            [gradient]="false"
-	                            [xAxis]="true"
-	                            [yAxis]="false"
-	                            [tooltipDisabled]="true"
-	                            [legend]="false"
-	                            [showXAxisLabel]="true"
-	                            [showYAxisLabel]="false"
-	                            [xAxisLabel]="'day most active'"
-	                            [yAxisLabel]="'activity'">
-	                    </ngx-charts-bar-vertical>
-	                  </div>
-	                  <div class="col-xs-12 col-sm-8 heatmap-hour-container">
-	                    <ngx-charts-bar-vertical
-	                            *ngIf="bShowHeatmapChart"
-	                            [scheme]="colorSchemeHeatmap"
-	                            [schemeType]="'linear'"
-	                            [results]="heatmapHour"
-	                            [gradient]="false"
-	                            [roundDomains]="true"
-	                            [xAxis]="true"
-	                            [yAxis]="false"
-	                            [tooltipDisabled]="true"
-	                            [legend]="false"
-	                            [showXAxisLabel]="true"
-	                            [showYAxisLabel]="false"
-	                            [xAxisLabel]="'hour most active'"
-	                            [yAxisLabel]="'activity'">
-	                    </ngx-charts-bar-vertical>
-	                  </div>
-	                </div>
+	            <mat-card-title>
+		            <div fxLayout="row">
+		              <h4 style='font-weight: 300; color: #304357;'><span class='world-title' style='color: #18BC9C;'>This feature has been removed.</span></h4>
+			            <p>Due to privacy concerns, the activity heatmap feature has been removed from GrepoData entirely.
+				            The main reason for this change is that the heatmap exposed personal activity patterns, without the possibility for individuals to delete this information as is required by GDPR.
+			              <br/>
+				            We are sorry for the inconvenience.
+			            </p>
 	              </div>
-	              <p><strong>The best time to attack this player is usually around {{lowestIndex<10?'0':''}}{{lowestIndex}}:00h local time.</strong>
-	                {{playerName}}'s attack frequency is lowest around this time. This is only an indication, based on their historical attack point data in the last 4 weeks. All times are in the same timezone as the local Grepolis server ({{world}}).</p>
-	              <p><strong>Data source: </strong>This graph is based entirely on an aggregation of the public attack points endpoint: <a href="https://{{world}}.grepolis.com/data/player_kills_att.txt" target="_blank">https://{{world}}.grepolis.com/data/player_kills_att.txt</a>
-		              &nbsp;(<a href="https://github.com/GrepoDataTools/grepodata-backend/blob/6adb95c761c0720e20a7f574747d0c149b53872c/Software/Library/Elasticsearch/Diff.php#L593" target="_blank"><i class="fa fa-github" aria-hidden="true"></i> Source code</a>)</p>
-	            </div>
+	            </mat-card-title>
+              <!--<mat-card-title>-->
+                <!--<div fxLayout="row">-->
+                  <!--<h4 style='font-weight: 300; color: #304357;'><span class='world-title' style='color: #18BC9C;'>Player activity in the last 4 weeks</span></h4>-->
+                  <!--<mat-spinner style="margin-left: 30px;" *ngIf="loadingInfo" strokeWidth="3" [diameter]="30"></mat-spinner>-->
+                <!--</div>-->
+              <!--</mat-card-title>-->
+	            <!--<div *ngIf="!heatmapDay[0] || highestHeatmapHour<=2">-->
+		            <!--<p><strong>Player is inactive.</strong> Sorry, this player is not active enough to display this data.</p>-->
+		            <!--<p>We need at least a 3 attacks in 1 hour (cumulative over 4 weeks) to start showing this heatmap.</p>-->
+	            <!--</div>-->
+	            <!--<div *ngIf="heatmapDay[0] && highestHeatmapHour>2">-->
+	              <!--<div class="container-fluid heatmap-container" [ngClass]="{'loading-overlay': loadingInfo}">-->
+	                <!--<div class="row">-->
+	                  <!--<div class="col-xs-12 col-sm-4 heatmap-day-container">-->
+	                    <!--<ngx-charts-bar-vertical-->
+	                            <!--*ngIf="bShowHeatmapChart"-->
+	                            <!--[scheme]="colorSchemeHeatmap"-->
+	                            <!--[schemeType]="'linear'"-->
+	                            <!--[results]="heatmapDay"-->
+	                            <!--[gradient]="false"-->
+	                            <!--[xAxis]="true"-->
+	                            <!--[yAxis]="false"-->
+	                            <!--[tooltipDisabled]="true"-->
+	                            <!--[legend]="false"-->
+	                            <!--[showXAxisLabel]="true"-->
+	                            <!--[showYAxisLabel]="false"-->
+	                            <!--[xAxisLabel]="'day most active'"-->
+	                            <!--[yAxisLabel]="'activity'">-->
+	                    <!--</ngx-charts-bar-vertical>-->
+	                  <!--</div>-->
+	                  <!--<div class="col-xs-12 col-sm-8 heatmap-hour-container">-->
+	                    <!--<ngx-charts-bar-vertical-->
+	                            <!--*ngIf="bShowHeatmapChart"-->
+	                            <!--[scheme]="colorSchemeHeatmap"-->
+	                            <!--[schemeType]="'linear'"-->
+	                            <!--[results]="heatmapHour"-->
+	                            <!--[gradient]="false"-->
+	                            <!--[roundDomains]="true"-->
+	                            <!--[xAxis]="true"-->
+	                            <!--[yAxis]="false"-->
+	                            <!--[tooltipDisabled]="true"-->
+	                            <!--[legend]="false"-->
+	                            <!--[showXAxisLabel]="true"-->
+	                            <!--[showYAxisLabel]="false"-->
+	                            <!--[xAxisLabel]="'hour most active'"-->
+	                            <!--[yAxisLabel]="'activity'">-->
+	                    <!--</ngx-charts-bar-vertical>-->
+	                  <!--</div>-->
+	                <!--</div>-->
+	              <!--</div>-->
+	              <!--<p><strong>The best time to attack this player is usually around {{lowestIndex<10?'0':''}}{{lowestIndex}}:00h local time.</strong>-->
+	                <!--{{playerName}}'s attack frequency is lowest around this time. This is only an indication, based on their historical attack point data in the last 4 weeks. All times are in the same timezone as the local Grepolis server ({{world}}).</p>-->
+	              <!--<p><strong>Data source: </strong>This graph is based entirely on an aggregation of the public attack points endpoint: <a href="https://{{world}}.grepolis.com/data/player_kills_att.txt" target="_blank">https://{{world}}.grepolis.com/data/player_kills_att.txt</a>-->
+		              <!--&nbsp;(<a href="https://github.com/GrepoDataTools/grepodata-backend/blob/6adb95c761c0720e20a7f574747d0c149b53872c/Software/Library/Elasticsearch/Diff.php#L593" target="_blank"><i class="fa fa-github" aria-hidden="true"></i> Source code</a>)</p>-->
+	            <!--</div>-->
 
             </mat-tab>
             <mat-tab>

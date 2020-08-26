@@ -1,20 +1,24 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../environments/environment";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {JwtService} from '../auth/services/jwt.service';
 
 const apiUrl = environment.apiUrl;
 
 @Injectable()
 export class IndexerService {
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private authService: JwtService
+  ) {}
 
   getStats() {
     let url =  '/indexer/stats';
     return this.http.get(apiUrl + url);
   }
   getIndex(key) {
-    let url =  '/indexer/getindex?key='+key;
+    let url =  '/indexer/v2/getindex?key='+key;
     return this.http.get(apiUrl + url);
   }
   getWorlds() {
@@ -25,9 +29,9 @@ export class IndexerService {
     let url =  '/indexer/isvalid?key='+key;
     return this.http.get(apiUrl + url);
   }
-  createNewIndex(mail, world, captcha) {
+  createNewIndex(index_name, world, captcha) {
     if (captcha == '' || captcha == undefined) captcha = '_';
-    let url =  '/indexer/newindex?mail='+mail+'&world='+world+'&captcha='+captcha;
+    let url =  '/indexer/v2/newindex?world='+world+'&index_name='+index_name+'&captcha='+captcha+'&access_token='+this.authService.accessToken;
     return this.http.get<any>(apiUrl + url);
   }
   updateIndexKey(key, mail, captcha) {

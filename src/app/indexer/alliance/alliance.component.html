@@ -1,41 +1,42 @@
 <div style="overflow-x: hidden;">
 
-  <mat-card class="decorated-card" [ngClass]="{'embedded-padding': embedded}" style="box-shadow: none !important;"
-            [ngStyle]="{'background': !embedded?'#fbfbfb':''}">
-    <mat-card-title class='decorated-card-header decorated-title' *ngIf="!embedded" style="margin-bottom: 0;">
+  <mat-card class="index-card" [ngClass]="{'embedded-padding': embedded}"
+            [ngStyle]="{'background': !embedded?'#fff':''}">
+    <div class="card-header bg-gd-2 text-center" *ngIf="!embedded" style="margin-bottom: 0;">
 
-      <div style="position: absolute; top: 10px; max-width: 200px;">
-        <button mat-button class="mat-raised-button bg-gd-2" style="width: 100%; overflow: hidden; text-overflow: ellipsis;" routerLink="/indexer/{{key}}">
-          <i class="fa fa-arrow-left"></i> Index: {{key}}
-        </button>
-      </div>
+      <!--<div style="position: absolute; top: 10px; max-width: 200px;">-->
+        <!--<button mat-button class="mat-raised-button bg-gd-2" style="width: 100%; overflow: hidden; text-overflow: ellipsis;" routerLink="/indexer/{{key}}">-->
+          <!--<i class="fa fa-arrow-left"></i> Index: {{key}}-->
+        <!--</button>-->
+      <!--</div>-->
 
       <div class="hidden-sm hidden-md hidden-lg"><br/></div>
       <h1>
         <span class="hidden-xs hidden-sm">Showing collected intel for:&nbsp;</span>
-        <i class="fa fa-group gd-secondary" aria-hidden="true"></i>&nbsp;<span>{{allianceName}}</span>
+        <span class="gd-primary">{{allianceName}}<span *ngIf="loading && allianceName == ''">Loading...</span></span>
       </h1>
-      <h3>
+      <h3 *ngIf="!loading">
         <span class="index-title hidden-xs">
-          Index: <span class='world-title'><a class="a-link-dialog" style="color: #334254 !important;" routerLink="/indexer/{{key}}">{{key}}</a></span>
+          Index: <span class='world-title'><a class="a-link-dialog" routerLink="/indexer/{{key}}">{{key}}</a></span>
         </span>
         <span class="index-title">
-          World: <span class='world-title gd-secondary' *ngIf="world"><div class="bg-flag flag-inline-title flag-{{world.substr(0,2)}}"></div>&nbsp;<a class="a-link-dialog" style="color: #334254 !important;" routerLink="/points" [queryParams]="{world: world}">{{worldName}}&nbsp;({{world}})</a></span>
+          World: <span class='world-title gd-secondary' *ngIf="world"><div class="bg-flag flag-inline-title flag-{{world.substr(0,2)}}"></div>&nbsp;<a class="a-link-dialog" routerLink="/points" [queryParams]="{world: world}">{{worldName}}&nbsp;({{world}})</a></span>
         </span>
         <span class="index-title hidden-xs">
-          Members: <span class='world-title gd-secondary'>{{members}}</span>
+          Members: <span class='world-title gd-primary'>{{members}}</span>
         </span>
         <span class="index-title hidden-xs">
-          Rank: <span class='world-title gd-secondary'>{{rank}}</span>
+          Rank: <span class='world-title gd-primary'>{{rank}}</span>
         </span>
         <span class="index-title">
-          Stats: <span class='world-title gd-secondary'><a class="a-link-dialog" style="color: #334254 !important;" routerLink="/alliance" [queryParams]="{world: world, id: id}">View alliance statistics</a></span>
+          Stats: <span class='world-title gd-primary'><a class="a-link-dialog" routerLink="/alliance" [queryParams]="{world: world, id: id}">View alliance statistics</a></span>
         </span>
       </h3>
-    </mat-card-title>
+	    <h3 *ngIf="loading">&nbsp;</h3>
+    </div>
     <mat-card-content class="decorated-card-content" [ngClass]="{'embedded-padding': embedded}" style="padding: 0 !important;">
 
-      <app-index-search *ngIf="!embedded" [indexKey]="key"></app-index-search>
+      <!--<app-index-search *ngIf="!embedded" [indexKey]="key"></app-index-search>-->
 
       <div *ngIf="embedded">
         <h4 class="gd-primary text-center">
@@ -122,7 +123,7 @@
 
 <!--sea units-->
 <ng-template #seaunits>
-	<mat-card class="text-center">
+	<mat-card class="index-card text-center">
 
 		<mat-card-title>
 			<div class="form-group row" style='margin: 0px;'>
@@ -236,7 +237,7 @@
 
 <!--land units-->
 <ng-template #landunits>
-	<mat-card class="text-center">
+	<mat-card class="index-card text-center">
 
 		<mat-card-title>
 			<div class="form-group row" style='margin: 0px;'>

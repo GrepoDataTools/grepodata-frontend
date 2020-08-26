@@ -308,7 +308,7 @@
 									<label style="font-weight: 600">Anonymous sharing link: (index key is hidden for anyone with this url)</label>
 									<br/>
 									<div class="row">
-										<input #shareLink [disabled]="true" class="col-xs-8 ur" type="url" value="https://grepodata.com/siege/{{conquestId}}" id="siegeShareUrl" aria-describedby="inputGroup-sizing-default" style="height: 40px;">
+										<input #shareLink [ngClass]="{ 'copied': copied }" [disabled]="true" class="col-xs-8 ur" type="url" value="https://grepodata.com/siege/{{conquestId}}" id="siegeShareUrl" aria-describedby="inputGroup-sizing-default" style="height: 40px;">
 										<button class="cpy" (click)="copyLink(shareLink)"><i class="fa fa-clone"></i> Copy</button><span class="message" *ngIf="copied"> Link copied!</span>
 									</div>
 								</div>

@@ -74,10 +74,13 @@ export class LoginComponent implements OnInit {
 			},
 			(error) => {
 				this.captcha = '';
-				this.error = "Invalid email address or password.";
+				this.error = "Unable to login, please try again later.";
 				console.log(error);
 				if (error.error.message != undefined && error.error.message.search('Invalid captcha') != -1) {
 					this.error = 'Sorry, we could not verify the captcha. Please try again later or contact us if this error persists.';
+				}
+				if (error.error.error_code != undefined && (error.error.error_code == 3004 || error.error.error_code == 3005)) {
+					this.error = 'Invalid email address or password.';
 				}
 				this.loading = false;
 				if (this.captchaRef != undefined) {

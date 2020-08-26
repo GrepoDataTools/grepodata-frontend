@@ -1,0 +1,47 @@
+<mat-card class="index-card">
+	<mat-card-title>
+		<mat-icon class="mat-icon-title-inline">account_circle</mat-icon> Linked accounts
+	</mat-card-title>
+	<mat-card-content>
+		<p>You can verify your Grepolis account by temporarily changing one of your town names.</p>
+
+
+		<div class="linked-table">
+			<table class="table">
+				<thead>
+				<tr>
+					<th scope="col">Player name</th>
+					<th scope="col">Verification town name</th>
+					<th scope="col">Status</th>
+					<th scope="col">Actions</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<td><img src="../../assets/images/player_ico.png"/> frietebakker</td>
+					<td>s3s4mstr</td>
+					<td>Unverified x</td>
+					<td><button class="btn btn-secondary btn-sm">Unlink</button></td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="linked-new">
+
+			<button *ngIf="!form_opened" (click)="form_opened=true" class="btn btn-primary">Verify new account <mat-icon>library_add</mat-icon></button>
+
+			<div *ngIf="form_opened" class="new-acc-form-container">
+				<h4 class="gd-primary">Add a new linked account</h4>
+				<div class="form-group">
+					<label for="playername">Player name</label>
+					<input autocomplete="playername" type="text" formControlName="playername" class="form-control"/>
+				</div>
+				<button class="btn btn-primary mr-1">Request account verification</button>
+				<button (click)="form_opened=false" class="btn btn-secondary">Cancel</button>
+			</div>
+
+		</div>
+
+	</mat-card-content>
+</mat-card>

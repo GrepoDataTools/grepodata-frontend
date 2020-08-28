@@ -9,6 +9,7 @@ import {environment} from '../../../../../environments/environment';
 export class UserscriptComponent implements OnInit {
 
   copied = false;
+  clicked = false;
   token_opened = false;
   token = '3h1273g12d31280d3h10231bed1qwdq';
 

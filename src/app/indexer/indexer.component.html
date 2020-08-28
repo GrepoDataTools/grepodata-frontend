@@ -14,8 +14,8 @@
 
         <div *ngIf="data.total_reports != 0">
 
-	        <app-index-version *ngIf="data.total_reports != 0 && !loading"
-	                           [version]="data.latest_version" [message]="data.update_message" [key]="key"></app-index-version>
+	        <!--<app-index-version *ngIf="data.total_reports != 0 && !loading"-->
+	                           <!--[version]="data.latest_version" [message]="data.update_message" [key]="key"></app-index-version>-->
 
           <div class="hidden-md hidden-lg">
             <mat-card class="index-card">
@@ -174,15 +174,15 @@
 
         <ng-template #info>
           <mat-card class="index-card" style="max-height: 400px; height: 400px; min-height: 400px;">
-	          <div class="card-header bg-gd-2">
-		          <h1>Enemy city index</h1>
+	          <div class="card-header bg-gd-4">
+		          <h1 class="entity-name gd-white">Enemy city index</h1>
 		          <h3>{{index_name}}</h3>
-		          <div class="a-link card-action" matTooltip="Index settings" (click)="showEditOwnersDialog()">
+		          <div class="a-link card-action gd-white" matTooltip="Index settings" (click)="showEditOwnersDialog()">
 			          <mat-icon>settings</mat-icon>
 		          </div>
 	          </div>
             <mat-card-content>
-	            <div style="max-height: 290px; height: 290px; min-height: 290px; overflow-y: auto;">
+	            <div style="max-height: 240px; height: 240px; min-height: 240px; overflow-y: auto;">
 	              <table class="table table-no-more">
 	                <tbody>
 	                <tr>
@@ -203,7 +203,7 @@
 	                </tr>
 	                <tr>
 		                <th>
-			                Index owners
+			                Index owner<span *ngIf="data.owners && data.owners.length > 1">s</span>
 		                </th>
 		                <td>
 			                <div *ngFor="let owner of data.owners" matTooltip="Any alliance with atleast a 5% contribution is considered an owner and will not be indexed. The index administrator can add or remove alliances.">
@@ -291,18 +291,19 @@
 
 	            </div>
 
-	            <div class="text-center show-more hidden-xs hidden-sm">
-		            <button class="mat-primary mat-hue-1 mat-button mat-ink-ripple" type="button"
-		                    (click)="toggleMore = !toggleMore" style="font-size: 18px;">
-	                  <span *ngIf="!toggleMore" class="ng-scope">
-	                    Show contribution info <span class="fa fa-chevron-down"></span>
-	                  </span>
-			            <span *ngIf="toggleMore" class="ng-scope">
-	                    Show less <span class="fa fa-chevron-up"></span>
-	                  </span>
-			            <div class="mat-ripple-container" style=""></div>
-		            </button>
-	            </div>
+	            <!--<div class="text-center show-more hidden-xs hidden-sm">-->
+		            <!--<button class="mat-primary mat-hue-1 mat-button mat-ink-ripple" type="button"-->
+		                    <!--(click)="toggleMore = !toggleMore" style="font-size: 18px;">-->
+	                  <!--<span *ngIf="!toggleMore" class="ng-scope">-->
+	                    <!--Show contribution info <span class="fa fa-chevron-down"></span>-->
+	                  <!--</span>-->
+			            <!--<span *ngIf="toggleMore" class="ng-scope">-->
+	                    <!--Show less <span class="fa fa-chevron-up"></span>-->
+	                  <!--</span>-->
+			            <!--<div class="mat-ripple-container" style=""></div>-->
+		            <!--</button>-->
+	            <!--</div>-->
+
             </mat-card-content>
           </mat-card>
         </ng-template>

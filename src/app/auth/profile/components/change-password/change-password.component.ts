@@ -12,6 +12,9 @@ export class ChangePasswordComponent implements OnInit {
   environment = environment;
   passwordForm: FormGroup;
 
+  success = false;
+  loading = false;
+
   constructor(
     private formBuilder: FormBuilder
   ) { }

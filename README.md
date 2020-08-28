@@ -13,6 +13,7 @@ Run `ng generate component component-name` to generate a new component. You can 
 ## Build
 
 `ng build --prod --configuration=production --build-optimizer --base-href "/"`
+`ng build --prod --configuration=acceptance --build-optimizer --base-href "/"`
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 

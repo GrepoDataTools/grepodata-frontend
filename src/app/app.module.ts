@@ -146,7 +146,7 @@ const appRoutes: Routes = [
   { path: 'indexer/town/:key/:world/:id', redirectTo: 'profile/town/:key/:world/:id' },
   { path: 'indexer/action/:token', component: ActionComponent },
   { path: 'indexer/:key', redirectTo: 'profile/overview/:key' },
-  { path: 'indexer',  component: IndexerComponent },
+  { path: 'indexer', redirectTo: 'profile/overview' },
   { path: 'siege/:id/:key',  component: SiegeComponent },
   { path: 'siege/:uid',  component: SiegeComponent },
   { path: 'player/:world/:id',  component: PlayerComponent },

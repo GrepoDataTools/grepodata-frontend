@@ -2,16 +2,10 @@
 
 }
 
-.profile-breadcrumbs {
-  padding: 0 20px;
-  margin-bottom: 5px;
-  font-size: 24px;
-}
-
 .profile-content {
   margin-left: 280px;
   padding: 20px;
-  height: calc(100vh - 68px - 60px);
+  height: calc(100vh - 68px);
   overflow: auto;
   margin-bottom: -30px;
 }
@@ -19,9 +13,13 @@
   margin-left: 50px;
 }
 
+.profile-card {
+  min-height: 100%;
+}
+
 .profile-sidebar {
   width: 280px;
-  height: calc(100vh - 68px - 60px);
+  height: calc(100vh - 68px);
   position: fixed;
   z-index: 1;
   top: 68px;

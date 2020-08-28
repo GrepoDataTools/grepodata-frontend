@@ -75,7 +75,7 @@ export class IndexesComponent implements OnInit {
   loadIndexes() {
     this.profileService.getIndexes().subscribe(
     	(response) => {
-    		this.indexes = response;
+    		this.indexes = response.items;
     		this.loading = false;
     	},
     	(error) => {

@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit {
           this.isScoreboard = false;   this.isRanking = false;   this.isIndexer = false;   this.isCompare = true;
         } else if (path.includes('/ranking')) {
           this.isScoreboard = false;   this.isRanking = true;    this.isIndexer = false;   this.isCompare = false;
-        } else if (path.includes('/indexer')) {
+        } else if (path.includes('/indexer') || path.includes('/profile') || path.includes('/login')) {
           this.isScoreboard = false;   this.isRanking = false;   this.isIndexer = true;    this.isCompare = false;
         } else {
           this.isScoreboard = false;   this.isRanking = false;   this.isIndexer = false;   this.isCompare = false;

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from "../../../environments/environment";
 import {JwtService} from "./jwt.service";
 import {Router} from "@angular/router";
-import {catchError} from 'rxjs/operators';
+import {catchError, tap} from 'rxjs/operators';
 
 const apiUrl = environment.apiUrl;
 @Injectable()
@@ -18,6 +18,39 @@ export class ProfileService {
 			params: new HttpParams().set('access_token', this.authService.accessToken)
 		});
 	}
+
+	getLinkedAccounts() {
+		return this.http.get<any>(apiUrl + '/profile/linked', {
+			params: new HttpParams().set('access_token', this.authService.accessToken)
+		});
+	}
+
+  addLinkedAccounts(player_id, world) {
+    let data = new HttpParams()
+      .set('access_token', this.authService.accessToken)
+      .set('player_id', player_id)
+      .set('world', world);
+    return this.http.post<any>(apiUrl + '/profile/addlinked', data,
+      {headers: new HttpHeaders({'Content-Type':'application/x-www-form-urlencoded'})})
+	}
+
+  unlinkAccount(player_id, server) {
+    let data = new HttpParams()
+      .set('access_token', this.authService.accessToken)
+      .set('player_id', player_id)
+      .set('server', server);
+    return this.http.post<any>(apiUrl + '/profile/removelinked', data,
+      {headers: new HttpHeaders({'Content-Type':'application/x-www-form-urlencoded'})})
+	}
+}
+
+export interface LinkedAccount {
+	user_id: string;
+	player_id: string;
+  player_name: string;
+  server: string;
+	confirmed: boolean;
+	town_token: string;
 }
 
 export interface IndexList {

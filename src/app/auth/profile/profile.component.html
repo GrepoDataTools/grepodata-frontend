@@ -1,12 +1,21 @@
-<div class="profile-container">
+
+<div class="text-center" *ngIf="!logged_in">
+	<div class="align-middle" style="position: relative; top: 250px; left: 25%; width: 50%;">
+		<h3 class="gd-primary"><strong>Logging in...</strong></h3>
+		<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+	</div>
+</div>
+
+<div class="profile-container" *ngIf="logged_in">
 
 	<div class="profile-sidebar" [ngClass]="{'collapsed': collapsed}">
-		<a (click)="changeTab('script')" [ngClass]="{'active': active_tab=='script'}"><mat-icon>code</mat-icon><span *ngIf="!collapsed"> Userscript</span></a>
-		<hr>
+		<p *ngIf="username!='' && !collapsed" class="text-center">Logged in as <span class="gd-primary">{{username}}</span></p>
 		<a (click)="changeTab('intel')" [ngClass]="{'active': active_tab=='intel'}"><mat-icon>visibility</mat-icon><span *ngIf="!collapsed"> My intel</span></a>
 		<a (click)="changeTab('indexes')" [ngClass]="{'active': ['indexes', 'overview', 'player', 'alliance', 'town'].includes(active_tab)}"><mat-icon>account_balance</mat-icon><span *ngIf="!collapsed"> My indexes</span></a>
 		<a (click)="changeTab('linked')" [ngClass]="{'active': active_tab=='linked'}"><mat-icon>account_circle</mat-icon><span *ngIf="!collapsed"> Linked accounts</span></a>
 		<a (click)="changeTab('settings')" [ngClass]="{'active': active_tab=='settings'}"><mat-icon>settings</mat-icon><span *ngIf="!collapsed"> Settings</span></a>
+		<hr>
+		<a (click)="changeTab('script')" [ngClass]="{'active': active_tab=='script'}"><mat-icon>code</mat-icon><span *ngIf="!collapsed"> Get userscript</span></a>
 		<hr>
 		<a (click)="changeTab('password')" [ngClass]="{'active': active_tab=='password'}"><mat-icon>vpn_key</mat-icon><span *ngIf="!collapsed"> Change password</span></a>
 		<a (click)="changeTab('delete')" [ngClass]="{'active': active_tab=='delete'}"><mat-icon>delete_outline</mat-icon><span *ngIf="!collapsed"> Delete account</span></a>
@@ -39,6 +48,14 @@
 			</div>
 		</div>
 
+		<div class="alert alert-gd-1 error" *ngIf="!account_linked && active_tab !== 'linked'">
+			<h2 class="gd-error"><mat-icon>warning</mat-icon> Verify your Grepolis player name</h2>
+			<div class="faq-content" style="font-size: 20px;">
+				You have not yet verified your Grepolis player name. You can only share intel with others if your player name is verified.<br/>
+				<a class="a-link-dialog" routerLink="/profile/linked"><br/>Request a new verification here</a>
+			</div>
+		</div>
+
 		<div class="profile-card">
 			<div *ngIf="active_tab === 'overview'">
 				<p class="gd-secondary profile-breadcrumbs">
@@ -47,15 +64,9 @@
 				<app-indexer></app-indexer>
 			</div>
 			<div *ngIf="active_tab === 'player'">
-				<p class="gd-secondary profile-breadcrumbs">
-					<a class="a-link" routerLink="/profile/indexes">My indexes</a> > Index <a routerLink="/profile/overview/{{active_index}}">{{active_index}}</a> > Player
-				</p>
 				<app-index-player></app-index-player>
 			</div>
 			<div *ngIf="active_tab === 'alliance'">
-				<p class="gd-secondary profile-breadcrumbs">
-					<a class="a-link" routerLink="/profile/indexes">My indexes</a> > Index <a routerLink="/profile/overview/{{active_index}}">{{active_index}}</a> > Alliance
-				</p>
 				<app-index-alliance></app-index-alliance>
 			</div>
 			<div *ngIf="active_tab === 'town'">
@@ -64,14 +75,14 @@
 				</p>
 				<app-index-town></app-index-town>
 			</div>
-			<div *ngIf="active_tab === 'script'"><app-userscript></app-userscript></div>
-			<div *ngIf="active_tab === 'intel'"><app-intel></app-intel></div>
-			<div *ngIf="active_tab === 'indexes'"><app-indexes></app-indexes></div>
-			<div *ngIf="active_tab === 'linked'"><app-linked-accounts></app-linked-accounts></div>
-			<div *ngIf="active_tab === 'settings'"><app-settings></app-settings></div>
-			<div *ngIf="active_tab === 'password'"><app-change-password></app-change-password></div>
-			<div *ngIf="active_tab === 'delete'"><app-delete-account></app-delete-account></div>
-			<div *ngIf="active_tab === 'faq'"><app-faq></app-faq></div>
+			<span *ngIf="active_tab === 'script'"><app-userscript></app-userscript></span>
+			<span *ngIf="active_tab === 'intel'"><app-intel></app-intel></span>
+			<span *ngIf="active_tab === 'indexes'"><app-indexes></app-indexes></span>
+			<span *ngIf="active_tab === 'linked'"><app-linked-accounts></app-linked-accounts></span>
+			<span *ngIf="active_tab === 'settings'"><app-settings></app-settings></span>
+			<span *ngIf="active_tab === 'password'"><app-change-password></app-change-password></span>
+			<span *ngIf="active_tab === 'delete'"><app-delete-account></app-delete-account></span>
+			<span *ngIf="active_tab === 'faq'"><app-faq></app-faq></span>
 		</div>
 
 	</div>

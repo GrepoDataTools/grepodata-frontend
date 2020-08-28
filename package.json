@@ -44,6 +44,7 @@
     "d3": "^4.10.2",
     "font-awesome": "^4.7.0",
     "jquery": "^3.4.1",
+    "jwt-decode": "^2.2.0",
     "moment": "^2.19.1",
     "ng-recaptcha": "^4.2.1",
     "npm": "^6.4.1",

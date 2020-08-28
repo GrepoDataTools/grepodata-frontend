@@ -142,6 +142,14 @@ mat-paginator {
 .bg-gd-4 {background: #304356 !important; color: rgb(221, 230, 228) !important;}
 
 
+.icon-circle {
+  display: inline-block;
+  background: white;
+  border-radius: 10rem;
+  height: 40px;
+  width: 40px;
+}
+
 .gd-btn {
 
 }
@@ -194,7 +202,6 @@ mat-paginator {
 }
 
 .entity-name {
-  color: #009688 !important;
   font-family: Montserrat, sans-serif !important;
   font-weight: 900 !important;
 }
@@ -238,6 +245,19 @@ mat-paginator {
 }
 .error-snack {
   background: #ea6153 !important;
+}
+
+.profile-breadcrumbs {
+  font-size: 24px;
+  padding: 5px 15px;
+  margin: 0 14px 10px;
+  background: white;
+  border-radius: 1rem;
+  border: 2px solid #334254;
+
+  a {
+    color: #18bc9c !important;
+  }
 }
 
 .gd-chip {

@@ -5,6 +5,7 @@ import {IndexList, ProfileService} from "../services/profile.service";
 import {EditOwnersDialog} from "../../indexer/indexer.component";
 import { MatDialog } from "@angular/material/dialog";
 import { Location } from '@angular/common';
+import * as jwt_decode from "jwt-decode";
 
 @Component({
   selector: 'app-profile',
@@ -13,10 +14,13 @@ import { Location } from '@angular/common';
 	providers: [ProfileService]
 })
 export class ProfileComponent implements OnInit {
-	account_confirmed = true;
+	logged_in = false;
+	account_confirmed = false;
+	account_linked = false;
 	collapsed = false;
 	active_tab = 'intel';
 
+	username = '';
 	active_index = '';
 	active_world = '';
 	active_id = '';
@@ -29,7 +33,23 @@ export class ProfileComponent implements OnInit {
 		public dialog: MatDialog,
     private location: Location
   ) {
-    this.route.params.subscribe( params => this.load(params));
+    if (this.authService.refreshToken == null) {
+      this.logout();
+    } else {
+      if (this.authService.accessToken == null) {
+        // Access token is expired, try with refresh token
+        this.authService.refreshAccessToken().subscribe(
+          (response) => {
+            this.route.params.subscribe( params => this.load(params));
+          },
+          (error) => {
+            this.logout();
+          }
+        );
+      } else {
+        this.route.params.subscribe( params => this.load(params));
+      }
+    }
 	}
 
   ngOnInit() {
@@ -54,16 +74,48 @@ export class ProfileComponent implements OnInit {
       this.active_id = response.id;
     }
 
-    this.authService.verifyToken().subscribe(
-      (response) => {this.loadProfile(response);},
-      (error) => {this.logout();}
-    );
+    this.loadProfile()
 	}
 
-	loadProfile(response) {
-    if (response.hasOwnProperty('is_confirmed') && response.is_confirmed === false) {
-      this.account_confirmed = false;
+	loadProfile() {
+    let payload = jwt_decode(this.authService.accessToken);
+    if (payload.hasOwnProperty('mail_is_confirmed')) {
+      if (payload.mail_is_confirmed === true) {
+        this.account_confirmed = true;
+      }
     }
+    if (payload.hasOwnProperty('account_is_confirmed')) {
+      if (payload.account_is_confirmed === true) {
+        this.account_linked = true;
+      }
+    }
+
+    if (!this.account_confirmed || !this.account_linked) {
+      // check again
+      console.log("verifying account status");
+      this.authService.verifyToken().subscribe(
+        (response) => {
+          let refresh = false;
+          if (response.hasOwnProperty('mail_is_confirmed') && response.mail_is_confirmed === true) {
+            this.account_confirmed = true;
+            refresh = true;
+          }
+          if (response.hasOwnProperty('account_is_confirmed') && response.account_is_confirmed === true) {
+            this.account_linked = true;
+            refresh = true;
+          }
+
+          if (refresh) {
+            this.authService.refreshAccessToken().subscribe(res=>{});
+          }
+        }
+      );
+    }
+
+    if (payload.hasOwnProperty('username')) {
+      this.username = payload.username;
+    }
+    this.logged_in = true;
   }
 
   changeTab(tab) {

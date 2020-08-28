@@ -13,7 +13,7 @@
 			<div class="alert alert-gd-1" style="margin: 0 0 15px 0;">
 
 				<div>
-					<h2>Login</h2>
+					<h2 class="gd-primary">GrepoData login</h2>
 					<form *ngIf="!success" [formGroup]="loginForm" (ngSubmit)="environment.production==true?captchaRef.execute():sendRequest()">
 						<div class="form-group">
 							<label for="mail">Email Address <span class="lbl-details">or</span> Username</label>
@@ -55,7 +55,7 @@
 
 			<div class="row text-center" style="text-align: -webkit-center;" *ngIf="!success">
 				<re-captcha
-					size="invisible" badge="inline"
+					size="invisible"
 					#captchaRef="reCaptcha"
 					siteKey="{{recaptcha_key}}"
 					(resolved)="$event && resolved($event)">

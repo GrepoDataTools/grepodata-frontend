@@ -29,7 +29,7 @@ export class Globals {
     localStorage.setItem(this.ACTIVE_WORLD, world);
   }
 
-  get_active_server() {
+  get_active_server(): string {
     if (this.active_server != '') {
       return this.active_server;
     } else if (localStorage.getItem(this.ACTIVE_SERVER)) {

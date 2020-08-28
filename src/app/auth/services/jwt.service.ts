@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {tap} from "rxjs/operators";
+import * as jwt_decode from "jwt-decode";
 
 const apiUrl = environment.apiUrl;
 
@@ -18,7 +19,17 @@ export class JwtService {
 	}
 
 	public get accessToken(): string{
-		return localStorage.getItem('access_token');
+    let token = localStorage.getItem('access_token');
+    let payload = jwt_decode(token);
+    if (payload.exp < (Date.now()/1000)-60) {
+      localStorage.removeItem('access_token');
+      return null;
+    }
+		return token
+	}
+
+	public get refreshToken(): string{
+		return localStorage.getItem('refresh_token');
 	}
 
 	public login(email:string, password:string, captcha:string) {
@@ -29,7 +40,8 @@ export class JwtService {
 		return this.httpClient.post<any>(apiUrl + '/auth/login', data,
 			{headers: new HttpHeaders({'Content-Type':'application/x-www-form-urlencoded'})})
 			.pipe(tap(res => {
-			localStorage.setItem('access_token', res.access_token);
+			  localStorage.setItem('access_token', res.access_token);
+        localStorage.setItem('refresh_token', res.refresh_token);
 		}))
 	}
 
@@ -42,12 +54,13 @@ export class JwtService {
 		return this.httpClient.post<any>(apiUrl + '/auth/register', data,
 			{headers: new HttpHeaders({'Content-Type':'application/x-www-form-urlencoded'})})
 			.pipe(tap(res => {
-				localStorage.setItem('access_token', res.access_token);
+			  localStorage.setItem('access_token', res.access_token);
+			  localStorage.setItem('refresh_token', res.refresh_token);
 		}))
 	}
 
 	/**
-	 * Renew the access token if it is valid.
+	 * Check if access_token is valid
 	 * throws 401 if invalid or expired token
 	 * @returns {Observable<any>}
 	 */
@@ -61,18 +74,32 @@ export class JwtService {
 		}))
 	}
 
+	/**
+	 * Get a new access_token
+	 * throws 401 if invalid or expired refresh token
+	 * @returns {Observable<any>}
+	 */
+	public refreshAccessToken() {
+		let data = new HttpParams()
+			.set('refresh_token', this.refreshToken);
+		return this.httpClient.post<any>(apiUrl + '/auth/refresh', data,
+			{headers: new HttpHeaders({'Content-Type':'application/x-www-form-urlencoded'})})
+			.pipe(tap(res => {
+				localStorage.setItem('access_token', res.access_token);
+				localStorage.setItem('refresh_token', res.refresh_token);
+		}))
+	}
+
 	public forgot(email:string, captcha:string) {
 		let data = new HttpParams()
 			.set('mail', email)
 			.set('captcha', captcha);
 		return this.httpClient.post<any>(apiUrl + '/auth/reset', data,
 			{headers: new HttpHeaders({'Content-Type':'application/x-www-form-urlencoded'})})
-			.pipe(tap(res => {
-				localStorage.setItem('access_token', res.access_token);
-		}))
 	}
 
 	logout() {
 		localStorage.removeItem('access_token');
+		localStorage.removeItem('refresh_token');
 	}
 }

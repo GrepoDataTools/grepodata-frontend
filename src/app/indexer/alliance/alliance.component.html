@@ -1,39 +1,45 @@
-<div style="overflow-x: hidden;">
+<div style="overflow-x: hidden; min-height: 100%;">
 
-  <mat-card class="index-card" [ngClass]="{'embedded-padding': embedded}"
-            [ngStyle]="{'background': !embedded?'#fff':''}">
-    <div class="card-header bg-gd-2 text-center" *ngIf="!embedded" style="margin-bottom: 0;">
+	<p class="gd-secondary profile-breadcrumbs">
+		<a class="a-link-dialog" routerLink="/profile/indexes">My indexes</a>
+		> World <a class="a-link-dialog" routerLink="/points/{{world}}">{{world}}</a>
+		> Index <a class="a-link-dialog" routerLink="/alliance" [queryParams]="{world: world, id: id}">{{key}}</a>
+		> Alliance <a class="a-link-dialog" routerLink="/profile/alliance/{{key}}/{{world}}/{{id}}">{{allianceName}}</a>
+	</p>
 
-      <!--<div style="position: absolute; top: 10px; max-width: 200px;">-->
-        <!--<button mat-button class="mat-raised-button bg-gd-2" style="width: 100%; overflow: hidden; text-overflow: ellipsis;" routerLink="/indexer/{{key}}">-->
-          <!--<i class="fa fa-arrow-left"></i> Index: {{key}}-->
-        <!--</button>-->
-      <!--</div>-->
+  <div [ngClass]="{'embedded-padding': embedded}">
+    <!--<div class="card-header bg-gd-2 text-center" *ngIf="!embedded" style="margin-bottom: 0;">-->
 
-      <div class="hidden-sm hidden-md hidden-lg"><br/></div>
-      <h1>
-        <span class="hidden-xs hidden-sm">Showing collected intel for:&nbsp;</span>
-        <span class="gd-primary">{{allianceName}}<span *ngIf="loading && allianceName == ''">Loading...</span></span>
-      </h1>
-      <h3 *ngIf="!loading">
-        <span class="index-title hidden-xs">
-          Index: <span class='world-title'><a class="a-link-dialog" routerLink="/indexer/{{key}}">{{key}}</a></span>
-        </span>
-        <span class="index-title">
-          World: <span class='world-title gd-secondary' *ngIf="world"><div class="bg-flag flag-inline-title flag-{{world.substr(0,2)}}"></div>&nbsp;<a class="a-link-dialog" routerLink="/points" [queryParams]="{world: world}">{{worldName}}&nbsp;({{world}})</a></span>
-        </span>
-        <span class="index-title hidden-xs">
-          Members: <span class='world-title gd-primary'>{{members}}</span>
-        </span>
-        <span class="index-title hidden-xs">
-          Rank: <span class='world-title gd-primary'>{{rank}}</span>
-        </span>
-        <span class="index-title">
-          Stats: <span class='world-title gd-primary'><a class="a-link-dialog" routerLink="/alliance" [queryParams]="{world: world, id: id}">View alliance statistics</a></span>
-        </span>
-      </h3>
-	    <h3 *ngIf="loading">&nbsp;</h3>
-    </div>
+      <!--&lt;!&ndash;<div style="position: absolute; top: 10px; max-width: 200px;">&ndash;&gt;-->
+        <!--&lt;!&ndash;<button mat-button class="mat-raised-button bg-gd-2" style="width: 100%; overflow: hidden; text-overflow: ellipsis;" routerLink="/indexer/{{key}}">&ndash;&gt;-->
+          <!--&lt;!&ndash;<i class="fa fa-arrow-left"></i> Index: {{key}}&ndash;&gt;-->
+        <!--&lt;!&ndash;</button>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+      <!--<div class="hidden-sm hidden-md hidden-lg"><br/></div>-->
+      <!--<h1>-->
+        <!--<span class="hidden-xs hidden-sm">Showing collected intel for:&nbsp;</span>-->
+        <!--<span class="gd-primary">{{allianceName}}<span *ngIf="loading && allianceName == ''">Loading...</span></span>-->
+      <!--</h1>-->
+      <!--<h3 *ngIf="!loading">-->
+        <!--<span class="index-title hidden-xs">-->
+          <!--Index: <span class='world-title'><a class="a-link-dialog" routerLink="/indexer/{{key}}">{{key}}</a></span>-->
+        <!--</span>-->
+        <!--<span class="index-title">-->
+          <!--World: <span class='world-title gd-secondary' *ngIf="world"><div class="bg-flag flag-inline-title flag-{{world.substr(0,2)}}"></div>&nbsp;<a class="a-link-dialog" routerLink="/points" [queryParams]="{world: world}">{{worldName}}&nbsp;({{world}})</a></span>-->
+        <!--</span>-->
+        <!--<span class="index-title hidden-xs">-->
+          <!--Members: <span class='world-title gd-primary'>{{members}}</span>-->
+        <!--</span>-->
+        <!--<span class="index-title hidden-xs">-->
+          <!--Rank: <span class='world-title gd-primary'>{{rank}}</span>-->
+        <!--</span>-->
+        <!--<span class="index-title">-->
+          <!--Stats: <span class='world-title gd-primary'><a class="a-link-dialog" routerLink="/alliance" [queryParams]="{world: world, id: id}">View alliance statistics</a></span>-->
+        <!--</span>-->
+      <!--</h3>-->
+	    <!--<h3 *ngIf="loading">&nbsp;</h3>-->
+    <!--</div>-->
     <mat-card-content class="decorated-card-content" [ngClass]="{'embedded-padding': embedded}" style="padding: 0 !important;">
 
       <!--<app-index-search *ngIf="!embedded" [indexKey]="key"></app-index-search>-->
@@ -60,11 +66,16 @@
 
 	      <!--<app-advertorial *ngIf="!loading && !embedded && (firePlayers | ValuesPipe).length>2"></app-advertorial>-->
 
-	      <div style="width: calc(100vw - 68px); margin: auto;">
-		      <app-index-version *ngIf="!embedded && !loading" [version]="version" [message]="message" [key]="key"></app-index-version>
-	      </div>
+	      <!--<div style="width: calc(100vw - 68px); margin: auto;">-->
+		      <!--<app-index-version *ngIf="!embedded && !loading" [version]="version" [message]="message" [key]="key"></app-index-version>-->
+	      <!--</div>-->
 
-        <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+	      <div *ngIf="loading" class="text-center">
+		      <div class="align-middle" style="position: relative; top: 250px; left: 25%; width: 50%;">
+			      <h3 class="gd-primary"><strong>Loading player intel...</strong></h3>
+			      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+		      </div>
+	      </div>
 
         <div class="container-fluid" *ngIf="!noIntel && !loading" style="padding: 0 !important;">
 
@@ -111,7 +122,7 @@
       </div>
 
     </mat-card-content>
-  </mat-card>
+  </div>
 
   <div class="row" *ngIf="!noIntel && err=='' && !loading">
     <div class="col-lg-12 text-center">

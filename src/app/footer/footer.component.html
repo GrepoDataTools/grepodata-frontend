@@ -1,4 +1,4 @@
-<div *ngIf="!simplified" class="text-center footer-content" [ngClass]="{'footer-background': !sidebar, 'height-2':height_adjust, 'height-1':!height_adjust}">
+<div *ngIf="!simplified && !hidden" class="text-center footer-content" [ngClass]="{'footer-background': !sidebar, 'height-2':height_adjust, 'height-1':!height_adjust}">
   <div class="footer-below" [ngClass]="sidebar == true ? 'sidebarred':''">
     <div [ngClass]="sidebar == true ? 'container-fluid':'container'">
       <div class="row">
@@ -33,7 +33,7 @@
     </div>
   </div>
 </div>
-<div *ngIf="simplified" class="text-center footer-content footer-background height-0">
+<div *ngIf="simplified && !hidden" class="text-center footer-content footer-background height-0">
   <div class="footer-below">
     <div class="container">
       <div class="row">

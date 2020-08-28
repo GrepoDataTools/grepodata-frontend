@@ -13,6 +13,7 @@ export class FooterComponent implements OnInit {
   height_adjust = false;
   simplified = false;
   copyright = true;
+  hidden = false;
 
   constructor(
     public dialog: MatDialog,
@@ -25,6 +26,7 @@ export class FooterComponent implements OnInit {
         this.sidebar = false;
         this.simplified = false;
         this.copyright = true;
+        this.hidden = false;
         if (path.indexOf('/compare') !== -1) {
           this.sidebar = true;
         } else if (path.indexOf('/points') !== -1) {
@@ -38,6 +40,7 @@ export class FooterComponent implements OnInit {
         ) {
           this.simplified = true;
           this.copyright = false;
+          this.hidden = true;
         }
       }
     });

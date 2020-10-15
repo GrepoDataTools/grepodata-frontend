@@ -11,7 +11,7 @@ export class SearchService {
 
   searchPlayers(query: string, from: number, size: number, server: string,
 								world: string, showStopped: boolean, index: string, id: string, forceSql: boolean,
-								preferred_server: string) : any {
+								preferred_server: any) : any {
     let url = '/player/search?';
     if (typeof id != 'undefined' && id != null) url += 'grep_id=' + id + '&';
     if (typeof query != 'undefined' && query != null) url += 'query=' + query.toLowerCase() + '&';
@@ -20,7 +20,7 @@ export class SearchService {
     if (typeof server != 'undefined' && server != '') url += 'server=' + server + '&';
     if (typeof world != 'undefined' && world != '') url += 'world=' + world + '&';
     if (typeof index != 'undefined' && index != null && index != '') url += 'index=' + index + '&';
-    if (typeof preferred_server != 'undefined' && preferred_server != null && preferred_server != '') {
+    if (typeof preferred_server != 'undefined' && preferred_server != false && preferred_server != null && preferred_server != '') {
     	url += 'preferred_server=' + preferred_server + '&';
 		}
 

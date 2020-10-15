@@ -44,7 +44,7 @@
             </mat-card>
           </div>
 
-          <div class="hidden-xs hidden-sm" fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="5px" style="margin-bottom: -25px;">
+          <div class="hidden-xs hidden-sm" fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="0" style="margin-bottom: -25px;">
             <div fxFlex="33" fxLayout="column" fxLayoutGap="5px">
               <ng-container *ngTemplateOutlet="info"></ng-container>
               <br/>
@@ -176,7 +176,10 @@
           <mat-card class="index-card" style="max-height: 400px; height: 400px; min-height: 400px;">
 	          <div class="card-header bg-gd-4">
 		          <h1 class="entity-name gd-white">Enemy city index</h1>
-		          <h3>{{index_name}}</h3>
+		          <h3>
+			          <div class="icon-circle"><img style="height: 24px; margin: 8px;" src="../../assets/images/ally_ico.png"/></div>
+			          &nbsp;{{index_name}}
+		          </h3>
 		          <div class="a-link card-action gd-white" matTooltip="Index settings" (click)="showEditOwnersDialog()">
 			          <mat-icon>settings</mat-icon>
 		          </div>
@@ -186,28 +189,28 @@
 	              <table class="table table-no-more">
 	                <tbody>
 	                <tr>
-	                  <th>Index name</th>
-	                  <td>{{index_name}}</td>
+	                  <th>Alliance</th>
+	                  <td><img src="../../assets/images/ally_ico.png" style="margin-top: -4px;"/> {{index_name}}</td>
 	                </tr>
 	                <tr>
 	                  <th>World</th>
 	                  <td><div class="bg-flag flag-inline flag-{{world.substr(0,2)}}"></div>&nbsp;<a class="decorated" routerLink="/points" [queryParams]="{world: world}">{{world}}</a></td>
 	                </tr>
-	                <tr>
-		                <th>Index code</th>
-		                <td>{{key}}</td>
-	                </tr>
+	                <!--<tr>-->
+		                <!--<th>Index code</th>-->
+		                <!--<td>{{key}}</td>-->
+	                <!--</tr>-->
 	                <tr>
 	                  <th>last addition</th>
 	                  <td>{{data.latest_report}}</td>
 	                </tr>
 	                <tr>
 		                <th>
-			                Index owner<span *ngIf="data.owners && data.owners.length > 1">s</span>
+			                Allied alliance<span *ngIf="data.owners && data.owners.length > 1">s</span>
 		                </th>
 		                <td>
-			                <div *ngFor="let owner of data.owners" matTooltip="Any alliance with atleast a 5% contribution is considered an owner and will not be indexed. The index administrator can add or remove alliances.">
-				                <p class="gd-primary">{{owner.alliance_name}} [{{owner.contributions | number : '1.2-2'}}%]</p>
+			                <div *ngFor="let owner of data.owners" matTooltip="Your intel is shared with allied alliances. You will see their intel, and they will see your intel. You can not see intel about each other's towns.">
+				                <p class="gd-primary"><img src="../../assets/images/ally_ico.png" style="margin-top: -4px;"/> {{owner.alliance_name}}</p>
 			                </div>
 		                </td>
 	                </tr>

@@ -84,8 +84,8 @@ export class ProfileComponent implements OnInit {
         this.account_confirmed = true;
       }
     }
-    if (payload.hasOwnProperty('account_is_confirmed')) {
-      if (payload.account_is_confirmed === true) {
+    if (payload.hasOwnProperty('account_is_linked')) {
+      if (payload.account_is_linked === true) {
         this.account_linked = true;
       }
     }
@@ -100,7 +100,7 @@ export class ProfileComponent implements OnInit {
             this.account_confirmed = true;
             refresh = true;
           }
-          if (response.hasOwnProperty('account_is_confirmed') && response.account_is_confirmed === true) {
+          if (response.hasOwnProperty('account_is_linked') && response.account_is_linked === true) {
             this.account_linked = true;
             refresh = true;
           }

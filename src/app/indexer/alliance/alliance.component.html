@@ -2,9 +2,9 @@
 
 	<p class="gd-secondary profile-breadcrumbs">
 		<a class="a-link-dialog" routerLink="/profile/indexes">My indexes</a>
-		> World <a class="a-link-dialog" routerLink="/points/{{world}}">{{world}}</a>
-		> Index <a class="a-link-dialog" routerLink="/alliance" [queryParams]="{world: world, id: id}">{{key}}</a>
-		> Alliance <a class="a-link-dialog" routerLink="/profile/alliance/{{key}}/{{world}}/{{id}}">{{allianceName}}</a>
+		<mat-icon>arrow_forward_ios</mat-icon>World <a class="a-link-dialog" routerLink="/points/{{world}}">{{world}}</a>
+		<mat-icon>arrow_forward_ios</mat-icon>Index <a class="a-link-dialog" routerLink="/alliance" [queryParams]="{world: world, id: id}">{{key}}</a>
+		<mat-icon>arrow_forward_ios</mat-icon>Alliance <a class="a-link-dialog" routerLink="/profile/alliance/{{key}}/{{world}}/{{id}}">{{allianceName}}</a>
 	</p>
 
   <div [ngClass]="{'embedded-padding': embedded}">
@@ -72,7 +72,7 @@
 
 	      <div *ngIf="loading" class="text-center">
 		      <div class="align-middle" style="position: relative; top: 250px; left: 25%; width: 50%;">
-			      <h3 class="gd-primary"><strong>Loading player intel...</strong></h3>
+			      <h3 class="gd-primary"><strong>Loading alliance intel...</strong></h3>
 			      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 		      </div>
 	      </div>

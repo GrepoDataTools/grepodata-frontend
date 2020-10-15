@@ -25,11 +25,12 @@ export class ProfileService {
 		});
 	}
 
-  addLinkedAccounts(player_id, world) {
+  addLinkedAccounts(player_id, player_name, server) {
     let data = new HttpParams()
       .set('access_token', this.authService.accessToken)
       .set('player_id', player_id)
-      .set('world', world);
+      .set('player_name', player_name)
+      .set('server', server);
     return this.http.post<any>(apiUrl + '/profile/addlinked', data,
       {headers: new HttpHeaders({'Content-Type':'application/x-www-form-urlencoded'})})
 	}

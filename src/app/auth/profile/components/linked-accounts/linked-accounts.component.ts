@@ -9,6 +9,8 @@ import {Router} from '@angular/router';
 import {MatStepper} from '@angular/material/stepper';
 import {SearchService} from '../../../../search/search.service';
 import {Globals} from '../../../../globals';
+import {ContactDialog} from '../../../../header/header.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-linked-accounts',
@@ -24,6 +26,7 @@ export class LinkedAccountsComponent implements OnInit {
   confirmed = true;
   linked = false;
   form_opened = false;
+  moreinfo = false;
 
   // search
   players;
@@ -39,6 +42,7 @@ export class LinkedAccountsComponent implements OnInit {
     private profileService: ProfileService,
     private router: Router,
     private searchService: SearchService,
+    public dialog: MatDialog,
     ) { }
 
   ngOnInit() {
@@ -72,7 +76,7 @@ export class LinkedAccountsComponent implements OnInit {
   }
 
   unlink(account) {
-    if (window.confirm("Are you sure you want to unlink '"+account.player_name+"' from your account?\nYou will lose access to any indexes you are a part of.")) {
+    if (!account.confirmed || window.confirm("Are you sure you want to unlink '"+account.player_name+"' from your account?\nYou will lose access to your intelligence for this account.")) {
       this.profileService.unlinkAccount(account.player_id, account.server).subscribe(
         (response) => {
           account.unlinked = true;
@@ -107,8 +111,8 @@ export class LinkedAccountsComponent implements OnInit {
     if (this.playerInput.length > 1) {
       this.searching = true;
 
-      let preferred_server = this.globals.get_active_server() || '';
-      if (preferred_server==null || preferred_server==false) {
+      let preferred_server = this.globals.get_active_server();
+      if (preferred_server===null || preferred_server===false) {
         preferred_server = '';
       }
       this.searchService.searchPlayers(this.playerInput, 0, 100, '', '', false, null, null, false, preferred_server)
@@ -122,7 +126,7 @@ export class LinkedAccountsComponent implements OnInit {
     }
   }
 
-  selectPlayer(player_id, player_name, server, world) {
+  selectPlayer(player_id, player_name, server) {
     let account = {} as LinkedAccount;
     account.user_id = '0';
     account.player_id = player_id;
@@ -130,11 +134,11 @@ export class LinkedAccountsComponent implements OnInit {
     account.server = server;
     account.confirmed = false;
     account.town_token = '';
-    this.accounts.push(account);
+    this.accounts.unshift(account);
     this.players = [];
     this.searched = false;
     this.form_opened = false;
-    this.profileService.addLinkedAccounts(account.player_id, world).subscribe(
+    this.profileService.addLinkedAccounts(account.player_id, account.player_name, account.server).subscribe(
       (response) => {
         if (response.success == true && response.linked_account) {
           account.town_token = response.linked_account.town_token;
@@ -156,11 +160,21 @@ export class LinkedAccountsComponent implements OnInit {
       this.players = players.results.filter(
         (item, i, arr) => arr.findIndex(t => t.server === item.server && t.name === item.name) === i
       );
-      this.players = this.players.filter(search_result => this.accounts.filter(e => e.player_name == search_result.name && !e.unlinked).length <= 0);
+      this.players = this.players.filter(search_result => this.accounts.filter(e => e.player_name == search_result.name).length <= 0);
       console.log(this.players);
     }
     this.searched = true;
     this.searching = false;
+  }
+
+  public showContactDialog(): void {
+    let dialogRef = this.dialog.open(ContactDialog, {
+      // width: '600px',
+      // height: '90%'
+      autoFocus: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {});
   }
 
 }

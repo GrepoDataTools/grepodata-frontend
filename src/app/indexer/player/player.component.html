@@ -2,10 +2,10 @@
 
 	<p class="gd-secondary profile-breadcrumbs">
 		<a class="a-link-dialog" routerLink="/profile/indexes">My indexes</a>
-		> World <a class="a-link-dialog" routerLink="/points/{{world}}">{{world}}</a>
-		> Index <a class="a-link-dialog" routerLink="/profile/overview/{{key}}">{{key}}</a>
-		> Alliance <a class="a-link-dialog" routerLink="/profile/alliance/{{key}}/{{world}}/{{allianceId}}">{{allianceName}}</a>
-		> Player <a class="a-link-dialog" routerLink="/player" [queryParams]="{world: world, id: id}">{{playerName}}</a>
+		<mat-icon>arrow_forward_ios</mat-icon>World <a class="a-link-dialog" routerLink="/points/{{world}}">{{world}}</a>
+		<mat-icon>arrow_forward_ios</mat-icon>Index <a class="a-link-dialog" routerLink="/profile/overview/{{key}}">{{key}}</a>
+		<mat-icon>arrow_forward_ios</mat-icon>Alliance <a class="a-link-dialog" routerLink="/profile/alliance/{{key}}/{{world}}/{{allianceId}}">{{allianceName}}</a>
+		<mat-icon>arrow_forward_ios</mat-icon>Player <a class="a-link-dialog" routerLink="/player" [queryParams]="{world: world, id: id}">{{playerName}}</a>
 	</p>
 
 	<div [ngClass]="{'embedded-padding': embedded}">

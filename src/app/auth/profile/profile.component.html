@@ -10,18 +10,19 @@
 
 	<div class="profile-sidebar" [ngClass]="{'collapsed': collapsed}">
 		<p *ngIf="username!='' && !collapsed" class="text-center">Logged in as <span class="gd-primary">{{username}}</span></p>
-		<a (click)="changeTab('intel')" [ngClass]="{'active': active_tab=='intel'}"><mat-icon>visibility</mat-icon><span *ngIf="!collapsed"> My intel</span></a>
-		<a (click)="changeTab('indexes')" [ngClass]="{'active': ['indexes', 'overview', 'player', 'alliance', 'town'].includes(active_tab)}"><mat-icon>account_balance</mat-icon><span *ngIf="!collapsed"> My indexes</span></a>
+		<a (click)="changeTab('intel')" [ngClass]="{'active': active_tab=='intel'}"><mat-icon>account_balance</mat-icon><span *ngIf="!collapsed"> My intel</span></a>
 		<a (click)="changeTab('linked')" [ngClass]="{'active': active_tab=='linked'}"><mat-icon>account_circle</mat-icon><span *ngIf="!collapsed"> Linked accounts</span></a>
+		<a (click)="changeTab('indexes')" [ngClass]="{'active': ['indexes', 'overview', 'player', 'alliance', 'town'].includes(active_tab)}"><mat-icon>groups</mat-icon><span *ngIf="!collapsed"> My alliances</span></a>
+		<!--<hr>-->
+		<!--<hr>-->
+		<!--<a (click)="changeTab('password')" [ngClass]="{'active': active_tab=='password'}"><mat-icon>vpn_key</mat-icon><span *ngIf="!collapsed"> Change password</span></a>-->
+		<!--<a (click)="changeTab('delete')" [ngClass]="{'active': active_tab=='delete'}"><mat-icon>delete_outline</mat-icon><span *ngIf="!collapsed"> Delete account</span></a>-->
+		<hr>
+		<a (click)="changeTab('script')" [ngClass]="{'active': active_tab=='script'}"><i class="fa fa-download" aria-hidden="true"></i><span *ngIf="!collapsed"> Get userscript</span></a>
 		<a (click)="changeTab('settings')" [ngClass]="{'active': active_tab=='settings'}"><mat-icon>settings</mat-icon><span *ngIf="!collapsed"> Settings</span></a>
-		<hr>
-		<a (click)="changeTab('script')" [ngClass]="{'active': active_tab=='script'}"><mat-icon>code</mat-icon><span *ngIf="!collapsed"> Get userscript</span></a>
-		<hr>
-		<a (click)="changeTab('password')" [ngClass]="{'active': active_tab=='password'}"><mat-icon>vpn_key</mat-icon><span *ngIf="!collapsed"> Change password</span></a>
-		<a (click)="changeTab('delete')" [ngClass]="{'active': active_tab=='delete'}"><mat-icon>delete_outline</mat-icon><span *ngIf="!collapsed"> Delete account</span></a>
+		<a (click)="changeTab('faq')" [ngClass]="{'active': active_tab=='faq'}"><mat-icon>help_center</mat-icon><span *ngIf="!collapsed"> Help</span></a>
 		<hr>
 		<a (click)="logout()"><mat-icon>login</mat-icon><span *ngIf="!collapsed">Logout</span></a>
-		<a (click)="changeTab('faq')" [ngClass]="{'active': active_tab=='faq'}"><mat-icon>help_center</mat-icon><span *ngIf="!collapsed"> Help</span></a>
 
 		<a (click)="collapsed=!collapsed" style="position: absolute; bottom: 0px; width: 300px;">
 			<span *ngIf="collapsed">
@@ -39,27 +40,34 @@
 
 	<div class="profile-content" [ngClass]="{'collapsed': collapsed}">
 
-		<div class="alert alert-gd-1 error" *ngIf="!account_confirmed">
-			<h2 class="gd-error"><mat-icon>warning</mat-icon> Confirm your account</h2>
+		<div class="alert alert-gd-1 error" *ngIf="!account_confirmed" style="margin: 12px;">
+			<h2 class="gd-error">
+				<mat-icon style="font-size: 37px; vertical-align: sub;">warning</mat-icon>
+				&nbsp;Confirm your email address
+			</h2>
 			<div class="faq-content" style="font-size: 20px;">
 				Your account is not yet verified. You can only share intel with others if your account is activated.<br/>
-				Click the link in the email you received to confirm and activate your account (check your spam folder!).<br/>
+				Click the link in the email you received to confirm and activate your account <strong>(check your spam folder!)</strong>.<br/>
 				<br/><a class="a-link-dialog">Click here to request a new confirmation email</a>
 			</div>
 		</div>
 
-		<div class="alert alert-gd-1 error" *ngIf="!account_linked && active_tab !== 'linked'">
-			<h2 class="gd-error"><mat-icon>warning</mat-icon> Verify your Grepolis player name</h2>
+		<div class="alert alert-gd-1 error" *ngIf="!account_linked && active_tab !== 'linked'" style="margin: 12px;">
+			<h2 class="gd-error">
+				<mat-icon style="font-size: 37px; vertical-align: sub;">warning</mat-icon>
+				&nbsp;Verify your Grepolis player name
+			</h2>
 			<div class="faq-content" style="font-size: 20px;">
 				You have not yet verified your Grepolis player name. You can only share intel with others if your player name is verified.<br/>
-				<a class="a-link-dialog" routerLink="/profile/linked"><br/>Request a new verification here</a>
+				<a class="a-link-dialog" routerLink="/profile/linked"><br/>Request a new player verification here</a>
 			</div>
 		</div>
 
 		<div class="profile-card">
 			<div *ngIf="active_tab === 'overview'">
 				<p class="gd-secondary profile-breadcrumbs">
-					<a class="a-link" routerLink="/profile/indexes">My indexes</a> > Index <a routerLink="/profile/overview/{{active_index}}">{{active_index}}</a>
+					<a class="a-link" routerLink="/profile/indexes">My indexes</a>
+					<mat-icon>arrow_forward_ios</mat-icon>Index <a routerLink="/profile/overview/{{active_index}}">{{active_index}}</a>
 				</p>
 				<app-indexer></app-indexer>
 			</div>
@@ -71,7 +79,9 @@
 			</div>
 			<div *ngIf="active_tab === 'town'">
 				<p class="gd-secondary profile-breadcrumbs">
-					<a class="a-link" routerLink="/profile/indexes">My indexes</a> > Index <a routerLink="/profile/overview/{{active_index}}">{{active_index}}</a> > Town
+					<a class="a-link" routerLink="/profile/indexes">My indexes</a>
+					<mat-icon>arrow_forward_ios</mat-icon>Index <a routerLink="/profile/overview/{{active_index}}">{{active_index}}</a>
+					<mat-icon>arrow_forward_ios</mat-icon>Town
 				</p>
 				<app-index-town></app-index-town>
 			</div>

@@ -5,6 +5,7 @@
 .profile-content {
   margin-left: 280px;
   padding: 20px;
+  min-height: calc(100vh - 68px);
   height: calc(100vh - 68px);
   overflow: auto;
   margin-bottom: -30px;
@@ -15,6 +16,7 @@
 
 .profile-card {
   min-height: 100%;
+  height: 100%;
 }
 
 .profile-sidebar {
@@ -47,6 +49,10 @@
     .mat-icon {
       position: relative;
       top: 3px;
+      margin-right: 10px;
+    }
+
+    .fa {
       margin-right: 10px;
     }
   }

@@ -5,7 +5,7 @@
 
   <div mat-dialog-content *ngIf="submitted==false" style=" min-width: 40%;">
 
-	  <div class="alert alert-gd-1 text-center" style="margin: 0 5% 5% 5%;">
+	  <div class="alert alert-gd-1 text-center" style="margin: 25px 0 0 0;">
 	    <div fxLayout="column" fxLayoutAlign="center center" style="width: 100% !important;">
 	      <mat-form-field  style="width: 100% !important; max-width: 500px !important;">
 	        <textarea [disabled]="loading" style="font-size: 20px;" [ngModel]="contact_message" (ngModelChange)="contact_message=$event" required matInput placeholder="Message" rows="4"></textarea>
@@ -52,7 +52,6 @@
     <div fxLayoutAlign="center center">
       <re-captcha
               size="invisible"
-              badge="inline"
               #captchaRef="reCaptcha"
               siteKey="{{recaptcha_key}}"
               (resolved)="$event && resolved($event)">

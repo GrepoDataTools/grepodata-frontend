@@ -1,153 +1,183 @@
 <mat-card class="index-card">
-	<mat-card-title>
-		<mat-icon class="mat-icon-title-inline">account_balance</mat-icon> My indexes
+	<mat-card-title style="margin: 10px 14px">
+		<mat-icon class="mat-icon-title-inline">groups</mat-icon> My alliances
 	</mat-card-title>
 	<mat-card-content>
-		<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
-		<div class="alert alert-danger" *ngIf="!confirmed">Confirm your email address to create and share indexes.</div>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-xs-12" *ngIf="!loading">
 
-
-		<div *ngIf="!loading && indexes.length <= 0">
-			<p class="gd-secondary">You have not yet created or joined any indexes.</p>
-		</div>
-
-		<div *ngIf="!loading && indexes.length > 0">
-
-			<div class="indexes-table">
-				<table class="table">
-					<thead>
-					<tr>
-						<th scope="col">Index name</th>
-						<th scope="col">Key</th>
-						<th scope="col">World</th>
-						<th scope="col">Your role</th>
-						<th scope="col">
-							Contribute <mat-icon class="mat-icon-title-inline a-link" matTooltip="If you enable this toggle, your collected intell will be shared with this index. If you disable this option, you can still read the index but your collected intel will not be shared with the other players in this index.">help_outline</mat-icon>
-						</th>
-						<th scope="col">Actions</th>
-					</tr>
-					</thead>
-					<tbody>
-					<tr *ngFor="let index of indexes; let i = index;">
-						<td><a routerLink="/profile/overview/{{index.key}}">{{index.name || index.key}} <mat-icon class="mat-icon-title-inline">launch</mat-icon></a></td>
-						<td>{{index.key}}</td>
-						<td><a routerLink="/points/{{index.world}}"><div class="bg-flag flag-inline flag-{{index.world.substr(0,2)}}" style="transform: scale(0.7); vertical-align: middle;"></div> {{index.world}}</a></td>
-						<td>{{index.role.replace('read', 'read only').replace('write', 'contributor')}}</td>
-						<td><mat-slide-toggle [ngModel]="index.contribute" (ngModelChange)="enableContributions(index.key)">Share my intel with this index</mat-slide-toggle></td>
-						<td>
-							<button class="btn btn-secondary btn-sm mr-1">Share index</button>
-							<button routerLink="/profile/overview/{{index.key}}" class="btn btn-secondary btn-sm mr-1">Open index</button>
-							<button class="btn btn-danger btn-sm" *ngIf="index.role=='owner'">Delete index</button>
-						</td>
-					</tr>
-					</tbody>
-				</table>
-			</div>
-
-			<div class="index-new">
-
-				<button *ngIf="!form_opened" (click)="form_opened=true; new_index_created=false;" class="btn btn-primary">
-					Create new index <mat-icon>library_add</mat-icon>
-				</button>
-
-				<div *ngIf="form_opened && new_index_created" class="new-index-form-container">
-					<h4 class="gd-primary">New index created succesfully!</h4>
-					<p>You have created a new index named <strong>{{index_name}}</strong> for world {{world}}</p>
-					<a class="a-link" routerLink="/profile/userscript">Install the userscript to start collecting intel</a>
-
-					<br/>
-					<button (click)="form_opened=false" class="btn btn-primary mr-1">Close</button>
-				</div>
-				<div *ngIf="form_opened && !new_index_created" class="new-index-form-container">
-					<h4 class="gd-primary">Create a new private index</h4>
-					<div class="">
-
-						<div class="container-fluid">
-
-							<div class="row">
-								<div class="col-xs-12">
-									<mat-form-field style="width: 100% !important;">
-										<input autocomplete="off" style="width: 320px !important;" [ngModel]="index_name" (ngModelChange)="index_name=$event" required matInput placeholder="Enter a name for the index">
-									</mat-form-field>
-								</div>
-
-								<div class="col-xs-12 col-sm-4">
-									<mat-form-field style="margin-right: 15px; width: 70% !important;">
-										<mat-select placeholder="Server" [ngModel]="server" (ngModelChange)="updateWorlds($event)" #select>
-											<mat-option *ngFor="let s of servers" value="{{s}}">
-												<div class="bg-flag flag-inline flag-{{s}}"></div>&nbsp;{{s}}
-											</mat-option>
-										</mat-select>
-									</mat-form-field>
-									<mat-icon class="icon-margin" *ngIf="server" style="display: contents; width: calc(30% - 15px) !important;">
-										<div class="bg-flag flag-inline flag-{{server}}" style="vertical-align: middle;"></div>
-									</mat-icon>
-								</div>
-
-								<div class="col-xs-12 col-sm-8">
-									<mat-form-field style="margin-right: 10px; width: 100% !important;">
-										<mat-select placeholder="Select a world" [ngModel]="world" required (ngModelChange)="world = $event">
-											<mat-option *ngFor="let w of worlds" value="{{w.id}}">{{w.id}} ({{w.name}})</mat-option>
-										</mat-select>
-									</mat-form-field>
-								</div>
-							</div>
+					<div class="alert alert-gd-1">
+						<h3 class="gd-primary">Alliance preferences</h3>
+						<div class="faq-content" style="font-size: 20px;">
+							<p>This page lists all alliances you are a part of. You can control your preferences for each alliance here.</p>
 						</div>
 					</div>
-					<button [disabled]="loading_new_index" class="btn btn-primary mr-1" (click)="captchaRef.execute()">Create new index</button>
-					<button [disabled]="loading_new_index" (click)="form_opened=false" class="btn btn-secondary">Cancel</button>
+				</div>
+				<div class="col-xs-12">
+					<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+					<div class="alert alert-danger" *ngIf="!confirmed">Confirm your email address to create and share indexes.</div>
 
-					<mat-progress-bar style="margin-top: 10px;" *ngIf="loading_new_index" mode="indeterminate"></mat-progress-bar>
 
-					<div class="row text-right" style="margin-top: 10px;">
-						<re-captcha
-							size="invisible"
-							#captchaRef="reCaptcha"
-							siteKey="{{recaptcha_key}}"
-							(resolved)="$event && createNewIndex($event)">
-						</re-captcha>
+					<div *ngIf="!loading && indexes.length <= 0">
+						<p class="gd-secondary">You have not yet created or joined any indexes.</p>
+					</div>
+
+					<div *ngIf="!loading && indexes.length > 0">
+
+						<div class="indexes-table">
+							<table class="table">
+								<thead>
+								<tr>
+									<th scope="col">Alliance name</th>
+									<!--<th scope="col">Key</th>-->
+									<th scope="col">World</th>
+									<th scope="col">
+										Contribute <mat-icon class="mat-icon-title-inline a-link" matTooltip="If you enable this toggle, your collected intell will be shared with this index. If you disable this option, you can still read the index but your collected intel will not be shared with the other players in this index.">help_outline</mat-icon>
+									</th>
+									<th scope="col">
+										Shared with  <mat-icon class="mat-icon-title-inline a-link" matTooltip="Your intel will be shared with these alliances. They will see your intel, and you will see theirs.">help_outline</mat-icon>
+									</th>
+									<th scope="col">Actions</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr *ngFor="let index of indexes; let i = index;">
+									<td>
+										<a routerLink="/profile/overview/{{index.key}}"><img src="../../assets/images/ally_ico.png"/> {{index.name || index.key}}</a>
+									</td>
+									<!--<td>{{index.key}}</td>-->
+									<td><a routerLink="/points/{{index.world}}"><div class="bg-flag flag-inline flag-{{index.world.substr(0,2)}}" style="transform: scale(0.7); vertical-align: middle;"></div> {{index.world}}</a></td>
+									<!--<td>{{index.role.replace('read', 'read only').replace('write', 'contributor')}}</td>-->
+									<!--<td>nobody</td>-->
+									<td>
+										<mat-slide-toggle [ngModel]="index.contribute" (ngModelChange)="enableContributions(index.key)">Share my intel with this alliance</mat-slide-toggle>
+									</td>
+									<td>
+										<div>
+											<img src="../../assets/images/ally_ico.png"/> the boys <button class="btn btn-danger mr-1">Revoke <mat-icon>close</mat-icon></button>
+										</div>
+									</td>
+									<td>
+										<!--<button class="btn btn-secondary btn-sm mr-1">Share index</button>-->
+										<!--<button routerLink="/profile/overview/{{index.key}}" class="btn btn-secondary btn-sm mr-1">Open index</button>-->
+										<!--<button class="btn btn-danger btn-sm" *ngIf="index.role=='owner'">Delete index</button>-->
+										<button class="btn btn-secondary mr-1">Merge with alliance <mat-icon>share</mat-icon></button>
+										<button routerLink="/profile/overview/{{index.key}}" class="btn btn-secondary mr-1">Intel overview <mat-icon>launch</mat-icon></button>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<!--<div class="index-new">-->
+
+							<!--<button *ngIf="!form_opened" (click)="form_opened=true; new_index_created=false;" class="btn btn-primary">-->
+								<!--Create new index <mat-icon>library_add</mat-icon>-->
+							<!--</button>-->
+
+							<!--<div *ngIf="form_opened && new_index_created" class="new-index-form-container">-->
+								<!--<h4 class="gd-primary">New index created succesfully!</h4>-->
+								<!--<p>You have created a new index named <strong>{{index_name}}</strong> for world {{world}}</p>-->
+								<!--<a class="a-link" routerLink="/profile/userscript">Install the userscript to start collecting intel</a>-->
+
+								<!--<br/>-->
+								<!--<button (click)="form_opened=false" class="btn btn-primary mr-1">Close</button>-->
+							<!--</div>-->
+							<!--<div *ngIf="form_opened && !new_index_created" class="new-index-form-container">-->
+								<!--<h4 class="gd-primary">Create a new private index</h4>-->
+								<!--<div class="">-->
+
+									<!--<div class="container-fluid">-->
+
+										<!--<div class="row">-->
+											<!--<div class="col-xs-12">-->
+												<!--<mat-form-field style="width: 100% !important;">-->
+													<!--<input autocomplete="off" style="width: 320px !important;" [ngModel]="index_name" (ngModelChange)="index_name=$event" required matInput placeholder="Enter a name for the index">-->
+												<!--</mat-form-field>-->
+											<!--</div>-->
+
+											<!--<div class="col-xs-12 col-sm-4">-->
+												<!--<mat-form-field style="margin-right: 15px; width: 70% !important;">-->
+													<!--<mat-select placeholder="Server" [ngModel]="server" (ngModelChange)="updateWorlds($event)" #select>-->
+														<!--<mat-option *ngFor="let s of servers" value="{{s}}">-->
+															<!--<div class="bg-flag flag-inline flag-{{s}}"></div>&nbsp;{{s}}-->
+														<!--</mat-option>-->
+													<!--</mat-select>-->
+												<!--</mat-form-field>-->
+												<!--<mat-icon class="icon-margin" *ngIf="server" style="display: contents; width: calc(30% - 15px) !important;">-->
+													<!--<div class="bg-flag flag-inline flag-{{server}}" style="vertical-align: middle;"></div>-->
+												<!--</mat-icon>-->
+											<!--</div>-->
+
+											<!--<div class="col-xs-12 col-sm-8">-->
+												<!--<mat-form-field style="margin-right: 10px; width: 100% !important;">-->
+													<!--<mat-select placeholder="Select a world" [ngModel]="world" required (ngModelChange)="world = $event">-->
+														<!--<mat-option *ngFor="let w of worlds" value="{{w.id}}">{{w.id}} ({{w.name}})</mat-option>-->
+													<!--</mat-select>-->
+												<!--</mat-form-field>-->
+											<!--</div>-->
+										<!--</div>-->
+									<!--</div>-->
+								<!--</div>-->
+								<!--<button [disabled]="loading_new_index" class="btn btn-primary mr-1" (click)="captchaRef.execute()">Create new index</button>-->
+								<!--<button [disabled]="loading_new_index" (click)="form_opened=false" class="btn btn-secondary">Cancel</button>-->
+
+								<!--<mat-progress-bar style="margin-top: 10px;" *ngIf="loading_new_index" mode="indeterminate"></mat-progress-bar>-->
+
+								<!--<div class="row text-right" style="margin-top: 10px;">-->
+									<!--<re-captcha-->
+										<!--size="invisible"-->
+										<!--#captchaRef="reCaptcha"-->
+										<!--siteKey="{{recaptcha_key}}"-->
+										<!--(resolved)="$event && createNewIndex($event)">-->
+									<!--</re-captcha>-->
+								<!--</div>-->
+							<!--</div>-->
+
+						<!--</div>-->
+
+						<!--<div class="index-list">-->
+						<!--<div class="index-list-entry" *ngFor="let index of indexes; let i = index;" routerLink="/indexer/{{index.key}}">-->
+						<!--<div class="container-fluid">-->
+						<!--<div class="row">-->
+						<!--<div class="info col-xs-3">-->
+						<!--<div class="label gd-secondary ">-->
+						<!--<a routerLink="/indexer/{{index.key}}">{{index.key}}</a>-->
+						<!--</div>-->
+						<!--<div class="number">-->
+						<!--<a routerLink="/points/{{index.world}}"><div class="bg-flag flag-inline flag-{{index.world.substr(0,2)}}" style="transform: scale(0.7); vertical-align: middle;"></div> {{index.world}}</a>-->
+						<!--</div>-->
+						<!--</div>-->
+						<!--<div class="count col-xs-2">-->
+						<!--<div class="label">Reports</div>-->
+						<!--<div class="number">{{index.overview.total_reports}}</div>-->
+						<!--</div>-->
+						<!--<div class="dates col-xs-2">-->
+						<!--<div class="label">Last update</div>-->
+						<!--<div class="number">{{index.updated_at?((index.updated_at.date?index.updated_at.date:index.updated_at) | Datex : "D MMM YYYY"):''}}</div>-->
+						<!--</div>-->
+						<!--<div class="actions col-xs-3">-->
+						<!--<div class="label">Your role</div>-->
+						<!--<div class="number">Admin</div>-->
+						<!--</div>-->
+						<!--<div class="actions col-xs-2">-->
+						<!--<button class="btn btn-link"-->
+						<!--(click)="editOwners(index.key, index.world, index.overview.owners)">-->
+						<!--<i class="fa fa-cog"></i>-->
+						<!--</button>-->
+						<!--</div>-->
+						<!--</div>-->
+						<!--</div>-->
+						<!--</div>-->
+						<!--</div>-->
+
+
 					</div>
 				</div>
-
 			</div>
-
-			<!--<div class="index-list">-->
-				<!--<div class="index-list-entry" *ngFor="let index of indexes; let i = index;" routerLink="/indexer/{{index.key}}">-->
-					<!--<div class="container-fluid">-->
-						<!--<div class="row">-->
-							<!--<div class="info col-xs-3">-->
-								<!--<div class="label gd-secondary ">-->
-									<!--<a routerLink="/indexer/{{index.key}}">{{index.key}}</a>-->
-								<!--</div>-->
-								<!--<div class="number">-->
-									<!--<a routerLink="/points/{{index.world}}"><div class="bg-flag flag-inline flag-{{index.world.substr(0,2)}}" style="transform: scale(0.7); vertical-align: middle;"></div> {{index.world}}</a>-->
-								<!--</div>-->
-							<!--</div>-->
-							<!--<div class="count col-xs-2">-->
-								<!--<div class="label">Reports</div>-->
-								<!--<div class="number">{{index.overview.total_reports}}</div>-->
-							<!--</div>-->
-							<!--<div class="dates col-xs-2">-->
-								<!--<div class="label">Last update</div>-->
-								<!--<div class="number">{{index.updated_at?((index.updated_at.date?index.updated_at.date:index.updated_at) | Datex : "D MMM YYYY"):''}}</div>-->
-							<!--</div>-->
-							<!--<div class="actions col-xs-3">-->
-								<!--<div class="label">Your role</div>-->
-								<!--<div class="number">Admin</div>-->
-							<!--</div>-->
-							<!--<div class="actions col-xs-2">-->
-								<!--<button class="btn btn-link"-->
-								        <!--(click)="editOwners(index.key, index.world, index.overview.owners)">-->
-									<!--<i class="fa fa-cog"></i>-->
-								<!--</button>-->
-							<!--</div>-->
-						<!--</div>-->
-					<!--</div>-->
-				<!--</div>-->
-			<!--</div>-->
-
-
 		</div>
+
 
 	</mat-card-content>
 </mat-card>

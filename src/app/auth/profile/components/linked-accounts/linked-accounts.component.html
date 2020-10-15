@@ -1,20 +1,28 @@
 <mat-card class="index-card">
-	<mat-card-title>
+	<mat-card-title style="margin: 10px 14px">
 		<mat-icon class="mat-icon-title-inline">account_circle</mat-icon> Linked accounts
 	</mat-card-title>
 	<mat-card-content>
-		<p>You can verify your Grepolis account by temporarily changing one of your town names.</p>
-
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-xs-12" *ngIf="!loading">
 
 					<div class="alert alert-gd-1">
-						<h2 class="gd-error" *ngIf="!linked"><mat-icon>warning</mat-icon> Verify your Grepolis player name</h2>
+						<h3 class="gd-primary">Verify your Grepolis player name</h3>
 						<div class="faq-content" style="font-size: 20px;">
-							<p>If you want to use the indexer tool, we need to be sure that you are who you say you are.<br/>
-								If you change any one of your town names to the token we give you, we will be able to verify your player name.<br/>
-								<strong>It may take a few hours for the verification to complete</strong>
+							<p>
+								You can verify your Grepolis account by temporarily changing one of your town names.<br/><br/>
+								<a class="a-link-dialog" *ngIf="!moreinfo" (click)="moreinfo=true">More info..</a>
+								<span *ngIf="moreinfo">
+									If you want to use the indexer tool, we need to be sure that you are who you say you are.<br/>
+									If you change any one of your town names to the token we give you, we will be able to verify your player name.<br/>
+									<strong>It may take a few hours for the verification to complete.</strong><br/><br/>
+									Once you have changed one of your town names, we will notice this change within a few hours when we get the updated town data.<br/>
+									It is important that you <strong>keep the temporary town name until your name is verified</strong>, as shown on this page.<br/>
+									Once the name is verified, you can change your town name back to whatever you like.<br/><br/>
+									Feel free to <a class="a-link-dialog" (click)="showContactDialog()">contact us</a> if you encounter any issues.<br/>
+								</span>
+								<a class="a-link-dialog" *ngIf="moreinfo" (click)="moreinfo=false"><br/>Less info..</a>
 							</p>
 						</div>
 					</div>
@@ -29,40 +37,48 @@
 							<tr>
 								<th scope="col">Player name</th>
 								<th scope="col">Server</th>
-								<th scope="col">Verification status</th>
-								<th scope="col">Verification town name</th>
+								<th scope="col">
+									Verification status
+									<mat-icon class="mat-icon-title-inline a-link" matTooltip="Your player name will be verified if you temporarily change one of your town names to the displayed token.">help_outline</mat-icon>
+								</th>
+								<th scope="col">
+									Verification town name
+									<mat-icon class="mat-icon-title-inline a-link" matTooltip="Change one of your town names to this token and wait a few hours. You can change your town name back to whatever you like, once your name is verified.">help_outline</mat-icon>
+								</th>
 								<th scope="col">Actions</th>
 							</tr>
 							</thead>
-							<tbody *ngFor="let account of accounts; let i = index;">
-							<tr *ngIf="!account.unlinked">
-								<td><img src="../../assets/images/player_ico.png"/> {{account.player_name}}</td>
-								<td><mat-icon class="icon-margin"><div class="bg-flag flag-{{account.server}}"></div></mat-icon> {{account.server}}</td>
-								<td>
-									<span class="diff-neg" *ngIf="!account.confirmed">Unverified <mat-icon class="mat-icon-title-inline">announcement</mat-icon></span>
-									<span class="diff-pos" *ngIf="account.confirmed">Verified <mat-icon class="mat-icon-title-inline">check_circle_outline</mat-icon></span>
-								</td>
-								<td>
-									<div class="row" *ngIf="!account.confirmed && account.town_token != '' && account.town_token != 'error'">
-										<div class="col-xs-12 gd-share-link-container">
-											<label style="font-weight: 600">Town name required: </label>
-											<input #shareLink [ngClass]="{ 'copied': account.copied }" [disabled]="true" class="ur" type="url" value="{{account.town_token}}" id="VerifyToken{{account.player_id}}" aria-describedby="inputGroup-sizing-default" style="padding-left: 10px; height: 40px;">
-											<button class="cpy" (click)="copyLink(account)"><i class="fa fa-clone"></i> Copy</button>
-										</div>
-									</div>
-									<div *ngIf="!account.confirmed && account.town_token == ''">
-										<label style="font-weight: 200">Loading token.. </label>
-										<mat-progress-bar mode="indeterminate"></mat-progress-bar>
-									</div>
-									<div *ngIf="!account.confirmed && account.town_token == 'error'">
-										<label style="font-weight: 200" class="diff-neg">Oops, something went wrong. Try reloading this page. </label>
-									</div>
-								</td>
-								<td>
-									<button class="btn btn-secondary btn-sm" (click)="unlink(account)" *ngIf="!account.error">Unlink</button>
-									<span class="diff-neg" *ngIf="account.error">{{account.error}}</span>
-								</td>
-							</tr>
+							<tbody>
+								<ng-container *ngFor="let account of accounts; let i = index;">
+									<tr *ngIf="!account.unlinked">
+										<td><img src="../../assets/images/player_ico.png"/> {{account.player_name}}</td>
+										<td><mat-icon class="icon-margin"><div class="bg-flag flag-{{account.server}}"></div></mat-icon> {{account.server}}</td>
+										<td>
+											<span class="diff-neg" *ngIf="!account.confirmed" matTooltip="Change one of your town names to the token shown on the right. It may take a few hours for this to be processed.">Unverified <mat-icon class="mat-icon-title-inline">announcement</mat-icon></span>
+											<span class="diff-pos" *ngIf="account.confirmed">Verified <mat-icon class="mat-icon-title-inline">check_circle_outline</mat-icon></span>
+										</td>
+										<td>
+											<div class="row" *ngIf="!account.confirmed && account.town_token != '' && account.town_token != 'error'">
+												<div class="col-xs-12 gd-share-link-container">
+													<label style="font-weight: 600">Town name required: </label>
+													<input #shareLink [ngClass]="{ 'copied': account.copied }" [disabled]="true" class="ur" type="url" value="{{account.town_token}}" id="VerifyToken{{account.player_id}}" aria-describedby="inputGroup-sizing-default" style="padding-left: 10px; height: 40px;">
+													<button class="cpy" (click)="copyLink(account)"><span *ngIf="account.copied">Copied!</span><span *ngIf="!account.copied"><i class="fa fa-clone"></i> Copy</span></button>
+												</div>
+											</div>
+											<div *ngIf="!account.confirmed && account.town_token == ''">
+												<label style="font-weight: 200">Loading token.. </label>
+												<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+											</div>
+											<div *ngIf="!account.confirmed && account.town_token == 'error'">
+												<label style="font-weight: 200" class="diff-neg">Oops, something went wrong. Try reloading this page. </label>
+											</div>
+										</td>
+										<td>
+											<button class="btn btn-secondary btn-sm" (click)="unlink(account)" *ngIf="!account.error">Unlink</button>
+											<span class="diff-neg" *ngIf="account.error">{{account.error}}</span>
+										</td>
+									</tr>
+								</ng-container>
 							</tbody>
 						</table>
 					</div>
@@ -118,7 +134,7 @@
 																	<mat-icon class="icon-margin"><div class="bg-flag flag-{{player?.server}}"></div></mat-icon>{{player?.server}}
 																</div>
 																<div class="cell">
-																	<button class="btn btn-success" style="overflow: hidden; text-overflow: ellipsis; margin: 5px 0;" (click)="selectPlayer(player?.id, player?.name, player?.server, player?.world)">
+																	<button class="btn btn-success" style="overflow: hidden; text-overflow: ellipsis; margin: 5px 0;" (click)="selectPlayer(player?.id, player?.name, player?.server)">
 																		<i class="fa fa-plus"></i> Verify
 																	</button>
 																</div>

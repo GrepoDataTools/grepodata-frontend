@@ -19,7 +19,8 @@ export class LoginComponent implements OnInit {
 	@Input() embeddedCallback: any;
 
 	environment = environment;
-	loginForm: FormGroup;
+	login_user = '';
+	login_password = '';
 	submitted = false;
 	loading = false;
 	success = false;
@@ -38,14 +39,7 @@ export class LoginComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.loginForm = this.formBuilder.group({
-			mail: ['', Validators.required],
-			password: ['', Validators.required]
-		});
 	}
-
-	// convenience getter for easy access to form fields
-	get f() { return this.loginForm.controls; }
 
 	resolved(captchaResponse: string) {
 		this.captcha = captchaResponse;
@@ -54,13 +48,16 @@ export class LoginComponent implements OnInit {
 
 	public sendRequest() {
 		this.submitted = true;
-		if (this.loginForm.invalid) {
-			if (this.captchaRef != undefined) { this.captchaRef.reset(); }
-			return;
-		}
-
+    if (this.login_user == '') {
+      this.error = 'Email Address or Username is required';
+      return;
+    }
+    if (this.login_password == '') {
+      this.error = 'Password is required';
+      return;
+    }
 		this.loading = true;
-		this.authService.login(this.f.mail.value, this.f.password.value, this.captcha!=''?this.captcha:'dev').subscribe(
+		this.authService.login(this.login_user, this.login_password, this.captcha!=''?this.captcha:'dev').subscribe(
 			(response) => {
 				// console.log(response);
 				this.error = '';

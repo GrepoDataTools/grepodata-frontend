@@ -27,8 +27,7 @@
               "node_modules/font-awesome/css/font-awesome.css",
               "src/styles.scss",
               "src/gd-theme.scss",
-              "src/assets/styles/icons.scss",
-              "src/assets/styles/table.scss"
+              "src/assets/styles/style.scss"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",

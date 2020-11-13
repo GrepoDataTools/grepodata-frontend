@@ -5,9 +5,16 @@
 }
 
 .linked-table {
-  text-align: left !important;
+  text-align: center !important;
+
+  th {
+    text-align: center !important;
+    vertical-align: middle;
+  }
+
   td {
-    text-align: left !important;
+    text-align: center !important;
+    vertical-align: middle;
   }
 }
 

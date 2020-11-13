@@ -1,0 +1,30 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 700;
+  line-height: 1;
+  height: 20px;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .2rem;
+  -webkit-transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  padding: 0 15px;
+
+  &.info {
+    background-color: #2196f3;
+  }
+
+  &.warning {
+    background-color: #ff9800;
+  }
+
+  &.error {
+    background-color: #f44336;
+  }
+
+  &.success {
+    background-color: #4caf50;
+  }
+}

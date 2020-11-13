@@ -1,22 +1,12 @@
-<mat-card class="index-card">
-	<mat-card-title style="margin: 10px 14px">
-		<mat-icon class="mat-icon-title-inline">groups</mat-icon> My alliances
-	</mat-card-title>
-	<mat-card-content>
+<app-paper
+  icon="groups"
+  title="My alliances"
+  description="This page lists all alliances you are a part of. You can control your preferences for each alliance here.">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-xs-12" *ngIf="!loading">
-
-					<div class="alert alert-gd-1">
-						<h3 class="gd-primary">Alliance preferences</h3>
-						<div class="faq-content" style="font-size: 20px;">
-							<p>This page lists all alliances you are a part of. You can control your preferences for each alliance here.</p>
-						</div>
-					</div>
-				</div>
 				<div class="col-xs-12">
 					<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
-					<div class="alert alert-danger" *ngIf="!confirmed">Confirm your email address to create and share indexes.</div>
+					<app-alert type="error" *ngIf="!confirmed">Confirm your email address to create and share indexes.</app-alert>
 
 
 					<div *ngIf="!loading && indexes.length <= 0">
@@ -177,7 +167,4 @@
 				</div>
 			</div>
 		</div>
-
-
-	</mat-card-content>
-</mat-card>
+</app-paper>

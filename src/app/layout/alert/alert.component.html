@@ -1,0 +1,8 @@
+<div class="alert {{ type }} {{ alertHidden && 'hidden'}}">
+  <mat-icon class="alert__icon {{ type }} material-icons" color="accent">{{ selectIcon() }}</mat-icon>
+  <div class="alert__message">
+    <div class="alert__title {{ type }}" *ngIf="!!title">{{ title }}</div>
+    <ng-content></ng-content>
+  </div>
+  <mat-icon class="alert__close material-icons" (click)="hideAlert()">close</mat-icon>
+</div>

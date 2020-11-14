@@ -46,6 +46,7 @@
     "jquery": "^3.4.1",
     "moment": "^2.19.1",
     "ng-recaptcha": "^4.2.1",
+    "ngx-sharebuttons": "^8.0.4",
     "npm": "^6.4.1",
     "rxjs": "^6.5.4",
     "ts-md5": "^1.2.2",

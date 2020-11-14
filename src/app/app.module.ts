@@ -76,7 +76,6 @@ import {
 import { FooterComponent, DisclaimerDialog } from './footer/footer.component';
 
 import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
-import { ShareButtonsModule } from '@ngx-share/buttons';
 import { IndexTownComponent } from './indexer/town/town.component';
 import { IndexPlayerComponent } from './indexer/player/player.component';
 import { IndexAllianceComponent } from './indexer/alliance/alliance.component';
@@ -106,6 +105,7 @@ import { TableComponent } from './indexer/table/table.component';
 import { AnalyticsComponent } from './indexer/analytics/analytics.component';
 import { SiegeComponent } from './indexer/siege/siege.component';
 import { ConquestReportDialog, SiegeListDialog } from './indexer/siege/siege.service';
+import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
 
 const appRoutes: Routes = [
     // { path: 'login', component: LoginComponent },
@@ -260,8 +260,8 @@ export function jwtTokenGetter(): any {
         RouterModule.forRoot(appRoutes),
         HttpClientModule,
         HttpClientJsonpModule,
-        ShareButtonsModule,
         UnitModule.forRoot(),
+        ShareButtonsModule,
     ],
     providers: [GoogleAnalyticsEventsService, Globals],
     bootstrap: [AppComponent],

@@ -40,6 +40,7 @@ const MENU_ITEMS: Array<Menu> = [
     { state: 'profile/indexes', name: 'My alliances', type: 'link', icon: 'format_italic' },
     { state: 'profile/script', name: 'Userscript', type: 'link', icon: 'description' },
     { state: '', name: 'Account', type: 'separator' },
+    { state: 'profile/discord', name: 'Link with Discord', type: 'link', icon: '' },
     {
         state: 'profile/settings',
         name: 'Settings',

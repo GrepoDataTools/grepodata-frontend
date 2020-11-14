@@ -35,9 +35,13 @@
 					<p class="invalid-feedback" *ngIf="error!=''" style="color: #a94442 !important;">{{error}}</p>
 
 					<div class="form-group">
-						<button (click)="environment.production==true?captchaRef.execute():sendRequest()" [disabled]="loading" class="btn btn-success mr-1 " style="width: 100%;">
+						<button mat-flat-button color="primary" (click)="environment.production==true?captchaRef.execute():sendRequest()" [disabled]="loading" style="width: 100%;">
 							<span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
 							Sign in
+						</button>
+            <button mat-flat-button (click)="loginWithDiscord()" class="discord-button">
+							<span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+							Sign in with Discord
 						</button>
 						<button [disabled]="loading" routerLink="/forgot" class="btn btn-link" style="color: #18BC9C !important;">
 							Forgot password?

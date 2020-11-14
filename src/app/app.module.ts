@@ -3,7 +3,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -31,7 +30,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { RecaptchaModule } from 'ng-recaptcha';
 
-// import { NgxTypeaheadModule } from 'ngx-typeahead';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -117,14 +115,11 @@ import { AlertComponent } from './layout/alert/alert.component';
 import { PaperComponent } from './layout/paper/paper.component';
 import { BadgeComponent } from './layout/badge/badge.component';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
-import { MatMenuModule, MatSidenavModule } from '@angular/material';
-import { MenuItems } from './shared/menu-items/menu-items';
-import { CdkAccordionModule } from '@angular/cdk/accordion';
-import { AccordionDirective } from './shared/accordion/accordion.directive';
-import { AccordionAnchorDirective } from './shared/accordion/accordion-anchor.directive';
-import { AccordionLinkDirective } from './shared/accordion/accordion-link.directive';
-import { SharedModule } from './shared/shared.module';
 import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
+import { SharedModule } from './shared/shared.module';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import 'zone.js/dist/zone';
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -179,10 +174,6 @@ export function jwtTokenGetter(): any {
 }
 
 @NgModule({
-        SharedModule,
-        MatSidenavModule,
-        MatMenuModule,
-    ],
     declarations: [
         AppComponent,
         HeaderComponent,
@@ -294,9 +285,33 @@ export function jwtTokenGetter(): any {
         HttpClientJsonpModule,
         UnitModule,
         ShareButtonsModule,
+        SharedModule,
+        MatMenuModule,
+        MatSidenavModule,
     ],
     providers: [GoogleAnalyticsEventsService, Globals],
-  entryComponents: [TownDialog, DisclaimerDialog, ContactDialog, ChangekeyDialog, CleanIntelDialog, IndexDisclaimerDialog, NewIndexDialog, ResetOwnersDialog, ForgotKeysDialog, EditOwnersDialog, InstallDialog, BBDialog, ConquestReportDialog, BBScoreboardDialog, OverviewDialog, ConquestDialog, SiegeListDialog, PlayerOverviewDialog, AllianceOverviewDialog, CompareSnackbar]
     bootstrap: [AppComponent],
+    entryComponents: [
+        TownDialog,
+        DisclaimerDialog,
+        ContactDialog,
+        ChangekeyDialog,
+        CleanIntelDialog,
+        IndexDisclaimerDialog,
+        NewIndexDialog,
+        ResetOwnersDialog,
+        ForgotKeysDialog,
+        EditOwnersDialog,
+        InstallDialog,
+        BBDialog,
+        ConquestReportDialog,
+        BBScoreboardDialog,
+        OverviewDialog,
+        ConquestDialog,
+        SiegeListDialog,
+        PlayerOverviewDialog,
+        AllianceOverviewDialog,
+        CompareSnackbar,
+    ],
 })
 export class AppModule {}

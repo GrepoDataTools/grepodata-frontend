@@ -27,6 +27,7 @@ export class LoginComponent implements OnInit {
     captcha = '';
     error = '';
     recaptcha_key = environment.recaptcha;
+    active_tab = '';
 
     constructor(
         private formBuilder: FormBuilder,

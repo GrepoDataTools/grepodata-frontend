@@ -338,7 +338,7 @@ export class PlayerComponent implements OnInit {
     this.playerHistoryLastDay = this.getDateDiff(new Date(history[history.length-1].date), new Date());
     this.renderPlayerHistory();
   }
-  
+
   private getDateDiff(dt1, dt2) {
     return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate()) ) /(1000 * 60 * 60 * 24));
   }

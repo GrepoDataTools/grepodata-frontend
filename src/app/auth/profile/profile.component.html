@@ -31,11 +31,41 @@
 		</app-alert>
 
         <div *ngIf="active_tab === 'overview'">
-          <p class="gd-secondary profile-breadcrumbs">
-            <a class="a-link" routerLink="/profile/indexes">My indexes</a>
-            <mat-icon>arrow_forward_ios</mat-icon>Index <a routerLink="/profile/overview/{{active_index}}">{{active_index}}</a>
-          </p>
+          <app-paper title="Overview">
+            <div fxLayout="row wrap">
+              <div fxFlex.gt-sm="33.33" fxFlex.gt-xs="100" fxFlex="100">
+                <a href="javascript:void">
+                  <mat-card class="bg-primary text-white text-center m-20">
+                    <div class="p-10">
+                      <h2 class="m-0">5</h2>
+                      <small>Indexes</small>
+                    </div>
+                  </mat-card>
+                </a>
+              </div>
+              <div fxFlex.gt-sm="33.33" fxFlex.gt-xs="100" fxFlex="100">
+                <a href="javascript:void">
+                  <mat-card class="bg-warning text-white text-center m-20">
+                    <div class="p-10">
+                      <h2 class="m-0">15</h2>
+                      <small>Alliances</small>
+                    </div>
+                  </mat-card>
+                </a>
+              </div>
+              <div fxFlex.gt-sm="33.33" fxFlex.gt-xs="100" fxFlex="100">
+                <a href="javascript:void">
+                  <mat-card class="bg-success text-white text-center m-20">
+                    <div class="p-10">
+                      <h2 class="m-0">5168</h2>
+                      <small>Indexed reports</small>
+                    </div>
+                  </mat-card>
+                </a>
+              </div>
+            </div>
           <app-indexer></app-indexer>
+          </app-paper>
         </div>
         <div *ngIf="active_tab === 'player'">
           <app-index-player></app-index-player>

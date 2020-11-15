@@ -27,14 +27,16 @@
             [routerLink]="['/' + menuItem.state]"
             *ngIf="menuItem.type === 'link'"
         >
-            <mat-icon>{{ menuItem.icon }}</mat-icon>
+            <mat-icon *ngIf="menuItem.iconType === 'material' || menuItem.iconType === undefined">{{ menuItem.icon }}</mat-icon>
+            <fa-icon [classes]="['fa-icon']" [icon]="menuItem.icon" *ngIf="menuItem.iconType === 'fontawesome'"></fa-icon>
             <span>{{ menuItem.name }}</span>
             <span fxFlex></span>
             <span class="label label-{{ badge.type }}" *ngFor="let badge of menuItem.badge">{{ badge.value }}</span>
         </a>
 
         <a class="" appAccordionAnchor href="{{ menuItem.state }}" *ngIf="menuItem.type === 'extLink'">
-            <mat-icon>{{ menuItem.icon }}</mat-icon>
+            <mat-icon *ngIf="menuItem.iconType === 'material' || menuItem.iconType === undefined">{{ menuItem.icon }}</mat-icon>
+            <fa-icon [classes]="['fa-icon']" [icon]="menuItem.icon" *ngIf="menuItem.iconType === 'fontawesome'"></fa-icon>
             <span>{{ menuItem.name }}</span>
             <span fxFlex></span>
             <span class="label label-{{ badge.type }}" *ngFor="let badge of menuItem.badge">{{ badge.value }}</span>
@@ -46,14 +48,16 @@
             target="_blank"
             *ngIf="menuItem.type === 'extTabLink'"
         >
-            <mat-icon>{{ menuItem.icon }}</mat-icon>
+            <mat-icon *ngIf="menuItem.iconType === 'material' || menuItem.iconType === undefined">{{ menuItem.icon }}</mat-icon>
+            <fa-icon [classes]="['fa-icon']" [icon]="menuItem.icon" *ngIf="menuItem.iconType === 'fontawesome'"></fa-icon>
             <span>{{ menuItem.name }}</span>
             <span fxFlex></span>
             <span class="label label-{{ badge.type }}" *ngFor="let badge of menuItem.badge">{{ badge.value }}</span>
         </a>
 
         <a class="" appAccordionAnchor *ngIf="menuItem.type === 'sub'">
-            <mat-icon>{{ menuItem.icon }}</mat-icon>
+            <mat-icon *ngIf="menuItem.iconType === 'material' || menuItem.iconType === undefined">{{ menuItem.icon }}</mat-icon>
+            <fa-icon [classes]="['fa-icon']" [icon]="menuItem.icon" *ngIf="menuItem.iconType === 'fontawesome'"></fa-icon>
             <span>{{ menuItem.name }}</span>
             <span fxFlex></span>
             <span class="label label-{{ badge.type }}" *ngFor="let badge of menuItem.badge">{{ badge.value }}</span>

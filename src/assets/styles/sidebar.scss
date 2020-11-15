@@ -34,11 +34,19 @@ mat-sidenav {
     .mat-list-item-content{
       display: block;
       padding: 0 15px;
+
       &:hover{
         background: none;
         > a{
           color:$themecolor;
         }
+      }
+
+      .fa-icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 8px;
+        color: #99abb4;
       }
     }
 

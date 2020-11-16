@@ -37,10 +37,10 @@ export interface Menu {
 
 const MENU_ITEMS: Array<Menu> = [
     { state: '', name: 'Indexer', type: 'separator', iconType: 'material' },
-    { state: 'profile/overview', name: 'Overview', type: 'link', icon: 'list_alt', iconType: 'material' },
-    { state: 'profile/intel', name: 'Intel', type: 'link', icon: 'info_outline', iconType: 'material' },
+    { state: 'profile/overview', name: 'Index overview', type: 'link', icon: 'list_alt', iconType: 'material' },
+    { state: 'profile/indexes', name: 'My indexes', type: 'link', icon: 'format_italic', iconType: 'material' },
+    { state: 'profile/intel', name: 'My reports', type: 'link', icon: 'info_outline', iconType: 'material' },
     { state: 'profile/linked', name: 'Linked accounts', type: 'link', icon: 'link', iconType: 'material' },
-    { state: 'profile/indexes', name: 'My alliances', type: 'link', icon: 'format_italic', iconType: 'material' },
     { state: 'profile/script', name: 'Userscript', type: 'link', icon: 'description' },
     { state: '', name: 'Account', type: 'separator', iconType: 'material' },
     { state: 'profile/discord', name: 'Link with Discord', type: 'link', icon: faDiscord, iconType: 'fontawesome' },

@@ -4,7 +4,7 @@
   padding: 0 15px 15px;
   min-width: 40%;
   max-width: 100%;
-  width: 500px;
+  //width: 500px;
 }
 
 .indexes-table {
@@ -12,6 +12,11 @@
   td {
     text-align: left !important;
   }
+}
+
+.index-row:hover {
+  background: rgba(24, 188, 155, 0.21);
+  cursor: pointer;
 }
 
 .index-new {

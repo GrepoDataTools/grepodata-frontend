@@ -22,12 +22,15 @@ export class IndexesComponent implements OnInit {
   loading = true;
   confirmed = true;
   form_opened = false;
+  import_opened = false;
 
   loading_new_index = false;
   new_index_created = false;
+  new_index_imported = false;
   captcha = '';
   error = '';
   index_name = '';
+  import_key_input = '';
   world = '';
   server: any = '';
   worldData = '';
@@ -50,6 +53,10 @@ export class IndexesComponent implements OnInit {
 
   ngOnInit() {
     this.loadIndexes();
+  }
+
+  public routing(url) {
+    this.router.navigate([url]);
   }
 
   loadWorlds(data) {

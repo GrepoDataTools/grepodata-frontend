@@ -43,6 +43,15 @@ export class ProfileService {
     return this.http.post<any>(apiUrl + '/profile/removelinked', data,
       {headers: new HttpHeaders({'Content-Type':'application/x-www-form-urlencoded'})})
 	}
+
+  getUserIntel(from = 0, size = 20) {
+    return this.http.get<any>(apiUrl + '/indexer/v2/userintel', {
+      params: new HttpParams()
+        .set('access_token', this.authService.accessToken)
+        .set('from', String(from))
+        .set('size', String(size))
+    });
+  }
 }
 
 export interface LinkedAccount {

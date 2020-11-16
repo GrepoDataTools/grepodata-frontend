@@ -19,7 +19,7 @@
         routerLinkActive="selected"
         group="{{ menuItem.state }}"
         [ngClass]="menuItem.action"
-        (click)="scrollToTop()"
+        (click)="handleMenuAction(menuItem.action)"
     >
         <a
             class=""

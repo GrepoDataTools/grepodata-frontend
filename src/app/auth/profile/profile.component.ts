@@ -75,9 +75,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
     load(response) {
         if (response.hasOwnProperty('activetab')) {
             this.active_tab = response.activetab;
+            // if (this.active_tab == 'overview') {
+            //
+            // }
         }
         if (response.hasOwnProperty('key')) {
             this.active_index = response.key;
+            if (this.active_index == '0') {
+              this.active_tab = 'indexes'
+            }
         }
         if (response.hasOwnProperty('world')) {
             this.active_world = response.world;

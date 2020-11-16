@@ -110,7 +110,6 @@ import { SettingsComponent } from './auth/profile/components/settings/settings.c
 import { DeleteAccountComponent } from './auth/profile/components/delete-account/delete-account.component';
 import { ChangePasswordComponent } from './auth/profile/components/change-password/change-password.component';
 import { UserscriptComponent } from './auth/profile/components/userscript/userscript.component';
-import { OverviewComponent } from './auth/profile/components/overview/overview.component';
 import { AlertComponent } from './layout/alert/alert.component';
 import { PaperComponent } from './layout/paper/paper.component';
 import { BadgeComponent } from './layout/badge/badge.component';
@@ -245,7 +244,6 @@ export function jwtTokenGetter(): any {
         ChangePasswordComponent,
         UserscriptComponent,
         AlertComponent,
-        OverviewComponent,
         BadgeComponent,
         PaperComponent,
         SidebarComponent,

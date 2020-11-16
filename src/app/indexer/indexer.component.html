@@ -189,8 +189,8 @@
 	              <table class="table table-no-more">
 	                <tbody>
 	                <tr>
-	                  <th>Alliance</th>
-	                  <td><img src="../../assets/images/ally_ico.png" style="margin-top: -4px;"/> {{index_name}}</td>
+	                  <th>Name</th>
+	                  <td>{{index_name}}</td>
 	                </tr>
 	                <tr>
 	                  <th>World</th>
@@ -206,7 +206,7 @@
 	                </tr>
 	                <tr>
 		                <th>
-			                Allied alliance<span *ngIf="data.owners && data.owners.length > 1">s</span>
+			                Index owner<span *ngIf="data.owners && data.owners.length > 1">s</span>
 		                </th>
 		                <td>
 			                <div *ngFor="let owner of data.owners" matTooltip="Your intel is shared with allied alliances. You will see their intel, and they will see your intel. You can not see intel about each other's towns.">

@@ -2,6 +2,8 @@ import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular
 import { MediaMatcher } from '@angular/cdk/layout';
 import { MenuItems } from '../../shared/menu-items/menu-items';
 import { MatExpansionPanel } from '@angular/material/expansion';
+import {JwtService} from '../../auth/services/jwt.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-sidebar',
@@ -20,7 +22,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
     parentIndex = 0;
     childIndex = 0;
 
-    constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, public menuItems: MenuItems) {
+    constructor(
+      private authService: JwtService,
+      private router: Router,
+      changeDetectorRef: ChangeDetectorRef,
+      media: MediaMatcher,
+      public menuItems: MenuItems) {
         this.mobileQuery = media.matchMedia('(min-width: 768px)');
         this._mediaQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', () => this._mediaQueryListener());
@@ -48,4 +55,19 @@ export class SidebarComponent implements OnInit, OnDestroy {
             behavior: 'smooth',
         });
     }
+
+    logout() {
+      this.authService.logout();
+      this.router.navigate(['/login']);
+    }
+
+  handleMenuAction(action: string) {
+    switch (action) {
+      case 'logout':
+        this.logout();
+        break;
+      default:
+        console.log(action);
+    }
+  }
 }

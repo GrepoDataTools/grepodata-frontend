@@ -3,7 +3,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -31,7 +30,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { RecaptchaModule } from 'ng-recaptcha';
 
-// import { NgxTypeaheadModule } from 'ngx-typeahead';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -76,7 +74,6 @@ import {
 import { FooterComponent, DisclaimerDialog } from './footer/footer.component';
 
 import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
-import { ShareButtonsModule } from '@ngx-share/buttons';
 import { IndexTownComponent } from './indexer/town/town.component';
 import { IndexPlayerComponent } from './indexer/player/player.component';
 import { IndexAllianceComponent } from './indexer/alliance/alliance.component';
@@ -118,13 +115,11 @@ import { AlertComponent } from './layout/alert/alert.component';
 import { PaperComponent } from './layout/paper/paper.component';
 import { BadgeComponent } from './layout/badge/badge.component';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
-import { MatMenuModule, MatSidenavModule } from '@angular/material';
-import { MenuItems } from './shared/menu-items/menu-items';
-import { CdkAccordionModule } from '@angular/cdk/accordion';
-import { AccordionDirective } from './shared/accordion/accordion.directive';
-import { AccordionAnchorDirective } from './shared/accordion/accordion-anchor.directive';
-import { AccordionLinkDirective } from './shared/accordion/accordion-link.directive';
+import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
 import { SharedModule } from './shared/shared.module';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import 'zone.js/dist/zone';
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -187,8 +182,8 @@ export function jwtTokenGetter(): any {
         ScoreboardComponent,
         BBScoreboardDialog,
         OverviewDialog,
-        ConquestDialog,
         PlayerOverviewDialog,
+        ConquestDialog,
         AllianceOverviewDialog,
         PlayerComponent,
         AllianceComponent,
@@ -217,8 +212,8 @@ export function jwtTokenGetter(): any {
         BBLossPipe,
         UnitIconPipe,
         RankingComponent,
-        IndexerComponent,
         FooterComponent,
+        IndexerComponent,
         IndexTownComponent,
         IndexPlayerComponent,
         IndexAllianceComponent,
@@ -241,23 +236,32 @@ export function jwtTokenGetter(): any {
         ForgotComponent,
         TableComponent,
         AnalyticsComponent,
-        SiegeComponent,
         IntelComponent,
+        SiegeComponent,
         IndexesComponent,
-        LinkedAccountsComponent,
         SettingsComponent,
+        LinkedAccountsComponent,
         DeleteAccountComponent,
         ChangePasswordComponent,
         UserscriptComponent,
-        OverviewComponent,
         AlertComponent,
-        PaperComponent,
+        OverviewComponent,
         BadgeComponent,
+        PaperComponent,
         SidebarComponent,
     ],
     imports: [
-        BrowserModule,
         FormsModule,
+        BrowserModule,
+        MatChipsModule,
+        MatPaginatorModule,
+        FlexLayoutModule,
+        MatTabsModule,
+        MatTooltipModule,
+        MatAutocompleteModule,
+        MatNativeDateModule,
+        MatCheckboxModule,
+        MatButtonModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
         NgxChartsModule,
@@ -265,34 +269,25 @@ export function jwtTokenGetter(): any {
         MatListModule,
         MatDatepickerModule,
         MatSelectModule,
-        MatSlideToggleModule,
         MatSliderModule,
+        MatSlideToggleModule,
         MatFormFieldModule,
-        MatExpansionModule,
         MatSnackBarModule,
-        MatInputModule,
+        MatExpansionModule,
         MatIconModule,
-        MatButtonModule,
+        MatInputModule,
         MatStepperModule,
-        MatCheckboxModule,
-        MatProgressBarModule,
         MatProgressSpinnerModule,
-        MatAutocompleteModule,
-        MatNativeDateModule,
-        MatTooltipModule,
-        FlexLayoutModule,
-        MatTabsModule,
-        MatPaginatorModule,
-        MatChipsModule,
-        RecaptchaModule.forRoot(),
+        MatProgressBarModule,
+        RecaptchaModule,
         RouterModule.forRoot(appRoutes),
         HttpClientModule,
         HttpClientJsonpModule,
-        ShareButtonsModule.forRoot(),
-        UnitModule.forRoot(),
+        UnitModule,
+        ShareButtonsModule,
+        SharedModule,
         MatMenuModule,
         MatSidenavModule,
-        SharedModule,
     ],
     providers: [GoogleAnalyticsEventsService, Globals],
     bootstrap: [AppComponent],

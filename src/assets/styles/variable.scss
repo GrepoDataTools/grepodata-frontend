@@ -3,9 +3,42 @@ $headingfont: 'Roboto', sans-serif;
 
 @import '~@angular/material/theming';
 
+$mat-grepodata: (
+  50 : #e3f7f3,
+  100 : #baebe1,
+  200 : #8cdece,
+  300 : #5dd0ba,
+  400 : #3bc6ab,
+  500 : #18bc9c,
+  600 : #15b694,
+  700 : #11ad8a,
+  800 : #0ea580,
+  900 : #08976e,
+  A100 : #c3ffec,
+  A200 : #90ffdc,
+  A400 : #5dffcc,
+  A700 : #44ffc4,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #ffffff,
+    600 : #000000,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
 /*Material Theme Colors*/
 
-$primary: mat-palette($mat-blue, 600);
+$primary: mat-palette($mat-grepodata, 500);
 $accent: mat-palette($mat-indigo, 500);
 $warn: mat-palette($mat-pink, 500);
 $theme: mat-light-theme($primary, $accent, $warn);
@@ -44,7 +77,7 @@ $themecolor-dark: #028ee1;
 $danger: #fc4b6c;
 $success: #26c6da;
 $warning: #ffb22b;
-$primary: #7460ee;
+$primary: #18bc9c;
 $info: #1e88e5;
 $inverse: #2f3d4a;
 $muted: #99abb4;

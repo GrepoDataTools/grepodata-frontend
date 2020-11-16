@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { faDiscord } from '@fortawesome/free-brands-svg-icons';
 
 export interface BadgeItem {
     type: string;
@@ -25,7 +27,8 @@ export interface Menu {
     state: string;
     name: string;
     type: string;
-    icon?: string;
+    icon?: string | IconProp;
+    iconType?: 'material' | 'fontawesome';
     action?: string;
     badge?: BadgeItem[];
     separator?: Separator[];
@@ -33,13 +36,14 @@ export interface Menu {
 }
 
 const MENU_ITEMS: Array<Menu> = [
-    { state: '', name: 'Indexer', type: 'separator' },
-    { state: 'profile/overview', name: 'Overview', type: 'link', icon: 'list_alt' },
-    { state: 'profile/intel', name: 'Intel', type: 'link', icon: 'info_outline' },
-    { state: 'profile/linked', name: 'Linked accounts', type: 'link', icon: 'link' },
-    { state: 'profile/indexes', name: 'My alliances', type: 'link', icon: 'format_italic' },
+    { state: '', name: 'Indexer', type: 'separator', iconType: 'material' },
+    { state: 'profile/overview', name: 'Overview', type: 'link', icon: 'list_alt', iconType: 'material' },
+    { state: 'profile/intel', name: 'Intel', type: 'link', icon: 'info_outline', iconType: 'material' },
+    { state: 'profile/linked', name: 'Linked accounts', type: 'link', icon: 'link', iconType: 'material' },
+    { state: 'profile/indexes', name: 'My alliances', type: 'link', icon: 'format_italic', iconType: 'material' },
     { state: 'profile/script', name: 'Userscript', type: 'link', icon: 'description' },
-    { state: '', name: 'Account', type: 'separator' },
+    { state: '', name: 'Account', type: 'separator', iconType: 'material' },
+    { state: 'profile/discord', name: 'Link with Discord', type: 'link', icon: faDiscord, iconType: 'fontawesome' },
     {
         state: 'profile/settings',
         name: 'Settings',
@@ -50,9 +54,16 @@ const MENU_ITEMS: Array<Menu> = [
             { state: 'delete', name: 'Delete account', type: 'link' },
         ],
     },
-    { state: '', name: 'How to use', type: 'separator', icon: 'person' },
-    { state: 'profile/faq', name: 'Help', type: 'link', icon: 'av_timer' },
-    { state: 'profile/logout', name: 'Log Out', type: 'link', icon: 'power_settings_new', action: 'logout' },
+    { state: '', name: 'How to use', type: 'separator', icon: 'person', iconType: 'material' },
+    { state: 'profile/faq', name: 'Help', type: 'link', icon: 'av_timer', iconType: 'material' },
+    {
+        state: 'profile/logout',
+        name: 'Log Out',
+        type: 'link',
+        icon: 'power_settings_new',
+        action: 'logout',
+        iconType: 'material',
+    },
 ];
 
 @Injectable()

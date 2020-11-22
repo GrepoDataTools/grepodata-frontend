@@ -16,7 +16,7 @@
     </mat-card-content>
     <mat-card-content *ngIf="!notFound">
 
-      <div class="alliance-cards" style="" fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="5px">
+      <div class="alliance-cards" style="margin-bottom: 0 !important;" fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="5px">
         <mat-card class="index-card" fxFlex="25">
           <div class="card-header bg-gd-1 text-center" style="padding-bottom: 20px !important;">
             <h1 class="gd-white entity-name">
@@ -44,7 +44,7 @@
 	                <th>Members</th>
 	                <td style="padding-bottom: 0;">
 		                <div style="position: absolute;">{{members}}</div>
-		                <div *ngIf="!loadingMembers && !membersError && allianceMembersData.members.length > 0"
+		                <div *ngIf="!loadingInfo"
 		                     title="Get a list of player names" style="float: right; margin-top: -5px;">
 			                <mat-chip [selected]="true" (click)="openMailListPopup()">
 				                <i class="fa fa-address-book-o"></i><span class="hidden-xs">&nbsp;&nbsp;Mail List</span>
@@ -354,6 +354,35 @@
         </mat-card>
 
       </div>
+
+	    <div class="alliance-cards" style="" fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="5px">
+		    <mat-card class="index-card" fxFlex="100" style="padding-bottom: 0px !important; padding-top: 10px !important;">
+			    <mat-card-title>
+				    <div fxLayout="row">
+					    <h4 style='font-weight: 300; color: #304357;'><span class='world-title' style='color: #18BC9C;'>Alliance wars</span></h4>
+					    <mat-spinner style="margin-left: 30px;" *ngIf="loadingWars" strokeWidth="3" [diameter]="30"></mat-spinner>
+				    </div>
+			    </mat-card-title>
+			    <mat-card-content>
+				    <div class="conquest-card-container">
+					    <div class="conquest-card" *ngFor="let war of allianceWars">
+						    <div class="war-title">
+							    <div class="title-left">{{allianceName}}</div>
+							    <div class="title-right"><a routerLink="/alliance" [queryParams]="{world: world, id: war?.alliance_id}">{{war?.alliance_name}}</a></div>
+						    </div>
+						    <div class="war-icon">
+							    <mat-icon style="font-weight: 900;">⚔</mat-icon>
+						    </div>
+						    <div class="war-score">
+							    <div class="score-left" ngClass="{{(war.towns_gained_from>=war.towns_lost_to) ? 'pos':'neg'}}">{{war?.towns_gained_from}}</div>
+							    <div class="score-right" ngClass="{{(war.towns_gained_from>=war.towns_lost_to) ? 'neg':'pos'}}">{{war?.towns_lost_to}}</div>
+						    </div>
+					    </div>
+				    </div>
+
+			    </mat-card-content>
+		    </mat-card>
+	    </div>
 
 	    <div style="margin: -5px 17px" *ngIf="!loadingInfo && (members > 20 || rank < 50)">
 		    <app-advertorial></app-advertorial>

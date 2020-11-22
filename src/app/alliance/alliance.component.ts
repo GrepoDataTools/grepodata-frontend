@@ -37,6 +37,7 @@ export class AllianceComponent implements AfterViewInit {
     autoScale = true;
 
     // Component vars
+    allianceWars = [] as any;
     allianceInfoData = [] as any;
     allianceHistoryJson = [] as any;
     allianceHistoryData = [] as any;
@@ -70,6 +71,7 @@ export class AllianceComponent implements AfterViewInit {
 
     // Loading
     firstRun = true;
+    loadingWars = false;
     loadingMembers = false;
     loadingHistory = false;
     loadingInfo = false;
@@ -144,6 +146,7 @@ export class AllianceComponent implements AfterViewInit {
         this.membersError = false;
         this.selectionChanged = false;
 
+        this.loadingWars = true;
         this.loadingMembers = true;
         this.loadingHistory = true;
         this.loadingInfo = true;
@@ -182,6 +185,16 @@ export class AllianceComponent implements AfterViewInit {
                     }
                 );
             }
+        );
+
+        this.allianceService.loadAllianceWars(params['world'], params['id']).subscribe(
+          (response) => {
+            this.allianceWars = response.data;
+            this.loadingWars = false;
+          },
+          (error) => {
+            this.loadingWars = false;
+          }
         );
 
         // Check if intel is available
@@ -426,17 +439,22 @@ export class AllianceComponent implements AfterViewInit {
     }
 
     openMailListPopup () {
+      let alliance_data = {};
+      if (!this.loadingMembers && !this.membersError && this.allianceMembersData.members.length > 0) {
+        alliance_data = {
+          id: this.id,
+          name: this.allianceName,
+          members: this.allianceMembersData.members.map(i => i.name)
+        }
+      }
+
       let dialogRef = this.dialog.open(MailListDialog, {
         // width: '70%',
         // height: '85%',
         autoFocus: false,
         data: {
           world: this.world,
-          alliance: {
-            id: this.id,
-            name: this.allianceName,
-            members: this.allianceMembersData.members.map(i => i.name)
-          }
+          alliance: alliance_data
         }
       });
 

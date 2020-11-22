@@ -50,6 +50,13 @@ export class AllianceService {
     return this.http.get(apiUrl + url);
   }
 
+  loadAllianceWars(world: string, id: string) : any {
+    var url =  '/alliance/wars';
+    if (typeof world != 'undefined') url += '?world=' + world;
+    if (typeof id != 'undefined') url += '&id=' + id;
+    return this.http.get(apiUrl + url);
+  }
+
   getMailList(world: string, ids: string) {
     var url =  '/alliance/maillist';
     if (typeof world != 'undefined') url += '?world=' + world;
@@ -91,9 +98,11 @@ export class MailListDialog {
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.params = data;
     this.world = data.world;
-    this.parent_id = data.alliance.id;
-    this.parent_name = data.alliance.name;
-    this.maillist = data.alliance.members.join('; ') + '; ';
+    if ('id' in data.alliance) {
+      this.parent_id = data.alliance.id;
+      this.parent_name = data.alliance.name;
+      this.maillist = data.alliance.members.join('; ') + '; ';
+    }
     this.addAllianceToSelection(this.parent_id, this.parent_name);
   }
 

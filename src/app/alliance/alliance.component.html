@@ -42,7 +42,15 @@
 	              </tr>
 	              <tr>
 	                <th>Members</th>
-	                <td>{{members}}</td>
+	                <td style="padding-bottom: 0;">
+		                <div style="position: absolute;">{{members}}</div>
+		                <div *ngIf="!loadingMembers && !membersError && allianceMembersData.members.length > 0"
+		                     title="Get a list of player names" style="float: right; margin-top: -5px;">
+			                <mat-chip [selected]="true" (click)="openMailListPopup()">
+				                <i class="fa fa-address-book-o"></i><span class="hidden-xs">&nbsp;&nbsp;Mail List</span>
+			                </mat-chip>
+		                </div>
+	                </td>
 	              </tr>
 	              <tr>
 	                <th>Towns</th>
@@ -74,7 +82,7 @@
             <br/>
             <div class="container-fluid">
               <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-lg-offset-2 text-center">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-10 col-lg-offset-1 text-center">
 
                   <mat-expansion-panel hideToggle="true" [expanded]="compareOpened">
                     <mat-expansion-panel-header *ngIf="!compareOpened" class="gd-btn-1" (click)="addToCompare()">
@@ -166,9 +174,9 @@
 			          <div>
 				          <h4 style='font-weight: 300; color: #304357;'><span class='world-title' style='color: #18BC9C;'>This feature has been removed.</span></h4>
 				          <p>Due to privacy concerns, the activity heatmap feature has been removed from GrepoData entirely.<br/>
-					          The main reason for this change is that the heatmap exposed personal activity patterns, without the possibility for individuals to delete this information as is required by GDPR.
 					          <br/>
-					          We are sorry for the inconvenience. We are in the process of getting the city indexer userscript approved, and this is one of the changes that have been made to GrepoData in that process.
+					          <br/>
+					          Read more about this update in our <a routerLink="/blog/heatmap-and-indexer-changes-2020" style="text-decoration: underline;">blog post</a>.
 				          </p>
 			          </div>
 			          <!---->

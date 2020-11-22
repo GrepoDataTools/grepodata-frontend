@@ -42,6 +42,18 @@ export class SearchService {
     return this.http.get(apiUrl + url);
   }
 
+  searchAlliancesInWorld(query: string, from: number, size: number, world: string) {
+    let url = '/alliance/search?';
+    if (typeof query != 'undefined') url += 'query=' + query.toLowerCase() + '&';
+    if (typeof from != 'undefined') url += 'from=' + from + '&';
+    if (typeof size != 'undefined') url += 'size=' + size + '&';
+    if (typeof world != 'undefined' && world != null && world != '') url += 'world=' + world + '&';
+
+    url += 'active=true&';
+
+    return this.http.get(apiUrl + url);
+  }
+
   searchPlayersIndexed(query: string, index: string) {
     let url = '/indexer/search/player?';
     if (typeof query != 'undefined') url += 'query=' + query.toLowerCase() + '&';

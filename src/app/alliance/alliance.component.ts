@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
-import { AllianceService } from './alliance.service';
+import {AllianceService, MailListDialog} from './alliance.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { data_default } from '../player/data_default';
 import { GoogleAnalyticsEventsService } from '../services/google-analytics-events.service';
@@ -7,6 +7,7 @@ import { CompareService } from '../compare/compare.service';
 import { WorldService } from '../services/world.service';
 import { Globals } from '../globals';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
     selector: 'app-alliance',
@@ -82,6 +83,7 @@ export class AllianceComponent implements AfterViewInit {
     hasIndex: any = '';
 
     constructor(
+        private dialog: MatDialog,
         private elementRef: ElementRef,
         private cdr: ChangeDetectorRef,
         private globals: Globals,
@@ -421,6 +423,24 @@ export class AllianceComponent implements AfterViewInit {
         } catch (e) {
             console.log(e);
         }
+    }
+
+    openMailListPopup () {
+      let dialogRef = this.dialog.open(MailListDialog, {
+        // width: '70%',
+        // height: '85%',
+        autoFocus: false,
+        data: {
+          world: this.world,
+          alliance: {
+            id: this.id,
+            name: this.allianceName,
+            members: this.allianceMembersData.members.map(i => i.name)
+          }
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {});
     }
 
     private loadMembers() {

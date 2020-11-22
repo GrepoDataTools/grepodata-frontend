@@ -119,6 +119,8 @@ import { SharedModule } from './shared/shared.module';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import 'zone.js/dist/zone';
+import { Blog2020Component } from './blog/blog2020/blog2020.component';
+import {MailListDialog} from './alliance/alliance.service';
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -160,6 +162,7 @@ const appRoutes: Routes = [
     { path: 'alliance', component: AllianceComponent },
     { path: 'conquest/:type/:world/:id', component: ConquestComponent },
     { path: 'changes/:type/:world/:id', component: AllianceChangeComponent },
+    { path: 'blog/heatmap-and-indexer-changes-2020', component: Blog2020Component },
     { path: 'conquest', component: ConquestComponent },
     { path: 'discord', component: DiscordComponent },
     { path: 'faq', component: FaqComponent },
@@ -201,6 +204,7 @@ export function jwtTokenGetter(): any {
         NewIndexDialog,
         ConquestReportDialog,
         SiegeListDialog,
+        MailListDialog,
         DiffFilterNonZero,
         DiffFilter,
         NumberFilter,
@@ -247,6 +251,7 @@ export function jwtTokenGetter(): any {
         BadgeComponent,
         PaperComponent,
         SidebarComponent,
+        Blog2020Component,
     ],
     imports: [
         FormsModule,
@@ -307,6 +312,7 @@ export function jwtTokenGetter(): any {
         OverviewDialog,
         ConquestDialog,
         SiegeListDialog,
+        MailListDialog,
         PlayerOverviewDialog,
         AllianceOverviewDialog,
         CompareSnackbar,

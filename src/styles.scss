@@ -291,6 +291,18 @@ mat-paginator {
   justify-content: center;
 }
 
+.script-auth-link-error {
+  button {
+    font-size: 20px !important;
+    color: #18bc9b !important;
+  }
+
+  simple-snack-bar {
+    font-size: 20px !important;
+    line-height: 1.4em !important;
+  }
+}
+
 .compare-snackbar {
   background: #f5f5f5 !important;
   border: 2px solid #18bc9c !important;

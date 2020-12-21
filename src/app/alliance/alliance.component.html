@@ -127,13 +127,14 @@
                 <mat-icon style="opacity: 1; vertical-align: bottom;">timeline</mat-icon>&nbsp;History
               </ng-template>
               <br/>
-              <mat-card-title>
-                <div fxLayout="row">
-                  <h4 style='font-weight: 300; color: #304357;'><span class='world-title' style='color: #18BC9C;'>Alliance history</span></h4>
-                  <mat-spinner style="margin-left: 30px;" *ngIf="loadingMembers" strokeWidth="3" [diameter]="30"></mat-spinner>
-                </div>
-              </mat-card-title>
+              <!--<mat-card-title>-->
+                <!--<div fxLayout="row">-->
+	                <!--<h3 style='font-weight: 700; color: #304357;'><span class='world-title' style='color: #18BC9C;'>Alliance history</span></h3>-->
+                  <!--<mat-spinner style="margin-left: 30px;" *ngIf="loadingMembers" strokeWidth="3" [diameter]="30"></mat-spinner>-->
+                <!--</div>-->
+              <!--</mat-card-title>-->
               <mat-card-content [ngClass]="{'loading-overlay': loadingHistory}">
+	              <mat-progress-bar style="margin-top: -10px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px;" *ngIf="loadingMembers" mode="indeterminate"></mat-progress-bar>
                 <div *ngIf="historyError" class="alert alert-warning text-center alert-gd-1">
                   <h3>Unable to load history. Try again later.</h3>
                 </div>
@@ -257,17 +258,6 @@
 	              <span class="hidden-md hidden-sm hidden-lg">Changes</span>
               </ng-template>
               <br/>
-              <mat-card-title>
-                <div>
-                  <h4 style='font-weight: 300; color: #304357;'>
-                    <span class='world-title' style='color: #18BC9C;'>Alliance changes</span>
-                    <a *ngIf="playerAllianceChanges.length >= 10" routerLink="/changes/alliance/{{world}}/{{id}}" style="color: #949494; right: 20px; position: absolute;">
-                      <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon> Show all changes
-                    </a>
-                  </h4>
-                </div>
-              </mat-card-title>
-              <br/>
               <mat-card-content style="overflow: hidden;">
                 <div *ngIf="playerAllianceChanges.length <= 0" class="alert alert-warning text-center alert-gd-1">
                   <h3>No alliance changes found.</h3>
@@ -318,6 +308,13 @@
                     </div>
                   </div>
                 </div>
+	              <div>
+		              <h3 style='font-weight: 700; color: #304357; height: 20px;'>
+			              <a *ngIf="playerAllianceChanges.length >= 10" routerLink="/changes/alliance/{{world}}/{{id}}" style="color: #949494; right: 20px; position: absolute;">
+				              <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon> Show all changes
+			              </a>
+		              </h3>
+	              </div>
               </mat-card-content>
             </mat-tab>
             <mat-tab>
@@ -359,7 +356,7 @@
 		    <mat-card class="index-card" fxFlex="100" style="padding-bottom: 0px !important; padding-top: 10px !important;">
 			    <mat-card-title>
 				    <div fxLayout="row">
-					    <h4 style='font-weight: 300; color: #304357;'><span class='world-title' style='color: #18BC9C;'>Alliance wars</span></h4>
+					    <h3 style='font-weight: 700; color: #304357;'><span class='world-title' style='color: #18BC9C;'>Alliance wars (conquests)</span></h3>
 					    <mat-spinner style="margin-left: 30px;" *ngIf="loadingWars" strokeWidth="3" [diameter]="30"></mat-spinner>
 				    </div>
 			    </mat-card-title>
@@ -384,20 +381,21 @@
 		    </mat-card>
 	    </div>
 
-	    <div style="margin: -5px 17px" *ngIf="!loadingInfo && (members > 20 || rank < 50)">
-		    <app-advertorial></app-advertorial>
-	    </div>
+	    <!--<div style="margin: -5px 17px" *ngIf="!loadingInfo && (members > 20 || rank < 50)">-->
+		    <!--<app-advertorial></app-advertorial>-->
+	    <!--</div>-->
 
       <div class="alliance-cards" fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="5px">
 
         <mat-card class="index-card" fxFlex="60" fxFlex.gt-md="60" fxFlex.gt-xs="100">
           <mat-card-title>
             <div fxLayout="row">
-              <h4 style='font-weight: 300; color: #304357;'><span class='world-title' style='color: #18BC9C;'>Members</span></h4>
-              <mat-spinner style="margin-left: 30px;" *ngIf="loadingMembers" strokeWidth="3" [diameter]="30"></mat-spinner>
+	            <h3 style='font-weight: 700; color: #304357;'><span class='world-title' style='color: #18BC9C;'>Members</span></h3>
             </div>
           </mat-card-title>
           <mat-card-content [ngClass]="{'loading-overlay': loadingMembers}">
+
+	          <mat-progress-bar *ngIf="loadingMembers" mode="indeterminate" style="	margin: 0;"></mat-progress-bar>
             <div *ngIf="!loadingMembers && !membersError && allianceMembersData.members.length <= 0" class="alert alert-default alert-gd-1 text-center" style="margin-top: 10px;">
               <h3>This alliance no longer has any members</h3>
             </div>

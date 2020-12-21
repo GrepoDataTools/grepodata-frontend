@@ -50,42 +50,45 @@ export class LinkedAccountsComponent implements OnInit {
   }
 
   loadLinkedAccounts() {
-    this.profileService.getLinkedAccounts().subscribe(
-      (response) => {
-        this.accounts = response.items;
-        Object.keys(this.accounts).forEach(account => {
-          if (this.accounts[account].confirmed) {
-            this.linked = true;
+    this.authService.accessToken().then(access_token => {
+      this.profileService.getLinkedAccounts(access_token).subscribe(
+        (response) => {
+          this.accounts = response.items;
+          Object.keys(this.accounts).forEach(account => {
+            if (this.accounts[account].confirmed) {
+              this.linked = true;
+            }
+          });
+          this.loading = false;
+        },
+        (error) => {
+          console.log(error);
+          if (error.status === 401) {
+            console.log('Redirecting to login');
+            this.authService.logout();
+          } else if (error.error.error_code && error.error.error_code == 3010) {
+            this.confirmed = false;
           }
-        });
-        this.loading = false;
-      },
-      (error) => {
-        console.log(error);
-        if (error.status === 401) {
-          console.log('Redirecting to login');
-          this.authService.logout();
-          this.router.navigate(['/login']);
-        } else if (error.error.error_code && error.error.error_code == 3010) {
-          this.confirmed = false;
-        }
 
-        this.loading = false;
-      },
-    );
+          this.loading = false;
+        },
+      );
+    });
   }
 
   unlink(account) {
-    if (!account.confirmed || window.confirm("Are you sure you want to unlink '"+account.player_name+"' from your account?\nYou will lose access to your intelligence for this account.")) {
-      this.profileService.unlinkAccount(account.player_id, account.server).subscribe(
-        (response) => {
-          account.unlinked = true;
-        },
-        (error) => {
-          account.error = 'Unable to unlink. Please try again later.'
-        }
-      );
-    }
+    this.authService.accessToken().then(access_token => {
+      if (!account.confirmed || window.confirm("Are you sure you want to unlink '"+account.player_name+"' from your account?\nYou will lose access to your intelligence for this account.")) {
+        this.profileService.unlinkAccount(access_token, account.player_id, account.server).subscribe(
+          (response) => {
+            account.unlinked = true;
+          },
+          (error) => {
+            account.error = 'Unable to unlink. Please try again later.'
+          }
+        );
+      }
+    });
   }
 
   copyLink(inputElement) {
@@ -138,20 +141,23 @@ export class LinkedAccountsComponent implements OnInit {
     this.players = [];
     this.searched = false;
     this.form_opened = false;
-    this.profileService.addLinkedAccounts(account.player_id, account.player_name, account.server).subscribe(
-      (response) => {
-        if (response.success == true && response.linked_account) {
-          account.town_token = response.linked_account.town_token;
-        } else {
+
+    this.authService.accessToken().then(access_token => {
+      this.profileService.addLinkedAccounts(access_token, account.player_id, account.player_name, account.server).subscribe(
+        (response) => {
+          if (response.success == true && response.linked_account) {
+            account.town_token = response.linked_account.town_token;
+          } else {
+            account.town_token = 'error';
+            this.loadLinkedAccounts();
+          }
+        },
+        (error) => {
           account.town_token = 'error';
           this.loadLinkedAccounts();
         }
-      },
-      (error) => {
-        account.town_token = 'error';
-        this.loadLinkedAccounts();
-      }
-    );
+      );
+    });
   }
 
   renderPlayerOutput(players) {

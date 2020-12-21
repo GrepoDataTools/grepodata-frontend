@@ -45,19 +45,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
         if (this.authService.refreshToken == null) {
             this.logout();
         } else {
-            if (this.authService.accessToken == null) {
-                // Access token is expired, try with refresh token
-                this.authService.refreshAccessToken().subscribe(
-                    (response) => {
-                        this.route.params.subscribe((params) => this.load(params));
-                    },
-                    (error) => {
-                        this.logout();
-                    }
-                );
-            } else {
-                this.route.params.subscribe((params) => this.load(params));
-            }
+          this.authService.accessToken().then(access_token => {
+            this.route.params.subscribe((params) => this.load(params));
+          });
         }
     }
 
@@ -96,42 +86,44 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
     loadProfile() {
-        let payload = jwt_decode(this.authService.accessToken);
+      this.authService.accessToken().then(access_token => {
+        let payload = jwt_decode(access_token);
         if (payload.hasOwnProperty('mail_is_confirmed')) {
-            if (payload.mail_is_confirmed === true) {
-                this.account_confirmed = true;
-            }
+          if (payload.mail_is_confirmed === true) {
+            this.account_confirmed = true;
+          }
         }
         if (payload.hasOwnProperty('account_is_linked')) {
-            if (payload.account_is_linked === true) {
-                this.account_linked = true;
-            }
+          if (payload.account_is_linked === true) {
+            this.account_linked = true;
+          }
         }
 
         if (!this.account_confirmed || !this.account_linked) {
-            // check again
-            console.log('verifying account status');
-            this.authService.verifyToken().subscribe((response) => {
-                let refresh = false;
-                if (response.hasOwnProperty('mail_is_confirmed') && response.mail_is_confirmed === true) {
-                    this.account_confirmed = true;
-                    refresh = true;
-                }
-                if (response.hasOwnProperty('account_is_linked') && response.account_is_linked === true) {
-                    this.account_linked = true;
-                    refresh = true;
-                }
+          // check again
+          console.log('verifying account status');
+          this.authService.verifyToken(access_token).subscribe((response) => {
+            let refresh = false;
+            if (response.hasOwnProperty('mail_is_confirmed') && response.mail_is_confirmed === true) {
+              this.account_confirmed = true;
+              refresh = true;
+            }
+            if (response.hasOwnProperty('account_is_linked') && response.account_is_linked === true) {
+              this.account_linked = true;
+              refresh = true;
+            }
 
-                if (refresh) {
-                    this.authService.refreshAccessToken().subscribe((res) => {});
-                }
-            });
+            if (refresh) {
+              this.authService.refreshAccessToken().subscribe((res) => {});
+            }
+          });
         }
 
         if (payload.hasOwnProperty('username')) {
-            this.username = payload.username;
+          this.username = payload.username;
         }
         this.logged_in = true;
+      });
     }
 
     changeTab(tab) {

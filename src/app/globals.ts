@@ -7,10 +7,12 @@ export class Globals {
   ACTIVE_SERVER       = 'active_server';
   ACTIVE_INDEX        = 'active_index';
   ACTIVE_INTEL_WORLD  = 'active_intel_worlds';
+  ACTIVE_SCRIPT_TOKEN = 'active_script_token';
 
   private active_world:   string = '';
   private active_server:  string = '';
   private active_index:   string = '';
+  private active_token:   string = '';
   private active_intel:   any = null;
   private show_duplicates: any = false;
   public duplicateVisChange: EventEmitter<any> = new EventEmitter();
@@ -28,6 +30,24 @@ export class Globals {
     this.active_world = world;
     localStorage.setItem(this.ACTIVE_WORLD, world);
   }
+
+  get_active_script_token() {
+    if (this.active_token != '') {
+      return this.active_token;
+    } else if (localStorage.getItem(this.ACTIVE_SCRIPT_TOKEN)) {
+      return localStorage.getItem(this.ACTIVE_SCRIPT_TOKEN);
+    } else {
+      return false;
+    }
+  }
+  set_active_script_token(active_token) {
+    this.active_token = active_token;
+    localStorage.setItem(this.ACTIVE_SCRIPT_TOKEN, active_token);
+  }
+  delete_active_script_token() {
+    localStorage.removeItem(this.ACTIVE_SCRIPT_TOKEN);
+  }
+
 
   get_active_server() {
     if (this.active_server != '') {

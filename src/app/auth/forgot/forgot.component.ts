@@ -27,9 +27,10 @@ export class ForgotComponent implements OnInit {
 		private formBuilder: FormBuilder,
 		private router: Router,
 		private authService : JwtService) {
-		if (authService.loggedIn) {
-			this.router.navigate(['/profile'])
-		}
+
+    this.authService.accessToken().then(access_token => {
+      this.router.navigate(['/profile']);
+    });
 	}
 
 	ngOnInit(): void {

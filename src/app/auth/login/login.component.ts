@@ -5,103 +5,149 @@ import { environment } from '../../../environments/environment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import {Globals} from '../../globals';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss'],
-    providers: [JwtService, RecaptchaComponent],
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
+  providers: [JwtService, RecaptchaComponent],
 })
 export class LoginComponent implements OnInit {
-    @ViewChild(RecaptchaComponent, { static: false }) captchaRef: RecaptchaComponent;
+  @ViewChild(RecaptchaComponent, { static: false }) captchaRef: RecaptchaComponent;
 
-    @Input() embedded: boolean;
-    @Input() embeddedCallback: any;
+  @Input() embedded: boolean;
+  @Input() embeddedCallback: any;
 
-    environment = environment;
-    login_user = '';
-    login_password = '';
-    submitted = false;
-    loading = false;
-    success = false;
-    captcha = '';
-    error = '';
-    recaptcha_key = environment.recaptcha;
-    active_tab = '';
+  environment = environment;
+  login_user = '';
+  login_password = '';
+  submitted = false;
+  loading = false;
+  success = false;
+  captcha = '';
+  error = '';
+  recaptcha_key = environment.recaptcha;
+  active_tab = '';
 
-    constructor(
-        private formBuilder: FormBuilder,
-        private router: Router,
-        private authService: JwtService,
-        private dialogRef: MatDialog,
-        protected activatedRoute: ActivatedRoute
-    ) {
-        if (authService.loggedIn) {
-            this.router.navigate(['/profile']);
+  constructor(
+    private formBuilder: FormBuilder,
+    private globals: Globals,
+    private router: Router,
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar,
+    private authService: JwtService,
+    private dialogRef: MatDialog,
+    protected activatedRoute: ActivatedRoute
+  ) {
+
+    this.route.params.subscribe((params) => {
+      if ('uid' in params) {
+        this.globals.set_active_script_token(params.uid);
+      }
+    });
+
+    this.authService.accessToken().then(access_token => {
+      this.doLogin(access_token);
+    });
+  }
+
+  ngOnInit(): void {
+    if (this.activatedRoute.snapshot.queryParams.code) {
+      this.authService
+        .loginWithDiscord(this.activatedRoute.snapshot.queryParams.code)
+        .subscribe((response) => console.log(response));
+    }
+  }
+
+  resolved(captchaResponse: string) {
+    this.captcha = captchaResponse;
+    this.sendRequest();
+  }
+
+  public doLogin(access_token) {
+    // Check script token
+    let script_token = this.globals.get_active_script_token();
+    if (script_token != false) {
+      this.authService.enableScriptLink(access_token, script_token).subscribe((response) => {
+          console.log(response);
+          if (response.success_code && response.success_code === 1151) {
+            // Script auth complete
+            this.snackBar.open('Success! your account has been linked. You can now start using the userscript in-game.', 'Dismiss', {panelClass: 'script-auth-link-error'});
+            this.globals.delete_active_script_token();
+          } else {
+            // script auth failed
+            this.snackBar.open('Sorry, we were unable to link your account to the userscript. Please request a new token using the in-game script.', 'Dismiss', {panelClass: 'script-auth-link-error'});
+          }
+        },
+        (error) => {
+          console.log(error);
+          if (error.error.error_code && error.error.error_code === 3041) {
+            // unknown script token
+            this.snackBar.open('Sorry, your userscript token is invalid. Please request a new token using the in-game script.', 'Dismiss', {panelClass: 'script-auth-link-error'});
+          } else if (error.error.error_code && error.error.error_code === 3042) {
+            // unknown script token
+            this.snackBar.open('Sorry, your userscript token has expired. Please request a new token using the in-game script.', 'Dismiss', {panelClass: 'script-auth-link-error'});
+          } else {
+            // script auth failed ?
+            this.snackBar.open('Sorry, we were unable to link your account to the userscript. Please request a new token using the in-game script.', 'Dismiss', {panelClass: 'script-auth-link-error'});
+          }
+        });
+    }
+
+    // Continue
+    this.loading = false;
+    this.router.navigate(['/profile']);
+  }
+
+  public sendRequest() {
+    this.submitted = true;
+    if (this.login_user == '') {
+      this.error = 'Email Address or Username is required';
+      return;
+    }
+    if (this.login_password == '') {
+      this.error = 'Password is required';
+      return;
+    }
+    this.loading = true;
+    this.authService
+      .login(this.login_user, this.login_password, this.captcha != '' ? this.captcha : 'dev')
+      .subscribe(
+        (response) => {
+          this.error = '';
+          this.success = true;
+          if (!this.embedded) {
+            this.doLogin(response.access_token);
+          } else {
+            this.loading = false;
+            this.embeddedCallback();
+          }
+        },
+        (error) => {
+          this.captcha = '';
+          this.error = 'Unable to login, please try again later.';
+          console.log(error);
+          if (error.error.message != undefined && error.error.message.search('Invalid captcha') != -1) {
+            this.error =
+              'Sorry, we could not verify the captcha. Please try again later or contact us if this error persists.';
+          }
+          if (
+            error.error.error_code != undefined &&
+            (error.error.error_code == 3004 || error.error.error_code == 3005)
+          ) {
+            this.error = 'Invalid email address or password.';
+          }
+          this.loading = false;
+          if (this.captchaRef != undefined) {
+            this.captchaRef.reset();
+          }
         }
-    }
+      );
+  }
 
-    ngOnInit(): void {
-        if (this.activatedRoute.snapshot.queryParams.code) {
-            this.authService
-                .loginWithDiscord(this.activatedRoute.snapshot.queryParams.code)
-                .subscribe((response) => console.log(response));
-        }
-    }
-
-    resolved(captchaResponse: string) {
-        this.captcha = captchaResponse;
-        this.sendRequest();
-    }
-
-    public sendRequest() {
-        this.submitted = true;
-        if (this.login_user == '') {
-            this.error = 'Email Address or Username is required';
-            return;
-        }
-        if (this.login_password == '') {
-            this.error = 'Password is required';
-            return;
-        }
-        this.loading = true;
-        this.authService
-            .login(this.login_user, this.login_password, this.captcha != '' ? this.captcha : 'dev')
-            .subscribe(
-                (response) => {
-                    // console.log(response);
-                    this.error = '';
-                    this.loading = false;
-                    this.success = true;
-                    if (!this.embedded) {
-                        this.router.navigate(['/profile']);
-                    } else {
-                        this.embeddedCallback();
-                    }
-                },
-                (error) => {
-                    this.captcha = '';
-                    this.error = 'Unable to login, please try again later.';
-                    console.log(error);
-                    if (error.error.message != undefined && error.error.message.search('Invalid captcha') != -1) {
-                        this.error =
-                            'Sorry, we could not verify the captcha. Please try again later or contact us if this error persists.';
-                    }
-                    if (
-                        error.error.error_code != undefined &&
-                        (error.error.error_code == 3004 || error.error.error_code == 3005)
-                    ) {
-                        this.error = 'Invalid email address or password.';
-                    }
-                    this.loading = false;
-                    if (this.captchaRef != undefined) {
-                        this.captchaRef.reset();
-                    }
-                }
-            );
-    }
-
-    loginWithDiscord() {
-        window.location.href = environment.discordLoginUrl;
-    }
+  loginWithDiscord() {
+    window.location.href = environment.discordLoginUrl;
+  }
 }

@@ -29,9 +29,9 @@ export class IndexerService {
     let url =  '/indexer/isvalid?key='+key;
     return this.http.get(apiUrl + url);
   }
-  createNewIndex(index_name, world, captcha) {
+  createNewIndex(access_token, index_name, world, captcha) {
     if (captcha == '' || captcha == undefined) captcha = '_';
-    let url =  '/indexer/v2/newindex?world='+world+'&index_name='+index_name+'&captcha='+captcha+'&access_token='+this.authService.accessToken;
+    let url =  '/indexer/v2/newindex?world='+world+'&index_name='+index_name+'&captcha='+captcha+'&access_token='+access_token;
     return this.http.get<any>(apiUrl + url);
   }
   updateIndexKey(key, mail, captcha) {

@@ -124,6 +124,7 @@ import {MailListDialog} from './alliance/alliance.service';
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent },
+    { path: 'link/:uid', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'profile', component: ProfileComponent },
     { path: 'profile/:activetab', component: ProfileComponent },

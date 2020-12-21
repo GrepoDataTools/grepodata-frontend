@@ -1055,7 +1055,7 @@ export class NewIndexDialog {
         } catch (e) {}
 
         this.building = true;
-        this.indexerService.createNewIndex(this.contact_mail, this.world, this.captcha).subscribe(
+        this.indexerService.createNewIndex('TODO', this.contact_mail, this.world, this.captcha).subscribe(
           (response) => {
             this.buildIndex(response);
             if (this.captchaRef != undefined) { this.captchaRef.reset(); }

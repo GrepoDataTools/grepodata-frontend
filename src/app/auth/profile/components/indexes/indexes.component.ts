@@ -80,28 +80,29 @@ export class IndexesComponent implements OnInit {
   }
 
   loadIndexes() {
-    this.profileService.getIndexes().subscribe(
-    	(response) => {
-    		this.indexes = response.items;
-    		this.loading = false;
-    	},
-    	(error) => {
-    		console.log(error);
+    this.authService.accessToken().then(access_token => {
+      this.profileService.getIndexes(access_token).subscribe(
+        (response) => {
+          this.indexes = response.items;
+          this.loading = false;
+        },
+        (error) => {
+          console.log(error);
 
-        if (error.status === 401) {
-          console.log('Redirecting to login');
-          this.authService.logout();
-          this.router.navigate(['/login']);
-        } else if (error.error.error_code == 3010) {
-          console.error(error.error);
-          this.confirmed = false;
-        } else {
-          console.error(error.error);
-        }
+          if (error.status === 401) {
+            console.log('Redirecting to login');
+            this.authService.logout();
+          } else if (error.error.error_code == 3010) {
+            console.error(error.error);
+            this.confirmed = false;
+          } else {
+            console.error(error.error);
+          }
 
-        this.loading = false;
-    	},
-    );
+          this.loading = false;
+        },
+      );
+    });
   }
 
   createNewIndex(event) {
@@ -117,28 +118,35 @@ export class IndexesComponent implements OnInit {
       if (this.captchaRef != undefined) { this.captchaRef.reset(); }
     } else {
       this.loading_new_index = true;
-      this.indexerService.createNewIndex(this.index_name, this.world, this.captcha).subscribe(
-        (response) => {
-          this.loading_new_index = false;
-          this.new_index_created = true;
-          if (response.key) {
-            this.indexes.unshift({
-              'key': response.key,
-              'name': this.index_name,
-              'world': this.world,
-              'role': 'owner',
-              'contribute': 1,
-              'overview': null,
-            });
+
+      this.authService.accessToken().then(access_token => {
+        this.indexerService.createNewIndex(access_token, this.index_name, this.world, this.captcha).subscribe(
+          (response) => {
+            this.loading_new_index = false;
+            this.new_index_created = true;
+            if (response.key) {
+              this.indexes.unshift({
+                'key': response.key,
+                'name': this.index_name,
+                'world': this.world,
+                'role': 'owner',
+                'contribute': 1,
+                'overview': null,
+              });
+            }
+            if (this.captchaRef != undefined) {
+              this.captchaRef.reset();
+            }
+          },
+          (error) => {
+            this.loading_new_index = false;
+            this.error = 'Invalid response. Please try again or contact us if this error persists.';
+            if (this.captchaRef != undefined) {
+              this.captchaRef.reset();
+            }
           }
-          if (this.captchaRef != undefined) { this.captchaRef.reset(); }
-        },
-        (error) => {
-          this.loading_new_index = false;
-          this.error = 'Invalid response. Please try again or contact us if this error persists.';
-          if (this.captchaRef != undefined) { this.captchaRef.reset(); }
-        }
-      );
+        );
+      });
     }
   }
 

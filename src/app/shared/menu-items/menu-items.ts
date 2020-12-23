@@ -59,7 +59,7 @@ const MENU_ITEMS: Array<Menu> = [
     {
         state: 'profile/logout',
         name: 'Log Out',
-        type: 'link',
+        type: 'action',
         icon: 'power_settings_new',
         action: 'logout',
         iconType: 'material',

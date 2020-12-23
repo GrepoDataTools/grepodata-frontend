@@ -121,6 +121,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import 'zone.js/dist/zone';
 import { Blog2020Component } from './blog/blog2020/blog2020.component';
 import {MailListDialog} from './alliance/alliance.service';
+import {BasicDialog} from './shared/dialogs/basic/basic.component';
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -191,6 +192,7 @@ export function jwtTokenGetter(): any {
         PlayerComponent,
         AllianceComponent,
         AdvertorialComponent,
+        BasicDialog,
         TownDialog,
         DisclaimerDialog,
         ContactDialog,
@@ -296,6 +298,7 @@ export function jwtTokenGetter(): any {
     providers: [GoogleAnalyticsEventsService, Globals],
     bootstrap: [AppComponent],
     entryComponents: [
+        BasicDialog,
         TownDialog,
         DisclaimerDialog,
         ContactDialog,

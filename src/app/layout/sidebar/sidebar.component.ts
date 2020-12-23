@@ -44,6 +44,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.childIndex = i;
   }
 
+  loadMenuItems() {
+    return this.menuItems.getMenuItem();
+  }
+
   subclickEvent() {
     this.status = true;
   }
@@ -57,10 +61,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   logout() {
+    console.log('logout');
     this.authService.logout();
   }
 
   handleMenuAction(action: string) {
+    console.log('action: ',action);
     switch (action) {
       case 'logout':
         this.logout();

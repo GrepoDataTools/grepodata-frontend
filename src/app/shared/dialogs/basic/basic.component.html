@@ -1,0 +1,9 @@
+<a (click)="dialogRef.close()" class="close"></a>
+<h1 mat-dialog-title>{{title}}</h1>
+<div mat-dialog-content>
+	<div [innerHtml]="messageHtml"></div>
+</div>
+<div mat-dialog-actions class="dialog-action">
+	<button mat-button (click)="close()" *ngIf="cancel_action!=null">{{cancel_action}}</button>
+	<button mat-button class="mat-focus-indicator mat-raised-button bg-gd-2 gd-white mat-button mat-button-base" (click)="close()">{{action}}</button>
+</div>

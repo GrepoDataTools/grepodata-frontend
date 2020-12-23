@@ -15,7 +15,7 @@
 <mat-nav-list appAccordion>
     <mat-list-item
         appAccordionLink
-        *ngFor="let menuItem of menuItems.getMenuItem()"
+        *ngFor="let menuItem of loadMenuItems()"
         routerLinkActive="selected"
         group="{{ menuItem.state }}"
         [ngClass]="menuItem.action"
@@ -26,6 +26,18 @@
             appAccordionAnchor
             [routerLink]="['/' + menuItem.state]"
             *ngIf="menuItem.type === 'link'"
+        >
+            <mat-icon *ngIf="menuItem.iconType === 'material' || menuItem.iconType === undefined">{{ menuItem.icon }}</mat-icon>
+            <fa-icon [classes]="['fa-icon']" [icon]="menuItem.icon" *ngIf="menuItem.iconType === 'fontawesome'"></fa-icon>
+            <span>{{ menuItem.name }}</span>
+            <span fxFlex></span>
+            <span class="label label-{{ badge.type }}" *ngFor="let badge of menuItem.badge">{{ badge.value }}</span>
+        </a>
+
+        <a
+            class=""
+            appAccordionAnchor
+            *ngIf="menuItem.type === 'action'"
         >
             <mat-icon *ngIf="menuItem.iconType === 'material' || menuItem.iconType === undefined">{{ menuItem.icon }}</mat-icon>
             <fa-icon [classes]="['fa-icon']" [icon]="menuItem.icon" *ngIf="menuItem.iconType === 'fontawesome'"></fa-icon>

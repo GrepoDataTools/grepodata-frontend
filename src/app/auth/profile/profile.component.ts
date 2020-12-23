@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Location } from '@angular/common';
 import * as jwt_decode from 'jwt-decode';
 import { MediaMatcher } from '@angular/cdk/layout';
+import {BasicDialog} from '../../shared/dialogs/basic/basic.component';
 
 @Component({
     selector: 'app-profile',
@@ -49,6 +50,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
             this.route.params.subscribe((params) => this.load(params));
           });
         }
+
     }
 
     ngOnInit() {}

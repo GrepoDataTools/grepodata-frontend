@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import {Globals} from '../../globals';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {BasicDialog} from '../../shared/dialogs/basic/basic.component';
 
 @Component({
   selector: 'app-login',
@@ -74,31 +75,54 @@ export class LoginComponent implements OnInit {
           console.log(response);
           if (response.success_code && response.success_code === 1151) {
             // Script auth complete
-            this.snackBar.open('Success! your account has been linked. You can now start using the userscript in-game.', 'Dismiss', {panelClass: 'script-auth-link-error'});
-            this.globals.delete_active_script_token();
+            this.newBasicDialog(
+              'Userscript login complete!',
+              '<p>Your userscript has been linked to this GrepoData account. You can now start using the script to collect in-game intel. Happy indexing!</p>'
+            );
           } else {
             // script auth failed
             this.snackBar.open('Sorry, we were unable to link your account to the userscript. Please request a new token using the in-game script.', 'Dismiss', {panelClass: 'script-auth-link-error'});
           }
+          this.globals.delete_active_script_token();
         },
         (error) => {
           console.log(error);
           if (error.error.error_code && error.error.error_code === 3041) {
             // unknown script token
-            this.snackBar.open('Sorry, your userscript token is invalid. Please request a new token using the in-game script.', 'Dismiss', {panelClass: 'script-auth-link-error'});
+            this.newBasicDialog(
+              'Userscript verification failed',
+              '<p>Sorry, your userscript token is <strong>invalid</strong>. Please request a new token using the in-game script.</p>'
+            );
           } else if (error.error.error_code && error.error.error_code === 3042) {
-            // unknown script token
-            this.snackBar.open('Sorry, your userscript token has expired. Please request a new token using the in-game script.', 'Dismiss', {panelClass: 'script-auth-link-error'});
+            // expired script token
+            this.newBasicDialog(
+              'Userscript verification failed',
+              '<p>Sorry, your userscript token has <strong>expired</strong>. Please request a new token using the in-game script.</p>'
+            );
           } else {
             // script auth failed ?
-            this.snackBar.open('Sorry, we were unable to link your account to the userscript. Please request a new token using the in-game script.', 'Dismiss', {panelClass: 'script-auth-link-error'});
+            this.newBasicDialog(
+              'Userscript verification failed',
+              '<p>Sorry, we were unable to link your account to the userscript. Please request a new token using the in-game script or try again later.</p>'
+            );
           }
+          this.globals.delete_active_script_token();
         });
     }
 
     // Continue
     this.loading = false;
     this.router.navigate(['/profile']);
+  }
+
+  newBasicDialog(title, content) {
+    const dialogRef = this.dialogRef.open(BasicDialog, {
+      autoFocus: false,
+      data: {
+        title: title,
+        messageHtml: content
+      }
+    });
   }
 
   public sendRequest() {

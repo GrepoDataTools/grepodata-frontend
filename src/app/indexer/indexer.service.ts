@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../environments/environment";
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {JwtService} from '../auth/services/jwt.service';
 
 const apiUrl = environment.apiUrl;
@@ -86,18 +86,23 @@ export class IndexerService {
 		return this.http.get(apiUrl + url);
 	}
 
-  loadPlayerIntel(key, id) {
-    let url =  '/indexer/player?key='+key+'&id='+id;
-    return this.http.get(apiUrl + url);
+  loadPlayerIntel(access_token, world, id) {
+    let url =  '/indexer/v2/player?world='+world+'&player_id='+id;
+    return this.http.get(apiUrl + url, {
+      headers: new HttpHeaders().set('access_token', access_token)
+    });
   }
-  loadAllianceIntel(key, id) {
-    let url =  '/indexer/alliance?key='+key+'&id='+id;
-    return this.http.get(apiUrl + url);
+  loadAllianceIntel(access_token, world, id) {
+    let url =  '/indexer/v2/alliance?world='+world+'&alliance_id='+id;
+    return this.http.get(apiUrl + url, {
+      headers: new HttpHeaders().set('access_token', access_token)
+    });
   }
-  loadTownIntel(key, id) {
-    // let url =  '/indexer/town?key='+key+'&id='+id;
-    let url =  '/indexer/api/town?key='+key+'&id='+id;
-    return this.http.get(apiUrl + url);
+  loadTownIntel(access_token, world, id) {
+    let url =  '/indexer/v2/town?world='+world+'&town_id='+id;
+    return this.http.get(apiUrl + url, {
+      headers: new HttpHeaders().set('access_token', access_token)
+    });
   }
 
   // stats

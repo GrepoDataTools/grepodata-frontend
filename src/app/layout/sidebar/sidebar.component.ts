@@ -18,6 +18,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   mobileQuery: MediaQueryList;
   status = true;
+  activePath: string;
   itemSelect: Array<number> = [];
   parentIndex = 0;
   childIndex = 0;
@@ -31,6 +32,13 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.mobileQuery = media.matchMedia('(min-width: 768px)');
     this._mediaQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addEventListener('change', () => this._mediaQueryListener());
+
+    router.events.subscribe((params) => {
+      let val: any = params;
+      if ('url' in val) {
+        this.activePath = val.url;
+      }
+    });
   }
 
   ngOnInit() {}

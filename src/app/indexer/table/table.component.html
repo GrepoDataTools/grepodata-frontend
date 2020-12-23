@@ -4,7 +4,7 @@
 			<h3 style='font-weight: 300; color: #304357; vertical-align: center;'>
 				<span>
 					<img src="../../assets/images/player_ico.png" style="height: 25px; margin-top: -5px; margin-right: 8px;"/>
-					<a class="a-link-dialog" routerLink="/indexer/player/{{key}}/{{world}}/{{id}}">{{playerName}}</a>
+					<a class="a-link-dialog" routerLink="/intel/player/{{world}}/{{id}}">{{playerName}}</a>
 				</span>
 			</h3>
 		</div>
@@ -48,7 +48,7 @@
 				<div class="row_spacer" *ngIf="hideAvailable && showNonPriority && i!=0 && town?.priority==true"></div>
 				<div class='row_custom' *ngIf="(showNonPriority || (town?.priority==true&&!showNonPriority))&&(csa==false||town?.csa_prio==true)">
 					<div class="cell" [ngClass]="{'name_cell':isSeaUnit||type=='myth', 'town_sub_cell':hideAvailable && town?.priority==false}">
-						<a routerLink="/indexer/town/{{key}}/{{world}}/{{town.town_id}}" [ngClass]="{'town_sub':hideAvailable && town?.priority==false}">
+						<a routerLink="/intel/town/{{world}}/{{town.town_id}}" [ngClass]="{'town_sub':hideAvailable && town?.priority==false}">
 							{{!hideAvailable || town?.priority==true?town.town_name:'↳'}}
 						</a>
 

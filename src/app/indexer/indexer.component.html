@@ -141,13 +141,13 @@
 										        <img src="../../assets/images/game/towninfo/espionage_2.67.png" *ngIf="town.type === 'spy'">
 									        </div>
 									        <div class="cell">
-										        <a routerLink="/indexer/town/{{key}}/{{world}}/{{town?.town_id}}">{{town?.town_name}}</a>
+										        <a routerLink="/intel/town/{{world}}/{{town?.town_id}}">{{town?.town_name}}</a>
 									        </div>
 									        <div class="cell">
-										        <a routerLink="/indexer/player/{{key}}/{{world}}/{{town?.player_id}}">{{town?.player_name}}</a>
+										        <a routerLink="/intel/player/{{world}}/{{town?.player_id}}">{{town?.player_name}}</a>
 									        </div>
 									        <div class="cell">
-										        <a routerLink="/indexer/alliance/{{key}}/{{world}}/{{town?.alliance_id}}">{{town?.alliance_name}}</a>
+										        <a routerLink="/intel/alliance/{{world}}/{{town?.alliance_id}}">{{town?.alliance_name}}</a>
 									        </div>
 									        <div class="cell">
 										        {{town.date | IndexDate}}
@@ -340,13 +340,13 @@
 		            <div class="table" id="table_players_rows" style='margin: auto; margin-bottom: 0px;'>
 			            <div class='row_custom' *ngFor="let player of data.players_indexed">
 				            <div class="cell" style="width: 45%;">
-					            <a routerLink="/indexer/player/{{key}}/{{world}}/{{player?.player_id}}">{{player?.player_name}}</a>
+					            <a routerLink="/intel/player/{{world}}/{{player?.player_id}}">{{player?.player_name}}</a>
 				            </div>
 				            <div class="cell" style="width: 25%;">
 					            {{player.count}}
 				            </div>
 				            <div class="cell" style="width: 30%;">
-					            <a routerLink="/indexer/player/{{key}}/{{world}}/{{player?.player_id}}">intel</a>
+					            <a routerLink="/intel/player/{{world}}/{{player?.player_id}}">intel</a>
 					            <span class="hidden-xs">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
 					            <br class="hidden-sm hidden-md hidden-lg"/>
 					            <a routerLink="/player" [queryParams]="{world: world, id: player?.player_id}">stats</a>
@@ -388,13 +388,13 @@
 
 	                <div class='row_custom' *ngFor="let alliance of data.alliances_indexed">
 	                  <div class="cell">
-	                    <a routerLink="/indexer/alliance/{{key}}/{{world}}/{{alliance?.alliance_id}}">{{alliance?.alliance_name}}</a>
+	                    <a routerLink="/intel/alliance/{{world}}/{{alliance?.alliance_id}}">{{alliance?.alliance_name}}</a>
 	                  </div>
 	                  <div class="cell">
 	                    {{alliance.count}}
 	                  </div>
 	                  <div class="cell">
-	                    <a routerLink="/indexer/alliance/{{key}}/{{world}}/{{alliance?.alliance_id}}">intel</a>
+	                    <a routerLink="/intel/alliance/{{world}}/{{alliance?.alliance_id}}">intel</a>
 		                  <span class="hidden-xs">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
 		                  <br class="hidden-sm hidden-md hidden-lg"/>
 	                    <a routerLink="/alliance" [queryParams]="{world: world, id: alliance?.alliance_id}">stats</a>
@@ -568,54 +568,54 @@
       </div>
     </div>
   </div>
-  <div *ngIf="moved">
-    <mat-card class="index-card index-overview decorated-card">
-      <mat-card-title class='decorated-card-header decorated-title'>
-        <div class="container-fluid">
-          <!--suppress XmlDuplicatedId -->
-          <div class="row" id="timeline">
-            <div class="col-xs-12 col-sm-0 col-md-1 col-lg-2 text-right">
-              <div class="col-12">
-                <button mat-button class="mat-raised-button bg-gd-2" style="z-index: 999; width: 100%; overflow: hidden; text-overflow: ellipsis;" routerLink="/indexer/0">
-                  <i class="fa fa-arrow-left"></i>&nbsp;<span class="hidden-sm hidden-md">Indexer homepage</span><span class="hidden-xs hidden-lg">Home</span>
-                </button>
-              </div>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-8 col-lg-8 text-center">
-              <h1><i class="fa fa-university gd-secondary" aria-hidden="true"></i>&nbsp;Enemy city index</h1>
-              <h3>
-                &nbsp;&nbsp;&nbsp;Key: <span class='world-title gd-secondary'>{{key}}</span>
-              </h3>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2 text-right">
+  <!--<div *ngIf="moved">-->
+    <!--<mat-card class="index-card index-overview decorated-card">-->
+      <!--<mat-card-title class='decorated-card-header decorated-title'>-->
+        <!--<div class="container-fluid">-->
+          <!--&lt;!&ndash;suppress XmlDuplicatedId &ndash;&gt;-->
+          <!--<div class="row" id="timeline">-->
+            <!--<div class="col-xs-12 col-sm-0 col-md-1 col-lg-2 text-right">-->
+              <!--<div class="col-12">-->
+                <!--<button mat-button class="mat-raised-button bg-gd-2" style="z-index: 999; width: 100%; overflow: hidden; text-overflow: ellipsis;" routerLink="/indexer/0">-->
+                  <!--<i class="fa fa-arrow-left"></i>&nbsp;<span class="hidden-sm hidden-md">Indexer homepage</span><span class="hidden-xs hidden-lg">Home</span>-->
+                <!--</button>-->
+              <!--</div>-->
+            <!--</div>-->
+            <!--<div class="col-xs-12 col-sm-6 col-md-8 col-lg-8 text-center">-->
+              <!--<h1><i class="fa fa-university gd-secondary" aria-hidden="true"></i>&nbsp;Enemy city index</h1>-->
+              <!--<h3>-->
+                <!--&nbsp;&nbsp;&nbsp;Key: <span class='world-title gd-secondary'>{{key}}</span>-->
+              <!--</h3>-->
+            <!--</div>-->
+            <!--<div class="col-xs-12 col-sm-6 col-md-3 col-lg-2 text-right">-->
 
-              <div class="col-12">
-                <button mat-button class="mat-raised-button bg-gd-2" style="width: 100%;" (click)="indexDisclaimer()">
-                  <i class="fa fa-info"></i> Frequently asked questions
-                </button>
-              </div>
+              <!--<div class="col-12">-->
+                <!--<button mat-button class="mat-raised-button bg-gd-2" style="width: 100%;" (click)="indexDisclaimer()">-->
+                  <!--<i class="fa fa-info"></i> Frequently asked questions-->
+                <!--</button>-->
+              <!--</div>-->
 
-            </div>
-          </div>
-        </div>
-      </mat-card-title>
-      <mat-card-content class="decorated-card-content">
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</mat-card-title>-->
+      <!--<mat-card-content class="decorated-card-content">-->
 
-        <br/>
-        <br/>
+        <!--<br/>-->
+        <!--<br/>-->
 
-        <div class="container">
-          <div class="col-xs-12 alert alert-info text-center">
-            <h1><strong>Sorry,</strong> this index has been moved by the index owner!</h1>
-            <h3>Contact the owner of this index to get a new link to the moved index.</h3>
-          </div>
-        </div>
+        <!--<div class="container">-->
+          <!--<div class="col-xs-12 alert alert-info text-center">-->
+            <!--<h1><strong>Sorry,</strong> this index has been moved by the index owner!</h1>-->
+            <!--<h3>Contact the owner of this index to get a new link to the moved index.</h3>-->
+          <!--</div>-->
+        <!--</div>-->
 
-        <br/>
-        <br/>
+        <!--<br/>-->
+        <!--<br/>-->
 
-      </mat-card-content>
-    </mat-card>
-  </div>
+      <!--</mat-card-content>-->
+    <!--</mat-card>-->
+  <!--</div>-->
 
 </div>

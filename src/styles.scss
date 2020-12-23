@@ -29,12 +29,25 @@ pre {
   min-width: 60vw !important;
 }
 
+.search-card {
+  border-radius: 1rem !important;
+  padding: 10px 0 5px !important;
+  box-shadow: 0px 0px 10px 1px #18333314 !important;
+  margin: 22px !important;
+  border: 0;
+}
+
+.embedded-intel-card {
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
 .index-card {
   border-radius: 1rem !important;
   padding: 30px !important;
   //box-shadow: 0 0 30px 0 rgba(82,63,105,.05) !important;
   box-shadow: 0px 0px 10px 1px #18333314 !important;
-  margin: 12px !important;
+  margin: 22px !important;
   border: 0;
 
   .card-header {
@@ -131,6 +144,7 @@ mat-paginator {
   }
 }
 
+.gd-brown {color: #804000 !important; font-weight: 700 !important;}
 .gd-primary {color: #18BC9C !important;}
 .gd-secondary {color: #334254 !important;}
 .gd-tertiary {color: #e7fef3 !important;}
@@ -150,6 +164,14 @@ mat-paginator {
   border-radius: 10rem;
   height: 40px;
   width: 40px;
+}
+
+.name-circle {
+  display: inline-block;
+  background: white;
+  border-radius: 10rem;
+  height: 40px;
+  padding: 2px 15px 0;
 }
 
 .gd-btn {

@@ -7,6 +7,7 @@ import { MatDialog } from "@angular/material/dialog";
 import {BBDialog} from "../indexer.component";
 import {WorldService} from "../../services/world.service";
 import {LocalCacheService} from "../../services/local-cache.service";
+import {JwtService} from '../../auth/services/jwt.service';
 
 @Component({
   selector: 'app-index-player',
@@ -49,6 +50,7 @@ export class IndexPlayerComponent implements AfterViewInit {
     public dialog: MatDialog,
     private cdr: ChangeDetectorRef,
     private worldService: WorldService,
+    private authService: JwtService,
     private playerService: PlayerService,
     private indexerService: IndexerService,
     private router: Router,
@@ -73,7 +75,10 @@ export class IndexPlayerComponent implements AfterViewInit {
   private load(params) {
     if (params !== null) {
       // Save params
-      this.key = params['key'];
+      this.key = '0';
+      if ('key' in params) {
+        this.key = params['key'];
+      }
       this.world = params['world'];
       this.id = params['id'];
     }
@@ -99,11 +104,13 @@ export class IndexPlayerComponent implements AfterViewInit {
       );
 
     // Load player intel
-    this.indexerService.loadPlayerIntel(this.key, this.id)
-      .subscribe(
-        (response) => this.renderPlayerIntel(response),
-        (error) => this.renderPlayerIntel(null)
-      );
+    this.authService.accessToken().then(access_token => {
+      this.indexerService.loadPlayerIntel(access_token, this.world, this.id)
+        .subscribe(
+          (response) => this.renderPlayerIntel(response),
+          (error) => this.renderPlayerIntel(null)
+        );
+    });
 
     this.worldService.getWorldInfo(this.world).then((response) => {
       this.worldName = response.name

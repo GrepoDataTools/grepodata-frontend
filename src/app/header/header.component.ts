@@ -61,11 +61,11 @@ export class HeaderComponent implements OnInit {
 
   openIndexer()
   {
-    if (this.router.url.search('indexer') === 1) {
-      this.routing('/indexer/0');
-    } else {
-      this.routing('/indexer');
-    }
+    // if (this.router.url.search('indexer') === 1) {
+    //   this.routing('/indexer/0');
+    // } else {
+      this.routing('/profile/intel');
+    // }
   }
 
   public routing(url) {

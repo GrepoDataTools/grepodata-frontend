@@ -1,10 +1,9 @@
-<app-paper
-  icon="groups"
-  title="My indexes"
-  description="This page lists all indexes you are a part of. You can create new indexes and control your preferences for each index here.">
-		<div class="container-fluid">
+<mat-card class="index-card">
+	<div class="container-fluid">
 			<div class="row">
 				<div class="col-xs-12">
+					<h2>My indexes</h2>
+
 					<mat-progress-bar style="margin-top: -10px;" *ngIf="loading" mode="indeterminate"></mat-progress-bar>
 					<app-alert type="error" *ngIf="!confirmed">Confirm your email address to create and share indexes.</app-alert>
 
@@ -172,4 +171,4 @@
 				</div>
 			</div>
 		</div>
-</app-paper>
+</mat-card>

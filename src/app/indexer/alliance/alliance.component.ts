@@ -6,6 +6,7 @@ import { MatDialog } from "@angular/material/dialog";
 import {AllianceService} from "../../alliance/alliance.service";
 import {BBDialog} from "../indexer.component";
 import {WorldService} from "../../services/world.service";
+import {JwtService} from '../../auth/services/jwt.service';
 
 @Component({
   selector: 'app-index-alliance',
@@ -48,6 +49,7 @@ export class IndexAllianceComponent implements AfterViewInit {
     public dialog: MatDialog,
     private cdr: ChangeDetectorRef,
     private worldService: WorldService,
+    private authService: JwtService,
     private allianceService: AllianceService,
     private indexerService: IndexerService,
     private router: Router,
@@ -112,7 +114,10 @@ export class IndexAllianceComponent implements AfterViewInit {
   private load(params) {
     if (params !== null) {
       // Save params
-      this.key = params['key'];
+      this.key = '0';
+      if ('key' in params) {
+        this.key = params['key'];
+      }
       this.world = params['world'];
       this.id = params['id'];
     }
@@ -140,12 +145,14 @@ export class IndexAllianceComponent implements AfterViewInit {
         (error) => this.allianceName = "Not found"
       );
 
-    // Load player intel
-    this.indexerService.loadAllianceIntel(this.key, this.id)
-      .subscribe(
-        (response) => this.renderAllianceIntel(response),
-        (error) => this.renderAllianceIntel(null)
-      );
+    // Load alliance intel
+    this.authService.accessToken().then(access_token => {
+      this.indexerService.loadAllianceIntel(access_token, this.world, this.id)
+        .subscribe(
+          (response) => this.renderAllianceIntel(response),
+          (error) => this.renderAllianceIntel(null)
+        );
+    });
 
     this.worldService.getWorldInfo(this.world).then((response) => {
       this.worldName = response.name

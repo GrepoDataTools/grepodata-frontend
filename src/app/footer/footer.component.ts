@@ -38,6 +38,7 @@ export class FooterComponent implements OnInit {
           || path.indexOf('/register') !== -1
           || path.indexOf('/forgot') !== -1
           || path.indexOf('/profile') !== -1
+          || path.indexOf('/intel') !== -1
         ) {
           this.simplified = true;
           this.copyright = false;

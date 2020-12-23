@@ -31,41 +31,7 @@
 		</app-alert>
 
         <div *ngIf="active_tab === 'overview'">
-          <app-paper title="Index overview" icon="list_alt" description="Index homepage for a specific index">
-            <!--<div fxLayout="row wrap">-->
-              <!--<div fxFlex.gt-sm="33.33" fxFlex.gt-xs="100" fxFlex="100">-->
-                <!--<a href="javascript:void">-->
-                  <!--<mat-card class="bg-primary text-white text-center m-20">-->
-                    <!--<div class="p-10">-->
-                      <!--<h2 class="m-0">5</h2>-->
-                      <!--<small>Indexes</small>-->
-                    <!--</div>-->
-                  <!--</mat-card>-->
-                <!--</a>-->
-              <!--</div>-->
-              <!--<div fxFlex.gt-sm="33.33" fxFlex.gt-xs="100" fxFlex="100">-->
-                <!--<a href="javascript:void">-->
-                  <!--<mat-card class="bg-warning text-white text-center m-20">-->
-                    <!--<div class="p-10">-->
-                      <!--<h2 class="m-0">15</h2>-->
-                      <!--<small>Alliances</small>-->
-                    <!--</div>-->
-                  <!--</mat-card>-->
-                <!--</a>-->
-              <!--</div>-->
-              <!--<div fxFlex.gt-sm="33.33" fxFlex.gt-xs="100" fxFlex="100">-->
-                <!--<a href="javascript:void">-->
-                  <!--<mat-card class="bg-success text-white text-center m-20">-->
-                    <!--<div class="p-10">-->
-                      <!--<h2 class="m-0">5168</h2>-->
-                      <!--<small>Indexed reports</small>-->
-                    <!--</div>-->
-                  <!--</mat-card>-->
-                <!--</a>-->
-              <!--</div>-->
-            <!--</div>-->
           <app-indexer></app-indexer>
-          </app-paper>
         </div>
         <div *ngIf="active_tab === 'player'">
           <app-index-player></app-index-player>
@@ -74,11 +40,6 @@
           <app-index-alliance></app-index-alliance>
         </div>
         <div *ngIf="active_tab === 'town'">
-          <p class="gd-secondary profile-breadcrumbs">
-            <a class="a-link" routerLink="/profile/indexes">My indexes</a>
-            <mat-icon>arrow_forward_ios</mat-icon>Index <a routerLink="/profile/overview/{{active_index}}">{{active_index}}</a>
-            <mat-icon>arrow_forward_ios</mat-icon>Town
-          </p>
           <app-index-town></app-index-town>
         </div>
     <span *ngIf="active_tab === 'intel'"><app-intel></app-intel></span>
@@ -88,7 +49,14 @@
     <span *ngIf="active_tab === 'settings'"><app-settings></app-settings></span>
     <span *ngIf="active_tab === 'password'"><app-change-password></app-change-password></span>
     <span *ngIf="active_tab === 'delete'"><app-delete-account></app-delete-account></span>
-    <span *ngIf="active_tab === 'faq'"><app-faq></app-faq></span>
+    <span *ngIf="active_tab === 'faq'">
+	    <mat-card class="index-card">
+		    <h2><mat-icon>help_outline</mat-icon>&nbsp;Frequently asked questions</h2>
+		    <h4>Can't find what you are looking for? Feel free to <a class="a-link-dialog" (click)="showContactDialog()">send us a message</a> and we will responds as soon as possible.</h4>
+	      <br/>
+		    <app-faq></app-faq>
+	    </mat-card>
+    </span>
 
 
 	<!--<div class="container" fxLayout="row" fxLayoutAlign="center center" style="padding-top: 20px;">-->

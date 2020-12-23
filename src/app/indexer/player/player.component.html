@@ -1,163 +1,158 @@
 <div style="overflow-x: hidden; min-height: 100%;">
 
-	<p class="gd-secondary profile-breadcrumbs">
-		<a class="a-link-dialog" routerLink="/profile/indexes">My indexes</a>
-		<mat-icon>arrow_forward_ios</mat-icon>World <a class="a-link-dialog" routerLink="/points/{{world}}">{{world}}</a>
-		<mat-icon>arrow_forward_ios</mat-icon>Index <a class="a-link-dialog" routerLink="/profile/overview/{{key}}">{{key}}</a>
-		<mat-icon>arrow_forward_ios</mat-icon>Alliance <a class="a-link-dialog" routerLink="/profile/alliance/{{key}}/{{world}}/{{allianceId}}">{{allianceName}}</a>
-		<mat-icon>arrow_forward_ios</mat-icon>Player <a class="a-link-dialog" routerLink="/player" [queryParams]="{world: world, id: id}">{{playerName}}</a>
-	</p>
+	<mat-card class="search-card" *ngIf="!embedded">
+		<app-index-search></app-index-search>
+	</mat-card>
 
-	<div [ngClass]="{'embedded-padding': embedded}">
-		<!--<div class="card-header bg-gd-2 text-center" *ngIf="!embedded" style="margin-bottom: 0;">-->
+	<mat-card [ngClass]="embedded?'embedded-intel-card':'index-card'">
+		<div [ngClass]="{'embedded-padding': embedded}">
+			<div class="card-header bg-gd-1 text-center text-white" style="margin-bottom: 0;" *ngIf="!embedded">
 
-      <!--<div style="position: absolute; top: 10px; max-width: 200px;">-->
-        <!--<button mat-button class="mat-raised-button bg-gd-2" style="width: 100%; overflow: hidden; text-overflow: ellipsis;" routerLink="/indexer/{{key}}">-->
-          <!--<i class="fa fa-arrow-left"></i> Index: {{key}}-->
-        <!--</button>-->
-      <!--</div>-->
+				<h2 style="cursor: pointer; margin: 0;">
+					Showing your combined intel for:&nbsp;
+					<div class="name-circle" (click)="copyBB()">
+						<img style="height: 25px; margin-top: -5px;" src="../../assets/images/player_ico.png"/>&nbsp;
+						<span class="gd-brown">{{playerName}}</span>
+					</div>
+				</h2>
+				<h3>
+	        <span class="index-title" *ngIf="world">
+	          World: <div class="bg-flag flag-inline-middle flag-{{world.substr(0,2)}}"></div>&nbsp;<span class='world-title' *ngIf="world"><a class="a-link-dialog gd-secondary" routerLink="/points" [queryParams]="{world: world}">{{worldName}}&nbsp;({{world}})</a></span>
+	        </span>
+					<span class="index-title" *ngIf="!loading && allianceId != 0">
+	          Alliance: <span class='world-title'><a class="a-link-dialog gd-secondary" routerLink="/intel/alliance/{{world}}/{{allianceId}}">{{allianceName}}</a></span>
+	        </span>
+					<span class="index-title" *ngIf="!loading">
+	          Stats: <span class='world-title'><a class="a-link-dialog gd-secondary" routerLink="/player" [queryParams]="{world: world, id: id}">View player statistics</a></span>
+	        </span>
+				</h3>
+			</div>
 
-      <!--<h1>-->
-        <!--Showing collected intel for:-->
-        <!--<span class="gd-primary">{{playerName}}<span *ngIf="loading && playerName == ''">Loading...</span></span>-->
-      <!--</h1>-->
-      <!--<h3 *ngIf="!loading">-->
-        <!--<span class="index-title hidden-xs">-->
-          <!--Index: <span class='world-title'><a class="a-link-dialog" routerLink="/indexer/{{key}}">{{key}}</a></span>-->
-        <!--</span>-->
-        <!--<span class="index-title">-->
-          <!--World: <span class='world-title gd-secondary' *ngIf="world"><div class="bg-flag flag-inline-title flag-{{world.substr(0,2)}}"></div>&nbsp;<a class="a-link-dialog" routerLink="/points" [queryParams]="{world: world}">{{worldName}}&nbsp;({{world}})</a></span>-->
-        <!--</span>-->
-        <!--<span class="index-title" *ngIf="allianceId != 0">-->
-          <!--Alliance: <span class='world-title gd-primary'><a class="a-link-dialog" routerLink="/indexer/alliance/{{key}}/{{world}}/{{allianceId}}">{{allianceName}}</a></span>-->
-        <!--</span>-->
-        <!--<span class="index-title">-->
-          <!--Stats: <span class='world-title gd-primary'><a class="a-link-dialog" routerLink="/player" [queryParams]="{world: world, id: id}">View player statistics</a></span>-->
-        <!--</span>-->
-      <!--</h3>-->
-			<!--<h3 *ngIf="loading">&nbsp;</h3>-->
+	    <mat-card-content class="decorated-card-content" [ngClass]="{'embedded-padding': embedded}" style="padding: 0 !important;">
 
-    <!--</div>-->
-    <mat-card-content class="decorated-card-content" [ngClass]="{'embedded-padding': embedded}" style="padding: 0 !important;">
-
-      <!--<app-index-search [indexKey]="key" *ngIf="!embedded"></app-index-search>-->
-
-      <div *ngIf="embedded">
-        <h4 class="gd-primary text-center">
-          <span class="index-title">
-            Index: <span class='world-title'><a class="a-link-dialog" style="color: #334254 !important;" routerLink="/indexer/{{key}}">{{key}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a></span>
-          </span>
-          <span class="index-title" *ngIf="allianceId != 0">
-            Alliance intel: <span class='world-title gd-secondary'><a class="a-link-dialog" style="color: #334254 !important;" routerLink="/indexer/alliance/{{key}}/{{world}}/{{allianceId}}">{{allianceName}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a></span>
-          </span>
-        </h4>
-      </div>
-
-      <div *ngIf="err != ''" class="text-center">
-          <br/>
-          <div class="alert alert-gd-1 text-center">
-              <h2 class="gd-primary">No intel available</h2>
-              <h4>
-                  Index {{key}} contains no intel for this player. Note: Intel about your allies (index owners) is unavailable.
-              </h4>
-          </div>
-      </div>
-
-      <div *ngIf="err == ''">
-
-	      <!--<app-advertorial *ngIf="!loading && !embedded && totalCount > 30"></app-advertorial>-->
-
-	      <!--<div style="width: calc(100vw - 68px); margin: auto;">-->
-		      <!--<app-index-version *ngIf="!embedded && !loading" [version]="version" [message]="message" [key]="key"></app-index-version>-->
+	      <!--<div *ngIf="embedded">-->
+	        <!--<h4 class="gd-primary text-center">-->
+	          <!--<span class="index-title">-->
+	            <!--Index: <span class='world-title'><a class="a-link-dialog" style="color: #334254 !important;" routerLink="/indexer/{{key}}">{{key}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a></span>-->
+	          <!--</span>-->
+	          <!--<span class="index-title" *ngIf="allianceId != 0">-->
+	            <!--Alliance intel: <span class='world-title gd-secondary'><a class="a-link-dialog" style="color: #334254 !important;" routerLink="/indexer/alliance/{{key}}/{{world}}/{{allianceId}}">{{allianceName}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a></span>-->
+	          <!--</span>-->
+	        <!--</h4>-->
 	      <!--</div>-->
 
-	      <div *ngIf="loading" class="text-center">
-		      <div class="align-middle" style="position: relative; top: 250px; left: 25%; width: 50%;">
-			      <h3 class="gd-primary"><strong>Loading player intel...</strong></h3>
-			      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-		      </div>
+	      <div *ngIf="err != ''" class="text-center">
+	          <div class="container">
+		          <div class="row">
+			          <br/>
+			          <br/>
+			          <br/>
+			          <div class="alert alert-gd-1 text-center">
+				          <h2 class="gd-primary"><strong>No player intel available.</strong> Index more reports about this player.</h2>
+				          <h4>
+					          Note: Intel about your allies (index owners) is unavailable.
+				          </h4>
+			          </div>
+		          </div>
+	          </div>
 	      </div>
 
-        <div *ngIf="!noIntel && !loading" >
+	      <div *ngIf="err == ''">
 
-	        <div *ngIf="mobile">
-		        <mat-tab-group mat-stretch-tabs (click)="cdr.detectChanges();">
-			        <mat-tab>
-				        <ng-template mat-tab-label>
-					        <div class="unit_icon40x40 unknown_naval" style="border-radius: 30px;"></div>&nbsp;&nbsp;Sea units
-				        </ng-template>
+		      <!--<app-advertorial *ngIf="!loading && !embedded && totalCount > 30"></app-advertorial>-->
+
+		      <!--<div style="width: calc(100vw - 68px); margin: auto;">-->
+			      <!--<app-index-version *ngIf="!embedded && !loading" [version]="version" [message]="message" [key]="key"></app-index-version>-->
+		      <!--</div>-->
+
+		      <div *ngIf="loading" class="text-center">
+			      <div class="align-middle" style="position: relative; top: 250px; left: 25%; width: 50%;">
+				      <h3 class="gd-primary"><strong>Loading player intel...</strong></h3>
+				      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+			      </div>
+		      </div>
+
+	        <div *ngIf="!noIntel && !loading" >
+
+		        <div *ngIf="mobile">
+			        <mat-tab-group mat-stretch-tabs (click)="cdr.detectChanges();">
+				        <mat-tab>
+					        <ng-template mat-tab-label>
+						        <div class="unit_icon40x40 unknown_naval" style="border-radius: 30px;"></div>&nbsp;&nbsp;Sea units
+					        </ng-template>
+					        <ng-container *ngTemplateOutlet="seaunits"></ng-container>
+				        </mat-tab>
+				        <mat-tab>
+					        <ng-template mat-tab-label>
+						        <div class="unit_icon40x40 unknown" style="border-radius: 30px;"></div>&nbsp;&nbsp;Land units
+					        </ng-template>
+					        <ng-container *ngTemplateOutlet="landunits"></ng-container>
+				        </mat-tab>
+			        </mat-tab-group>
+		        </div>
+
+		        <div *ngIf="!mobile" fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="5px" style="max-width: 1700px; margin: auto;">
+			        <div fxFlex="50">
 				        <ng-container *ngTemplateOutlet="seaunits"></ng-container>
-			        </mat-tab>
-			        <mat-tab>
-				        <ng-template mat-tab-label>
-					        <div class="unit_icon40x40 unknown" style="border-radius: 30px;"></div>&nbsp;&nbsp;Land units
-				        </ng-template>
+			        </div>
+			        <div fxFlex="50">
 				        <ng-container *ngTemplateOutlet="landunits"></ng-container>
-			        </mat-tab>
-		        </mat-tab-group>
+			        </div>
+		        </div>
+
 	        </div>
 
-	        <div *ngIf="!mobile" fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="5px" style="max-width: 1700px; margin: auto;">
-		        <div fxFlex="50">
-			        <ng-container *ngTemplateOutlet="seaunits"></ng-container>
-		        </div>
-		        <div fxFlex="50">
-			        <ng-container *ngTemplateOutlet="landunits"></ng-container>
-		        </div>
+	        <!--<div *ngIf="!embedded && !loading" style="max-width: 1700px; margin: auto;">-->
+	          <!--<mat-card class="index-card">-->
+	            <!--<mat-card-title>-->
+	              <!--<div fxLayout="row">-->
+	                <!--<h3 style='font-weight: 300; color: #304357;'>-->
+	                  <!--<span class='world-title' style='color: #18BC9C;'>All indexed towns</span>-->
+	                <!--</h3>-->
+	              <!--</div>-->
+	            <!--</mat-card-title>-->
+	            <!--<mat-card-content>-->
+	              <!--<div class="table" id="table_all" style='margin: auto; margin-bottom: 0px;'>-->
+
+	                <!--<div class="row_custom header bg-gd-2" >-->
+	                  <!--<div class="cell">-->
+	                    <!--Town-->
+	                  <!--</div>-->
+	                  <!--<div class="cell">-->
+	                    <!--Reports collected-->
+	                  <!--</div>-->
+	                <!--</div>-->
+
+	                <!--<div class='row_custom' *ngFor="let town of allCities | ValuesPipe">-->
+	                  <!--<div class="cell">-->
+	                    <!--<a routerLink="/indexer/town/{{key}}/{{world}}/{{town.town_id}}">{{town.name}}</a>-->
+	                  <!--</div>-->
+	                  <!--<div class="cell">-->
+	                    <!--{{town.count}}-->
+	                  <!--</div>-->
+	                <!--</div>-->
+	              <!--</div>-->
+	            <!--</mat-card-content>-->
+	          <!--</mat-card>-->
+	        <!--</div>-->
+
+	        <div *ngIf="noIntel && !loading">
+	          <div class="container">
+	            <div class="row">
+	              <br/>
+	              <br/>
+	              <div class="alert alert-danger text-center">
+	                <h3>You have not yet gained any intel on player <strong>{{playerName}}</strong></h3>
+	              </div>
+	            </div>
+	          </div>
 	        </div>
 
-        </div>
+	      </div>
 
-        <div *ngIf="!embedded && !loading" style="max-width: 1700px; margin: auto;">
-          <mat-card class="index-card">
-            <mat-card-title>
-              <div fxLayout="row">
-                <h3 style='font-weight: 300; color: #304357;'>
-                  <span class='world-title' style='color: #18BC9C;'>All indexed towns</span>
-                </h3>
-              </div>
-            </mat-card-title>
-            <mat-card-content>
-              <div class="table" id="table_all" style='margin: auto; margin-bottom: 0px;'>
-
-                <div class="row_custom header bg-gd-2" >
-                  <div class="cell">
-                    Town
-                  </div>
-                  <div class="cell">
-                    Reports collected
-                  </div>
-                </div>
-
-                <div class='row_custom' *ngFor="let town of allCities | ValuesPipe">
-                  <div class="cell">
-                    <a routerLink="/indexer/town/{{key}}/{{world}}/{{town.town_id}}">{{town.name}}</a>
-                  </div>
-                  <div class="cell">
-                    {{town.count}}
-                  </div>
-                </div>
-              </div>
-            </mat-card-content>
-          </mat-card>
-        </div>
-
-        <div *ngIf="noIntel && !loading">
-          <div class="container">
-            <div class="row">
-              <br/>
-              <br/>
-              <div class="alert alert-danger text-center">
-                <h3>This index has not yet received any intel on player <strong>{{playerName}}</strong></h3>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-    </mat-card-content>
-  </div>
+	    </mat-card-content>
+	  </div>
+	</mat-card>
 
   <div class="row" *ngIf="!noIntel && err=='' && !loading">
     <div class="col-lg-12 text-center">
@@ -169,7 +164,7 @@
 
 <!--sea units-->
 <ng-template #seaunits>
-	<mat-card class="index-card text-center">
+	<mat-card class="index-card text-center sub-card">
 
 		<!--<div class="card-header bg-gd-1">-->
 			<!--<div class="form-group row" style='margin: 0px;'>-->
@@ -215,7 +210,7 @@
 
 <!--land units-->
 <ng-template #landunits>
-	<mat-card class="index-card text-center">
+	<mat-card class="index-card text-center sub-card">
 
 		<!--<div class="card-header bg-gd-1">-->
 			<!--<div class="form-group row" style='margin: 0px;'>-->

@@ -35,6 +35,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import {
     AppComponent,
+    WorldNamePipe,
     DiffFilter,
     DiffFilterNonZero,
     NumberFilter,
@@ -60,7 +61,6 @@ import {
     ChangekeyDialog,
     IndexDisclaimerDialog,
     IndexerComponent,
-    NewIndexDialog,
     ResetOwnersDialog,
     InstallDialog,
     ForgotKeysDialog,
@@ -122,6 +122,7 @@ import 'zone.js/dist/zone';
 import { Blog2020Component } from './blog/blog2020/blog2020.component';
 import {MailListDialog} from './alliance/alliance.service';
 import {BasicDialog} from './shared/dialogs/basic/basic.component';
+import {NewIndexDialog} from './shared/dialogs/new-index/new-index.component';
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -209,6 +210,7 @@ export function jwtTokenGetter(): any {
         ConquestReportDialog,
         SiegeListDialog,
         MailListDialog,
+        WorldNamePipe,
         DiffFilterNonZero,
         DiffFilter,
         NumberFilter,

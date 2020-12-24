@@ -5,34 +5,35 @@
 </mat-card>
 
 <mat-card class="index-card">
-	<h2 class="gd-secondary">Your favourite indexes</h2>
+	<h2 class="gd-secondary">
+		Your top indexes
+		<a class="top-index-card" *ngIf="topIndexes.length > 0" routerLink="/profile/indexes" style="color: #949494; font-weight: 700; font-size: 21px; right: 70px; position: absolute;">
+			<mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon> View all my indexes
+		</a>
+	</h2>
+
 	<div fxLayout="row wrap">
-		<div fxFlex.gt-sm="33.33" fxFlex.gt-xs="100" fxFlex="100">
-			<a href="#">
+		<div fxFlex.gt-sm="15" fxFlex.gt-xs="100" fxFlex="100" class="top-index-card">
+			<a (click)="newIndex()">
 				<mat-card class="bg-primary text-white text-center m-20">
 					<div class="p-10">
-						<h2 class="m-0">5</h2>
-						<small>Indexes</small>
+						<h2 class="m-0">
+							<i class="fa fa-plus"></i>
+							<br/>
+							New index
+						</h2>
 					</div>
 				</mat-card>
 			</a>
 		</div>
-		<div fxFlex.gt-sm="33.33" fxFlex.gt-xs="100" fxFlex="100">
-			<a href="#">
-				<mat-card class="bg-warning text-white text-center m-20">
-					<div class="p-10">
-						<h2 class="m-0">15</h2>
-						<small>Alliances</small>
-					</div>
-				</mat-card>
-			</a>
-		</div>
-		<div fxFlex.gt-sm="33.33" fxFlex.gt-xs="100" fxFlex="100">
-			<a href="#">
+		<div *ngFor="let index of topIndexes" fxFlex.gt-sm="21" fxFlex.gt-xs="100" fxFlex="100" class="top-index-card">
+			<a (click)="alert('TODO')">
 				<mat-card class="bg-success text-white text-center m-20">
 					<div class="p-10">
-						<h2 class="m-0">5168</h2>
-						<small>Indexed reports</small>
+						<h2 class="m-0">{{index.name}}</h2>
+						<small>World: ...</small>
+						<small>Owners: ...</small>
+						<small>Intel: ...</small>
 					</div>
 				</mat-card>
 			</a>

@@ -4,3 +4,11 @@
   opacity: 0.2;
   pointer-events: none !important;
 }
+
+.top-index-card {
+  transition: all .2s ease-in-out;
+}
+.top-index-card:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}

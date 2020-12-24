@@ -42,6 +42,14 @@ pre {
   padding: 0 !important;
 }
 
+.hover-scale {
+  transition: all .2s ease-in-out;
+}
+.hover-scale:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
 .index-card {
   border-radius: 1rem !important;
   padding: 30px !important;

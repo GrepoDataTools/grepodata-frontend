@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {ProfileService} from '../../../services/profile.service';
 import {PageEvent} from '@angular/material/paginator';
 import {JwtService} from '../../../services/jwt.service';
+import {NewIndexDialog} from '../../../../shared/dialogs/new-index/new-index.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-intel',
@@ -19,9 +21,11 @@ export class IntelComponent implements OnInit {
   loading = true;
   paging = true;
   intel = null;
+  topIndexes = [{name: 'test1'}, {name: 'test1'}, {name: 'test1'}, {name: 'test1'}];
 
   constructor(
     private authService: JwtService,
+    private dialog: MatDialog,
     private profileService: ProfileService
   ) { }
 
@@ -56,6 +60,17 @@ export class IntelComponent implements OnInit {
         },
       );
     });
+  }
+
+  public newIndex() {
+    let dialogRef = this.dialog.open(NewIndexDialog, {
+      // width: '80%',
+      // height: '90%'
+      autoFocus: false,
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {});
   }
 
   paginatorEvent($event) {

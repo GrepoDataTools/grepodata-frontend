@@ -12,7 +12,7 @@
 						<p>
 							An index is a collection of enemy intelligence that can be shared with other users.
 							You can create and share your own index, or you can contribute to an existing index.
-							For example, you can share an index with your alliance members and work together to collect enemy intel.
+							<br/>For example, you can share an index with your alliance members and work together to collect enemy intel.
 						</p>
 						<p>
 							<strong>Please use the import button on this page to import your old index if it was created before 31 December 2020</strong>
@@ -82,9 +82,12 @@
 							<div class="row">
 								<div style="margin-bottom: 10px;" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" [ngStyle]="!form_opened && {display: 'flex', justifyContent: 'center'}">
 
-									<button *ngIf="!form_opened && !import_opened" (click)="form_opened=true; new_index_created=false;" class="btn btn-primary" style="margin-right: 10px;">
+									<button *ngIf="!form_opened && !import_opened" (click)="newIndex()" class="btn btn-primary" style="margin-right: 10px;">
 										Create a new index <mat-icon>library_add</mat-icon>
 									</button>
+									<!--<button *ngIf="!form_opened && !import_opened" (click)="form_opened=true; new_index_created=false;" class="btn btn-primary" style="margin-right: 10px;">-->
+										<!--Create a new index <mat-icon>library_add</mat-icon>-->
+									<!--</button>-->
 									<button *ngIf="!form_opened && !import_opened" (click)="import_opened=true; new_index_imported=false;" class="btn btn-secondary">
 										Import an old index (v1) <mat-icon>download</mat-icon>
 									</button>

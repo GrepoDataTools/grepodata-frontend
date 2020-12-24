@@ -7,6 +7,8 @@ import {IndexerService} from '../../../../indexer/indexer.service';
 import {CaptchaService} from '../../../../services/captcha.service';
 import {environment} from '../../../../../environments/environment';
 import {RecaptchaComponent} from 'ng-recaptcha';
+import {NewIndexDialog} from '../../../../shared/dialogs/new-index/new-index.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-indexes',
@@ -43,6 +45,7 @@ export class IndexesComponent implements OnInit {
     private authService: JwtService,
     private profileService: ProfileService,
     private router: Router,
+    private dialog: MatDialog,
     private indexerService : IndexerService,
     private worldService: WorldService,
   ) {
@@ -71,6 +74,19 @@ export class IndexesComponent implements OnInit {
         }
       }
     }
+  }
+
+  public newIndex() {
+    let dialogRef = this.dialog.open(NewIndexDialog, {
+      // width: '80%',
+      // height: '90%'
+      autoFocus: false,
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadIndexes();
+    });
   }
 
   updateWorlds(event) {
@@ -103,51 +119,6 @@ export class IndexesComponent implements OnInit {
         },
       );
     });
-  }
-
-  createNewIndex(event) {
-    this.captcha = event;
-    if (this.index_name == '') {
-      this.error = 'Index name is required';
-      if (this.captchaRef != undefined) { this.captchaRef.reset(); }
-    } else if (this.world == '') {
-      this.error = 'Please select a world';
-      if (this.captchaRef != undefined) { this.captchaRef.reset(); }
-    } else if (this.captcha == undefined || this.captcha == '' || this.captcha == null) {
-      this.error = 'Sorry, we could not verify the captcha. Please try again later or contact us if this error persists.';
-      if (this.captchaRef != undefined) { this.captchaRef.reset(); }
-    } else {
-      this.loading_new_index = true;
-
-      this.authService.accessToken().then(access_token => {
-        this.indexerService.createNewIndex(access_token, this.index_name, this.world, this.captcha).subscribe(
-          (response) => {
-            this.loading_new_index = false;
-            this.new_index_created = true;
-            if (response.key) {
-              this.indexes.unshift({
-                'key': response.key,
-                'name': this.index_name,
-                'world': this.world,
-                'role': 'owner',
-                'contribute': 1,
-                'overview': null,
-              });
-            }
-            if (this.captchaRef != undefined) {
-              this.captchaRef.reset();
-            }
-          },
-          (error) => {
-            this.loading_new_index = false;
-            this.error = 'Invalid response. Please try again or contact us if this error persists.';
-            if (this.captchaRef != undefined) {
-              this.captchaRef.reset();
-            }
-          }
-        );
-      });
-    }
   }
 
   enableContributions(index) {

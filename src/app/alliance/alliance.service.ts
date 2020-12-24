@@ -153,7 +153,7 @@ export class MailListDialog {
     clearTimeout(this.typingTimer);
     if (this.allianceInput.length > 1) {
       this.searching = true;
-      this.searchService.searchAlliancesInWorld(this.allianceInput, 0, 30, this.world)
+      this.searchService.searchAlliances(this.allianceInput, 0, 30, this.world)
         .subscribe(
           (response) => this.renderAllianceOutput(response),
           (error) => this.renderAllianceOutput(null)

@@ -6,6 +6,7 @@ import {LocalCacheService} from "./services/local-cache.service";
 import {CompareService} from "./compare/compare.service";
 import { addBackToTop } from 'vanilla-back-to-top'
 import { MatDialog } from "@angular/material/dialog";
+import {WorldService} from './services/world.service';
 
 declare let ga: Function;
 
@@ -119,6 +120,29 @@ function _window(): any {
 export class WindowRef {
   get nativeWindow(): any {
     return _window();
+  }
+}
+
+@Pipe({
+  name: 'WorldNamePipe'
+})
+export class WorldNamePipe implements PipeTransform {
+  constructor(private worldService: WorldService) {}
+  transform(world: string): any {
+    if (!world) return world;
+    let server = world.substring(0, 2);
+    let worldname = null;
+    let worldinfo = this.worldService.getLocalWorldInfo(world);
+    if (worldinfo && 'name' in worldinfo) {
+      worldname = worldinfo.name
+    }
+    let html = '<div class="bg-flag flag-inline-middle flag-'+server+'"></div>&nbsp;';
+    if (worldname) {
+      html += worldname + ' (' + world + ')';
+    } else {
+      html += world;
+    }
+    return html;
   }
 }
 

@@ -77,6 +77,11 @@ export class WorldService {
       }
   }
 
+  getLocalWorlds() {
+      let url =  '/world/active';
+      return LocalCacheService.get(url);
+  }
+
   loadWorlds() {
     let url =  '/world/active';
     return this.http.get(apiUrl + url);
@@ -92,6 +97,18 @@ export class WorldService {
         }
       }
     });
+  }
+
+  getLocalWorldInfo(id) {
+    let localWorlds = this.getLocalWorlds();
+    if (!localWorlds) return false;
+    for (let i of (<any>localWorlds)) {
+      for (let w of (<any>i).worlds) {
+        if (w.id == id)  {
+          return w;
+        }
+      }
+    }
   }
 
 }

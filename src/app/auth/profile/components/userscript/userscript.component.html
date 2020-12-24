@@ -1,93 +1,95 @@
 <mat-card class="index-card">
-	<div class="container">
+	<div class="container-fluid">
 		<div class="row">
-			<div class="col-xs-12 text-center">
-				<h2>In-game Userscript</h2>
-				<h4>This userscript allows you to use the GrepoData city indexer tool while playing Grepolis in your browser.</h4>
+			<div class="col-xs-12 col-sm-12 col-md-offset-1 col-md-10">
+
+				<h2 style="margin-top: 0;">In-game Userscript</h2>
+				<h4>This userscript allows you to collect enemy intelligence while playing Grepolis in your browser.</h4>
 				<br/>
-			</div>
-			<div class="col-xs-12 col-sm-12 col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
-
 
 				<div class="alert alert-gd-1">
-					<h3><strong>Step 1:</strong> Install Tampermonkey</h3>
-					<h5 class="gd-secondary">Tampermonkey is the world's most popular userscript manager.</h5>
-					<br/>
-					<div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center">
-						<div fxLayout="column" fxLayoutAlign="center center" style="width: 20%;">
-							<i style="font-size: 54px;" class="fa fa-chrome"></i><div>Chrome</div>
-							<a tabindex="-1" href="https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo" target="_blank">Install</a>
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-xs-12 col-sm-12 col-lg-6">
+								<h3><strong>Step 1:</strong> Install Tampermonkey</h3>
+								<h5 class="gd-secondary">Tampermonkey is the world's most popular userscript manager.</h5>
+								<h3 class="gd-secondary">Restart your browser if you just installed Tampermonkey.</h3>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-lg-6" style="padding-top: 10px;">
+								<div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center">
+									<div fxLayout="column" fxLayoutAlign="center center" style="width: 20%;">
+										<i style="font-size: 54px;" class="fa fa-chrome"></i><div>Chrome</div>
+										<a tabindex="-1" href="https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo" target="_blank">Install</a>
+									</div>
+									<div fxLayout="column" fxLayoutAlign="center center" style="width: 20%;">
+										<i style="font-size: 54px;" class="fa fa-safari"></i><div>Safari</div>
+										<a tabindex="-1" href="https://tampermonkey.net/?browser=safari" target="_blank">Install</a>
+									</div>
+									<div fxLayout="column" fxLayoutAlign="center center" style="width: 20%;">
+										<i style="font-size: 54px;" class="fa fa-firefox"></i><div>Firefox</div>
+										<a tabindex="-1" href="https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/?src=ss" target="_blank">Install</a>
+									</div>
+									<div fxLayout="column" fxLayoutAlign="center center" style="width: 20%;">
+										<i style="font-size: 54px;" class="fa fa-opera"></i><div>Opera</div>
+										<a tabindex="-1" href="https://addons.opera.com/en/extensions/details/tampermonkey-beta/" target="_blank">Install</a>
+									</div>
+									<div fxLayout="column" fxLayoutAlign="center center" style="width: 20%;">
+										<i style="font-size: 54px;" class="fa fa-edge"></i><div>Edge</div>
+										<a tabindex="-1" href="https://tampermonkey.net/?browser=edge" target="_blank">Install</a>
+									</div>
+								</div>
+							</div>
 						</div>
-						<div fxLayout="column" fxLayoutAlign="center center" style="width: 20%;">
-							<i style="font-size: 54px;" class="fa fa-safari"></i><div>Safari</div>
-							<a tabindex="-1" href="https://tampermonkey.net/?browser=safari" target="_blank">Install</a>
-						</div>
-						<div fxLayout="column" fxLayoutAlign="center center" style="width: 20%;">
-							<i style="font-size: 54px;" class="fa fa-firefox"></i><div>Firefox</div>
-							<a tabindex="-1" href="https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/?src=ss" target="_blank">Install</a>
-						</div>
-						<div fxLayout="column" fxLayoutAlign="center center" style="width: 20%;">
-							<i style="font-size: 54px;" class="fa fa-opera"></i><div>Opera</div>
-							<a tabindex="-1" href="https://addons.opera.com/en/extensions/details/tampermonkey-beta/" target="_blank">Install</a>
-						</div>
-						<div fxLayout="column" fxLayoutAlign="center center" style="width: 20%;">
-							<i style="font-size: 54px;" class="fa fa-edge"></i><div>Edge</div>
-							<a tabindex="-1" href="https://tampermonkey.net/?browser=edge" target="_blank">Install</a>
-						</div>
-					</div>
-					<br/>
-					<h3 class="gd-secondary">Restart your browser if you just installed Tampermonkey.</h3>
-				</div>
-
-				<div fxLayout="row" fxLayoutAlign="center center" style="margin-bottom: 5px;">
-					<i class="fa fa-arrow-down"></i>
-				</div>
-
-				<div class="alert alert-gd-1">
-					<h3><strong>Step 2:</strong> Install the userscript</h3>
-					<br/>
-					<a tabindex="-1" mat-button class="mat-raised-button bg-gd-2"
-					   style="font-size: 20px; padding: 8px; width: 100%; color: white; overflow: hidden; text-overflow: ellipsis;"
-					   href="https://api.grepodata.com/script/indexer.user.js" target="_blank"
-					   (click)="clicked=true">
-						<span class="fa fa-download"></span> Install userscript
-					</a>
-				</div>
-
-				<div fxLayout="row" fxLayoutAlign="center center" style="margin-bottom: 5px;">
-					<i class="fa fa-arrow-down"></i>
-				</div>
-
-				<div class="alert alert-gd-1">
-					<h3><strong>Step 3:</strong> Link the script to your account</h3>
-					<div class="row">
-						<div class="col-xs-12">
-							<ul class="userscript-list">
-								<li><strong>Open or refresh your game window</strong> after installing the script.</li>
-								<li>A popup will be displayed with an authentication link. <strong>Click on the link</strong> in the popup.</li>
-								<li><strong>Sign in</strong> to your GrepoData account after clicking on the link. This will link the script to your personal account.</li>
-							</ul>
-						</div>
-						<div class="col-xs-12 userscript-img-container">
-							<img class="userscript-img" src="../../../../../assets/images/link_script.png" />
-						</div>
-
-						<!--<div class="col-xs-12 gd-share-link-container">-->
-							<!--<label style="font-weight: 600">Private script synchronization token:</label>-->
-							<!--<br/>-->
-							<!--<button *ngIf="!token_opened" (click)="token_opened=true;" class="btn btn-primary">-->
-								<!--Show private token <mat-icon>vpn_key</mat-icon>-->
-							<!--</button>-->
-							<!--<div class="row" *ngIf="token_opened">-->
-								<!--<input #shareLink [ngClass]="{ 'copied': copied }" [disabled]="true" class="col-xs-8 ur" type="url" value="{{token}}" id="siegeShareUrl" aria-describedby="inputGroup-sizing-default" style="height: 40px;">-->
-								<!--<button class="cpy" (click)="copyLink(shareLink)"><i class="fa fa-clone"></i> Copy</button><span class="message" *ngIf="copied"> Token copied!</span>-->
-							<!--</div>-->
-						<!--</div>-->
 					</div>
 				</div>
 
+				<!--<div fxLayout="row" fxLayoutAlign="center center" style="margin-bottom: 5px;">-->
+					<!--<i class="fa fa-arrow-down gd-primary"></i>-->
+				<!--</div>-->
+
+				<div class="alert alert-gd-1">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-xs-12 col-sm-12 col-lg-6">
+								<div style="padding-top: 15px;" class="hidden-xs hidden-sm"></div>
+								<h3><strong>Step 2:</strong> Install the userscript</h3>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-lg-6" style="padding-top: 5px;">
+								<a tabindex="-1" mat-button class="mat-raised-button bg-gd-2 hover-scale"
+								   style="font-size: 20px; padding: 8px; width: 100%; color: white; overflow: hidden; text-overflow: ellipsis;"
+								   href="https://api.grepodata.com/script/indexer.user.js" target="_blank"
+								   (click)="clicked=true">
+									<span class="fa fa-download"></span> Install userscript
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!--<div fxLayout="row" fxLayoutAlign="center center" style="margin-bottom: 5px;">-->
+					<!--<i class="fa fa-arrow-down gd-primary"></i>-->
+				<!--</div>-->
+
+				<div class="alert alert-gd-1">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-xs-12 col-sm-12 col-lg-6">
+								<h3><strong>Step 3:</strong> Link the script to your account</h3>
+								<ul class="userscript-list">
+									<li><strong>Open or refresh your game window</strong> after installing the script.</li>
+									<li>A popup will be displayed with an authentication link. <strong>Click on the link</strong> in the popup.</li>
+									<li><strong>Sign in</strong> to your GrepoData account after clicking on the link. This will link the script to your personal account.</li>
+								</ul>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-lg-6 userscript-img-container">
+								<img class="userscript-img" src="../../../../../assets/images/link_script.png" />
+							</div>
+						</div>
+					</div>
+				</div>
+
 				<div fxLayout="row" fxLayoutAlign="center center" style="margin-bottom: 5px;">
-					<i class="fa fa-arrow-down"></i>
+					<i class="fa fa-arrow-down gd-primary"></i>
 				</div>
 
 				<div class="text-center">

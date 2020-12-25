@@ -15,4 +15,8 @@ export const environment = {
     &redirect_uri=http%3A%2F%2Flocalhost%3A4200%2Flogin&response_type=code&scope=identify%20email`,
     discordClientId: '735056972977537106',
     discordClientSecret: 'RGGYGml0X4mDwP92XZFU_0rHGXAGhItt',
+    ROLE_READ: 'read',
+    ROLE_WRITE: 'write',
+    ROLE_ADMIN: 'admin',
+    ROLE_OWNER: 'owner'
 };

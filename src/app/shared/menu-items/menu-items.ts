@@ -39,8 +39,8 @@ export interface Menu {
 const MENU_ITEMS: Array<Menu> = [
     { state: '', name: 'Indexer', type: 'separator', iconType: 'material' },
     // { state: 'profile/overview', name: 'Index overview', type: 'link', icon: 'list_alt', iconType: 'material' },
-    { state: 'profile/intel', name: 'My intel', type: 'link', icon: 'info_outline', iconType: 'material', active: '/intel' },
-    { state: 'profile/indexes', name: 'My indexes', type: 'link', icon: 'format_italic', iconType: 'material', active: '/overview' },
+    { state: 'profile/intel', name: 'My intel', type: 'link', icon: 'remove_red_eye', iconType: 'material', active: '/intel' },
+    { state: 'profile/indexes', name: 'My indexes', type: 'link', icon: 'account_balance', iconType: 'material', active: '/overview' },
     { state: 'profile/script', name: 'Userscript', type: 'link', icon: 'description' },
     { state: '', name: 'Account', type: 'separator', iconType: 'material' },
     { state: 'profile/linked', name: 'Linked accounts', type: 'link', icon: 'link', iconType: 'material' },

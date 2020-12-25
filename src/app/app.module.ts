@@ -123,6 +123,7 @@ import { Blog2020Component } from './blog/blog2020/blog2020.component';
 import {MailListDialog} from './alliance/alliance.service';
 import {BasicDialog} from './shared/dialogs/basic/basic.component';
 import {NewIndexDialog} from './shared/dialogs/new-index/new-index.component';
+import {IndexSettingsDialog} from './shared/dialogs/index-settings/index-settings.component';
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -207,6 +208,7 @@ export function jwtTokenGetter(): any {
         InstallDialog,
         BBDialog,
         NewIndexDialog,
+        IndexSettingsDialog,
         ConquestReportDialog,
         SiegeListDialog,
         MailListDialog,
@@ -309,6 +311,7 @@ export function jwtTokenGetter(): any {
         CleanIntelDialog,
         IndexDisclaimerDialog,
         NewIndexDialog,
+        IndexSettingsDialog,
         ResetOwnersDialog,
         ForgotKeysDialog,
         EditOwnersDialog,

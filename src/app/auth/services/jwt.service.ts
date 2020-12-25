@@ -21,7 +21,7 @@ export class JwtService {
     return localStorage.getItem('refresh_token');
   }
 
-  public accessToken() {
+  public accessToken(): Promise<string> {
     return new Promise(resolve => {
       let token = localStorage.getItem('access_token');
       let payload = jwt_decode(token);
@@ -45,6 +45,7 @@ export class JwtService {
               reject(null);
             })
         } else {
+          console.log("Missing refresh token. Login required");
           this.logout();
           reject(null);
         }

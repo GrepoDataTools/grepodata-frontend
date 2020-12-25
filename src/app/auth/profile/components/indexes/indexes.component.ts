@@ -9,6 +9,7 @@ import {environment} from '../../../../../environments/environment';
 import {RecaptchaComponent} from 'ng-recaptcha';
 import {NewIndexDialog} from '../../../../shared/dialogs/new-index/new-index.component';
 import {MatDialog} from '@angular/material/dialog';
+import {IndexSettingsDialog} from '../../../../shared/dialogs/index-settings/index-settings.component';
 
 @Component({
   selector: 'app-indexes',
@@ -39,6 +40,9 @@ export class IndexesComponent implements OnInit {
   servers = [];
   worlds = [];
   recaptcha_key = environment.recaptcha;
+
+  readonly ROLE_ADMIN = environment.ROLE_ADMIN;
+  readonly ROLE_OWNER = environment.ROLE_OWNER;
 
   constructor(
     public captchaService : CaptchaService,
@@ -82,6 +86,22 @@ export class IndexesComponent implements OnInit {
       // height: '90%'
       autoFocus: false,
       disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadIndexes();
+    });
+  }
+
+  public openIndexSettings(index) {
+    let dialogRef = this.dialog.open(IndexSettingsDialog, {
+      // width: '80%',
+      // height: '90%'
+      autoFocus: false,
+      disableClose: true,
+      data: {
+        index: index
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {

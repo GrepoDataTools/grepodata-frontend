@@ -8,4 +8,8 @@ export const environment = {
   discordClientId: '735056972977537106',
   discordClientSecret: 'RGGYGml0X4mDwP92XZFU_0rHG' +
   'XAGhItt',
+  ROLE_READ: 'read',
+  ROLE_WRITE: 'write',
+  ROLE_ADMIN: 'admin',
+  ROLE_OWNER: 'owner'
 };

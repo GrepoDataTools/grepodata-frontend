@@ -4,5 +4,5 @@
     <div class="alert__title {{ type }}" *ngIf="!!title">{{ title }}</div>
     <ng-content></ng-content>
   </div>
-  <mat-icon class="alert__close material-icons" (click)="hideAlert()">close</mat-icon>
+  <mat-icon *ngIf="dismissible" class="alert__close material-icons" (click)="hideAlert()">close</mat-icon>
 </div>

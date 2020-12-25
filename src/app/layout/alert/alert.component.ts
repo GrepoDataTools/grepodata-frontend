@@ -8,6 +8,7 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 export class AlertComponent implements OnInit {
   @Input() type: 'error' | 'info' | 'success' | 'warning';
   @Input() title: string;
+  @Input() dismissible: boolean = true;
 
   alertHidden = false;
 

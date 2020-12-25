@@ -44,7 +44,7 @@
 								<tbody>
 								<tr *ngFor="let index of indexes; let i = index;" class="index-row">
 									<td (click)="routing('/profile/overview/' + index.key)">
-										<a routerLink="/profile/overview/{{index.key}}"><img src="../../assets/images/ally_ico.png"/> {{index.name || index.key}}</a>
+										<a routerLink="/profile/overview/{{index.key}}"><mat-icon style="opacity: 1; vertical-align: sub;">account_balance</mat-icon> {{index.name || index.key}}</a>
 									</td>
 									<!--<td>{{index.key}}</td>-->
 									<td (click)="routing('/profile/overview/' + index.key)">
@@ -58,12 +58,12 @@
 									<td (click)="routing('/profile/overview/' + index.key)">
 										{{index.role}}
 									</td>
-									<td (click)="routing('/profile/overview/' + index.key)">
-										<!--<button class="btn btn-secondary btn-sm mr-1">Share index</button>-->
+									<td>
+										<button *ngIf="index.role === ROLE_ADMIN || index.role === ROLE_OWNER" class="btn btn-secondary mr-1" (click)="openIndexSettings(index)">Index settings <mat-icon>settings</mat-icon></button>
+										<button routerLink="/profile/overview/{{index.key}}" class="btn btn-success mr-1">Index overview <mat-icon>launch</mat-icon></button>
 										<!--<button routerLink="/profile/overview/{{index.key}}" class="btn btn-secondary btn-sm mr-1">Open index</button>-->
 										<!--<button class="btn btn-danger btn-sm" *ngIf="index.role=='owner'">Delete index</button>-->
 										<!--<button class="btn btn-secondary mr-1">Merge with alliance <mat-icon>share</mat-icon></button>-->
-										<button routerLink="/profile/overview/{{index.key}}" class="btn btn-secondary mr-1">Index overview <mat-icon>launch</mat-icon></button>
 									</td>
 								</tr>
 								</tbody>

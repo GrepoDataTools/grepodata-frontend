@@ -96,7 +96,7 @@ export class NewIndexDialog {
             this.building = false;
             this.submitted = true;
 
-            if (response.key) {
+            if ('key' in response) {
               this.createdIndex = {
                 'key': response.key,
                 'name': this.index_name,
@@ -123,14 +123,4 @@ export class NewIndexDialog {
     }
   }
 
-  // public buildIndex(data) {
-  //   if (data.status == 'ok') {
-  //     this.router.navigate(['/indexer/'+data.key]);
-  //     this.dialogRef.close();
-  //   }
-  //   this.key = data.key;
-  //   this.createError = 'You will receive an email with your index information as soon as it becomes available (this may take a day or two)';
-  //   this.building = false;
-  //   this.submitted = true;
-  // }
 }

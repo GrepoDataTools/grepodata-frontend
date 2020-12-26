@@ -1,78 +1,10 @@
-<a (click)="dialogRef.close()" class="close"></a>
-<h1 class="gd-primary">Index settings:&nbsp;&nbsp;<span class="gd-secondary"><mat-icon style="opacity: 1;">account_balance</mat-icon>&nbsp;{{index.name}}</span></h1>
-
 <div mat-dialog-content style="min-width: 90%; min-height: 70%;">
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-xs-12">
-				<div class="alert alert-gd-1">
-					<h2 class="gd-secondary">Manage user access</h2>
+				<a (click)="dialogRef.close()" class="close"></a>
+				<h2 class="gd-secondary">Settings for index <span class="gd-primary"><mat-icon style="opacity: 1; vertical-align: middle;">account_balance</mat-icon>&nbsp;{{index.name}}</span></h2>
 
-					<mat-progress-bar *ngIf="loading_users || updating_roles" style="margin-top: -10px; z-index: 122222;" mode="indeterminate"></mat-progress-bar>
-
-					<app-alert type="error" title="Unable to update user" *ngIf="user_error!=''" [dismissible]="false">
-						<p>{{user_error}}</p>
-					</app-alert>
-
-					<div class="text-center" *ngIf="!loading_users">
-						<table class="table">
-							<thead>
-							<tr>
-								<th scope="col" class="text-center">#</th>
-								<th scope="col" class="text-center">User name</th>
-								<th scope="col" class="text-center" matTooltip="Remove a user to deny their read access on this index">Can read intel</th>
-								<th scope="col" class="text-center" matTooltip="These users can index new reports and add town notes">Can add intel</th>
-								<th scope="col" class="text-center" matTooltip="Index admins can manage other users and delete intel. They can also share the index with new users.">Can manage index settings</th>
-								<th scope="col" class="text-center" matTooltip="Index owners have full control over the index and its settings.">Is index owner</th>
-								<th scope="col" class="text-center">Actions</th>
-							</tr>
-							</thead>
-							<tbody>
-							<tr *ngFor="let user of users; let i = index;" [ngClass]="{'highlighted-user':user.user_id===my_id}">
-								<td>
-									{{i+1}}
-								</td>
-								<td class="gd-primary">
-									<img src="../../assets/images/player_ico.png"/>&nbsp;{{user.username}}
-								</td>
-								<td matTooltip="Remove a user to deny their read access on this index">
-									<mat-checkbox [checked]="true" disabled="true"></mat-checkbox>
-								</td>
-								<td matTooltip="These users can index new reports and add town notes"
-								    (click)="toggleUserRole(user, ROLE_WRITE)"
-								>
-									<mat-checkbox
-										[checked]="[ROLE_OWNER, ROLE_ADMIN, ROLE_WRITE].includes(user.role)"
-										[disabled]="updating_roles || user.user_id === my_id">
-									</mat-checkbox>
-								</td>
-								<td matTooltip="Index admins can manage other users and delete intel. They can also share the index with new users."
-								    (click)="toggleUserRole(user, ROLE_ADMIN)"
-								>
-									<mat-checkbox
-										[checked]="[ROLE_OWNER, ROLE_ADMIN].includes(user.role)"
-										[disabled]="updating_roles || user.user_id === my_id || (my_role != '' && my_role != ROLE_OWNER)">
-									</mat-checkbox>
-								</td>
-								<td
-									matTooltip="Index owners have full control over the index and its settings."
-									(click)="toggleUserRole(user, ROLE_OWNER)"
-								>
-									<mat-checkbox
-										[checked]="[ROLE_OWNER].includes(user.role)"
-										[disabled]="updating_roles || user.user_id === my_id || (my_role != '' && my_role != ROLE_OWNER)">
-									</mat-checkbox>
-								</td>
-								<td matTooltip="When you remove a user, they will no longer be able to read the intel in this index">
-									<button class="btn btn-danger" [disabled]="updating_roles || user.user_id === my_id">Remove user</button>
-								</td>
-							</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-			<div class="col-xs-12">
 				<div class="alert alert-gd-1">
 					<h2 class="gd-secondary">Friendly alliances (index owners)</h2>
 				</div>

@@ -57,6 +57,7 @@ export class IndexerComponent implements OnInit {
     private indexerService: IndexerService,
     public router: Router,
     private route: ActivatedRoute,
+    private authService: JwtService,
     public dialog: MatDialog) {
     this.route.params.subscribe( params => this.load(params));
   }
@@ -86,12 +87,15 @@ export class IndexerComponent implements OnInit {
     console.log(params);
     if (typeof params['key'] != 'undefined' && params['key'].length == 8) {
       this.encrypted = Md5.hashAsciiStr(params['key']);
-      this.indexerService.getIndex(params['key']).subscribe(
-        (response) => this.loadIndex(response, params['key']),
-        (error) => {
-          this.globals.set_active_index('');
-          this.router.navigate(['/indexer/0']);
-        });
+
+      this.authService.accessToken().then(access_token => {
+        this.indexerService.getIndex(access_token, params['key']).subscribe(
+          (response) => this.loadIndex(response, params['key']),
+          (error) => {
+            this.globals.set_active_index('');
+            this.router.navigate(['/indexer/0']);
+          });
+      });
     } else if (typeof params['key'] != 'undefined' && params['key'].length == 1 && params['key'] == 0) {
       if (this.globals.get_active_index() !== false) {
         this.key_input = this.globals.get_active_index();

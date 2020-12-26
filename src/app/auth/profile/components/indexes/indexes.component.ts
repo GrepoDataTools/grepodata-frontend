@@ -10,6 +10,8 @@ import {RecaptchaComponent} from 'ng-recaptcha';
 import {NewIndexDialog} from '../../../../shared/dialogs/new-index/new-index.component';
 import {MatDialog} from '@angular/material/dialog';
 import {IndexSettingsDialog} from '../../../../shared/dialogs/index-settings/index-settings.component';
+import {IndexMembersDialog} from '../../../../shared/dialogs/index-members/index-members.component';
+import {ShareIndexDialog} from '../../../../shared/dialogs/share-index/share-index.component';
 
 @Component({
   selector: 'app-indexes',
@@ -98,7 +100,39 @@ export class IndexesComponent implements OnInit {
       // width: '80%',
       // height: '90%'
       autoFocus: false,
-      disableClose: true,
+      disableClose: false,
+      data: {
+        index: index
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadIndexes();
+    });
+  }
+
+  public openIndexMembers(index) {
+    let dialogRef = this.dialog.open(IndexMembersDialog, {
+      // width: '80%',
+      // height: '90%'
+      autoFocus: false,
+      disableClose: false,
+      data: {
+        index: index
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadIndexes();
+    });
+  }
+
+  public openShareIndexDialog(index) {
+    let dialogRef = this.dialog.open(ShareIndexDialog, {
+      // width: '80%',
+      // height: '90%'
+      autoFocus: false,
+      disableClose: false,
       data: {
         index: index
       }

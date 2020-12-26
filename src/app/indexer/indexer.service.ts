@@ -17,9 +17,11 @@ export class IndexerService {
     let url =  '/indexer/stats';
     return this.http.get(apiUrl + url);
   }
-  getIndex(key) {
+  getIndex(access_token, key) {
     let url =  '/indexer/v2/getindex?key='+key;
-    return this.http.get(apiUrl + url);
+    return this.http.get(apiUrl + url, {
+      headers: new HttpHeaders().set('access_token', access_token)
+    });
   }
   getWorlds() {
     let url =  '/indexer/worlds';
@@ -29,10 +31,18 @@ export class IndexerService {
     let url =  '/indexer/isvalid?key='+key;
     return this.http.get(apiUrl + url);
   }
-  createNewIndex(access_token, index_name, world, captcha) {
+  createNewIndex(access_token, index_name, world, captcha): any {
     if (captcha == '' || captcha == undefined) captcha = '_';
-    let url =  '/indexer/v2/newindex?world='+world+'&index_name='+index_name+'&captcha='+captcha+'&access_token='+access_token;
-    return this.http.get<any>(apiUrl + url);
+    let url =  '/indexer/v2/newindex?world='+world+'&index_name='+index_name+'&captcha='+captcha;
+    return this.http.get(apiUrl + url, {
+      headers: new HttpHeaders().set('access_token', access_token)
+    });
+  }
+  createNewLink(access_token, index_key): any {
+    let url =  '/indexer/v2/newlink?index_key='+index_key;
+    return this.http.get(apiUrl + url, {
+      headers: new HttpHeaders().set('access_token', access_token)
+    });
   }
   updateIndexKey(key, mail, captcha) {
     if (captcha == '' || captcha == undefined) captcha = '_';

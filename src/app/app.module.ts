@@ -124,6 +124,8 @@ import {MailListDialog} from './alliance/alliance.service';
 import {BasicDialog} from './shared/dialogs/basic/basic.component';
 import {NewIndexDialog} from './shared/dialogs/new-index/new-index.component';
 import {IndexSettingsDialog} from './shared/dialogs/index-settings/index-settings.component';
+import {IndexMembersDialog} from './shared/dialogs/index-members/index-members.component';
+import {ShareIndexDialog} from './shared/dialogs/share-index/share-index.component';
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -209,6 +211,8 @@ export function jwtTokenGetter(): any {
         BBDialog,
         NewIndexDialog,
         IndexSettingsDialog,
+        IndexMembersDialog,
+        ShareIndexDialog,
         ConquestReportDialog,
         SiegeListDialog,
         MailListDialog,
@@ -312,6 +316,8 @@ export function jwtTokenGetter(): any {
         IndexDisclaimerDialog,
         NewIndexDialog,
         IndexSettingsDialog,
+        IndexMembersDialog,
+        ShareIndexDialog,
         ResetOwnersDialog,
         ForgotKeysDialog,
         EditOwnersDialog,

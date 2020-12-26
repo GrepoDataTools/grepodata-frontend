@@ -31,11 +31,11 @@ export class IndexService {
 
 	removeIndexUser(access_token, index, user_id) {
     let data = new HttpParams()
-      .set('access_token', access_token)
       .set('user_id', user_id)
       .set('index_key', index);
 		return this.http.delete<any>(apiUrl + '/indexer/settings/users', {
-			params: data
+			params: data,
+      headers: new HttpHeaders({'access_token':access_token})
 		});
 	}
 

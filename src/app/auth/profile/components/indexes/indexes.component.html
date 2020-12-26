@@ -4,9 +4,7 @@
 				<div class="col-xs-12">
 					<h2>My indexes</h2>
 
-					<mat-progress-bar style="margin-top: -10px;" *ngIf="loading" mode="indeterminate"></mat-progress-bar>
 					<app-alert type="error" *ngIf="!confirmed">Confirm your email address to create and share indexes.</app-alert>
-
 
 					<app-alert type="info" title="What is an index?" *ngIf="confirmed">
 						<p>
@@ -18,6 +16,8 @@
 							<strong>Please use the import button on this page to import your old index if it was created before 31 December 2020</strong>
 						</p>
 					</app-alert>
+
+					<mat-progress-bar style="margin-top: -10px;" *ngIf="loading" mode="indeterminate"></mat-progress-bar>
 
 					<div *ngIf="!loading && indexes.length <= 0">
 						<p class="gd-secondary">You have not yet created or joined any indexes.</p>
@@ -38,17 +38,17 @@
 									<th scope="col">
 										Your role <mat-icon class="mat-icon-title-inline a-link" matTooltip="Only the owner of an index can change the index settings">help_outline</mat-icon>
 									</th>
-									<th scope="col">Actions</th>
+									<th scope="col" class="text-right">Actions</th>
 								</tr>
 								</thead>
 								<tbody>
 								<tr *ngFor="let index of indexes; let i = index;" class="index-row">
-									<td (click)="routing('/profile/overview/' + index.key)">
+									<td >
 										<a routerLink="/profile/overview/{{index.key}}"><mat-icon style="opacity: 1; vertical-align: sub;">account_balance</mat-icon> {{index.name || index.key}}</a>
 									</td>
 									<!--<td>{{index.key}}</td>-->
 									<td (click)="routing('/profile/overview/' + index.key)">
-										<div class="bg-flag flag-inline flag-{{index.world.substr(0,2)}}" style="transform: scale(0.7); vertical-align: middle;"></div> {{index.world}}</td>
+										<div [outerHTML]="index.world | WorldNamePipe"></div>
 									<!--<td>{{index.role.replace('read', 'read only').replace('write', 'contributor')}}</td>-->
 									<!--<td>nobody</td>-->
 									<td (click)="index.contribute = !index.contribute">
@@ -58,9 +58,11 @@
 									<td (click)="routing('/profile/overview/' + index.key)">
 										{{index.role}}
 									</td>
-									<td>
-										<button *ngIf="index.role === ROLE_ADMIN || index.role === ROLE_OWNER" class="btn btn-secondary mr-1" (click)="openIndexSettings(index)">Index settings <mat-icon>settings</mat-icon></button>
-										<button routerLink="/profile/overview/{{index.key}}" class="btn btn-success mr-1">Index overview <mat-icon>launch</mat-icon></button>
+									<td class="text-right" style="float: right;">
+										<button *ngIf="index.role === ROLE_ADMIN || index.role === ROLE_OWNER" class="btn btn-secondary mr-1" (click)="openIndexSettings(index)">Settings <mat-icon>settings</mat-icon></button>
+										<button *ngIf="index.role === ROLE_ADMIN || index.role === ROLE_OWNER" class="btn btn-secondary mr-1" (click)="openIndexMembers(index)">Users <mat-icon>admin_panel_settings</mat-icon></button>
+										<button *ngIf="index.role === ROLE_ADMIN || index.role === ROLE_OWNER" class="btn btn-primary mr-1" (click)="openShareIndexDialog(index)">Share index&nbsp;&nbsp;<mat-icon>group_add</mat-icon></button>
+										<button routerLink="/profile/overview/{{index.key}}" class="btn btn-success mr-1">Overview <mat-icon>launch</mat-icon></button>
 										<!--<button routerLink="/profile/overview/{{index.key}}" class="btn btn-secondary btn-sm mr-1">Open index</button>-->
 										<!--<button class="btn btn-danger btn-sm" *ngIf="index.role=='owner'">Delete index</button>-->
 										<!--<button class="btn btn-secondary mr-1">Merge with alliance <mat-icon>share</mat-icon></button>-->

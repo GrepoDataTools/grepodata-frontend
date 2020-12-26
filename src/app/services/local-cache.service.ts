@@ -8,13 +8,14 @@ export class LocalCacheService {
 
   /**
    * @param url
+   * @param ignore_expiration
    * @returns {any} false if url does not exist or is expired
    */
-  public static get(url) {
+  public static get(url, ignore_expiration = false) {
     let exists = localStorage.hasOwnProperty(url) && localStorage[url] !== null;
     if (exists) {
       let data = JSON.parse(localStorage.getItem(url));
-      if (moment(data.expires) < moment()) {
+      if (ignore_expiration === false && moment(data.expires) < moment()) {
         // console.log('Cache item is expired: ' + url + ' - ' + data.expires);
         return false;
       } else {

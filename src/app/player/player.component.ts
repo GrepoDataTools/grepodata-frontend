@@ -80,6 +80,10 @@ export class PlayerComponent implements OnInit {
 				break;
 			case 3:
 				this.bShowIntel = true;
+				let that = this;
+				setTimeout(function () {
+          that.bShowIntel = true;
+        }, 2000);
 				break;
 		}
     this.tabsIndex = event.index;
@@ -135,7 +139,7 @@ export class PlayerComponent implements OnInit {
   notFound = false;
   selectionChanged = false;
   historyError = false;
-  hasIndex: any = '';
+  hasIndex = false;
 
   constructor(
     public dialog: MatDialog,
@@ -191,7 +195,7 @@ export class PlayerComponent implements OnInit {
     this.dayRange = '30';
     // this.showRangeSlider = false;
     this.playerName = 'Loading..';
-    this.hasIndex = '';
+    this.hasIndex = false;
     this.bShowIntel = false;
 
     this.notFound = false;
@@ -221,8 +225,9 @@ export class PlayerComponent implements OnInit {
 
     // Check if intel is available
     let active_intel: any = this.globals.get_active_intel();
+    console.log(active_intel);
     if (active_intel !== false && this.world in active_intel) {
-      this.hasIndex = active_intel[this.world];
+      this.hasIndex = true;
     }
   }
 

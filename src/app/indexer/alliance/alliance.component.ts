@@ -1,10 +1,10 @@
-import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, Input} from '@angular/core';
 import {IndexerService} from "../indexer.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ContactDialog} from "../../header/header.component";
 import { MatDialog } from "@angular/material/dialog";
 import {AllianceService} from "../../alliance/alliance.service";
-import {BBDialog} from "../indexer.component";
+import {BBDialog} from '../utils';
 import {WorldService} from "../../services/world.service";
 import {JwtService} from '../../auth/services/jwt.service';
 

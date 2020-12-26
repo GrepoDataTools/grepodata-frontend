@@ -113,7 +113,7 @@ export class IndexesComponent implements OnInit {
 
   public openIndexMembers(index) {
     let dialogRef = this.dialog.open(IndexMembersDialog, {
-      // width: '80%',
+      minWidth: '50%',
       // height: '90%'
       autoFocus: false,
       disableClose: false,

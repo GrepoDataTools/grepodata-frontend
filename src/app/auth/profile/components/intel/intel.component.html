@@ -1,10 +1,10 @@
 
-<mat-card class="index-card">
+<mat-card class="index-card index-card-sm">
 	<h2 class="gd-secondary">Search in your intel</h2>
 	<app-index-search></app-index-search>
 </mat-card>
 
-<mat-card class="index-card">
+<mat-card class="index-card index-card-sm">
 	<h2 class="gd-secondary">
 		Your top indexes
 		<a class="top-index-card" *ngIf="topIndexes.length > 0" routerLink="/profile/indexes" style="color: #949494; font-weight: 700; font-size: 21px; right: 70px; position: absolute;">
@@ -12,8 +12,8 @@
 		</a>
 	</h2>
 
-	<div fxLayout="row wrap">
-		<div fxFlex.gt-sm="15" fxFlex.gt-xs="100" fxFlex="100" class="top-index-card">
+	<div fxLayout="row wrap" style="margin: 0 15px;">
+		<div fxFlex.gt-sm="16" fxFlex.gt-xs="100" fxFlex="100" class="top-index-card">
 			<a (click)="newIndex()">
 				<mat-card class="bg-primary text-white text-center m-20">
 					<div class="p-10">
@@ -42,20 +42,21 @@
 </mat-card>
 
 
-<mat-card class="index-card">
+<mat-card class="index-card index-card-sm">
 	<h2 class="gd-secondary">Latest reports indexed by you</h2>
 
-	<mat-progress-bar style="margin-top: -10px;" *ngIf="loading || paging" mode="indeterminate"></mat-progress-bar>
+	<mat-card-content style="padding: 0 30px 15px;">
+		<mat-progress-bar style="margin-top: -10px;" *ngIf="loading || paging" mode="indeterminate"></mat-progress-bar>
 
-	<div *ngIf="!loading">
+		<div *ngIf="!loading">
 
-		<mat-paginator *ngIf="from > 0 || num_results > 15" [length]="num_results"
-		               [pageSize]="size"
-		               [pageSizeOptions]="[1, 10, 20, 30, 50, 100]"
-		               (page)="paginatorEvent($event)"
-		               [disabled]="paging"
-		               style="display: flex; justify-content: left;">
-		</mat-paginator>
+			<mat-paginator *ngIf="from > 0 || num_results > 15" [length]="num_results"
+			               [pageSize]="size"
+			               [pageSizeOptions]="[1, 10, 20, 30, 50, 100]"
+			               (page)="paginatorEvent($event)"
+			               [disabled]="paging"
+			               style="display: flex; justify-content: left;">
+			</mat-paginator>
 
 			<div  [ngClass]="{'loading-overlay': paging}">
 				<div class="table intel-table" id="table_all">
@@ -128,6 +129,7 @@
 				</div>
 			</div>
 
-	</div>
+		</div>
+	</mat-card-content>
 
 </mat-card>

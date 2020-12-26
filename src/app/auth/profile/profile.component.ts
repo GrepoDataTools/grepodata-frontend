@@ -1,13 +1,11 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { JwtService } from '../services/jwt.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IndexList, ProfileService } from '../services/profile.service';
-import { EditOwnersDialog } from '../../indexer/indexer.component';
+import { ProfileService } from '../services/profile.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Location } from '@angular/common';
 import * as jwt_decode from 'jwt-decode';
 import { MediaMatcher } from '@angular/cdk/layout';
-import {BasicDialog} from '../../shared/dialogs/basic/basic.component';
 import {ContactDialog} from '../../header/header.component';
 
 @Component({
@@ -137,23 +135,4 @@ export class ProfileComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {});
   }
 
-  changeTab(tab) {
-    this.active_tab = tab;
-    this.location.replaceState('/profile/' + tab);
-  }
-
-  editOwners(key, world, owners) {
-    let dialogRef = this.dialog.open(EditOwnersDialog, {
-      // width: '600px',
-      // height: '80%',
-      autoFocus: false,
-      data: {
-        key: key,
-        world: world,
-        owners: owners,
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {});
-  }
 }

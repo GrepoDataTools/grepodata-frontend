@@ -1,10 +1,12 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {IndexService} from '../../../auth/services/index.service';
 import {environment} from '../../../../environments/environment';
 import {BasicDialog} from '../basic/basic.component';
 import {JwtService} from '../../../auth/services/jwt.service';
 import * as jwt_decode from 'jwt-decode';
+import {ContactDialog} from '../../../header/header.component';
+import {ShareIndexDialog} from '../share-index/share-index.component';
 
 @Component({
   selector: 'app-index-members',
@@ -34,6 +36,7 @@ export class IndexMembersDialog {
 
   constructor(
     public dialogRef: MatDialogRef<IndexMembersDialog>,
+    private dialog: MatDialog,
     private authService: JwtService,
     private indexService: IndexService,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -116,39 +119,77 @@ export class IndexMembersDialog {
     });
   }
 
-  removeUser(user) {
-    this.updating_roles = true;
-    this.user_removed = '';
-    this.authService.accessToken().then(access_token => {
-      this.indexService.removeIndexUser(access_token, this.index.key, user.user_id)
-        .subscribe(
-          (response) => {
-            console.log(response);
-            this.updating_roles = false;
-            this.user_error = '';
-            if (response) {
-              if (response.error_code && response.error_code === 7520) {
-                this.user_error = response.message;
-              } else if (response.error_code && response.error_code === 7540) {
-                this.user_error = response.message;
-              } else if (response.error_code && response.error_code === 7501) {
-                this.user_error = 'You have to be an owner of this index to make that change.';
-              } else if (response.success_code && response.success_code === 1300) {
-                this.users = this.users.filter((indexuser) => indexuser.user_id !== user.user_id);
-                this.user_removed = user.username;
-              } else {
+  public showConfirmDialog(user): void {
+    const dialogRef = this.dialog.open(BasicDialog, {
+      // minWidth: '40%',
+      autoFocus: false,
+      data: {
+        title: '',
+        show_close: false,
+        messageHtml: '<div class="text-center"><h3>User <span class="gd-primary">' + user.username + '</span> will be removed from index <span class="gd-primary">' + this.index.name + '</span></h3></div>',
+        cancel_action: 'Cancel',
+        action_type: 'danger',
+        action: 'Remove user',
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+
+      if (result === true) {
+        this.updating_roles = true;
+        this.user_removed = '';
+        this.authService.accessToken().then(access_token => {
+          this.indexService.removeIndexUser(access_token, this.index.key, user.user_id)
+            .subscribe(
+              (response) => {
+                console.log(response);
+                this.updating_roles = false;
+                this.user_error = '';
+                if (response) {
+                  if (response.error_code && response.error_code === 7520) {
+                    this.user_error = response.message;
+                  } else if (response.error_code && response.error_code === 7540) {
+                    this.user_error = response.message;
+                  } else if (response.error_code && response.error_code === 7501) {
+                    this.user_error = 'You have to be an owner of this index to make that change.';
+                  } else if (response.success_code && response.success_code === 1300) {
+                    this.users = this.users.filter((indexuser) => indexuser.user_id !== user.user_id);
+                    this.user_removed = user.username;
+                  } else {
+                    this.user_error = 'Unknown error. Please try again later or contact us if this error persists.';
+                  }
+                } else {
+                  this.user_error = 'Unknown error. Please try again later or contact us if this error persists.';
+                }
+              },
+              (error) => {
+                console.log(error);
+                this.updating_roles = false;
                 this.user_error = 'Unknown error. Please try again later or contact us if this error persists.';
               }
-            } else {
-              this.user_error = 'Unknown error. Please try again later or contact us if this error persists.';
-            }
-          },
-          (error) => {
-            console.log(error);
-            this.updating_roles = false;
-            this.user_error = 'Unknown error. Please try again later or contact us if this error persists.';
-          }
-        );
+            );
+        });
+      }
+
     });
+  }
+
+  removeUser(user) {
+    this.showConfirmDialog(user);
+  }
+
+  showShareDialog() {
+    let dialogRef = this.dialog.open(ShareIndexDialog, {
+      minWidth: '60%',
+      // height: '90%'
+      autoFocus: false,
+      disableClose: false,
+      data: {
+        index: this.index
+      }
+    });
+
+    this.close();
   }
 }

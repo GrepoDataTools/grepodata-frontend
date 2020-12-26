@@ -77,9 +77,13 @@ export class WorldService {
       }
   }
 
-  getLocalWorlds() {
+  /**
+   * Return the local world information from caache (ignore the data expiration)
+   * @returns {boolean | any}
+   */
+  static getLocalWorlds() {
       let url =  '/world/active';
-      return LocalCacheService.get(url);
+      return LocalCacheService.get(url, true);
   }
 
   loadWorlds() {
@@ -100,7 +104,7 @@ export class WorldService {
   }
 
   getLocalWorldInfo(id) {
-    let localWorlds = this.getLocalWorlds();
+    let localWorlds = WorldService.getLocalWorlds();
     if (!localWorlds) return false;
     for (let i of (<any>localWorlds)) {
       for (let w of (<any>i).worlds) {

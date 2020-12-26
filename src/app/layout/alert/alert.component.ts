@@ -20,7 +20,7 @@ export class AlertComponent implements OnInit {
   selectIcon() {
     switch (this.type) {
       case 'error': return 'error_outline';
-      case 'info': return 'error_outline';
+      case 'info': return 'help_outline';
       case 'success': return 'check_circle';
       case 'warning': return 'warning';
       default: return 'error_outline';

@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {PlayerService} from "../../player/player.service";
 import {ContactDialog} from "../../header/header.component";
 import { MatDialog } from "@angular/material/dialog";
-import {BBDialog} from "../indexer.component";
+import {BBDialog} from '../utils';
 import {WorldService} from "../../services/world.service";
 import {LocalCacheService} from "../../services/local-cache.service";
 import {JwtService} from '../../auth/services/jwt.service';

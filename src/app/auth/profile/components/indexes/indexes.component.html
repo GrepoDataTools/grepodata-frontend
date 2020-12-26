@@ -36,7 +36,7 @@
 										Contribute <mat-icon class="mat-icon-title-inline a-link" matTooltip="If you enable this toggle, your collected intell will be shared with this index. If you disable this option, you can still read the index but your collected intel will not be shared with the other players in this index.">help_outline</mat-icon>
 									</th>
 									<th scope="col">
-										Your role <mat-icon class="mat-icon-title-inline a-link" matTooltip="Only the owner of an index can change the index settings">help_outline</mat-icon>
+										Your role <mat-icon class="mat-icon-title-inline a-link" matTooltip="Only the owners or admins of an index can change the index settings. Members can add new intel. And read only access means you can not add new intel but you can still browse the intel in this index.">help_outline</mat-icon>
 									</th>
 									<th scope="col" class="text-right">Actions</th>
 								</tr>
@@ -53,19 +53,23 @@
 									<!--<td>nobody</td>-->
 									<td (click)="index.contribute = !index.contribute">
 										<!--<mat-slide-toggle [ngModel]="index.contribute" (ngModelChange)="enableContributions(index.key)">Share my intel with this index</mat-slide-toggle>-->
-										<mat-checkbox [ngModel]="index.contribute" (ngModelChange)="enableContributions(index.key)">Share my intel with this index</mat-checkbox>
+										<mat-checkbox *ngIf="index.role!='read'" [ngModel]="index.contribute" (ngModelChange)="enableContributions(index.key)">Share my intel with this index</mat-checkbox>
 									</td>
 									<td (click)="routing('/profile/overview/' + index.key)">
-										{{index.role}}
+										{{index.role
+										.replace('read', 'Read only')
+										.replace('write', 'Member')
+										.replace('owner', 'Owner')
+										.replace('admin', 'Admin')
+										}}
 									</td>
-									<td class="text-right" style="float: right;">
-										<button *ngIf="index.role === ROLE_ADMIN || index.role === ROLE_OWNER" class="btn btn-secondary mr-1" (click)="openIndexSettings(index)">Settings <mat-icon>settings</mat-icon></button>
-										<button *ngIf="index.role === ROLE_ADMIN || index.role === ROLE_OWNER" class="btn btn-secondary mr-1" (click)="openIndexMembers(index)">Users <mat-icon>admin_panel_settings</mat-icon></button>
-										<button *ngIf="index.role === ROLE_ADMIN || index.role === ROLE_OWNER" class="btn btn-primary mr-1" (click)="openShareIndexDialog(index)">Share index&nbsp;&nbsp;<mat-icon>group_add</mat-icon></button>
-										<button routerLink="/profile/overview/{{index.key}}" class="btn btn-success mr-1">Overview <mat-icon>launch</mat-icon></button>
-										<!--<button routerLink="/profile/overview/{{index.key}}" class="btn btn-secondary btn-sm mr-1">Open index</button>-->
-										<!--<button class="btn btn-danger btn-sm" *ngIf="index.role=='owner'">Delete index</button>-->
-										<!--<button class="btn btn-secondary mr-1">Merge with alliance <mat-icon>share</mat-icon></button>-->
+									<td>
+										<div style="float: right;">
+											<button *ngIf="index.role === ROLE_ADMIN || index.role === ROLE_OWNER" class="btn btn-secondary mr-1" (click)="openIndexMembers(index)">Users <mat-icon>admin_panel_settings</mat-icon></button>
+											<button *ngIf="index.role === ROLE_ADMIN || index.role === ROLE_OWNER" class="btn btn-secondary mr-1" (click)="openIndexSettings(index)">Settings <mat-icon>settings</mat-icon></button>
+											<button *ngIf="index.role === ROLE_ADMIN || index.role === ROLE_OWNER" class="btn btn-primary mr-1" (click)="openShareIndexDialog(index)">Share index&nbsp;&nbsp;<mat-icon>group_add</mat-icon></button>
+											<button routerLink="/profile/overview/{{index.key}}" class="btn btn-success mr-1">Browse index <mat-icon>launch</mat-icon></button>
+										</div>
 									</td>
 								</tr>
 								</tbody>

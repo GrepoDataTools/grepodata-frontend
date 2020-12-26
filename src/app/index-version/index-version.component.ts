@@ -21,7 +21,6 @@ export function getCookie(name: string) {
 
 import {AfterViewInit, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {Md5} from 'ts-md5/dist/md5';
-import {InstallDialog} from '../indexer/indexer.component';
 import {animate, style, transition, trigger} from '@angular/animations';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -141,17 +140,18 @@ export class IndexVersionComponent implements OnInit, AfterViewInit {
   public openInstalldialog() {
     this.showHelp = false;
     this.showUpdate = false;
-    let dialogRef = this.dialog.open(InstallDialog, {
-      autoFocus: false,
-      data: {
-        key: this.key
-      }
-    });
+    // let dialogRef = this.dialog.open(InstallDialog, {
+    //   autoFocus: false,
+    //   data: {
+    //     key: this.key
+    //   }
+    // });
+    alert("TODO");
 		this.detectChanges();
 
-    dialogRef.afterClosed().subscribe(result => {
-			this.detectChanges();
-    });
+    // dialogRef.afterClosed().subscribe(result => {
+			// this.detectChanges();
+    // });
   }
 
 	ngAfterViewInit(): void {

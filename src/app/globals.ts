@@ -63,24 +63,28 @@ export class Globals {
     localStorage.setItem(this.ACTIVE_SERVER, server);
   }
 
-  get_active_index() {
-    if (this.active_index != '') {
-      return this.active_index;
-    } else if (localStorage.getItem(this.ACTIVE_INDEX)) {
-      return localStorage.getItem(this.ACTIVE_INDEX);
-    } else {
-      return false;
-    }
-  }
-  set_active_index(index) {
-    this.active_index = index;
-    if (index == '') {
-      localStorage.removeItem(this.ACTIVE_INDEX);
-    } else {
-      localStorage.setItem(this.ACTIVE_INDEX, index);
-    }
-  }
+  // get_active_index() {
+  //   if (this.active_index != '') {
+  //     return this.active_index;
+  //   } else if (localStorage.getItem(this.ACTIVE_INDEX)) {
+  //     return localStorage.getItem(this.ACTIVE_INDEX);
+  //   } else {
+  //     return false;
+  //   }
+  // }
+  // set_active_index(index) {
+  //   this.active_index = index;
+  //   if (index == '') {
+  //     localStorage.removeItem(this.ACTIVE_INDEX);
+  //   } else {
+  //     localStorage.setItem(this.ACTIVE_INDEX, index);
+  //   }
+  // }
 
+  /**
+   * Return a list of all worlds where intel is available
+   * @returns {any}
+   */
   get_active_intel() {
     if (this.active_intel !== null) {
       return this.active_intel;
@@ -90,14 +94,19 @@ export class Globals {
       return false;
     }
   }
-  set_active_intel(world, index) {
+
+  /**
+   * Sets a flag to indicate that the given world has intel
+   * @param world
+   */
+  set_active_intel(world) {
     let intel = this.get_active_intel();
     if (intel !== false) {
       this.active_intel = intel;
     } else {
       this.active_intel = {}
     }
-    this.active_intel[world] = index;
+    this.active_intel[world] = true;
     localStorage.setItem(this.ACTIVE_INTEL_WORLD, JSON.stringify(this.active_intel));
   }
 

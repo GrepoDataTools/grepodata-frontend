@@ -1,0 +1,13 @@
+.share-link-actual:hover {
+  color: #18bc9b !important;
+  cursor: pointer;
+}
+
+.invite-link-container {
+  transition: opacity .2s ease-in-out;
+}
+
+.loading-link-overlay {
+  opacity: .4;
+  pointer-events: none;
+}

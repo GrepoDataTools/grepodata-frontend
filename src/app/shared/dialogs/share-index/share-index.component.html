@@ -2,50 +2,10 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-xs-12">
-				<a (click)="dialogRef.close()" class="close"></a>
-				<h2 class="gd-secondary">Add a new user to index <span class="gd-primary"><mat-icon style="opacity: 1; vertical-align: middle;">account_balance</mat-icon>&nbsp;{{index.name}}</span></h2>
-				<p>You can share this index with your allies to collect intel together. Invite them using their GrepoData username or send them a link.</p>
+				<a (click)="close()" class="close"></a>
 
-				<div class="alert alert-gd-1">
-					<h2 class="gd-secondary"><mat-icon style="opacity: 1; vertical-align: middle;">link</mat-icon> Invite link</h2>
+				<app-share *ngIf="index" [indexInput]="index"></app-share>
 
-					<div class="row">
-						<div class="col-xs-12">
-							<p>
-								When your allies click on this link, they will be able to gain access to your index after they create a GrepoData account.
-								<br/>You will always be able to manage and revoke their access later on.
-							</p>
-						</div>
-						<div class="col-xs-12 gd-share-link-container">
-							<label style="font-weight: 600">Send this link to your allies to give them access to your index:</label>
-							<br/>
-							<div class="row" (click)="copyLink()" *ngIf="!loadingLink">
-								<input #shareLink
-								       [ngClass]="{ 'copied': copied }"
-								       [disabled]="true"
-								       class="col-xs-9 col-sm-8 col-md-7 col-lg-5 ur share-link-actual"
-								       type="url"
-								       value="{{share_link}}"
-								       id="siegeShareUrl"
-								       aria-describedby="inputGroup-sizing-default"
-								       style="height: 40px; font-size: 20px !important; color: #009688; font-weight: 900;">
-								<button class="cpy" (click)="copyLink()"><i class="fa fa-clone"></i> Copy</button><span class="message" *ngIf="copied"> Link copied!</span>
-							</div>
-
-							<mat-progress-bar *ngIf="loadingLink" style="margin: 15px 0; z-index: 122222;" mode="indeterminate"></mat-progress-bar>
-
-							<button [disabled]="loadingLink" (click)="getNewLink()" class="btn btn-link" style="color: #18BC9C !important;">
-								<mat-icon style="opacity: 1; vertical-align: middle;" [@rotate]="animate_refresh ? 'open' : 'closed'">refresh</mat-icon> Reset invite link
-							</button>
-						</div>
-					</div>
-				</div>
-
-				<div class="alert alert-gd-1">
-					<h2 class="gd-secondary"><mat-icon style="opacity: 1; vertical-align: middle;">group_add</mat-icon> Add a user by name (GrepoData username)</h2>
-
-					<h3>TODO</h3>
-				</div>
 			</div>
 
 		</div>

@@ -3,7 +3,7 @@
 import {AfterViewInit, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import { SearchService } from '../../search/search.service';
 import { Router} from "@angular/router";
-import {BBDialog} from "../indexer.component";
+import {BBDialog} from '../utils';
 import { MatDialog } from "@angular/material/dialog";
 import {JwtService} from '../../auth/services/jwt.service';
 import {WorldService} from '../../services/world.service';

@@ -42,9 +42,10 @@ const MENU_ITEMS: Array<Menu> = [
     { state: 'profile/intel', name: 'My intel', type: 'link', icon: 'remove_red_eye', iconType: 'material', active: '/intel' },
     { state: 'profile/indexes', name: 'My indexes', type: 'link', icon: 'account_balance', iconType: 'material', active: '/overview' },
     { state: 'profile/script', name: 'Userscript', type: 'link', icon: 'description' },
-    { state: '', name: 'Account', type: 'separator', iconType: 'material' },
-    { state: 'profile/linked', name: 'Linked accounts', type: 'link', icon: 'link', iconType: 'material' },
-    { state: 'profile/discord', name: 'Link with Discord', type: 'link', icon: faDiscord, iconType: 'fontawesome' },
+    // { state: '', name: 'Account', type: 'separator', iconType: 'material' },
+    // { state: 'profile/linked', name: 'Linked accounts', type: 'link', icon: 'link', iconType: 'material' },
+    // { state: 'profile/discord', name: 'Link with Discord', type: 'link', icon: faDiscord, iconType: 'fontawesome' },
+    { state: '', name: 'Other', type: 'separator', icon: 'person', iconType: 'material' },
     {
         state: 'profile/settings',
         name: 'Settings',
@@ -55,7 +56,6 @@ const MENU_ITEMS: Array<Menu> = [
             { state: 'delete', name: 'Delete account', type: 'link' },
         ],
     },
-    { state: '', name: 'Other', type: 'separator', icon: 'person', iconType: 'material' },
     { state: 'profile/faq', name: 'Help', type: 'link', icon: 'av_timer', iconType: 'material' },
     {
         state: 'profile/logout',

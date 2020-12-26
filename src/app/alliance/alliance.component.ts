@@ -82,7 +82,7 @@ export class AllianceComponent implements AfterViewInit {
 
     // Intel
     bShowIntel = false;
-    hasIndex: any = '';
+    hasIndex = false;
 
     constructor(
         private dialog: MatDialog,
@@ -150,7 +150,7 @@ export class AllianceComponent implements AfterViewInit {
         this.loadingMembers = true;
         this.loadingHistory = true;
         this.loadingInfo = true;
-        this.hasIndex = '';
+        this.hasIndex = false;
         this.bShowIntel = false;
 
         this.compareOpened = false;
@@ -200,7 +200,7 @@ export class AllianceComponent implements AfterViewInit {
         // Check if intel is available
         let active_intel: any = this.globals.get_active_intel();
         if (active_intel !== false && this.world in active_intel) {
-            this.hasIndex = active_intel[this.world];
+            this.hasIndex = true;
         }
     }
 

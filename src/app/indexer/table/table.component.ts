@@ -1,10 +1,10 @@
 import {AfterViewInit, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
-import {BBDialog} from "../indexer.component";
 import {MatDialog} from "@angular/material/dialog";
 import {LocalCacheService} from "../../services/local-cache.service";
 import {IndexerService} from "../indexer.service";
 import {Router} from "@angular/router";
 import {Globals} from '../../globals';
+import {BBDialog} from '../utils';
 
 @Component({
   selector: 'intel-table',

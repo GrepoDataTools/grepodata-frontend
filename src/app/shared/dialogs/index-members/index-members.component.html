@@ -14,7 +14,7 @@
 						<p>{{user_error}}</p>
 					</app-alert>
 
-					<app-alert type="info" title="User removed" *ngIf="user_removed!=''">
+					<app-alert type="success" title="User removed" *ngIf="user_removed!=''">
 						<p class="gd-secondary">User <span class="gd-primary">{{user_removed}}</span> has been removed from this index.</p>
 					</app-alert>
 
@@ -39,10 +39,10 @@
 								<td class="gd-primary">
 									<img src="../../assets/images/player_ico.png"/>&nbsp;{{user.username}}
 								</td>
-								<td matTooltip="Remove a user to deny their read access on this index">
+								<td matTooltip="Read only: remove a user to deny their read access on this index">
 									<mat-checkbox [checked]="true" disabled="true"></mat-checkbox>
 								</td>
-								<td matTooltip="These users can index new reports and add town notes"
+								<td matTooltip="Member: these users can index new reports and add town notes"
 								>
 									<mat-checkbox
 										[checked]="[ROLE_OWNER, ROLE_ADMIN, ROLE_WRITE].includes(user.role)"
@@ -50,7 +50,7 @@
 										[disabled]="updating_roles || user.user_id === my_id || ((user.role == ROLE_ADMIN || user.role == ROLE_OWNER) && my_role != '' && my_role != ROLE_OWNER)">
 									</mat-checkbox>
 								</td>
-								<td matTooltip="Index admins can manage other users and delete intel. They can also share the index with new users."
+								<td matTooltip="Admin: index admins can manage other users and delete intel. They can also share the index with new users."
 								>
 									<mat-checkbox
 										[checked]="[ROLE_OWNER, ROLE_ADMIN].includes(user.role)"
@@ -59,7 +59,7 @@
 									</mat-checkbox>
 								</td>
 								<td
-									matTooltip="Index owners have full control over the index and its settings."
+									matTooltip="Owner: index owners have full control over the index and its settings."
 								>
 									<mat-checkbox
 										[checked]="[ROLE_OWNER].includes(user.role)"
@@ -75,6 +75,15 @@
 									</button>
 								</td>
 							</tr>
+							<tr>
+								<td></td>
+								<td>
+									<button mat-button class="mat-focus-indicator mat-raised-button bg-gd-1 text-white mat-button mat-button-base" (click)="showShareDialog()">
+										Invite a new user <mat-icon>group_add</mat-icon>
+									</button>
+								</td>
+								<td colspan="5"></td>
+							</tr>
 							</tbody>
 						</table>
 					</div>
@@ -88,8 +97,10 @@
 	<!--<div class="container-fluid">-->
 		<!--<div class="row">-->
 			<!--<div class="col-xs-12">-->
-				<!--<button mat-button class="mat-focus-indicator mat-raised-button bg-gd-2 gd-white mat-button mat-button-base" (click)="close()">Cancel</button>-->
-				<!--<button mat-button class="mat-focus-indicator mat-raised-button bg-gd-1 text-white mat-button mat-button-base" (click)="close()" style="float: right;">Apply changes</button>-->
+				<!--<button mat-button class="mat-focus-indicator mat-raised-button bg-gd-1 text-white mat-button mat-button-base" (click)="showShareDialog()">-->
+					<!--Invite a new user <mat-icon>group_add</mat-icon>-->
+				<!--</button>-->
+				<!--&lt;!&ndash;<button mat-button class="mat-focus-indicator mat-raised-button bg-gd-1 text-white mat-button mat-button-base" (click)="close()" style="float: right;">Apply changes</button>&ndash;&gt;-->
 			<!--</div>-->
 		<!--</div>-->
 	<!--</div>-->

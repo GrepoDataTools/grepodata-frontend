@@ -80,6 +80,44 @@ pre {
   }
 }
 
+.dense-card {
+  border-radius: 1rem !important;
+  padding: 30px !important;
+  //box-shadow: 0 0 30px 0 rgba(82,63,105,.05) !important;
+  box-shadow: 0px 0px 10px 1px #18333314 !important;
+  margin: 12px !important;
+  border: 0;
+
+  .card-header {
+    margin: -30px -30px 30px !important;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    padding: 20px 30px 5px !important;
+
+    h1 {
+      margin: 0 !important;
+    }
+  }
+
+  .card-action {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+
+    .mat-icon {
+      font-size: 40px;
+    }
+  }
+}
+
+.index-card-sm {
+  padding: 0 0 20px !important;
+
+  h1, h2, h3 {
+    padding: 20px 30px 0;
+  }
+}
+
 .cdk-overlay-container {
   z-index: 100000 !important;
 }

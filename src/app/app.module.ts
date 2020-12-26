@@ -58,19 +58,11 @@ import { AllianceComponent } from './alliance/alliance.component';
 import { AdvertorialComponent } from './advertorial/advertorial.component';
 import { RankingComponent } from './ranking/ranking.component';
 import {
-    ChangekeyDialog,
-    IndexDisclaimerDialog,
-    IndexerComponent,
-    ResetOwnersDialog,
-    InstallDialog,
-    ForgotKeysDialog,
     BBDialog,
     HideNoLossPipe,
-    EditOwnersDialog,
     BBLossPipe,
     UnitIconPipe,
-    CleanIntelDialog,
-} from './indexer/indexer.component';
+} from './indexer/utils';
 import { FooterComponent, DisclaimerDialog } from './footer/footer.component';
 
 import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
@@ -126,6 +118,9 @@ import {NewIndexDialog} from './shared/dialogs/new-index/new-index.component';
 import {IndexSettingsDialog} from './shared/dialogs/index-settings/index-settings.component';
 import {IndexMembersDialog} from './shared/dialogs/index-members/index-members.component';
 import {ShareIndexDialog} from './shared/dialogs/share-index/share-index.component';
+import { ShareComponent } from './indexer/settings/share/share.component';
+import { LandingPageComponent } from './indexer/landing-page/landing-page.component';
+import { OverviewComponent } from './indexer/overview/overview.component';
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -155,12 +150,14 @@ const appRoutes: Routes = [
     { path: 'changelog', component: ChangelogComponent },
     { path: 'compare/:type/:world', component: CompareComponent },
     { path: 'analytics', component: AnalyticsComponent },
-    { path: 'indexer/player/:key/:world/:id', redirectTo: 'profile/player/:key/:world/:id' },
-    { path: 'indexer/alliance/:key/:world/:id', redirectTo: 'profile/alliance/:key/:world/:id' },
-    { path: 'indexer/town/:key/:world/:id', redirectTo: 'profile/town/:key/:world/:id' },
-    { path: 'indexer/action/:token', component: ActionComponent },
-    { path: 'indexer/:key', redirectTo: 'profile/overview/:key' },
-    { path: 'indexer', redirectTo: 'profile/overview' },
+    // TODO: catch these old routes and implement import V1 logic
+    { path: 'indexer/player/:key/:world/:id', redirectTo: 'profile/player/:world/:id' }, // TODO: reroute to CatchV2
+    { path: 'indexer/alliance/:key/:world/:id', redirectTo: 'profile/alliance/:world/:id' }, // TODO: reroute to CatchV2
+    { path: 'indexer/town/:key/:world/:id', redirectTo: 'profile/town/:world/:id' }, // TODO: reroute to CatchV2
+    { path: 'indexer/action/:token', component: ActionComponent },  // Deprecated
+    { path: 'indexer/:key', redirectTo: 'profile/overview/:key' }, // TODO: reroute to CatchV2
+    // { path: 'indexer', redirectTo: 'profile/overview' },
+    { path: 'indexer', component: LandingPageComponent },
     { path: 'siege/:id/:key', component: SiegeComponent },
     { path: 'siege/:uid', component: SiegeComponent },
     { path: 'player/:world/:id', component: PlayerComponent },
@@ -201,13 +198,6 @@ export function jwtTokenGetter(): any {
         TownDialog,
         DisclaimerDialog,
         ContactDialog,
-        ChangekeyDialog,
-        CleanIntelDialog,
-        ResetOwnersDialog,
-        ForgotKeysDialog,
-        EditOwnersDialog,
-        IndexDisclaimerDialog,
-        InstallDialog,
         BBDialog,
         NewIndexDialog,
         IndexSettingsDialog,
@@ -228,7 +218,6 @@ export function jwtTokenGetter(): any {
         UnitIconPipe,
         RankingComponent,
         FooterComponent,
-        IndexerComponent,
         IndexTownComponent,
         IndexPlayerComponent,
         IndexAllianceComponent,
@@ -264,6 +253,9 @@ export function jwtTokenGetter(): any {
         PaperComponent,
         SidebarComponent,
         Blog2020Component,
+        ShareComponent,
+        LandingPageComponent,
+        OverviewComponent,
     ],
     imports: [
         FormsModule,
@@ -311,17 +303,10 @@ export function jwtTokenGetter(): any {
         TownDialog,
         DisclaimerDialog,
         ContactDialog,
-        ChangekeyDialog,
-        CleanIntelDialog,
-        IndexDisclaimerDialog,
         NewIndexDialog,
         IndexSettingsDialog,
         IndexMembersDialog,
         ShareIndexDialog,
-        ResetOwnersDialog,
-        ForgotKeysDialog,
-        EditOwnersDialog,
-        InstallDialog,
         BBDialog,
         ConquestReportDialog,
         BBScoreboardDialog,

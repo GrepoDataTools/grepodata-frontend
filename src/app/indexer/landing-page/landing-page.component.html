@@ -26,7 +26,7 @@
 									<p>You can create a new index for every world you play in.</p>
 									<p>We recommend you to share the same index with your alliance members!</p>
 									<br/>
-									<button (click)="newIndex()" class="gd-btn-1" style="position: absolute; bottom: 40px; height: 45px; overflow: hidden; text-overflow: ellipsis; border-radius: 5px; border: 2px solid #334254;">
+									<button class="gd-btn-1" style="position: absolute; bottom: 40px; height: 45px; overflow: hidden; text-overflow: ellipsis; border-radius: 5px; border: 2px solid #334254;">
 										Create new index &nbsp; <i class="fa fa-arrow-circle-right"></i>
 									</button>
 
@@ -34,7 +34,7 @@
 								<div class="col-xs-12 col-sm-6 index-input index-input-right">
 									<h1>View existing index</h1>
 									<p style="color: #18bc9b;">Enter the index code to view an existing index</p>
-									<form (submit)="openIndex()">
+									<form>
 										<mat-form-field class="input-world">
 											<!--<input autocomplete #trigger="matAutocompleteTrigger" matInput placeholder="Index key" name="key_input"-->
 											       <!--[ngModel]="key_input" [matAutocomplete]="auto" (ngModelChange)="key_input=$event">-->
@@ -49,9 +49,9 @@
 											</mat-autocomplete>
 										</mat-form-field>
 										<br/>
-										<div *ngIf="error!=''" style="color: #a94442; margin-top: -20px;">
-											<strong>Invalid index key!</strong> There exists no index for this key. Please try again.
-										</div>
+										<!--<div *ngIf="error!=''" style="color: #a94442; margin-top: -20px;">-->
+											<!--<strong>Invalid index key!</strong> There exists no index for this key. Please try again.-->
+										<!--</div>-->
 										<!--<button *ngIf="!openingIndex" type="submit" class="gd-btn-1" style="position: absolute; bottom: 40px; height: 45px; overflow: hidden; text-overflow: ellipsis; border-radius: 5px;">-->
 											<!--Load existing index &nbsp; <i class="fa fa-arrow-circle-right"></i>-->
 										<!--</button>-->

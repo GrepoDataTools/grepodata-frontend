@@ -86,7 +86,6 @@ export class IndexMembersDialog {
       this.indexService.setIndexUserRole(access_token, this.index.key, user.user_id, selected_role)
         .subscribe(
           (response) => {
-            console.log(response);
             this.updating_roles = false;
             this.user_error = '';
             if (response) {
@@ -98,9 +97,7 @@ export class IndexMembersDialog {
                 this.user_error = 'You have to be an owner of this index to make that change.';
               } else if (response.success_code && response.success_code === 1000) {
                 let updated_user = response.data;
-                console.log(updated_user);
                 this.users = this.users.map(user => {
-                  console.log(user);
                   return user.user_id === updated_user.user_id ? updated_user : user
                 })
               } else {

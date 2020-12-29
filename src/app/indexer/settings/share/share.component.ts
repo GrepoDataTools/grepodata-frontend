@@ -1,7 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {IndexerService} from '../../indexer.service';
 import {JwtService} from '../../../auth/services/jwt.service';
+import {SearchService} from '../../../search/search.service';
 
 @Component({
   selector: 'app-share',
@@ -23,9 +24,11 @@ import {JwtService} from '../../../auth/services/jwt.service';
   ],
   templateUrl: './share.component.html',
   styleUrls: ['./share.component.scss'],
-  providers: [IndexerService]
+  providers: [IndexerService, SearchService]
 })
 export class ShareComponent implements OnInit {
+
+  @ViewChild('username_input', {static: false}) username_input:ElementRef;
 
   @Input() indexInput: any;
 
@@ -37,8 +40,18 @@ export class ShareComponent implements OnInit {
     name: 'loading'
   };
 
+  // search
+  users = [];
+  userInput = '';
+  updating_users = false;
+  searched = false;
+  searching = false;
+  typingTimer;
+  debounceTime = 300;
+
   constructor(
     private authService: JwtService,
+    private searchService: SearchService,
     private indexService: IndexerService
   ) { }
 
@@ -46,6 +59,8 @@ export class ShareComponent implements OnInit {
     console.log(this.indexInput);
     this.index = this.indexInput;
     this.share_link = 'https://grepodata.com/share/' + this.index.key + '/' + this.index.share_link
+
+    setTimeout(() => this.username_input.nativeElement.focus());
   }
 
   copyLink() {
@@ -77,6 +92,45 @@ export class ShareComponent implements OnInit {
           }
         );
     });
+  }
+
+  searchUsers($event) {
+    if (typeof $event != 'undefined') this.userInput = $event.target.value;
+
+    clearTimeout(this.typingTimer);
+    let that = this;
+    this.typingTimer = setTimeout(function () {
+      that.doSearchUsers();
+    }, this.debounceTime);
+  }
+
+  doSearchUsers() {
+    this.users = [];
+    clearTimeout(this.typingTimer);
+    if (this.userInput.length > 1) {
+      this.searching = true;
+      this.authService.accessToken().then(access_token => {
+        this.searchService.searchUsers(access_token, this.userInput, 0, 10, this.index.world)
+          .subscribe(
+            (response) => this.renderUserOutput(response),
+            (error) => this.renderUserOutput(null)
+          );
+      });
+    } else {
+      this.searching = false;
+    }
+  }
+
+  selectUser(user) {
+    console.log(user);
+  }
+
+  renderUserOutput(users) {
+    if (users && 'results' in users) {
+      this.users = users.results;
+    }
+    this.searched = true;
+    this.searching = false;
   }
 
 }

@@ -232,10 +232,10 @@
 	                  <div class="bg-flag flag-inline-middle flag-{{alliance?.server}}"></div>&nbsp;<a routerLink="/points" [queryParams]="{world: player?.world}">{{alliance?.world}}</a>
                   </div>
                   <div class="cell hidden-sm">
-                    {{alliance?.members}}
+	                  {{alliance?.rank}}
                   </div>
                   <div class="cell hidden-sm">
-                    {{alliance?.rank}}
+	                  {{alliance?.members}}
                   </div>
                   <div class="cell">
                     {{alliance?.points | NumberFilter}}

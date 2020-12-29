@@ -43,8 +43,11 @@
 								</thead>
 								<tbody>
 								<tr *ngFor="let index of indexes; let i = index;" class="index-row">
-									<td >
+									<td>
 										<a routerLink="/profile/overview/{{index.key}}"><mat-icon style="opacity: 1; vertical-align: sub;">account_balance</mat-icon> {{index.name || index.key}}</a>
+										<!--<a routerLink="/profile/overview/{{index.key}}" class="gd-secondary">-->
+											<!--<img src="../../assets/images/grepodata_icon.ico" style="vertical-align: bottom;"/> {{index.name || index.key}}-->
+										<!--</a>-->
 									</td>
 									<!--<td>{{index.key}}</td>-->
 									<td (click)="routing('/profile/overview/' + index.key)">
@@ -82,97 +85,104 @@
 					</div>
 
 
+
+
 					<div class="index-new">
 
-						<div class="container-fluid">
-							<div class="row">
-								<div style="margin-bottom: 10px;" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" [ngStyle]="!form_opened && {display: 'flex', justifyContent: 'center'}">
+						<button (click)="newIndex()" class="btn btn-primary" style="margin-right: 10px;">
+							Create a new index <mat-icon>library_add</mat-icon>
+						</button>
 
-									<button *ngIf="!form_opened && !import_opened" (click)="newIndex()" class="btn btn-primary" style="margin-right: 10px;">
-										Create a new index <mat-icon>library_add</mat-icon>
-									</button>
-									<!--<button *ngIf="!form_opened && !import_opened" (click)="form_opened=true; new_index_created=false;" class="btn btn-primary" style="margin-right: 10px;">-->
+
+						<!--<div class="container-fluid">-->
+							<!--<div class="row">-->
+								<!--<div style="margin-bottom: 10px;" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" [ngStyle]="!form_opened && {display: 'flex', justifyContent: 'center'}">-->
+
+									<!--<button *ngIf="!form_opened && !import_opened" (click)="newIndex()" class="btn btn-primary" style="margin-right: 10px;">-->
 										<!--Create a new index <mat-icon>library_add</mat-icon>-->
 									<!--</button>-->
-									<button *ngIf="!form_opened && !import_opened" (click)="import_opened=true; new_index_imported=false;" class="btn btn-secondary">
-										Import an old index (v1) <mat-icon>download</mat-icon>
-									</button>
+									<!--&lt;!&ndash;<button *ngIf="!form_opened && !import_opened" (click)="form_opened=true; new_index_created=false;" class="btn btn-primary" style="margin-right: 10px;">&ndash;&gt;-->
+										<!--&lt;!&ndash;Create a new index <mat-icon>library_add</mat-icon>&ndash;&gt;-->
+									<!--&lt;!&ndash;</button>&ndash;&gt;-->
+									<!--<button *ngIf="!form_opened && !import_opened" (click)="import_opened=true; new_index_imported=false;" class="btn btn-secondary">-->
+										<!--Import an old index (v1) <mat-icon>download</mat-icon>-->
+									<!--</button>-->
 
-									<div *ngIf="form_opened && new_index_created" class="new-index-form-container">
-										<h4 class="gd-primary">New index created succesfully!</h4>
-										<p style="font-size: 18px;">You have created a new index named <strong>{{index_name}}</strong> for world <strong>{{world}}</strong></p>
+									<!--<div *ngIf="form_opened && new_index_created" class="new-index-form-container">-->
+										<!--<h4 class="gd-primary">New index created succesfully!</h4>-->
+										<!--<p style="font-size: 18px;">You have created a new index named <strong>{{index_name}}</strong> for world <strong>{{world}}</strong></p>-->
 
-										<br/>
-										<button (click)="form_opened=false" class="btn btn-primary">Install the userscript to start collecting intel <mat-icon>download</mat-icon></button>
-										<button (click)="form_opened=false" class="btn btn-secondary" style="float: right;">Close</button>
-									</div>
+										<!--<br/>-->
+										<!--<button (click)="form_opened=false" class="btn btn-primary">Install the userscript to start collecting intel <mat-icon>download</mat-icon></button>-->
+										<!--<button (click)="form_opened=false" class="btn btn-secondary" style="float: right;">Close</button>-->
+									<!--</div>-->
 
-									<div *ngIf="import_opened && !new_index_imported" class="new-index-form-container">
-										<h4 class="gd-primary">Import an old index using the index key</h4>
-										<p>Please enter the index key (8 characters). <strong>This only works for indexes created before 31 December 2020.</strong></p>
+									<!--<div *ngIf="import_opened && !new_index_imported" class="new-index-form-container">-->
+										<!--<h4 class="gd-primary">Import an old index using the index key</h4>-->
+										<!--<p>Please enter the index key (8 characters). <strong>This only works for indexes created before 31 December 2020.</strong></p>-->
 
-										<mat-form-field style="width: 100% !important; font-size: 20px !important;">
-											<input autocomplete="off" style="width: 320px !important;" [ngModel]="import_key_input" (ngModelChange)="import_key_input=$event" required matInput placeholder="Enter the index key (8 characters)">
-										</mat-form-field>
+										<!--<mat-form-field style="width: 100% !important; font-size: 20px !important;">-->
+											<!--<input autocomplete="off" style="width: 320px !important;" [ngModel]="import_key_input" (ngModelChange)="import_key_input=$event" required matInput placeholder="Enter the index key (8 characters)">-->
+										<!--</mat-form-field>-->
 
-										<br/>
-										<button (click)="import_opened=false" class="btn btn-primary">Import index <mat-icon>download</mat-icon></button>
-										<button (click)="import_opened=false" class="btn btn-secondary" style="float: right;">Cancel</button>
-									</div>
+										<!--<br/>-->
+										<!--<button (click)="import_opened=false" class="btn btn-primary">Import index <mat-icon>download</mat-icon></button>-->
+										<!--<button (click)="import_opened=false" class="btn btn-secondary" style="float: right;">Cancel</button>-->
+									<!--</div>-->
 
-									<div *ngIf="form_opened && !new_index_created" class="new-index-form-container">
-										<h4 class="gd-primary">Create a new private index</h4>
-										<div class="">
+									<!--<div *ngIf="form_opened && !new_index_created" class="new-index-form-container">-->
+										<!--<h4 class="gd-primary">Create a new private index</h4>-->
+										<!--<div class="">-->
 
-											<div class="container-fluid">
+											<!--<div class="container-fluid">-->
 
-												<div class="row">
-													<div class="col-xs-12">
-														<mat-form-field style="width: 100% !important; font-size: 20px !important;">
-															<input autocomplete="off" style="width: 320px !important;" [ngModel]="index_name" (ngModelChange)="index_name=$event" required matInput placeholder="Enter a name for the index">
-														</mat-form-field>
-													</div>
+												<!--<div class="row">-->
+													<!--<div class="col-xs-12">-->
+														<!--<mat-form-field style="width: 100% !important; font-size: 20px !important;">-->
+															<!--<input autocomplete="off" style="width: 320px !important;" [ngModel]="index_name" (ngModelChange)="index_name=$event" required matInput placeholder="Enter a name for the index">-->
+														<!--</mat-form-field>-->
+													<!--</div>-->
 
-													<div class="col-xs-12 col-sm-4">
-														<mat-form-field style="margin-right: 15px; width: 70% !important; font-size: 20px !important;">
-															<mat-select placeholder="Server" [ngModel]="server" (ngModelChange)="updateWorlds($event)" #select>
-																<mat-option *ngFor="let s of servers" value="{{s}}">
-																	<div class="bg-flag flag-inline flag-{{s}}"></div>&nbsp;{{s}}
-																</mat-option>
-															</mat-select>
-														</mat-form-field>
-														<mat-icon class="icon-margin" *ngIf="server" style="display: contents; width: calc(30% - 15px) !important;">
-															<div class="bg-flag flag-inline flag-{{server}}" style="vertical-align: middle;"></div>
-														</mat-icon>
-													</div>
+													<!--<div class="col-xs-12 col-sm-4">-->
+														<!--<mat-form-field style="margin-right: 15px; width: 70% !important; font-size: 20px !important;">-->
+															<!--<mat-select placeholder="Server" [ngModel]="server" (ngModelChange)="updateWorlds($event)" #select>-->
+																<!--<mat-option *ngFor="let s of servers" value="{{s}}">-->
+																	<!--<div class="bg-flag flag-inline flag-{{s}}"></div>&nbsp;{{s}}-->
+																<!--</mat-option>-->
+															<!--</mat-select>-->
+														<!--</mat-form-field>-->
+														<!--<mat-icon class="icon-margin" *ngIf="server" style="display: contents; width: calc(30% - 15px) !important;">-->
+															<!--<div class="bg-flag flag-inline flag-{{server}}" style="vertical-align: middle;"></div>-->
+														<!--</mat-icon>-->
+													<!--</div>-->
 
-													<div class="col-xs-12 col-sm-8">
-														<mat-form-field style="margin-right: 10px; width: 100% !important; font-size: 20px !important;">
-															<mat-select placeholder="Select a world" [ngModel]="world" required (ngModelChange)="world = $event">
-																<mat-option *ngFor="let w of worlds" value="{{w.id}}">{{w.id}} ({{w.name}})</mat-option>
-															</mat-select>
-														</mat-form-field>
-													</div>
-												</div>
-											</div>
-										</div>
-										<button [disabled]="loading_new_index" class="btn btn-primary mr-1" (click)="captchaRef.execute()">Create new index</button>
-										<button [disabled]="loading_new_index" (click)="form_opened=false" class="btn btn-secondary">Cancel</button>
+													<!--<div class="col-xs-12 col-sm-8">-->
+														<!--<mat-form-field style="margin-right: 10px; width: 100% !important; font-size: 20px !important;">-->
+															<!--<mat-select placeholder="Select a world" [ngModel]="world" required (ngModelChange)="world = $event">-->
+																<!--<mat-option *ngFor="let w of worlds" value="{{w.id}}">{{w.id}} ({{w.name}})</mat-option>-->
+															<!--</mat-select>-->
+														<!--</mat-form-field>-->
+													<!--</div>-->
+												<!--</div>-->
+											<!--</div>-->
+										<!--</div>-->
+										<!--<button [disabled]="loading_new_index" class="btn btn-primary mr-1" (click)="captchaRef.execute()">Create new index</button>-->
+										<!--<button [disabled]="loading_new_index" (click)="form_opened=false" class="btn btn-secondary">Cancel</button>-->
 
-										<mat-progress-bar style="margin-top: 10px;" *ngIf="loading_new_index" mode="indeterminate"></mat-progress-bar>
+										<!--<mat-progress-bar style="margin-top: 10px;" *ngIf="loading_new_index" mode="indeterminate"></mat-progress-bar>-->
 
-										<div class="row text-right" style="margin-top: 10px;">
-											<re-captcha
-												size="invisible"
-												#captchaRef="reCaptcha"
-												siteKey="{{recaptcha_key}}"
-												(resolved)="$event && createNewIndex($event)">
-											</re-captcha>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+										<!--<div class="row text-right" style="margin-top: 10px;">-->
+											<!--<re-captcha-->
+												<!--size="invisible"-->
+												<!--#captchaRef="reCaptcha"-->
+												<!--siteKey="{{recaptcha_key}}"-->
+												<!--(resolved)="$event && createNewIndex($event)">-->
+											<!--</re-captcha>-->
+										<!--</div>-->
+									<!--</div>-->
+								<!--</div>-->
+							<!--</div>-->
+						<!--</div>-->
 
 					</div>
 

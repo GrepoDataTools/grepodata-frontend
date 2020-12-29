@@ -6,10 +6,10 @@
 
 	<div class="row">
 		<div class="col-xs-12">
-			<p>
+			<h4>
 				When your allies click on this link, they will be able to gain access to your index after they create a GrepoData account.
 				<br/>You will always be able to manage and revoke their access later on.
-			</p>
+			</h4>
 		</div>
 		<div class="col-xs-12 gd-share-link-container">
 			<label style="font-weight: 600">Send this link to your allies to give them access to your index:</label>
@@ -35,7 +35,59 @@
 </div>
 
 <div class="alert alert-gd-1">
-	<h2 class="gd-secondary"><mat-icon style="opacity: 1; vertical-align: middle;">group_add</mat-icon> Add a user by name (GrepoData username)</h2>
+	<h2 class="gd-secondary"><mat-icon style="opacity: 1; vertical-align: middle;">group_add</mat-icon> Add a user by name</h2>
+	<h5>You can also invite a user to join your index by finding their <strong>GrepoData username</strong>.</h5>
 
-	<h3>TODO</h3>
+	<div class="alert alert-gd-2" style=" max-width: 800px;">
+		<h3><img src="../../assets/images/grepodata_icon.ico" style="vertical-align: bottom;"/> Search by GrepoData username: </h3>
+
+		<div style="min-height: 55px; height: auto !important;">
+			<div style="position: relative;width: 100%;background: #18BC9C;color: #fff;z-index: 11;min-width: 60px;height: 50px;float: right;overflow: hidden;-webkit-transition: width 0.3s;-moz-transition: width 0.3s;transition: width 0.3s;-webkit-backface-visibility: hidden;margin: 2px 0;">
+				<form>
+					<input #username_input autocomplete="off" class="sb-search-input" placeholder="Search GrepoData username..." type="search" value="" name="search" id="search-users" (keyup)="searchUsers($event)" style="position: absolute;top: 0;right: 0;border: none;outline: none;background: #f3f3f3;width: 100%;height: 49px;margin: 0;z-index: 10;padding: 15px 55px 15px 15px;font-family: inherit;font-size: 20px;color: #2c3e50;">
+					<input class="sb-search-submit" type="button" value="" style="width: 50px;height: 50px;display: block;position: absolute;right: 0;top: 0;padding: 0;margin: 0;line-height: 50px;text-align: center;cursor: pointer;opacity: 0;color: transparent;border: none;outline: none;z-index: -1;background: #fff;-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';filter: alpha(opacity=0);">
+					<span class="sb-icon-search" (click)="doSearchUsers()" style="width: 50px;height: 50px;display: block;position: absolute;right: 0;top: 0;padding: 0;margin: 0;line-height: 50px;text-align: center;cursor: pointer;color: #fff;background: #18BC9C;z-index: 90;font-size: 22px;font-family: 'Montserrat';speak: none;font-style: normal;font-weight: normal;font-variant: normal;text-transform: none;-webkit-font-smoothing: antialiased;">
+	                            <i class="fa fa-group"></i>
+	                        </span>
+				</form>
+			</div>
+
+			<!--User results-->
+			<mat-progress-bar *ngIf="searching" mode="indeterminate"></mat-progress-bar>
+			<div *ngIf="searched">
+				<hr>
+				<br/>
+				<br/>
+				<div *ngIf="users?.length < 1 && !searching" class="text-center">
+					<h3>No GrepoData users found for your search <span class="gd-primary">'{{userInput}}'</span></h3>
+				</div>
+				<div *ngIf="!searching && users?.length > 0" class="table" id="search_output_users" style="">
+					<div class="row_custom header default">
+						<div class="cell custom-cell">GrepoData username</div>
+						<div class="cell" style="min-width: 100px;">Add user to index</div>
+					</div>
+
+					<div *ngFor="let user of users" class="row_custom">
+						<div class="cell custom-cell">
+							<i class="fa fa-user" ></i>
+							<!--<img src="../../assets/images/grepodata_icon.ico" style="vertical-align: bottom;"/>-->
+							&nbsp;{{user?.name}}
+						</div>
+						<div class="cell">
+							<!--<h5 *ngIf="getExistingUserIds().indexOf(user?.id)>=0">-->
+								<!--Already a member of this index-->
+							<!--</h5>-->
+							<button [disabled]="updating_users" class="btn btn-success" style="overflow: hidden; text-overflow: ellipsis; margin: 5px 0;" (click)="selectUser(user)">
+								<i class="fa fa-plus" style="vertical-align: text-bottom;"></i>&nbsp;Add user to index
+							</button>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+	
 </div>

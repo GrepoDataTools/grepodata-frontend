@@ -41,12 +41,11 @@
 				<div class="cell">
 					Date
 				</div>
-				<div class="cell csa-cell" *ngIf="csa!=false">	</div>
 			</div>
 
 			<ng-container *ngFor="let town of iterator; let i = index;">
 				<div class="row_spacer" *ngIf="hideAvailable && showNonPriority && i!=0 && town?.priority==true"></div>
-				<div class='row_custom' *ngIf="(showNonPriority || (town?.priority==true&&!showNonPriority))&&(csa==false||town?.csa_prio==true)">
+				<div class='row_custom' *ngIf="(showNonPriority || (town?.priority==true&&!showNonPriority))">
 					<div class="cell" [ngClass]="{'name_cell':isSeaUnit||type=='myth', 'town_sub_cell':hideAvailable && town?.priority==false}">
 						<a routerLink="/intel/town/{{world}}/{{town.town_id}}" [ngClass]="{'town_sub':hideAvailable && town?.priority==false}">
 							{{!hideAvailable || town?.priority==true?town.town_name:'↳'}}
@@ -79,28 +78,9 @@
 					<div class="cell date-cell">
 						<span [outerHTML]="town.date | IndexDate:'html'"></span>
 					</div>
-					<div class="cell" *ngIf="csa!=false">
-						<button *ngIf="!town.deleted || town?.deleted==false" name="open_bb" class="btn btn-danger btn-xs" style="float: right;"
-						        (click)="deleteIntel(town?.id); town.deleted = true; cdr.detectChanges();">
-							<i class="fa fa-close"></i>&nbsp;Delete
-						</button>
-						<span *ngIf="town.deleted && town?.deleted==true" style="float: right;" title="This record will be deleted within 24 hours.">
-							<p style="font-size: 15px; margin: 0;" class="gd-secondary">Marked for deletion</p>
-							<button name="open_bb" class="btn btn-primary btn-xs" style="margin-top: -6px;"
-							        (click)="deleteIntelUndo(town?.id); town.deleted = false; cdr.detectChanges();">
-								<i class="fa fa-arrow-left"></i>&nbsp;Undo
-							</button>
-						</span>
-					</div>
 				</div>
 			</ng-container>
 
 		</div>
-
-		<h5 class="gd-secondary" *ngIf="csa!=false && iterator.length>0">
-			You are currently logged in to delete records.
-			Click <a class="a-link-dialog" (click)="cleanupLogout();">here</a> if you wish to sign out.
-			<br/>Records marked for deletion will be deleted after 24 hours.
-		</h5>
 	</mat-card-content>
 </div>

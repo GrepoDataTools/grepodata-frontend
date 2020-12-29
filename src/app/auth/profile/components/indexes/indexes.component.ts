@@ -143,11 +143,11 @@ export class IndexesComponent implements OnInit {
     });
   }
 
-  updateWorlds(event) {
-    this.server = event;
-    this.world = '';
-    this.loadWorlds(this.worldData)
-  }
+  // updateWorlds(event) {
+  //   this.server = event;
+  //   this.world = '';
+  //   this.loadWorlds(this.worldData)
+  // }
 
   loadIndexes() {
     this.authService.accessToken().then(access_token => {

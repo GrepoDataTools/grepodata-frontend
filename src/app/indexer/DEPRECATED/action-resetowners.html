@@ -200,10 +200,10 @@
                   <a routerLink="/alliance" [queryParams]="{world: alliance?.world, id: alliance?.id}">{{alliance?.name}}</a>
                 </div>
                 <div class="cell hidden-sm">
-                  {{alliance?.members}}
+	                {{alliance?.rank}}
                 </div>
                 <div class="cell">
-                  {{alliance?.rank}}
+	                {{alliance?.members}}
                 </div>
                 <!--<div class="cell">-->
                   <!--{{alliance?.points | NumberFilter}}-->

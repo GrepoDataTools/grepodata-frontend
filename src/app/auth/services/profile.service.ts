@@ -15,13 +15,13 @@ export class ProfileService {
 
 	getIndexes(access_token) {
 		return this.http.get<any>(apiUrl + '/profile/indexes', {
-			params: new HttpParams().set('access_token', access_token)
+      headers: new HttpHeaders({'access_token': access_token})
 		});
 	}
 
 	getLinkedAccounts(access_token) {
 		return this.http.get<any>(apiUrl + '/profile/linked', {
-			params: new HttpParams().set('access_token', access_token)
+      headers: new HttpHeaders({'access_token': access_token})
 		});
 	}
 

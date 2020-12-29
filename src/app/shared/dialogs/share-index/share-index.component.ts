@@ -6,22 +6,6 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-index-settings',
-    animations: [
-      trigger('rotate', [
-        state('open', style({
-          transform: 'rotate(360deg)'
-        })),
-        state('closed', style({
-          transform: 'rotate(0deg)'
-        })),
-        // transition('open => closed', [
-        //   animate('1s')
-        // ]),
-        transition('closed => open', [
-          animate('.7s ease-in-out')
-        ]),
-      ]),
-    ],
   templateUrl: './share-index.component.html',
   styleUrls: ['./share-index.component.scss'],
   providers: [IndexerService]

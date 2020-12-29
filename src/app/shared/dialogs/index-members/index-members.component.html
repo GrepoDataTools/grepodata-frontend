@@ -23,7 +23,7 @@
 							<thead>
 							<tr>
 								<th scope="col" class="text-center">#</th>
-								<th scope="col" class="text-center" matTooltip="GrepoData user name">User name</th>
+								<th scope="col" class="text-center" matTooltip="GrepoData user name">Username</th>
 								<th scope="col" class="text-center" matTooltip="Remove a user to deny their read access on this index">Can read intel</th>
 								<th scope="col" class="text-center" matTooltip="These users can index new reports and add town notes">Can add intel</th>
 								<th scope="col" class="text-center" matTooltip="Index admins can manage other users and delete intel. They can also share the index with new users.">Can manage index settings</th>
@@ -37,7 +37,9 @@
 									{{i+1}}
 								</td>
 								<td class="gd-primary">
-									<img src="../../assets/images/player_ico.png"/>&nbsp;{{user.username}}
+									<i class="fa fa-user" ></i>
+									<!--<img src="../../assets/images/grepodata_icon.ico" style="vertical-align: bottom;"/>-->
+									&nbsp;{{user.username}}
 								</td>
 								<td matTooltip="Read only: remove a user to deny their read access on this index">
 									<mat-checkbox [checked]="true" disabled="true"></mat-checkbox>

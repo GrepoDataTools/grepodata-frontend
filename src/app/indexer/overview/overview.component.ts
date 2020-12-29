@@ -32,6 +32,7 @@ export class OverviewComponent implements OnInit {
   role = '';
   contribute = false;
   share_link = '';
+  delete_days = '';
   latest_intel: any = [];
   recent_conquests: any = [];
 
@@ -88,6 +89,7 @@ export class OverviewComponent implements OnInit {
     this.globals.set_active_intel(data.world);
     this.is_admin = data.is_admin || false;
     this.share_link = data.share_link || '';
+    this.delete_days = data.num_days || 0;
     this.role = data.role || 'read';
     this.contribute = data.contribute==1 || true;
     this.world = data.world;
@@ -153,13 +155,14 @@ export class OverviewComponent implements OnInit {
           name: this.index_name,
           world: this.world,
           share_link: this.share_link,
+          num_days: this.delete_days,
           role: this.role
         }
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      // this.load({key: this.key});
+      this.load({key: this.key});
     });
   }
 

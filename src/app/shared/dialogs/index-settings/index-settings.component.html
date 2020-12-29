@@ -6,16 +6,160 @@
 				<h2 class="gd-secondary">Settings for index <span class="gd-primary"><mat-icon style="opacity: 1; vertical-align: middle;">account_balance</mat-icon>&nbsp;{{index.name}}</span></h2>
 
 				<div class="alert alert-gd-1">
-					<h2 class="gd-secondary"><mat-slide-toggle class="settings-toggle"></mat-slide-toggle> Show intel about allied towns</h2>
-					<p>If you enable this option, intel for your own towns and your allies' towns will be available in this index.</p>
+					<h2 class="gd-secondary">Show intel about allied towns</h2>
+					<!--<p>If you enable this option, intel about allied towns will be available in this index.</p>-->
+					<!--<br/>-->
+					<h3>Index owners</h3>
+					<h5>These alliances are the owners of this index. The owners are determined based on the users that contribute to the index. You can also manually change the index owners.
+						<br/>Town intelligence for index owners is hidden by default, but you can choose to display allied intel using the checkboxes in this table. </h5>
+
+					<app-alert type="error" title="Unable to update owners" *ngIf="owners_error">
+						<h5>{{owners_error}}</h5>
+					</app-alert>
+
+					<app-alert type="success" title="Index owners updated successfully" *ngIf="owners_success">
+						<h5>{{owners_success}}</h5>
+					</app-alert>
+
+					<app-alert type="info" title="No index owners available" *ngIf="owners_error=='' && !updating_owners && owners.length <= 0">
+						<h5>We have not yet been able to detect the owners of this index. When you start collecting enemy intelligence	using the userscript, we will be able to detect the index owners automatically.
+						<br/>Alternatively, you can manually add alliances to the list of index owners using the buttons in the table below.</h5>
+					</app-alert>
+
+					<mat-progress-bar *ngIf="updating_owners" mode="indeterminate"></mat-progress-bar>
+
+					<table class="table" style="max-width: 700px;" *ngIf="owners.length > 0">
+						<thead>
+						<tr>
+							<th scope="col" class="text-center">Alliance name</th>
+							<th scope="col" class="text-center">Contributions</th>
+							<th scope="col" class="text-center" matTooltip="When you check this box, all intelligence for that alliance will be hidden in this index.">
+								Hide intel <mat-icon class="mat-icon-title-inline a-link">help_outline</mat-icon>
+							</th>
+							<th scope="col" class="text-center">Remove owner</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr *ngFor="let owner of owners;">
+							<td>
+								<a class="gd-primary" routerLink="/alliance" [queryParams]="{world: index.world, id: owner.alliance_id}">
+									<img src="../../assets/images/ally_ico.png" style="vertical-align: unset;"/>&nbsp;{{owner.alliance_name}}
+								</a>
+							</td>
+							<td *ngIf="owner.share>0">
+								{{owner.share}}%
+							</td>
+							<td *ngIf="owner.share<=0">
+								0
+							</td>
+							<td matTooltip="When you check this box, all intelligence for {{owner.alliance_name}} will be hidden in this index.">
+								<mat-checkbox [disabled]="updating_owners" [checked]="owner.hide_intel" (click)="toggleIntelDisplay(owner)"></mat-checkbox>
+							</td>
+							<td>
+								<button (click)="removeOwner(owner)"
+								        class="btn btn-danger"
+								        [disabled]="updating_owners">
+									Remove owner
+								</button>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+
+					<br/>
+					<button *ngIf="!adding_alliance" mat-button class="mat-focus-indicator mat-raised-button bg-gd-1 text-white mat-button mat-button-base" (click)="openAllianceSearch()">
+						Add an alliance as index owner <mat-icon>group_add</mat-icon>
+					</button>
+
+					<!--Add new alliance-->
+					<div class="alert alert-gd-2" *ngIf="adding_alliance" style=" max-width: 800px;">
+						<a (click)="adding_alliance=false; allianceInput=''; alliances=[]; searched=false;" class="close"></a>
+						<h3>Add a new alliance to the list of index owners</h3>
+						<h5>Search by alliance name: </h5>
+
+						<div style="min-height: 55px; height: auto !important;">
+							<div style="position: relative;width: 100%;background: #18BC9C;color: #fff;z-index: 11;min-width: 60px;height: 50px;float: right;overflow: hidden;-webkit-transition: width 0.3s;-moz-transition: width 0.3s;transition: width 0.3s;-webkit-backface-visibility: hidden;margin: 2px 0;">
+								<form>
+									<input #alliance_input autocomplete="off" class="sb-search-input" placeholder="Search alliance name..." type="search" value="" name="search" id="search-alliances" (keyup)="searchAlliances($event)" style="position: absolute;top: 0;right: 0;border: none;outline: none;background: #f3f3f3;width: 100%;height: 49px;margin: 0;z-index: 10;padding: 15px 55px 15px 15px;font-family: inherit;font-size: 20px;color: #2c3e50;">
+									<input class="sb-search-submit" type="button" value="" style="width: 50px;height: 50px;display: block;position: absolute;right: 0;top: 0;padding: 0;margin: 0;line-height: 50px;text-align: center;cursor: pointer;opacity: 0;color: transparent;border: none;outline: none;z-index: -1;background: #fff;-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';filter: alpha(opacity=0);">
+									<span class="sb-icon-search" (click)="doSearchAlliances()" style="width: 50px;height: 50px;display: block;position: absolute;right: 0;top: 0;padding: 0;margin: 0;line-height: 50px;text-align: center;cursor: pointer;color: #fff;background: #18BC9C;z-index: 90;font-size: 22px;font-family: 'Montserrat';speak: none;font-style: normal;font-weight: normal;font-variant: normal;text-transform: none;-webkit-font-smoothing: antialiased;">
+	                            <i class="fa fa-group"></i>
+	                        </span>
+								</form>
+							</div>
+
+							<!--Alliance results-->
+							<mat-progress-bar *ngIf="searching" mode="indeterminate"></mat-progress-bar>
+							<div *ngIf="searched">
+								<hr>
+								<br/>
+								<br/>
+								<div *ngIf="alliances?.length < 1 && !searching" class="text-center">
+									<h3>No alliances found for your search <span class="gd-primary">'{{allianceInput}}'</span></h3>
+								</div>
+								<div *ngIf="!searching && alliances?.length > 0" class="table" id="search_output_alliances" style="">
+									<div class="row_custom header default">
+										<div class="cell custom-cell">Alliance name</div>
+										<div class="cell hidden-sm">Rank</div>
+										<div class="cell">Members</div>
+										<div class="cell" style="min-width: 100px;">Add as owner</div>
+									</div>
+
+									<div *ngFor="let alliance of alliances" class="row_custom">
+										<div class="cell custom-cell">
+											<a target="_blank" class="gd-primary" routerLink="/alliance" [queryParams]="{world: alliance?.world, id: alliance?.id}">
+												<img src="../../assets/images/ally_ico.png" style="vertical-align: unset;"/>&nbsp;{{alliance?.name}}
+											</a>
+										</div>
+										<div class="cell hidden-sm">
+											{{alliance?.rank}}
+
+										</div>
+										<div class="cell">
+											{{alliance?.members}}
+										</div>
+										<div class="cell">
+											<h5 *ngIf="getExistingOwnerIds().indexOf(alliance?.id)>=0">
+												Already in owners list
+											</h5>
+											<button [disabled]="updating_owners" *ngIf="getExistingOwnerIds().indexOf(alliance?.id)<0" class="btn btn-success" style="overflow: hidden; text-overflow: ellipsis; margin: 5px 0;" (click)="selectAlliance(alliance)">
+												<i class="fa fa-plus" style="vertical-align: text-bottom;"></i>&nbsp;Add as owner
+											</button>
+										</div>
+									</div>
+
+
+								</div>
+							</div>
+						</div>
+
+					</div>
+
 				</div>
 			</div>
 			<div class="col-xs-12">
 				<div class="alert alert-gd-1">
-					<h2 class="gd-secondary"><mat-slide-toggle class="settings-toggle"></mat-slide-toggle> Automatically delete old intel</h2>
-					<p>If you enable this option, old intel will be deleted after a number of days, and only if there is newer intel for that specific town.
+					<h2 class="gd-secondary">Automatically delete old intel</h2>
+					<h5>If you enable this option, old intel will be deleted after a number of days, and only if there is newer intel for that specific town.
 					<br/>Old intel will not be removed if it is the only known intelligence for that town.
-					</p>
+					</h5>
+					<h3>Number of days to keep old intel (0 = never delete old intel):</h3>
+					<h4>
+						<mat-slider [disabled]="updating_days" [(ngModel)]="num_days" [min]="0" [max]="365" (ngModelChange)="setIndexDeleteDays()"></mat-slider>&nbsp;&nbsp;
+						<span *ngIf="num_days>0">{{num_days}} days</span>
+						<span *ngIf="num_days<=0">Indefinite</span>
+						<span *ngIf="updating_days_success" style="color: #17bc9b; font-weight: 900; font-size: 22px;">&nbsp;&nbsp;Settings saved ✓</span>
+					</h4>
+
+					<app-alert *ngIf="days_error==''" type="{{num_days<=0?'success':'warning'}}" [dismissible]="false">
+						<h5 *ngIf="num_days>0">Town intel will be deleted after {{num_days}} days, but only if there is newer intel available for that specific town.</h5>
+						<h5 *ngIf="num_days<=0">Town intel will never be deleted</h5>
+					</app-alert>
+
+					<app-alert *ngIf="days_error!=''" type="error" [dismissible]="false">
+						<h5>{{days_error}}</h5>
+					</app-alert>
+
 				</div>
 			</div>
 		</div>
@@ -26,8 +170,8 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-xs-12">
-				<button mat-button class="mat-focus-indicator mat-raised-button bg-gd-2 gd-white mat-button mat-button-base" (click)="close()">Cancel</button>
-				<button mat-button class="mat-focus-indicator mat-raised-button bg-gd-1 text-white mat-button mat-button-base" (click)="close()" style="float: right;">Apply changes</button>
+				<!--<button mat-button class="mat-focus-indicator mat-raised-button bg-gd-2 gd-white mat-button mat-button-base" (click)="close()">Cancel</button>-->
+				<button mat-button class="mat-focus-indicator mat-raised-button bg-gd-1 text-white mat-button mat-button-base" (click)="close()" style="float: right;">Close</button>
 			</div>
 		</div>
 	</div>

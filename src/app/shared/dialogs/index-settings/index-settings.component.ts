@@ -1,6 +1,6 @@
 import {Component, ElementRef, Inject, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {IndexService} from '../../../auth/services/index.service';
+import {IndexAuthService} from '../../../auth/services/index.service';
 import {JwtService} from '../../../auth/services/jwt.service';
 import {SearchService} from '../../../search/search.service';
 
@@ -8,7 +8,7 @@ import {SearchService} from '../../../search/search.service';
   selector: 'app-index-settings',
   templateUrl: './index-settings.component.html',
   styleUrls: ['./index-settings.component.scss'],
-  providers: [IndexService, SearchService]
+  providers: [IndexAuthService, SearchService]
 })
 export class IndexSettingsDialog {
 
@@ -41,7 +41,7 @@ export class IndexSettingsDialog {
   constructor(
     public dialogRef: MatDialogRef<IndexSettingsDialog>,
     private authService: JwtService,
-    private indexerService: IndexService,
+    private indexerService: IndexAuthService,
     private searchService: SearchService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {

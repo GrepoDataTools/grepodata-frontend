@@ -4,7 +4,7 @@ import {environment} from "../../../environments/environment";
 
 const apiUrl = environment.apiUrl;
 @Injectable()
-export class IndexService {
+export class IndexAuthService {
 
 	constructor(
 	  private http: HttpClient

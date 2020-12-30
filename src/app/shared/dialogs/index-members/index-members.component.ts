@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {IndexService} from '../../../auth/services/index.service';
+import {IndexAuthService} from '../../../auth/services/index.service';
 import {environment} from '../../../../environments/environment';
 import {BasicDialog} from '../basic/basic.component';
 import {JwtService} from '../../../auth/services/jwt.service';
@@ -12,7 +12,7 @@ import {ShareIndexDialog} from '../share-index/share-index.component';
   selector: 'app-index-members',
   templateUrl: './index-members.component.html',
   styleUrls: ['./index-members.component.scss'],
-  providers: [IndexService]
+  providers: [IndexAuthService]
 })
 export class IndexMembersDialog {
 
@@ -38,7 +38,7 @@ export class IndexMembersDialog {
     public dialogRef: MatDialogRef<IndexMembersDialog>,
     private dialog: MatDialog,
     private authService: JwtService,
-    private indexService: IndexService,
+    private indexService: IndexAuthService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
 
@@ -123,7 +123,7 @@ export class IndexMembersDialog {
       data: {
         title: '',
         show_close: false,
-        messageHtml: '<div class="text-center"><h3>User <span class="gd-primary">' + user.username + '</span> will be removed from index <span class="gd-primary">' + this.index.name + '</span></h3></div>',
+        messageHtml: '<div class="text-center"><h3>Are you sure you want to remove user <span class="gd-primary">' + user.username + '</span> from index <span class="gd-primary">' + this.index.name + '</span>?</h3></div>',
         cancel_action: 'Cancel',
         action_type: 'danger',
         action: 'Remove user',

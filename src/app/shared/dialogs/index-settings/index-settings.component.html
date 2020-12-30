@@ -3,8 +3,33 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<a (click)="dialogRef.close()" class="close"></a>
-				<h2 class="gd-secondary">Settings for index <span class="gd-primary"><mat-icon style="opacity: 1; vertical-align: middle;">account_balance</mat-icon>&nbsp;{{index.name}}</span></h2>
+				<h2 class="gd-secondary">Settings for index <span class="gd-primary"><mat-icon style="opacity: 1; vertical-align: sub; font-size: 40px; margin-right: 10px;">account_balance</mat-icon>&nbsp;{{index.name}}</span></h2>
 
+				<div class="alert alert-gd-1">
+					<h2 class="gd-secondary">Automatically delete old intel</h2>
+					<h5>If you enable this option, old intel will be deleted after a number of days, and only if there is newer intel for that specific town.
+						<br/>Old intel will not be removed if it is the only known intelligence for that town.
+					</h5>
+					<h3>Number of days to keep old intel (0 = never delete old intel):</h3>
+					<h4>
+						<mat-slider [disabled]="updating_days" [(ngModel)]="num_days" [min]="0" [max]="365" (ngModelChange)="setIndexDeleteDays()"></mat-slider>&nbsp;&nbsp;
+						<span *ngIf="num_days>0">{{num_days}} days</span>
+						<span *ngIf="num_days<=0">Indefinite</span>
+						<span *ngIf="updating_days_success" style="color: #17bc9b; font-weight: 900; font-size: 22px;">&nbsp;&nbsp;Settings saved ✓</span>
+					</h4>
+
+					<app-alert *ngIf="days_error==''" type="{{num_days<=0?'success':'warning'}}" [dismissible]="false">
+						<h5 *ngIf="num_days>0">Town intel will be deleted after {{num_days}} days, but only if there is newer intel available for that specific town.</h5>
+						<h5 *ngIf="num_days<=0">Town intel will never be deleted</h5>
+					</app-alert>
+
+					<app-alert *ngIf="days_error!=''" type="error" [dismissible]="false">
+						<h5>{{days_error}}</h5>
+					</app-alert>
+
+				</div>
+			</div>
+			<div class="col-xs-12">
 				<div class="alert alert-gd-1">
 					<h2 class="gd-secondary">Show intel about allied towns</h2>
 					<!--<p>If you enable this option, intel about allied towns will be available in this index.</p>-->
@@ -23,7 +48,7 @@
 
 					<app-alert type="info" title="No index owners available" *ngIf="owners_error=='' && !updating_owners && owners.length <= 0">
 						<h5>We have not yet been able to detect the owners of this index. When you start collecting enemy intelligence	using the userscript, we will be able to detect the index owners automatically.
-						<br/>Alternatively, you can manually add alliances to the list of index owners using the buttons in the table below.</h5>
+							<br/>Alternatively, you can manually add alliances to the list of index owners using the buttons in the table below.</h5>
 					</app-alert>
 
 					<mat-progress-bar *ngIf="updating_owners" mode="indeterminate"></mat-progress-bar>
@@ -134,31 +159,6 @@
 						</div>
 
 					</div>
-
-				</div>
-			</div>
-			<div class="col-xs-12">
-				<div class="alert alert-gd-1">
-					<h2 class="gd-secondary">Automatically delete old intel</h2>
-					<h5>If you enable this option, old intel will be deleted after a number of days, and only if there is newer intel for that specific town.
-					<br/>Old intel will not be removed if it is the only known intelligence for that town.
-					</h5>
-					<h3>Number of days to keep old intel (0 = never delete old intel):</h3>
-					<h4>
-						<mat-slider [disabled]="updating_days" [(ngModel)]="num_days" [min]="0" [max]="365" (ngModelChange)="setIndexDeleteDays()"></mat-slider>&nbsp;&nbsp;
-						<span *ngIf="num_days>0">{{num_days}} days</span>
-						<span *ngIf="num_days<=0">Indefinite</span>
-						<span *ngIf="updating_days_success" style="color: #17bc9b; font-weight: 900; font-size: 22px;">&nbsp;&nbsp;Settings saved ✓</span>
-					</h4>
-
-					<app-alert *ngIf="days_error==''" type="{{num_days<=0?'success':'warning'}}" [dismissible]="false">
-						<h5 *ngIf="num_days>0">Town intel will be deleted after {{num_days}} days, but only if there is newer intel available for that specific town.</h5>
-						<h5 *ngIf="num_days<=0">Town intel will never be deleted</h5>
-					</app-alert>
-
-					<app-alert *ngIf="days_error!=''" type="error" [dismissible]="false">
-						<h5>{{days_error}}</h5>
-					</app-alert>
 
 				</div>
 			</div>

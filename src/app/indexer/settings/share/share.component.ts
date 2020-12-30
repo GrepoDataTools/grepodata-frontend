@@ -3,6 +3,9 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {IndexerService} from '../../indexer.service';
 import {JwtService} from '../../../auth/services/jwt.service';
 import {SearchService} from '../../../search/search.service';
+import {IndexAuthService} from '../../../auth/services/index.service';
+import {IndexMembersDialog} from '../../../shared/dialogs/index-members/index-members.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-share',
@@ -24,7 +27,7 @@ import {SearchService} from '../../../search/search.service';
   ],
   templateUrl: './share.component.html',
   styleUrls: ['./share.component.scss'],
-  providers: [IndexerService, SearchService]
+  providers: [IndexerService, SearchService, IndexAuthService]
 })
 export class ShareComponent implements OnInit {
 
@@ -46,13 +49,23 @@ export class ShareComponent implements OnInit {
   updating_users = false;
   searched = false;
   searching = false;
+  too_short = false;
   typingTimer;
   debounceTime = 300;
+
+  // Adding user
+  adding_error = '';
+  adding_success = '';
+  adding_user = false;
+  already_member = '';
+  added_users = [];
 
   constructor(
     private authService: JwtService,
     private searchService: SearchService,
-    private indexService: IndexerService
+    private indexerService: IndexerService,
+    private indexAuthService: IndexAuthService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -78,7 +91,7 @@ export class ShareComponent implements OnInit {
       that.animate_refresh = false;
     }, 1000);
     this.authService.accessToken().then(access_token => {
-      this.indexService.createNewLink(access_token, this.index.key)
+      this.indexerService.createNewLink(access_token, this.index.key)
         .subscribe(
           (response) => {
             this.loadingLink = false;
@@ -107,10 +120,11 @@ export class ShareComponent implements OnInit {
   doSearchUsers() {
     this.users = [];
     clearTimeout(this.typingTimer);
-    if (this.userInput.length > 1) {
+    if (this.userInput.length >= 4) {
+      this.too_short = false;
       this.searching = true;
       this.authService.accessToken().then(access_token => {
-        this.searchService.searchUsers(access_token, this.userInput, 0, 10, this.index.world)
+        this.searchService.searchUsers(access_token, this.userInput)
           .subscribe(
             (response) => this.renderUserOutput(response),
             (error) => this.renderUserOutput(null)
@@ -118,19 +132,69 @@ export class ShareComponent implements OnInit {
       });
     } else {
       this.searching = false;
+      this.too_short = true;
     }
   }
 
   selectUser(user) {
+    this.adding_error = '';
+    this.adding_success = '';
+    this.adding_user = true;
+    this.already_member = '';
+    // added_users = [];
     console.log(user);
+    this.authService.accessToken().then(access_token => {
+      this.indexAuthService.addIndexUser(access_token, this.index.key, user.uid)
+        .subscribe(
+          (response) => {
+            if (response && 'success_code' in response) {
+              this.adding_success = "User <span class='gd-primary'><strong>"+user.username+"</strong></span> has been added to your index.";
+              let added_user = response.data;
+              this.added_users.push(added_user);
+              this.users = [];
+              this.searching = false;
+              this.searched = false;
+              this.too_short = false;
+            } else if ('error_code' in response && response.error_code === 7570) {
+              this.already_member = user.username;
+              this.users = [];
+              this.searching = false;
+              this.searched = false;
+              this.too_short = false;
+            } else {
+              this.adding_error = 'Unable to add user to this index. Please try again later or contact us if this error persists.';
+            }
+            this.adding_user = false;
+          },
+          (error) => {
+            this.adding_error = 'Unable to add user to this index. Please try again later or contact us if this error persists.';
+            this.adding_user = false;
+          }
+        );
+    });
   }
 
   renderUserOutput(users) {
-    if (users && 'results' in users) {
-      this.users = users.results;
+    if (users && 'data' in users) {
+      this.users = users.data;
     }
     this.searched = true;
     this.searching = false;
   }
 
+  openMembersDialog() {
+    let dialogRef = this.dialog.open(IndexMembersDialog, {
+      minWidth: '60%',
+      // height: '90%'
+      autoFocus: false,
+      disableClose: false,
+      data: {
+        index: this.index
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // this.load({key: this.key});
+    });
+  }
 }

@@ -42,20 +42,6 @@ export class SearchService {
     return this.http.get(apiUrl + url);
   }
 
-  searchUsers(access_token, query: string, from: number, size: number, world: string = null) {
-    let url = '/alliance/search?';
-    if (typeof query != 'undefined') url += 'query=' + query.toLowerCase() + '&';
-    if (typeof from != 'undefined') url += 'from=' + from + '&';
-    if (typeof size != 'undefined') url += 'size=' + size + '&';
-    if (typeof world != 'undefined' && world != null && world != '') url += 'world=' + world + '&';
-
-    url += 'active=true&';
-
-    return this.http.get(apiUrl + url, {
-      headers: new HttpHeaders().set('access_token', access_token)
-    });
-  }
-
   searchPlayersIndexed(access_token: string, query: string, world: string) {
     let url = '/indexer/search/player?';
     if (typeof query != 'undefined') url += 'query=' + query.toLowerCase() + '&';
@@ -74,10 +60,18 @@ export class SearchService {
     });
   }
 
-  searchIslandsIndexed(access_token: string, query: string, world: string) {
-    let url = '/indexer/search/island?';
-    if (typeof query != 'undefined') url += 'query=' + query.toLowerCase() + '&';
-    if (typeof world != 'undefined' && world != null && world != '') url += 'world=' + world + '&';
+  // searchIslandsIndexed(access_token: string, query: string, world: string) {
+  //   let url = '/indexer/search/island?';
+  //   if (typeof query != 'undefined') url += 'query=' + query.toLowerCase() + '&';
+  //   if (typeof world != 'undefined' && world != null && world != '') url += 'world=' + world + '&';
+  //   return this.http.get(apiUrl + url, {
+  //     headers: new HttpHeaders().set('access_token', access_token)
+  //   });
+  // }
+
+  searchUsers(access_token, query: string) {
+    let url = '/indexer/search/user?';
+    if (typeof query != 'undefined') url += 'query=' + query.toLowerCase();
     return this.http.get(apiUrl + url, {
       headers: new HttpHeaders().set('access_token', access_token)
     });

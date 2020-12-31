@@ -121,6 +121,7 @@ import {ShareIndexDialog} from './shared/dialogs/share-index/share-index.compone
 import { ShareComponent } from './indexer/settings/share/share.component';
 import { LandingPageComponent } from './indexer/landing-page/landing-page.component';
 import { OverviewComponent } from './indexer/overview/overview.component';
+import { ConfirmComponent } from './auth/confirm/confirm.component';
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -256,6 +257,7 @@ export function jwtTokenGetter(): any {
         ShareComponent,
         LandingPageComponent,
         OverviewComponent,
+        ConfirmComponent,
     ],
     imports: [
         FormsModule,

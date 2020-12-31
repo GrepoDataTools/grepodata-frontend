@@ -1,0 +1,9 @@
+
+<app-alert type="error" title="Please confirm your email address to use this feature" [dismissible]="false">
+	<h5>
+		You have received an email with an activation link from admin@grepodata.com <strong>(Also check your spam folder!)</strong>.
+		<br/><br/>
+		Have you not received our email? click the button below to request a new activation mail.<br/>
+		<button style="margin-top: 3px;" class="btn btn-secondary mr-1" (click)="sendNewActivationMail()">Send a new activation email <mat-icon>email</mat-icon></button>
+	</h5>
+</app-alert>

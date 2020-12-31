@@ -9,17 +9,8 @@
     <app-sidebar [username]="username"></app-sidebar>
   </mat-sidenav>
 	<div class="profile-container" *ngIf="logged_in">
-		<app-alert type="error" title="Confirm your email address" *ngIf="!account_confirmed">
-				<p>
-          Your account is not yet verified. You can only share intel with others if your account is activated.
-        </p>
-      <p>
-        Click the link in the email you received to confirm and activate your account <strong>(check your spam folder!)</strong>.
-      </p>
-      <p>
-        <a class="a-link-dialog">Click here to request a new confirmation email</a>
-      </p>
-		</app-alert>
+
+		<app-confirm *ngIf="!account_confirmed"></app-confirm>
 
 		<app-alert type="error" title="Verify your Grepolis player name" *ngIf="!account_linked && active_tab !== 'linked'">
       <p>
@@ -30,18 +21,18 @@
       </p>
 		</app-alert>
 
-        <div *ngIf="active_tab === 'overview'">
-          <app-overview></app-overview>
-        </div>
-        <div *ngIf="active_tab === 'player'">
-          <app-index-player></app-index-player>
-        </div>
-        <div *ngIf="active_tab === 'alliance'">
-          <app-index-alliance></app-index-alliance>
-        </div>
-        <div *ngIf="active_tab === 'town'">
-          <app-index-town></app-index-town>
-        </div>
+    <div *ngIf="active_tab === 'overview'">
+      <app-overview></app-overview>
+    </div>
+    <div *ngIf="active_tab === 'player'">
+      <app-index-player></app-index-player>
+    </div>
+    <div *ngIf="active_tab === 'alliance'">
+      <app-index-alliance></app-index-alliance>
+    </div>
+    <div *ngIf="active_tab === 'town'">
+      <app-index-town></app-index-town>
+    </div>
     <span *ngIf="active_tab === 'intel'"><app-intel></app-intel></span>
     <span *ngIf="active_tab === 'linked'"><app-linked-accounts></app-linked-accounts></span>
     <span *ngIf="active_tab === 'indexes'"><app-indexes></app-indexes></span>

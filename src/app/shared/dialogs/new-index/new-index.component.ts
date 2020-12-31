@@ -1,5 +1,5 @@
 import {Component, Inject, ViewChild} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {WorldService} from '../../../services/world.service';
 import {Router} from '@angular/router';
 import {GoogleAnalyticsEventsService} from '../../../services/google-analytics-events.service';
@@ -9,6 +9,7 @@ import {JwtService} from '../../../auth/services/jwt.service';
 import {CaptchaService} from '../../../services/captcha.service';
 import {IndexerService} from '../../../indexer/indexer.service';
 import {LocalCacheService} from '../../../services/local-cache.service';
+import {ShareIndexDialog} from '../share-index/share-index.component';
 
 @Component({
   selector: 'new-index',
@@ -42,6 +43,7 @@ export class NewIndexDialog {
     private worldService: WorldService,
     private router: Router,
     private authService: JwtService,
+    private dialog: MatDialog,
     public googleAnalyticsEventsService: GoogleAnalyticsEventsService) {
     this.server = worldService.getDefaultServer();
 
@@ -53,7 +55,7 @@ export class NewIndexDialog {
   }
 
   onNoClick(): void {
-    this.dialogRef.close();
+    this.close()
   }
 
   loadWorlds(data) {
@@ -102,6 +104,7 @@ export class NewIndexDialog {
                 'name': this.index_name,
                 'world': this.world,
                 'role': 'owner',
+                'share_link': response.share_link || 'Unauthorized',
                 'contribute': 1,
                 'overview': null,
               };
@@ -123,4 +126,33 @@ export class NewIndexDialog {
     }
   }
 
+  close() {
+    if ('key' in this.createdIndex) {
+      this.dialogRef.close(this.createdIndex);
+    } else {
+      this.dialogRef.close(false);
+    }
+  }
+
+  showShareDialog() {
+    let dialogRef = this.dialog.open(ShareIndexDialog, {
+      minWidth: '60%',
+      // height: '90%'
+      autoFocus: false,
+      disableClose: false,
+      data: {
+        index: {
+          key: this.createdIndex.key || '',
+          name: this.index_name,
+          world: this.world,
+          share_link: this.createdIndex.share_link || '',
+          role: this.createdIndex.role || ''
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.close();
+    });
+  }
 }

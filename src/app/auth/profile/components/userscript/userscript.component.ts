@@ -8,20 +8,9 @@ import {environment} from '../../../../../environments/environment';
 })
 export class UserscriptComponent implements OnInit {
 
-  copied = false;
-  clicked = false;
-  token_opened = false;
-  token = '3h1273g12d31280d3h10231bed1qwdq';
-
   constructor() { }
 
   ngOnInit() {
   }
 
-  copyLink(inputElement) {
-    let token = this.token;
-    navigator.clipboard.writeText(token).then(() => {});
-    this.copied = true;
-    window.setTimeout(()=>{this.copied = false;}, 4000);
-  }
 }

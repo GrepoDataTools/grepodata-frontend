@@ -6,9 +6,25 @@
 }
 
 .top-index-card {
-  transition: all .2s ease-in-out;
+  transition: all .3s ease-in-out !important;
 }
 .top-index-card:hover {
   cursor: pointer;
-  transform: scale(1.1);
+  transform: scale(1.02);
+  opacity: .9;
+}
+.top-index {
+  padding: 10px;
+  margin: 10px;
+  h3 {
+    padding: 0 !important;
+  }
+  min-height: 140px !important;
+}
+.launch-icon {
+  position: absolute;
+  right: 10px;
+}
+.launch-icon:hover {
+  color: #233140;
 }

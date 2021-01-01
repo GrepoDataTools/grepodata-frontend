@@ -44,7 +44,9 @@
 									<th scope="col">Index name</th>
 									<!--<th scope="col">Key (old)</th>-->
 									<th scope="col">World</th>
-									<th scope="col">
+									<th scope="col" *ngIf="'stats' in indexes[0] && 'total_reports' in indexes[0].stats">Total reports</th>
+									<th scope="col" *ngIf="'stats' in indexes[0] && 'owners' in indexes[0].stats">Index Owners</th>
+									<th style="text-align: center !important;" scope="col">
 										Contribute <mat-icon class="mat-icon-title-inline a-link" matTooltip="If you enable this toggle, your collected intell will be shared with this index. If you disable this option, you can still read the index but your collected intel will not be shared with the other players in this index.">help_outline</mat-icon>
 									</th>
 									<th scope="col">
@@ -55,7 +57,7 @@
 								</thead>
 								<tbody>
 								<tr *ngFor="let index of indexes; let i = index;" class="index-row">
-									<td (click)="routing('/profile/overview/' + index.key)">
+									<td style="text-align: left !important;" (click)="routing('/profile/overview/' + index.key)">
 										<a><mat-icon style="opacity: 1; vertical-align: sub;">account_balance</mat-icon> {{index.name || index.key}}</a>
 										<!--<a routerLink="/profile/overview/{{index.key}}" class="gd-secondary">-->
 											<!--<img src="../../assets/images/grepodata_icon.ico" style="vertical-align: bottom;"/> {{index.name || index.key}}-->
@@ -65,10 +67,19 @@
 									<td (click)="routing('/profile/overview/' + index.key)">
 										<div [outerHTML]="index.world | WorldNamePipe"></div>
 									<!--<td>{{index.role.replace('read', 'read only').replace('write', 'contributor')}}</td>-->
-									<!--<td>nobody</td>-->
-									<td>
+									<td *ngIf="'stats' in index && 'total_reports' in index.stats" (click)="routing('/profile/overview/' + index.key)">
+										{{index.stats.total_reports}}
+									</td>
+									<td style="padding: 0 !important; font-size: 14px; vertical-align: middle;" *ngIf="'stats' in index && 'owners' in index.stats" (click)="routing('/profile/overview/' + index.key)">
+										<div *ngFor="let owner of index.stats.owners; let i = index;">
+											<img src="../../assets/images/ally_ico.png"/> {{owner.alliance_name}}
+										</div>
+									</td>
+									<td style="text-align: center !important;">
 										<!--<mat-slide-toggle [ngModel]="index.contribute" (ngModelChange)="enableContributions(index.key)">Share my intel with this index</mat-slide-toggle>-->
-										<mat-checkbox *ngIf="index.role!='read'" [checked]="index.contribute" (click)="enableContributions(index.key)">Share my intel with this index</mat-checkbox>
+										<mat-checkbox *ngIf="index.role!='read'" [checked]="index.contribute" (click)="enableContributions(index.key)">
+											<!--Share my intel with this index-->
+										</mat-checkbox>
 									</td>
 									<td (click)="routing('/profile/overview/' + index.key)">
 										{{index.role

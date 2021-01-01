@@ -13,31 +13,43 @@
 	</h2>
 
 	<div fxLayout="row wrap" style="margin: 0 15px;">
+
+
 		<div fxFlex.gt-sm="16" fxFlex.gt-xs="100" fxFlex="100" class="top-index-card">
 			<a (click)="newIndex()">
-				<mat-card class="bg-primary text-white text-center m-20">
-					<div class="p-10">
-						<h2 class="m-0">
+				<mat-card class="bg-primary text-white text-center top-index">
+					<div style="margin-top: 25px;">
+						<h3 class="m-0">
 							<i class="fa fa-plus"></i>
 							<br/>
 							New index
-						</h2>
+						</h3>
 					</div>
 				</mat-card>
 			</a>
 		</div>
-		<div *ngFor="let index of topIndexes" fxFlex.gt-sm="21" fxFlex.gt-xs="100" fxFlex="100" class="top-index-card">
-			<a (click)="alert('TODO')">
-				<mat-card class="bg-success text-white text-center m-20">
-					<div class="p-10">
-						<h2 class="m-0">{{index.name}}</h2>
-						<small>World: ...</small>
-						<small>Owners: ...</small>
-						<small>Intel: ...</small>
-					</div>
-				</mat-card>
-			</a>
+		<div *ngIf="loadingIndexes" fxFlex.gt-sm="84" fxFlex.gt-xs="100" fxFlex="100" class="" style="padding: 70px;">
+			<mat-progress-bar style="margin-top: -10px;" mode="indeterminate"></mat-progress-bar>
 		</div>
+		<div *ngIf="!loadingIndexes && topIndexes.length <= 0" fxFlex.gt-sm="84" fxFlex.gt-xs="100" fxFlex="100" class="top-index-card">
+			You are not yet a member of any indexes. You can start by creating your own index or by joining an existing index created by one of your allies.
+		</div>
+		<ng-container *ngIf="!loadingIndexes && topIndexes.length > 0">
+			<div *ngFor="let index of topIndexes" fxFlex.gt-sm="21" fxFlex.gt-xs="100" fxFlex="100" class="top-index-card">
+				<a routerLink="/profile/overview/{{index.key}}">
+					<mat-card class="bg-success text-white text-center top-index">
+						<mat-icon class="launch-icon" style="float: right;">launch</mat-icon>
+						<div>
+							<h3 class="m-0"><mat-icon style="vertical-align: sub;">account_balance</mat-icon> {{index.name}}</h3>
+							<div [outerHTML]="index.world | WorldNamePipe"></div>
+							<div *ngFor="let owner of index.stats.owners;">
+								<img src="../../assets/images/ally_ico.png"/> {{owner.alliance_name}}
+							</div>
+						</div>
+					</mat-card>
+				</a>
+			</div>
+		</ng-container>
 	</div>
 </mat-card>
 
@@ -46,7 +58,10 @@
 	<h2 class="gd-secondary">Latest reports indexed by you</h2>
 
 	<mat-card-content style="padding: 0 30px 15px;">
-		<mat-progress-bar style="margin-top: -10px;" *ngIf="loading || paging" mode="indeterminate"></mat-progress-bar>
+
+		<div *ngIf="loading || paging" style="padding-top: 10px;">
+			<mat-progress-bar style="margin-top: -10px;" mode="indeterminate"></mat-progress-bar>
+		</div>
 
 		<div *ngIf="!loading">
 

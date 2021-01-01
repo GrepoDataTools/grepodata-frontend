@@ -149,14 +149,14 @@
 												{{town.date | IndexDate}}
 											</div>
 											<div class="cell" style="width: 50%; display: flex;">
-		                        <span style="transform: scale(.8); margin-right: 32px;" *ngFor="let unit of town.units | ValuesPipe; let i = index;"
-		                              matTooltip="{{unit.name.replace('_',' ')}}">
-		                          <div class="unit_icon40x40 {{unit.name}}"></div>
-			                        <div class="unit-val" style="margin-right: -40px; top: 0px; background: #9898986e; height: 40px; width: 40px;">
-			                          <div>{{unit.count}}</div>
-			                          <div style="color: #d00; margin-top: -6px;" *ngIf="unit.killed>0">-{{unit.killed}}</div>
-			                        </div>
-		                        </span>
+                        <span style="transform: scale(.8); margin-right: 32px;" *ngFor="let unit of town.units | ValuesPipe; let i = index;"
+                              matTooltip="{{unit.name.replace('_',' ')}}">
+                          <div class="unit_icon40x40 {{unit.name}}"></div>
+	                        <div class="unit-val" style="margin-right: -40px; top: 0px; background: #9898986e; height: 40px; width: 40px;">
+	                          <div>{{unit.count}}</div>
+	                          <div style="color: #d00; margin-top: -6px;" *ngIf="unit.killed>0">-{{unit.killed}}</div>
+	                        </div>
+                        </span>
 											</div>
 										</div>
 									</div>

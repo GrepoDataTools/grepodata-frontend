@@ -4,12 +4,13 @@ import {PageEvent} from '@angular/material/paginator';
 import {JwtService} from '../../../services/jwt.service';
 import {NewIndexDialog} from '../../../../shared/dialogs/new-index/new-index.component';
 import {MatDialog} from '@angular/material/dialog';
+import {WorldService} from '../../../../services/world.service';
 
 @Component({
   selector: 'app-intel',
   templateUrl: './intel.component.html',
   styleUrls: ['./intel.component.scss'],
-  providers: [ProfileService]
+  providers: [ProfileService, WorldService]
 })
 export class IntelComponent implements OnInit {
 
@@ -18,10 +19,12 @@ export class IntelComponent implements OnInit {
   num_results = 20;
   pageEvent: PageEvent;
 
+  loadingIndexes = true;
+
   loading = true;
   paging = true;
   intel = null;
-  topIndexes = [{name: 'test1'}, {name: 'test1'}, {name: 'test1'}, {name: 'test1'}];
+  topIndexes = [];
 
   constructor(
     private authService: JwtService,
@@ -31,6 +34,7 @@ export class IntelComponent implements OnInit {
 
   ngOnInit() {
     this.loadUserIntel();
+    this.loadIndexes();
   }
 
   loadUserIntel() {
@@ -57,6 +61,24 @@ export class IntelComponent implements OnInit {
         (error) => {
           this.loading = false;
           this.paging = false;
+        },
+      );
+    });
+  }
+
+  loadIndexes() {
+    // Top indexes
+    this.loadingIndexes = true;
+    this.authService.accessToken().then(access_token => {
+      this.profileService.getIndexes(access_token, 4, true).subscribe(
+        (response) => {
+          this.topIndexes = response.items;
+          this.loadingIndexes = false;
+          console.log(this.topIndexes);
+        },
+        (error) => {
+          console.log(error);
+          this.loadingIndexes = false;
         },
       );
     });

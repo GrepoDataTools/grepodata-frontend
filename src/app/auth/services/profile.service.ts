@@ -13,8 +13,15 @@ export class ProfileService {
 							private authService: JwtService,
 							private router: Router) {}
 
-	getIndexes(access_token) {
-		return this.http.get<any>(apiUrl + '/profile/indexes', {
+	getIndexes(access_token, limit = 0, expand_overview = false) {
+	  let url = apiUrl + '/profile/indexes';
+	  if (expand_overview === true) {
+      url = url + '?expand_overview=true';
+    }
+	  if (limit > 0) {
+      url = url + '&limit=' + limit;
+    }
+		return this.http.get<any>(url, {
       headers: new HttpHeaders({'access_token': access_token})
 		});
 	}

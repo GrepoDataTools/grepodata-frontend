@@ -16,11 +16,13 @@
 		</div>
 		<div *ngIf="iterator.length>0" class="bb-fixed" [ngClass]="{'bb-fixed-lg':hideAvailable}">
 			<div *ngIf="hideAvailable" class="togglecontainer" style="position: absolute; left: 5px; margin-top: -5px;">
-				<label class="switch">
-					<input type="checkbox" [(ngModel)]="showNonPriority" (change)="cdr.detectChanges(); saveDuplicateVisibility();">
-					<span class="slider round"></span>
-				</label>
-				<span class="toggle-label" style="vertical-align: middle !important;">Show duplicate intel</span>
+				<mat-checkbox [(ngModel)]="showNonPriority" (change)="cdr.detectChanges(); saveDuplicateVisibility();">Show duplicate intel</mat-checkbox>
+				<!--<mat-slide-toggle [(ngModel)]="showNonPriority" (change)="cdr.detectChanges(); saveDuplicateVisibility();">Show duplicate intel</mat-slide-toggle>-->
+				<!--<label class="switch">-->
+					<!--<input type="checkbox" [(ngModel)]="showNonPriority" (change)="cdr.detectChanges(); saveDuplicateVisibility();">-->
+					<!--<span class="slider round"></span>-->
+				<!--</label>-->
+				<!--<span class="toggle-label" style="vertical-align: middle !important;">Show duplicate intel</span>-->
 				<!--<span class="toggle-label" style="vertical-align: middle !important;">Show all<span class="hidden-xs hidden-sm"> (only show 1 record per town)</span></span>-->
 			</div>
 			<button name="open_bb" class="btn btn-success btn-xs"

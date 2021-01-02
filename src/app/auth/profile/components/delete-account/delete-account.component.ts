@@ -14,4 +14,7 @@ export class DeleteAccountComponent implements OnInit {
   ngOnInit() {
   }
 
+  deleteAccount() {
+    alert("TODO");
+  }
 }

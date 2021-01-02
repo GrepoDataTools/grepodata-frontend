@@ -211,7 +211,11 @@
 										</td>
 									</tr>
 									<tr *ngIf="data.total_reports == 0">
-										<td colspan="2" class="text-center">This index is still empty!</td>
+										<td colspan="2" class="text-center">
+											<app-alert type="warning" [dismissible]="false">
+												This index is still empty!
+											</app-alert>
+										</td>
 									</tr>
 									</tbody>
 								</table>
@@ -350,13 +354,12 @@
 												<h4>This index allows you to share collected intelligence with other users.</h4>
 											</mat-card-title>
 											<mat-card-content class="text-left">
-												<h4>
-													<strong>Getting started:</strong><br/>
-												</h4>
-												<ul style="font-size: 20px;">
-													<li>Install the GrepoData userscript to collect intelligence.</li>
-													<li>Share this index with your allies by giving them access.</li>
-												</ul>
+												<app-alert type="info" title="Getting started" [dismissible]="false">
+													<ul style="font-size: 20px;">
+														<li>Install the GrepoData userscript to collect intelligence.</li>
+														<li>Share this index with your allies by giving them access (Share your index).</li>
+													</ul>
+												</app-alert>
 											</mat-card-content>
 										</mat-card>
 									</div>

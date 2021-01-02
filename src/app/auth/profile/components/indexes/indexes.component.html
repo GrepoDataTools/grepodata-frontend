@@ -21,7 +21,7 @@
 						<button *ngIf="created_index.key" class="btn btn-secondary mr-1" routerLink="/profile/overview/{{created_index.key}}">Go to index overview <mat-icon>launch</mat-icon></button>
 					</app-alert>
 
-					<app-alert type="info" title="What is an index?" *ngIf="confirmed && !error && !created_index">
+					<app-alert type="info" title="What is an index?" *ngIf="confirmed && !error && !created_index" [dismissible]="false">
 						<p>
 							An index is a collection of enemy intelligence that can be shared with other users.
 							You can create and share your own index, or you can contribute to an existing index.
@@ -32,7 +32,12 @@
 					<mat-progress-bar style="margin-top: -10px;" *ngIf="loading" mode="indeterminate"></mat-progress-bar>
 
 					<div *ngIf="!loading && indexes.length <= 0">
-						<p class="gd-secondary">You have not yet created or joined any indexes.</p>
+						<app-alert type="warning" title="You have not yet created or joined any indexes" [dismissible]="false">
+							<div style="min-height: 73px !important;">
+								<h4>You can create your own index and share it with your allies or you can join an existing index by asking your allies to invite you.</h4>
+								<p>You can still collect intelligence if you are not part of an index, but you will only be able to share this intel by adding it to an index.</p>
+							</div>
+						</app-alert>
 					</div>
 
 					<div *ngIf="!loading && indexes.length > 0">

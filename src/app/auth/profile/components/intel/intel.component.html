@@ -22,7 +22,8 @@
 						<h3 class="m-0">
 							<i class="fa fa-plus"></i>
 							<br/>
-							New index
+							<span class="hidden-md hidden-lg">New index</span>
+							<span class="hidden-sm hidden-xs">Create a new index</span>
 						</h3>
 					</div>
 				</mat-card>
@@ -31,8 +32,13 @@
 		<div *ngIf="loadingIndexes" fxFlex.gt-sm="84" fxFlex.gt-xs="100" fxFlex="100" class="" style="padding: 70px;">
 			<mat-progress-bar style="margin-top: -10px;" mode="indeterminate"></mat-progress-bar>
 		</div>
-		<div *ngIf="!loadingIndexes && topIndexes.length <= 0" fxFlex.gt-sm="84" fxFlex.gt-xs="100" fxFlex="100" class="top-index-card">
-			You are not yet a member of any indexes. You can start by creating your own index or by joining an existing index created by one of your allies.
+		<div *ngIf="!loadingIndexes && topIndexes.length <= 0" fxFlex.gt-sm="84" fxFlex.gt-xs="100" fxFlex="100" style="padding: 10px;">
+			<app-alert type="warning" title="You have not yet created or joined any indexes" [dismissible]="false">
+				<div style="min-height: 73px !important;">
+					<h4>You can create your own index and share it with your allies or you can join an existing index by asking your allies to invite you.</h4>
+					<p>You can still collect intelligence if you are not part of an index, but you will only be able to share this intel by adding it to an index.</p>
+				</div>
+			</app-alert>
 		</div>
 		<ng-container *ngIf="!loadingIndexes && topIndexes.length > 0">
 			<div *ngFor="let index of topIndexes" fxFlex.gt-sm="21" fxFlex.gt-xs="100" fxFlex="100" class="top-index-card">

@@ -28,6 +28,6 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   sendRequest() {
-
+    alert("TODO");
   }
 }

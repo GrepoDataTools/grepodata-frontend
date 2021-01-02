@@ -152,7 +152,7 @@ export class NewIndexDialog {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.close();
+      // this.close();
     });
   }
 }

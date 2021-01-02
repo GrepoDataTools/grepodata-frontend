@@ -9,13 +9,13 @@
 			<ul>
 				<li>Any index created by you will still remain active, but you will no longer be the administrator of that index. We advise you to transfer index ownership to someone else before removing your account.</li>
 				<li>Any intel that you shared with others will still be visible to them, but it will be anonymized and any link to you will be removed</li>
-				<li>All linked Grepolis accounts will be unlinked from your GrepoData account.</li>
+				<!--<li>All linked Grepolis accounts will be unlinked from your GrepoData account.</li>-->
 				<li>If you want to use our services again sometime, you will have to create a new account.</li>
 			</ul>
 		</div>
 		<mat-checkbox [(ngModel)]="confirmed" >I have read the above warning and I agree with the removal of my data.</mat-checkbox>
 		<br/>
 		<br/>
-		<button class="btn btn-danger" [disabled]="!confirmed">Delete my account (this can not be undone)</button>
+		<button class="btn btn-danger" [disabled]="!confirmed" (click)="deleteAccount()">Delete my account (this can not be undone)</button>
 	</mat-card-content>
 </mat-card>

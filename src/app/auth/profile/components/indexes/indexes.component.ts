@@ -143,7 +143,8 @@ export class IndexesComponent implements OnInit {
   }
 
   enableContributions(index) {
-    console.log(index)
+    console.log(index);
+    alert("TODO");
   }
 
 

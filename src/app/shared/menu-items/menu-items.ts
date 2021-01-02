@@ -48,13 +48,14 @@ const MENU_ITEMS: Array<Menu> = [
     { state: '', name: 'Other', type: 'separator', icon: 'person', iconType: 'material' },
     {
         state: 'profile/settings',
-        name: 'Settings',
-        type: 'sub',
+        name: 'My account',
+        type: 'link',
+        // type: 'sub',
         icon: 'settings',
-        children: [
-            { state: 'password', name: 'Change password', type: 'link' },
-            { state: 'delete', name: 'Delete account', type: 'link' },
-        ],
+        // children: [
+        //     { state: 'password', name: 'Change password', type: 'link' },
+        //     { state: 'delete', name: 'Delete account', type: 'link' },
+        // ],
     },
     { state: 'profile/faq', name: 'Help', type: 'link', icon: 'av_timer', iconType: 'material' },
     {

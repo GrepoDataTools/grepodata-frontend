@@ -107,6 +107,13 @@ export class JwtService {
       );
   }
 
+  public newActivationEmail(access_token: string) {
+    return this.httpClient
+      .get<any>(apiUrl + '/auth/newconfirm', {
+        headers: new HttpHeaders({ 'access_token': access_token }),
+      })
+  }
+
   /**
    * Check if access_token is valid
    * throws 401 if invalid or expired token

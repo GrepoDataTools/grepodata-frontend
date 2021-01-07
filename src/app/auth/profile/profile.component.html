@@ -10,16 +10,18 @@
   </mat-sidenav>
 	<div class="profile-container" *ngIf="logged_in">
 
-		<app-confirm *ngIf="!account_confirmed"></app-confirm>
+		<div *ngIf="!account_confirmed" style="">
+			<app-confirm></app-confirm>
+		</div>
 
-		<app-alert type="error" title="Verify your Grepolis player name" *ngIf="!account_linked && active_tab !== 'linked'">
-      <p>
-        You have not yet verified your Grepolis player name. You can only share intel with others if your player name is verified.
-      </p>
-      <p>
-				<a class="a-link-dialog" routerLink="/profile/linked">Request a new player verification here</a>
-      </p>
-		</app-alert>
+		<!--<app-alert type="error" title="Verify your Grepolis player name" *ngIf="!account_linked && active_tab !== 'linked'">-->
+      <!--<p>-->
+        <!--You have not yet verified your Grepolis player name. You can only share intel with others if your player name is verified.-->
+      <!--</p>-->
+      <!--<p>-->
+				<!--<a class="a-link-dialog" routerLink="/profile/linked">Request a new player verification here</a>-->
+      <!--</p>-->
+		<!--</app-alert>-->
 
     <div *ngIf="active_tab === 'overview'">
       <app-overview></app-overview>

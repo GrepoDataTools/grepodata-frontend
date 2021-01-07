@@ -1,9 +1,18 @@
 
-<app-alert type="error" title="Please confirm your email address to use this feature" [dismissible]="false">
+<app-alert *ngIf="success=='';" type="error" title="Please confirm your email address to continue using the GrepoData city indexer" [dismissible]="false">
 	<h5>
 		You have received an email with an activation link from admin@grepodata.com <strong>(Also check your spam folder!)</strong>.
 		<br/><br/>
 		Have you not received our email? click the button below to request a new activation mail.<br/>
-		<button style="margin-top: 3px;" class="btn btn-secondary mr-1" (click)="sendNewActivationMail()">Send a new activation email <mat-icon>email</mat-icon></button>
+		<button [disabled]="submitting" style="margin-top: 8px;" class="btn btn-secondary mr-1" (click)="sendNewActivationMail()">Send a new activation email <mat-icon>email</mat-icon></button>
+	</h5>
+	<mat-progress-bar *ngIf="submitting" mode="indeterminate"></mat-progress-bar>
+	<h3 *ngIf="error!=''" class="gd-error"><strong>{{error}}</strong></h3>
+</app-alert>
+<app-alert *ngIf="success!='';" type="success" title="Activation email sent" [dismissible]="false">
+	<h5>
+		You have received an email with an activation link from admin@grepodata.com <strong>(Also check your spam folder!)</strong>.
+		<br/><br/>
+		<span [outerHTML]="success"></span>
 	</h5>
 </app-alert>

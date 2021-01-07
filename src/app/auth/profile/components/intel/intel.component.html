@@ -4,7 +4,7 @@
 	<app-index-search></app-index-search>
 </mat-card>
 
-<mat-card class="index-card index-card-sm">
+<mat-card class="index-card index-card-sm" *ngIf="confirmed">
 	<h2 class="gd-secondary">
 		Your top indexes
 		<a class="top-index-card" *ngIf="topIndexes.length > 0" routerLink="/profile/indexes" style="color: #949494; font-weight: 700; font-size: 21px; right: 70px; position: absolute;">
@@ -12,8 +12,11 @@
 		</a>
 	</h2>
 
-	<div fxLayout="row wrap" style="margin: 0 15px;">
+	<div *ngIf="loadingIndexes" style="padding: 30px;">
+		<mat-progress-bar style="margin-top: -10px;" mode="indeterminate"></mat-progress-bar>
+	</div>
 
+	<div fxLayout="row wrap" style="margin: 0 15px;" *ngIf="!loadingIndexes && confirmed">
 
 		<div fxFlex.gt-sm="16" fxFlex.gt-xs="100" fxFlex="100" class="top-index-card">
 			<a (click)="newIndex()">
@@ -28,9 +31,6 @@
 					</div>
 				</mat-card>
 			</a>
-		</div>
-		<div *ngIf="loadingIndexes" fxFlex.gt-sm="84" fxFlex.gt-xs="100" fxFlex="100" class="" style="padding: 70px;">
-			<mat-progress-bar style="margin-top: -10px;" mode="indeterminate"></mat-progress-bar>
 		</div>
 		<div *ngIf="!loadingIndexes && topIndexes.length <= 0" fxFlex.gt-sm="84" fxFlex.gt-xs="100" fxFlex="100" style="padding: 10px;">
 			<app-alert type="warning" title="You have not yet created or joined any indexes" [dismissible]="false">
@@ -65,7 +65,7 @@
 
 	<mat-card-content style="padding: 0 30px 15px;">
 
-		<div *ngIf="loading || paging" style="padding-top: 10px;">
+		<div *ngIf="loading || paging" style="padding: 30px;">
 			<mat-progress-bar style="margin-top: -10px;" mode="indeterminate"></mat-progress-bar>
 		</div>
 

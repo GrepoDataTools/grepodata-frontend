@@ -31,7 +31,7 @@
 
 					<mat-progress-bar style="margin-top: -10px;" *ngIf="loading" mode="indeterminate"></mat-progress-bar>
 
-					<div *ngIf="!loading && indexes.length <= 0">
+					<div *ngIf="confirmed && !loading && indexes.length <= 0">
 						<app-alert type="warning" title="You have not yet created or joined any indexes" [dismissible]="false">
 							<div style="min-height: 73px !important;">
 								<h4>You can create your own index and share it with your allies or you can join an existing index by asking your allies to invite you.</h4>
@@ -109,7 +109,7 @@
 
 					</div>
 
-					<div class="index-new">
+					<div class="index-new" *ngIf="confirmed && !loading">
 
 						<button (click)="newIndex()" class="btn btn-primary" style="margin-right: 10px;">
 							Create a new index <mat-icon>library_add</mat-icon>

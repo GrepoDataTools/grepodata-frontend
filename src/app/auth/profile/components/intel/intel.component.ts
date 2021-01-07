@@ -20,6 +20,7 @@ export class IntelComponent implements OnInit {
   pageEvent: PageEvent;
 
   loadingIndexes = true;
+  confirmed = true;
 
   loading = true;
   paging = true;
@@ -78,6 +79,9 @@ export class IntelComponent implements OnInit {
         },
         (error) => {
           console.log(error);
+          if ('error_code' in error.error && error.error.error_code == 3010) {
+            this.confirmed = false;
+          }
           this.loadingIndexes = false;
         },
       );

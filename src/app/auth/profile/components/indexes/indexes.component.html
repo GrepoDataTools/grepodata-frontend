@@ -12,6 +12,10 @@
 						<h5>{{error}}</h5>
 					</app-alert>
 
+					<app-alert type="success" title="Index contribution settings updated" *ngIf="contribute_success">
+						<div [outerHTML]="contribute_success"></div>
+					</app-alert>
+
 					<app-alert type="success" title="New index created successfully!" *ngIf="created_index">
 						<h5>
 							<span *ngIf="created_index.name"><strong>Index name: </strong>{{created_index.name}}<br/></span>
@@ -21,7 +25,7 @@
 						<button *ngIf="created_index.key" class="btn btn-secondary mr-1" routerLink="/profile/overview/{{created_index.key}}">Go to index overview <mat-icon>launch</mat-icon></button>
 					</app-alert>
 
-					<app-alert type="info" title="What is an index?" *ngIf="confirmed && !error && !created_index" [dismissible]="false">
+					<app-alert type="info" title="What is an index?" *ngIf="confirmed && !error && !created_index && !contribute_success" [dismissible]="false">
 						<p>
 							An index is a collection of enemy intelligence that can be shared with other users.
 							You can create and share your own index, or you can contribute to an existing index.
@@ -49,8 +53,8 @@
 									<th scope="col">Index name</th>
 									<!--<th scope="col">Key (old)</th>-->
 									<th scope="col">World</th>
-									<th scope="col" *ngIf="'stats' in indexes[0] && 'total_reports' in indexes[0].stats">Total reports</th>
-									<th scope="col" *ngIf="'stats' in indexes[0] && 'owners' in indexes[0].stats">Index Owners</th>
+									<th scope="col" *ngIf="indexes[0].stats && indexes[0].stats.total_reports>=0">Total reports</th>
+									<th scope="col" *ngIf="indexes[0].stats && indexes[0].stats.owners!=null">Index Owners</th>
 									<th style="text-align: center !important;" scope="col">
 										Contribute <mat-icon class="mat-icon-title-inline a-link" matTooltip="If you enable this toggle, your collected intell will be shared with this index. If you disable this option, you can still read the index but your collected intel will not be shared with the other players in this index.">help_outline</mat-icon>
 									</th>
@@ -72,17 +76,17 @@
 									<td (click)="routing('/profile/overview/' + index.key)">
 										<div [outerHTML]="index.world | WorldNamePipe"></div>
 									<!--<td>{{index.role.replace('read', 'read only').replace('write', 'contributor')}}</td>-->
-									<td *ngIf="'stats' in index && 'total_reports' in index.stats" (click)="routing('/profile/overview/' + index.key)">
+									<td *ngIf="index.stats && index.stats.total_reports>=0" (click)="routing('/profile/overview/' + index.key)">
 										{{index.stats.total_reports}}
 									</td>
-									<td style="padding: 0 !important; font-size: 14px; vertical-align: middle;" *ngIf="'stats' in index && 'owners' in index.stats" (click)="routing('/profile/overview/' + index.key)">
+									<td style="padding: 0 !important; font-size: 14px; vertical-align: middle;" *ngIf="index.stats && index.stats.owners!=null" (click)="routing('/profile/overview/' + index.key)">
 										<div *ngFor="let owner of index.stats.owners; let i = index;">
 											<img src="../../assets/images/ally_ico.png"/> {{owner.alliance_name}}
 										</div>
 									</td>
 									<td style="text-align: center !important;">
 										<!--<mat-slide-toggle [ngModel]="index.contribute" (ngModelChange)="enableContributions(index.key)">Share my intel with this index</mat-slide-toggle>-->
-										<mat-checkbox *ngIf="index.role!='read'" [checked]="index.contribute" (click)="enableContributions(index.key)">
+										<mat-checkbox *ngIf="index.role!='read'" [checked]="index.contribute" (click)="enableContributions(index)">
 											<!--Share my intel with this index-->
 										</mat-checkbox>
 									</td>

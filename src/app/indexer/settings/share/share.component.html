@@ -46,7 +46,7 @@
 		<h5><span [outerHTML]="adding_success"></span></h5>
 	</app-alert>
 
-	<app-alert type="success" title="User is already a member of your index" *ngIf="already_member">
+	<app-alert type="warning" title="User is already a member of your index" *ngIf="already_member">
 		<h5>User <span class='gd-primary'><strong>{{already_member}}</strong></span> is already a member of this index.</h5>
 		<button class="btn btn-secondary mr-1" (click)="openMembersDialog()">Manage index members <mat-icon>admin_panel_settings</mat-icon></button>
 	</app-alert>

@@ -95,4 +95,13 @@ export class IndexAuthService {
 		});
 	}
 
+	toggleIndexContribute(access_token, index, contribute) {
+    let data = new HttpParams()
+      .set('index_key', index)
+      .set('contribute', contribute);
+		return this.http.put<any>(apiUrl + '/indexer/settings/contribute', data, {
+      headers: new HttpHeaders({'access_token': access_token})
+		});
+	}
+
 }

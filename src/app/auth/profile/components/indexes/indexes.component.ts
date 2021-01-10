@@ -12,12 +12,13 @@ import {MatDialog} from '@angular/material/dialog';
 import {IndexSettingsDialog} from '../../../../shared/dialogs/index-settings/index-settings.component';
 import {IndexMembersDialog} from '../../../../shared/dialogs/index-members/index-members.component';
 import {ShareIndexDialog} from '../../../../shared/dialogs/share-index/share-index.component';
+import {IndexAuthService} from '../../../services/index.service';
 
 @Component({
   selector: 'app-indexes',
   templateUrl: './indexes.component.html',
   styleUrls: ['./indexes.component.scss'],
-  providers: [IndexerService, WorldService, CaptchaService],
+  providers: [IndexerService, WorldService, CaptchaService, IndexAuthService],
   encapsulation: ViewEncapsulation.None
 })
 export class IndexesComponent implements OnInit {
@@ -28,19 +29,17 @@ export class IndexesComponent implements OnInit {
   confirmed = true;
   error = '';
   created_index = '';
-  recaptcha_key = environment.recaptcha;
+  contribute_success = '';
 
   readonly ROLE_ADMIN = environment.ROLE_ADMIN;
   readonly ROLE_OWNER = environment.ROLE_OWNER;
 
   constructor(
-    public captchaService : CaptchaService,
     private authService: JwtService,
     private profileService: ProfileService,
     private router: Router,
     private dialog: MatDialog,
-    private indexerService : IndexerService,
-    private worldService: WorldService,
+    private indexAuthService: IndexAuthService
   ) { }
 
   ngOnInit() {
@@ -62,6 +61,8 @@ export class IndexesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.loadIndexes();
       if (result) {
+        this.error = '';
+        this.contribute_success = '';
         this.created_index = result;
       }
     });
@@ -117,6 +118,7 @@ export class IndexesComponent implements OnInit {
 
   loadIndexes() {
     this.error = '';
+    this.contribute_success = '';
     this.authService.accessToken().then(access_token => {
       this.profileService.getIndexes(access_token, 0, true).subscribe(
         (response) => {
@@ -143,8 +145,37 @@ export class IndexesComponent implements OnInit {
   }
 
   enableContributions(index) {
-    console.log(index);
-    alert("TODO");
+    this.error = '';
+    this.contribute_success = '';
+    this.loading = true;
+    this.created_index = '';
+    this.authService.accessToken().then(access_token => {
+      this.indexAuthService.toggleIndexContribute(access_token, index.key, !index.contribute).subscribe(
+        (response) => {
+          if ('success_code' in response && response.success_code == 1000) {
+            let new_status = response.data.contribute;
+            if (new_status==false) {
+              this.contribute_success = 'Your intel will no longer be uploaded to index <strong>' + index.name + '</strong>';
+            } else {
+              this.contribute_success = 'Your intel will now be uploaded to index <strong>' + index.name + '</strong>';
+            }
+            this.contribute_success = '<h5>' + this.contribute_success + '</h5>';
+            index.contribute = new_status;
+            this.indexes = this.indexes.map(indexm => {
+              return indexm.key === index.key ? index : indexm
+            });
+          } else {
+            this.error = 'Unable to update contribution settings. Please try again later or contact us if this error persists.';
+          }
+          this.loading = false;
+        },
+        (error) => {
+          console.log(error);
+          this.error = 'Unable to update contribution settings. Please try again later or contact us if this error persists.';
+          this.loading = false;
+        },
+      );
+    });
   }
 
 

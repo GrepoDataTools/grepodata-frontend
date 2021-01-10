@@ -122,6 +122,7 @@ import { ShareComponent } from './indexer/settings/share/share.component';
 import { LandingPageComponent } from './indexer/landing-page/landing-page.component';
 import { OverviewComponent } from './indexer/overview/overview.component';
 import { ConfirmComponent } from './auth/confirm/confirm.component';
+import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -133,6 +134,7 @@ const appRoutes: Routes = [
     { path: 'intel/:activetab/:world/:id', component: ProfileComponent },
     { path: 'intel/:activetab/:key/:world/:id', component: ProfileComponent },
     { path: 'forgot', component: ForgotComponent },
+    { path: 'reset/:token', component: ResetPasswordComponent },
     { path: 'points/:world/:date', component: ScoreboardComponent },
     { path: 'points/:world', component: ScoreboardComponent },
     { path: 'm/:world', component: ScoreboardComponent },
@@ -258,6 +260,7 @@ export function jwtTokenGetter(): any {
         LandingPageComponent,
         OverviewComponent,
         ConfirmComponent,
+        ResetPasswordComponent,
     ],
     imports: [
         FormsModule,

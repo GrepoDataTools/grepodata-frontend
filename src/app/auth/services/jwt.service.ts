@@ -107,6 +107,41 @@ export class JwtService {
       );
   }
 
+  public changePasswordWithToken(token: string, password: string, captcha: string) {
+    let data = new HttpParams()
+      .set('token', token)
+      .set('new_password', password)
+      .set('captcha', captcha);
+    return this.httpClient
+      .post<any>(apiUrl + '/auth/changepassword', data, {
+        headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' }),
+      })
+      .pipe(
+        tap((res) => {
+          localStorage.setItem('access_token', res.access_token);
+          localStorage.setItem('refresh_token', res.refresh_token);
+        })
+      );
+  }
+
+  public changeActivePassword(access_token: string, old_password: string, new_password: string, captcha: string) {
+    let data = new HttpParams()
+      .set('access_token', access_token)
+      .set('old_password', old_password)
+      .set('new_password', new_password)
+      .set('captcha', captcha);
+    return this.httpClient
+      .post<any>(apiUrl + '/auth/changepassword', data, {
+        headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' }),
+      })
+      .pipe(
+        tap((res) => {
+          localStorage.setItem('access_token', res.access_token);
+          localStorage.setItem('refresh_token', res.refresh_token);
+        })
+      );
+  }
+
   public newActivationEmail(access_token: string) {
     return this.httpClient
       .get<any>(apiUrl + '/auth/newconfirm', {

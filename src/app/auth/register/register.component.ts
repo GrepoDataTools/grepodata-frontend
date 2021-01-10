@@ -57,8 +57,8 @@ export class RegisterComponent implements OnInit {
 			return;
 		}
 
-    if (this.f.username.value.length < 3) {
-      this.error = 'Your username must be at least 3 characters long.';
+    if (this.f.username.value.length < 4) {
+      this.error = 'Your username must be at least 4 characters long.';
       this.loginForm.controls.username.setErrors({'incorrect': true});
       if (this.captchaRef != undefined) { this.captchaRef.reset(); }
       return;

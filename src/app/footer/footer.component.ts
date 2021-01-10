@@ -33,10 +33,8 @@ export class FooterComponent implements OnInit {
           this.height_adjust = true;
         } else if (path.indexOf('/indexer') !== -1) {
           this.simplified = true;
-        } else if (path.indexOf('/login') !== -1
-          || path.indexOf('/link') !== -1
-          || path.indexOf('/register') !== -1
-          || path.indexOf('/forgot') !== -1
+        } else if (
+          path.indexOf('/link') !== -1
           || path.indexOf('/profile') !== -1
           || path.indexOf('/intel') !== -1
         ) {

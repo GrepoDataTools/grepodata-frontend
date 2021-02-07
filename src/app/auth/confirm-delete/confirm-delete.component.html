@@ -1,0 +1,68 @@
+<div class="container-fluid" style="
+		position: fixed;
+    top: 20%;
+    left: 5%;
+    width: 90%;
+		padding: 0 !important;">
+
+	<div class="row">
+		<div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+
+			<mat-card style="padding: 30px;">
+				<h1 class="gd-primary">Please confirm your request</h1>
+				<h4>When you click on the button below, your account will be deleted. <strong>This can not be undone.</strong></h4>
+				<br/>
+
+				<app-alert type="success" title="Password reset complete!" *ngIf="success" [dismissible]="false">
+					<h5>Your account has been deleted.</h5>
+				</app-alert>
+
+				<div *ngIf="!success">
+					<re-captcha
+						size="invisible"
+						#captchaRef="reCaptcha"
+						siteKey="{{recaptcha_key}}"
+						(resolved)="$event && resolved($event)">
+					</re-captcha>
+				</div>
+
+				<app-alert type="error" title="Unable to remove your account" *ngIf="error" [dismissible]="false">
+					<h5>{{error}}</h5>
+				</app-alert>
+
+				<button *ngIf="!success" [disabled]="loading" class="btn btn-danger" (click)="environment.production==true?captchaRef.execute():sendRequest()">
+					<span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+					Delete my GrepoData account
+				</button>
+
+				<div *ngIf="loading">
+					<br/>
+					<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+				</div>
+
+				<!--<div class="alert alert-gd-1" style="margin: 0 0 15px 0;" *ngIf="!success">-->
+
+					<!--<div>-->
+
+
+					<!--</div>-->
+
+
+				<!--</div>-->
+
+				<div style="height: 25px;" *ngIf="!success">
+					<a routerLink="/profile" class="btn btn-link" style="float: right;" ><< Back to my profile</a>
+				</div>
+
+			</mat-card>
+		</div>
+	</div>
+
+	<!--<div *ngIf="submitted==true && error == ''">-->
+	<!--<br/>-->
+	<!--<p>Logged in! We will redirect you now..</p>-->
+	<!--<br/>-->
+	<!--</div>-->
+
+
+</div>

@@ -77,17 +77,18 @@ export class JwtService {
       });
   }
 
-  public loginWithDiscord(code: string) {
-    const data = new FormData();
-    data.append('client_id', environment.discordClientId);
-    data.append('client_secret', environment.discordClientSecret);
-    data.append('grant_type', 'authorization_code');
-    data.append('redirect_uri', 'http://localhost:4200/login');
-    data.append('scope', 'identify');
-    data.append('code', code);
-
-    return this.httpClient.post('https://discord.com/api/oauth2/token', data);
-  }
+  // TODO
+  // public loginWithDiscord(code: string) {
+  //   const data = new FormData();
+  //   data.append('client_id', environment.discordClientId);
+  //   data.append('client_secret', environment.discordClientSecret);
+  //   data.append('grant_type', 'authorization_code');
+  //   data.append('redirect_uri', 'http://localhost:4200/login');
+  //   data.append('scope', 'identify');
+  //   data.append('code', code);
+  //
+  //   return this.httpClient.post('https://discord.com/api/oauth2/token', data);
+  // }
 
   public register(username: string, email: string, password: string, captcha: string) {
     let data = new HttpParams()
@@ -191,6 +192,22 @@ export class JwtService {
     return this.httpClient.post<any>(apiUrl + '/auth/reset', data, {
       headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' }),
     });
+  }
+
+  public deleteAccount(access_token, password) {
+    let data = new HttpParams().set('access_token', access_token).set('password', password);
+    return this.httpClient
+      .post<any>(apiUrl + '/auth/deleteaccount', data, {
+        headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' }),
+      });
+  }
+
+  public deleteAccountConfirm(access_token, token, captcha) {
+    let data = new HttpParams().set('access_token', access_token).set('token', token).set('captcha', captcha);
+    return this.httpClient
+      .post<any>(apiUrl + '/auth/deleteaccountconfirm', data, {
+        headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' }),
+      });
   }
 
   logout() {

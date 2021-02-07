@@ -55,11 +55,11 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.activatedRoute.snapshot.queryParams.code) {
-      this.authService
-        .loginWithDiscord(this.activatedRoute.snapshot.queryParams.code)
-        .subscribe((response) => console.log(response));
-    }
+    // if (this.activatedRoute.snapshot.queryParams.code) {
+    //   this.authService
+    //     .loginWithDiscord(this.activatedRoute.snapshot.queryParams.code)
+    //     .subscribe((response) => console.log(response));
+    // }
   }
 
   resolved(captchaResponse: string) {

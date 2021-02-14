@@ -69,27 +69,30 @@
                 <tr>
                   <th>Attacking</th>
                   <td *ngIf="att">
-	                  <a routerLink="/ranking/player/{{world}}/attack/{{playerInfoData.att_rank}}/{{id}}">#{{playerInfoData.att_rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs hidden-sm hidden-md">launch</mat-icon></a> - {{att | NumberFilter}}<span class="hidden-xs"> points</span>
+	                  <a *ngIf="playerInfoData.att_rank" routerLink="/ranking/player/{{world}}/attack/{{playerInfoData.att_rank}}/{{id}}">#{{playerInfoData.att_rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs hidden-sm hidden-md">launch</mat-icon></a>
+	                  {{att | NumberFilter}}<span class="hidden-xs"> points</span>
 	                  <span *ngIf="playerInfoData.att_rank_max" style="float: right; font-style: italic; font-size: .9em;" matTooltip="{{datePipe.transform(playerInfoData.att_rank_date,'D MMM YYYY')}}">
 		                  best: {{playerInfoData.att_rank_max}}
 	                  </span>
                   </td>
-	                <td *ngIf="!att">0</td>
+	                <td *ngIf="!att">0 points</td>
                 </tr>
                 <tr>
                   <th>Defending</th>
                   <td *ngIf="def">
-	                  <a routerLink="/ranking/player/{{world}}/defence/{{playerInfoData.def_rank}}/{{id}}">#{{playerInfoData.def_rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs hidden-sm hidden-md">launch</mat-icon></a> - {{def | NumberFilter}}<span class="hidden-xs"> points</span>
+	                  <a *ngIf="playerInfoData.def_rank" routerLink="/ranking/player/{{world}}/defence/{{playerInfoData.def_rank}}/{{id}}">#{{playerInfoData.def_rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs hidden-sm hidden-md">launch</mat-icon></a>
+	                  {{def | NumberFilter}}<span class="hidden-xs"> points</span>
 	                  <span *ngIf="playerInfoData.def_rank_max" style="float: right; font-style: italic; font-size: .9em;" matTooltip="{{datePipe.transform(playerInfoData.def_rank_date,'D MMM YYYY')}}">
 		                  best: {{playerInfoData.def_rank_max}}
 	                  </span>
                   </td>
-	                <td *ngIf="!def">0</td>
+	                <td *ngIf="!def">0 points</td>
                 </tr>
                 <tr class="hidden-xs">
                   <th>Fighting</th>
                   <td *ngIf="def&&att">
-	                  <a routerLink="/ranking/player/{{world}}/fight/{{playerInfoData.fight_rank}}/{{id}}">#{{playerInfoData.fight_rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs hidden-sm hidden-md">launch</mat-icon></a> - {{def+att | NumberFilter}}<span class="hidden-xs"> points</span>
+	                  <a *ngIf="playerInfoData.fight_rank" routerLink="/ranking/player/{{world}}/fight/{{playerInfoData.fight_rank}}/{{id}}">#{{playerInfoData.fight_rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs hidden-sm hidden-md">launch</mat-icon></a>
+	                  {{def+att | NumberFilter}}<span class="hidden-xs"> points</span>
 	                  <span *ngIf="playerInfoData.fight_rank_max" style="float: right; font-style: italic; font-size: .9em;" matTooltip="{{datePipe.transform(playerInfoData.fight_rank_date,'D MMM YYYY')}}">
 		                  best: {{playerInfoData.fight_rank_max}}
 	                  </span>

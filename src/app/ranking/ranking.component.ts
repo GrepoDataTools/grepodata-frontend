@@ -93,7 +93,7 @@ export class RankingComponent implements OnInit {
       this.server = this.world.substr(0,2);
     }
 
-    if (typeof params['offset'] != 'undefined') {
+    if (typeof params['offset'] != 'undefined' && typeof params['highlight'] != 'undefined') {
       this.pageIndex = Math.floor(params['offset']/this.size);
       this.from = Math.max(0, params['offset'] - (params['offset'] % this.size));
     }

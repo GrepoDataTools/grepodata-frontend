@@ -76,8 +76,8 @@ export class LoginComponent implements OnInit {
           if (response.success_code && response.success_code === 1151) {
             // Script auth complete
             this.newBasicDialog(
-              'Userscript login complete!',
-              '<p>Your userscript has been linked to this GrepoData account. You can now start using the script to collect in-game intel. Happy indexing!</p>'
+              '<h1>Userscript login complete!</h1>',
+              '<h3>Your userscript has been linked to your GrepoData account. You can now start using the script to collect in-game intel. Happy indexing!</h3>'
             );
           } else {
             // script auth failed

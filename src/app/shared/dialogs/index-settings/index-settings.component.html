@@ -35,8 +35,8 @@
 					<!--<p>If you enable this option, intel about allied towns will be available in this index.</p>-->
 					<!--<br/>-->
 					<h3>Index owners</h3>
-					<h5>These alliances are the owners of this index. The owners are determined based on the users that contribute to the index. You can also manually change the index owners.
-						<br/>Town intelligence for index owners is hidden by default, but you can choose to display allied intel using the checkboxes in this table. </h5>
+					<h5>These alliances are the owners of this index. The owners are determined based on the users that contribute to the index. If an alliance has at least a 5% contribution to this index, they are automatically added to the list of owners. You can also manually change the index owners.
+						<br/><strong>Town intelligence for index owners is hidden by default, but you can choose to display allied intel using the checkboxes in this table.</strong></h5>
 
 					<app-alert type="error" title="Unable to update owners" *ngIf="owners_error">
 						<h5>{{owners_error}}</h5>

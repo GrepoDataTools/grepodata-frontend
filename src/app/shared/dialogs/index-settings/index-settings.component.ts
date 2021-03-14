@@ -224,6 +224,10 @@ export class IndexSettingsDialog {
                 let added_owner = response.data;
                 this.owners.push(added_owner);
                 this.owners_success = 'Alliance \'' + added_owner.alliance_name + '\' has been added as an owner of this index.';
+                this.adding_alliance=false;
+                this.allianceInput='';
+                this.alliances=[];
+                this.searched=false;
               } else if ('error_code' in response && response.error_code === 7533) {
                 this.owners_error = 'Alliance \''+alliance.name+'\' is already an owner of this index.';
               } else if ('error_code' in response && response.error_code === 2040) {

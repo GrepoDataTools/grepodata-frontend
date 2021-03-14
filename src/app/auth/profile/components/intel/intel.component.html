@@ -18,7 +18,7 @@
 
 	<div fxLayout="row wrap" style="margin: 0 15px;" *ngIf="!loadingIndexes && confirmed">
 
-		<div fxFlex.gt-sm="16" fxFlex.gt-xs="100" fxFlex="100" class="top-index-card">
+		<div fxFlex.gt-md="16" fxFlex.gt-sm="32" fxFlex.gt-xs="100" fxFlex="100" class="top-index-card">
 			<a (click)="newIndex()">
 				<mat-card class="bg-primary text-white text-center top-index">
 					<div style="margin-top: 25px;">
@@ -32,7 +32,7 @@
 				</mat-card>
 			</a>
 		</div>
-		<div *ngIf="!loadingIndexes && topIndexes.length <= 0" fxFlex.gt-sm="84" fxFlex.gt-xs="100" fxFlex="100" style="padding: 10px;">
+		<div *ngIf="!loadingIndexes && topIndexes.length <= 0" fxFlex.gt-md="84" fxFlex.gt-sm="67" fxFlex.gt-xs="100" fxFlex="100" style="padding: 10px;">
 			<app-alert type="warning" title="You have not yet created or joined any indexes" [dismissible]="false">
 				<div style="min-height: 73px !important;">
 					<h4>You can create your own index and share it with your allies or you can join an existing index by asking your allies to invite you.</h4>
@@ -41,10 +41,10 @@
 			</app-alert>
 		</div>
 		<ng-container *ngIf="!loadingIndexes && topIndexes.length > 0">
-			<div *ngFor="let index of topIndexes" fxFlex.gt-sm="21" fxFlex.gt-xs="100" fxFlex="100" class="top-index-card">
+			<div *ngFor="let index of topIndexes" fxFlex.gt-md="21" fxFlex.gt-sm="17" fxFlex.gt-xs="100" fxFlex="100" class="top-index-card">
 				<a routerLink="/profile/overview/{{index.key}}">
-					<mat-card class="bg-success text-white text-center top-index">
-						<mat-icon class="launch-icon" style="float: right;">launch</mat-icon>
+					<mat-card class="top-index-cards text-white text-center top-index">
+						<mat-icon class="launch-icon hidden-xs hidden-md" style="float: right;">launch</mat-icon>
 						<div>
 							<h3 class="m-0"><mat-icon style="vertical-align: sub;">account_balance</mat-icon> {{index.name}}</h3>
 							<div [outerHTML]="index.world | WorldNamePipe"></div>

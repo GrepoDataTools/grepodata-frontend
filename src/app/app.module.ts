@@ -124,6 +124,7 @@ import { OverviewComponent } from './indexer/overview/overview.component';
 import { ConfirmComponent } from './auth/confirm/confirm.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { ConfirmDeleteComponent } from './auth/confirm-delete/confirm-delete.component';
+import {SidenavService} from './layout/sidebar/sidenav-service';
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -304,7 +305,7 @@ export function jwtTokenGetter(): any {
         MatMenuModule,
         MatSidenavModule,
     ],
-    providers: [GoogleAnalyticsEventsService, Globals],
+    providers: [GoogleAnalyticsEventsService, Globals, SidenavService],
     bootstrap: [AppComponent],
     entryComponents: [
         BasicDialog,

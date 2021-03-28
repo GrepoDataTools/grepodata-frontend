@@ -7,6 +7,7 @@ import {CompareService} from "./compare/compare.service";
 import { addBackToTop } from 'vanilla-back-to-top'
 import { MatDialog } from "@angular/material/dialog";
 import {WorldService} from './services/world.service';
+import {SidenavService} from './layout/sidebar/sidenav-service';
 
 declare let ga: Function;
 
@@ -19,14 +20,14 @@ declare let ga: Function;
 export class AppComponent {
   title = 'app';
 
-  private _opened = true;
   public greenType = false;
   public whiteType = false;
-  // public adIsEmpty = false;
-  // public checkingAd = true;
-  // public adChecktimeout = 0;
 
-  constructor(private router: Router, private dialogRef: MatDialog) {
+  constructor(
+    private router: Router,
+    private dialogRef: MatDialog,
+    private sidenavService: SidenavService
+  ) {
 
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
@@ -67,11 +68,12 @@ export class AppComponent {
 
       // Close dialogs
 			this.dialogRef.closeAll()
-    });
-  }
 
-  private _toggleSidebar() {
-    this._opened = !this._opened;
+      // Close profile sidenav on navigate
+      if (evt.url.includes('/profile') || evt.url.includes('/indexer')) {
+        this.sidenavService.close();
+      }
+    });
   }
 
   scrollContent(event) {

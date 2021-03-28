@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { JwtService } from '../services/jwt.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProfileService } from '../services/profile.service';
@@ -8,6 +8,8 @@ import * as jwt_decode from 'jwt-decode';
 import { MediaMatcher } from '@angular/cdk/layout';
 import {ContactDialog} from '../../header/header.component';
 import {BasicDialog} from '../../shared/dialogs/basic/basic.component';
+import {MatSidenav} from '@angular/material/sidenav';
+import {SidenavService} from '../../layout/sidebar/sidenav-service';
 
 @Component({
   selector: 'app-profile',
@@ -15,7 +17,7 @@ import {BasicDialog} from '../../shared/dialogs/basic/basic.component';
   styleUrls: ['./profile.component.scss'],
   providers: [ProfileService],
 })
-export class ProfileComponent implements OnInit, OnDestroy {
+export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
   logged_in = false;
   account_confirmed = false;
   account_linked = false;
@@ -30,9 +32,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   private readonly _mediaQueryListener: () => void;
 
+  @ViewChild('snav') public snav: MatSidenav;
+
   constructor(
     private authService: JwtService,
     private profileService: ProfileService,
+    private sidenavService: SidenavService,
     private router: Router,
     private route: ActivatedRoute,
     public dialog: MatDialog,
@@ -42,7 +47,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ) {
     this.mobileQuery = media.matchMedia('(min-width: 768px)');
     this._mediaQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addEventListener('change', () => this._mediaQueryListener());
+    this.mobileQuery.addEventListener('change', () => {
+      this._mediaQueryListener();
+      if (this.mobileQuery.matches) {
+        this.sidenavService.open();
+      }
+    });
+
     if (this.authService.refreshToken == null) {
       this.logout();
     } else {
@@ -51,6 +62,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
       });
     }
 
+  }
+
+  ngAfterViewInit(): void {
+    this.sidenavService.setSidenav(this.snav);
   }
 
   ngOnInit() {
@@ -104,6 +119,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   load(response) {
+    console.log(response);
     if (response.hasOwnProperty('activetab')) {
       this.active_tab = response.activetab;
       // if (this.active_tab == 'overview') {

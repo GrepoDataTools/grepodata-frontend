@@ -5,7 +5,7 @@
 			<mat-progress-bar mode="indeterminate"></mat-progress-bar>
 		</div>
 	</div>
-  <mat-sidenav #snav id="snav" class="dark-sidebar pl-xs" [mode]="mobileQuery.matches ? 'side' : 'over'" fixedTopGap="0" [opened]="true" [disableClose]="mobileQuery.matches"  >
+  <mat-sidenav #snav id="snav" class="dark-sidebar pl-xs" [mode]="mobileQuery.matches ? 'side' : 'over'" fixedTopGap="0" [opened]="mobileQuery.matches" [disableClose]="mobileQuery.matches"  >
     <app-sidebar [username]="username"></app-sidebar>
   </mat-sidenav>
 	<div class="profile-container" *ngIf="logged_in">

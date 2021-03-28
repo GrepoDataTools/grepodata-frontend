@@ -4,6 +4,7 @@ import { MenuItems } from '../../shared/menu-items/menu-items';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import {JwtService} from '../../auth/services/jwt.service';
 import {Router} from '@angular/router';
+import {SidenavService} from './sidenav-service';
 
 @Component({
   selector: 'app-sidebar',
@@ -24,6 +25,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   childIndex = 0;
 
   constructor(
+    private sidenavService: SidenavService,
     private authService: JwtService,
     private router: Router,
     changeDetectorRef: ChangeDetectorRef,
@@ -81,6 +83,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
         break;
       default:
         console.log(action);
+    }
+  }
+
+  clickedLink() {
+    if (!this.mobileQuery.matches) {
+      this.sidenavService.close();
     }
   }
 }

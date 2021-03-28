@@ -8,3 +8,14 @@
     color: #ffffff !important;
   }
 }
+
+@media (max-width:768px) {
+  .sidebar-list-item {
+    margin-top: -10px;
+
+    a {
+      height: 35px !important;
+    }
+  }
+}
+

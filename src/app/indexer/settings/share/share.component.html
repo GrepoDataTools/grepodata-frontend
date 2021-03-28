@@ -6,10 +6,10 @@
 
 	<div class="row">
 		<div class="col-xs-12">
-			<h4>
+			<h6>
 				When your allies click on this link, they will be able to gain access to your index after they create a GrepoData account.
 				<br/>You will always be able to manage and revoke their access later on.
-			</h4>
+			</h6>
 		</div>
 		<div class="col-xs-12 gd-share-link-container">
 			<label style="font-weight: 600">Send this link to your allies to give them access to your index:</label>
@@ -27,8 +27,8 @@
 				<button class="cpy" (click)="copyLink()"><i class="fa fa-clone"></i> Copy</button><span class="message" *ngIf="copied"> Link copied!</span>
 			</div>
 
-			<button [disabled]="loadingLink" (click)="getNewLink()" class="btn btn-link" style="color: #18BC9C !important;">
-				<mat-icon style="opacity: 1; vertical-align: middle;" [@rotate]="animate_refresh ? 'open' : 'closed'">refresh</mat-icon> Reset invite link
+			<button [disabled]="loadingLink" (click)="getNewLink()" class="btn btn-link" style="color: #a94442 !important;">
+				<mat-icon style="opacity: 1; vertical-align: middle;" [@rotate]="animate_refresh ? 'open' : 'closed'">refresh</mat-icon> Reset invite link (previous link will stop working!)
 			</button>
 		</div>
 	</div>
@@ -120,5 +120,5 @@
 		</div>
 	</div>
 
-	
+
 </div>

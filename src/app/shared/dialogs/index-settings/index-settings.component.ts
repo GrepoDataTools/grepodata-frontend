@@ -15,16 +15,20 @@ export class IndexSettingsDialog {
   @ViewChild('alliance_input', {static: false}) alliance_input:ElementRef;
 
   updating_owners: boolean = false;
+  updating_v1join: boolean = false;
   updating_days: boolean = false;
   updating_days_success: boolean = false;
+  updating_v1join_success: boolean = false;
   adding_alliance: boolean = false;
 
   owners: any = [];
   owners_error = '';
   days_error = '';
+  v1join_error = '';
   owners_success = '';
 
   num_days = 0;
+  allow_join_v1_key = true;
 
   index: any = {
     name: 'loading'
@@ -50,6 +54,10 @@ export class IndexSettingsDialog {
 
     if ('num_days' in this.index) {
       this.num_days = this.index.num_days;
+    }
+
+    if ('allow_join_v1_key' in this.index) {
+      this.allow_join_v1_key = this.index.allow_join_v1_key == 1;
     }
 
     this.loadOwners();
@@ -165,7 +173,7 @@ export class IndexSettingsDialog {
                 window.setTimeout(()=>{this.updating_days_success = false;}, 8000);
                 this.num_days = response.num_days;
               } else {
-                this.days_error = 'Unable to update owners. Please try again later or contact us if this error persists.';
+                this.days_error = 'Unable to update intel retention. Please try again later or contact us if this error persists.';
               }
             } else {
               this.days_error = 'Unable to update intel retention. Please try again later or contact us if this error persists.';
@@ -175,6 +183,35 @@ export class IndexSettingsDialog {
           (error) => {
             this.days_error = 'Unable to update intel retention. Please try again later or contact us if this error persists.';
             this.updating_days = false;
+          }
+        );
+    });
+  }
+
+  setIndexJoinV1() {
+    this.updating_v1join = true;
+    this.updating_v1join_success = false;
+    this.authService.accessToken().then(access_token => {
+      this.indexerService.setIndexV1Join(access_token, this.index.key, this.allow_join_v1_key)
+        .subscribe(
+          (response) => {
+            this.v1join_error = '';
+            if (response) {
+              if ('success_code' in response && response.success_code === 1260) {
+                this.updating_v1join_success = true;
+                window.setTimeout(()=>{this.updating_v1join_success = false;}, 8000);
+                this.allow_join_v1_key = response.allow_join_v1_key;
+              } else {
+                this.v1join_error = 'Unable to update this setting. Please try again later or contact us if this error persists.';
+              }
+            } else {
+              this.v1join_error = 'Unable to update this setting. Please try again later or contact us if this error persists.';
+            }
+            this.updating_v1join = false;
+          },
+          (error) => {
+            this.v1join_error = 'Unable to update this setting. Please try again later or contact us if this error persists.';
+            this.updating_v1join = false;
           }
         );
     });

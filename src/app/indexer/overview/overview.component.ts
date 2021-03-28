@@ -33,6 +33,8 @@ export class OverviewComponent implements OnInit {
   contribute = false;
   share_link = '';
   delete_days = '';
+  allow_join_v1_key = '';
+  index_version = '2';
   latest_intel: any = [];
   recent_conquests: any = [];
 
@@ -90,6 +92,8 @@ export class OverviewComponent implements OnInit {
     this.is_admin = data.is_admin || false;
     this.share_link = data.share_link || '';
     this.delete_days = data.num_days || 0;
+    this.allow_join_v1_key = data.allow_join_v1_key || false;
+    this.index_version = data.index_version || '2';
     this.role = data.role || 'read';
     this.contribute = data.contribute==1 || true;
     this.world = data.world;
@@ -155,6 +159,8 @@ export class OverviewComponent implements OnInit {
           name: this.index_name,
           world: this.world,
           share_link: this.share_link,
+          allow_join_v1_key: this.allow_join_v1_key,
+          index_version: this.index_version,
           num_days: this.delete_days,
           role: this.role
         }

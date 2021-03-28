@@ -16,6 +16,7 @@
 						<span *ngIf="num_days>0">{{num_days}} days</span>
 						<span *ngIf="num_days<=0">Indefinite</span>
 						<span *ngIf="updating_days_success" style="color: #17bc9b; font-weight: 900; font-size: 22px;">&nbsp;&nbsp;Settings saved ✓</span>
+            <mat-spinner *ngIf="updating_days" style="display: inline-block; margin-left: 10px;" mode="indeterminate" strokeWidth="2" [diameter]="20"></mat-spinner>
 					</h4>
 
 					<app-alert *ngIf="days_error==''" type="{{num_days<=0?'success':'warning'}}" [dismissible]="false">
@@ -28,6 +29,8 @@
 					</app-alert>
 
 				</div>
+
+
 			</div>
 			<div class="col-xs-12">
 				<div class="alert alert-gd-1">
@@ -162,6 +165,35 @@
 
 				</div>
 			</div>
+
+
+      <div class="col-xs-12">
+
+
+        <div class="alert alert-gd-1" *ngIf="index.index_version == '1'">
+          <h2 class="gd-secondary">Allow users to join this index with the old index key</h2>
+          <h5>If this option is enabled, anyone with the old index url (<strong>grepodata.com/indexer/{{index.key}}</strong>) will be able to join this index.
+          </h5>
+          <h4>
+            <mat-checkbox [disabled]="updating_v1join" [(ngModel)]="allow_join_v1_key" (ngModelChange)="setIndexJoinV1()">
+              <span *ngIf="!allow_join_v1_key">Disabled</span>
+              <span *ngIf="allow_join_v1_key">Enabled</span>
+            </mat-checkbox>
+            <span *ngIf="updating_v1join_success" style="color: #17bc9b; font-weight: 900; font-size: 22px;">&nbsp;&nbsp;Settings saved ✓</span>
+            <mat-spinner *ngIf="updating_v1join" style="display: inline-block; margin-left: 10px;" mode="indeterminate" strokeWidth="2" [diameter]="20"></mat-spinner>
+          </h4>
+
+          <app-alert *ngIf="v1join_error==''" type="{{allow_join_v1_key?'success':'warning'}}" [dismissible]="false">
+            <h5 *ngIf="!allow_join_v1_key">The old index url will no longer give users access to the intel in this index.</h5>
+            <h5 *ngIf="allow_join_v1_key">Users will be able to join your index if they have the old index key/url</h5>
+          </app-alert>
+
+          <app-alert *ngIf="v1join_error!=''" type="error" [dismissible]="false">
+            <h5>{{v1join_error}}</h5>
+          </app-alert>
+
+        </div>
+      </div>
 		</div>
 	</div>
 </div>

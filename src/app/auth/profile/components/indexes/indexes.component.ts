@@ -122,6 +122,7 @@ export class IndexesComponent implements OnInit {
     this.authService.accessToken().then(access_token => {
       this.profileService.getIndexes(access_token, 0, true).subscribe(
         (response) => {
+          console.log(response);
           this.indexes = response.items;
           this.loading = false;
         },

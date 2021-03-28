@@ -223,10 +223,17 @@
 								<div *ngIf="is_admin">
 									<div class="index-options-container">
 										<div class="col-xs-12 col-sm-6">
-											<button style="width: 100%;" class="btn btn-secondary mr-1" (click)="showMembersDialog()">Manage users <mat-icon>admin_panel_settings</mat-icon></button>
+                      <button style="width: 100%;" class="btn btn-secondary mr-1" (click)="showMembersDialog()">
+                        <span class="hidden-md">Manage users</span>
+                        <span class="hidden-xs hidden-sm hidden-lg">Users</span>
+                        &nbsp;<mat-icon>admin_panel_settings</mat-icon>
+                      </button>
 										</div>
 										<div class="col-xs-12 col-sm-6">
-											<button style="width: 100%;" class="btn btn-success mr-1" (click)="showShareDialog()">Share index&nbsp;&nbsp;<mat-icon>group_add</mat-icon></button>
+											<button style="width: 100%;" class="btn btn-success mr-1" (click)="showShareDialog()">
+                        <span class="hidden-md">Share index</span>
+                        <span class="hidden-xs hidden-sm hidden-lg">Share</span>
+                        &nbsp;<mat-icon>group_add</mat-icon></button>
 										</div>
 									</div>
 								</div>

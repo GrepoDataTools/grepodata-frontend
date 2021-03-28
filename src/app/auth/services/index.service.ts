@@ -57,6 +57,15 @@ export class IndexAuthService {
     );
   }
 
+  setIndexV1Join(access_token, index, allow_join_v1_key) {
+    let data = new HttpParams()
+      .set('allow_join_v1_key', allow_join_v1_key)
+      .set('index_key', index);
+    return this.http.put<any>(apiUrl + '/indexer/settings/joinv1', data,
+      {headers: new HttpHeaders({'access_token':access_token})}
+    );
+  }
+
 	getIndexOwners(access_token, index) {
     let data = new HttpParams()
       .set('index_key', index);

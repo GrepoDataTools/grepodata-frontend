@@ -13,13 +13,16 @@ export class ProfileService {
 							private authService: JwtService,
 							private router: Router) {}
 
-	getIndexes(access_token, limit = 0, expand_overview = false) {
+	getIndexes(access_token, limit = 0, expand_overview = false, sort_by = '') {
 	  let url = apiUrl + '/profile/indexes';
 	  if (expand_overview === true) {
       url = url + '?expand_overview=true';
     }
 	  if (limit > 0) {
       url = url + '&limit=' + limit;
+    }
+	  if (sort_by != '') {
+      url = url + '&sort_by=' + sort_by;
     }
 		return this.http.get<any>(url, {
       headers: new HttpHeaders({'access_token': access_token})

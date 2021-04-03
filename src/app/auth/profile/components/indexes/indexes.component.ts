@@ -156,9 +156,9 @@ export class IndexesComponent implements OnInit {
           if ('success_code' in response && response.success_code == 1000) {
             let new_status = response.data.contribute;
             if (new_status==false) {
-              this.contribute_success = 'Your intel will no longer be uploaded to index <strong>' + index.name + '</strong>';
+              this.contribute_success = 'Your new intel will no longer be uploaded to index <strong>' + index.name + '</strong>';
             } else {
-              this.contribute_success = 'Your intel will now be uploaded to index <strong>' + index.name + '</strong>';
+              this.contribute_success = 'Your new intel will now be uploaded to index <strong>' + index.name + '</strong>';
             }
             this.contribute_success = '<h5>' + this.contribute_success + '</h5>';
             index.contribute = new_status;

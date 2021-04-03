@@ -69,13 +69,13 @@
                     {{points | NumberFilter}}
                     <div *ngIf="playerInfoData.hours_inactive" style="display: inline-block; padding-left: 10px; vertical-align: text-top;">
                       <div *ngIf="playerInfoData.hours_inactive<24">
-                        <div class="btn-success btn-xs" matTooltip="Last activity: {{playerInfoData.hours_inactive}} hours ago">Active</div>
+                        <div class="btn-success btn-xs" matTooltip="Last activity (town points or attacking): {{playerInfoData.hours_inactive}} hours ago">Active</div>
                       </div>
                       <div *ngIf="playerInfoData.hours_inactive>=24 && playerInfoData.hours_inactive<72">
-                        <div class="btn-warning btn-xs" matTooltip="Last activity: {{playerInfoData.hours_inactive}} hours ago">Inactive</div>
+                        <div class="btn-warning btn-xs" matTooltip="Last activity (town points or attacking): {{playerInfoData.hours_inactive}} hours ago">Inactive</div>
                       </div>
                       <div *ngIf="playerInfoData.hours_inactive>=72">
-                        <div class="btn-danger btn-xs" matTooltip="Last activity: {{playerInfoData.hours_inactive / 24}} days ago">Inactive</div>
+                        <div class="btn-danger btn-xs" matTooltip="Last activity (town points or attacking): {{playerInfoData.hours_inactive / 24}} days ago">Inactive</div>
                       </div>
                     </div>
                   </td>

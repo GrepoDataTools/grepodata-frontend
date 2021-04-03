@@ -126,12 +126,12 @@
 
 .hero40x40.achilles,
 .unit_icon40x40.achilles {
-  background: url(../images/game/unit_icons_40x40.png) 0 0 no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -40px 0 no-repeat;
 }
 
 .hero40x40.agamemnon,
 .unit_icon40x40.agamemnon {
-  background: url(../images/game/unit_icons_40x40.png) -40px 0 no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -240px -120px no-repeat;
 }
 
 .hero40x40.ajax,
@@ -159,367 +159,481 @@
   background: url(../images/game/unit_icons_40x40.png) 0 -80px no-repeat;
 }
 
+.hero40x40.argus,
+.unit_icon40x40.argus {
+  background: url(../images/game/unit_icons_40x40.png) -40px -80px no-repeat;
+}
+
 .hero40x40.aristotle,
 .unit_icon40x40.aristotle {
-  background: url(../images/game/unit_icons_40x40.png) -40px -80px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -80px -80px no-repeat;
 }
 
 .hero40x40.atalanta,
 .unit_icon40x40.atalanta {
-  background: url(../images/game/unit_icons_40x40.png) -80px -80px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -120px 0 no-repeat;
 }
 
 .hero40x40.attack_ship,
-.unit_icon40x40.attack_ship,
-.unit_icon40x40.fire {
-  background: url(../images/game/unit_icons_40x40.png) -120px 0 no-repeat;
+.unit_icon40x40.attack_ship {
+  background: url(../images/game/unit_icons_40x40.png) -120px -40px no-repeat;
 }
 
 .hero40x40.big_transporter,
 .unit_icon40x40.big_transporter {
-  background: url(../images/game/unit_icons_40x40.png) -120px -40px no-repeat;
-}
-
-.hero40x40.bireme,
-.unit_icon40x40.bireme,
-.unit_icon40x40.bir {
   background: url(../images/game/unit_icons_40x40.png) -120px -80px no-repeat;
 }
 
-.hero40x40.trir,
-.unit_icon40x40.trir {
-  background: url(../images/game/unit_icons_40x40.png) -280px -280px no-repeat;
+.hero40x40.bireme,
+.unit_icon40x40.bireme {
+  background: url(../images/game/unit_icons_40x40.png) 0 -120px no-repeat;
 }
 
 .hero40x40.calydonian_boar,
 .unit_icon40x40.calydonian_boar {
-  background: url(../images/game/unit_icons_40x40.png) 0 -120px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -40px -120px no-repeat;
 }
 
 .hero40x40.catapult,
 .unit_icon40x40.catapult {
-  background: url(../images/game/unit_icons_40x40.png) -40px -120px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -80px -120px no-repeat;
 }
 
 .hero40x40.centaur,
 .unit_icon40x40.centaur {
-  background: url(../images/game/unit_icons_40x40.png) -80px -120px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -120px -120px no-repeat;
 }
 
 .hero40x40.cerberus,
 .unit_icon40x40.cerberus {
-  background: url(../images/game/unit_icons_40x40.png) -120px -120px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -160px 0 no-repeat;
 }
 
 .hero40x40.chariot,
 .unit_icon40x40.chariot {
-  background: url(../images/game/unit_icons_40x40.png) -160px 0 no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -160px -40px no-repeat;
 }
 
 .hero40x40.cheiron,
 .unit_icon40x40.cheiron {
-  background: url(../images/game/unit_icons_40x40.png) -160px -40px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -160px -80px no-repeat;
 }
 
 .hero40x40.christopholus,
 .unit_icon40x40.christopholus {
-  background: url(../images/game/unit_icons_40x40.png) -160px -80px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -160px -120px no-repeat;
 }
 
 .hero40x40.colonize_ship,
 .unit_icon40x40.colonize_ship {
-  background: url(../images/game/unit_icons_40x40.png) -160px -120px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) 0 -160px no-repeat;
 }
 
 .hero40x40.daidalos,
 .unit_icon40x40.daidalos {
-  background: url(../images/game/unit_icons_40x40.png) 0 -160px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -40px -160px no-repeat;
 }
 
 .hero40x40.deimos,
 .unit_icon40x40.deimos {
-  background: url(../images/game/unit_icons_40x40.png) -40px -160px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -80px -160px no-repeat;
 }
 
 .hero40x40.democritus,
 .unit_icon40x40.democritus {
-  background: url(../images/game/unit_icons_40x40.png) -80px -160px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -120px -160px no-repeat;
 }
 
 .hero40x40.demolition_ship,
 .unit_icon40x40.demolition_ship {
-  background: url(../images/game/unit_icons_40x40.png) -120px -160px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -160px -160px no-repeat;
 }
 
 .hero40x40.deryntes,
 .unit_icon40x40.deryntes {
-  background: url(../images/game/unit_icons_40x40.png) -160px -160px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -200px 0 no-repeat;
 }
 
 .hero40x40.ephialtes,
 .unit_icon40x40.ephialtes {
-  background: url(../images/game/unit_icons_40x40.png) -200px 0 no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -200px -40px no-repeat;
 }
 
 .hero40x40.eurybia,
 .unit_icon40x40.eurybia {
-  background: url(../images/game/unit_icons_40x40.png) -200px -40px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -200px -80px no-repeat;
 }
 
 .hero40x40.ferkyon,
 .unit_icon40x40.ferkyon {
-  background: url(../images/game/unit_icons_40x40.png) -200px -80px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -200px -120px no-repeat;
 }
 
 .hero40x40.fury,
 .unit_icon40x40.fury {
-  background: url(../images/game/unit_icons_40x40.png) -200px -120px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -200px -160px no-repeat;
 }
 
 .hero40x40.godsent,
 .unit_icon40x40.godsent {
-  background: url(../images/game/unit_icons_40x40.png) -200px -160px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) 0 -200px no-repeat;
 }
 
 .hero40x40.griffin,
 .unit_icon40x40.griffin {
-  background: url(../images/game/unit_icons_40x40.png) 0 -200px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -40px -200px no-repeat;
 }
 
 .hero40x40.harpy,
 .unit_icon40x40.harpy {
-  background: url(../images/game/unit_icons_40x40.png) -40px -200px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -80px -200px no-repeat;
 }
 
 .hero40x40.hector,
 .unit_icon40x40.hector {
-  background: url(../images/game/unit_icons_40x40.png) -80px -200px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -120px -200px no-repeat;
 }
 
 .hero40x40.helen,
 .unit_icon40x40.helen {
-  background: url(../images/game/unit_icons_40x40.png) -120px -200px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -160px -200px no-repeat;
 }
 
 .hero40x40.hercules,
 .unit_icon40x40.hercules {
-  background: url(../images/game/unit_icons_40x40.png) -160px -200px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -200px -200px no-repeat;
 }
 
 .hero40x40.hoplite,
 .unit_icon40x40.hoplite {
-  background: url(../images/game/unit_icons_40x40.png) -200px -200px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -240px 0 no-repeat;
 }
 
 .hero40x40.iason,
 .unit_icon40x40.iason {
-  background: url(../images/game/unit_icons_40x40.png) -240px 0 no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -240px -40px no-repeat;
+}
+
+.hero40x40.ladon,
+.unit_icon40x40.ladon {
+  background: url(../images/game/unit_icons_40x40.png) -240px -80px no-repeat;
 }
 
 .hero40x40.leonidas,
 .unit_icon40x40.leonidas {
-  background: url(../images/game/unit_icons_40x40.png) -240px -40px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) 0 0 no-repeat;
 }
 
 .hero40x40.lysippe,
 .unit_icon40x40.lysippe {
-  background: url(../images/game/unit_icons_40x40.png) -240px -80px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -240px -160px no-repeat;
 }
 
 .hero40x40.manticore,
 .unit_icon40x40.manticore {
-  background: url(../images/game/unit_icons_40x40.png) -240px -120px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -240px -200px no-repeat;
 }
 
 .hero40x40.medea,
 .unit_icon40x40.medea {
-  background: url(../images/game/unit_icons_40x40.png) -240px -160px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) 0 -240px no-repeat;
 }
 
 .hero40x40.medusa,
 .unit_icon40x40.medusa {
-  background: url(../images/game/unit_icons_40x40.png) -240px -200px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -40px -240px no-repeat;
+}
+
+.hero40x40.melampous,
+.unit_icon40x40.melampous {
+  background: url(../images/game/unit_icons_40x40.png) -80px -240px no-repeat;
 }
 
 .hero40x40.melousa,
 .unit_icon40x40.melousa {
-  background: url(../images/game/unit_icons_40x40.png) 0 -240px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -120px -240px no-repeat;
+}
+
+.hero40x40.mihalis,
+.unit_icon40x40.mihalis {
+  background: url(../images/game/unit_icons_40x40.png) -160px -240px no-repeat;
 }
 
 .hero40x40.militia,
 .unit_icon40x40.militia {
-  background: url(../images/game/unit_icons_40x40.png) -40px -240px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -200px -240px no-repeat;
 }
 
 .hero40x40.minotaur,
 .unit_icon40x40.minotaur {
-  background: url(../images/game/unit_icons_40x40.png) -80px -240px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -240px -240px no-repeat;
 }
 
 .hero40x40.odysseus,
 .unit_icon40x40.odysseus {
-  background: url(../images/game/unit_icons_40x40.png) -120px -240px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -280px 0 no-repeat;
 }
 
 .hero40x40.orpheus,
 .unit_icon40x40.orpheus {
-  background: url(../images/game/unit_icons_40x40.png) -160px -240px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -280px -40px no-repeat;
 }
 
 .hero40x40.pariphaistes,
 .unit_icon40x40.pariphaistes {
-  background: url(../images/game/unit_icons_40x40.png) -200px -240px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -280px -80px no-repeat;
 }
 
 .hero40x40.pegasus,
 .unit_icon40x40.pegasus {
-  background: url(../images/game/unit_icons_40x40.png) -240px -240px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -280px -120px no-repeat;
 }
 
 .hero40x40.pelops,
 .unit_icon40x40.pelops {
-  background: url(../images/game/unit_icons_40x40.png) -280px 0 no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -280px -160px no-repeat;
 }
 
 .hero40x40.perseus,
 .unit_icon40x40.perseus {
-  background: url(../images/game/unit_icons_40x40.png) -280px -40px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -280px -200px no-repeat;
 }
 
 .hero40x40.philoctetes,
 .unit_icon40x40.philoctetes {
-  background: url(../images/game/unit_icons_40x40.png) -280px -80px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -280px -240px no-repeat;
 }
 
 .hero40x40.rekonos,
 .unit_icon40x40.rekonos {
-  background: url(../images/game/unit_icons_40x40.png) -280px -120px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) 0 -280px no-repeat;
 }
 
 .hero40x40.rider,
 .unit_icon40x40.rider {
-  background: url(../images/game/unit_icons_40x40.png) -280px -160px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -40px -280px no-repeat;
+}
+
+.hero40x40.satyr,
+.unit_icon40x40.satyr {
+  background: url(../images/game/unit_icons_40x40.png) -80px -280px no-repeat;
 }
 
 .hero40x40.sea_monster,
 .unit_icon40x40.sea_monster {
-  background: url(../images/game/unit_icons_40x40.png) -280px -200px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -120px -280px no-repeat;
+}
+
+.hero40x40.siren,
+.unit_icon40x40.siren {
+  background: url(../images/game/unit_icons_40x40.png) -160px -280px no-repeat;
 }
 
 .hero40x40.slinger,
 .unit_icon40x40.slinger {
-  background: url(../images/game/unit_icons_40x40.png) -280px -240px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -200px -280px no-repeat;
 }
 
 .hero40x40.small_transporter,
 .unit_icon40x40.small_transporter {
-  background: url(../images/game/unit_icons_40x40.png) 0 -280px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -240px -280px no-repeat;
 }
 
-.hero40x40.sokrates,
-.unit_icon40x40.sokrates {
-  background: url(../images/game/unit_icons_40x40.png) -40px -280px no-repeat;
+.hero40x40.spartoi,
+.unit_icon40x40.spartoi {
+  background: url(../images/game/unit_icons_40x40.png) -280px -280px no-repeat;
 }
 
 .hero40x40.sword,
 .unit_icon40x40.sword {
-  background: url(../images/game/unit_icons_40x40.png) -80px -280px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -320px 0 no-repeat;
 }
 
 .hero40x40.telemachos,
 .unit_icon40x40.telemachos {
-  background: url(../images/game/unit_icons_40x40.png) -120px -280px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -320px -40px no-repeat;
 }
 
 .hero40x40.terylea,
 .unit_icon40x40.terylea {
-  background: url(../images/game/unit_icons_40x40.png) -160px -280px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -320px -80px no-repeat;
 }
 
 .hero40x40.themistokles,
 .unit_icon40x40.themistokles {
-  background: url(../images/game/unit_icons_40x40.png) -200px -280px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -320px -120px no-repeat;
 }
 
 .hero40x40.theseus,
 .unit_icon40x40.theseus {
-  background: url(../images/game/unit_icons_40x40.png) -240px -280px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -320px -160px no-repeat;
 }
 
 .hero40x40.trireme,
 .unit_icon40x40.trireme {
-  background: url(../images/game/unit_icons_40x40.png) -280px -280px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -320px -200px no-repeat;
 }
 
 .hero40x40.unknown,
 .unit_icon40x40.unknown {
-  background: url(../images/game/unit_icons_40x40.png) -320px 0 no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -320px -240px no-repeat;
 }
 
 .hero40x40.unknown_hero,
 .unit_icon40x40.unknown_hero {
-  background: url(../images/game/unit_icons_40x40.png) -320px -40px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -320px -280px no-repeat;
 }
 
 .hero40x40.unknown_naval,
 .unit_icon40x40.unknown_naval {
-  background: url(../images/game/unit_icons_40x40.png) -320px -80px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) 0 -320px no-repeat;
 }
 
 .hero40x40.urephon,
 .unit_icon40x40.urephon {
-  background: url(../images/game/unit_icons_40x40.png) -320px -120px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -40px -320px no-repeat;
 }
 
 .hero40x40.vedouma,
 .unit_icon40x40.vedouma {
-  background: url(../images/game/unit_icons_40x40.png) -320px -160px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -80px -320px no-repeat;
 }
 
 .hero40x40.xanthos,
 .unit_icon40x40.xanthos {
-  background: url(../images/game/unit_icons_40x40.png) -320px -200px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -120px -320px no-repeat;
 }
 
 .hero40x40.ylestres,
 .unit_icon40x40.ylestres {
-  background: url(../images/game/unit_icons_40x40.png) -320px -240px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -160px -320px no-repeat;
 }
 
 .hero40x40.zuretha,
 .unit_icon40x40.zuretha {
-  background: url(../images/game/unit_icons_40x40.png) -320px -280px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -200px -320px no-repeat;
 }
 
 .hero40x40.zyklop,
 .unit_icon40x40.zyklop {
-  background: url(../images/game/unit_icons_40x40.png) 0 -320px no-repeat;
+  background: url(../images/game/unit_icons_40x40.png) -240px -320px no-repeat;
+}
+
+// gods mini
+.god_mini {
+  width: 40px;
+  height: 40px;
+  display: block;
+}
+
+.god_mini.aphrodite {
+  background: url(../images/game/god_icons_40x40.png) 0 0 no-repeat;
+}
+
+.god_mini.aphrodite_disabled {
+  background: url(../images/game/god_icons_40x40.png) -40px 0 no-repeat;
+}
+
+.god_mini.ares {
+  background: url(../images/game/god_icons_40x40.png) 0 -40px no-repeat;
+}
+
+.god_mini.ares_disabled {
+  background: url(../images/game/god_icons_40x40.png) -40px -40px no-repeat;
+}
+
+.god_mini.artemis {
+  background: url(../images/game/god_icons_40x40.png) -80px 0 no-repeat;
+}
+
+.god_mini.artemis_disabled {
+  background: url(../images/game/god_icons_40x40.png) -80px -40px no-repeat;
+}
+
+.god_mini.athena {
+  background: url(../images/game/god_icons_40x40.png) 0 -80px no-repeat;
+}
+
+.god_mini.athena_disabled {
+  background: url(../images/game/god_icons_40x40.png) -40px -80px no-repeat;
+}
+
+.god_mini.hades {
+  background: url(../images/game/god_icons_40x40.png) -80px -80px no-repeat;
+}
+
+.god_mini.hades_disabled {
+  background: url(../images/game/god_icons_40x40.png) -120px 0 no-repeat;
+}
+
+.god_mini.hera {
+  background: url(../images/game/god_icons_40x40.png) -120px -40px no-repeat;
+}
+
+.god_mini.hera_disabled {
+  background: url(../images/game/god_icons_40x40.png) -120px -80px no-repeat;
+}
+
+.god_mini.none {
+  background: url(../images/game/god_icons_40x40.png) 0 -120px no-repeat;
+}
+
+.god_mini.none_disabled {
+  background: url(../images/game/god_icons_40x40.png) -40px -120px no-repeat;
+}
+
+.god_mini.poseidon {
+  background: url(../images/game/god_icons_40x40.png) -80px -120px no-repeat;
+}
+
+.god_mini.poseidon_disabled {
+  background: url(../images/game/god_icons_40x40.png) -120px -120px no-repeat;
+}
+
+.god_mini.zeus {
+  background: url(../images/game/god_icons_40x40.png) -160px 0 no-repeat;
+}
+
+.god_mini.zeus_disabled {
+  background: url(../images/game/god_icons_40x40.png) -160px -40px no-repeat;
 }
 
 // gods
+.hero40x40.none,
+.unit_icon40x40.none {
+  background: url(../images/game/god_icons_40x40.png) 0 -120px no-repeat;
+}
 .hero40x40.zeus,
 .unit_icon40x40.zeus {
-  background: url(../images/game/unit_icons_40x40.png) -80px -320px no-repeat;
+  background: url(../images/game/god_icons_40x40.png) -160px 0 no-repeat;
 }
 .hero40x40.athena,
 .unit_icon40x40.athena {
-  background: url(../images/game/unit_icons_40x40.png) -120px -320px no-repeat;
+  background: url(../images/game/god_icons_40x40.png) 0 -80px no-repeat;
 }
 .hero40x40.poseidon,
 .unit_icon40x40.poseidon {
-  background: url(../images/game/unit_icons_40x40.png) -160px -320px no-repeat;
+  background: url(../images/game/god_icons_40x40.png) -80px -120px no-repeat;
 }
 .hero40x40.hera,
 .unit_icon40x40.hera {
-  background: url(../images/game/unit_icons_40x40.png) -200px -320px no-repeat;
+  background: url(../images/game/god_icons_40x40.png) -120px -40px no-repeat;
 }
 .hero40x40.hades,
 .unit_icon40x40.hades {
-  background: url(../images/game/unit_icons_40x40.png) -240px -320px no-repeat;
+  background: url(../images/game/god_icons_40x40.png) -80px -80px no-repeat;
 }
 .hero40x40.artemis,
 .unit_icon40x40.artemis {
-  background: url(../images/game/unit_icons_40x40.png) -280px -320px no-repeat;
+  background: url(../images/game/god_icons_40x40.png) -80px 0 no-repeat;
+}
+.hero40x40.aphrodite,
+.unit_icon40x40.aphrodite {
+  background: url(../images/game/god_icons_40x40.png) 0 0 no-repeat;
+}
+.hero40x40.ares,
+.unit_icon40x40.ares {
+  background: url(../images/game/god_icons_40x40.png) 0 -40px no-repeat;
 }
 
 // attack types

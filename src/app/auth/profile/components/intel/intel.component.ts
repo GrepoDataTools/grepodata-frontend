@@ -71,7 +71,7 @@ export class IntelComponent implements OnInit {
     // Top indexes
     this.loadingIndexes = true;
     this.authService.accessToken().then(access_token => {
-      this.profileService.getIndexes(access_token, 4, true).subscribe(
+      this.profileService.getIndexes(access_token, 4, true, 'reports').subscribe(
         (response) => {
           this.topIndexes = response.items;
           this.loadingIndexes = false;

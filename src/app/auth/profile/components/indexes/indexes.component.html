@@ -53,8 +53,8 @@
 									<th scope="col">Index name</th>
 									<!--<th scope="col">Key (old)</th>-->
 									<th scope="col">World</th>
-									<th scope="col" *ngIf="indexes[0].stats && indexes[0].stats.total_reports>=0">Total reports</th>
-									<th scope="col" *ngIf="indexes[0].stats && indexes[0].stats.owners!=null">Index Owners</th>
+									<th scope="col">Total reports</th>
+									<th scope="col">Index Owners</th>
 									<th style="text-align: center !important;" scope="col">
 										Contribute <mat-icon class="mat-icon-title-inline a-link" matTooltip="If you enable this toggle, your collected intell will be shared with this index. If you disable this option, you can still read the index but your collected intel will not be shared with the other players in this index.">help_outline</mat-icon>
 									</th>
@@ -76,10 +76,10 @@
 									<td (click)="routing('/profile/overview/' + index.key)">
 										<div [outerHTML]="index.world | WorldNamePipe"></div>
 									<!--<td>{{index.role.replace('read', 'read only').replace('write', 'contributor')}}</td>-->
-									<td *ngIf="index.stats && index.stats.total_reports>=0" (click)="routing('/profile/overview/' + index.key)">
-										{{index.stats.total_reports}}
+									<td (click)="routing('/profile/overview/' + index.key)">
+                    <div *ngIf="index.stats && index.stats.total_reports>=0">{{index.stats.total_reports}}</div>
 									</td>
-									<td style="padding: 0 !important; font-size: 14px; vertical-align: middle;" *ngIf="index.stats && index.stats.owners!=null" (click)="routing('/profile/overview/' + index.key)">
+									<td style="padding: 0 !important; font-size: 14px; vertical-align: middle;" (click)="routing('/profile/overview/' + index.key)">
 										<div *ngFor="let owner of index.stats.owners; let i = index;">
 											<img src="../../assets/images/ally_ico.png"/> {{owner.alliance_name}}
 										</div>

@@ -121,8 +121,9 @@ export class Globals {
   // Get V1 keys from local storage
   get_v1_keys() {
     try {
-      let storage_key = 'gd_key_list_v1'
-      if (localStorage.getItem(storage_key)) {
+      let storage_key = 'gd_key_list_v1';
+      let migration_complete = 'gd_migration_complete';
+      if (!localStorage.getItem(migration_complete) && localStorage.getItem(storage_key)) {
         let keys = JSON.parse(localStorage.getItem(storage_key));
         console.log('Loaded V1 keys from local storage: ', keys);
         return keys;
@@ -132,8 +133,8 @@ export class Globals {
       console.log('Error loading v1 keys: ', e);
     }
   }
-  unset_v1_keys() {
-    let storage_key = 'gd_key_list_v1'
-    localStorage.removeItem(storage_key);
+  set_migration_complete() {
+    let migration_complete = 'gd_migration_complete'
+    localStorage.setItem(migration_complete, 'true');
   }
 }

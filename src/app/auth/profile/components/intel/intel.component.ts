@@ -27,6 +27,9 @@ export class IntelComponent implements OnInit {
   intel = null;
   topIndexes = [];
 
+  hasIndexes = true;
+  hasIntel = true;
+
   constructor(
     private authService: JwtService,
     private dialog: MatDialog,
@@ -56,10 +59,14 @@ export class IntelComponent implements OnInit {
             console.log(this.num_results);
             this.num_results = this.from + this.size + 1
           }
+          if (this.num_results <= 0) {
+            this.hasIntel = false;
+          }
           this.loading = false;
           this.paging = false;
         },
         (error) => {
+          this.hasIntel = false;
           this.loading = false;
           this.paging = false;
         },
@@ -78,6 +85,7 @@ export class IntelComponent implements OnInit {
           console.log(this.topIndexes);
         },
         (error) => {
+          this.hasIndexes = false;
           console.log(error);
           if ('error_code' in error.error && error.error.error_code == 3010) {
             this.confirmed = false;

@@ -13,6 +13,7 @@ import {IndexSettingsDialog} from '../../../../shared/dialogs/index-settings/ind
 import {IndexMembersDialog} from '../../../../shared/dialogs/index-members/index-members.component';
 import {ShareIndexDialog} from '../../../../shared/dialogs/share-index/share-index.component';
 import {IndexAuthService} from '../../../services/index.service';
+import {ImportIndexDialog} from '../../../../shared/dialogs/import-index/import-index.component';
 
 @Component({
   selector: 'app-indexes',
@@ -52,6 +53,24 @@ export class IndexesComponent implements OnInit {
 
   public newIndex() {
     let dialogRef = this.dialog.open(NewIndexDialog, {
+      // width: '80%',
+      // height: '90%'
+      autoFocus: false,
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadIndexes();
+      if (result) {
+        this.error = '';
+        this.contribute_success = '';
+        this.created_index = result;
+      }
+    });
+  }
+
+  public importV1Index() {
+    let dialogRef = this.dialog.open(ImportIndexDialog, {
       // width: '80%',
       // height: '90%'
       autoFocus: false,

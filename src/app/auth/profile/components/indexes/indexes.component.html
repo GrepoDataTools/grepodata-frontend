@@ -5,6 +5,7 @@
 					<h2>My indexes</h2>
 
 					<div *ngIf="!confirmed">
+            <h4 class="gd-error">Please confirm your email address to start sharing intel</h4>
 						<app-confirm></app-confirm>
 					</div>
 
@@ -25,7 +26,7 @@
 						<button *ngIf="created_index.key" class="btn btn-secondary mr-1" routerLink="/profile/overview/{{created_index.key}}">Go to index overview <mat-icon>launch</mat-icon></button>
 					</app-alert>
 
-					<app-alert type="info" title="What is an index?" *ngIf="confirmed && !error && !created_index && !contribute_success" [dismissible]="false">
+					<app-alert type="info" title="What is an index?" *ngIf="confirmed && !error && !created_index && !contribute_success && indexes.length <= 10" [dismissible]="false">
 						<p>
 							An index is a collection of enemy intelligence that can be shared with other users.
 							You can create and share your own index, or you can contribute to an existing index.
@@ -43,6 +44,14 @@
 							</div>
 						</app-alert>
 					</div>
+
+          <div class="index-new" *ngIf="confirmed && !loading && indexes.length > 10">
+
+            <button (click)="newIndex()" class="btn btn-success mr-1" style="margin-right: 10px;">
+              Create a new index <mat-icon>library_add</mat-icon>
+            </button>
+
+          </div>
 
 					<div *ngIf="indexes.length > 0">
 
@@ -113,13 +122,16 @@
 
 					</div>
 
-					<div class="index-new" *ngIf="confirmed && !loading">
+          <div class="index-new" *ngIf="confirmed && !loading">
 
-						<button (click)="newIndex()" class="btn btn-primary" style="margin-right: 10px;">
-							Create a new index <mat-icon>library_add</mat-icon>
-						</button>
+            <button (click)="newIndex()" class="btn btn-success mr-1" style="margin-right: 10px;">
+              Create a new index <mat-icon>library_add</mat-icon>
+            </button>
+            <button (click)="importV1Index()" class="btn btn-secondary" style="margin-right: 10px; float: right;">
+              Import V1 index <span style="color: dimgrey">(only for indexes created before April 2021)</span> <mat-icon>download</mat-icon>
+            </button>
 
-					</div>
+          </div>
 
 				</div>
 			</div>

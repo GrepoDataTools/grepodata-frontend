@@ -115,9 +115,12 @@ export class IndexAuthService {
 		});
 	}
 
-	importV1Keys(access_token, keys) {
+	importV1Keys(access_token, keys, verbose=false) {
     let data = new HttpParams()
-      .set('index_keys', keys)
+      .set('index_keys', keys);
+    if (verbose == true) {
+      data = data.set('verbose', 'true');
+    }
     return this.http.post<any>(apiUrl + '/migrate/importv1keys', data, {
       headers: new HttpHeaders({'access_token': access_token})
     });
@@ -131,12 +134,11 @@ export class IndexAuthService {
       let local_v1_keys = this.globals.get_v1_keys();
       if (local_v1_keys) {
         console.log('Found local v1 keys: ', local_v1_keys);
-        return;
-        this.importV1Keys(access_token, local_v1_keys).subscribe((response) => {
+        this.importV1Keys(access_token, local_v1_keys, false).subscribe((response) => {
           console.log('V1 migration response: ', response);
           if (response.success_code && response.success_code === 1400) {
             console.log('migration successful. Removing local v1 keys');
-            this.globals.unset_v1_keys();
+            this.globals.set_migration_complete();
           }
         });
       }

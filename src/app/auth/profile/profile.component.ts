@@ -23,7 +23,7 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
   account_confirmed = false;
   account_linked = false;
   collapsed = false;
-  active_tab = 'intel';
+  active_tab = '';
 
   username = '';
   active_index = '';
@@ -127,9 +127,6 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log(response);
     if (response.hasOwnProperty('activetab')) {
       this.active_tab = response.activetab;
-      // if (this.active_tab == 'overview') {
-      //
-      // }
     }
     if (response.hasOwnProperty('key')) {
       this.active_index = response.key;
@@ -142,6 +139,9 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (response.hasOwnProperty('id')) {
       this.active_id = response.id;
+    }
+    if (!this.active_tab || this.active_tab == '') {
+      this.active_tab = 'intel';
     }
 
     this.loadProfile();

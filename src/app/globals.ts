@@ -88,4 +88,23 @@ export class Globals {
     this.show_duplicates = show_duplicates;
     this.duplicateVisChange.emit(this.show_duplicates);
   }
+
+  // Store V1 keys in local storage to prepare for V2 migration
+  store_v1_key(key) {
+    let storage_key = 'gd_key_list_v1'
+    let keys = [];
+    if (localStorage.getItem(storage_key)) {
+      keys = JSON.parse(localStorage.getItem(storage_key));
+      console.log('Keys from local storage: ', keys);
+    }
+    if (keys.includes(key)) {
+      console.log('Key already exists in local storage: ', key);
+    } else {
+      console.log('Adding key to local storage: ', key);
+      keys.push(key);
+      console.log('Storing new keylist to localstorage: ', keys);
+      localStorage.setItem(storage_key, JSON.stringify(keys));
+    }
+
+  }
 }

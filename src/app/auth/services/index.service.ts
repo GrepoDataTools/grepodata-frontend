@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from "../../../environments/environment";
+import {Globals} from '../../globals';
 
 const apiUrl = environment.apiUrl;
 @Injectable()
 export class IndexAuthService {
 
 	constructor(
-	  private http: HttpClient
+	  private http: HttpClient,
+    private globals: Globals
   ) {}
 
 	getIndexUsers(access_token, index) {
@@ -112,5 +114,35 @@ export class IndexAuthService {
       headers: new HttpHeaders({'access_token': access_token})
 		});
 	}
+
+	importV1Keys(access_token, keys) {
+    let data = new HttpParams()
+      .set('index_keys', keys)
+    return this.http.post<any>(apiUrl + '/migrate/importv1keys', data, {
+      headers: new HttpHeaders({'access_token': access_token})
+    });
+	}
+
+	// Check for V1 keys in local storage and migrate them to authenticated user if logged in
+	implicitV1Migration(access_token) {
+	  try {
+	    console.log('Checking for implicit V1 key migration');
+      // Check v1 keys
+      let local_v1_keys = this.globals.get_v1_keys();
+      if (local_v1_keys) {
+        console.log('Found local v1 keys: ', local_v1_keys);
+        return;
+        this.importV1Keys(access_token, local_v1_keys).subscribe((response) => {
+          console.log('V1 migration response: ', response);
+          if (response.success_code && response.success_code === 1400) {
+            console.log('migration successful. Removing local v1 keys');
+            this.globals.unset_v1_keys();
+          }
+        });
+      }
+    } catch (e) {
+	    console.log('V1 implicit key migration failed: ', e);
+    }
+  }
 
 }

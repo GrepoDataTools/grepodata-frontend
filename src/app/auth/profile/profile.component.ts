@@ -10,12 +10,13 @@ import {ContactDialog} from '../../header/header.component';
 import {BasicDialog} from '../../shared/dialogs/basic/basic.component';
 import {MatSidenav} from '@angular/material/sidenav';
 import {SidenavService} from '../../layout/sidebar/sidenav-service';
+import {IndexAuthService} from '../services/index.service';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
-  providers: [ProfileService],
+  providers: [ProfileService, IndexAuthService, JwtService],
 })
 export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
   logged_in = false;
@@ -36,6 +37,7 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     private authService: JwtService,
+    private indexerAuthService: IndexAuthService,
     private profileService: ProfileService,
     private sidenavService: SidenavService,
     private router: Router,
@@ -58,6 +60,9 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
       this.logout();
     } else {
       this.authService.accessToken().then(access_token => {
+        // Implicit v1 migration
+        this.indexerAuthService.implicitV1Migration(access_token);
+
         this.route.params.subscribe((params) => this.load(params));
       });
     }

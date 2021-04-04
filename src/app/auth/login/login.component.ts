@@ -8,12 +8,14 @@ import { MatDialog } from '@angular/material/dialog';
 import {Globals} from '../../globals';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {BasicDialog} from '../../shared/dialogs/basic/basic.component';
+import {IndexerService} from '../../indexer/indexer.service';
+import {IndexAuthService} from '../services/index.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  providers: [JwtService, RecaptchaComponent],
+  providers: [JwtService, RecaptchaComponent, IndexAuthService],
 })
 export class LoginComponent implements OnInit {
   @ViewChild(RecaptchaComponent, { static: false }) captchaRef: RecaptchaComponent;
@@ -39,6 +41,7 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
     private authService: JwtService,
+    private indexerAuthService: IndexAuthService,
     private dialogRef: MatDialog,
     protected activatedRoute: ActivatedRoute
   ) {
@@ -109,6 +112,9 @@ export class LoginComponent implements OnInit {
           this.globals.delete_active_script_token();
         });
     }
+
+    // Implicit v1 migration
+    this.indexerAuthService.implicitV1Migration(access_token);
 
     // Continue
     this.loading = false;

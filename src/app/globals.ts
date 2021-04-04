@@ -117,4 +117,23 @@ export class Globals {
     this.show_duplicates = show_duplicates;
     this.duplicateVisChange.emit(this.show_duplicates);
   }
+
+  // Get V1 keys from local storage
+  get_v1_keys() {
+    try {
+      let storage_key = 'gd_key_list_v1'
+      if (localStorage.getItem(storage_key)) {
+        let keys = JSON.parse(localStorage.getItem(storage_key));
+        console.log('Loaded V1 keys from local storage: ', keys);
+        return keys;
+      }
+      return false;
+    } catch (e) {
+      console.log('Error loading v1 keys: ', e);
+    }
+  }
+  unset_v1_keys() {
+    let storage_key = 'gd_key_list_v1'
+    localStorage.removeItem(storage_key);
+  }
 }

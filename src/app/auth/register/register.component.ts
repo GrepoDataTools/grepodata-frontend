@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {environment} from "../../../environments/environment";
 import {JwtService} from "../services/jwt.service";
 import {RecaptchaComponent} from "ng-recaptcha";
+import {IndexAuthService} from '../services/index.service';
 
 @Component({
   selector: 'app-register',
@@ -87,6 +88,8 @@ export class RegisterComponent implements OnInit {
 				this.error = '';
 				this.loading = false;
 				this.success = true;
+
+				// direct to profile
 				this.router.navigate(['/profile'])
 			},
 			(error) => {

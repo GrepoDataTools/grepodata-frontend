@@ -24,6 +24,7 @@
                   <input autocomplete="off" class="sb-search-input" placeholder="Search players..." type="search" value="" name="search" id="search-players" (keyup)="searchPlayers($event)">
                   <input class="sb-search-submit" type="button" value="">
                   <span class="sb-icon-search" (click)="doSearchPlayers()"><i class="fa fa-user" ></i></span>
+                  <mat-progress-bar *ngIf="!mobile && searching_players && loading" class="searching-loading" mode="indeterminate"></mat-progress-bar>
                 </form>
               </div>
             </div>
@@ -33,6 +34,7 @@
                   <input autocomplete="off" class="sb-search-input" placeholder="Search alliances..." type="search" value="" name="search" id="search-alliances" (keyup)="searchAlliances($event)">
                   <input class="sb-search-submit" type="button" value="">
                   <span class="sb-icon-search" (click)="doSearchAlliances()"><i class="fa fa-group" ></i></span>
+                  <mat-progress-bar *ngIf="!mobile && searching_alliances && loading" class="searching-loading" mode="indeterminate"></mat-progress-bar>
                 </form>
               </div>
             </div>
@@ -72,8 +74,6 @@
                 <hr>
                 <h3>No players found matching your search <span class="gd-primary">'{{playerInput}}'</span></h3>
               </div>
-
-              <mat-progress-bar *ngIf="loading" style="margin-top: -10px; z-index: 122222;" mode="indeterminate"></mat-progress-bar>
 
               <div *ngIf="!hide_results && num_results > 0" id="search_output"  [ngClass]="{'loading-results-overlay':loading}">
 
@@ -192,7 +192,6 @@
             <!--Alliance results-->
             <div *ngIf="!mobile && searching_alliances">
               <hr>
-              <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
               <div *ngIf="alliances?.length < 1 && !loading" class="text-center">
                 <h3>No alliances found for your search <span class="gd-primary">'{{allianceInput}}'</span></h3>
               </div>

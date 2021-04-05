@@ -71,7 +71,7 @@ export class ShareComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.indexInput);
     this.index = this.indexInput;
-    this.share_link = 'https://grepodata.com/share/' + this.index.key + '/' + this.index.share_link
+    this.share_link = 'https://grepodata.com/invite/' + this.index.key + this.index.share_link
 
     setTimeout(() => this.username_input.nativeElement.focus());
   }
@@ -97,7 +97,7 @@ export class ShareComponent implements OnInit {
             this.loadingLink = false;
             console.log(response);
             if ('success_code' in response && response.success_code === 1200) {
-              this.share_link = 'https://grepodata.com/share/' + this.index.key + '/' + response.share_link;
+              this.share_link = 'https://grepodata.com/invite/' + this.index.key + response.share_link;
             }
           },
           (error) => {

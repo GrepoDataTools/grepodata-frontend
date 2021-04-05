@@ -76,6 +76,7 @@ export class IndexSearchComponent implements AfterViewInit {
       this.searching_towns = false;
       this.hide_results = false;
       this.loading = true;
+      this.cdr.detectChanges();
 
       this.authService.accessToken().then(access_token => {
         this.searchService.searchPlayersIndexed(access_token, this.playerInput, this.world)
@@ -112,6 +113,7 @@ export class IndexSearchComponent implements AfterViewInit {
       this.searching_towns = true;
       this.hide_results = false;
       this.loading = true;
+      this.cdr.detectChanges();
 
       this.authService.accessToken().then(access_token => {
         this.searchService.searchTownsIndexed(access_token, this.townInput, this.world)
@@ -148,6 +150,8 @@ export class IndexSearchComponent implements AfterViewInit {
       this.searching_towns = false;
       this.hide_results = false;
       this.loading = true;
+      this.cdr.detectChanges();
+
       this.searchService.searchAlliances(this.allianceInput, 0, 30, this.world)
         .subscribe(
           (response) => this.renderAllianceOutput(response),

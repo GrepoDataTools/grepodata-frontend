@@ -7,6 +7,12 @@ mat-card {
   margin-bottom: 5px;
 }
 
+.searching-loading {
+  z-index: 10;
+  bottom: 0px;
+  position: absolute;
+}
+
 @media (min-width:1200px) {
   //.top-container {
   //  position: -webkit-sticky; /* Safari */

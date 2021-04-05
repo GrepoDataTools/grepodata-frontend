@@ -89,13 +89,13 @@ export class OverviewComponent implements OnInit {
   private loadIndex(data) {
     console.log(data);
     this.globals.set_active_intel(data.world);
-    this.is_admin = data.is_admin || false;
+    this.is_admin = data.is_admin;
     this.share_link = data.share_link || '';
     this.delete_days = data.num_days || 0;
-    this.allow_join_v1_key = data.allow_join_v1_key || false;
+    this.allow_join_v1_key = data.allow_join_v1_key;
     this.index_version = data.index_version || '2';
     this.role = data.role || 'read';
-    this.contribute = data.contribute==1 || true;
+    this.contribute = data.contribute===1;
     this.world = data.world;
     this.index_name = data.index_name;
     this.data = data;

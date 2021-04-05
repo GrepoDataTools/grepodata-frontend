@@ -202,13 +202,20 @@
 											Index owner<span *ngIf="data.owners && data.owners.length > 1">s</span>
 										</th>
 										<td>
-											<div style="float: right;">
+											<div style="float: right;" *ngIf="is_admin">
 												<a><mat-icon class="edit-owner" (click)="showSettingsDialog()">edit</mat-icon></a>
 											</div>
 											<div *ngFor="let owner of data.owners" matTooltip="Your intel is shared with allied alliances. You will see their intel, and they will see your intel. You can not see intel about each other's towns.">
 												<p class="gd-primary"><img src="../../assets/images/ally_ico.png" style="margin-top: -4px;"/> {{owner.alliance_name}}</p>
 											</div>
 										</td>
+									</tr>
+									<tr *ngIf="data.total_reports > 0 && !is_admin">
+                    <td colspan="2" class="text-center gd-primary">
+                      <strong *ngIf="role=='read'">You are not allowed to contribute to this index.</strong>
+                      <strong *ngIf="role=='write' && contribute===true">You are currently contributing to this index.</strong>
+                      <strong *ngIf="role=='write' && contribute===false">You have disabled contributions to this index. The intel you collect will not be added to this index.</strong>
+                    </td>
 									</tr>
 									<tr *ngIf="data.total_reports == 0">
 										<td colspan="2" class="text-center">

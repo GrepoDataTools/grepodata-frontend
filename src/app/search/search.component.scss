@@ -21,6 +21,12 @@ mat-card {
   transition: opacity .1s;
 }
 
+.searching-loading {
+  z-index: 10;
+  bottom: 0px;
+  position: absolute;
+}
+
 .search-shadow {
   box-shadow: 0 5px 5px -5px #333!important;
 }

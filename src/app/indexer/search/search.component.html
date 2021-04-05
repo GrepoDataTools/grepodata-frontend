@@ -12,6 +12,7 @@
                   <input autocomplete="off" class="sb-search-input" placeholder="Search players..." type="search" value="" name="search" id="search-players" (keyup)="searchPlayers($event)">
                   <input class="sb-search-submit" type="button" value="">
                   <span class="sb-icon-search" (click)="doSearchPlayers()"><i class="fa fa-user" ></i></span>
+                  <mat-progress-bar *ngIf="searching_players && loading" class="searching-loading" mode="indeterminate"></mat-progress-bar>
                 </form>
               </div>
             </div>
@@ -21,6 +22,7 @@
                   <input autocomplete="off" class="sb-search-input" placeholder="Search alliances..." type="search" value="" name="search" id="search-alliances" (keyup)="searchAlliances($event)">
                   <input class="sb-search-submit" type="button" value="">
                   <span class="sb-icon-search" (click)="doSearchAlliances()"><i class="fa fa-group" ></i></span>
+                  <mat-progress-bar *ngIf="searching_alliances && loading" class="searching-loading" mode="indeterminate"></mat-progress-bar>
                 </form>
               </div>
             </div>
@@ -30,6 +32,7 @@
                   <input autocomplete="off" class="sb-search-input" placeholder="Search towns..." type="search" value="" name="search" id="search-towns" (keyup)="searchTowns($event)">
                   <input class="sb-search-submit" type="button" value="">
                   <span class="sb-icon-search" (click)="doSearchTowns()"><i class="fa fa-university" ></i></span>
+                  <mat-progress-bar *ngIf="searching_towns && loading" class="searching-loading" mode="indeterminate"></mat-progress-bar>
                 </form>
               </div>
             </div>
@@ -39,7 +42,6 @@
 
             <!--Player results-->
             <div *ngIf="searching_players" class="col-xs-12 col-sm-12 col-md-5">
-              <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
               <div *ngIf="players?.length < 1 && !loading" class="text-center">
                 <div class="alert alert-gd-1">
                   <h3>No intel found for '<span class="gd-secondary">{{playerInput}}</span>'</h3>
@@ -87,7 +89,6 @@
 
             <!--Alliance results-->
             <div *ngIf="searching_alliances" class="col-xs-12 col-sm-12 col-md-6 col-md-offset-3">
-              <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
               <div *ngIf="alliances?.length < 1 && !loading" class="text-center">
                 <div class="alert alert-gd-1">
                   <h3>No intel found for '<span class="gd-secondary">{{allianceInput}}</span>'</h3>
@@ -151,7 +152,6 @@
 
             <!--Town results-->
             <div *ngIf="searching_towns" class="col-xs-12 col-sm-12 col-md-5 col-md-offset-7">
-              <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
               <div *ngIf="towns?.length < 1 && !loading" class="text-center">
                 <div class="alert alert-gd-1">
                   <h3>No intel found for '<span class="gd-secondary">{{townInput}}</span>'</h3>

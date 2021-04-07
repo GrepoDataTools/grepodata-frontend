@@ -115,6 +115,14 @@ export class IndexAuthService {
 		});
 	}
 
+	verifyInviteLink(access_token, invite_link) {
+    let data = new HttpParams()
+      .set('invite_link', invite_link);
+    return this.http.post<any>(apiUrl + '/indexer/invite', data, {
+      headers: new HttpHeaders({'access_token': access_token})
+    });
+  }
+
 	importV1Keys(access_token, keys, verbose=false) {
     let data = new HttpParams()
       .set('index_keys', keys);

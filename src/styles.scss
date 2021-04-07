@@ -467,7 +467,7 @@ mat-paginator {
   padding: 15px;
 }
 .decorated-card-header-secondary {
-  background: #388492;
+  background: #18bc9c;
   padding: 10px;
 }
 
@@ -895,6 +895,13 @@ fieldset[disabled] .btn-success.active {
 .btn:active,
 .btn.active {
   outline: none;
+}
+.btn-lg {
+  padding: 10px 25px;
+
+  .mat-icon {
+    vertical-align: text-bottom !important;
+  }
 }
 
 .close {

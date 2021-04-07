@@ -155,13 +155,13 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
           this.account_confirmed = true;
         }
       }
-      if (payload.hasOwnProperty('account_is_linked')) {
-        if (payload.account_is_linked === true) {
-          this.account_linked = true;
-        }
-      }
+      // if (payload.hasOwnProperty('account_is_linked')) {
+      //   if (payload.account_is_linked === true) {
+      //     this.account_linked = true;
+      //   }
+      // }
 
-      if (!this.account_confirmed || !this.account_linked) {
+      if (!this.account_confirmed) {
         // check again
         console.log('verifying account status');
         this.authService.verifyToken(access_token).subscribe((response) => {
@@ -170,10 +170,10 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
             this.account_confirmed = true;
             refresh = true;
           }
-          if (response.hasOwnProperty('account_is_linked') && response.account_is_linked === true) {
-            this.account_linked = true;
-            refresh = true;
-          }
+          // if (response.hasOwnProperty('account_is_linked') && response.account_is_linked === true) {
+          //   this.account_linked = true;
+          //   refresh = true;
+          // }
 
           if (refresh) {
             this.authService.refreshAccessToken().subscribe((res) => {});

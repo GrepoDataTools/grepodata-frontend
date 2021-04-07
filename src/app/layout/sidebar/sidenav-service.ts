@@ -14,7 +14,10 @@ export class SidenavService {
   }
 
   public close() {
-    return this.sidenav.close();
+    if (this.sidenav) {
+      return this.sidenav.close();
+    }
+    return true;
   }
 
   public toggle(): void {

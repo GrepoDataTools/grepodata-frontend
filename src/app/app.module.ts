@@ -126,6 +126,8 @@ import { ConfirmComponent } from './auth/confirm/confirm.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { ConfirmDeleteComponent } from './auth/confirm-delete/confirm-delete.component';
 import {SidenavService} from './layout/sidebar/sidenav-service';
+import { InviteComponent } from './indexer/invite/invite.component';
+import { LoginRegisterComponent } from './auth/login-register/login-register.component';
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -165,6 +167,7 @@ const appRoutes: Routes = [
     { path: 'indexer/:key', redirectTo: 'profile/overview/:key' }, // TODO: reroute to CatchV2
     // { path: 'indexer', redirectTo: 'profile/overview' },
     { path: 'indexer', component: LandingPageComponent },
+    { path: 'invite/:invite_link', component: InviteComponent },
     { path: 'siege/:id/:key', component: SiegeComponent },
     { path: 'siege/:uid', component: SiegeComponent },
     { path: 'player/:world/:id', component: PlayerComponent },
@@ -267,6 +270,8 @@ export function jwtTokenGetter(): any {
         ConfirmComponent,
         ResetPasswordComponent,
         ConfirmDeleteComponent,
+        InviteComponent,
+        LoginRegisterComponent,
     ],
     imports: [
         FormsModule,

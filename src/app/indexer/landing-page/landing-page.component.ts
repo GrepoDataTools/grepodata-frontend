@@ -25,13 +25,7 @@ export class LandingPageComponent implements OnInit {
     public authService: JwtService,
     public dialog: MatDialog) {
     if (authService.refreshToken) {
-      // has access token ==> redirect existing user to profile
       this.router.navigate(['/profile']);
-    }  else {
-      // new user
-      // no access token ==> show landing page with explanation about what the indexer is
-      //        - Front and center: register form
-      //        - below: info about indexer
     }
   }
 
@@ -42,4 +36,11 @@ export class LandingPageComponent implements OnInit {
     );
   }
 
+  scrollTop() {
+    window.scrollTo(0, 0);
+  }
+
+  loginCallback() {
+    this.router.navigate(['/profile']);
+  }
 }

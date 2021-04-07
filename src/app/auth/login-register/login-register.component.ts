@@ -1,0 +1,212 @@
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {RecaptchaComponent} from 'ng-recaptcha';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {environment} from "../../../environments/environment";
+import {Router} from '@angular/router';
+import {JwtService} from '../services/jwt.service';
+
+@Component({
+  selector: 'app-login-register',
+  templateUrl: './login-register.component.html',
+  styleUrls: ['./login-register.component.scss']
+})
+export class LoginRegisterComponent implements OnInit {
+  @ViewChild(RecaptchaComponent, { static: false }) captchaRef: RecaptchaComponent;
+
+  @Input() embeddedCallback: any;
+
+  environment = environment;
+  loginForm: FormGroup;
+  registerForm: FormGroup;
+  register_submitted = false;
+  login_submitted = false;
+  register_loading = false;
+  login_loading = false;
+  register_success = false;
+  login_success = false;
+  register_error = '';
+  login_error = '';
+  captcha = '';
+  recaptcha_key = environment.recaptcha;
+
+  execute_login = false;
+  execute_register = false;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private authService : JwtService
+  ) {
+    this.authService.accessToken().then(access_token => {
+      this.loginComplete(access_token);
+    });
+  }
+
+  ngOnInit(): void {
+    this.loginForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+    this.registerForm = this.formBuilder.group({
+      newusername: ['', Validators.required],
+      mail: ['', Validators.required],
+      newpassword: ['', Validators.required],
+      privacy: ['', Validators.required]
+    });
+  }
+
+  // convenience getter for easy access to form fields
+  get lf() { return this.loginForm.controls; }
+  get rf() { return this.registerForm.controls; }
+
+  resolved_captcha(captchaResponse: string) {
+    this.captcha = captchaResponse;
+    if (this.execute_login) {
+      this.executeLogin()
+    } else {
+      this.executeRegister()
+    }
+  }
+
+  doLogin() {
+    this.execute_login = true;
+    this.execute_register = false;
+    if (environment.production==true) {
+      this.captchaRef.execute()
+    } else {
+      this.executeLogin();
+    }
+  }
+
+  doRegister() {
+    this.execute_login = false;
+    this.execute_register = true;
+    if (environment.production==true) {
+      this.captchaRef.execute()
+    } else {
+      this.executeRegister();
+    }
+  }
+
+  executeLogin() {
+    console.log("Login");
+    this.login_submitted = true;
+    if (this.loginForm.invalid) {
+      if (this.captchaRef != undefined) { this.captchaRef.reset(); }
+      return;
+    }
+
+    this.login_loading = true;
+    this.authService
+      .login(this.lf.username.value, this.lf.password.value, this.captcha != '' ? this.captcha : 'dev')
+      .subscribe(
+        (response) => {
+          this.login_error = '';
+          this.login_success = true;
+
+          // handle login complete
+          this.loginComplete(response.access_token);
+        },
+        (error) => {
+          this.captcha = '';
+          this.login_error = '';
+          console.log(error);
+          if (error.error.message != undefined && error.error.message.search('Invalid captcha') != -1) {
+            this.login_error =
+              'Sorry, we could not verify the captcha. Please try again later or contact us if this error persists.';
+          }
+          if (error.error.error_code != undefined && error.error.error_code == 3004) {
+            this.loginForm.controls.username.setErrors({'custom': 'No user found with this username or email address.'});
+          } else if (error.error.error_code != undefined && error.error.error_code == 3005) {
+            this.loginForm.controls.password.setErrors({'custom': 'Invalid password for this user.'});
+          } else {
+            this.login_error = 'Unable to login, please try again later.';
+          }
+          this.login_loading = false;
+          if (this.captchaRef != undefined) {
+            this.captchaRef.reset();
+          }
+        }
+      );
+  }
+
+  executeRegister() {
+    console.log("Register");
+    this.register_submitted = true;
+    let has_error = false;
+
+    if (!this.rf.newusername.invalid && this.rf.newusername.value.length < 4) {
+      this.registerForm.controls.newusername.setErrors({'custom': 'Your username must be at least 4 characters long'});
+      has_error = true;
+    }
+
+    if (!this.rf.newpassword.invalid && this.rf.newpassword.value.length < 8) {
+      this.registerForm.controls.newpassword.setErrors({'custom': 'Your password must be at least 8 characters long'});
+      has_error = true;
+    }
+
+    let mailreg = new RegExp(/^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i);
+    if (!this.rf.mail.invalid && !mailreg.test(this.rf.mail.value)) {
+      this.registerForm.controls.mail.setErrors({'custom': 'Enter a valid email address (e.g. john@example.com)'});
+      has_error = true;
+    }
+
+    if (has_error || this.registerForm.invalid) {
+      if (this.captchaRef != undefined) { this.captchaRef.reset(); }
+      return;
+    }
+
+    this.register_loading = true;
+    this.authService.register(this.rf.newusername.value, this.rf.mail.value, this.rf.newpassword.value, this.captcha!=''?this.captcha:'dev').subscribe(
+      (response) => {
+        // console.log(response);
+        this.register_error = '';
+        this.register_success = true;
+
+        // handle login complete
+        if (response.access_token != undefined) {
+          this.loginComplete(response.access_token);
+        } else {
+          this.register_error = "Sorry, something went wrong. Please try again later or contact us if this error persists.";
+          this.register_loading = false;
+        }
+      },
+      (error) => {
+        this.captcha = '';
+        this.register_error = "";
+        console.log(error);
+        if (error.error.message != undefined && error.error.message.search('Invalid captcha') != -1) {
+          this.register_error = 'Sorry, we could not verify the captcha. Please try again later or contact us if this error persists.';
+        } else if (error.error.error_code != undefined && error.error.error_code == 3030) {
+          this.registerForm.controls.mail.setErrors({'custom': 'The email address you entered is already in use. Please reset your password or use a different address.'});
+        } else if (error.error.error_code != undefined && error.error.error_code == 3032) {
+          this.registerForm.controls.newusername.setErrors({'custom': 'The username you entered is already in use. Please enter a different username.'});
+        } else if (error.error.error_code != undefined && error.error.error_code == 3033) {
+          this.registerForm.controls.newusername.setErrors({'custom': 'The username you entered is too short. Please enter a different username.'});
+        } else if (error.error.error_code != undefined && error.error.error_code == 3034) {
+          this.registerForm.controls.newusername.setErrors({'custom': 'The username you entered is too long. Please enter a different username.'});
+        } else {
+          this.register_error = "Sorry, something went wrong. Please try again later or contact us if this error persists.";
+        }
+        this.register_loading = false;
+        if (this.captchaRef != undefined) {
+          this.captchaRef.reset();
+        }
+      },
+    );
+  }
+
+  loginComplete(access_token) {
+    console.log("login complete")
+    if (!this.embeddedCallback) {
+      // No callback specified, direct to profile
+      this.router.navigate(['/profile']);
+    } else {
+      // Execute callback
+      this.embeddedCallback(access_token);
+    }
+
+    this.login_loading = false;
+    this.register_loading = false;
+  }
+}

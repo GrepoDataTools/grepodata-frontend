@@ -98,8 +98,10 @@ tr {
 .bs-wizard > .bs-wizard-step + .bs-wizard-step {}
 .bs-wizard > .bs-wizard-step .bs-wizard-stepnum {color: #595959; font-size: 16px; margin-bottom: 5px;}
 .bs-wizard > .bs-wizard-step .bs-wizard-info {margin: 10px; color: #999; font-size: 18px;}
+.bs-wizard > .bs-wizard-step > .bs-wizard-pulsate {position: absolute; width: 30px; height: 30px; display: block; background: #18BC9C; top: 45px; left: 50%; margin-top: -15px; margin-left: -15px; border-radius: 50%;}
 .bs-wizard > .bs-wizard-step > .bs-wizard-dot {position: absolute; width: 30px; height: 30px; display: block; background: #18BC9C; top: 45px; left: 50%; margin-top: -15px; margin-left: -15px; border-radius: 50%;}
 .bs-wizard > .bs-wizard-step > .bs-wizard-dot:after {content: ' '; width: 14px; height: 14px; background: #304357; border-radius: 50px; position: absolute; top: 8px; left: 8px; }
+.bs-wizard > .bs-wizard-step > .inactive {opacity: 0.4;}
 .bs-wizard > .bs-wizard-step > .progress {position: relative; border-radius: 0px; height: 8px; box-shadow: none; margin: 20px 0;}
 .bs-wizard > .bs-wizard-step > .progress > .progress-bar {width:0px; box-shadow: none; background: #18BC9C;}
 .bs-wizard > .bs-wizard-step.complete > .progress > .progress-bar {width:100%;}
@@ -112,6 +114,15 @@ tr {
 .bs-wizard > .bs-wizard-step:last-child  > .progress {width: 50%;}
 .bs-wizard > .bs-wizard-step.disabled a.bs-wizard-dot{ pointer-events: none; }
 
+.bs-wizard-pulsate {
+  -webkit-animation: pulsate 2s ease-out;
+  -webkit-animation-iteration-count: infinite;
+}
+@-webkit-keyframes pulsate {
+  0% {-webkit-transform: scale(0.4, 0.4); opacity: 0.0;}
+  50% {opacity: 0.6;}
+  100% {-webkit-transform: scale(1.5, 1.5); opacity: 0.0;}
+}
 
 //stats
 

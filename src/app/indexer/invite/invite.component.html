@@ -1,0 +1,50 @@
+<div class="invite-component">
+
+  <div class="container">
+    <div class="row" style="padding-top: 30px;">
+
+
+      <div *ngIf="!invalid_link" class="alert alert-warning alert-gd-2 text-center">
+
+        <div class="row">
+          <div class="col-xs-2">
+            <mat-icon class="icon-margin"><img src="../../assets/images/favicon_lg_white.png" height="70"/></mat-icon>
+          </div>
+          <div class="col-xs-10" *ngIf="!v1_redirect">
+            <h2><strong>You have to be logged in to accept this invitation</strong></h2>
+            <h4>Login with an existing account or register for a new account to join this index</h4>
+          </div>
+          <div class="col-xs-10" *ngIf="v1_redirect">
+            <h2><strong>You have to be logged in to view this index</strong></h2>
+            <h4>As of April 2021, you will need to be logged in to collect and share enemy intelligence.</h4>
+            <p>Please create a new account or sign in to your existing account using the form below. Your old intel will still be available once you have an account.</p>
+          </div>
+        </div>
+      </div>
+
+      <app-alert type="error" title="Invalid invite link" [dismissible]="false" *ngIf="invalid_link">
+        <h3><strong>grepodata.com/invite/{{invite_link}}</strong> is not a valid invite link</h3>
+        <h4>The link you are using is not a valid invite link. Please ask the owner of the index for a new invite link</h4>
+      </app-alert>
+
+    </div>
+  </div>
+
+  <div *ngIf="!invalid_link">
+    <app-login-register></app-login-register>
+  </div>
+
+  <div *ngIf="invalid_link">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 text-center" style="padding-top: 50px;">
+          <button routerLink="/indexer" class="btn btn-lg btn-success mr-1">
+            <mat-icon>keyboard_arrow_left</mat-icon> Back to indexer overview
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+

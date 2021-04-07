@@ -120,7 +120,6 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
 
   logout() {
     this.authService.logout();
-    this.router.navigate(['/login']);
   }
 
   load(response) {

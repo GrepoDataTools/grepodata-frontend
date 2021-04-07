@@ -145,7 +145,6 @@ const appRoutes: Routes = [
     { path: 'points/:world', component: ScoreboardComponent },
     { path: 'm/:world', component: ScoreboardComponent },
     { path: 'points', component: ScoreboardComponent },
-    // { path: 'world/:world', component: WorldComponent },
     { path: 'ranking/:type/:world/:sort/:offset/:highlight', component: RankingComponent },
     { path: 'ranking/:type/:world/:sort/:offset', component: RankingComponent },
     { path: 'ranking/:type/:world/:sort', component: RankingComponent },
@@ -159,15 +158,14 @@ const appRoutes: Routes = [
     { path: 'changelog', component: ChangelogComponent },
     { path: 'compare/:type/:world', component: CompareComponent },
     { path: 'analytics', component: AnalyticsComponent },
-    // TODO: catch these old routes and implement import V1 logic
-    { path: 'indexer/player/:key/:world/:id', redirectTo: 'profile/player/:world/:id' }, // TODO: reroute to CatchV2
-    { path: 'indexer/alliance/:key/:world/:id', redirectTo: 'profile/alliance/:world/:id' }, // TODO: reroute to CatchV2
-    { path: 'indexer/town/:key/:world/:id', redirectTo: 'profile/town/:world/:id' }, // TODO: reroute to CatchV2
-    { path: 'indexer/action/:token', component: ActionComponent },  // Deprecated
-    { path: 'indexer/:key', redirectTo: 'profile/overview/:key' }, // TODO: reroute to CatchV2
-    // { path: 'indexer', redirectTo: 'profile/overview' },
+    { path: 'indexer/player/:key/:world/:id', redirectTo: 'invite/:key/player/:world/:id' }, // Rerouted to V2 invite
+    { path: 'indexer/alliance/:key/:world/:id', redirectTo: 'invite/:key/alliance/:world/:id' }, // Rerouted to V2 invite
+    { path: 'indexer/town/:key/:world/:id', redirectTo: 'invite/:key/town/:world/:id' }, // Rerouted to V2 invite
+    { path: 'indexer/:key', redirectTo: 'invite/:key' }, // Rerouted to V2 invite
+    { path: 'indexer/action/:token', redirectTo: 'indexer' },  // Deprecated
+    { path: 'invite/:invite_link', component: InviteComponent }, // V2 invite route
+    { path: 'invite/:invite_link/:type/:world/:id', component: InviteComponent }, // Invite route to catch V1 redirects
     { path: 'indexer', component: LandingPageComponent },
-    { path: 'invite/:invite_link', component: InviteComponent },
     { path: 'siege/:id/:key', component: SiegeComponent },
     { path: 'siege/:uid', component: SiegeComponent },
     { path: 'player/:world/:id', component: PlayerComponent },

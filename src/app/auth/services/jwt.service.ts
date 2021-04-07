@@ -24,6 +24,9 @@ export class JwtService {
   public accessToken(): Promise<string> {
     return new Promise(resolve => {
       let token = localStorage.getItem('access_token');
+      if (!token) {
+        reject(null);
+      }
       let payload = jwt_decode(token);
       if (payload.exp < Date.now() / 1000 - 60) {
         console.log('refreshing');

@@ -1,50 +1,84 @@
-<div class="invite-component">
 
-  <div class="container">
-    <div class="row" style="padding-top: 30px;">
+<div *ngIf="verification_loading" class="text-center">
+  <div class="align-middle" style="position: relative; top: 250px; left: 25%; width: 50%;">
+    <h3 class="gd-primary"><strong>Loading...</strong></h3>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+</div>
+
+<div *ngIf="!verification_loading" class="invite-component">
+
+  <div class="container" *ngIf="!error">
+    <div class="row" style="padding: 4% 0 2%;">
 
 
-      <div *ngIf="!invalid_link" class="alert alert-warning alert-gd-2 text-center">
+      <div class="alert alert-warning alert-gd-2 text-center">
 
         <div class="row">
           <div class="col-xs-2">
-            <mat-icon class="icon-margin"><img src="../../assets/images/favicon_lg_white.png" height="70"/></mat-icon>
+            <mat-icon style="color: #18bc9c; font-size: 70px;" *ngIf="expired">timer_off</mat-icon>
+            <mat-icon style="color: #18bc9c; font-size: 70px;" *ngIf="!expired && invalid_link">block</mat-icon>
+            <mat-icon style="color: #18bc9c; font-size: 70px;" *ngIf="!expired && !invalid_link">verified_user</mat-icon>
+            <!--report-->
+            <!--lock_open-->
           </div>
-          <div class="col-xs-10" *ngIf="!v1_redirect">
+          <div class="col-xs-10" *ngIf="expired">
+            <h2><strong>Sorry,</strong> this invite link has expired</h2>
+            <h4>Please ask the owner of the index for a new invite link</h4>
+          </div>
+          <div class="col-xs-10" *ngIf="!expired && invalid_link">
+            <h2><strong>Oops, this is not a valid invite link</strong></h2>
+            <h4>grepodata.com/invite/{{invite_link}} is not a valid invite link.<br/>Please ask the owner of the index for a new invite link</h4>
+          </div>
+          <div class="col-xs-10" *ngIf="!expired && !invalid_link && !v1_redirect">
             <h2><strong>You have to be logged in to accept this invitation</strong></h2>
-            <h4>Login with an existing account or register for a new account to join this index</h4>
+            <h4>Sign in with an existing account or register for a new account to join this index</h4>
           </div>
-          <div class="col-xs-10" *ngIf="v1_redirect">
+          <div class="col-xs-10" *ngIf="!expired && !invalid_link && v1_redirect">
             <h2><strong>You have to be logged in to view this index</strong></h2>
-            <h4>As of April 2021, you will need to be logged in to collect and share enemy intelligence.</h4>
-            <p>Please create a new account or sign in to your existing account using the form below. Your old intel will still be available once you have an account.</p>
+            <h4>As of April 2021, you need to be signed in to collect and share enemy intelligence.</h4>
+            <p>Please sign in or create a new account. <strong>Your old intel will still be available once you have an account.</strong></p>
           </div>
         </div>
       </div>
 
-      <app-alert type="error" title="Invalid invite link" [dismissible]="false" *ngIf="invalid_link">
-        <h3><strong>grepodata.com/invite/{{invite_link}}</strong> is not a valid invite link</h3>
-        <h4>The link you are using is not a valid invite link. Please ask the owner of the index for a new invite link</h4>
-      </app-alert>
-
     </div>
   </div>
 
-  <div *ngIf="!invalid_link">
-    <app-login-register></app-login-register>
+  <div *ngIf="!invalid_link && !error">
+    <app-login-register [useCallback]="true" (onEmbeddedCallback)="loginCallback($event[0])"></app-login-register>
   </div>
 
-  <div *ngIf="invalid_link">
+  <div class="container" *ngIf="error">
+    <div class="row" style="padding: 4% 0 2%;">
+      <div class="alert alert-warning alert-gd-2 text-center">
+        <div class="row">
+          <div class="col-xs-2">
+            <mat-icon style="color: #18bc9c; font-size: 70px;">error_outline</mat-icon>
+          </div>
+          <div class="col-xs-10">
+            <div [outerHTML]="error"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="invalid_link || error">
     <div class="container">
       <div class="row">
         <div class="col-xs-12 text-center" style="padding-top: 50px;">
-          <button routerLink="/indexer" class="btn btn-lg btn-success mr-1">
+          <button routerLink="/indexer" class="btn btn-lg btn-success mr-1" *ngIf="!logged_in">
             <mat-icon>keyboard_arrow_left</mat-icon> Back to indexer overview
+          </button>
+          <button routerLink="/profile" class="btn btn-lg btn-success mr-1" *ngIf="logged_in">
+            <mat-icon>keyboard_arrow_left</mat-icon> Back to my intel
           </button>
         </div>
       </div>
     </div>
   </div>
+
 
 </div>
 

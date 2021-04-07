@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {RecaptchaComponent} from 'ng-recaptcha';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {environment} from "../../../environments/environment";
@@ -13,7 +13,8 @@ import {JwtService} from '../services/jwt.service';
 export class LoginRegisterComponent implements OnInit {
   @ViewChild(RecaptchaComponent, { static: false }) captchaRef: RecaptchaComponent;
 
-  @Input() embeddedCallback: any;
+  @Input() useCallback: boolean;
+  @Output() onEmbeddedCallback: EventEmitter<any> = new EventEmitter();
 
   environment = environment;
   loginForm: FormGroup;
@@ -198,12 +199,12 @@ export class LoginRegisterComponent implements OnInit {
 
   loginComplete(access_token) {
     console.log("login complete")
-    if (!this.embeddedCallback) {
+    if (!this.useCallback) {
       // No callback specified, direct to profile
       this.router.navigate(['/profile']);
     } else {
-      // Execute callback
-      this.embeddedCallback(access_token);
+      // Execute callback event
+      this.onEmbeddedCallback.emit([access_token]);
     }
 
     this.login_loading = false;

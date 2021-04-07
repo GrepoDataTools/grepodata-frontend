@@ -35,7 +35,7 @@ export class ConfirmDeleteComponent implements OnInit {
       if ('token' in params) {
         this.token = params.token
       } else {
-        this.router.navigate(['/login']);
+        this.router.navigate(['/indexer']);
       }
     });
 

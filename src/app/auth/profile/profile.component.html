@@ -23,6 +23,9 @@
       <!--</p>-->
 		<!--</app-alert>-->
 
+    <div *ngIf="active_tab === 'bug'">
+      <app-bug-report></app-bug-report>
+    </div>
     <div *ngIf="active_tab === 'overview'">
       <app-overview></app-overview>
     </div>

@@ -40,7 +40,4 @@ export class LandingPageComponent implements OnInit {
     window.scrollTo(0, 0);
   }
 
-  loginCallback() {
-    this.router.navigate(['/profile']);
-  }
 }

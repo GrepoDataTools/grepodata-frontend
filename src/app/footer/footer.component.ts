@@ -34,8 +34,7 @@ export class FooterComponent implements OnInit {
         } else if (path.indexOf('/indexer') !== -1) {
           this.simplified = true;
         } else if (
-          path.indexOf('/link') !== -1
-          || path.indexOf('/profile') !== -1
+          path.indexOf('/profile') !== -1
           || path.indexOf('/intel') !== -1
         ) {
           this.simplified = true;

@@ -85,10 +85,7 @@ import { IndexVersionComponent } from './index-version/index-version.component';
 import { DiscordComponent } from './discord/discord.component';
 import { FaqComponent } from './faq/faq.component';
 import { DonatedComponent } from './donated/donated.component';
-import { LoginComponent } from './auth/login/login.component';
 import { ProfileComponent } from './auth/profile/profile.component';
-import { RegisterComponent } from './auth/register/register.component';
-import { ForgotComponent } from './auth/forgot/forgot.component';
 import { ConquestDialog } from './conquest/conquest.service';
 import { UnitModule } from './advertorial/unit/unit.module';
 import { TableComponent } from './indexer/table/table.component';
@@ -128,17 +125,18 @@ import { ConfirmDeleteComponent } from './auth/confirm-delete/confirm-delete.com
 import {SidenavService} from './layout/sidebar/sidenav-service';
 import { InviteComponent } from './indexer/invite/invite.component';
 import { LoginRegisterComponent } from './auth/login-register/login-register.component';
+import { BugReportComponent } from './auth/profile/components/bug-report/bug-report.component';
 
 const appRoutes: Routes = [
-    { path: 'login', component: LoginComponent },
-    { path: 'link/:uid', component: LoginComponent },
-    { path: 'register', component: RegisterComponent },
+    { path: 'login', component: LandingPageComponent },
+    { path: 'register', component: LandingPageComponent },
+    { path: 'forgot', component: LandingPageComponent },
+    { path: 'indexer', component: LandingPageComponent },
     { path: 'profile', component: ProfileComponent },
     { path: 'profile/:activetab', component: ProfileComponent },
     { path: 'profile/:activetab/:key', component: ProfileComponent },
     { path: 'intel/:activetab/:world/:id', component: ProfileComponent },
     { path: 'intel/:activetab/:key/:world/:id', component: ProfileComponent },
-    { path: 'forgot', component: ForgotComponent },
     { path: 'reset/:token', component: ResetPasswordComponent },
     { path: 'delete/:token', component: ConfirmDeleteComponent },
     { path: 'points/:world/:date', component: ScoreboardComponent },
@@ -165,7 +163,8 @@ const appRoutes: Routes = [
     { path: 'indexer/action/:token', redirectTo: 'indexer' },  // Deprecated
     { path: 'invite/:invite_link', component: InviteComponent }, // V2 invite route
     { path: 'invite/:invite_link/:type/:world/:id', component: InviteComponent }, // Invite route to catch V1 redirects
-    { path: 'indexer', component: LandingPageComponent },
+    { path: 'link/:uid', component: InviteComponent }, // V2 userscript authentication
+    { path: 'userscript', component: UserscriptComponent },
     { path: 'siege/:id/:key', component: SiegeComponent },
     { path: 'siege/:uid', component: SiegeComponent },
     { path: 'player/:world/:id', component: PlayerComponent },
@@ -243,10 +242,7 @@ export function jwtTokenGetter(): any {
         DiscordComponent,
         FaqComponent,
         DonatedComponent,
-        LoginComponent,
         ProfileComponent,
-        RegisterComponent,
-        ForgotComponent,
         TableComponent,
         AnalyticsComponent,
         IntelComponent,
@@ -270,6 +266,7 @@ export function jwtTokenGetter(): any {
         ConfirmDeleteComponent,
         InviteComponent,
         LoginRegisterComponent,
+        BugReportComponent,
     ],
     imports: [
         FormsModule,

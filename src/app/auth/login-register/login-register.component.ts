@@ -4,11 +4,15 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {environment} from "../../../environments/environment";
 import {Router} from '@angular/router';
 import {JwtService} from '../services/jwt.service';
+import {IndexAuthService} from '../services/index.service';
+import {BasicDialog} from '../../shared/dialogs/basic/basic.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-login-register',
   templateUrl: './login-register.component.html',
-  styleUrls: ['./login-register.component.scss']
+  styleUrls: ['./login-register.component.scss'],
+  providers: [IndexAuthService]
 })
 export class LoginRegisterComponent implements OnInit {
   @ViewChild(RecaptchaComponent, { static: false }) captchaRef: RecaptchaComponent;
@@ -17,26 +21,33 @@ export class LoginRegisterComponent implements OnInit {
   @Output() onEmbeddedCallback: EventEmitter<any> = new EventEmitter();
 
   environment = environment;
+  resetForm: FormGroup;
   loginForm: FormGroup;
   registerForm: FormGroup;
   register_submitted = false;
   login_submitted = false;
+  reset_submitted = false;
   register_loading = false;
   login_loading = false;
+  reset_loading = false;
   register_success = false;
   login_success = false;
+  reset_success = false;
   register_error = '';
   login_error = '';
+  reset_error = '';
   captcha = '';
   recaptcha_key = environment.recaptcha;
 
   execute_login = false;
   execute_register = false;
+  forgotPassswordForm = false;
 
   constructor(
-    private formBuilder: FormBuilder,
     private router: Router,
-    private authService : JwtService
+    private authService : JwtService,
+    private formBuilder: FormBuilder,
+    private indexAuthService: IndexAuthService
   ) {
     this.authService.accessToken().then(access_token => {
       this.loginComplete(access_token);
@@ -44,6 +55,9 @@ export class LoginRegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.resetForm = this.formBuilder.group({
+      resetmail: ['', Validators.required]
+    });
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
@@ -59,6 +73,7 @@ export class LoginRegisterComponent implements OnInit {
   // convenience getter for easy access to form fields
   get lf() { return this.loginForm.controls; }
   get rf() { return this.registerForm.controls; }
+  get resetf() { return this.resetForm.controls; }
 
   resolved_captcha(captchaResponse: string) {
     this.captcha = captchaResponse;
@@ -66,6 +81,25 @@ export class LoginRegisterComponent implements OnInit {
       this.executeLogin()
     } else {
       this.executeRegister()
+    }
+  }
+
+  togglePasswordForm() {
+    this.reset_success = false;
+    this.login_submitted = false;
+    this.reset_submitted = false;
+    this.resetForm.reset();
+    this.loginForm.reset();
+    this.forgotPassswordForm = !this.forgotPassswordForm;
+  }
+
+  doForgot() {
+    this.execute_login = true;
+    this.execute_register = false;
+    if (environment.production==true) {
+      this.captchaRef.execute()
+    } else {
+      this.executeForgot();
     }
   }
 
@@ -197,8 +231,48 @@ export class LoginRegisterComponent implements OnInit {
     );
   }
 
+  executeForgot() {
+    console.log("Forgot");
+    this.reset_submitted = true;
+    if (this.resetForm.invalid) {
+      if (this.captchaRef != undefined) { this.captchaRef.reset(); }
+      return;
+    }
+
+    this.reset_loading = true;
+    this.authService.forgot(this.resetf.resetmail.value, this.captcha!=''?this.captcha:'dev').subscribe(
+      (response) => {
+        console.log(response);
+        this.reset_error = '';
+        this.reset_success = true;
+        this.reset_loading = false;
+      },
+      (error) => {
+        this.captcha = '';
+        this.reset_error = '';
+        console.log(error);
+        if (error.error.message != undefined && error.error.message.search('Invalid captcha') != -1) {
+          this.reset_error = 'Sorry, we could not verify the captcha. Please try again later or contact us if this error persists.';
+        } else if (error.error.error_code != undefined && error.error.error_code == 3004) {
+          this.resetForm.controls.resetmail.setErrors({'custom': 'Unknown email address.'});
+        } else {
+          this.reset_error = 'Sorry, something went wrong. Please try again later or contact us if this error persists.';
+        }
+        this.reset_loading = false;
+        if (this.captchaRef != undefined) {
+          this.captchaRef.reset();
+        }
+      },
+    );
+  }
+
   loginComplete(access_token) {
     console.log("login complete")
+
+    // Implicit v1 migration
+    this.indexAuthService.implicitV1Migration(access_token);
+
+    // Login callback
     if (!this.useCallback) {
       // No callback specified, direct to profile
       this.router.navigate(['/profile']);
@@ -210,4 +284,5 @@ export class LoginRegisterComponent implements OnInit {
     this.login_loading = false;
     this.register_loading = false;
   }
+
 }

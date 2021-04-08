@@ -61,18 +61,30 @@ export class AppComponent {
       } catch (e) {}
 
       // Scrolltop
-      // try {
-      //   document.querySelector('.Site').scrollTo(0, 0);
-      // } catch (e) {}
       window.scrollTo(0, 0);
 
       // Close dialogs
-			this.dialogRef.closeAll()
+      try {
+        this.dialogRef.openDialogs.forEach(dialog => {
+          if (dialog._containerInstance && dialog._containerInstance._config
+            && dialog._containerInstance._config.data
+            && 'closeOnNavigation' in dialog._containerInstance._config.data
+            && dialog._containerInstance._config.data.closeOnNavigation === false
+          ) {
+            // This dialog is specifically configured to stay open
+          } else {
+            // default: close
+            dialog.close();
+          }
+        });
+      } catch (e) {
+        this.dialogRef.closeAll();
+      }
 
       // Close profile sidenav on navigate
-      if (evt.url.includes('/profile') || evt.url.includes('/indexer')) {
-        this.sidenavService.close();
-      }
+      // if (evt.url.includes('/profile') || evt.url.includes('/indexer')) {
+      //   this.sidenavService.close();
+      // }
     });
   }
 

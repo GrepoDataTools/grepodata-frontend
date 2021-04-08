@@ -1,5 +1,5 @@
 
-<div *ngIf="verification_loading" class="text-center">
+<div *ngIf="verification_loading || verifying_script || verifying_invite" class="text-center">
   <div class="align-middle" style="position: relative; top: 250px; left: 25%; width: 50%;">
     <h3 class="gd-primary"><strong>Loading...</strong></h3>
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
@@ -8,7 +8,7 @@
 
 <div *ngIf="!verification_loading" class="invite-component">
 
-  <div class="container" *ngIf="!error">
+  <div class="container" *ngIf="!error && !logged_in">
     <div class="row" style="padding: 4% 0 2%;">
 
 
@@ -22,22 +22,27 @@
             <!--report-->
             <!--lock_open-->
           </div>
-          <div class="col-xs-10" *ngIf="expired">
+          <div class="col-xs-10" *ngIf="v2_scriptlink">
+            <h2><strong>Almost there!</strong></h2>
+            <h4><span class="gd-primary">Sign in</span> or <span class="gd-primary">register</span> to activate your userscript.</h4>
+            <h5>You can view and share the collected intel using your GrepoData account.</h5>
+          </div>
+          <div class="col-xs-10" *ngIf="!v2_scriptlink && expired">
             <h2><strong>Sorry,</strong> this invite link has expired</h2>
             <h4>Please ask the owner of the index for a new invite link</h4>
           </div>
-          <div class="col-xs-10" *ngIf="!expired && invalid_link">
+          <div class="col-xs-10" *ngIf="!v2_scriptlink && !expired && invalid_link">
             <h2><strong>Oops, this is not a valid invite link</strong></h2>
             <h4>grepodata.com/invite/{{invite_link}} is not a valid invite link.<br/>Please ask the owner of the index for a new invite link</h4>
           </div>
-          <div class="col-xs-10" *ngIf="!expired && !invalid_link && !v1_redirect">
-            <h2><strong>You have to be logged in to accept this invitation</strong></h2>
-            <h4>Sign in with an existing account or register for a new account to join this index</h4>
-          </div>
-          <div class="col-xs-10" *ngIf="!expired && !invalid_link && v1_redirect">
+          <div class="col-xs-10" *ngIf="!v2_scriptlink && !expired && !invalid_link && v1_redirect">
             <h2><strong>You have to be logged in to view this index</strong></h2>
             <h4>As of April 2021, you need to be signed in to collect and share enemy intelligence.</h4>
             <p>Please sign in or create a new account. <strong>Your old intel will still be available once you have an account.</strong></p>
+          </div>
+          <div class="col-xs-10" *ngIf="!v2_scriptlink && !expired && !invalid_link && !v1_redirect">
+            <h2><strong>You have to be logged in to accept this invitation</strong></h2>
+            <h4>Sign in with an existing account or register for a new account to join this index</h4>
           </div>
         </div>
       </div>
@@ -45,7 +50,7 @@
     </div>
   </div>
 
-  <div *ngIf="!invalid_link && !error">
+  <div *ngIf="!invalid_link && !error && !logged_in">
     <app-login-register [useCallback]="true" (onEmbeddedCallback)="loginCallback($event[0])"></app-login-register>
   </div>
 

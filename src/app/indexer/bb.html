@@ -33,12 +33,12 @@
 <!--suppress XmlDuplicatedId -->
       <pre *ngIf="type=='player_fire'" id="bb_code">[quote]
 [size=12][b]{{dataBB.world.substring(0, 2)=='en'?'Light ship':'Fireship'}} intel for [player]{{dataBB.name}}[/player][/b][/size]
-    [ally]{{dataBB.a_name}}[/ally]<span *ngIf="!hiddenKey">, index: [url=https://grepodata.com/indexer/{{dataBB.key}}]{{dataBB.key}}[/url]</span>
+    [ally]{{dataBB.a_name}}[/ally]<span *ngIf="!hiddenKey">, index: [url=https://grepodata.com/profile/overview/{{dataBB.key}}]{{dataBB.key}}[/url]</span>
 
 [table]
 &nbsp;&nbsp;[**]Town[||]{{dataBB.world.substring(0, 2)=='en'?'Light ships':'Fireships'}} (-lost)[||]Date[/**]<span *ngFor="let town of dataBB.data; let i = index;"><span *ngIf="showNonPriority || town?.priority==true&&!showNonPriority"><br/>&nbsp;&nbsp;[*][town]{{town.town_id}}[/town][|]{{town.units | BBLossPipe}}[|]{{town.date | IndexDate}}[/*]</span></span>
 [/table][i]This table was generated on [b]{{generated_at}}[/b].[/i]
-<span *ngIf="!hiddenKey">An up-to-date version can be found [url=https://grepodata.com/indexer/player/{{dataBB.key}}/{{dataBB.world}}/{{dataBB.id}}]here[/url]</span>
+<span *ngIf="!hiddenKey">An up-to-date version can be found [url=https://grepodata.com/intel/player/{{dataBB.world}}/{{dataBB.id}}]here[/url]</span>
 [/quote]</pre>
 
 <!--Player myth-->
@@ -46,14 +46,14 @@
 <!--suppress XmlDuplicatedId -->
       <pre *ngIf="type=='player_myth'" id="bb_code">[quote]
 [size=12][b]Mythical unit intel for [player]{{dataBB.name}}[/player][/b][/size]
-    [ally]{{dataBB.a_name}}[/ally]<span *ngIf="!hiddenKey">, index: [url=https://grepodata.com/indexer/{{dataBB.key}}]{{dataBB.key}}[/url]</span>
+    [ally]{{dataBB.a_name}}[/ally]<span *ngIf="!hiddenKey">, index: [url=https://grepodata.com/profile/overview/{{dataBB.key}}]{{dataBB.key}}[/url]</span>
 
 [table]
 &nbsp;&nbsp;[**]Town[||]Mythical units (-lost)[||]Date[/**]<span *ngFor="let town of dataBB.data; let i = index;"><span *ngIf="showNonPriority || town?.priority==true&&!showNonPriority"><br/>&nbsp;&nbsp;[*][town]{{town.town_id}}[/town][|]{{town.units | UnitIconPipe}}[|]{{town.date | IndexDate}}[/*]</span></span>
 [/table]
 
 [i]This table was generated on [b]{{generated_at}}[/b].[/i]
-<span *ngIf="!hiddenKey">An up-to-date version can be found [url=https://grepodata.com/indexer/player/{{dataBB.key}}/{{dataBB.world}}/{{dataBB.id}}]here[/url]
+<span *ngIf="!hiddenKey">An up-to-date version can be found [url=https://grepodata.com/intel/player/{{dataBB.world}}/{{dataBB.id}}]here[/url]
 </span>
 [/quote]</pre>
 
@@ -62,14 +62,14 @@
 <!--suppress XmlDuplicatedId -->
       <pre *ngIf="type=='player_bir'" id="bb_code">[quote]
 [size=12][b]Bireme intel for [player]{{dataBB.name}}[/player][/b][/size]
-    [ally]{{dataBB.a_name}}[/ally]<span *ngIf="!hiddenKey">, index: [url=https://grepodata.com/indexer/{{dataBB.key}}]{{dataBB.key}}[/url]</span>
+    [ally]{{dataBB.a_name}}[/ally]<span *ngIf="!hiddenKey">, index: [url=https://grepodata.com/profile/overview/{{dataBB.key}}]{{dataBB.key}}[/url]</span>
 
 [table]
 &nbsp;&nbsp;[**]Town[||]Biremes (-lost)[||]Date[/**]<span *ngFor="let town of dataBB.data; let i = index;"><span *ngIf="showNonPriority || town?.priority==true&&!showNonPriority"><br/>&nbsp;&nbsp;[*][town]{{town.town_id}}[/town][|]{{town.units | BBLossPipe}}[|]{{town.date | IndexDate}}[/*]</span></span>
 [/table]
 
 [i]This table was generated on [b]{{generated_at}}[/b].[/i]
-<span *ngIf="!hiddenKey">An up-to-date version can be found [url=https://grepodata.com/indexer/player/{{dataBB.key}}/{{dataBB.world}}/{{dataBB.id}}]here[/url]
+<span *ngIf="!hiddenKey">An up-to-date version can be found [url=https://grepodata.com/intel/player/{{dataBB.world}}/{{dataBB.id}}]here[/url]
 </span>
 [/quote]</pre>
 
@@ -78,12 +78,12 @@
 <!--suppress XmlDuplicatedId -->
 <pre *ngIf="type=='player_trir'" id="bb_code">[quote]
   [size=12][b]Trireme intel for [player]{{dataBB.name}}[/player][/b][/size]
-      [ally]{{dataBB.a_name}}[/ally]<span *ngIf="!hiddenKey">, index: [url=https://grepodata.com/indexer/{{dataBB.key}}]{{dataBB.key}}[/url]</span>
-  
+      [ally]{{dataBB.a_name}}[/ally]<span *ngIf="!hiddenKey">, index: [url=https://grepodata.com/profile/overview/{{dataBB.key}}]{{dataBB.key}}[/url]</span>
+
   [table]
   &nbsp;&nbsp;[**]Town[||]Triremes (-lost)[||]Date[/**]<span *ngFor="let town of dataBB.data; let i = index;"><span *ngIf="showNonPriority || town?.priority==true&&!showNonPriority"><br/>&nbsp;&nbsp;[*][town]{{town.town_id}}[/town][|]{{town.units | BBLossPipe}}[|]{{town.date | IndexDate}}[/*]</span></span>
   [/table][i]This table was generated on [b]{{generated_at}}[/b].[/i]
-  <span *ngIf="!hiddenKey">An up-to-date version can be found [url=https://grepodata.com/indexer/player/{{dataBB.key}}/{{dataBB.world}}/{{dataBB.id}}]here[/url]</span>
+  <span *ngIf="!hiddenKey">An up-to-date version can be found [url=https://grepodata.com/intel/player/{{dataBB.world}}/{{dataBB.id}}]here[/url]</span>
   [/quote]</pre>
 
 <!--Player off-->
@@ -91,14 +91,14 @@
 <!--suppress XmlDuplicatedId -->
       <pre *ngIf="type=='player_off'" id="bb_code">[quote]
 [size=12][b]Offensive land unit intel for [player]{{dataBB.name}}[/player][/b][/size]
-    [ally]{{dataBB.a_name}}[/ally]<span *ngIf="!hiddenKey">, index: [url=https://grepodata.com/indexer/{{dataBB.key}}]{{dataBB.key}}[/url]</span>
+    [ally]{{dataBB.a_name}}[/ally]<span *ngIf="!hiddenKey">, index: [url=https://grepodata.com/profile/overview/{{dataBB.key}}]{{dataBB.key}}[/url]</span>
 
 [table]
 &nbsp;&nbsp;[**]Town[||]OFF units (-lost)[||]Date[/**]<span *ngFor="let town of dataBB.data; let i = index;"><span *ngIf="showNonPriority || town?.priority==true&&!showNonPriority"><br/>&nbsp;&nbsp;[*][town]{{town.town_id}}[/town][|]{{town.units | UnitIconPipe}}[|]{{town.date | IndexDate}}[/*]</span></span>
 [/table]
 
 [i]This table was generated on [b]{{generated_at}}[/b].[/i]
-<span *ngIf="!hiddenKey">An up-to-date version can be found [url=https://grepodata.com/indexer/player/{{dataBB.key}}/{{dataBB.world}}/{{dataBB.id}}]here[/url]
+<span *ngIf="!hiddenKey">An up-to-date version can be found [url=https://grepodata.com/intel/player/{{dataBB.world}}/{{dataBB.id}}]here[/url]
 </span>
 [/quote]</pre>
 
@@ -107,42 +107,42 @@
 <!--suppress XmlDuplicatedId -->
       <pre *ngIf="type=='player_def'" id="bb_code">[quote]
 [size=12][b]Defensive land unit intel for [player]{{dataBB.name}}[/player][/b][/size]
-    [ally]{{dataBB.a_name}}[/ally]<span *ngIf="!hiddenKey">, index: [url=https://grepodata.com/indexer/{{dataBB.key}}]{{dataBB.key}}[/url]</span>
+    [ally]{{dataBB.a_name}}[/ally]<span *ngIf="!hiddenKey">, index: [url=https://grepodata.com/profile/overview/{{dataBB.key}}]{{dataBB.key}}[/url]</span>
 
 [table]
 &nbsp;&nbsp;[**]Town[||]DEF units (-lost)[||]Date[/**]<span *ngFor="let town of dataBB.data; let i = index;"><span *ngIf="showNonPriority || town?.priority==true&&!showNonPriority"><br/>&nbsp;&nbsp;[*][town]{{town.town_id}}[/town][|]{{town.units | UnitIconPipe}}[|]{{town.date | IndexDate}}[/*]</span></span>
 [/table]
 
 [i]This table was generated on [b]{{generated_at}}[/b].[/i]
-<span *ngIf="!hiddenKey">An up-to-date version can be found [url=https://grepodata.com/indexer/player/{{dataBB.key}}/{{dataBB.world}}/{{dataBB.id}}]here[/url]
+<span *ngIf="!hiddenKey">An up-to-date version can be found [url=https://grepodata.com/intel/player/{{dataBB.world}}/{{dataBB.id}}]here[/url]
 </span>
 [/quote]</pre>
 
 <!--Players indexed-->
 <!--suppress XmlDuplicatedId -->
       <pre *ngIf="type=='players_indexed'" id="bb_code">[quote]
-    [size=12][b]Most indexed players (index: [url=https://grepodata.com/indexer/{{dataBB.key}}]{{dataBB.key}}[/url])[/b][/size]
+    [size=12][b]Most indexed players (index: [url=https://grepodata.com/profile/overview/{{dataBB.key}}]{{dataBB.key}}[/url])[/b][/size]
 
 [table]
   [**]#[||]Player[||]Intel[||]Link[/**]<span *ngFor="let player of dataBB.data; let i = index;">
-  [*]{{i+1}}.[|][player]{{player?.player_name}}[/player][|]{{player.count}}[|][url=https://grepodata.com/indexer/player/{{dataBB.key}}/{{dataBB.world}}/{{player?.player_id}}]View collected intel[/url][/*]</span>
+  [*]{{i+1}}.[|][player]{{player?.player_name}}[/player][|]{{player.count}}[|][url=https://grepodata.com/intel/player/{{dataBB.world}}/{{player?.player_id}}]View collected intel[/url][/*]</span>
 [/table]
 [i]This table was generated on [b]{{generated_at}}[/b].[/i]
-An up-to-date version can be found [url=https://grepodata.com/indexer/{{dataBB.key}}]here[/url]
+An up-to-date version can be found [url=https://grepodata.com/profile/overview/{{dataBB.key}}]here[/url]
 
 [/quote]</pre>
 
 <!--Alliances indexed-->
 <!--suppress XmlDuplicatedId -->
       <pre *ngIf="type=='alliances_indexed'" id="bb_code">[quote]
-[size=12][b]Most indexed alliances (index: [url=https://grepodata.com/indexer/{{dataBB.key}}]{{dataBB.key}}[/url])[/b][/size]
+[size=12][b]Most indexed alliances (index: [url=https://grepodata.com/profile/overview/{{dataBB.key}}]{{dataBB.key}}[/url])[/b][/size]
 
 [table]
   [**]#[||]Alliance[||]Intel[||]Link[/**]<span *ngFor="let alliance of dataBB.data; let i = index;">
-  [*]{{i+1}}.[|][ally]{{alliance?.alliance_name}}[/ally][|]{{alliance.count}}[|][url=https://grepodata.com/indexer/alliance/{{dataBB.key}}/{{dataBB.world}}/{{alliance?.alliance_id}}]View collected intel[/url][/*]</span>
+  [*]{{i+1}}.[|][ally]{{alliance?.alliance_name}}[/ally][|]{{alliance.count}}[|][url=https://grepodata.com/intel/alliance/{{dataBB.world}}/{{alliance?.alliance_id}}]View collected intel[/url][/*]</span>
 [/table]
 [i]This table was generated on [b]{{generated_at}}[/b].[/i]
-An up-to-date version can be found [url=https://grepodata.com/indexer/{{dataBB.key}}]here[/url]
+An up-to-date version can be found [url=https://grepodata.com/profile/overview/{{dataBB.key}}]here[/url]
 
 [/quote]</pre>
 
@@ -150,18 +150,15 @@ An up-to-date version can be found [url=https://grepodata.com/indexer/{{dataBB.k
 <!--suppress XmlDuplicatedId -->
         <!--173399-->
       <pre *ngIf="type=='island'" id="bb_code">[quote]
-[size=12][b]Intel for [island]{{dataBB.data.island}}[/island] (index: [url=https://grepodata.com/indexer/{{dataBB.key}}]{{dataBB.key}}[/url])[/b][/size]
+[size=12][b]Intel for [island]{{dataBB.data.island}}[/island] (index: [url=https://grepodata.com/profile/overview/{{dataBB.key}}]{{dataBB.key}}[/url])[/b][/size]
 
 [table]
   [**]Town[||]Player[||]Intel[||]Link[/**]<span *ngFor="let town of dataBB.data.towns; let i = index;">
-  [*][town]{{town?.id}}[/town][|][player]{{town.player_name}}[/player][|]{{town.count}}[|][url=https://grepodata.com/indexer/town/{{dataBB.key}}/{{dataBB.world}}/{{town?.id}}]View intel[/url][/*]</span>
+  [*][town]{{town?.id}}[/town][|][player]{{town.player_name}}[/player][|]{{town.count}}[|][url=https://grepodata.com/intel/town/{{dataBB.world}}/{{town?.id}}]View intel[/url][/*]</span>
 [/table]
 [i]This table was generated on [b]{{generated_at}}[/b].[/i]
 
 [/quote]</pre>
 
-	    <div *ngIf="(type=='alliances_indexed' || type=='players_indexed') && !copied">
-		    <div class="alert alert-warning"style="    padding: 7px;">Warning! This BB code contains your index key; share it wisely!</div>
-	    </div>
     </div>
 </div>

@@ -168,7 +168,7 @@ export class ContactDialog {
       this.error = 'Message is required';
       if (this.captchaRef != undefined) { if (this.captchaRef != undefined) { this.captchaRef.reset(); } }
     } else if (this.captcha == '' || this.captcha == null) {
-      this.error = 'Sorry, we could not verify the captcha. Please try again later or contact us if this error persists.';
+      this.error = 'Sorry, we could not verify the captcha. Please try again later.';
       if (this.captchaRef != undefined) { this.captchaRef.reset(); }
     } else {
       this.loading = true;
@@ -179,7 +179,7 @@ export class ContactDialog {
           if (this.captchaRef != undefined) { this.captchaRef.reset(); }
         },
         (error) => {
-          this.error = 'Invalid captcha response. Please try again later or contact us if this error persists.';
+          this.error = 'Invalid captcha response. Please try again later.';
           this.loading = false;
           if (this.captchaRef != undefined) { this.captchaRef.reset(); }
         }

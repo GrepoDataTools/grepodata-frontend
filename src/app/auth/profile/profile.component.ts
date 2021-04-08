@@ -67,13 +67,17 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
       });
     }
 
+    this.checkTokenStatus();
   }
 
   ngAfterViewInit(): void {
     this.sidenavService.setSidenav(this.snav);
   }
 
-  ngOnInit() {
+  ngOnInit() { }
+
+  checkTokenStatus() {
+    console.log('checking token status')
     this.route.queryParams.subscribe((params) => {
       if ('token' in params) {
         this.showTokenMessage(params.token)
@@ -109,7 +113,8 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
       autoFocus: false,
       data: {
         title: title,
-        messageHtml: content
+        messageHtml: content,
+        closeOnNavigation: false
       }
     });
   }

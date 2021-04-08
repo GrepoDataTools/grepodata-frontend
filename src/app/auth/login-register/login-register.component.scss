@@ -254,6 +254,10 @@ $gutters: 24px;
       right: 70px;
       position: absolute;
     }
+    .form-recovery:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
   }
 
   // Panel

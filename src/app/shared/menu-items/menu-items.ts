@@ -52,6 +52,7 @@ const MENU_ITEMS: Array<Menu> = [
   // { mobileOnly: false, state: 'profile/linked', name: 'Linked accounts', type: 'link', icon: 'link', iconType: 'material' },
   // { mobileOnly: false, state: 'profile/discord', name: 'Link with Discord', type: 'link', icon: faDiscord, iconType: 'fontawesome' },
   { mobileOnly: false, state: '', name: 'Other', type: 'separator', icon: 'person', iconType: 'material' },
+  { mobileOnly: false, state: '/profile/bug', name: 'Report a bug', type: 'link', icon: 'bug_report', iconType: 'material' },
   {
     mobileOnly: false,
     state: 'profile/settings',
@@ -64,7 +65,7 @@ const MENU_ITEMS: Array<Menu> = [
     //     { state: 'delete', name: 'Delete account', type: 'link' },
     // ],
   },
-  { mobileOnly: false, state: 'profile/faq', name: 'Help', type: 'link', icon: 'av_timer', iconType: 'material' },
+  { mobileOnly: false, state: 'profile/faq', name: 'Help', type: 'link', icon: 'help_outline', iconType: 'material' },
   {
     mobileOnly: false,
     state: 'profile/logout',

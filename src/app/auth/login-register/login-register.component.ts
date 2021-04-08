@@ -77,7 +77,9 @@ export class LoginRegisterComponent implements OnInit {
 
   resolved_captcha(captchaResponse: string) {
     this.captcha = captchaResponse;
-    if (this.execute_login) {
+    if (this.forgotPassswordForm) {
+      this.executeForgot()
+    } else if (this.execute_login) {
       this.executeLogin()
     } else {
       this.executeRegister()

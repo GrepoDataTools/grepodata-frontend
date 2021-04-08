@@ -5,6 +5,7 @@ import {JwtService} from '../../../services/jwt.service';
 import {NewIndexDialog} from '../../../../shared/dialogs/new-index/new-index.component';
 import {MatDialog} from '@angular/material/dialog';
 import {WorldService} from '../../../../services/world.service';
+import {LocalCacheService} from '../../../../services/local-cache.service';
 
 @Component({
   selector: 'app-intel',
@@ -75,25 +76,36 @@ export class IntelComponent implements OnInit {
   }
 
   loadIndexes() {
-    // Top indexes
-    this.loadingIndexes = true;
-    this.authService.accessToken().then(access_token => {
-      this.profileService.getIndexes(access_token, 4, true, 'reports').subscribe(
-        (response) => {
-          this.topIndexes = response.items;
-          this.loadingIndexes = false;
-          console.log(this.topIndexes);
-        },
-        (error) => {
-          this.hasIndexes = false;
-          console.log(error);
-          if ('error_code' in error.error && error.error.error_code == 3010) {
-            this.confirmed = false;
-          }
-          this.loadingIndexes = false;
-        },
-      );
-    });
+    let localIndexes = this.getIndexListFromCache();
+    let timeout = 0;
+    if (localIndexes) {
+      console.log('using local index list');
+      this.topIndexes = localIndexes;
+      timeout = 3000;
+    }
+
+    this.loadingIndexes = !localIndexes;
+    setTimeout(_ => {
+      // Top indexes
+      this.authService.accessToken().then(access_token => {
+        this.profileService.getIndexes(access_token, 4, true, 'reports').subscribe(
+          (response) => {
+            this.topIndexes = response.items;
+            this.loadingIndexes = false;
+            console.log(this.topIndexes);
+            this.saveIndexListToCache(this.topIndexes);
+          },
+          (error) => {
+            this.hasIndexes = false;
+            console.log(error);
+            if ('error_code' in error.error && error.error.error_code == 3010) {
+              this.confirmed = false;
+            }
+            this.loadingIndexes = false;
+          },
+        );
+      });
+    }, timeout);
   }
 
   public newIndex() {
@@ -116,4 +128,11 @@ export class IntelComponent implements OnInit {
     this.loadUserIntel();
   }
 
+  saveIndexListToCache(data) {
+    LocalCacheService.set('/topindexlist', data, 60 * 24 * 14);
+  }
+
+  getIndexListFromCache() {
+    return LocalCacheService.get('/topindexlist');
+  }
 }

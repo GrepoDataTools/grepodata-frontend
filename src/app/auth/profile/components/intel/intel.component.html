@@ -20,7 +20,7 @@
 	<h2 class="gd-secondary">
 		Your top indexes
 		<a class="top-index-card" *ngIf="topIndexes.length > 0" routerLink="/profile/indexes" style="color: #949494; font-weight: 700; font-size: 21px; right: 70px; position: absolute;">
-			<mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon> View all my indexes
+			View all my indexes <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon>
 		</a>
 	</h2>
 
@@ -56,7 +56,7 @@
 			<div *ngFor="let index of topIndexes" fxFlex.gt-md="21" fxFlex.gt-sm="17" fxFlex.gt-xs="100" fxFlex="100" class="top-index-card">
 				<a routerLink="/profile/overview/{{index.key}}">
 					<mat-card class="top-index-cards text-white text-center top-index">
-						<mat-icon class="launch-icon hidden-xs hidden-md" style="float: right;">launch</mat-icon>
+						<mat-icon class="launch-icon hidden-xs hidden-sm hidden-md" style="float: right;">launch</mat-icon>
 						<div>
 							<h3 class="m-0"><mat-icon style="vertical-align: sub;">account_balance</mat-icon> {{index.name}}</h3>
 							<div [outerHTML]="index.world | WorldNamePipe"></div>

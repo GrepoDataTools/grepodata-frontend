@@ -14,6 +14,7 @@ import {IndexMembersDialog} from '../../../../shared/dialogs/index-members/index
 import {ShareIndexDialog} from '../../../../shared/dialogs/share-index/share-index.component';
 import {IndexAuthService} from '../../../services/index.service';
 import {ImportIndexDialog} from '../../../../shared/dialogs/import-index/import-index.component';
+import {LocalCacheService} from '../../../../services/local-cache.service';
 
 @Component({
   selector: 'app-indexes',
@@ -26,7 +27,7 @@ export class IndexesComponent implements OnInit {
   @ViewChild(RecaptchaComponent, {static: false}) captchaRef:RecaptchaComponent;
 
   indexes: IndexList[] = [];
-  loading = true;
+  loading = false;
   confirmed = true;
   error = '';
   created_index = '';
@@ -60,7 +61,7 @@ export class IndexesComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.loadIndexes();
+      this.loadIndexes(true);
       if (result) {
         this.error = '';
         this.contribute_success = '';
@@ -78,7 +79,7 @@ export class IndexesComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.loadIndexes();
+      this.loadIndexes(true);
       if (result) {
         this.error = '';
         this.contribute_success = '';
@@ -99,7 +100,7 @@ export class IndexesComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.loadIndexes();
+      this.loadIndexes(true);
     });
   }
 
@@ -135,14 +136,22 @@ export class IndexesComponent implements OnInit {
     });
   }
 
-  loadIndexes() {
+  loadIndexes(force_refresh=false) {
+    let localIndexes = this.getIndexListFromCache();
+    if (!force_refresh && localIndexes) {
+      console.log('using local index list');
+      this.indexes = localIndexes;
+    }
+
     this.error = '';
     this.contribute_success = '';
+    this.loading = !force_refresh && !localIndexes;
     this.authService.accessToken().then(access_token => {
       this.profileService.getIndexes(access_token, 0, true).subscribe(
         (response) => {
           console.log(response);
           this.indexes = response.items;
+          this.saveIndexListToCache(this.indexes);
           this.loading = false;
         },
         (error) => {
@@ -184,6 +193,7 @@ export class IndexesComponent implements OnInit {
             this.indexes = this.indexes.map(indexm => {
               return indexm.key === index.key ? index : indexm
             });
+            this.saveIndexListToCache(this.indexes);
           } else {
             this.error = 'Unable to update contribution settings. Please try again later or contact us if this error persists.';
           }
@@ -198,5 +208,12 @@ export class IndexesComponent implements OnInit {
     });
   }
 
+  saveIndexListToCache(data) {
+    LocalCacheService.set('/allindexlist', data, 60 * 24);
+  }
+
+  getIndexListFromCache() {
+    return LocalCacheService.get('/allindexlist');
+  }
 
 }

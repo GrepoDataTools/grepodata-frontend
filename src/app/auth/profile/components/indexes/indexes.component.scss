@@ -12,6 +12,9 @@
   td {
     text-align: left !important;
   }
+  table {
+    table-layout: auto;
+  }
 }
 
 .index-row:hover {
@@ -23,6 +26,31 @@
   margin-top: 20px;
 }
 
+.index-actions {
+  .btn {
+    //transition: width .4s ease-out;
+    //width: 46px;
+    margin: 0.125rem !important;
+  }
+  //.btn:hover {
+  //  width: 120px;
+  //}
+}
+//.index-btn-users:hover:before {
+//  content: "Users ";
+//}
+//.index-btn-settings:hover:before {
+//  content: "Settings ";
+//}
+//.index-btn-share:hover:before {
+//  content: "Share ";
+//}
+//.index-btn-browse:hover:before {
+//  content: "Browse ";
+//}
+//.index-btn-leave:hover:before {
+//  content: "Leave ";
+//}
 
 .index-list {
 
@@ -58,4 +86,49 @@
   background: #f0f0f0;
   cursor: pointer;
   transform: scale(1.01);
+}
+
+@media (max-width:1279px) {
+  .indexes-table {
+    table {
+      font-size: 12px;
+    }
+  }
+  .index-actions {
+    .btn {
+      width: 100px;
+    }
+  }
+}
+
+@media (max-width:1500px) {
+  .indexes-table {
+    table {
+      table-layout: fixed;
+      font-size: 14px;
+      .btn-column-th {
+        width: 140px !important;
+      }
+    }
+  }
+  .index-actions {
+    .btn {
+      width: 125px;
+    }
+  }
+}
+
+@media (max-width:2000px) {
+  .indexes-table {
+    table {
+      .btn-column-th {
+        &.settings {
+          width: 300px;
+        }
+        &.actions {
+          width: 210px;
+        }
+      }
+    }
+  }
 }

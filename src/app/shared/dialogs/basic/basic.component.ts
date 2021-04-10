@@ -34,7 +34,6 @@ export class BasicDialog {
     }
 
     if ('action_type' in data) {
-      console.log(data.action_type);
       switch (data.action_type) {
         case 'danger':
           this.actionClass = 'bg-gd-3';
@@ -47,8 +46,6 @@ export class BasicDialog {
           this.actionClass = 'bg-gd-2';
       }
     }
-
-    console.log(this.actionClass);
   }
 
   close(): void {

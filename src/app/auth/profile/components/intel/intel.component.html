@@ -19,9 +19,12 @@
 <mat-card class="index-card index-card-sm" *ngIf="confirmed">
 	<h2 class="gd-secondary">
 		Your top indexes
-		<a class="top-index-card" *ngIf="topIndexes.length > 0" routerLink="/profile/indexes" style="color: #949494; font-weight: 700; font-size: 21px; right: 70px; position: absolute;">
+		<a class="top-index-card hidden-xs hidden-sm" *ngIf="topIndexes.length > 0" routerLink="/profile/indexes" style="color: #949494; font-weight: 700; font-size: 21px; right: 70px; position: absolute;">
 			View all my indexes <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon>
 		</a>
+    <a class="top-index-card hidden-md hidden-lg" *ngIf="topIndexes.length > 0" routerLink="/profile/indexes" style="color: #949494; font-weight: 700; font-size: 18px; margin-left: 30px;">
+      View all my indexes <mat-icon style="opacity: 1; vertical-align: sub;">launch</mat-icon>
+    </a>
 	</h2>
 
 	<div *ngIf="loadingIndexes" style="padding: 30px;">

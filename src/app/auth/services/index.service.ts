@@ -106,6 +106,14 @@ export class IndexAuthService {
 		});
 	}
 
+	leaveIndex(access_token, index) {
+    let data = new HttpParams()
+      .set('index_key', index);
+		return this.http.post<any>(apiUrl + '/indexer/settings/leave', data, {
+      headers: new HttpHeaders({'access_token': access_token})
+		});
+	}
+
 	toggleIndexContribute(access_token, index, contribute) {
     let data = new HttpParams()
       .set('index_key', index)

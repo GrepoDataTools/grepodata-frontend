@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {IndexList, ProfileService} from '../../../services/profile.service';
 import {JwtService} from '../../../services/jwt.service';
 import {Router} from '@angular/router';
@@ -16,6 +16,9 @@ import {IndexAuthService} from '../../../services/index.service';
 import {ImportIndexDialog} from '../../../../shared/dialogs/import-index/import-index.component';
 import {LocalCacheService} from '../../../../services/local-cache.service';
 import {Globals} from '../../../../globals';
+import {BasicDialog} from '../../../../shared/dialogs/basic/basic.component';
+import {Location} from '@angular/common';
+import {MediaMatcher} from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-indexes',
@@ -31,11 +34,16 @@ export class IndexesComponent implements OnInit {
   loading = false;
   confirmed = true;
   error = '';
+  leave_error = '';
   created_index = '';
   contribute_success = '';
+  leave_success = '';
 
   readonly ROLE_ADMIN = environment.ROLE_ADMIN;
   readonly ROLE_OWNER = environment.ROLE_OWNER;
+
+  mobileQuery: MediaQueryList;
+  private readonly _mediaQueryListener: () => void;
 
   constructor(
     private globals: Globals,
@@ -43,8 +51,17 @@ export class IndexesComponent implements OnInit {
     private profileService: ProfileService,
     private router: Router,
     private dialog: MatDialog,
-    private indexAuthService: IndexAuthService
-  ) { }
+    private indexAuthService: IndexAuthService,
+    changeDetectorRef: ChangeDetectorRef,
+    media: MediaMatcher
+  ) {
+    this.mobileQuery = media.matchMedia('(min-width: 768px)');
+    this._mediaQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addEventListener('change', () => {
+      this._mediaQueryListener();
+      console.log('mobile query matches: ', this.mobileQuery.matches);
+    });
+  }
 
   ngOnInit() {
     this.loadIndexes();
@@ -210,12 +227,80 @@ export class IndexesComponent implements OnInit {
     });
   }
 
+
+  public showLeaveDialog(index): void {
+    const dialogRef = this.dialog.open(BasicDialog, {
+      // minWidth: '40%',
+      autoFocus: false,
+      data: {
+        title: '',
+        show_close: false,
+        messageHtml: '<div class="text-center"><h3>Are you sure you want to leave index <span class="gd-primary">' + index.name + '</span>?</h3><p>You will have to be invited to join the index again.</p></div>',
+        cancel_action: 'Cancel',
+        action_type: 'danger',
+        action: 'Leave index',
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+
+      if (result === true) {
+        this.loading = true;
+        this.leave_error = '';
+        this.leave_success = '';
+        this.authService.accessToken().then(access_token => {
+          this.indexAuthService.leaveIndex(access_token, index.key)
+            .subscribe(
+              (response) => {
+                console.log(response);
+                if (response && 'success_code' in response && response.success_code === 1500) {
+                  // left successfully
+                  this.leave_success = '<h4>You are no longer a member of index <span class="gd-primary">'+index.name+'</span>. Your intel will no longer be shared with this index. </h4>';
+                  this.deleteIndexListFromCache();
+                  this.loadIndexes();
+                } else if (response && 'error_code' in response && response.error_code === 7610) {
+                  // User cant leave because they are the only owner and there are still other members
+                  this.leave_error = '<h5>You are the only remaining owner of this index and there are still other non-owner members in the index. ' +
+                    'You can only leave once there are no other members or if there is another owner in the index. <br/>' +
+                    '<strong>Make somebody else owner of the index or remove all users from the index in order for you to leave the index.</strong><h5>'
+                } else {
+                  this.leave_error = '<h5>Sorry, we are unable to process that request right now. Please try again later or contact us if this problem persists.</h5>'
+                }
+                this.loading = false;
+                this.scrollToTop();
+              },
+              (error) => {
+                console.log(error);
+                this.loading = false;
+                this.leave_error = '<h5>Sorry, we are unable to process that request right now. Please try again later or contact us if this problem persists.</h5>';
+                this.scrollToTop();
+              }
+            );
+        });
+      }
+
+    });
+  }
+
+  leaveIndex(index) {
+    this.showLeaveDialog(index);
+  }
+
   saveIndexListToCache(data) {
     this.globals.set_all_indexes(data, 60 * 24 * 7)
   }
 
   getIndexListFromCache() {
     return this.globals.get_all_indexes()
+  }
+
+  deleteIndexListFromCache() {
+    return this.globals.delete_all_indexes()
+  }
+
+  scrollToTop() {
+    document.querySelector('.page-wrapper').scrollIntoView();
   }
 
 }

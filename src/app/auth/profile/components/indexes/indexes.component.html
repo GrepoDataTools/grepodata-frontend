@@ -13,8 +13,16 @@
 						<h5>{{error}}</h5>
 					</app-alert>
 
+					<app-alert type="error" title="Unable to leave index" *ngIf="leave_error">
+            <span [outerHTML]="leave_error"></span>
+					</app-alert>
+
 					<app-alert type="success" title="Index contribution settings updated" *ngIf="contribute_success">
 						<div [outerHTML]="contribute_success"></div>
+					</app-alert>
+
+					<app-alert type="success" title="Index left successfully" *ngIf="leave_success">
+						<div [outerHTML]="leave_success"></div>
 					</app-alert>
 
 					<app-alert type="success" title="New index created successfully!" *ngIf="created_index">
@@ -26,7 +34,7 @@
 						<button *ngIf="created_index.key" class="btn btn-secondary mr-1" routerLink="/profile/overview/{{created_index.key}}">Go to index overview <mat-icon>launch</mat-icon></button>
 					</app-alert>
 
-					<app-alert type="info" title="What is an index?" *ngIf="confirmed && !error && !created_index && !contribute_success && indexes.length <= 10" [dismissible]="false">
+					<app-alert type="info" title="What is an index?" *ngIf="confirmed && !error && !leave_error && !created_index && !contribute_success && indexes.length <= 10" [dismissible]="false">
 						<p>
 							An index is a collection of enemy intelligence that can be shared with other users.
 							You can create and share your own index, or you can contribute to an existing index.
@@ -61,45 +69,49 @@
 								<tr>
 									<th scope="col">Index name</th>
 									<!--<th scope="col">Key (old)</th>-->
-									<th scope="col">World</th>
-									<th scope="col">Total reports</th>
-									<th scope="col">Index Owners</th>
-									<th style="text-align: center !important;" scope="col">
+									<th scope="col" class="hidden-xs hidden-sm hidden-md">World</th>
+									<th scope="col" class="hidden-xs hidden-sm hidden-md">Total reports</th>
+									<th scope="col" class="hidden-xs hidden-sm">Index Owners</th>
+									<th style="text-align: center !important;" scope="col" class="hidden-xs hidden-sm">
 										Contribute <mat-icon class="mat-icon-title-inline a-link" matTooltip="If you enable this toggle, your collected intell will be shared with this index. If you disable this option, you can still read the index but your collected intel will not be shared with the other players in this index.">help_outline</mat-icon>
 									</th>
-									<th scope="col">
+									<th scope="col" class="hidden-xs hidden-sm hidden-md">
 										Your role <mat-icon class="mat-icon-title-inline a-link" matTooltip="Only the owners or admins of an index can change the index settings. Members can add new intel. And read only access means you can not add new intel but you can still browse the intel in this index.">help_outline</mat-icon>
 									</th>
-									<th scope="col" class="text-right">Actions</th>
+									<th scope="col" class="text-right btn-column-th settings">Settings</th>
+									<th scope="col" class="text-right btn-column-th actions">Actions</th>
 								</tr>
 								</thead>
 								<tbody>
 								<tr *ngFor="let index of indexes; let i = index;" class="index-row">
 									<td style="text-align: left !important;" (click)="routing('/profile/overview/' + index.key)">
 										<a><mat-icon style="opacity: 1; vertical-align: sub;">account_balance</mat-icon> {{index.name || index.key}}</a>
-										<!--<a routerLink="/profile/overview/{{index.key}}" class="gd-secondary">-->
-											<!--<img src="../../assets/images/grepodata_icon.ico" style="vertical-align: bottom;"/> {{index.name || index.key}}-->
-										<!--</a>-->
+                    <div class="hidden-lg">
+                      <div [outerHTML]="index.world | WorldNamePipe"></div>
+                    </div>
+                    <div class="hidden-md hidden-lg">
+                      <div *ngFor="let owner of index.stats.owners; let i = index;">
+                        <img src="../../assets/images/ally_ico.png"/> {{owner.alliance_name}}
+                      </div>
+                    </div>
 									</td>
-									<!--<td>{{index.key}}</td>-->
-									<td (click)="routing('/profile/overview/' + index.key)">
+									<td (click)="routing('/profile/overview/' + index.key)" class="hidden-xs hidden-sm hidden-md">
 										<div [outerHTML]="index.world | WorldNamePipe"></div>
-									<!--<td>{{index.role.replace('read', 'read only').replace('write', 'contributor')}}</td>-->
-									<td (click)="routing('/profile/overview/' + index.key)">
+                  </td>
+									<td (click)="routing('/profile/overview/' + index.key)" class="hidden-xs hidden-sm hidden-md">
                     <div *ngIf="index.stats && index.stats.total_reports>=0">{{index.stats.total_reports}}</div>
 									</td>
-									<td style="padding: 0 !important; font-size: 14px; vertical-align: middle;" (click)="routing('/profile/overview/' + index.key)">
+									<td style="padding: 0 !important; font-size: 14px; vertical-align: middle;" (click)="routing('/profile/overview/' + index.key)" class="hidden-xs hidden-sm">
 										<div *ngFor="let owner of index.stats.owners; let i = index;">
 											<img src="../../assets/images/ally_ico.png"/> {{owner.alliance_name}}
 										</div>
 									</td>
-									<td style="text-align: center !important;">
-										<!--<mat-slide-toggle [ngModel]="index.contribute" (ngModelChange)="enableContributions(index.key)">Share my intel with this index</mat-slide-toggle>-->
-										<mat-checkbox *ngIf="index.role!='read'" [checked]="index.contribute" (click)="enableContributions(index)">
-											<!--Share my intel with this index-->
-										</mat-checkbox>
+									<td style="text-align: center !important;" class="hidden-xs hidden-sm">
+										<!--<mat-slide-toggle [ngModel]="index.contribute" (ngModelChange)="enableContributions(index)">Share my intel with this index</mat-slide-toggle>-->
+										<mat-checkbox *ngIf="index.role!='read'" [checked]="index.contribute" (click)="enableContributions(index)"></mat-checkbox>
+                    <span *ngIf="index.role=='read'"><mat-checkbox [checked]="false" disabled="true"></mat-checkbox></span>
 									</td>
-									<td (click)="routing('/profile/overview/' + index.key)">
+									<td (click)="routing('/profile/overview/' + index.key)" class="hidden-xs hidden-sm hidden-md">
 										{{index.role
 										.replace('read', 'Read only')
 										.replace('write', 'Member')
@@ -107,12 +119,17 @@
 										.replace('admin', 'Admin')
 										}}
 									</td>
-									<td>
-										<div style="float: right;">
-											<button *ngIf="index.role === ROLE_ADMIN || index.role === ROLE_OWNER" class="btn btn-secondary mr-1" (click)="openIndexMembers(index)">Users <mat-icon>admin_panel_settings</mat-icon></button>
-											<button *ngIf="index.role === ROLE_ADMIN || index.role === ROLE_OWNER" class="btn btn-secondary mr-1" (click)="openIndexSettings(index)">Settings <mat-icon>settings</mat-icon></button>
-											<button *ngIf="index.role === ROLE_ADMIN || index.role === ROLE_OWNER" class="btn btn-primary mr-1" (click)="openShareIndexDialog(index)">Share index&nbsp;&nbsp;<mat-icon>group_add</mat-icon></button>
-											<button routerLink="/profile/overview/{{index.key}}" class="btn btn-success mr-1">Browse index <mat-icon>launch</mat-icon></button>
+									<td style="text-align: right !important;">
+										<div class="index-actions" *ngIf="index.role === ROLE_ADMIN || index.role === ROLE_OWNER">
+											<button class="btn btn-secondary mr-1 index-btn-users" (click)="openIndexMembers(index)">Users <mat-icon>admin_panel_settings</mat-icon></button>
+											<button class="btn btn-secondary mr-1 index-btn-settings" (click)="openIndexSettings(index)">Settings <mat-icon>settings</mat-icon></button>
+                      <button class="btn btn-primary mr-1 index-btn-share" (click)="openShareIndexDialog(index)">Share <mat-icon>group_add</mat-icon></button>
+										</div>
+									</td>
+									<td style="text-align: right !important;">
+										<div class="index-actions">
+											<button routerLink="/profile/overview/{{index.key}}" class="btn btn-success mr-1 index-btn-browse">Browse <mat-icon>launch</mat-icon></button>
+											<button (click)="leaveIndex(index)" class="btn btn-danger mr-1 index-btn-leave">Leave <mat-icon>delete_forever</mat-icon></button>
 										</div>
 									</td>
 								</tr>

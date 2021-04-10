@@ -349,10 +349,9 @@
 				<div *ngIf="data.total_reports == 0">
 					<div id="help_by_contributing" style="display: none;"></div>
 
-					<div class="container-fluid" id="new_index_install_tips">
+					<div class="container-fluid">
 						<div class="row">
 							<div class="col-12 text-center">
-
 
 								<div class="hidden-xs hidden-sm" fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="0" style="margin-bottom: -25px;">
 									<div fxFlex="35" fxLayout="column" fxLayoutGap="5px">
@@ -361,9 +360,6 @@
 									<div fxFlex="65" fxLayout="column" fxLayoutGap="5px">
 										<mat-card class="dense-card" style="max-height: 400px; height: 400px; min-height: 400px;">
 											<mat-card-title class="text-left">
-												<!--<h3 style='font-weight: 300; color: #304357; margin-top: 0 !important;'>-->
-													<!--<span class='world-title' style='color: #18BC9C;'>Most indexed players</span>-->
-												<!--</h3>-->
 												<h1 class="gd-primary">Welcome to your unique enemy city index!</h1>
 												<h4>This index allows you to share collected intelligence with other users.</h4>
 											</mat-card-title>
@@ -379,7 +375,7 @@
 									</div>
 								</div>
 
-								<div style="margin-top: 34px;" class="text-left" >
+								<div style="margin-top: 34px;" class="text-left">
 									<app-userscript></app-userscript>
 								</div>
 
@@ -387,40 +383,6 @@
 						</div>
 					</div>
 
-					<div style="display: none;" id="new_index_waiting">
-						<div class="row">
-							<div class="col-12 text-center">
-								<h1 class="gd-primary"><strong>Success!</strong> Userscript is installed successfully</h1>
-
-								<br/>
-
-								<div class="container">
-									<div class="row">
-										<div class="alert alert-gd-1">
-											<h3>Start collecting enemy intel in world <strong>{{world}}</strong></h3>
-											<p>
-												Reload your Grepolis game window to activate the script and start collecting intel.
-												<br/>When you browse your inbox or alliance forum in-game, you can upload reports by clicking the 'index +' button.
-												<br/>The collected intel will then be viewable here.
-												<br/>
-												<strong>Note that it may take up to 3 minutes before the intel appears on this page</strong>
-												<br/>
-												<br/>
-												If you experience any issues please feel free to <a class="a-link-dialog" (click)="showContactDialog()">contact</a> us.
-												<br/>
-												<br/>
-												<a class="gd-gray a-link"
-												   style="font-size: 14px;"
-												   (click)="openInstalldialog()">
-													<span class="fa fa-download"></span> Show install instructions
-												</a>
-											</p>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
 				</div>
 
 				<br/>

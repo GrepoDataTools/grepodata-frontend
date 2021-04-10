@@ -128,7 +128,7 @@
 						<div class="cell"></div>
 					</div>
 
-					<div class='row_custom' *ngFor="let town of intel" style="height: 40px;" (click)="openShareInfoDialog(town.shared_via_indexes)">
+					<div class='row_custom' *ngFor="let town of intel" style="height: 40px;">
 						<div class="cell">
 							<div class="bg-flag flag-inline-middle flag-{{town?.world.substring(0, 2)}}"></div>&nbsp;<a routerLink="/points/{{town?.world}}">{{town?.world}}</a>
 						</div>
@@ -170,7 +170,7 @@
 							</div>
 						</div>
 
-            <div class="cell gd-primary a-link-dialog" matTooltip="Click here to see who this intel was shared with">
+            <div class="cell gd-primary a-link-dialog" matTooltip="Click here to see who this intel was shared with" (click)="openShareInfoDialog(town.shared_via_indexes)">
               <mat-icon>supervised_user_circle</mat-icon>
             </div>
 

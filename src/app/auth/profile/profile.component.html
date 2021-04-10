@@ -1,3 +1,5 @@
+<app-index-version *ngIf="active_tab !== 'script'"></app-index-version>
+
 <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 0 : 0">
 	<div class="text-center" *ngIf="!logged_in">
 		<div class="align-middle" style="position: relative; top: 250px; left: 25%; width: 50%;">
@@ -55,96 +57,6 @@
 		    <app-faq></app-faq>
 	    </mat-card>
     </span>
-
-
-	<!--<div class="container" fxLayout="row" fxLayoutAlign="center center" style="padding-top: 20px;">-->
-		<!--<div fxFlex>-->
-			<!--<h2 class="gd-primary">Welcome back!</h2>-->
-		<!--</div>-->
-		<!--<div fxFlex>-->
-			<!--<button class="btn btn-primary" (click)="logout()" style="float: right;">-->
-				<!--Logout-->
-			<!--</button>-->
-		<!--</div>-->
-	<!--</div>-->
-
-	<!--<div class="container" style="margin-top: 20px;">-->
-		<!--<div class="row">-->
-			<!--<div class="col-xs-12">-->
-				<!--<mat-card>-->
-					<!--<mat-card-title>-->
-						<!--<h2 class="gd-primary">Your indexes</h2>-->
-					<!--</mat-card-title>-->
-					<!--<mat-card-content>-->
-						<!--<div *ngIf="indexes.length <= 0">-->
-							<!--<p class="gd-secondary">You have not yet created any indexes.</p>-->
-						<!--</div>-->
-
-						<!--<div *ngIf="indexes.length > 0">-->
-
-							<!--<div class="table-container">-->
-								<!--<div class="table" id="player_changes_table" style="">-->
-									<!--<div class="row_custom header default">-->
-										<!--<div class="cell hidden-xs">#</div>-->
-										<!--<div class="cell">Index key</div>-->
-										<!--<div class="cell">World</div>-->
-										<!--<div class="cell">Reports</div>-->
-										<!--<div class="cell hidden-xs">Last update</div>-->
-										<!--<div class="cell hidden-xs">Created on</div>-->
-										<!--<div class="cell hidden-xs">Action</div>-->
-									<!--</div>-->
-
-									<!--<div class="row_custom" *ngFor="let index of indexes; let i = index;">-->
-										<!--<div class="cell hidden-xs">-->
-											<!--{{i+1}}-->
-										<!--</div>-->
-										<!--<div class="cell">-->
-											<!--<a routerLink="/indexer/{{index.key}}">-->
-												<!--{{index.key}}-->
-											<!--</a>-->
-										<!--</div>-->
-										<!--<div class="cell">-->
-											<!--<a routerLink="/points" [queryParams]="{world: index.world}">-->
-												<!--{{index.world}}-->
-											<!--</a>-->
-										<!--</div>-->
-										<!--<div class="cell">-->
-											<!--{{index.overview.total_reports}}-->
-										<!--</div>-->
-										<!--<div class="cell hidden-xs">-->
-											<!--{{index.updated_at!=null?(index.updated_at.date | Datex : "D MMM YYYY"):''}}-->
-										<!--</div>-->
-										<!--<div class="cell hidden-xs">-->
-											<!--{{index.created_at!=null?(index.created_at.date | Datex : "D MMM YYYY"):''}}-->
-										<!--</div>-->
-										<!--<div class="cell hidden-xs">-->
-											<!--<div class="form-group row" style="margin: 3px !important; text-align: -webkit-right;">-->
-												<!--<button style="width: 45%; margin-right: 2%;" name="load_index" class="btn btn-primary btn-xs"-->
-												        <!--(click)="editOwners(index.key, index.world, index.overview.owners)">-->
-													<!--<i class="fa fa-cog"></i>&nbsp;Settings-->
-												<!--</button>-->
-												<!--<button style="width: 53%;" name="load_index" class="btn btn-success btn-xs" routerLink="/indexer/{{index.key}}">-->
-													<!--<i class="fa fa-arrow-circle-right"></i>&nbsp;Go to index-->
-												<!--</button>-->
-												<!--&lt;!&ndash;<button style="width: 48%;" name="add_compare" class="btn btn-info btn-xs" routerLink="/player/{{player?.world}}/{{player?.id}}">&ndash;&gt;-->
-													<!--&lt;!&ndash;<i class="fa fa-arrow-circle-right"></i>&nbsp;View&ndash;&gt;-->
-												<!--&lt;!&ndash;</button>&ndash;&gt;-->
-											<!--</div>-->
-										<!--</div>-->
-									<!--</div>-->
-
-								<!--</div>-->
-							<!--</div>-->
-
-						<!--</div>-->
-
-					<!--</mat-card-content>-->
-				<!--</mat-card>-->
-
-			<!--</div>-->
-		<!--</div>-->
-	<!--</div>-->
-
 
 </div>
 </mat-sidenav-container>

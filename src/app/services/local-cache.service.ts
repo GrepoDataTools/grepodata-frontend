@@ -34,4 +34,8 @@ export class LocalCacheService {
     localStorage.setItem(url, JSON.stringify(data));
   }
 
+  public static remove(url) {
+    localStorage.removeItem(url);
+  }
+
 }

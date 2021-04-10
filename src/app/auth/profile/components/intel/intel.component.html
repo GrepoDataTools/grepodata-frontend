@@ -93,9 +93,9 @@
 
 		<div *ngIf="!loading && num_results > 0">
 
-			<mat-paginator *ngIf="from > 0 || num_results > 15" [length]="num_results"
+			<mat-paginator *ngIf="from > 0 || num_results > 20" [length]="num_results"
 			               [pageSize]="size"
-			               [pageSizeOptions]="[1, 10, 20, 30, 50, 100]"
+			               [pageSizeOptions]="[20, 50, 100]"
 			               (page)="paginatorEvent($event)"
 			               [disabled]="paging"
 			               style="display: flex; justify-content: left;">
@@ -125,9 +125,10 @@
 						<div class="cell" style="width: 50%;">
 							Units
 						</div>
+						<div class="cell"></div>
 					</div>
 
-					<div class='row_custom' *ngFor="let town of intel" style="height: 40px;">
+					<div class='row_custom' *ngFor="let town of intel" style="height: 40px;" (click)="openShareInfoDialog(town.shared_via_indexes)">
 						<div class="cell">
 							<div class="bg-flag flag-inline-middle flag-{{town?.world.substring(0, 2)}}"></div>&nbsp;<a routerLink="/points/{{town?.world}}">{{town?.world}}</a>
 						</div>
@@ -168,6 +169,11 @@
                 </span>
 							</div>
 						</div>
+
+            <div class="cell gd-primary a-link-dialog" matTooltip="Click here to see who this intel was shared with">
+              <mat-icon>supervised_user_circle</mat-icon>
+            </div>
+
 					</div>
 				</div>
 			</div>

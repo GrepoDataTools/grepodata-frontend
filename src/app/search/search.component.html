@@ -23,7 +23,7 @@
                 <form>
                   <input autocomplete="off" class="sb-search-input" placeholder="Search players..." type="search" value="" name="search" id="search-players" (keyup)="searchPlayers($event)">
                   <input class="sb-search-submit" type="button" value="">
-                  <span class="sb-icon-search" (click)="doSearchPlayers()"><i class="fa fa-user" ></i></span>
+                  <span class="sb-icon-search" (click)="doSearchPlayers()"><mat-icon class="search-icon">person_search</mat-icon></span>
                   <mat-progress-bar *ngIf="!mobile && searching_players && loading" class="searching-loading" mode="indeterminate"></mat-progress-bar>
                 </form>
               </div>
@@ -33,7 +33,7 @@
                 <form>
                   <input autocomplete="off" class="sb-search-input" placeholder="Search alliances..." type="search" value="" name="search" id="search-alliances" (keyup)="searchAlliances($event)">
                   <input class="sb-search-submit" type="button" value="">
-                  <span class="sb-icon-search" (click)="doSearchAlliances()"><i class="fa fa-group" ></i></span>
+                  <span class="sb-icon-search" (click)="doSearchAlliances()"><mat-icon class="search-icon">groups</mat-icon></span>
                   <mat-progress-bar *ngIf="!mobile && searching_alliances && loading" class="searching-loading" mode="indeterminate"></mat-progress-bar>
                 </form>
               </div>

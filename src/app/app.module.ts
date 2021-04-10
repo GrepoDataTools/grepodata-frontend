@@ -36,6 +36,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {
     AppComponent,
     WorldNamePipe,
+    IndexNamePipe,
     DiffFilter,
     DiffFilterNonZero,
     NumberFilter,
@@ -116,6 +117,7 @@ import {ImportIndexDialog} from './shared/dialogs/import-index/import-index.comp
 import {IndexSettingsDialog} from './shared/dialogs/index-settings/index-settings.component';
 import {IndexMembersDialog} from './shared/dialogs/index-members/index-members.component';
 import {ShareIndexDialog} from './shared/dialogs/share-index/share-index.component';
+import {IntelSourceDialog} from './shared/dialogs/intel-source/intel-source.component';
 import { ShareComponent } from './indexer/settings/share/share.component';
 import { LandingPageComponent } from './indexer/landing-page/landing-page.component';
 import { OverviewComponent } from './indexer/overview/overview.component';
@@ -211,10 +213,12 @@ export function jwtTokenGetter(): any {
         IndexSettingsDialog,
         IndexMembersDialog,
         ShareIndexDialog,
+        IntelSourceDialog,
         ConquestReportDialog,
         SiegeListDialog,
         MailListDialog,
         WorldNamePipe,
+        IndexNamePipe,
         DiffFilterNonZero,
         DiffFilter,
         NumberFilter,
@@ -319,6 +323,7 @@ export function jwtTokenGetter(): any {
         IndexSettingsDialog,
         IndexMembersDialog,
         ShareIndexDialog,
+        IntelSourceDialog,
         BBDialog,
         ConquestReportDialog,
         BBScoreboardDialog,

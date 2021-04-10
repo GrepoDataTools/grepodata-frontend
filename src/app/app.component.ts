@@ -8,6 +8,8 @@ import { addBackToTop } from 'vanilla-back-to-top'
 import { MatDialog } from "@angular/material/dialog";
 import {WorldService} from './services/world.service';
 import {SidenavService} from './layout/sidebar/sidenav-service';
+import {Globals} from './globals';
+import {IndexerService} from './indexer/indexer.service';
 
 declare let ga: Function;
 
@@ -157,6 +159,22 @@ export class WorldNamePipe implements PipeTransform {
       html += world;
     }
     return html;
+  }
+}
+
+@Pipe({
+  name: 'IndexNamePipe'
+})
+export class IndexNamePipe implements PipeTransform {
+  constructor(private indexService: IndexerService) {}
+  transform(index_key: string): any {
+    if (!index_key) return index_key;
+    let indexname = index_key;
+    let indexinfo = this.indexService.getLocalIndexInfo(index_key);
+    if (indexinfo && 'name' in indexinfo) {
+      indexname = indexinfo.name
+    }
+    return indexname
   }
 }
 

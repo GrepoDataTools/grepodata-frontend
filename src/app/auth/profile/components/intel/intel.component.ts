@@ -6,6 +6,8 @@ import {NewIndexDialog} from '../../../../shared/dialogs/new-index/new-index.com
 import {MatDialog} from '@angular/material/dialog';
 import {WorldService} from '../../../../services/world.service';
 import {LocalCacheService} from '../../../../services/local-cache.service';
+import {IntelSourceDialog} from '../../../../shared/dialogs/intel-source/intel-source.component';
+import {Globals} from '../../../../globals';
 
 @Component({
   selector: 'app-intel',
@@ -32,6 +34,7 @@ export class IntelComponent implements OnInit {
   hasIntel = true;
 
   constructor(
+    private globals: Globals,
     private authService: JwtService,
     private dialog: MatDialog,
     private profileService: ProfileService
@@ -48,19 +51,11 @@ export class IntelComponent implements OnInit {
     this.authService.accessToken().then(access_token => {
       this.profileService.getUserIntel(access_token, this.from, this.size).subscribe(
         (response) => {
-          // this.accounts = response.items;
-          // Object.keys(this.accounts).forEach(account => {
-          //   if (this.accounts[account].confirmed) {
-          //     this.linked = true;
-          //   }
-          // });
           this.intel = response.items;
-          this.num_results = response.size;
-          if (typeof this.num_results === 'string') {
-            console.log(this.num_results);
-            this.num_results = this.from + this.size + 1
+          if ('total_items' in response && response.total_items > 0) {
+            this.num_results = response.total_items;
           }
-          if (this.num_results <= 0) {
+          if (response.batch_size <= 0) {
             this.hasIntel = false;
           }
           this.loading = false;
@@ -128,11 +123,23 @@ export class IntelComponent implements OnInit {
     this.loadUserIntel();
   }
 
+  openShareInfoDialog(shared_list) {
+    let indexes = shared_list.split(', ')
+    let dialogRef = this.dialog.open(IntelSourceDialog, {
+      autoFocus: false,
+      disableClose: false,
+      data: {
+        index_list: indexes,
+        intel_type: 'outgoing'
+      }
+    });
+  }
+
   saveIndexListToCache(data) {
-    LocalCacheService.set('/topindexlist', data, 60 * 24 * 14);
+    this.globals.set_top_indexes(data, 60 * 24 * 14)
   }
 
   getIndexListFromCache() {
-    return LocalCacheService.get('/topindexlist');
+    return this.globals.get_top_indexes()
   }
 }

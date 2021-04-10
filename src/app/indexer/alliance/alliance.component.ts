@@ -112,6 +112,7 @@ export class IndexAllianceComponent implements AfterViewInit {
 	}
 
   private load(params) {
+    console.log('wtf a')
     if (params !== null) {
       // Save params
       this.key = '0';

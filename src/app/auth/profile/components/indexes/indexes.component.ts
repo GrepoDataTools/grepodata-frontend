@@ -15,6 +15,7 @@ import {ShareIndexDialog} from '../../../../shared/dialogs/share-index/share-ind
 import {IndexAuthService} from '../../../services/index.service';
 import {ImportIndexDialog} from '../../../../shared/dialogs/import-index/import-index.component';
 import {LocalCacheService} from '../../../../services/local-cache.service';
+import {Globals} from '../../../../globals';
 
 @Component({
   selector: 'app-indexes',
@@ -37,6 +38,7 @@ export class IndexesComponent implements OnInit {
   readonly ROLE_OWNER = environment.ROLE_OWNER;
 
   constructor(
+    private globals: Globals,
     private authService: JwtService,
     private profileService: ProfileService,
     private router: Router,
@@ -209,11 +211,11 @@ export class IndexesComponent implements OnInit {
   }
 
   saveIndexListToCache(data) {
-    LocalCacheService.set('/allindexlist', data, 60 * 24);
+    this.globals.set_all_indexes(data, 60 * 24 * 7)
   }
 
   getIndexListFromCache() {
-    return LocalCacheService.get('/allindexlist');
+    return this.globals.get_all_indexes()
   }
 
 }

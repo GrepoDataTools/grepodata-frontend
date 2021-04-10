@@ -5,6 +5,8 @@ import { tap } from 'rxjs/operators';
 import * as jwt_decode from 'jwt-decode';
 import {Router} from '@angular/router';
 import {reject} from 'q';
+import {LocalCacheService} from '../../services/local-cache.service';
+import {Globals} from '../../globals';
 
 const apiUrl = environment.apiUrl;
 
@@ -13,6 +15,7 @@ const apiUrl = environment.apiUrl;
 })
 export class JwtService {
   constructor(
+    private globals: Globals,
     private router: Router,
     private httpClient: HttpClient
   ) {}
@@ -214,8 +217,13 @@ export class JwtService {
   }
 
   logout() {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
+    // Clear local cache items
+    LocalCacheService.remove('access_token');
+    LocalCacheService.remove('refresh_token');
+    this.globals.delete_all_indexes();
+    this.globals.delete_top_indexes();
+
     this.router.navigate(['/indexer']);
+
   }
 }

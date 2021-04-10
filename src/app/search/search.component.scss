@@ -4,6 +4,18 @@ mat-card {
     box-shadow: 0 5px 5px -5px #333 !important;
 }
 
+.search-icon {
+  font-size: 34px;
+  position: absolute;
+  left: 8px;
+  top: 9px;
+}
+#sb-search-players {
+  .mat-icon {
+    left: 10px !important;
+  }
+}
+
 @media (min-width:1200px) {
   .top-container {
     position: -webkit-sticky; /* Safari */
@@ -204,5 +216,8 @@ mat-paginator {
   }
   .table {
     font-size: 16px !important;
+  }
+  .search-icon {
+    top: 0 !important;
   }
 }

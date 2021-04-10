@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {environment} from "../../environments/environment";
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {JwtService} from '../auth/services/jwt.service';
+import {Globals} from '../globals';
 
 const apiUrl = environment.apiUrl;
 
@@ -9,6 +10,7 @@ const apiUrl = environment.apiUrl;
 export class IndexerService {
 
   constructor(
+    private globals: Globals,
     private http: HttpClient
   ) {}
 
@@ -59,6 +61,7 @@ export class IndexerService {
   }
 
   loadTownIntel(access_token, world, id) {
+    console.log('loading town intel')
     let url =  '/indexer/v2/town?world='+world+'&town_id='+id;
     return this.http.get(apiUrl + url, {
       headers: new HttpHeaders().set('access_token', access_token)
@@ -116,6 +119,16 @@ export class IndexerService {
 	// 	let url =  '/indexer/undodelete?csa='+csa+'&key='+key+'&id='+id;
 	// 	return this.http.get(apiUrl + url);
 	// }
+
+  getLocalIndexInfo(index_key) {
+    let localIndexes = this.globals.get_all_indexes();
+    if (!localIndexes) return false;
+    for (let i of (<any>localIndexes)) {
+      if (i.key == index_key)  {
+        return i;
+      }
+    }
+  }
 
   /**
    * @deprecated

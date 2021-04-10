@@ -63,11 +63,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   scrollToTop() {
-    document.querySelector('.page_wrapper').scroll({
-      top: 0,
-      left: 0,
-      behavior: 'smooth',
-    });
+    document.querySelector('.page-wrapper').scrollIntoView();
   }
 
   logout() {
@@ -90,5 +86,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
     if (!this.mobileQuery.matches) {
       this.sidenavService.close();
     }
+    this.scrollToTop();
   }
 }

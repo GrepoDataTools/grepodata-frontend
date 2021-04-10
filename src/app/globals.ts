@@ -1,13 +1,14 @@
 // globals.ts
 import {EventEmitter, Injectable} from '@angular/core';
+import * as moment from 'moment';
 
 @Injectable()
 export class Globals {
   ACTIVE_WORLD        = 'active_world';
   ACTIVE_SERVER       = 'active_server';
-  ACTIVE_INDEX        = 'active_index';
   ACTIVE_INTEL_WORLD  = 'active_intel_worlds';
-  ACTIVE_SCRIPT_TOKEN = 'active_script_token';
+  TOP_INDEX_LIST      = 'topindexlist';
+  ALL_INDEX_LIST      = 'allindexlist';
 
   private active_world:   string = '';
   private active_server:  string = '';
@@ -17,6 +18,9 @@ export class Globals {
   private show_duplicates: any = false;
   public duplicateVisChange: EventEmitter<any> = new EventEmitter();
 
+  /**
+   * Last selected game world
+   */
   get_active_world() {
     if (this.active_world != '') {
       return this.active_world;
@@ -31,24 +35,9 @@ export class Globals {
     localStorage.setItem(this.ACTIVE_WORLD, world);
   }
 
-  get_active_script_token() {
-    if (this.active_token != '') {
-      return this.active_token;
-    } else if (localStorage.getItem(this.ACTIVE_SCRIPT_TOKEN)) {
-      return localStorage.getItem(this.ACTIVE_SCRIPT_TOKEN);
-    } else {
-      return false;
-    }
-  }
-  set_active_script_token(active_token) {
-    this.active_token = active_token;
-    localStorage.setItem(this.ACTIVE_SCRIPT_TOKEN, active_token);
-  }
-  delete_active_script_token() {
-    localStorage.removeItem(this.ACTIVE_SCRIPT_TOKEN);
-  }
-
-
+  /**
+   * Last selected game server
+   */
   get_active_server() {
     if (this.active_server != '') {
       return this.active_server;
@@ -62,24 +51,6 @@ export class Globals {
     this.active_server = server;
     localStorage.setItem(this.ACTIVE_SERVER, server);
   }
-
-  // get_active_index() {
-  //   if (this.active_index != '') {
-  //     return this.active_index;
-  //   } else if (localStorage.getItem(this.ACTIVE_INDEX)) {
-  //     return localStorage.getItem(this.ACTIVE_INDEX);
-  //   } else {
-  //     return false;
-  //   }
-  // }
-  // set_active_index(index) {
-  //   this.active_index = index;
-  //   if (index == '') {
-  //     localStorage.removeItem(this.ACTIVE_INDEX);
-  //   } else {
-  //     localStorage.setItem(this.ACTIVE_INDEX, index);
-  //   }
-  // }
 
   /**
    * Return a list of all worlds where intel is available
@@ -110,6 +81,9 @@ export class Globals {
     localStorage.setItem(this.ACTIVE_INTEL_WORLD, JSON.stringify(this.active_intel));
   }
 
+  /**
+   * Global duplicate toggle on intel tables
+   */
   get_show_duplicates() {
     return this.show_duplicates;
   }
@@ -118,7 +92,9 @@ export class Globals {
     this.duplicateVisChange.emit(this.show_duplicates);
   }
 
-  // Get V1 keys from local storage
+  /**
+   * migration from local storage (Get V1 keys from local storage)
+   */
   get_v1_keys() {
     try {
       let storage_key = 'gd_key_list_v1';
@@ -136,5 +112,59 @@ export class Globals {
   set_migration_complete() {
     let migration_complete = 'gd_migration_complete'
     localStorage.setItem(migration_complete, 'true');
+  }
+
+  /**
+   * Top index list
+   */
+  get_top_indexes() {
+    return this.get_json_with_expiry(this.TOP_INDEX_LIST)
+  }
+  set_top_indexes(top_indexes, lifetime=60 * 24 * 14) {
+    return this.set_json_with_expiry(this.TOP_INDEX_LIST, top_indexes, lifetime)
+  }
+  delete_top_indexes() {
+    localStorage.removeItem(this.TOP_INDEX_LIST);
+  }
+
+  /**
+   * All index list
+   */
+  get_all_indexes() {
+    return this.get_json_with_expiry(this.ALL_INDEX_LIST)
+  }
+  set_all_indexes(top_indexes, lifetime=60 * 24 * 14) {
+    return this.set_json_with_expiry(this.ALL_INDEX_LIST, top_indexes, lifetime)
+  }
+  delete_all_indexes() {
+    localStorage.removeItem(this.ALL_INDEX_LIST);
+  }
+
+  /**
+   * @param url
+   * @param ignore_expiration
+   * @returns {any} false if url does not exist or is expired
+   */
+  private get_json_with_expiry(url, ignore_expiration = false) {
+    let exists = localStorage.hasOwnProperty(url) && localStorage[url] !== null;
+    if (exists) {
+      let data = JSON.parse(localStorage.getItem(url));
+      if (ignore_expiration === false && moment(data.expires) < moment()) {
+        return false;
+      } else {
+        return data.data;
+      }
+    }
+    return false;
+
+  }
+
+  private set_json_with_expiry(url, cachedData, lifetime) {
+    let expire = moment().add(lifetime, 'm').toDate();
+    let data = {
+      data: cachedData,
+      expires: expire
+    };
+    localStorage.setItem(url, JSON.stringify(data));
   }
 }

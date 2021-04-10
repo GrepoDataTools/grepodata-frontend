@@ -1,100 +1,127 @@
-<div class="alert alert-gd-1">
-	<h2 class="gd-primary">How do I install the userscript?</h2>
-	<div class="faq-content">
-		Check out the detailed instructions on this page: <a routerLink="/profile/script" style="text-decoration: underline;">Userscript installation instructions</a>
-	</div>
-</div>
-<div class="alert alert-gd-1">
-	<h2 class="gd-primary">How can I collect enemy intelligence?</h2>
-	<div class="faq-content">
-		<br/>
-		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-8">
-				Reports will receive an additional '<strong>Index +</strong>' button that will allow you to upload the report to your unique index.
-				Click on this button to upload the report to the index.
-			</div>
-			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
-				<img class="lib-img" style="max-width: 100%; display: block; border: 1px solid #334254;" src="../../assets/images/index.png" alt="Grepolis index report">
-			</div>
-		</div>
-		<br/>
-		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-8">
-				Our service will then analyse the report to extract enemy intelligence and add it to your index.
-				You and your allies can browse the collected intel on grepodata.com or in-game when they also have the userscript installed
-				(if you want to browse intel while in-game, you need to install the userscript for that index).
-				<br/>
-				<br/>
-				<strong>Note:</strong> You should install the userscript again for each new index you want to use; each index has its own unique generated userscript. You can have multiple userscripts installed at the same time.
-			</div>
-			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
-				<img class="lib-img" style="max-width: 100%; display: block;" src="../../assets/images/indexer_town.png" alt="Grepolis town intel">
-				<h5 class="gd-secondary" style="float: right;">Images copyright © InnoGames GmbH</h5>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="alert alert-gd-1">
-	<h2 class="gd-primary">Keyboard shortcuts</h2>
-	<div class="faq-content">
-		You can use the '<strong>[</strong>' and '<strong>]</strong>' keys on your keyboard to navigate to the previous and next report in your reports inbox.
-	</div>
-</div>
-<div class="alert alert-gd-1">
-	<h2 class="gd-primary">Is it allowed?</h2>
-	<div class="faq-content">
-		Our script does not automate any gameplay elements, and therefore is in compliance with the overall rules.
-		<br/>Official approval is still pending. However, using our script will not get you banned. <a href="https://en.forum.grepolis.com/index.php?threads/grepodata-enemy-city-indexer-pending-approval.62245/#post-1057206" target="_blank">You can find more info about this here.</a>
-	</div>
-</div>
-<div class="alert alert-gd-1">
-	<h2 class="gd-primary">What type of reports are collected?</h2>
-	<div class="faq-content">
-		Currently our userscript allows you to collect published reports that are posted on your alliance forum or sent to you in a personal message.
-		Reports from your reports inbox can also be indexed without publishing them.
-		Converted reports from other third party tools can not yet be indexed.
-	</div>
-</div>
-<div class="alert alert-gd-1">
-	<h2 class="gd-primary">Is my index secure?</h2>
-	<div class="faq-content">
-		Your index key is only available to you and anyone you choose to share the link with. If you suspect your index has been leaked you can easily request a new key to once again secure the index by using the red button in the top right corner of your index homepage.
-		<br/><br/>
-		We actively keep track of bots and crawlers to prevent unauthorized users to gain access to your index. Please keep in mind that you will be temporarily banned if you try to find unknown index keys.
-	</div>
-</div>
-<div class="alert alert-gd-1">
-	<h2 class="gd-primary">Who should install the userscript?</h2>
-	<div class="faq-content">
-		The more players use your index userscript, the more intel will be collected. You should encourage your alliance members to also use the script in order to maximize the collected intel.
-		If you wish to collect your own intel, you need to create a new private index and install the userscript that comes with it.
-		If you create a new index, you need to install the unique userscript that comes with it.
-	</div>
-</div>
-<div class="alert alert-gd-1">
-	<h2 class="gd-primary">How do i uninstall the userscript?</h2>
-	<div class="faq-content">
-		You can install multiple userscripts (for different indexes) at the same time; you don't have to uninstall the userscript to install a new script.
-		<br/>
-		If you do want to uninstall an old script, navigate to the Tampermonkey dashboard by clicking on the Tampermonkey icon in the top right,
-		and then clicking on 'Dashboard'. Find the script you want to uninstall in this list and remove it from Tampermonkey.
-	</div>
-</div>
-<div class="alert alert-gd-1">
-	<h2 class="gd-primary">Can I create multiple indexes?</h2>
-	<div class="faq-content">
-		You can create as many indexes as you wish. Please note that you should make a new index for each world you wish to play in.
-	</div>
-</div>
-<div class="alert alert-gd-1">
-	<h2 class="gd-primary">Can I merge my index with a friendly alliance?</h2>
-	<div class="faq-content">
-		Merging and forking of indexes will be part of a future release.
-	</div>
-</div>
-<div class="alert alert-gd-1">
-	<h2 class="gd-primary">Update history</h2>
-	<div class="faq-content">
-		<a routerLink="/changelog" style="text-decoration: underline;">Changelog</a>
-	</div>
+<div class="faq-container">
+  <div class="alert alert-gd-1" *ngIf="logged_in">
+    <h2 class="gd-primary">How do I install the userscript?</h2>
+    <div class="faq-content">
+      Check out the detailed instructions on this page: <a routerLink="/profile/script" style="text-decoration: underline;">Userscript installation instructions</a>
+    </div>
+  </div>
+  <div class="alert alert-gd-1">
+    <h2 class="gd-primary">How does it work?</h2>
+    <div class="faq-content">
+      <br/>
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8">
+          1. <strong>Indexing:</strong> Reports in your inbox and on your forum will receive an additional '<strong class="gd-primary">Index +</strong>' button.
+          When you click on this button, the report is uploaded to your GrepoData account.
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+          <img class="lib-img" style="max-width: 100%; display: block; border: 1px solid #334254;" src="../../assets/images/index.png" alt="Grepolis index report">
+        </div>
+      </div>
+      <br/>
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8">
+          2. <strong>Browsing:</strong> Our service will analyse the report to extract enemy intelligence.
+          The extracted enemy intel is linked to your GrepoData account.
+          This allows you to browse the collected intel using the in-game town intel view or by logging in here.
+          <br/>
+          <br/>
+          3. <strong>Sharing:</strong> If you are a member of an index and if you enable contributions to that index, the report you just indexed will also be shared with your allies as long as they also have access to that index.
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+          <img class="lib-img" style="max-width: 100%; display: block;" src="../../assets/images/indexer_town.png" alt="Grepolis town intel">
+          <h5 class="gd-secondary" style="float: right;">Images copyright © InnoGames GmbH</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="alert alert-gd-1">
+    <h2 class="gd-primary">Why do I need a GrepoData account?</h2>
+    <div class="faq-content">
+      A GrepoData account is required to guarantee the security of the intel you collect and the people you share it with.
+      This way, the admin of an index can manage exactly who has access to the intel and can revoke their access whenever needed.
+      Simply having a URL to the index will no longer grant you access to the intel in that index.
+      <br/>
+      This is also one of the measures we had to take to pursue official approval of our userscript.
+      <br/>
+      <br/>
+      Privacy is very important to us. Your username is visible to all GrepoData users but your email address will always remain private and will only be used to authenticate you when you wish to reset your password.
+      At any time, you are able to completely delete your account from our database. Read more in our <a routerLink="/privacy">Privacy Policy</a>.
+    </div>
+  </div>
+  <div class="alert alert-gd-1">
+    <h2 class="gd-primary">How do I delete my GrepoData account?</h2>
+    <div class="faq-content">
+      You can delete your account and all associated data from our server by logging in to your account and navigating to the '<a routerLink="/profile/settings">My Account</a>' section.
+      Here you can enter your password and submit a request to delete your account. Once you confirm the request by clicking on the link in the email you received, all your personal data will be permanently removed from our database.
+    </div>
+  </div>
+  <div class="alert alert-gd-1">
+    <h2 class="gd-primary">What is an index?</h2>
+    <div class="faq-content">
+      An <strong>index</strong> is a collection of enemy intelligence. Anyone can create a new index and invite others to join their index.
+      The members of an index can then choose to contribute the reports they collect to the index. All members of the index will also be able to browse this intel.
+      <br/>
+      Our recommendation is that you create an index together with your alliance. This way, you can work together to gather enemy intelligence.
+    </div>
+  </div>
+  <div class="alert alert-gd-1">
+    <h2 class="gd-primary">Userscript keyboard shortcuts (in-game inbox)</h2>
+    <div class="faq-content">
+      You can use the <strong>[</strong> and <strong>]</strong> keys on your keyboard to navigate to the previous and next report in your reports inbox.
+    </div>
+  </div>
+  <div class="alert alert-gd-1">
+    <h2 class="gd-primary">Is it allowed?</h2>
+    <div class="faq-content">
+      Our script does not automate any gameplay elements, and therefore is in compliance with the overall rules.
+      Each interaction with the city indexer tool requires a manual action by the user, which means you are unlikely to get a ban for using the tool.
+      <br/>Official approval is still pending. <a href="https://en.forum.grepolis.com/index.php?threads/grepodata-enemy-city-indexer-pending-approval.62245/#post-1057206" target="_blank">You can find more info about this here.</a>
+    </div>
+  </div>
+  <div class="alert alert-gd-1">
+    <h2 class="gd-primary">What type of reports are collected?</h2>
+    <div class="faq-content">
+      Currently our userscript allows you to collect published reports that are posted on your alliance forum or sent to you in a personal message.
+      Reports from your reports inbox can also be indexed without publishing them.
+      Converted reports from other third party tools can not yet be indexed.
+    </div>
+  </div>
+  <div class="alert alert-gd-1">
+    <h2 class="gd-primary">Is my index secure?</h2>
+    <div class="faq-content">
+      As an admin or owner of an index, you can add or remove users from the index at any time. Only active members of the index will have access to the information in the index. Once you remove a user, they will nog longer be able to access the collected intel from your index.
+    </div>
+  </div>
+  <div class="alert alert-gd-1">
+    <h2 class="gd-primary">Who should install the userscript?</h2>
+    <div class="faq-content">
+      The userscript is the only way to contribute new intel to an index. You should encourage your index members to also use the script in order to maximize the collected intel.
+    </div>
+  </div>
+  <div class="alert alert-gd-1">
+    <h2 class="gd-primary">How do i uninstall the userscript?</h2>
+    <div class="faq-content">
+      If you want to uninstall the userscript, navigate to the Tampermonkey dashboard by left clicking on the <strong>Tampermonkey</strong> icon in the top right of your browser,
+      and then clicking on <strong>Dashboard</strong>. Find the script called 'GrepoData City Indexer' in this list and remove it from Tampermonkey by clicking the trash can icon next to it.
+    </div>
+  </div>
+  <div class="alert alert-gd-1">
+    <h2 class="gd-primary">Can I create multiple indexes?</h2>
+    <div class="faq-content">
+      You can create as many indexes as you wish. Please note that you should make a new index for each world you wish to play in.
+    </div>
+  </div>
+  <div class="alert alert-gd-1">
+    <h2 class="gd-primary">Can I merge my index with a friendly alliance?</h2>
+    <div class="faq-content">
+      Merging and forking of indexes will be part of a future release.
+    </div>
+  </div>
+  <div class="alert alert-gd-1">
+    <h2 class="gd-primary">Why can I no longer see the intel I collected?</h2>
+    <div class="faq-content">
+      As of April 2021, a GrepoData account is required to collect and browse the intel. Sign up for an account to continue using our city indexer tool.
+    </div>
+  </div>
 </div>

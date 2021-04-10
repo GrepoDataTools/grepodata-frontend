@@ -34,7 +34,7 @@ export class IndexSearchComponent implements AfterViewInit {
 
   // Debounce
   typingTimer;
-  debounceTime = 300;
+  debounceTime = 600;
 
   constructor(
     private cdr: ChangeDetectorRef,

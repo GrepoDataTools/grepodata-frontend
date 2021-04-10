@@ -62,6 +62,13 @@ $gutters: 24px;
     font-weight: 100;
   }
 }
+
+.gd-login-logo {
+  text-align: center;
+  font-weight: 800;
+  font-size: 50px
+}
+
 .index-input-right {
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
@@ -308,4 +315,30 @@ $gutters: 24px;
 .cp-fab {
   background: $white !important;
   color: $accent !important;
+}
+
+@media (max-width: 992px) {
+
+  .gd-login-logo {
+    text-align: center;
+    font-weight: 800;
+    font-size: 35px
+  }
+
+  .login-submit {
+    position: unset !important;
+    margin-top: 20px !important;
+    width: 100% !important;
+  }
+
+}
+
+@media (max-width: 767px) {
+  .index-input-container {
+    margin-top: 0;
+  }
+  .login-row-container {
+    flex-direction: column-reverse !important;
+  }
+
 }

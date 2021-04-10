@@ -27,12 +27,14 @@
               <a routerLink="/profile/overview/{{index.key}}">{{index.key}} <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon></a>
             </div>
             <div class="cell" *ngIf="expanded_info_available">
-              <a routerLink="/profile/overview/{{index.key}}">{{index.name}}</a>
+              <a routerLink="/profile/overview/{{index.key}}"><span *ngIf="index.name">{{index.name}}</span><span *ngIf="!index.name">{{index.key}}</span></a>
             </div>
             <div class="cell" style="padding: 0 !important; font-size: 14px; vertical-align: middle;" *ngIf="expanded_info_available">
-              <div *ngFor="let owner of index.stats.owners; let i = index;">
-                <img src="../../assets/images/ally_ico.png"/> {{owner.alliance_name}}
-              </div>
+              <span *ngIf="index.stats && index.stats.owners">
+                <div *ngFor="let owner of index.stats.owners; let i = index;">
+                  <img src="../../assets/images/ally_ico.png"/> {{owner.alliance_name}}
+                </div>
+              </span>
             </div>
             <div class="cell" *ngIf="expanded_info_available" style="padding: 6px;">
               <button style="float: right;" class="btn btn-success btn-xs" routerLink="/profile/overview/{{index.key}}">

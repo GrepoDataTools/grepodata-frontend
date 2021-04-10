@@ -286,6 +286,21 @@ mat-paginator {
   }
 }
 
+.alert-gd-error {
+  text-align: left !important;
+  h1, h2, h3 {
+    color: #ea6153 !important;
+  }
+  .mat-icon {
+    color: #ea6153 !important;
+    -ms-flex-align: center !important;
+    align-items: center !important;
+    margin-left: 25px;
+    display: flex;
+    align-self: center;
+  }
+}
+
 .entity-name {
   font-family: Montserrat, sans-serif !important;
   font-weight: 900 !important;

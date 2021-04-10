@@ -60,12 +60,12 @@ export class OverviewComponent implements OnInit {
     this.recent_conquests = [];
     if (typeof params['key'] != 'undefined' && params['key'].length == 8) {
       this.key = params['key'];
+      this.index_name = this.key;
       this.authService.accessToken().then(access_token => {
         this.indexerService.getIndex(access_token, this.key).subscribe(
           (response) => this.loadIndex(response),
-          (error) => {
-            this.router.navigate(['/profile/indexes']);
-          });
+          (error) => this.loadIndex(null)
+        );
       });
     } else {
       this.loading = false;
@@ -88,23 +88,38 @@ export class OverviewComponent implements OnInit {
 
   private loadIndex(data) {
     console.log(data);
-    this.globals.set_active_intel(data.world);
-    this.is_admin = data.is_admin;
-    this.share_link = data.share_link || '';
-    this.delete_days = data.num_days || 0;
-    this.allow_join_v1_key = data.allow_join_v1_key;
-    this.index_version = data.index_version || '2';
-    this.role = data.role || 'read';
-    this.contribute = data.contribute===1;
-    this.world = data.world;
-    this.index_name = data.index_name;
-    this.data = data;
-    if (data.latest_intel) {
-      this.latest_intel = data.latest_intel;
+    if (!data) {
+      this.error = '<h2>Sorry, we were unable to load this index overview</h2><h4>Please try again later or contact us if this error persists.</h4>';
+    } else if (data && 'error_code' in data) {
+      if (data.error_code == 7101) {
+        // not a valid index
+        this.error = '<h2>This is not a valid index</h2><h4>Index not found. Please try again later or contact us if this error persists.</h4>';
+      } else if (data.error_code == 7504) {
+        // no read access to this index
+        this.error = '<h2>Access to index denied</h2><h4>You no longer have access to this index. This can happen if the index admin removes you or if you leave the index. If you think this is incorrect, please ask the index admin to get access.</h4>';
+      } else {
+        this.error = '<h2>Sorry, we were unable to load this index overview</h2><h4>Please try again later or contact us if this error persists.</h4>';
+      }
+    } else {
+      this.globals.set_active_intel(data.world);
+      this.is_admin = data.is_admin;
+      this.share_link = data.share_link || '';
+      this.delete_days = data.num_days || 0;
+      this.allow_join_v1_key = data.allow_join_v1_key;
+      this.index_version = data.index_version || '2';
+      this.role = data.role || 'read';
+      this.contribute = data.contribute===1;
+      this.world = data.world;
+      this.index_name = data.index_name;
+      this.data = data;
+      if (data.latest_intel) {
+        this.latest_intel = data.latest_intel;
+      }
+      if (data.recent_conquests) {
+        this.recent_conquests = data.recent_conquests;
+      }
     }
-    if (data.recent_conquests) {
-      this.recent_conquests = data.recent_conquests;
-    }
+
     this.loading = false;
   }
 

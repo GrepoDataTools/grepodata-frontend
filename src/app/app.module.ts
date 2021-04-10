@@ -161,7 +161,7 @@ const appRoutes: Routes = [
     { path: 'indexer/player/:key/:world/:id', redirectTo: 'invite/:key/player/:world/:id' }, // Rerouted to V2 invite
     { path: 'indexer/alliance/:key/:world/:id', redirectTo: 'invite/:key/alliance/:world/:id' }, // Rerouted to V2 invite
     { path: 'indexer/town/:key/:world/:id', redirectTo: 'invite/:key/town/:world/:id' }, // Rerouted to V2 invite
-    { path: 'indexer/:key', redirectTo: 'invite/:key' }, // Rerouted to V2 invite
+    { path: 'indexer/:invite_link', component: InviteComponent }, // Rerouted to V2 invite
     { path: 'indexer/action/:token', redirectTo: 'indexer' },  // Deprecated
     { path: 'invite/:invite_link', component: InviteComponent }, // V2 invite route
     { path: 'invite/:invite_link/:type/:world/:id', component: InviteComponent }, // Invite route to catch V1 redirects

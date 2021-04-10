@@ -37,14 +37,47 @@
           </div>
           <div class="col-xs-10" *ngIf="!v2_scriptlink && !expired && !invalid_link && v1_redirect">
             <h2><strong>You have to be logged in to view this index</strong></h2>
-            <h4>As of April 2021, you need to be signed in to collect and share enemy intelligence.</h4>
-            <p>Please sign in or create a new account. <strong>Your old intel will still be available once you have an account.</strong></p>
+            <h5>As of April 2021, you need to be signed in to collect and share enemy intelligence.</h5>
+            <h5><strong>Note: if you created this index, please register using the same email address that you used to create the index.</strong></h5>
+            <a class="a-link-dialog" *ngIf="!read_more" (click)="read_more=true">read more</a>
+            <a class="a-link-dialog" *ngIf="read_more" (click)="read_more=false">read less</a>
           </div>
           <div class="col-xs-10" *ngIf="!v2_scriptlink && !expired && !invalid_link && !v1_redirect">
             <h2><strong>You have to be logged in to accept this invitation</strong></h2>
             <h4>Sign in with an existing account or register for a new account to join this index</h4>
           </div>
         </div>
+
+        <div class="row" *ngIf="!v2_scriptlink && !expired && !invalid_link && v1_redirect && read_more">
+          <div class="col-xs-12 text-center">
+            <br/>
+            <div class="alert alert-gd-1">
+              <h2 class="gd-primary">Why do I need a GrepoData account?</h2>
+              <div class="faq-content" style="font-size: 16px; font-weight: 400;">
+                <strong>We made this change in order to get official approval for our city indexer tool.</strong>
+                <br/>
+                <br/>
+                A GrepoData account is required to guarantee the security of the intel you collect and the people you share it with.
+                This way, the admin of an index can manage exactly who has access to the intel and can revoke their access whenever needed.
+                Simply having a URL to the index will no longer grant you access to the intel in that index.
+                <br/>
+                <br/>
+                Privacy is very important to us. Your username is visible to all GrepoData users but your email address will always remain private and will only be used to authenticate you when you wish to reset your password.
+                At any time, you are able to completely delete your account from our database. Read more in our <a routerLink="/privacy">Privacy Policy</a>.
+              </div>
+            </div>
+            <div class="alert alert-gd-1">
+              <h2 class="gd-primary">Is my old intel/index still available?</h2>
+              <div class="faq-content" style="font-size: 16px; font-weight: 400;">
+                Once you create a GrepoData account and import one of your old indexes, you will be able to view the intel you have collected so far.
+                <br/>
+                <br/>
+                If you are the person that created the old index, please <strong>make sure that your new GrepoData account has the same email address that you used to create the old index</strong>. If you verify your email address, you will automatically become the owner of that index. You can then remove or add users as you wish.
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
 
     </div>

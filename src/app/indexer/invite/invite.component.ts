@@ -27,6 +27,7 @@ export class InviteComponent implements OnInit {
   verification_loading = true;
   error : string = '';
   logged_in : boolean = false;
+  read_more : boolean = false;
 
   verifying_invite = false;
   verifying_script = false;

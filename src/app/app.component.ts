@@ -144,7 +144,7 @@ export class WindowRef {
 })
 export class WorldNamePipe implements PipeTransform {
   constructor(private worldService: WorldService) {}
-  transform(world: string): any {
+  transform(world: string, return_html=true): any {
     if (!world) return world;
     let server = world.substring(0, 2);
     let worldname = null;
@@ -152,13 +152,17 @@ export class WorldNamePipe implements PipeTransform {
     if (worldinfo && 'name' in worldinfo) {
       worldname = worldinfo.name
     }
-    let html = '<div class="bg-flag flag-inline-middle flag-'+server+'"></div>&nbsp;';
+    let worldstring = '';
     if (worldname) {
-      html += worldname + ' (' + world + ')';
+      worldstring = worldname + ' (' + world + ')';
     } else {
-      html += world;
+      worldstring = world;
     }
-    return html;
+    if (return_html) {
+      return '<div class="bg-flag flag-inline-middle flag-'+server+'"></div>&nbsp;'+worldstring;
+    } else {
+      return worldstring;
+    }
   }
 }
 

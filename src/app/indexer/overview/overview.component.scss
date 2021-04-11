@@ -66,6 +66,33 @@ mat-form-field {
   }
 }
 
+.index-card-info {
+  max-height: 400px;
+  height: 400px;
+  min-height: 400px;
+}
+@media (max-width:1000px) {
+  .index-card-info {
+    max-height: 800px;
+    height: 800px;
+    min-height: 800px;
+  }
+  .players-intel-table {
+    max-height: unset !important;
+  }
+  .index-options-container {
+    position: relative !important;
+    width: 100% !important;
+    margin-top: 30px !important;
+    button {
+      margin-bottom: 10px !important;
+    }
+  }
+  .card-header {
+    margin: 0px !important;
+  }
+}
+
 @media (max-width:1150px) {
   .install-hint {
     font-size: 16px !important;

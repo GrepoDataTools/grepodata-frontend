@@ -78,7 +78,9 @@ export interface IndexList {
 	name: string;
 	role: string;
 	world: string;
+	world_stopped: boolean;
 	contribute: any;
+	stats: any;
 	overview: IndexOverview;
 }
 

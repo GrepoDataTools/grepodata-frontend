@@ -64,13 +64,13 @@
 					<div *ngIf="indexes.length > 0">
 
 						<div class="indexes-table">
-							<table class="table">
+							<table matSort (matSortChange)="sortData($event)" class="table">
 								<thead>
 								<tr>
-									<th scope="col">Index name</th>
+									<th mat-sort-header="name" scope="col">Index name</th>
 									<!--<th scope="col">Key (old)</th>-->
-									<th scope="col" class="hidden-xs hidden-sm hidden-md">World</th>
-									<th scope="col" class="hidden-xs hidden-sm hidden-md">Total reports</th>
+									<th mat-sort-header="world" scope="col" class="hidden-xs hidden-sm hidden-md">World</th>
+									<th mat-sort-header="reports" scope="col" class="hidden-xs hidden-sm hidden-md">Total reports</th>
 									<th scope="col" class="hidden-xs hidden-sm">Index Owners</th>
 									<th style="text-align: center !important;" scope="col" class="hidden-xs hidden-sm">
 										Contribute <mat-icon class="mat-icon-title-inline a-link" matTooltip="If you enable this toggle, your collected intell will be shared with this index. If you disable this option, you can still read the index but your collected intel will not be shared with the other players in this index.">help_outline</mat-icon>
@@ -79,11 +79,42 @@
 										Your role <mat-icon class="mat-icon-title-inline a-link" matTooltip="Only the owners or admins of an index can change the index settings. Members can add new intel. And read only access means you can not add new intel but you can still browse the intel in this index.">help_outline</mat-icon>
 									</th>
 									<th scope="col" class="text-right btn-column-th settings">Settings</th>
-									<th scope="col" class="text-right btn-column-th actions">Actions</th>
+									<th scope="col" class="text-right btn-column-th actions hidden-xs">Actions</th>
+								</tr>
+								<tr class="filter-row index-filters" *ngIf="indexes.length > 10">
+									<td scope="col"><input type="text" placeholder="Filter index name" [(ngModel)]="filter_index_name"></td>
+									<td scope="col" class="hidden-xs hidden-sm hidden-md">
+                    <select [(ngModel)]="filter_world">
+                      <option value selected>All worlds</option>
+                      <option value="{{world}}" *ngFor="let world of uniqueWorlds()">{{world | WorldNamePipe : false}}</option>
+                    </select>
+                  </td>
+									<td scope="col" class="hidden-xs hidden-sm hidden-md"></td>
+									<td scope="col" class="hidden-xs hidden-sm"><input class="hidden-md" type="text" placeholder="Filter index owners" [(ngModel)]="filter_index_owners"></td>
+									<td scope="col" class="hidden-xs hidden-sm"></td>
+									<td scope="col" class="hidden-xs hidden-sm hidden-md">
+                    <select [(ngModel)]="filter_role">
+                      <option value selected>All roles</option>
+                      <option value="owner">Owner</option>
+                      <option value="admin">Admin</option>
+                      <option value="write">Member</option>
+                      <option value="read">Read only</option>
+                    </select>
+                  </td>
+									<td scope="col"></td>
+									<td scope="col" style="text-align: right !important;" class="hidden-xs">
+                    <a class="a-link-dialog" (click)="filter_role=''; filter_world = ''; filter_index_owners=''; filter_index_name='';">Clear filters <mat-icon style="vertical-align: middle;">close</mat-icon></a>
+                  </td>
 								</tr>
 								</thead>
 								<tbody>
-								<tr *ngFor="let index of indexes; let i = index;" class="index-row">
+								<tr *ngFor="let index of indexes; let i = index;" class="index-row" [ngClass]="{'inactive-index-row': index.world_stopped}">
+                  <ng-container *ngIf="
+                    (!filter_index_name || index.name.includes(filter_index_name)) &&
+                    (!filter_index_owners || hasOwnerFilter(index)) &&
+                    (!filter_world || index.world == filter_world) &&
+                    (!filter_role || index.role == filter_role)
+                  ">
 									<td style="text-align: left !important;" (click)="routing('/profile/overview/' + index.key)">
 										<a><mat-icon style="opacity: 1; vertical-align: sub;">account_balance</mat-icon> {{index.name || index.key}}</a>
                     <div class="hidden-lg">
@@ -96,7 +127,8 @@
                     </div>
 									</td>
 									<td (click)="routing('/profile/overview/' + index.key)" class="hidden-xs hidden-sm hidden-md">
-										<div [outerHTML]="index.world | WorldNamePipe"></div>
+										<div *ngIf="!index.world_stopped" [outerHTML]="index.world | WorldNamePipe"></div>
+                    <span *ngIf="index.world_stopped">{{index.world}}&nbsp;<strong>(FINISHED)</strong></span>
                   </td>
 									<td (click)="routing('/profile/overview/' + index.key)" class="hidden-xs hidden-sm hidden-md">
                     <div *ngIf="index.stats && index.stats.total_reports>=0">{{index.stats.total_reports}}</div>
@@ -108,8 +140,8 @@
 									</td>
 									<td style="text-align: center !important;" class="hidden-xs hidden-sm">
 										<!--<mat-slide-toggle [ngModel]="index.contribute" (ngModelChange)="enableContributions(index)">Share my intel with this index</mat-slide-toggle>-->
-										<mat-checkbox *ngIf="index.role!='read'" [checked]="index.contribute" (click)="enableContributions(index)"></mat-checkbox>
-                    <span *ngIf="index.role=='read'"><mat-checkbox [checked]="false" disabled="true"></mat-checkbox></span>
+										<mat-checkbox *ngIf="index.role!='read' && !index.world_stopped" [checked]="index.contribute" (click)="enableContributions(index)"></mat-checkbox>
+                    <span *ngIf="index.role=='read' && !index.world_stopped"><mat-checkbox [checked]="false" disabled="true"></mat-checkbox></span>
 									</td>
 									<td (click)="routing('/profile/overview/' + index.key)" class="hidden-xs hidden-sm hidden-md">
 										{{index.role
@@ -120,18 +152,22 @@
 										}}
 									</td>
 									<td style="text-align: right !important;">
-										<div class="index-actions" *ngIf="index.role === ROLE_ADMIN || index.role === ROLE_OWNER">
+                    <div class="index-actions hidden-sm hidden-md hidden-lg">
+                      <button routerLink="/profile/overview/{{index.key}}" class="btn btn-success mr-1 index-btn-browse">Browse <mat-icon>launch</mat-icon></button>
+                    </div>
+										<div class="index-actions" *ngIf="(index.role === ROLE_ADMIN || index.role === ROLE_OWNER) && !index.world_stopped">
 											<button class="btn btn-secondary mr-1 index-btn-users" (click)="openIndexMembers(index)">Users <mat-icon>admin_panel_settings</mat-icon></button>
 											<button class="btn btn-secondary mr-1 index-btn-settings" (click)="openIndexSettings(index)">Settings <mat-icon>settings</mat-icon></button>
                       <button class="btn btn-primary mr-1 index-btn-share" (click)="openShareIndexDialog(index)">Share <mat-icon>group_add</mat-icon></button>
 										</div>
-									</td>
-									<td style="text-align: right !important;">
+                  </td>
+									<td style="text-align: right !important;" class="hidden-xs">
 										<div class="index-actions">
 											<button routerLink="/profile/overview/{{index.key}}" class="btn btn-success mr-1 index-btn-browse">Browse <mat-icon>launch</mat-icon></button>
 											<button (click)="leaveIndex(index)" class="btn btn-danger mr-1 index-btn-leave">Leave <mat-icon>delete_forever</mat-icon></button>
 										</div>
 									</td>
+                  </ng-container>
 								</tr>
 								</tbody>
 							</table>

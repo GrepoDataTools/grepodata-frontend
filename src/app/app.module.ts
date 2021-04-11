@@ -128,6 +128,7 @@ import {SidenavService} from './layout/sidebar/sidenav-service';
 import { InviteComponent } from './indexer/invite/invite.component';
 import { LoginRegisterComponent } from './auth/login-register/login-register.component';
 import { BugReportComponent } from './auth/profile/components/bug-report/bug-report.component';
+import {MatSortModule} from '@angular/material/sort';
 
 const appRoutes: Routes = [
     { path: 'login', component: LandingPageComponent },
@@ -298,6 +299,7 @@ export function jwtTokenGetter(): any {
         MatExpansionModule,
         MatIconModule,
         MatInputModule,
+        MatSortModule,
         MatStepperModule,
         MatProgressSpinnerModule,
         MatProgressBarModule,

@@ -31,6 +31,7 @@ export class OverviewComponent implements OnInit {
   is_admin = false;
   role = '';
   contribute = false;
+  world_stopped = false;
   share_link = '';
   delete_days = '';
   allow_join_v1_key = '';
@@ -105,6 +106,7 @@ export class OverviewComponent implements OnInit {
       this.is_admin = data.is_admin;
       this.share_link = data.share_link || '';
       this.delete_days = data.num_days || 0;
+      this.world_stopped = 'world_stopped' in data && data.world_stopped == true;
       this.allow_join_v1_key = data.allow_join_v1_key;
       this.index_version = data.index_version || '2';
       this.role = data.role || 'read';

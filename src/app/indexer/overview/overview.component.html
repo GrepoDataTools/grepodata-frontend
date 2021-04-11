@@ -33,6 +33,11 @@
   </div>
 
 	<div *ngIf="key != '' && !loading && !error">
+
+    <app-alert *ngIf="world_stopped" title="This game world is no longer active" type="error" [dismissible]="false">
+      Game world <strong>{{world}}</strong> is finished and all detailed data related to this world has been deleted from our database. This index overview is still available but the underlying intel has been removed.
+    </app-alert>
+
 		<div class="index-overview">
 
 			<div class="">
@@ -194,7 +199,7 @@
 				</div>
 
 				<ng-template #info>
-					<mat-card class="dense-card" style="max-height: 400px; height: 400px; min-height: 400px;">
+					<mat-card class="dense-card index-card-info">
 						<div class="card-header bg-gd-4">
 							<h1 class="entity-name gd-white">Enemy city index</h1>
 							<h3 class="gd-primary">
@@ -277,7 +282,7 @@
 				</ng-template>
 
 				<ng-template #players>
-					<mat-card class="dense-card" style="max-height: 400px; height: 400px; min-height: 400px;">
+					<mat-card class="dense-card index-card-info">
 						<mat-card-title>
 							<div class="form-group row" style='margin: 0px;'>
 								<h3 style='font-weight: 300; color: #304357; margin-top: 0 !important;'><span class='world-title' style='color: #18BC9C;'>Most indexed players</span>
@@ -301,7 +306,7 @@
 									</div>
 								</div>
 							</div>
-							<div style="max-height: 275px; overflow-y: auto;">
+							<div class="players-intel-table" style="max-height: 275px; overflow-y: auto;">
 								<div class="table" id="table_players_rows" style='margin: auto; margin-bottom: 0px;'>
 									<div class='row_custom' *ngFor="let player of data.players_indexed">
 										<div class="cell" style="width: 45%;">
@@ -324,7 +329,7 @@
 				</ng-template>
 
 				<ng-template #allys>
-					<mat-card class="dense-card" style="max-height: 400px; height: 400px; min-height: 400px;">
+					<mat-card class="dense-card index-card-info">
 						<mat-card-title>
 							<div class="form-group row" style='margin: 0px;'>
 								<h3 style='font-weight: 300; color: #304357; margin-top: 0 !important;'><span class='world-title' style='color: #18BC9C;'>Most indexed alliances</span>
@@ -348,7 +353,7 @@
 									</div>
 								</div>
 							</div>
-							<div style="max-height: 275px; overflow-y: auto;">
+							<div class="players-intel-table" style="max-height: 275px; overflow-y: auto;">
 								<div class="table" id="table_alliances" style='margin: auto; margin-bottom: 0px;'>
 
 									<div class='row_custom' *ngFor="let alliance of data.alliances_indexed">
@@ -383,7 +388,7 @@
 										<ng-container *ngTemplateOutlet="info"></ng-container>
 									</div>
 									<div fxFlex="65" fxLayout="column" fxLayoutGap="5px">
-										<mat-card class="dense-card" style="max-height: 400px; height: 400px; min-height: 400px;">
+										<mat-card class="dense-card index-card-info">
 											<mat-card-title class="text-left">
 												<h1 class="gd-primary">Welcome to your unique enemy city index!</h1>
 												<h4>This index allows you to share collected intelligence with other users.</h4>

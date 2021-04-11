@@ -441,6 +441,26 @@ mat-paginator {
   }
 
 }
+
+@media (max-width:1000px) {
+  .index-card {
+    margin: 0 !important;
+    padding: 0 !important;
+    &.index-intel-card {
+      padding: 5px !important;
+    }
+  }
+  .search-card {
+    margin: 0 !important;
+    padding: 0 !important;
+    margin-bottom: 25px !important;
+  }
+  .dense-card {
+    margin: 0 !important;
+    padding: 10px !important;
+  }
+}
+
 @media (max-width:800px) {
   .mat-paginator-page-size {
     display: none !important;

@@ -14,11 +14,10 @@ import {IndexMembersDialog} from '../../../../shared/dialogs/index-members/index
 import {ShareIndexDialog} from '../../../../shared/dialogs/share-index/share-index.component';
 import {IndexAuthService} from '../../../services/index.service';
 import {ImportIndexDialog} from '../../../../shared/dialogs/import-index/import-index.component';
-import {LocalCacheService} from '../../../../services/local-cache.service';
 import {Globals} from '../../../../globals';
 import {BasicDialog} from '../../../../shared/dialogs/basic/basic.component';
-import {Location} from '@angular/common';
 import {MediaMatcher} from '@angular/cdk/layout';
+import {Sort} from '@angular/material/sort';
 
 @Component({
   selector: 'app-indexes',
@@ -44,6 +43,12 @@ export class IndexesComponent implements OnInit {
 
   mobileQuery: MediaQueryList;
   private readonly _mediaQueryListener: () => void;
+
+  active_sort : any = null;
+  filter_index_name : any = '';
+  filter_index_owners : any = '';
+  filter_world : any = '';
+  filter_role : any = '';
 
   constructor(
     private globals: Globals,
@@ -172,6 +177,9 @@ export class IndexesComponent implements OnInit {
           this.indexes = response.items;
           this.saveIndexListToCache(this.indexes);
           this.loading = false;
+          if (this.active_sort!=null) {
+            this.sortData(this.active_sort);
+          }
         },
         (error) => {
           console.log(error);
@@ -203,9 +211,9 @@ export class IndexesComponent implements OnInit {
           if ('success_code' in response && response.success_code == 1000) {
             let new_status = response.data.contribute;
             if (new_status==false) {
-              this.contribute_success = 'Your new intel will no longer be uploaded to index <strong>' + index.name + '</strong>';
+              this.contribute_success = 'The reports you index will no longer be shared with index <strong>' + index.name + '</strong>';
             } else {
-              this.contribute_success = 'Your new intel will now be uploaded to index <strong>' + index.name + '</strong>';
+              this.contribute_success = 'The reports you index will now be shared with index <strong>' + index.name + '</strong>';
             }
             this.contribute_success = '<h5>' + this.contribute_success + '</h5>';
             index.contribute = new_status;
@@ -303,4 +311,65 @@ export class IndexesComponent implements OnInit {
     document.querySelector('.page-wrapper').scrollIntoView();
   }
 
+  sortData(sort: Sort) {
+    console.log(sort);
+    if (!sort.active || sort.direction === '') {
+      this.indexes = this.getIndexListFromCache();
+      return;
+    }
+    this.active_sort = sort;
+    this.indexes = this.indexes.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'name':
+          if (a.world_stopped == b.world_stopped) {
+            return this.compare(a.name, b.name, isAsc);
+          } else {
+            return this.compare(a.world_stopped, b.world_stopped, true);
+          }
+        case 'world':
+          if (a.world_stopped == b.world_stopped) {
+            return this.compare(a.world, b.world, isAsc);
+          } else {
+            return this.compare(a.world_stopped, b.world_stopped, true);
+          }
+        case 'reports':
+          let reportsA = a.stats.total_reports >= 0 ? a.stats.total_reports : 0;
+          let reportsB = b.stats.total_reports >= 0 ? b.stats.total_reports : 0;
+          if (a.world_stopped == b.world_stopped) {
+            return this.compare(reportsA, reportsB, isAsc);
+          } else {
+            return this.compare(a.world_stopped, b.world_stopped, true);
+          }
+        case 'role':
+          if (a.world_stopped == b.world_stopped) {
+            return this.compare(a.role, b.role, isAsc);
+          } else {
+            return this.compare(a.world_stopped, b.world_stopped, true);
+          }
+        default: return 0;
+      }
+    })
+  }
+
+  compare(a: number | string | boolean, b: number | string | boolean, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
+  hasOwnerFilter(index) {
+    if (!this.filter_index_owners || !index || !('stats' in index) || !('owners' in index.stats) || index.stats.owners.length <= 0) {
+      return false;
+    }
+    let matched_owners = index.stats.owners.filter(i => {
+      if (!i || !('alliance_name' in i) || !i.alliance_name) {
+        return false;
+      }
+      return i.alliance_name.toLowerCase().includes(this.filter_index_owners.toLowerCase())
+    });
+    return matched_owners.length > 0
+  }
+
+  uniqueWorlds() {
+    return [...new Set(this.indexes.map(item => item.world))];
+  }
 }

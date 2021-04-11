@@ -1,18 +1,18 @@
-<h2 class="gd-secondary">Add a new user to index <span class="gd-primary"><mat-icon style="opacity: 1; vertical-align: sub; font-size: 40px; margin-right: 10px;">account_balance</mat-icon>&nbsp;{{index.name}}</span></h2>
-<p>You can share this index with your allies to collect intel together. Invite them using their GrepoData username or send them a link.</p>
+<h2 class="gd-secondary">Add a new user to team <span class="gd-primary"><mat-icon style="opacity: 1; vertical-align: sub; font-size: 40px; margin-right: 10px;">account_balance</mat-icon>&nbsp;{{index.name}}</span></h2>
+<h5>You can share this team with your allies to collect intel together. Invite them using their GrepoData username or send them an invite link.</h5>
 
 <div class="alert alert-gd-1">
 	<h2 class="gd-secondary"><mat-icon style="opacity: 1; vertical-align: middle;">link</mat-icon> Invite link</h2>
 
 	<div class="row">
 		<div class="col-xs-12">
-			<h6>
-				When your allies click on this link, they will be able to gain access to your index after they create a GrepoData account.
+			<h5>
+				When your allies click on this link, they will be able to gain access to your team after they create a GrepoData account.
 				<br/>You will always be able to manage and revoke their access later on.
-			</h6>
+			</h5>
 		</div>
 		<div class="col-xs-12 gd-share-link-container">
-			<label style="font-weight: 600">Send this link to your allies to give them access to your index:</label>
+			<label style="font-weight: 600">Send this link to your allies to give them access to your team:</label>
 			<br/>
 			<div class="row invite-link-container" (click)="copyLink()" [ngClass]="{'loading-link-overlay':loadingLink}">
 				<input #shareLink
@@ -36,19 +36,19 @@
 
 <div class="alert alert-gd-1">
 	<h2 class="gd-secondary"><mat-icon style="opacity: 1; vertical-align: middle;">group_add</mat-icon> Add a user by name</h2>
-	<h5>You can also invite a user to join your index by finding their <strong>GrepoData username</strong>.</h5>
+	<h5>You can also invite a user to join your team by finding their <strong>GrepoData username</strong>.</h5>
 
 	<app-alert type="error" title="Unable to add user" *ngIf="adding_error">
 		<h5><span [outerHTML]="adding_error"></span></h5>
 	</app-alert>
 
-	<app-alert type="success" title="User now has access to your index" *ngIf="adding_success">
+	<app-alert type="success" title="User now has access to your team" *ngIf="adding_success">
 		<h5><span [outerHTML]="adding_success"></span></h5>
 	</app-alert>
 
-	<app-alert type="warning" title="User is already a member of your index" *ngIf="already_member">
-		<h5>User <span class='gd-primary'><strong>{{already_member}}</strong></span> is already a member of this index.</h5>
-		<button class="btn btn-secondary mr-1" (click)="openMembersDialog()">Manage index members <mat-icon>admin_panel_settings</mat-icon></button>
+	<app-alert type="warning" title="User is already a member of your team" *ngIf="already_member">
+		<h5>User <span class='gd-primary'><strong>{{already_member}}</strong></span> is already a member of this team.</h5>
+		<button class="btn btn-secondary mr-1" (click)="openMembersDialog()">Manage team members <mat-icon>admin_panel_settings</mat-icon></button>
 	</app-alert>
 
 	<mat-progress-bar *ngIf="adding_user" mode="indeterminate"></mat-progress-bar>
@@ -87,7 +87,7 @@
 							<div *ngIf="!searching && users?.length > 0" class="table" id="search_output_users" style="">
 								<div class="row_custom header default">
 									<div class="cell custom-cell">GrepoData username</div>
-									<div class="cell" style="min-width: 100px;">Add user to index</div>
+									<div class="cell" style="min-width: 100px;">Add user to team</div>
 								</div>
 
 								<div *ngFor="let user of users" class="row_custom">
@@ -98,7 +98,7 @@
 									</div>
 									<div class="cell">
 										<button [disabled]="updating_users" class="btn btn-success" style="overflow: hidden; text-overflow: ellipsis; margin: 5px 0;" (click)="selectUser(user)">
-											<i class="fa fa-plus" style="vertical-align: text-bottom;"></i>&nbsp;Add user to index
+											<i class="fa fa-plus" style="vertical-align: text-bottom;"></i>&nbsp;Add user to team
 										</button>
 									</div>
 								</div>
@@ -114,8 +114,8 @@
 				<h3 class="gd-secondary">Added users:&nbsp;
 					<span *ngFor="let user of added_users; let i = index;" class="gd-primary"><i class="fa fa-user" ></i>&nbsp;{{user.username}}<span *ngIf="i!=added_users.length-1">,&nbsp;</span></span>
 				</h3>
-				<p>You have recently added these users to your index.</p>
-				<button class="btn btn-secondary mr-1" (click)="openMembersDialog()">Manage index members <mat-icon>admin_panel_settings</mat-icon></button>
+				<p>You have recently added these users to your team.</p>
+				<button class="btn btn-secondary mr-1" (click)="openMembersDialog()">Manage team members <mat-icon>admin_panel_settings</mat-icon></button>
 			</div>
 		</div>
 	</div>

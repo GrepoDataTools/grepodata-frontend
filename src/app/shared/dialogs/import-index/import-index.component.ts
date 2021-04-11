@@ -83,7 +83,7 @@ export class ImportIndexDialog {
             } else if (response.error_code && response.error_code == 7601) {
               this.error = 'Sorry, the owner of this index has disabled the V1 import functionality. Contact the owner to get access to this index.';
             } else if (response.error_code && response.error_code == 7602) {
-              this.error = 'Sorry, this is not an old V1 index. You can only import old indexes using this method.  Contact the owner to get access to this index.';
+              this.error = 'Sorry, this is not an old V1 index. You can only import old indexes using this method.  Contact the owner to get access to this team.';
             } else {
               this.submitted = false;
               this.error = 'Invalid response from server. Please try again later or contact us if this error persists.';

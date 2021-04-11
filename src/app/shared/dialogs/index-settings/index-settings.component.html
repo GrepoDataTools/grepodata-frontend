@@ -3,7 +3,7 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<a (click)="dialogRef.close()" class="close"></a>
-				<h2 class="gd-secondary">Settings for index <span class="gd-primary"><mat-icon style="opacity: 1; vertical-align: sub; font-size: 40px; margin-right: 10px;">account_balance</mat-icon>&nbsp;{{index.name}}</span></h2>
+				<h2 class="gd-secondary">Settings for team <span class="gd-primary"><mat-icon style="opacity: 1; vertical-align: sub; font-size: 40px; margin-right: 10px;">account_balance</mat-icon>&nbsp;{{index.name}}</span></h2>
 
 				<div class="alert alert-gd-1">
 					<h2 class="gd-secondary">Automatically delete old intel</h2>
@@ -37,21 +37,21 @@
 					<h2 class="gd-secondary">Show intel about allied towns</h2>
 					<!--<p>If you enable this option, intel about allied towns will be available in this index.</p>-->
 					<!--<br/>-->
-					<h3>Index owners</h3>
-					<h5>These alliances are the owners of this index. The owners are determined based on the users that contribute to the index. If an alliance has at least a 5% contribution to this index, they are automatically added to the list of owners. You can also manually change the index owners.
-						<br/><strong>Town intelligence for index owners is hidden by default, but you can choose to display allied intel using the checkboxes in this table.</strong></h5>
+					<h3>Team owners</h3>
+					<h5>These alliances are the owners of this team. The owners are determined based on the users that contribute to the team. If an alliance has at least a 5% contribution to the team, they are automatically added to the list of team owners. You can also manually change the team owners here.
+						<br/><strong>Town intelligence for team owners is hidden by default, but you can choose to display allied intel using the checkboxes in this table.</strong></h5>
 
 					<app-alert type="error" title="Unable to update owners" *ngIf="owners_error">
 						<h5>{{owners_error}}</h5>
 					</app-alert>
 
-					<app-alert type="success" title="Index owners updated successfully" *ngIf="owners_success">
+					<app-alert type="success" title="Team owners updated successfully" *ngIf="owners_success">
 						<h5>{{owners_success}}</h5>
 					</app-alert>
 
-					<app-alert type="info" title="No index owners available" *ngIf="owners_error=='' && !updating_owners && owners.length <= 0">
-						<h5>We have not yet been able to detect the owners of this index. When you start collecting enemy intelligence	using the userscript, we will be able to detect the index owners automatically.
-							<br/>Alternatively, you can manually add alliances to the list of index owners using the buttons in the table below.</h5>
+					<app-alert type="info" title="No team owners available" *ngIf="owners_error=='' && !updating_owners && owners.length <= 0">
+						<h5>We have not yet been able to detect the owners of this team. When you start collecting enemy intelligence	using the userscript, we will be able to detect the index owners automatically.
+							<br/>Alternatively, you can manually add alliances to the list of team owners using the buttons in the table below.</h5>
 					</app-alert>
 
 					<mat-progress-bar *ngIf="updating_owners" mode="indeterminate"></mat-progress-bar>
@@ -61,7 +61,7 @@
 						<tr>
 							<th scope="col" class="text-center">Alliance name</th>
 							<th scope="col" class="text-center">Contributions</th>
-							<th scope="col" class="text-center" matTooltip="When you check this box, all intelligence for that alliance will be hidden in this index.">
+							<th scope="col" class="text-center" matTooltip="When you check this box, all intelligence for that alliance will be hidden in this team.">
 								Hide intel <mat-icon class="mat-icon-title-inline a-link">help_outline</mat-icon>
 							</th>
 							<th scope="col" class="text-center">Remove owner</th>
@@ -80,7 +80,7 @@
 							<td *ngIf="owner.share<=0">
 								0
 							</td>
-							<td matTooltip="When you check this box, all intelligence for {{owner.alliance_name}} will be hidden in this index.">
+							<td matTooltip="When you check this box, all intelligence for {{owner.alliance_name}} will be hidden in this team.">
 								<mat-checkbox [disabled]="updating_owners" [checked]="owner.hide_intel" (click)="toggleIntelDisplay(owner)"></mat-checkbox>
 							</td>
 							<td>
@@ -96,13 +96,13 @@
 
 					<br/>
 					<button *ngIf="!adding_alliance" mat-button class="mat-focus-indicator mat-raised-button bg-gd-1 text-white mat-button mat-button-base" (click)="openAllianceSearch()">
-						Add an alliance as index owner <mat-icon>group_add</mat-icon>
+						Add an alliance as team owner <mat-icon>group_add</mat-icon>
 					</button>
 
 					<!--Add new alliance-->
 					<div class="alert alert-gd-2" *ngIf="adding_alliance" style=" max-width: 800px;">
 						<a (click)="adding_alliance=false; allianceInput=''; alliances=[]; searched=false;" class="close"></a>
-						<h3>Add a new alliance to the list of index owners</h3>
+						<h3>Add a new alliance to the list of team owners</h3>
 						<h5>Search by alliance name: </h5>
 
 						<div style="min-height: 55px; height: auto !important;">
@@ -171,8 +171,8 @@
 
 
         <div class="alert alert-gd-1" *ngIf="index.index_version == '1'">
-          <h2 class="gd-secondary">Allow users to join this index with the old index key</h2>
-          <h5>If this option is enabled, anyone with the old index url (<strong>grepodata.com/indexer/{{index.key}}</strong>) will be able to join this index.
+          <h2 class="gd-secondary">Allow users to join this team with the old index key</h2>
+          <h5>If this option is enabled, anyone with the old index url (<strong>grepodata.com/indexer/{{index.key}}</strong>) will be able to join this team.
           </h5>
           <h4>
             <mat-checkbox [disabled]="updating_v1join" [(ngModel)]="allow_join_v1_key" (ngModelChange)="setIndexJoinV1()">
@@ -184,8 +184,8 @@
           </h4>
 
           <app-alert *ngIf="v1join_error==''" type="{{allow_join_v1_key?'success':'warning'}}" [dismissible]="false">
-            <h5 *ngIf="!allow_join_v1_key">The old index url will no longer give users access to the intel in this index.</h5>
-            <h5 *ngIf="allow_join_v1_key">Users will be able to join your index if they have the old index key/url</h5>
+            <h5 *ngIf="!allow_join_v1_key">The old index url will no longer give users access to the intel in this team.</h5>
+            <h5 *ngIf="allow_join_v1_key">Users will be able to join your team if they have the old index key/url</h5>
           </app-alert>
 
           <app-alert *ngIf="v1join_error!=''" type="error" [dismissible]="false">

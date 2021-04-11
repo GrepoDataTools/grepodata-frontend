@@ -2,7 +2,7 @@
 
 	<div *ngIf="loading" class="text-center">
 		<div class="align-middle" style="position: relative; top: 250px; left: 25%; width: 50%;">
-			<h3 class="gd-primary"><strong>Loading index...</strong></h3>
+			<h3 class="gd-primary"><strong>Loading team...</strong></h3>
 			<mat-progress-bar mode="indeterminate"></mat-progress-bar>
 		</div>
 	</div>
@@ -17,7 +17,7 @@
             </div>
             <div class="col-xs-10">
               <div [outerHTML]="error"></div>
-              <p>Index key: {{index_name}}</p>
+              <p>Team key: {{index_name}}</p>
             </div>
           </div>
         </div>
@@ -35,7 +35,7 @@
 	<div *ngIf="key != '' && !loading && !error">
 
     <app-alert *ngIf="world_stopped" title="This game world is no longer active" type="error" [dismissible]="false">
-      Game world <strong>{{world}}</strong> is finished and all detailed data related to this world has been deleted from our database. This index overview is still available but the underlying intel has been removed.
+      Game world <strong>{{world}}</strong> is finished and all detailed data related to this world has been deleted from our database. This team overview is still available but the underlying intel has been removed.
     </app-alert>
 
 		<div class="index-overview">
@@ -65,7 +65,7 @@
 								<mat-tab>
 									<ng-template mat-tab-label>
 										<mat-icon style="opacity: 1; vertical-align: bottom;">account_balance</mat-icon>&nbsp;
-										<span class="hidden-xs">Index info</span>
+										<span class="hidden-xs">Team info</span>
 										<span class="hidden-md hidden-sm hidden-lg">Info</span>
 									</ng-template>
 									<ng-container *ngTemplateOutlet="info"></ng-container>
@@ -201,7 +201,7 @@
 				<ng-template #info>
 					<mat-card class="dense-card index-card-info">
 						<div class="card-header bg-gd-4">
-							<h1 class="entity-name gd-white">Enemy city index</h1>
+							<h1 class="entity-name gd-white">City Indexer Team</h1>
 							<h3 class="gd-primary">
 								<mat-icon style="vertical-align: sub;">account_balance</mat-icon>&nbsp;{{index_name}}
 							</h3>
@@ -229,7 +229,7 @@
 									</tr>
 									<tr *ngIf="data.total_reports > 0">
 										<th>
-											Index owner<span *ngIf="data.owners && data.owners.length > 1">s</span>
+											Team owner<span *ngIf="data.owners && data.owners.length > 1">s</span>
 										</th>
 										<td>
 											<div style="float: right;" *ngIf="is_admin">
@@ -242,15 +242,15 @@
 									</tr>
 									<tr *ngIf="data.total_reports > 0 && !is_admin">
                     <td colspan="2" class="text-center gd-primary">
-                      <strong *ngIf="role=='read'">You are not allowed to contribute to this index.</strong>
-                      <strong *ngIf="role=='write' && contribute===true">You are currently contributing to this index.</strong>
-                      <strong *ngIf="role=='write' && contribute===false">You have disabled contributions to this index. The intel you collect will not be added to this index.</strong>
+                      <strong *ngIf="role=='read'">You are not allowed to contribute to this team.</strong>
+                      <strong *ngIf="role=='write' && contribute===true">You are currently contributing to this team.</strong>
+                      <strong *ngIf="role=='write' && contribute===false">You have disabled contributions to this team. The intel you collect will not be added to this team.</strong>
                     </td>
 									</tr>
 									<tr *ngIf="data.total_reports == 0">
 										<td colspan="2" class="text-center">
 											<app-alert type="warning" [dismissible]="false">
-												This index is still empty!
+												This team is still empty!
 											</app-alert>
 										</td>
 									</tr>
@@ -268,7 +268,7 @@
 										</div>
 										<div class="col-xs-12 col-sm-6">
 											<button style="width: 100%;" class="btn btn-success mr-1" (click)="showShareDialog()">
-                        <span class="hidden-md">Share index</span>
+                        <span class="hidden-md">Share team</span>
                         <span class="hidden-xs hidden-sm hidden-lg">Share</span>
                         &nbsp;<mat-icon>group_add</mat-icon></button>
 										</div>
@@ -383,29 +383,47 @@
 						<div class="row">
 							<div class="col-12 text-center">
 
-								<div class="hidden-xs hidden-sm" fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="0" style="margin-bottom: -25px;">
+								<div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="0" style="margin-bottom: -25px;">
 									<div fxFlex="35" fxLayout="column" fxLayoutGap="5px">
 										<ng-container *ngTemplateOutlet="info"></ng-container>
 									</div>
 									<div fxFlex="65" fxLayout="column" fxLayoutGap="5px">
 										<mat-card class="dense-card index-card-info">
 											<mat-card-title class="text-left">
-												<h1 class="gd-primary">Welcome to your unique enemy city index!</h1>
-												<h4>This index allows you to share collected intelligence with other users.</h4>
+												<h1 class="gd-primary">Welcome to your very own city indexer team!</h1>
+												<h4>This team allows you to share collected intelligence with other users.</h4>
 											</mat-card-title>
 											<mat-card-content class="text-left">
-												<app-alert type="info" title="Getting started" [dismissible]="false">
-													<ul style="font-size: 20px;">
-														<li>Install the GrepoData userscript to collect intelligence.</li>
-														<li>Share this index with your allies by giving them access (Share your index).</li>
-													</ul>
+												<app-alert *ngIf="is_admin && share_link && share_link!='Unauthorized'" class="" type="success" title="Invite your allies" [dismissible]="false">
+<!--													<ul style="font-size: 20px;">-->
+<!--														<li>Install the GrepoData userscript to collect intelligence.</li>-->
+<!--														<li>Invite others to join this team by sending them the link below.</li>-->
+<!--													</ul>-->
+                          <div class="row">
+                            <div class="col-xs-12 gd-share-link-container">
+                              <label style="font-weight: 600">Send this link to your allies to give them access to this team:</label>
+                              <br/>
+                              <div class="row invite-link-container" (click)="copyLink()">
+                                <input #shareLink
+                                       [ngClass]="{ 'copied': copied }"
+                                       [disabled]="true"
+                                       class="col-xs-9 col-sm-8 col-md-7 col-lg-7 ur share-link-actual"
+                                       type="url"
+                                       value="https://grepodata.com/invite/{{key}}{{share_link}}"
+                                       id="siegeShareUrl"
+                                       aria-describedby="inputGroup-sizing-default"
+                                       style="height: 40px; font-size: 20px !important; color: #009688; font-weight: 900;">
+                                <button class="cpy" (click)="copyLink()"><i class="fa fa-clone"></i> Copy</button><span class="message" *ngIf="copied"> Link copied!</span>
+                              </div>
+                            </div>
+                          </div>
 												</app-alert>
 											</mat-card-content>
 										</mat-card>
 									</div>
 								</div>
 
-								<div style="margin-top: 34px;" class="text-left">
+								<div class="hidden-xs hidden-sm text-left" style="margin-top: 34px;">
 									<app-userscript></app-userscript>
 								</div>
 

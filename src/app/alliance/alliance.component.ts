@@ -187,15 +187,15 @@ export class AllianceComponent implements AfterViewInit {
             }
         );
 
-        this.allianceService.loadAllianceWars(params['world'], params['id']).subscribe(
-          (response) => {
-            this.allianceWars = response.data;
-            this.loadingWars = false;
-          },
-          (error) => {
-            this.loadingWars = false;
-          }
-        );
+        // this.allianceService.loadAllianceWars(params['world'], params['id']).subscribe(
+        //   (response) => {
+        //     this.allianceWars = response.data;
+        //     this.loadingWars = false;
+        //   },
+        //   (error) => {
+        //     this.loadingWars = false;
+        //   }
+        // );
 
         // Check if intel is available
         let active_intel: any = this.globals.get_active_intel();

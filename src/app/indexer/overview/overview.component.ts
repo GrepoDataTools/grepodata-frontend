@@ -20,7 +20,7 @@ import {IndexMembersDialog} from '../../shared/dialogs/index-members/index-membe
 })
 export class OverviewComponent implements OnInit {
 
-
+  copied = false;
   world = '';
   index_name = '';
   key = '';
@@ -87,19 +87,25 @@ export class OverviewComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {});
   }
 
+  copyLink() {
+    navigator.clipboard.writeText(this.share_link).then(() => {});
+    this.copied = true;
+    window.setTimeout(()=>{this.copied = false;}, 6000);
+  }
+
   private loadIndex(data) {
     console.log(data);
     if (!data) {
-      this.error = '<h2>Sorry, we were unable to load this index overview</h2><h4>Please try again later or contact us if this error persists.</h4>';
+      this.error = '<h2>Sorry, we were unable to load this team overview</h2><h4>Please try again later or contact us if this error persists.</h4>';
     } else if (data && 'error_code' in data) {
       if (data.error_code == 7101) {
         // not a valid index
-        this.error = '<h2>This is not a valid index</h2><h4>Index not found. Please try again later or contact us if this error persists.</h4>';
+        this.error = '<h2>This is not a valid team</h2><h4>Team not found. Please try again later or contact us if this error persists.</h4>';
       } else if (data.error_code == 7504) {
         // no read access to this index
-        this.error = '<h2>Access to index denied</h2><h4>You no longer have access to this index. This can happen if the index admin removes you or if you leave the index. If you think this is incorrect, please ask the index admin to get access.</h4>';
+        this.error = '<h2>Access to team denied</h2><h4>You no longer have access to this team. This can happen if the team admin removes you or if you leave the team. If you think this is incorrect, please ask the team admin to get access.</h4>';
       } else {
-        this.error = '<h2>Sorry, we were unable to load this index overview</h2><h4>Please try again later or contact us if this error persists.</h4>';
+        this.error = '<h2>Sorry, we were unable to load this team overview</h2><h4>Please try again later or contact us if this error persists.</h4>';
       }
     } else {
       this.globals.set_active_intel(data.world);

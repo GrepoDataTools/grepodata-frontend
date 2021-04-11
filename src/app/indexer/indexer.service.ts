@@ -74,52 +74,6 @@ export class IndexerService {
     return this.http.get(apiUrl + url);
   }
 
-  // isValid(key) {
-  //   let url =  '/indexer/isvalid?key='+key;
-  //   return this.http.get(apiUrl + url);
-  // }
-
-  // updateIndexKey(key, mail, captcha) {
-  //   if (captcha == '' || captcha == undefined) captcha = '_';
-  //   let url =  '/indexer/newkey?key='+key+'&mail='+mail+'&captcha='+captcha;
-  //   return this.http.get<any>(apiUrl + url);
-  // }
-
-  // requestCleanupSession(key, mail, captcha) {
-  //   if (captcha == '' || captcha == undefined) captcha = '_';
-  //   let url =  '/indexer/cleanup?key='+key+'&mail='+mail+'&captcha='+captcha;
-  //   return this.http.get<any>(apiUrl + url);
-  // }
-
-  // forgotIndexKeys(mail, captcha) {
-  //   if (captcha == '' || captcha == undefined) captcha = '_';
-  //   let url =  '/indexer/forgotkeys?mail='+mail+'&captcha='+captcha;
-  //   return this.http.get<any>(apiUrl + url);
-  // }
-
-  // confirmAction(token) {
-  //   let url =  '/indexer/confirmaction?token='+token;
-  //   return this.http.get<any>(apiUrl + url);
-  // }
-
-	// deleteRecordById(csa, key, id) {
-	// 	console.log('delete ', id);
-	// 	let url =  '/indexer/delete?csa='+csa+'&key='+key+'&id='+id;
-	// 	return this.http.get(apiUrl + url);
-	// }
-
-	// deleteNoteById(csa, key, id) {
-	// 	console.log('delete ', id);
-	// 	let url =  '/indexer/delnote?csa='+csa+'&key='+key+'&note_id='+id;
-	// 	return this.http.get(apiUrl + url);
-	// }
-
-	// deleteRecordUndo(csa, key, id) {
-	// 	console.log('delete undo ', id);
-	// 	let url =  '/indexer/undodelete?csa='+csa+'&key='+key+'&id='+id;
-	// 	return this.http.get(apiUrl + url);
-	// }
-
   getLocalIndexInfo(index_key) {
     let localIndexes = this.globals.get_all_indexes();
     if (!localIndexes) return false;

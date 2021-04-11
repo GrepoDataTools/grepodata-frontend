@@ -144,21 +144,21 @@ export class InviteComponent implements OnInit {
       this.error = '<h2>Sorry, we are unable to verify this invite</h2><h4>Please try again later or contact us if this error persists</h4>';
       if (response.error_code && response.error_code === 3008) {
         // Generic invalid invite link
-        this.error = '<h2>Invalid invite link</h2><h4>Please ask the owner of the index for a new invite link.</h4>';
+        this.error = '<h2>Invalid invite link</h2><h4>Please ask the owner of the team for a new invite link.</h4>';
       } else if (response.error_code && response.error_code === 7101) {
         // No index found for this key (?)
         if (this.v1_redirect) {
-          this.error = '<h2>Unable to find this index</h2><h4>Please try again later or contact us if this error persits.</h4>';
+          this.error = '<h2>Unable to find this team</h2><h4>Please try again later or contact us if this error persists.</h4>';
         } else {
-          this.error = '<h2>Invalid invite link</h2><h4>Please ask the owner of the index for a new invite link.</h4>';
+          this.error = '<h2>Invalid invite link</h2><h4>Please ask the owner of the team for a new invite link.</h4>';
         }
       } else if (response.error_code && response.error_code === 3009) {
         // Expired invite link
-        this.error = '<h2>Sorry, this invite link has expired</h2><h4>Please ask the owner of the index for a new invite link.</h4>';
+        this.error = '<h2>Sorry, this invite link has expired</h2><h4>Please ask the owner of the team for a new invite link.</h4>';
       } else if (response.error_code && response.error_code === 7601) {
         // V1 key joining is disabled
-        this.error = '<h2>Sorry, the owner of this index has disabled backwards compatible redirects</h2>' +
-          '<h4>Please ask the owner of this index for an invite link to get access to the index.</h4>';
+        this.error = '<h2>Sorry, the owner of this team has disabled backwards compatible redirects</h2>' +
+          '<h4>Please ask the owner of this team for an invite link to get access to the team.</h4>';
       }
 
       // this.router.navigate(['/profile']);
@@ -194,7 +194,7 @@ export class InviteComponent implements OnInit {
       this.router.navigate(['/intel/'+this.query_params.type+'/'+this.query_params.world+'/'+this.query_params.id]);
     } else {
       // Direct to index overview
-      this.router.navigate(['/profile/overview/'+this.index_key]);
+      this.router.navigate(['/profile/team/'+this.index_key]);
     }
   }
 

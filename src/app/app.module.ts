@@ -109,7 +109,6 @@ import { SharedModule } from './shared/shared.module';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import 'zone.js/dist/zone';
-import { Blog2020Component } from './blog/blog2020/blog2020.component';
 import {MailListDialog} from './alliance/alliance.service';
 import {BasicDialog} from './shared/dialogs/basic/basic.component';
 import {NewIndexDialog} from './shared/dialogs/new-index/new-index.component';
@@ -156,7 +155,6 @@ const appRoutes: Routes = [
     { path: 'message', component: MessageComponent },
     { path: 'donated', component: DonatedComponent },
     { path: 'privacy', component: PrivacyComponent },
-    { path: 'changelog', component: ChangelogComponent },
     { path: 'compare/:type/:world', component: CompareComponent },
     { path: 'analytics', component: AnalyticsComponent },
     { path: 'indexer/player/:key/:world/:id', redirectTo: 'invite/:key/player/:world/:id' }, // Rerouted to V2 invite
@@ -176,7 +174,6 @@ const appRoutes: Routes = [
     { path: 'alliance', component: AllianceComponent },
     { path: 'conquest/:type/:world/:id', component: ConquestComponent },
     { path: 'changes/:type/:world/:id', component: AllianceChangeComponent },
-    { path: 'blog/heatmap-and-indexer-changes-2020', component: Blog2020Component },
     { path: 'conquest', component: ConquestComponent },
     { path: 'discord', component: DiscordComponent },
     { path: 'faq', component: FaqComponent },
@@ -262,7 +259,6 @@ export function jwtTokenGetter(): any {
         BadgeComponent,
         PaperComponent,
         SidebarComponent,
-        Blog2020Component,
         ShareComponent,
         LandingPageComponent,
         OverviewComponent,

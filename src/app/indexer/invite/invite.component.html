@@ -29,11 +29,11 @@
           </div>
           <div class="col-xs-10" *ngIf="!v2_scriptlink && expired">
             <h2><strong>Sorry,</strong> this invite link has expired</h2>
-            <h4>Please ask the owner of the index for a new invite link</h4>
+            <h4>Please ask the owner of the team for a new invite link</h4>
           </div>
           <div class="col-xs-10" *ngIf="!v2_scriptlink && !expired && invalid_link">
             <h2><strong>Oops, this is not a valid invite link</strong></h2>
-            <h4>grepodata.com/invite/{{invite_link}} is not a valid invite link.<br/>Please ask the owner of the index for a new invite link</h4>
+            <h4>grepodata.com/invite/{{invite_link}} is not a valid invite link.<br/>Please ask the owner of the team for a new invite link</h4>
           </div>
           <div class="col-xs-10" *ngIf="!v2_scriptlink && !expired && !invalid_link && v1_redirect">
             <h2><strong>You have to be logged in to view this index</strong></h2>
@@ -44,7 +44,7 @@
           </div>
           <div class="col-xs-10" *ngIf="!v2_scriptlink && !expired && !invalid_link && !v1_redirect">
             <h2><strong>You have to be logged in to accept this invitation</strong></h2>
-            <h4>Sign in with an existing account or register for a new account to join this index</h4>
+            <h4>Sign in with an existing account or register for a new account to join this team</h4>
           </div>
         </div>
 
@@ -58,7 +58,7 @@
                 <br/>
                 <br/>
                 A GrepoData account is required to guarantee the security of the intel you collect and the people you share it with.
-                This way, the admin of an index can manage exactly who has access to the intel and can revoke their access whenever needed.
+                This way, the admin of an team (formerly known as an 'index') can manage exactly who has access to the intel and can revoke their access whenever needed.
                 Simply having a URL to the index will no longer grant you access to the intel in that index.
                 <br/>
                 <br/>
@@ -73,6 +73,9 @@
                 <br/>
                 <br/>
                 If you are the person that created the old index, please <strong>make sure that your new GrepoData account has the same email address that you used to create the old index</strong>. If you verify your email address, you will automatically become the owner of that index. You can then remove or add users as you wish.
+                <br/>
+                <br/>
+                <strong>Before April 2021, a team used to be known as an 'index'.</strong> Teams are the replacement of the old index system, but their functionality is still very similar.
               </div>
             </div>
           </div>

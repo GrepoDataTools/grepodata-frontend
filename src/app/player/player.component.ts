@@ -61,7 +61,6 @@ export class PlayerComponent implements OnInit {
   animations = false;
   bShowHistoryChart = true;
   bShowHeatmapChart = false;
-  bShowHeatmapTab = false;
   bShowIntel = false;
 
   onSelect(event) {
@@ -105,12 +104,7 @@ export class PlayerComponent implements OnInit {
   // Component vars
   firstRun = true;
   playerInfoData = [];
-  heatmapDay = {};
-  heatmapHour = {};
-  highestHeatmapHour = 0;
-  highestIndex = 0;
   tabsIndex = 0;
-  lowestIndex = null;
   playerHistoryLastDay = null
   playerHistoryJson = [];
   playerAllianceChanges = [];
@@ -127,6 +121,7 @@ export class PlayerComponent implements OnInit {
   id = '';
   alliance_id = '';
   alliance_name = '';
+  inactive_readable = '';
 
   // comparisons
   comparedPlayers = [];
@@ -267,57 +262,25 @@ export class PlayerComponent implements OnInit {
     this.def = json.def;
     this.loadingInfo = false;
 
-    if (typeof json.heatmap.day !== 'undefined') {
-      this.heatmapDay = [
-        { name: 'Sunday',    value: json.heatmap.day['0'] || 0 },
-        { name: 'Monday',    value: json.heatmap.day['1'] || 0 },
-        { name: 'Tuesday',   value: json.heatmap.day['2'] || 0 },
-        { name: 'Wednesday', value: json.heatmap.day['3'] || 0 },
-        { name: 'Thursday',  value: json.heatmap.day['4'] || 0 },
-        { name: 'Friday',    value: json.heatmap.day['5'] || 0 },
-        { name: 'Saturday',  value: json.heatmap.day['6'] || 0 }
-      ];
-      let heatmapHour = [];
-      let highest = 0;
-      let lowest = 1000000;
-      for (let i=0; i<24; i++) {
-        if (typeof json.heatmap.hour[i] !== 'undefined') {
-          json.heatmap.hour[i] += 1; // non-zero
-          heatmapHour.push({
-            name: '' + i + ':00',
-            value: json.heatmap.hour[i]
-          });
-          if (json.heatmap.hour[i] > highest) {
-            highest = json.heatmap.hour[i];
-            this.highestIndex = i;
-          }
-          if (json.heatmap.hour[i]/i <= lowest) {
-            lowest = json.heatmap.hour[i]/i;
-            this.lowestIndex = i;
-          }
-        } else {
-          if (1/i <= lowest) {
-            lowest = 1/i;
-            this.lowestIndex = i;
-          }
-          heatmapHour.push({
-            name: '' + i + ':00',
-            value: 0
-          });
-        }
+    // hours inactive
+    if ('hours_inactive' in json && json.hours_inactive) {
+      let hours_inactive = json.hours_inactive;
+      let hours = hours_inactive % 24;
+      let days = Math.floor((hours_inactive % 24 * 7) / 24);
+      let weeks = Math.floor((hours_inactive % (24 * 30)) / (24 * 7));
+      let months = Math.floor(hours_inactive / (24 * 30));
+      let time_readable_parts = [];
+      if (months > 0) {
+        time_readable_parts.push(`${months} month${months > 1 ? 's' : ''}`);
       }
-      this.heatmapHour = heatmapHour;
-      this.highestHeatmapHour = highest;
-    } else {
-      this.heatmapDay = {};
-      this.heatmapHour = {};
-      this.highestHeatmapHour = 0;
-      this.highestIndex = 0;
-      this.tabsIndex = 0;
-      this.lowestIndex = null;
-    }
-    if (this.lowestIndex!=null && this.highestHeatmapHour>2) {
-      this.bShowHeatmapTab = true;
+      if (weeks > 0) {
+        time_readable_parts.push(`${weeks} week${weeks > 1 ? 's' : ''}`);
+      }
+      if (days > 0) {
+        time_readable_parts.push(`${days} day${days > 1 ? 's' : ''}`);
+      }
+      time_readable_parts.push(`${hours} hour${hours == 1 ? '' : 's'} ago`);
+      this.inactive_readable = time_readable_parts.join(', ');
     }
 
     // Load history

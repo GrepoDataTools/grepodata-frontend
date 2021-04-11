@@ -94,7 +94,7 @@ export class IndexMembersDialog {
               } else if (response.error_code && response.error_code === 7540) {
                 this.user_error = response.message;
               } else if (response.error_code && response.error_code === 7501) {
-                this.user_error = 'You have to be an owner of this index to make that change.';
+                this.user_error = 'You have to be an owner of this team to make that change.';
               } else if (response.success_code && response.success_code === 1000) {
                 let updated_user = response.data;
                 this.users = this.users.map(user => {
@@ -123,7 +123,7 @@ export class IndexMembersDialog {
       data: {
         title: '',
         show_close: false,
-        messageHtml: '<div class="text-center"><h3>Are you sure you want to remove user <span class="gd-primary">' + user.username + '</span> from index <span class="gd-primary">' + this.index.name + '</span>?</h3></div>',
+        messageHtml: '<div class="text-center"><h3>Are you sure you want to remove user <span class="gd-primary">' + user.username + '</span> from team <span class="gd-primary">' + this.index.name + '</span>?</h3></div>',
         cancel_action: 'Cancel',
         action_type: 'danger',
         action: 'Remove user',
@@ -149,7 +149,7 @@ export class IndexMembersDialog {
                   } else if (response.error_code && response.error_code === 7540) {
                     this.user_error = response.message;
                   } else if (response.error_code && response.error_code === 7501) {
-                    this.user_error = 'You have to be an owner of this index to make that change.';
+                    this.user_error = 'You have to be an owner of this team to make that change.';
                   } else if (response.success_code && response.success_code === 1300) {
                     this.users = this.users.filter((indexuser) => indexuser.user_id !== user.user_id);
                     this.user_removed = user.username;

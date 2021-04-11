@@ -148,7 +148,7 @@ export class ShareComponent implements OnInit {
         .subscribe(
           (response) => {
             if (response && 'success_code' in response) {
-              this.adding_success = "User <span class='gd-primary'><strong>"+user.username+"</strong></span> has been added to your index.";
+              this.adding_success = "User <span class='gd-primary'><strong>"+user.username+"</strong></span> has been added to your team.";
               let added_user = response.data;
               this.added_users.push(added_user);
               this.users = [];
@@ -162,12 +162,12 @@ export class ShareComponent implements OnInit {
               this.searched = false;
               this.too_short = false;
             } else {
-              this.adding_error = 'Unable to add user to this index. Please try again later or contact us if this error persists.';
+              this.adding_error = 'Unable to add user to this team. Please try again later or contact us if this error persists.';
             }
             this.adding_user = false;
           },
           (error) => {
-            this.adding_error = 'Unable to add user to this index. Please try again later or contact us if this error persists.';
+            this.adding_error = 'Unable to add user to this team. Please try again later or contact us if this error persists.';
             this.adding_user = false;
           }
         );

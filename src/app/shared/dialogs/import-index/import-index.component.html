@@ -7,6 +7,7 @@
 	</h1>
 
 	<div mat-dialog-content *ngIf="submitted==false && building==false" style="width: 100%;">
+    <h5><strong>Note: </strong> an index is now called a 'team'</h5>
 		<p>Enter the 8 character index key to import an old V1 index.</p>
 		<p class="gd-primary"><strong>Any index created before April 2021 is an old index (Version 1).</strong></p>
 		<br/>
@@ -65,11 +66,11 @@
 	<div *ngIf="submitted==true && createError == ''">
 		<app-alert type="success" title="Your old index has been imported." [dismissible]="false">
 			<h5>
-				You can now contribute and read from the index.
+				You can now contribute and read from the team (Note: an index is now called a team).
 			</h5>
 		</app-alert>
 		<br/>
-		<button *ngIf="createdIndex.key" class="btn btn-primary" routerLink="/profile/overview/{{createdIndex.key}}">Go to index overview <mat-icon>launch</mat-icon></button>
+		<button *ngIf="createdIndex.key" class="btn btn-primary" routerLink="/profile/team/{{createdIndex.key}}">Go to index overview <mat-icon>launch</mat-icon></button>
 		<button class="btn btn-secondary mr-1" style="float: right;" (click)="close()">Close</button>
 	</div>
 

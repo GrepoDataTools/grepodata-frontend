@@ -5,7 +5,7 @@
     <app-alert type="info" title="Welcome to your personal enemy intelligence overview" [dismissible]="false">
       <div style="min-height: 73px !important;">
         <h4>You can start collecting intel after installing our userscript. The intel you collect will show up here.</h4>
-        <p>Once you confirm your email address, you can also create or join an index. An index allows you to share your intel with other people. For example, you can create and share a new index with your alliance members and work together to collect enemy intelligence!</p>
+        <p>Once you confirm your email address, you can also create or join a team. A team allows you to share your intel with other people. For example, you can create a new team together with your alliance members and work together to collect enemy intelligence!</p>
       </div>
     </app-alert>
   </mat-card-content>
@@ -18,12 +18,12 @@
 
 <mat-card class="index-card index-card-sm" *ngIf="confirmed">
 	<h2 class="gd-secondary">
-		Your top indexes
-		<a class="top-index-card hidden-xs hidden-sm" *ngIf="topIndexes.length > 0" routerLink="/profile/indexes" style="color: #949494; font-weight: 700; font-size: 21px; right: 70px; position: absolute;">
-			View all my indexes <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon>
+		Your top teams
+		<a class="top-index-card hidden-xs hidden-sm" *ngIf="topIndexes.length > 0" routerLink="/profile/teams" style="color: #949494; font-weight: 700; font-size: 21px; right: 70px; position: absolute;">
+			View all my teams <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon>
 		</a>
-    <a class="top-index-card hidden-md hidden-lg" *ngIf="topIndexes.length > 0" routerLink="/profile/indexes" style="color: #949494; font-weight: 700; font-size: 18px; margin-left: 30px;">
-      View all my indexes <mat-icon style="opacity: 1; vertical-align: sub;">launch</mat-icon>
+    <a class="top-index-card hidden-md hidden-lg" *ngIf="topIndexes.length > 0" routerLink="/profile/teams" style="color: #949494; font-weight: 700; font-size: 18px; margin-left: 30px;">
+      View all my teams <mat-icon style="opacity: 1; vertical-align: sub;">launch</mat-icon>
     </a>
 	</h2>
 
@@ -40,24 +40,24 @@
 						<h3 class="m-0">
 							<i class="fa fa-plus"></i>
 							<br/>
-							<span class="hidden-md hidden-lg">New index</span>
-							<span class="hidden-sm hidden-xs">Create a new index</span>
+							<span class="hidden-md hidden-lg">New team</span>
+							<span class="hidden-sm hidden-xs">Create a new team</span>
 						</h3>
 					</div>
 				</mat-card>
 			</a>
 		</div>
 		<div *ngIf="!loadingIndexes && topIndexes.length <= 0" fxFlex.gt-md="84" fxFlex.gt-sm="67" fxFlex.gt-xs="100" fxFlex="100" style="padding: 10px;">
-			<app-alert type="warning" title="You have not yet created or joined any indexes" [dismissible]="false">
+			<app-alert type="warning" title="You have not yet created or joined any teams" [dismissible]="false">
 				<div style="min-height: 73px !important;">
-					<h4>You can create your own index and share it with your allies or you can join an existing index by asking your allies to invite you.</h4>
-					<p>You can still collect intelligence if you are not part of an index, but you will only be able to share this intel by adding it to an index.</p>
+					<h4>You can create your own team and invite your allies or you can join an existing team by asking your allies to invite you.</h4>
+					<p>You can still collect intelligence if you are not part of a team, but you will only be able to share this intel by adding it to a team.</p>
 				</div>
 			</app-alert>
 		</div>
 		<ng-container *ngIf="!loadingIndexes && topIndexes.length > 0">
 			<div *ngFor="let index of topIndexes" fxFlex.gt-md="21" fxFlex.gt-sm="17" fxFlex.gt-xs="100" fxFlex="100" class="top-index-card">
-				<a routerLink="/profile/overview/{{index.key}}">
+				<a routerLink="/profile/team/{{index.key}}">
 					<mat-card class="top-index-cards text-white text-center top-index">
 						<mat-icon class="launch-icon hidden-xs hidden-sm hidden-md" style="float: right;">launch</mat-icon>
 						<div>

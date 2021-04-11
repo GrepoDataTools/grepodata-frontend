@@ -191,7 +191,7 @@ export class IndexesComponent implements OnInit {
             this.confirmed = false;
           } else {
             console.error(error.error);
-            this.error = 'Unable to load your indexes. Please try again later or contact us if this error persists.';
+            this.error = 'Unable to load your teams. Please try again later or contact us if this error persists.';
           }
 
           this.loading = false;
@@ -211,9 +211,9 @@ export class IndexesComponent implements OnInit {
           if ('success_code' in response && response.success_code == 1000) {
             let new_status = response.data.contribute;
             if (new_status==false) {
-              this.contribute_success = 'The reports you index will no longer be shared with index <strong>' + index.name + '</strong>';
+              this.contribute_success = 'The reports you index will no longer be shared with team <strong>' + index.name + '</strong>';
             } else {
-              this.contribute_success = 'The reports you index will now be shared with index <strong>' + index.name + '</strong>';
+              this.contribute_success = 'The reports you index will now be shared with team <strong>' + index.name + '</strong>';
             }
             this.contribute_success = '<h5>' + this.contribute_success + '</h5>';
             index.contribute = new_status;
@@ -243,7 +243,7 @@ export class IndexesComponent implements OnInit {
       data: {
         title: '',
         show_close: false,
-        messageHtml: '<div class="text-center"><h3>Are you sure you want to leave index <span class="gd-primary">' + index.name + '</span>?</h3><p>You will have to be invited to join the index again.</p></div>',
+        messageHtml: '<div class="text-center"><h3>Are you sure you want to leave team <span class="gd-primary">' + index.name + '</span>?</h3><p>You will have to be invited to join the team again.</p></div>',
         cancel_action: 'Cancel',
         action_type: 'danger',
         action: 'Leave index',
@@ -264,14 +264,14 @@ export class IndexesComponent implements OnInit {
                 console.log(response);
                 if (response && 'success_code' in response && response.success_code === 1500) {
                   // left successfully
-                  this.leave_success = '<h4>You are no longer a member of index <span class="gd-primary">'+index.name+'</span>. Your intel will no longer be shared with this index. </h4>';
+                  this.leave_success = '<h4>You are no longer a member of team <span class="gd-primary">'+index.name+'</span>. Your intel will no longer be shared with this team. </h4>';
                   this.deleteIndexListFromCache();
                   this.loadIndexes();
                 } else if (response && 'error_code' in response && response.error_code === 7610) {
                   // User cant leave because they are the only owner and there are still other members
-                  this.leave_error = '<h5>You are the only remaining owner of this index and there are still other non-owner members in the index. ' +
-                    'You can only leave once there are no other members or if there is another owner in the index. <br/>' +
-                    '<strong>Make somebody else owner of the index or remove all users from the index in order for you to leave the index.</strong><h5>'
+                  this.leave_error = '<h5>You are the only remaining owner of this team and there are still other non-owner members in the team. ' +
+                    'You can only leave once there are no other members or if there is another owner in the team. <br/>' +
+                    '<strong>Make somebody else owner of the team or remove all users from the team in order for you to leave the team.</strong><h5>'
                 } else {
                   this.leave_error = '<h5>Sorry, we are unable to process that request right now. Please try again later or contact us if this problem persists.</h5>'
                 }
@@ -334,8 +334,8 @@ export class IndexesComponent implements OnInit {
             return this.compare(a.world_stopped, b.world_stopped, true);
           }
         case 'reports':
-          let reportsA = a.stats.total_reports >= 0 ? a.stats.total_reports : 0;
-          let reportsB = b.stats.total_reports >= 0 ? b.stats.total_reports : 0;
+          let reportsA = a.stats.total_reports >= 0 ? a.stats.total_reports : -1;
+          let reportsB = b.stats.total_reports >= 0 ? b.stats.total_reports : -1;
           if (a.world_stopped == b.world_stopped) {
             return this.compare(reportsA, reportsB, isAsc);
           } else {

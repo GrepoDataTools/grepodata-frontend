@@ -90,7 +90,7 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
       case 'confirmed':
         this.newBasicDialog(
           '<span class="gd-primary">Your email address was confirmed successfully!</span>',
-          '<h4>You can now create or join an index to share your enemy intelligence with your allies.</h4>');
+          '<h4>You can now create or join a team to share your enemy intelligence with your allies.</h4>');
         break;
       case 'failed':
         this.newBasicDialog(
@@ -135,7 +135,7 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
     if (response.hasOwnProperty('key')) {
       this.active_index = response.key;
       if (this.active_index == '0') {
-        this.active_tab = 'indexes'
+        this.active_tab = 'teams'
       }
     }
     if (response.hasOwnProperty('world')) {

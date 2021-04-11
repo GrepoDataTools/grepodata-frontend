@@ -12,13 +12,6 @@
 		        </label>
 		        <span class="toggle-label">Show duplicate intel</span>
 	        </div>
-	        <div class="col-xs-12 togglecontainer">
-		        <label class="switch">
-			        <input type="checkbox" [(ngModel)]="hiddenKey">
-			        <span class="slider round"></span>
-		        </label>
-		        <span class="toggle-label">Hide index key (Remove index links from BB code)</span>
-	        </div>
         </div>
 
         <div class="container-fluid" style="padding: 0px;">
@@ -32,8 +25,7 @@
 <!--num_brackets = 24 + (6*rows || 8*rows) -->
 <!--suppress XmlDuplicatedId -->
       <pre *ngIf="type=='player_fire'" id="bb_code">[quote]
-[size=12][b]{{dataBB.world.substring(0, 2)=='en'?'Light ship':'Fireship'}} intel for [player]{{dataBB.name}}[/player][/b][/size]
-    [ally]{{dataBB.a_name}}[/ally]<span *ngIf="!hiddenKey">, index: [url=https://grepodata.com/profile/overview/{{dataBB.key}}]{{dataBB.key}}[/url]</span>
+[size=12][b]{{dataBB.world.substring(0, 2)=='en'?'Light ship':'Fireship'}} intel for [player]{{dataBB.name}}[/player] ([ally]{{dataBB.a_name}}[/ally])[/b][/size]
 
 [table]
 &nbsp;&nbsp;[**]Town[||]{{dataBB.world.substring(0, 2)=='en'?'Light ships':'Fireships'}} (-lost)[||]Date[/**]<span *ngFor="let town of dataBB.data; let i = index;"><span *ngIf="showNonPriority || town?.priority==true&&!showNonPriority"><br/>&nbsp;&nbsp;[*][town]{{town.town_id}}[/town][|]{{town.units | BBLossPipe}}[|]{{town.date | IndexDate}}[/*]</span></span>
@@ -45,8 +37,7 @@
 <!--num_brackets = 24 + 6*rows -->
 <!--suppress XmlDuplicatedId -->
       <pre *ngIf="type=='player_myth'" id="bb_code">[quote]
-[size=12][b]Mythical unit intel for [player]{{dataBB.name}}[/player][/b][/size]
-    [ally]{{dataBB.a_name}}[/ally]<span *ngIf="!hiddenKey">, index: [url=https://grepodata.com/profile/overview/{{dataBB.key}}]{{dataBB.key}}[/url]</span>
+[size=12][b]Mythical unit intel for [player]{{dataBB.name}}[/player] ([ally]{{dataBB.a_name}}[/ally])[/b][/size]
 
 [table]
 &nbsp;&nbsp;[**]Town[||]Mythical units (-lost)[||]Date[/**]<span *ngFor="let town of dataBB.data; let i = index;"><span *ngIf="showNonPriority || town?.priority==true&&!showNonPriority"><br/>&nbsp;&nbsp;[*][town]{{town.town_id}}[/town][|]{{town.units | UnitIconPipe}}[|]{{town.date | IndexDate}}[/*]</span></span>
@@ -61,8 +52,7 @@
 <!--num_brackets = 24 + (6*rows || 8*rows) -->
 <!--suppress XmlDuplicatedId -->
       <pre *ngIf="type=='player_bir'" id="bb_code">[quote]
-[size=12][b]Bireme intel for [player]{{dataBB.name}}[/player][/b][/size]
-    [ally]{{dataBB.a_name}}[/ally]<span *ngIf="!hiddenKey">, index: [url=https://grepodata.com/profile/overview/{{dataBB.key}}]{{dataBB.key}}[/url]</span>
+[size=12][b]Bireme intel for [player]{{dataBB.name}}[/player] ([ally]{{dataBB.a_name}}[/ally])[/b][/size]
 
 [table]
 &nbsp;&nbsp;[**]Town[||]Biremes (-lost)[||]Date[/**]<span *ngFor="let town of dataBB.data; let i = index;"><span *ngIf="showNonPriority || town?.priority==true&&!showNonPriority"><br/>&nbsp;&nbsp;[*][town]{{town.town_id}}[/town][|]{{town.units | BBLossPipe}}[|]{{town.date | IndexDate}}[/*]</span></span>
@@ -77,8 +67,7 @@
 <!--num_brackets = 24 + (6*rows || 8*rows) -->
 <!--suppress XmlDuplicatedId -->
 <pre *ngIf="type=='player_trir'" id="bb_code">[quote]
-  [size=12][b]Trireme intel for [player]{{dataBB.name}}[/player][/b][/size]
-      [ally]{{dataBB.a_name}}[/ally]<span *ngIf="!hiddenKey">, index: [url=https://grepodata.com/profile/overview/{{dataBB.key}}]{{dataBB.key}}[/url]</span>
+  [size=12][b]Trireme intel for [player]{{dataBB.name}}[/player] ([ally]{{dataBB.a_name}}[/ally])[/b][/size]
 
   [table]
   &nbsp;&nbsp;[**]Town[||]Triremes (-lost)[||]Date[/**]<span *ngFor="let town of dataBB.data; let i = index;"><span *ngIf="showNonPriority || town?.priority==true&&!showNonPriority"><br/>&nbsp;&nbsp;[*][town]{{town.town_id}}[/town][|]{{town.units | BBLossPipe}}[|]{{town.date | IndexDate}}[/*]</span></span>
@@ -90,8 +79,7 @@
 <!--num_brackets = 24 + 6*rows -->
 <!--suppress XmlDuplicatedId -->
       <pre *ngIf="type=='player_off'" id="bb_code">[quote]
-[size=12][b]Offensive land unit intel for [player]{{dataBB.name}}[/player][/b][/size]
-    [ally]{{dataBB.a_name}}[/ally]<span *ngIf="!hiddenKey">, index: [url=https://grepodata.com/profile/overview/{{dataBB.key}}]{{dataBB.key}}[/url]</span>
+[size=12][b]Offensive land unit intel for [player]{{dataBB.name}}[/player] ([ally]{{dataBB.a_name}}[/ally])[/b][/size]
 
 [table]
 &nbsp;&nbsp;[**]Town[||]OFF units (-lost)[||]Date[/**]<span *ngFor="let town of dataBB.data; let i = index;"><span *ngIf="showNonPriority || town?.priority==true&&!showNonPriority"><br/>&nbsp;&nbsp;[*][town]{{town.town_id}}[/town][|]{{town.units | UnitIconPipe}}[|]{{town.date | IndexDate}}[/*]</span></span>
@@ -106,8 +94,7 @@
 <!--num_brackets = 24 + 6*rows -->
 <!--suppress XmlDuplicatedId -->
       <pre *ngIf="type=='player_def'" id="bb_code">[quote]
-[size=12][b]Defensive land unit intel for [player]{{dataBB.name}}[/player][/b][/size]
-    [ally]{{dataBB.a_name}}[/ally]<span *ngIf="!hiddenKey">, index: [url=https://grepodata.com/profile/overview/{{dataBB.key}}]{{dataBB.key}}[/url]</span>
+[size=12][b]Defensive land unit intel for [player]{{dataBB.name}}[/player] ([ally]{{dataBB.a_name}}[/ally])[/b][/size]
 
 [table]
 &nbsp;&nbsp;[**]Town[||]DEF units (-lost)[||]Date[/**]<span *ngFor="let town of dataBB.data; let i = index;"><span *ngIf="showNonPriority || town?.priority==true&&!showNonPriority"><br/>&nbsp;&nbsp;[*][town]{{town.town_id}}[/town][|]{{town.units | UnitIconPipe}}[|]{{town.date | IndexDate}}[/*]</span></span>
@@ -121,28 +108,28 @@
 <!--Players indexed-->
 <!--suppress XmlDuplicatedId -->
       <pre *ngIf="type=='players_indexed'" id="bb_code">[quote]
-    [size=12][b]Most indexed players (index: [url=https://grepodata.com/profile/overview/{{dataBB.key}}]{{dataBB.key}}[/url])[/b][/size]
+    [size=12][b]Most indexed players (index: [url=https://grepodata.com/profile/team/{{dataBB.key}}]{{dataBB.key}}[/url])[/b][/size]
 
 [table]
   [**]#[||]Player[||]Intel[||]Link[/**]<span *ngFor="let player of dataBB.data; let i = index;">
   [*]{{i+1}}.[|][player]{{player?.player_name}}[/player][|]{{player.count}}[|][url=https://grepodata.com/intel/player/{{dataBB.world}}/{{player?.player_id}}]View collected intel[/url][/*]</span>
 [/table]
 [i]This table was generated on [b]{{generated_at}}[/b].[/i]
-An up-to-date version can be found [url=https://grepodata.com/profile/overview/{{dataBB.key}}]here[/url]
+An up-to-date version can be found [url=https://grepodata.com/profile/team/{{dataBB.key}}]here[/url]
 
 [/quote]</pre>
 
 <!--Alliances indexed-->
 <!--suppress XmlDuplicatedId -->
       <pre *ngIf="type=='alliances_indexed'" id="bb_code">[quote]
-[size=12][b]Most indexed alliances (index: [url=https://grepodata.com/profile/overview/{{dataBB.key}}]{{dataBB.key}}[/url])[/b][/size]
+[size=12][b]Most indexed alliances (index: [url=https://grepodata.com/profile/team/{{dataBB.key}}]{{dataBB.key}}[/url])[/b][/size]
 
 [table]
   [**]#[||]Alliance[||]Intel[||]Link[/**]<span *ngFor="let alliance of dataBB.data; let i = index;">
   [*]{{i+1}}.[|][ally]{{alliance?.alliance_name}}[/ally][|]{{alliance.count}}[|][url=https://grepodata.com/intel/alliance/{{dataBB.world}}/{{alliance?.alliance_id}}]View collected intel[/url][/*]</span>
 [/table]
 [i]This table was generated on [b]{{generated_at}}[/b].[/i]
-An up-to-date version can be found [url=https://grepodata.com/profile/overview/{{dataBB.key}}]here[/url]
+An up-to-date version can be found [url=https://grepodata.com/profile/team/{{dataBB.key}}]here[/url]
 
 [/quote]</pre>
 
@@ -150,7 +137,7 @@ An up-to-date version can be found [url=https://grepodata.com/profile/overview/{
 <!--suppress XmlDuplicatedId -->
         <!--173399-->
       <pre *ngIf="type=='island'" id="bb_code">[quote]
-[size=12][b]Intel for [island]{{dataBB.data.island}}[/island] (index: [url=https://grepodata.com/profile/overview/{{dataBB.key}}]{{dataBB.key}}[/url])[/b][/size]
+[size=12][b]Intel for [island]{{dataBB.data.island}}[/island] (index: [url=https://grepodata.com/profile/team/{{dataBB.key}}]{{dataBB.key}}[/url])[/b][/size]
 
 [table]
   [**]Town[||]Player[||]Intel[||]Link[/**]<span *ngFor="let town of dataBB.data.towns; let i = index;">

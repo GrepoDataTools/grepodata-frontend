@@ -81,7 +81,7 @@ export class NewIndexDialog {
   createNewIndex(event) {
     this.captcha = event;
     if (this.index_name == '') {
-      this.error = 'Index name is required';
+      this.error = 'Team name is required';
       if (this.captchaRef != undefined) { this.captchaRef.reset(); }
     } else if (this.world == '') {
       this.error = 'Please select a world';

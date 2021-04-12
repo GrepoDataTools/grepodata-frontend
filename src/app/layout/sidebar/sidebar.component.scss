@@ -1,0 +1,21 @@
+::ng-deep .custom-selected {
+  a {
+    background: #18BC9C !important;
+    border-radius: 4px !important;
+    color: #ffffff !important;
+  }
+  mat-icon {
+    color: #ffffff !important;
+  }
+}
+
+@media (max-width:768px) {
+  .sidebar-list-item {
+    margin-top: -10px;
+
+    a {
+      height: 35px !important;
+    }
+  }
+}
+

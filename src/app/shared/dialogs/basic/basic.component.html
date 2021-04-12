@@ -1,0 +1,22 @@
+<a *ngIf="show_close" (click)="close()" class="close"></a>
+<h2 mat-dialog-title *ngIf="title != ''">
+	<span [outerHTML]="title"></span>
+</h2>
+<div mat-dialog-content *ngIf="messageHtml != ''">
+	<span [outerHTML]="messageHtml"></span>
+</div>
+<div mat-dialog-actions class="dialog-action" *ngIf="cancel_action || action">
+
+	<!--Negative action-->
+	<button mat-button (click)="close()" *ngIf="cancel_action!=null">{{cancel_action}}</button>
+
+	<!--Positive action-->
+	<button
+		mat-button
+		class="mat-focus-indicator mat-raised-button {{actionClass}} text-white mat-button mat-button-base"
+		(click)="confirm()"
+		style="float: right;">
+		{{action}}
+	</button>
+
+</div>

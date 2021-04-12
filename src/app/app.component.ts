@@ -6,6 +6,10 @@ import {LocalCacheService} from "./services/local-cache.service";
 import {CompareService} from "./compare/compare.service";
 import { addBackToTop } from 'vanilla-back-to-top'
 import { MatDialog } from "@angular/material/dialog";
+import {WorldService} from './services/world.service';
+import {SidenavService} from './layout/sidebar/sidenav-service';
+import {Globals} from './globals';
+import {IndexerService} from './indexer/indexer.service';
 
 declare let ga: Function;
 
@@ -18,14 +22,14 @@ declare let ga: Function;
 export class AppComponent {
   title = 'app';
 
-  private _opened = true;
   public greenType = false;
   public whiteType = false;
-  // public adIsEmpty = false;
-  // public checkingAd = true;
-  // public adChecktimeout = 0;
 
-  constructor(private router: Router, private dialogRef: MatDialog) {
+  constructor(
+    private router: Router,
+    private dialogRef: MatDialog,
+    private sidenavService: SidenavService
+  ) {
 
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
@@ -59,18 +63,31 @@ export class AppComponent {
       } catch (e) {}
 
       // Scrolltop
-      // try {
-      //   document.querySelector('.Site').scrollTo(0, 0);
-      // } catch (e) {}
       window.scrollTo(0, 0);
 
       // Close dialogs
-			this.dialogRef.closeAll()
-    });
-  }
+      try {
+        this.dialogRef.openDialogs.forEach(dialog => {
+          if (dialog._containerInstance && dialog._containerInstance._config
+            && dialog._containerInstance._config.data
+            && 'closeOnNavigation' in dialog._containerInstance._config.data
+            && dialog._containerInstance._config.data.closeOnNavigation === false
+          ) {
+            // This dialog is specifically configured to stay open
+          } else {
+            // default: close
+            dialog.close();
+          }
+        });
+      } catch (e) {
+        this.dialogRef.closeAll();
+      }
 
-  private _toggleSidebar() {
-    this._opened = !this._opened;
+      // Close profile sidenav on navigate
+      // if (evt.url.includes('/profile') || evt.url.includes('/indexer')) {
+      //   this.sidenavService.close();
+      // }
+    });
   }
 
   scrollContent(event) {
@@ -119,6 +136,49 @@ function _window(): any {
 export class WindowRef {
   get nativeWindow(): any {
     return _window();
+  }
+}
+
+@Pipe({
+  name: 'WorldNamePipe'
+})
+export class WorldNamePipe implements PipeTransform {
+  constructor(private worldService: WorldService) {}
+  transform(world: string, return_html=true): any {
+    if (!world) return world;
+    let server = world.substring(0, 2);
+    let worldname = null;
+    let worldinfo = this.worldService.getLocalWorldInfo(world);
+    if (worldinfo && 'name' in worldinfo) {
+      worldname = worldinfo.name
+    }
+    let worldstring = '';
+    if (worldname) {
+      worldstring = worldname + ' (' + world + ')';
+    } else {
+      worldstring = world;
+    }
+    if (return_html) {
+      return '<div class="bg-flag flag-inline-middle flag-'+server+'"></div>&nbsp;'+worldstring;
+    } else {
+      return worldstring;
+    }
+  }
+}
+
+@Pipe({
+  name: 'IndexNamePipe'
+})
+export class IndexNamePipe implements PipeTransform {
+  constructor(private indexService: IndexerService) {}
+  transform(index_key: string): any {
+    if (!index_key) return index_key;
+    let indexname = index_key;
+    let indexinfo = this.indexService.getLocalIndexInfo(index_key);
+    if (indexinfo && 'name' in indexinfo) {
+      indexname = indexinfo.name
+    }
+    return indexname
   }
 }
 

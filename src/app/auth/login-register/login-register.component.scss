@@ -1,0 +1,344 @@
+
+// Font Family
+$body-font: "Roboto";
+
+// Font Weights
+$thin: 100;
+$light: 300;
+$regular: 400;
+$semibold: 500;
+$bold: 700;
+$ultra: 800;
+
+// Base Font
+$base-font-family: $body-font, sans-serif;
+$base-font-size: 16px;
+$base-font-weight: $regular;
+$base-line-height: 1.6em;
+
+// Colors
+$black: #000000;
+$dark-gray: rgba($black, 0.8);
+$gray: rgba($black, 0.6);
+$light-gray: rgba($black, 0.4);
+$lighter-gray: rgba($black, 0.2);
+$white: #FFFFFF;
+$accent: #18bc9b;
+
+// Form Settings
+$max-width: 600px;
+$max-height: 400px;
+$gutters: 24px;
+
+.index-input-container {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 11px 15px -7px rgba(0,0,0,.2), 0 24px 38px 3px rgba(0,0,0,.14), 0 9px 46px 8px rgba(0,0,0,.12);
+  padding: 0 !important;
+}
+.index-input {
+  //height: 350px;
+  font-family: Montserrat, serif;
+}
+.index-input-left {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  padding: 40px;
+  //background: #009688;
+  //background: #18bc9b;
+
+  background: #50a3a2;
+  background: -webkit-linear-gradient(top left, #50a3a2 0%, #53e3a6 100%);
+  background: -moz-linear-gradient(top left, #50a3a2 0%, #53e3a6 100%);
+  background: -o-linear-gradient(top left, #50a3a2 0%, #53e3a6 100%);
+  background: linear-gradient(to bottom right, #50a3a2 0%, #53e3a6 100%);
+
+  color: #fafafa;
+  h1 {
+    font-weight: 900;
+  }
+  p {
+    font-weight: 100;
+  }
+}
+
+.gd-login-logo {
+  text-align: center;
+  font-weight: 800;
+  font-size: 50px
+}
+
+.index-input-right {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  padding: 40px;
+  background: #fafafa;
+  color: #18bc9b;
+}
+
+.flex-row {
+  display: flex;
+  display: -webkit-flex;
+  flex-wrap: wrap;
+}
+
+.is-invalid-input {
+  input {
+    border: 2px solid darkred !important;
+  }
+  label {
+    color: darkred !important;
+  }
+}
+
+.invalid-feedback {
+  text-align: center;
+  padding: 7px;
+  margin-top: -20px;
+  margin-bottom: 30px;
+}
+
+.btn-progress-bar {
+  z-index: 1000;
+  position: absolute;
+  bottom: 30px;
+  width: calc(100% - 140px);
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.error-icon {
+  vertical-align: bottom;
+  margin-right: 7px;
+  color: darkred;
+  &.inside {
+    position: absolute;
+    margin-top: 35px;
+    right: 13%;
+  }
+}
+
+::ng-deep {
+  .mat-checkbox-label {
+    font-weight: 400 !important;
+  }
+  .mat-checkbox-layout {
+    white-space: normal !important;
+  }
+}
+
+.info-tooltip {
+  font-size: 18px;
+  position: absolute;
+  margin-top: -5px;
+}
+
+.form {
+  z-index: 15;
+  position: relative;
+  background: $white;
+  width: $max-width;
+  border-radius: 4px;
+  box-shadow: 0 0 30px rgba($black, .1);
+  box-sizing: border-box;
+  margin: 100px auto 10px;
+  overflow: hidden;
+  font-size: $base-font-size;
+
+  &-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0 0 20px;
+
+    &:last-child {
+      margin: 0;
+    }
+
+    label {
+      display: block;
+      margin: 0 0 10px;
+      color: $gray;
+      font-size: 12px;
+      font-weight: $semibold;
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: .2em;
+
+      .register & {
+        color: $white;
+      }
+    }
+
+    input {
+      outline: none;
+      display: block;
+      background: rgba($black, 0.1);
+      width: 100%;
+      border: 0;
+      border-radius: 4px;
+      box-sizing: border-box;
+      padding: 12px 20px;
+      color: $gray;
+      font-family: inherit;
+      font-size: $base-font-size;
+      font-weight: $semibold;
+      line-height: inherit;
+      transition: 0.3s ease;
+
+      &:focus {
+        color: $dark-gray;
+      }
+
+      .register & {
+        color: $white;
+        background: rgba($white, 0.3);
+
+        &:focus {
+          color: $white;
+        }
+      }
+    }
+
+    button {
+      outline: none;
+      background: $accent;
+      //width: 100%;
+      border: 0;
+      border-radius: 4px;
+      padding: 12px 20px;
+      color: $white;
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: $semibold;
+      line-height: inherit;
+      text-transform: uppercase;
+      cursor: pointer;
+
+      position: absolute;
+      bottom: 30px;
+      width: calc(100% - 140px);
+
+      .register & {
+        background: $white;
+        color: $accent;
+      }
+
+      .login & {
+        background: $accent;
+        //background: #50a3a2;
+        //background: -webkit-linear-gradient(top left, #50a3a2 0%, #5cb38b 100%);
+        //background: -moz-linear-gradient(top left, #50a3a2 0%, #5cb38b 100%);
+        //background: -o-linear-gradient(top left, #50a3a2 0%, #5cb38b 100%);
+        //background: linear-gradient(to bottom right, #50a3a2 0%, #5cb38b 100%);
+      }
+    }
+
+    .form-remember {
+      font-size: 12px;
+      font-weight: $regular;
+      letter-spacing: 0;
+      text-transform: none;
+
+      input[type='checkbox'] {
+        display: inline-block;
+        width: auto;
+        margin: 0 10px 0 0;
+      }
+    }
+
+    a {
+      text-decoration: underline;
+      color: #035b53;
+    }
+
+    .form-recovery {
+      color: $accent;
+      font-size: 14px;
+      text-decoration: none;
+      margin-top: 3px;
+      right: 70px;
+      position: absolute;
+    }
+    .form-recovery:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
+
+  // Panel
+  &-panel {
+    padding: 0 30px;
+    box-sizing: border-box;
+
+    // Panel Login
+    &.login {
+      .invalid-form-text {
+        color: #d61f1f !important;
+      }
+    }
+
+    // Panel Register
+    &.register {
+      //position: absolute;
+      //background: $accent;
+      width: 100%;
+      min-height: 100%;
+
+      .invalid-form-text {
+        color: #035b53 !important;
+      }
+    }
+  }
+
+  // Header
+  &-header {
+    margin: 0 0 30px;
+    text-align: center;
+
+    h1 {
+      padding: 4px 0;
+      color: $accent;
+      font-size: 24px;
+      font-weight: $bold;
+      text-transform: uppercase;
+
+      .register & {
+        color: $white;
+      }
+    }
+  }
+
+}
+
+.cp-fab {
+  background: $white !important;
+  color: $accent !important;
+}
+
+@media (max-width: 992px) {
+
+  .gd-login-logo {
+    text-align: center;
+    font-weight: 800;
+    font-size: 35px
+  }
+
+  .login-submit {
+    position: unset !important;
+    margin-top: 20px !important;
+    width: 100% !important;
+  }
+
+}
+
+@media (max-width: 767px) {
+  .index-input-container {
+    margin-top: 0;
+  }
+  .login-row-container {
+    flex-direction: column-reverse !important;
+  }
+
+}

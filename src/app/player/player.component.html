@@ -1,10 +1,8 @@
 <app-search [compare]="true"></app-search>
 
 <div>
-  <mat-card class="decorated-card">
-    <mat-card-title class='' id="pagehead">
-
-    </mat-card-title>
+  <div>
+    <div class='' id="pagehead"></div>
     <mat-card-content *ngIf="notFound">
       <div class="alert alert-warning text-center">
         <br/>
@@ -18,12 +16,15 @@
     <mat-card-content *ngIf="!notFound">
 
       <div class="player-cards" fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="5px">
-        <mat-card fxFlex="25">
-          <mat-card-title class="text-center">
-            <h1 style='color: #304357;' class="entity-name">
-              <img style="height: 25px; margin-top: -5px;" src="../../assets/images/player_ico.png"/> {{playerName}}
+        <mat-card class="dense-card" fxFlex="25">
+          <div class="card-header bg-gd-1 text-center" style="padding-bottom: 20px !important;">
+            <h1 class="gd-white entity-name">
+              <div class="icon-circle"><img style="height: 25px; margin-top: -5px;" src="../../assets/images/player_ico.png"/></div> {{playerName}}
             </h1>
-          </mat-card-title>
+	          <div *ngIf="loadingInfo || loadingHistory || loadingChanges" style="position: relative; top: 10px; height: 0px; margin: 0px -30px;">
+		          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+	          </div>
+          </div>
           <mat-card-content [ngClass]="{'loading-overlay': loadingInfo}">
 
             <table class="table table-no-more player-info">
@@ -64,7 +65,20 @@
                 </tr>
                 <tr>
                   <th>Points</th>
-                  <td>{{points | NumberFilter}}</td>
+                  <td>
+                    {{points | NumberFilter}}
+                    <div *ngIf="playerInfoData.hours_inactive" style="display: inline-block; padding-left: 10px; vertical-align: text-top;">
+                      <div *ngIf="playerInfoData.hours_inactive<24">
+                        <div class="btn-success btn-xs" matTooltip="Last activity (town oor attack points): {{inactive_readable}}">Active</div>
+                      </div>
+                      <div *ngIf="playerInfoData.hours_inactive>=24 && playerInfoData.hours_inactive<72">
+                        <div class="btn-warning btn-xs" matTooltip="Last activity (town oor attack points): {{inactive_readable}}">Inactive</div>
+                      </div>
+                      <div *ngIf="playerInfoData.hours_inactive>=72">
+                        <div class="btn-danger btn-xs" matTooltip="Last activity (town oor attack points): {{inactive_readable}}">Inactive</div>
+                      </div>
+                    </div>
+                  </td>
                 </tr>
                 <tr>
                   <th>Attacking</th>
@@ -99,18 +113,6 @@
                   </td>
 	                <td *ngIf="!def">0</td>
                 </tr>
-                <!--<tr *ngIf="bShowHeatmapTab">-->
-                  <!--<th>Best time to attack</th>-->
-                  <!--<td>-->
-                    <!--<a (click)="setActiveTab('heatmap')" class="a-link">~ {{lowestIndex<10?'0':''}}{{lowestIndex}}:00h <i class="fa fa-arrow-circle-right"></i></a>-->
-                  <!--</td>-->
-                <!--</tr>-->
-                <!--<tr *ngIf="hasIndex!=''">-->
-                  <!--<th>Town intelligence</th>-->
-                  <!--<td>-->
-                      <!--<a (click)="setActiveTab('intel')" class="a-link">{{hasIndex}} <i class="fa fa-arrow-circle-right"></i></a>-->
-                  <!--</td>-->
-                <!--</tr>-->
               </tbody>
             </table>
 
@@ -155,7 +157,7 @@
           </mat-card-content>
         </mat-card>
 
-        <mat-card fxFlex="75">
+        <mat-card class="dense-card" fxFlex="75" style="padding-bottom: 0px !important; padding-top: 10px !important;">
 	        <div #infoTabs style="width: 100%;"></div>
           <mat-tab-group [selectedIndex]="tabsIndex" (selectedTabChange)="onTabClick($event)" mat-stretch-tabs>
             <mat-tab class="history-chart" style="padding: 20px 0; overflow: hidden !important;">
@@ -210,61 +212,15 @@
                 <mat-icon style="opacity: 1; vertical-align: bottom;">watch_later</mat-icon>&nbsp;Activity<span class="hidden-xs">&nbsp;heatmap</span>
               </ng-template>
               <br/>
-              <mat-card-title>
-                <div fxLayout="row">
-                  <h4 style='font-weight: 300; color: #304357;'><span class='world-title' style='color: #18BC9C;'>Player activity in the last 4 weeks</span></h4>
-                  <mat-spinner style="margin-left: 30px;" *ngIf="loadingInfo" strokeWidth="3" [diameter]="30"></mat-spinner>
-                </div>
-              </mat-card-title>
-	            <div *ngIf="!heatmapDay[0] || highestHeatmapHour<=2">
-		            <p><strong>Player is inactive.</strong> Sorry, this player is not active enough to display this data.</p>
-		            <p>We need at least a 3 attacks in 1 hour (cumulative over 4 weeks) to start showing this heatmap.</p>
-	            </div>
-	            <div *ngIf="heatmapDay[0] && highestHeatmapHour>2">
-	              <div class="container-fluid heatmap-container" [ngClass]="{'loading-overlay': loadingInfo}">
-	                <div class="row">
-	                  <div class="col-xs-12 col-sm-4 heatmap-day-container">
-	                    <ngx-charts-bar-vertical
-	                            *ngIf="bShowHeatmapChart"
-	                            [scheme]="colorSchemeHeatmap"
-	                            [schemeType]="'linear'"
-	                            [results]="heatmapDay"
-	                            [gradient]="false"
-	                            [xAxis]="true"
-	                            [yAxis]="false"
-	                            [tooltipDisabled]="true"
-	                            [legend]="false"
-	                            [showXAxisLabel]="true"
-	                            [showYAxisLabel]="false"
-	                            [xAxisLabel]="'day most active'"
-	                            [yAxisLabel]="'activity'">
-	                    </ngx-charts-bar-vertical>
-	                  </div>
-	                  <div class="col-xs-12 col-sm-8 heatmap-hour-container">
-	                    <ngx-charts-bar-vertical
-	                            *ngIf="bShowHeatmapChart"
-	                            [scheme]="colorSchemeHeatmap"
-	                            [schemeType]="'linear'"
-	                            [results]="heatmapHour"
-	                            [gradient]="false"
-	                            [roundDomains]="true"
-	                            [xAxis]="true"
-	                            [yAxis]="false"
-	                            [tooltipDisabled]="true"
-	                            [legend]="false"
-	                            [showXAxisLabel]="true"
-	                            [showYAxisLabel]="false"
-	                            [xAxisLabel]="'hour most active'"
-	                            [yAxisLabel]="'activity'">
-	                    </ngx-charts-bar-vertical>
-	                  </div>
-	                </div>
+	            <mat-card-title>
+		            <div>
+		              <h4 style='font-weight: 300; color: #304357;'><span class='world-title' style='color: #18BC9C;'>This feature has been removed.</span></h4>
+			            <p>Due to privacy concerns, the activity heatmap feature has been removed from GrepoData entirely.<br/>
+			              <br/>
+				            <br/>
+			            </p>
 	              </div>
-	              <p><strong>The best time to attack this player is usually around {{lowestIndex<10?'0':''}}{{lowestIndex}}:00h local time.</strong>
-	                {{playerName}}'s attack frequency is lowest around this time. This is only an indication, based on their historical attack point data in the last 4 weeks. All times are in the same timezone as the local Grepolis server ({{world}}).</p>
-	              <p><strong>Data source: </strong>This graph is based entirely on an aggregation of the public attack points endpoint: <a href="https://{{world}}.grepolis.com/data/player_kills_att.txt" target="_blank">https://{{world}}.grepolis.com/data/player_kills_att.txt</a>
-		              &nbsp;(<a href="https://github.com/GrepoDataTools/grepodata-backend/blob/6adb95c761c0720e20a7f574747d0c149b53872c/Software/Library/Elasticsearch/Diff.php#L593" target="_blank"><i class="fa fa-github" aria-hidden="true"></i> Source code</a>)</p>
-	            </div>
+	            </mat-card-title>
 
             </mat-tab>
             <mat-tab>
@@ -333,20 +289,19 @@
 	              <span class="hidden-xs">Town intelligence</span>
 	              <span class="hidden-md hidden-sm hidden-lg">Intel</span>
               </ng-template>
-              <app-index-player *ngIf="bShowIntel && hasIndex!=''" [world]="world" [key]="hasIndex" [id]="id" [embedded]="true"></app-index-player>
-	            <h3 style="padding: 30px;" *ngIf="!bShowIntel && hasIndex!=''"><a class="a-link-dialog" style="color: #334254 !important;" (click)="bShowIntel = true;">Load town intel..</a></h3>
-              <div *ngIf="hasIndex==''" style="padding: 20px;">
+              <app-index-player *ngIf="bShowIntel && hasIndex" [world]="world" [id]="id" [embedded]="true"></app-index-player>
+	            <h3 style="padding: 30px;" *ngIf="!bShowIntel && hasIndex"><a class="a-link-dialog" style="color: #334254 !important;" (click)="bShowIntel = true;">Load town intelligence..</a></h3>
+              <div *ngIf="!bShowIntel || !hasIndex" style="padding: 20px;">
 	              <div class="container-fluid">
 		              <div class="row">
 			              <div class="col-xs-12 col-sm-8">
 				              <div class="alert alert-gd-1 text-center">
-					              <p>When you link an <span class="gd-primary">enemy city index</span>, we will be able to show collected intelligence about this player here.</p>
-					              <p>You can create a new index or load an existing index shared by your alliance.</p>
-					              <h3>
-						              <a class="a-link-dialog" style="color: #334254 !important;" routerLink="/indexer/0">
-							              Create or load an index <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon>
-						              </a>
-					              </h3>
+                        <p>When you sign in with a GrepoData city indexer account, we will be able to show collected intelligence about this alliance here.</p>
+                        <h3>
+                          <a class="gd-primary a-link-dialog" routerLink="/indexer">
+                            Sign in to your GrepoData account <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon>
+                          </a>
+                        </h3>
 				              </div>
 			              </div>
 			              <div class="col-sm-4 hidden-xs">
@@ -362,11 +317,13 @@
 
       </div>
 
-	    <app-advertorial *ngIf="!loadingInfo && towns > 1 && rank <= 1000"></app-advertorial>
+	    <div style="margin: -5px 17px" *ngIf="!loadingInfo && towns > 1 && rank <= 1000">
+		    <app-advertorial></app-advertorial>
+	    </div>
 
       <div class="player-cards" fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="5px">
 
-        <mat-card fxFlex fxFlex.gt-md="57" fxFlex.gt-sm="100">
+        <mat-card class="dense-card" fxFlex fxFlex.gt-md="57" fxFlex.gt-sm="100">
           <mat-card-title>
             <div fxLayout="row">
               <h4 style='font-weight: 300; color: #304357;'><span class='world-title' style='color: #18BC9C;'>History</span></h4>
@@ -444,7 +401,7 @@
           </mat-card-content>
         </mat-card>
 
-        <mat-card fxFlex fxFlex.gt-md="43" fxFlex.gt-sm="100">
+        <mat-card class="dense-card" fxFlex fxFlex.gt-md="43" fxFlex.gt-sm="100">
           <mat-card-content>
 
 	          <app-conquest [embedded]="true" [params]="{type: 'player', world: world, id: id}"></app-conquest>
@@ -457,6 +414,6 @@
 	    <br/>
 
     </mat-card-content>
-  </mat-card>
+  </div>
 
 </div>

@@ -1,0 +1,67 @@
+<div mat-dialog-content style="min-width: 90%; min-height: 70%;">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12">
+				<a (click)="close()" class="close"></a>
+
+        <span *ngIf="intel_type=='outgoing'">
+          <h2 style="margin-top: 0;" class="gd-primary">Who was this intel shared with?</h2>
+          <h5>Intel you collect is shared with all teams you are a part of (on that game world).</h5>
+          <h4>This specific report was shared with the following team<span *ngIf="index_list.length > 1">s</span>:</h4>
+        </span>
+        <span *ngIf="intel_type!='outgoing'">
+          <h2 style="margin-top: 0;" class="gd-primary">How was this intel shared with you?</h2>
+          <h4>This report is available to you because it was shared via the following team<span *ngIf="index_list.length > 1">s</span>:</h4>
+        </span>
+
+        <div class="table">
+          <div class="row_custom header default">
+            <div class="cell" *ngIf="!expanded_info_available">Team</div>
+            <div class="cell" *ngIf="expanded_info_available">Team name</div>
+            <div class="cell" *ngIf="expanded_info_available">Team owners</div>
+            <div class="cell" *ngIf="expanded_info_available"></div>
+          </div>
+
+          <div *ngFor="let index of index_info" class="row_custom">
+            <div class="cell" *ngIf="!expanded_info_available">
+              <a routerLink="/profile/team/{{index.key}}">{{index.key}} <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon></a>
+            </div>
+            <div class="cell" *ngIf="expanded_info_available">
+              <a routerLink="/profile/team/{{index.key}}"><span *ngIf="index.name">{{index.name}}</span><span *ngIf="!index.name">{{index.key}}</span></a>
+            </div>
+            <div class="cell" style="padding: 0 !important; font-size: 14px; vertical-align: middle;" *ngIf="expanded_info_available">
+              <span *ngIf="index.stats && index.stats.owners">
+                <div *ngFor="let owner of index.stats.owners; let i = index;">
+                  <img src="../../assets/images/ally_ico.png"/> {{owner.alliance_name}}
+                </div>
+              </span>
+            </div>
+            <div class="cell" *ngIf="expanded_info_available" style="padding: 6px;">
+              <button style="float: right;" class="btn btn-success btn-xs" routerLink="/profile/team/{{index.key}}">
+                Team overview <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 10px;"></div>
+        <span *ngIf="world"><span [outerHTML]="world | WorldNamePipe"></span></span>
+        <a class="top-index-card" routerLink="/profile/teams" style="color: #949494; font-weight: 700; font-size: 21px; float: right;">
+          View all my teams <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon>
+        </a>
+
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<!--<div mat-dialog-actions class="dialog-action">-->
+<!--	<div class="container-fluid">-->
+<!--		<div class="row">-->
+<!--			<div class="col-xs-12">-->
+<!--				<button mat-button class="mat-focus-indicator mat-raised-button bg-gd-1 text-white mat-button mat-button-base" (click)="close()" style="float: right;">Close</button>-->
+<!--			</div>-->
+<!--		</div>-->
+<!--	</div>-->
+<!--</div>-->

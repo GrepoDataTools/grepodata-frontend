@@ -121,7 +121,7 @@ export class AnalyticsComponent implements OnInit {
         });
       }
       this.indexes_per_day.push({
-        'name': 'Active indexes',
+        'name': 'Active teams',
         'series': chart,
       });
     }
@@ -217,7 +217,7 @@ export class AnalyticsComponent implements OnInit {
         });
       }
       this.total_indexes.push({
-        'name': 'Number of indexes',
+        'name': 'Number of teams',
         'series': chartNumIndex,
       });
       this.total_reports.push({

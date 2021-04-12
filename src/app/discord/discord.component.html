@@ -26,10 +26,18 @@
 
                     <hr>
 
+                    <h3>Configuration</h3>
+		                <div class="row">
+			                <div class="col-xs-5 vcenter"><pre>!gd server [server]</pre></div>
+			                <div class="col-xs-7 vcenter">Set the <strong>default server</strong> to [server] <br/>e.g. <span style="font-style: italic;">!gd setServer en134</span> will change the default server to nl74</div>
+		                </div>
+
+                    <hr>
+
                     <h3>Statistics</h3>
 		                <div class="row">
-			                <div class="col-xs-5 vcenter"><pre>!gd setServer [server]</pre></div>
-			                <div class="col-xs-7 vcenter">Set the <strong>default server</strong> to [server] <br/>e.g. <span style="font-style: italic;">!gd setServer nl74</span> will change the default server to nl74</div>
+			                <div class="col-xs-5 vcenter"><pre>!gd server [server]</pre></div>
+			                <div class="col-xs-7 vcenter">Set the <strong>default server</strong> to [server] <br/>e.g. <span style="font-style: italic;">!gd setServer en134</span> will change the default server to nl74</div>
 		                </div>
                     <div class="row">
                         <div class="col-xs-5 vcenter"><pre>!gd today</pre></div>
@@ -44,9 +52,14 @@
                         <div class="col-xs-7 vcenter">Shows yesterday's <strong>scoreboard</strong> for the default server</div>
                     </div>
 		                <div class="row">
-			                <div class="col-xs-5 vcenter"><pre>!gd heatmap [player_name]</pre></div>
-			                <div class="col-xs-7 vcenter">Shows the <strong>heatmap</strong> for the given player name</div>
+			                <div class="col-xs-5 vcenter"><pre>!gd search [player_name]</pre></div>
+			                <div class="col-xs-7 vcenter">Search for players by name and show their latest online time.</div>
 		                </div>
+
+                    <hr>
+
+                    <h3>Other</h3>
+
 		                <div class="row">
 			                <div class="col-xs-5 vcenter"><pre>!gd calculator [units]</pre></div>
 			                <div class="col-xs-7 vcenter">
@@ -55,38 +68,14 @@
 			                </div>
 		                </div>
 
-                    <hr>
-
-                    <h3>Enemy city intelligence</h3>
-		                <div class="row">
-			                <div class="col-xs-5 vcenter"><pre>!gd setIndex [index_key]</pre></div>
-			                <div class="col-xs-7 vcenter">Set the active intelligence index key</div>
-		                </div>
-
-		                <div class="row">
-                        <div class="col-xs-5 vcenter"><pre>!gd intel</pre></div>
-                        <div class="col-xs-7 vcenter">Links to the default intelligence index</div>
-                    </div>
                     <div class="row">
-                        <div class="col-xs-5 vcenter"><pre>!gd userscript</pre></div>
-                        <div class="col-xs-7 vcenter">Links to the default intelligence userscript</div>
+                      <div class="col-xs-5 vcenter"><pre>!gd indexer</pre></div>
+                      <div class="col-xs-7 vcenter">Get started using the GrepoData city indexer</div>
                     </div>
-                    <div class="row">
-                        <div class="col-xs-5 vcenter"><pre>!gd intel [town_id]</pre></div>
-                        <div class="col-xs-7 vcenter">Shows the gathered town intel for [town_id]</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-5 vcenter"><pre>!gd intel [town_name]</pre></div>
-                        <div class="col-xs-7 vcenter">Shows the gathered town intel for [town_name]</div>
-                    </div>
-                    <!--<br/>-->
-                    <!--<p>-->
-                        <!--<strong>GrepoData Bot also listens to town BBcode.</strong><br/> E.g. posting '[town]143524[/town]' will show the town intel for town 143524.-->
-                    <!--</p>-->
-
 
                     <br/>
                     <br/>
+
                     <div style="float: left;">
                         <a mat-button style="font-size: 18px; color: gray;" routerLink="/">
                             <span class="fa fa-backward"></span> Homepage

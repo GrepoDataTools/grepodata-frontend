@@ -1,0 +1,173 @@
+<mat-card class="dense-card">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12">
+
+				<h2 style="margin-top: 0;">Install the city indexer <span class="gd-primary">userscript</span></h2>
+				<h4>The GrepoData userscript allows you to collect enemy intelligence while playing Grepolis in your browser.</h4>
+				<br/>
+
+				<div class="alert alert-gd-1">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-xs-12 col-sm-12 col-lg-6">
+								<h3><strong>Step 1:</strong> Install Tampermonkey</h3>
+								<h5 class="gd-secondary">Tampermonkey is the world's most popular userscript manager.</h5>
+								<h3 class="gd-secondary">Restart your browser if you just installed Tampermonkey.</h3>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-lg-6" style="padding-top: 10px;">
+								<div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center">
+									<div fxLayout="column" fxLayoutAlign="center center" style="width: 20%;">
+										<i style="font-size: 54px;" class="fa fa-chrome"></i><div>Chrome</div>
+										<a tabindex="-1" href="https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo" target="_blank">Install</a>
+									</div>
+									<div fxLayout="column" fxLayoutAlign="center center" style="width: 20%;">
+										<i style="font-size: 54px;" class="fa fa-safari"></i><div>Safari</div>
+										<a tabindex="-1" href="https://tampermonkey.net/?browser=safari" target="_blank">Install</a>
+									</div>
+									<div fxLayout="column" fxLayoutAlign="center center" style="width: 20%;">
+										<i style="font-size: 54px;" class="fa fa-firefox"></i><div>Firefox</div>
+										<a tabindex="-1" href="https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/?src=ss" target="_blank">Install</a>
+									</div>
+									<div fxLayout="column" fxLayoutAlign="center center" style="width: 20%;">
+										<i style="font-size: 54px;" class="fa fa-opera"></i><div>Opera</div>
+										<a tabindex="-1" href="https://addons.opera.com/en/extensions/details/tampermonkey-beta/" target="_blank">Install</a>
+									</div>
+									<div fxLayout="column" fxLayoutAlign="center center" style="width: 20%;">
+										<i style="font-size: 54px;" class="fa fa-edge"></i><div>Edge</div>
+										<a tabindex="-1" href="https://tampermonkey.net/?browser=edge" target="_blank">Install</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!--<div fxLayout="row" fxLayoutAlign="center center" style="margin-bottom: 5px;">-->
+					<!--<i class="fa fa-arrow-down gd-primary"></i>-->
+				<!--</div>-->
+
+				<div class="alert alert-gd-1">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-xs-12 col-sm-12 col-lg-6">
+								<div style="padding-top: 15px;" class="hidden-xs hidden-sm"></div>
+								<h3><strong>Step 2:</strong> Install the userscript</h3>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-lg-6" style="padding-top: 5px;">
+								<a tabindex="-1" mat-button class="mat-raised-button bg-gd-2 hover-scale"
+								   style="font-size: 20px; padding: 8px; width: 100%; color: white; overflow: hidden; text-overflow: ellipsis;"
+								   href="https://api.grepodata.com/script/indexer.user.js" target="_blank">
+									<span class="fa fa-download"></span> Install userscript
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!--<div fxLayout="row" fxLayoutAlign="center center" style="margin-bottom: 5px;">-->
+					<!--<i class="fa fa-arrow-down gd-primary"></i>-->
+				<!--</div>-->
+
+				<div class="alert alert-gd-1">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-xs-12 col-sm-12 col-lg-6">
+								<h3><strong>Step 3:</strong> Link the script to your account</h3>
+								<ul class="userscript-list">
+									<li><strong>Open or refresh your game window</strong> after installing the script.</li>
+									<li>A popup will be displayed with an authentication link. <strong>Click on the link</strong> in the popup.</li>
+									<li><strong>Sign in</strong> to your GrepoData account after clicking on the link. This will link the script to your personal account.</li>
+								</ul>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-lg-6 userscript-img-container">
+								<img class="userscript-img" src="../../../../../assets/images/link_script.png" />
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div fxLayout="row" fxLayoutAlign="center center" style="margin-bottom: 5px;">
+					<i class="fa fa-arrow-down gd-primary"></i>
+				</div>
+
+				<div class="text-center">
+					<h3>Done! You can now start collecting enemy intelligence.</h3>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+</mat-card>
+
+<mat-card class="dense-card">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12">
+
+        <h2 style="margin-top: 0;">Userscript <span class="gd-primary">functionality</span> overview</h2>
+				<h4>Once you have installed the userscript, you can collect new intelligence by indexing reports from your inbox or alliance forum.
+        While in-game, you will also be able to browse the collected intel for each town.
+        </h4>
+				<br/>
+
+				<div class="alert alert-gd-1">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-xs-12 col-sm-12 col-lg-6">
+								<h3>1. Indexing new reports</h3>
+								<h5>
+									Use the <strong>'Index +' button</strong> as shown on the right to upload the report to your GrepoData account.
+									<br/>The index button will be added to reports in your inbox and on reports posted on your alliance forum.
+									<br/>You can join a GrepoData team to share the collected intel with your allies.
+								</h5>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-lg-6 userscript-img-container">
+								<img class="lib-img" style="max-width: 100%; display: block;" src="../../../../../assets/images/index.png" alt="Collecting enemy town intelligence">
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="alert alert-gd-1">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-xs-12 col-sm-12 col-lg-6">
+								<h3>2. Browsing collected intel</h3>
+								<h5>
+									Use the <strong>'Intel' button</strong> in the town context menu to open the town intelligence window.
+									<br/><br/>In this window you will be able to see the collected intel for a specific town as shown on the right.
+									<br/>You will also be able to view an overview of player and alliance intel on grepodata.com
+								</h5>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-lg-6 userscript-img-container">
+								<img class="lib-img" style="max-width: 100%; display: block;" src="../../../../../assets/images/indexer_town_sm.png" alt="Browsing enemy town intelligence">
+							</div>
+						</div>
+					</div>
+				</div>
+
+<!--        <div class="container-fluid">-->
+<!--          <div class="row">-->
+<!--            <div class="hidden-xs col-sm-12 text-center gd-secondary" style="margin-top: 50px;">-->
+<!--              <div fxLayout="row" fxLayoutAlign="center center">-->
+<!--                <div fxFlex="45" fxLayout="column" fxLayoutAlign="end center">-->
+<!--                  <img class="lib-img" style="max-width: 65%; display: block; border: 1px solid #334254;" src="../../assets/images/index.png" alt="Grepolis index report">-->
+<!--                  <h3>Upload reports to collect intel (<span class="gd-primary">Index +</span>)</h3>-->
+<!--                </div>-->
+<!--                <div fxFlex="10" style="font-size: 40px;"><i class="fa fa-arrow-right gd-secondary" aria-hidden="true"></i></div>-->
+<!--                <div fxFlex="45" fxLayout="column" fxLayoutAlign="start center">-->
+<!--                  <img class="lib-img" style="max-width: 90%; display: block;" src="../../assets/images/indexer_town_sm.png" alt="Grepolis town intel">-->
+<!--                  <h3>Browse the collected intelligence</h3>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+
+			</div>
+		</div>
+
+	</div>
+</mat-card>

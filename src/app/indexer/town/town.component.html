@@ -1,52 +1,46 @@
 <div style="min-height: calc(100vh - 160px);">
 
-  <mat-card class="decorated-card">
-    <mat-card-title class='decorated-card-header decorated-title' style="margin-bottom: 0px;">
+	<mat-card class="search-card">
+		<app-index-search></app-index-search>
+	</mat-card>
 
-      <div style="position: absolute; top: 10px; max-width: 200px;">
-        <button mat-button class="mat-raised-button bg-gd-2" style="width: 100%; overflow: hidden; text-overflow: ellipsis;" routerLink="/indexer/{{key}}">
-          <i class="fa fa-arrow-left"></i> Index: {{key}}
+	<mat-card class="index-card index-intel-card">
+		<div class="card-header bg-gd-1 text-center text-white" style="margin-bottom: 0;">
+
+      <h2 style="cursor: pointer; margin: 0;">
+        <span class="hidden-xs hidden-sm">Showing your combined intel for:&nbsp;</span>
+	      <div class="name-circle" (click)="copyBB()">
+		      <img style="height: 25px; margin-top: -5px;" src="../../assets/images/town_ico.png"/>&nbsp;
+		      <span class="gd-brown">{{townName}}</span>
+	      </div>
+	      <span style="display: none;" id="bbcode">[town]{{id}}[/town]</span>
+	      &nbsp;<button name="open_bb" class="btn btn-primary" (click)="copyBB()">
+	        <i class="fa fa-clipboard"></i>&nbsp;<span *ngIf="!copied">Copy BB</span><span *ngIf="copied">Copied!&nbsp;</span>
         </button>
-      </div>
-
-      <h1>
-        Showing collected intel for:
-        <i class="fa fa-university gd-secondary" aria-hidden="true"></i>&nbsp;<span>{{townName}}</span>
-      </h1>
+      </h2>
       <h3>
-        &nbsp;&nbsp;&nbsp;Index: <span class='world-title'><a class="a-link-dialog" style="color: #334254 !important;" routerLink="/indexer/{{key}}">{{key}}</a></span>
-	      World: <span class='world-title gd-secondary'><a class="a-link-dialog" style="color: #334254 !important;" routerLink="/points" [queryParams]="{world: world}">{{world}}</a></span>
-        Player: <span class='world-title gd-secondary'><a class="a-link-dialog" style="color: #334254 !important;" routerLink="/indexer/player/{{key}}/{{world}}/{{playerId}}">{{playerName}}</a></span>
-        <span class="hidden-xs hidden-sm" (click)="copyBB()" style="cursor: pointer;">
-	        &nbsp;BB: <span class='world-title gd-secondary' id="bbcode">[town]{{id}}[/town]</span>
-	        &nbsp;<button name="open_bb" style="background: #334254;" class="btn btn-success">
-            <i class="fa fa-clipboard"></i>&nbsp;<span *ngIf="!copied">Copy BB</span><span *ngIf="copied">Copied!&nbsp;</span>
-          </button>
-        </span>
+	      World: <div *ngIf="world" class="bg-flag flag-inline-middle flag-{{world.substring(0, 2)}}"></div>&nbsp;<span class='world-title'><a class="a-link-dialog gd-secondary" routerLink="/points" [queryParams]="{world: world}">{{worldName}} ({{world}})</a></span>
+        &nbsp;&nbsp;&nbsp;
+	      Player intel: <span class='world-title'><a class="a-link-dialog gd-secondary" routerLink="/intel/player/{{world}}/{{playerId}}">{{playerName}}</a></span>
       </h3>
-    </mat-card-title>
+    </div>
     <mat-card-content class="decorated-card-content" style="padding: 0 !important;">
 
       <div *ngIf="err != ''" class="alert alert-danger text-center">
         {{err}}
       </div>
       <div *ngIf="err == ''">
-        <app-index-search [indexKey]="key"></app-index-search>
 
 	      <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
-
-	      <div style="width: calc(100vw - 68px); margin: auto;">
-		      <app-index-version *ngIf="!noIntel && !loading" [version]="version" [message]="message" [key]="key"></app-index-version>
-	      </div>
 
         <div *ngIf="!noIntel && !loading">
           <div>
 
-            <mat-card>
-              <mat-card-content>
+            <div>
+              <div>
 
 
-	              <div class="container">
+	              <div class="container-fluid">
 		              <div class="row">
 			              <mat-tab-group mat-stretch-tabs>
 				              <mat-tab class="history-chart" style="padding: 20px 0; overflow: hidden !important;">
@@ -71,7 +65,7 @@
 						              <br/>
 						              <div class="alert alert-warning text-center alert-gd-1">
 							              <h2><strong>No intel available.</strong> Index more reports about this town.</h2>
-							              <p>Note: intel about allies (index contributors) is hidden by default.</p>
+							              <p>Note: intel about allies (team owners) is hidden by default.</p>
 						              </div>
 					              </div>
 					              <div *ngIf="allCities.length > 0">
@@ -109,10 +103,10 @@
 									              <div class="cell hidden-xs hidden-sm" *ngIf="hasConquest" style="max-width: 15vw !important; width: 15vw;">
 										              Siege report
 									              </div>
-									              <div class="cell" *ngIf="csa!=false"></div>
+									              <div class="cell"></div>
 								              </div>
 
-								              <div class='row_custom' *ngFor="let town of allCities">
+								              <div class='row_custom' *ngFor="let town of allCities" (click)="openShareInfoDialog(town.shared_via_indexes)">
 									              <div class="cell" matTooltip="{{town.type}}">
 										              <img src="../../assets/images/game/towninfo/attack.png" *ngIf="town.type === 'friendly_attack'">
 										              <div *ngIf="town.type === 'enemy_attack'" style="-moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); filter: FlipH; -ms-filter: ;">
@@ -171,19 +165,23 @@
 											              <button class="gd-btn-2" (click)="loadConquestDetails(town?.conquest_id)">View report <mat-icon style="opacity: 1; vertical-align: bottom;">launch</mat-icon></button>
 										              </div>
 									              </div>
-									              <div class="cell" style="" *ngIf="csa!=false">
-										              <button *ngIf="!town.deleted || town?.deleted==false" name="open_bb" class="btn btn-danger" style=""
-										                      (click)="deleteIntel(town?.id); town.deleted = true;">
-											              <i class="fa fa-close"></i>&nbsp;Delete
-										              </button>
-										              <span *ngIf="town.deleted && town?.deleted==true" title="This record will be deleted within 24 hours.">
-																		<p style="font-size: 17px; margin: 0;" class="gd-secondary">Marked for deletion</p>
-																		<button name="open_bb" class="btn btn-primary btn-xs" style="margin-top: -6px;"
-																		        (click)="deleteIntelUndo(town?.id); town.deleted = false;">
-																			<i class="fa fa-arrow-left"></i>&nbsp;Undo
-																		</button>
-																	</span>
-									              </div>
+									              <!--<div class="cell" style="">-->
+										              <!--<button *ngIf="!town.deleted || town?.deleted==false" name="open_bb" class="btn btn-danger" style=""-->
+										                      <!--(click)="deleteIntel(town?.id); town.deleted = true;">-->
+											              <!--<i class="fa fa-close"></i>&nbsp;Delete-->
+										              <!--</button>-->
+										              <!--<span *ngIf="town.deleted && town?.deleted==true" title="This record will be deleted within 24 hours.">-->
+																		<!--<p style="font-size: 17px; margin: 0;" class="gd-secondary">Marked for deletion</p>-->
+																		<!--<button name="open_bb" class="btn btn-primary btn-xs" style="margin-top: -6px;"-->
+																		        <!--(click)="deleteIntelUndo(town?.id); town.deleted = false;">-->
+																			<!--<i class="fa fa-arrow-left"></i>&nbsp;Undo-->
+																		<!--</button>-->
+																	<!--</span>-->
+									              <!--</div>-->
+
+                                <div class="cell gd-primary a-link-dialog" matTooltip="Click here to see how this intel was shared with you">
+                                  <mat-icon>supervised_user_circle</mat-icon>
+                                </div>
 								              </div>
 							              </div>
 						              </div>
@@ -219,9 +217,9 @@
 								              <div class="cell" style="width: 50%;">
 									              Note
 								              </div>
-								              <div class="cell" *ngIf="csa!=false">
-									              Action
-								              </div>
+								              <!--<div class="cell">-->
+									              <!--Action-->
+								              <!--</div>-->
 							              </div>
 
 							              <div class='row_custom' *ngFor="let note of notes" [style.opacity]="note.deleted?'0.3':'1'">
@@ -234,13 +232,13 @@
 								              <div class="cell">
 									              {{note.message}}
 								              </div>
-								              <div class="cell" style="margin: 5px 0;" *ngIf="csa!=false">
-									              <button name="open_bb" class="btn btn-danger btn-xs" style="" *ngIf="!note.deleted"
-									                      (click)="deleteNote(note?.note_id); note.deleted = true;">
-										              <i class="fa fa-close"></i>&nbsp;Delete
-									              </button>
-									              <span *ngIf="note.deleted">Deleted</span>
-								              </div>
+								              <!--<div class="cell" style="margin: 5px 0;">-->
+									              <!--<button name="open_bb" class="btn btn-danger btn-xs" style="" *ngIf="!note.deleted"-->
+									                      <!--(click)="deleteNote(note?.note_id); note.deleted = true;">-->
+										              <!--<i class="fa fa-close"></i>&nbsp;Delete-->
+									              <!--</button>-->
+									              <!--<span *ngIf="note.deleted">Deleted</span>-->
+								              <!--</div>-->
 							              </div>
 						              </div>
 
@@ -260,8 +258,8 @@
 		              </div>
 	              </div>
 
-              </mat-card-content>
-            </mat-card>
+              </div>
+            </div>
           </div>
         </div>
         <div *ngIf="noIntel && !loading">

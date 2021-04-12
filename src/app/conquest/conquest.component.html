@@ -1,7 +1,7 @@
 <div *ngIf="embedded==false" style="min-height: calc(100vh - 160px);">
 
   <div class="decorated-card">
-    <div class='decorated-card-header decorated-title'>
+    <div class='decorated-card-header-secondary decorated-title'>
       <h1>
         Showing conquests for:
         <i *ngIf="type == 'town'" class="fa fa-university gd-secondary" aria-hidden="true"></i>
@@ -52,9 +52,9 @@
 				</div>
 
 				<div class="col-xs-2" *ngIf="embedded && !minimal">
-					<h4 style='font-weight: 300; color: #304357;'>
+					<h3 style='font-weight: 700; color: #304357;'>
 						<span class='world-title' style='color: #18BC9C;'>Conquests</span>
-					</h4>
+					</h3>
 				</div>
 
 				<div class="{{embedded?(minimal?'col-xs-12':'col-xs-10'):'col-sm-12 col-md-6'}}" *ngIf="!noData" [ngClass]="{'disabled-div':loading}">

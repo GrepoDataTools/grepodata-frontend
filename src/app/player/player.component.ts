@@ -61,7 +61,6 @@ export class PlayerComponent implements OnInit {
   animations = false;
   bShowHistoryChart = true;
   bShowHeatmapChart = false;
-  bShowHeatmapTab = false;
   bShowIntel = false;
 
   onSelect(event) {
@@ -80,6 +79,10 @@ export class PlayerComponent implements OnInit {
 				break;
 			case 3:
 				this.bShowIntel = true;
+				let that = this;
+				setTimeout(function () {
+          that.bShowIntel = true;
+        }, 2000);
 				break;
 		}
     this.tabsIndex = event.index;
@@ -101,12 +104,7 @@ export class PlayerComponent implements OnInit {
   // Component vars
   firstRun = true;
   playerInfoData = [];
-  heatmapDay = {};
-  heatmapHour = {};
-  highestHeatmapHour = 0;
-  highestIndex = 0;
   tabsIndex = 0;
-  lowestIndex = null;
   playerHistoryLastDay = null
   playerHistoryJson = [];
   playerAllianceChanges = [];
@@ -123,6 +121,7 @@ export class PlayerComponent implements OnInit {
   id = '';
   alliance_id = '';
   alliance_name = '';
+  inactive_readable = '';
 
   // comparisons
   comparedPlayers = [];
@@ -135,7 +134,7 @@ export class PlayerComponent implements OnInit {
   notFound = false;
   selectionChanged = false;
   historyError = false;
-  hasIndex: any = '';
+  hasIndex = false;
 
   constructor(
     public dialog: MatDialog,
@@ -191,7 +190,7 @@ export class PlayerComponent implements OnInit {
     this.dayRange = '30';
     // this.showRangeSlider = false;
     this.playerName = 'Loading..';
-    this.hasIndex = '';
+    this.hasIndex = false;
     this.bShowIntel = false;
 
     this.notFound = false;
@@ -221,8 +220,9 @@ export class PlayerComponent implements OnInit {
 
     // Check if intel is available
     let active_intel: any = this.globals.get_active_intel();
+    console.log(active_intel);
     if (active_intel !== false && this.world in active_intel) {
-      this.hasIndex = active_intel[this.world];
+      this.hasIndex = true;
     }
   }
 
@@ -262,57 +262,25 @@ export class PlayerComponent implements OnInit {
     this.def = json.def;
     this.loadingInfo = false;
 
-    if (typeof json.heatmap.day !== 'undefined') {
-      this.heatmapDay = [
-        { name: 'Sunday',    value: json.heatmap.day['0'] || 0 },
-        { name: 'Monday',    value: json.heatmap.day['1'] || 0 },
-        { name: 'Tuesday',   value: json.heatmap.day['2'] || 0 },
-        { name: 'Wednesday', value: json.heatmap.day['3'] || 0 },
-        { name: 'Thursday',  value: json.heatmap.day['4'] || 0 },
-        { name: 'Friday',    value: json.heatmap.day['5'] || 0 },
-        { name: 'Saturday',  value: json.heatmap.day['6'] || 0 }
-      ];
-      let heatmapHour = [];
-      let highest = 0;
-      let lowest = 1000000;
-      for (let i=0; i<24; i++) {
-        if (typeof json.heatmap.hour[i] !== 'undefined') {
-          json.heatmap.hour[i] += 1; // non-zero
-          heatmapHour.push({
-            name: '' + i + ':00',
-            value: json.heatmap.hour[i]
-          });
-          if (json.heatmap.hour[i] > highest) {
-            highest = json.heatmap.hour[i];
-            this.highestIndex = i;
-          }
-          if (json.heatmap.hour[i]/i <= lowest) {
-            lowest = json.heatmap.hour[i]/i;
-            this.lowestIndex = i;
-          }
-        } else {
-          if (1/i <= lowest) {
-            lowest = 1/i;
-            this.lowestIndex = i;
-          }
-          heatmapHour.push({
-            name: '' + i + ':00',
-            value: 0
-          });
-        }
+    // hours inactive
+    if ('hours_inactive' in json && json.hours_inactive) {
+      let hours_inactive = json.hours_inactive;
+      let hours = hours_inactive % 24;
+      let days = Math.floor((hours_inactive % 24 * 7) / 24);
+      let weeks = Math.floor((hours_inactive % (24 * 30)) / (24 * 7));
+      let months = Math.floor(hours_inactive / (24 * 30));
+      let time_readable_parts = [];
+      if (months > 0) {
+        time_readable_parts.push(`${months} month${months > 1 ? 's' : ''}`);
       }
-      this.heatmapHour = heatmapHour;
-      this.highestHeatmapHour = highest;
-    } else {
-      this.heatmapDay = {};
-      this.heatmapHour = {};
-      this.highestHeatmapHour = 0;
-      this.highestIndex = 0;
-      this.tabsIndex = 0;
-      this.lowestIndex = null;
-    }
-    if (this.lowestIndex!=null && this.highestHeatmapHour>2) {
-      this.bShowHeatmapTab = true;
+      if (weeks > 0) {
+        time_readable_parts.push(`${weeks} week${weeks > 1 ? 's' : ''}`);
+      }
+      if (days > 0) {
+        time_readable_parts.push(`${days} day${days > 1 ? 's' : ''}`);
+      }
+      time_readable_parts.push(`${hours} hour${hours == 1 ? '' : 's'} ago`);
+      this.inactive_readable = time_readable_parts.join(', ');
     }
 
     // Load history
@@ -338,7 +306,7 @@ export class PlayerComponent implements OnInit {
     this.playerHistoryLastDay = this.getDateDiff(new Date(history[history.length-1].date), new Date());
     this.renderPlayerHistory();
   }
-  
+
   private getDateDiff(dt1, dt2) {
     return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate()) ) /(1000 * 60 * 60 * 24));
   }

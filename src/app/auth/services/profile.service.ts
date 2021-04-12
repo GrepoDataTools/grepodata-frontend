@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from "../../../environments/environment";
 import {JwtService} from "./jwt.service";
 import {Router} from "@angular/router";
+import {catchError, tap} from 'rxjs/operators';
 
 const apiUrl = environment.apiUrl;
 @Injectable()
@@ -12,27 +13,74 @@ export class ProfileService {
 							private authService: JwtService,
 							private router: Router) {}
 
-	getIndexes() {
-		// return this.http.get<any>(apiUrl + '/profile/indexes', {
-		// 	params: new HttpParams().set('access_token', this.authService.accessToken)
-		// }).pipe(catchError((err: HttpErrorResponse) => {
-		// 	if (err.status === 401) {
-		// 		console.log('Redirecting to login');
-		// 		this.authService.logout();
-		// 		this.router.navigate(['/login']);
-		// 	} else {
-		// 		console.error(err.error);
-		// 	}
-		// 	return new empty<Response>();
-		// }));
+	getIndexes(access_token, limit = 0, expand_overview = false, sort_by = '') {
+	  let url = apiUrl + '/profile/indexes';
+	  if (expand_overview === true) {
+      url = url + '?expand_overview=true';
+    }
+	  if (limit > 0) {
+      url = url + '&limit=' + limit;
+    }
+	  if (sort_by != '') {
+      url = url + '&sort_by=' + sort_by;
+    }
+		return this.http.get<any>(url, {
+      headers: new HttpHeaders({'access_token': access_token})
+		});
 	}
+
+	getLinkedAccounts(access_token) {
+		return this.http.get<any>(apiUrl + '/profile/linked', {
+      headers: new HttpHeaders({'access_token': access_token})
+		});
+	}
+
+  addLinkedAccounts(access_token, player_id, player_name, server) {
+    let data = new HttpParams()
+      .set('access_token', access_token)
+      .set('player_id', player_id)
+      .set('player_name', player_name)
+      .set('server', server);
+    return this.http.post<any>(apiUrl + '/profile/addlinked', data,
+      {headers: new HttpHeaders({'Content-Type':'application/x-www-form-urlencoded'})})
+	}
+
+  unlinkAccount(access_token, player_id, server) {
+    let data = new HttpParams()
+      .set('access_token', access_token)
+      .set('player_id', player_id)
+      .set('server', server);
+    return this.http.post<any>(apiUrl + '/profile/removelinked', data,
+      {headers: new HttpHeaders({'Content-Type':'application/x-www-form-urlencoded'})})
+	}
+
+  getUserIntel(access_token, from = 0, size = 20) {
+    return this.http.get<any>(apiUrl + '/indexer/v2/userintel', {
+      params: new HttpParams()
+        .set('access_token', access_token)
+        .set('from', String(from))
+        .set('size', String(size))
+    });
+  }
+}
+
+export interface LinkedAccount {
+	user_id: string;
+	player_id: string;
+  player_name: string;
+  server: string;
+	confirmed: boolean;
+	town_token: string;
 }
 
 export interface IndexList {
 	key: string;
+	name: string;
+	role: string;
 	world: string;
-	created_at: any;
-	updated_at: any;
+	world_stopped: boolean;
+	contribute: any;
+	stats: any;
 	overview: IndexOverview;
 }
 

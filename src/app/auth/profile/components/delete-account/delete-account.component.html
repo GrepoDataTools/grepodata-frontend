@@ -1,0 +1,55 @@
+<mat-card class="index-card">
+	<mat-card-title>
+		<mat-icon class="mat-icon-title-inline">delete_outline</mat-icon> Delete account
+	</mat-card-title>
+	<mat-card-content>
+
+		<app-alert type="error" [dismissible]="false" *ngIf="!success">
+			<h3>WARNING:</h3>
+			<p><strong>This will permanently remove your account on grepodata.com. All your personal information will be removed.</strong></p>
+			<ul>
+				<li>Any team created by you will still remain active, but you will no longer be the administrator of that team. We advise you to transfer team ownership to someone else before removing your account.</li>
+				<li>Any intel that you shared with others will still be visible to them, but it will be anonymized and any link to you will be removed</li>
+				<!--<li>All linked Grepolis accounts will be unlinked from your GrepoData account.</li>-->
+				<li>If you want to use our services again sometime, you will have to create a new account.</li>
+			</ul>
+			<p>After submitting the form below, you will receive an email to confirm the request.</p>
+		</app-alert>
+
+		<app-alert type="warning" [dismissible]="false" *ngIf="success">
+			<h3>Email confirmation required.</h3>
+			<p>You received an email with a confirmation link to complete your request <strong>(Check your spam folder!)</strong></p>
+			<p>Click on the link in the email you received to confirm the removal of your data.</p>
+		</app-alert>
+
+		<div class="alert alert-gd-1" style="margin: 0 0 15px 0;" *ngIf="!success">
+			<mat-checkbox [(ngModel)]="confirmed" >I have read the above warning and I agree with the removal of my data.</mat-checkbox>
+			<div *ngIf="confirmNeeded" class="invalid-feedback">
+				<div>Please confirm that you have read the warning message</div>
+			</div>
+			<br/>
+			<br/>
+			<form [formGroup]="passwordForm" (ngSubmit)="deleteAccount()">
+				<div class="form-group">
+					<label for="password">Enter your password</label>
+					<input autocomplete="off" type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+					<div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+						<div *ngIf="f.password.errors.required">Password verification is required</div>
+					</div>
+				</div>
+				<br/>
+				<app-alert type="error" [dismissible]="false" *ngIf="error">
+					{{error}}
+				</app-alert>
+				<button class="btn btn-danger" [disabled]="loading">Delete my account</button>
+
+				<div *ngIf="loading">
+					<br/>
+					<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+				</div>
+
+			</form>
+		</div>
+
+	</mat-card-content>
+</mat-card>

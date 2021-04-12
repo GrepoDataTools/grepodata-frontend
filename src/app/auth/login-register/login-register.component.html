@@ -1,0 +1,198 @@
+
+<div class="container">
+  <div class="row">
+
+    <div class="col-xs-12 index-input-container">
+      <div class="row flex-row login-row-container">
+        <div class="col-xs-12 col-sm-6 index-input index-input-left">
+          <div class="form-panel register">
+            <div class="form-header">
+              <h1 style="margin-top: 3px;"><mat-icon style="vertical-align: text-top; padding-top: 2px;">perm_identity</mat-icon>Register</h1>
+              <h5>Start collecting and sharing enemy intelligence</h5>
+            </div>
+            <div class="form-content">
+              <form autocomplete="off" [formGroup]="registerForm" (ngSubmit)="doRegister()">
+                <div class="form-group" [ngClass]="{ 'is-invalid-input': register_submitted && rf.newusername.errors }">
+                  <mat-icon *ngIf="register_submitted && rf.newusername.errors" class="error-icon inside">error_outline</mat-icon>
+                  <label for="newusername">Username&nbsp;(PUBLIC)&nbsp;
+                    <i class="fa fa-question-circle-o info-tooltip" matTooltip="Your username is public and can be seen by other GrepoData users."></i>
+                  </label>
+                  <input autocomplete="new-username" type="text" id="newusername" name="newusername"
+                         required="required" formControlName="newusername"/>
+                  <div *ngIf="register_submitted && rf.newusername.errors" class="invalid-form-text">
+                    <div *ngIf="rf.newusername.errors.required">Username is required</div>
+                    <div *ngIf="rf.newusername.errors.custom">{{rf.newusername.errors.custom}}</div>
+                  </div>
+                </div>
+                <div class="form-group" [ngClass]="{ 'is-invalid-input': register_submitted && rf.mail.errors }">
+                  <mat-icon *ngIf="register_submitted && rf.mail.errors" class="error-icon inside">error_outline</mat-icon>
+                  <label for="mail">Email Adress&nbsp;(PRIVATE)&nbsp;
+                    <i class="fa fa-question-circle-o info-tooltip" matTooltip="Your email address will remain private. We will only use your email address to authenticate you."></i>
+                  </label>
+                  <input autocomplete="off" type="text" id="mail" name="mail"
+                         required="required" formControlName="mail"/>
+                  <div *ngIf="register_submitted && rf.mail.errors" class="invalid-form-text">
+                    <div *ngIf="rf.mail.errors.required">Email address is required</div>
+                    <div *ngIf="rf.mail.errors.custom">{{rf.mail.errors.custom}}</div>
+                  </div>
+                </div>
+                <div class="form-group" [ngClass]="{ 'is-invalid-input': register_submitted && rf.newpassword.errors }">
+                  <mat-icon *ngIf="register_submitted && rf.newpassword.errors" class="error-icon inside">error_outline</mat-icon>
+                  <label for="newpassword">Password</label>
+                  <input autocomplete="new-password" type="password" id="newpassword" name="newpassword"
+                         required="required" formControlName="newpassword"/>
+                  <div *ngIf="register_submitted && rf.newpassword.errors" class="invalid-form-text">
+                    <div *ngIf="rf.newpassword.errors.required">Password is required</div>
+                    <div *ngIf="rf.newpassword.errors.custom">{{rf.newpassword.errors.custom}}</div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <mat-checkbox formControlName="privacy" style="font-size: 16px;">
+                    By submitting this form you agree to our <a routerLink="/privacy" target="_blank">Privacy Policy</a>
+                  </mat-checkbox>
+                  <div *ngIf="register_submitted && rf.privacy.errors" class="invalid-form-text">
+                    <mat-icon class="error-icon">error_outline</mat-icon>Accept our privacy policy to continue
+                  </div>
+                </div>
+                <p class="invalid-feedback" *ngIf="register_error!=''" style="color: #a94442 !important;">{{register_error}}</p>
+                <div class="form-group" style="padding-top: 30px;">
+                  <button class="login-submit" type="submit" [disabled]="register_loading">Register</button>
+                  <mat-progress-bar *ngIf="register_loading" class="btn-progress-bar" mode="indeterminate"></mat-progress-bar>
+                </div>
+              </form>
+
+
+            </div>
+          </div>
+
+        </div>
+        <div class="col-xs-12 col-sm-6 index-input index-input-right" *ngIf="!forgotPassswordForm">
+
+          <div class="form-panel login">
+
+            <div class="gd-login-logo">
+              <span style="color: rgb(103, 103, 103)">GREPO</span>
+              <span style="color: rgb(24, 188, 156)">DATA</span>
+            </div>
+
+            <div class="form-header">
+              <h1>Login</h1>
+              <h5>Sign in using an existing GrepoData account</h5>
+            </div>
+            <div class="form-content">
+              <form [formGroup]="loginForm" (ngSubmit)="doLogin()">
+                <div class="form-group" [ngClass]="{ 'is-invalid-input': login_submitted && lf.username.errors }">
+                  <mat-icon *ngIf="login_submitted && lf.username.errors" class="error-icon inside">error_outline</mat-icon>
+                  <label for="username">Username or Email Address</label>
+                  <input type="text" id="username" name="username" required="required"
+                         formControlName="username"/>
+                  <div *ngIf="login_submitted && lf.username.errors" class="invalid-form-text">
+                    <div *ngIf="lf.username.errors.required">Username or email address is required</div>
+                    <div *ngIf="lf.username.errors.custom">{{lf.username.errors.custom}}</div>
+                  </div>
+                </div>
+                <div class="form-group" [ngClass]="{ 'is-invalid-input': login_submitted && lf.password.errors }">
+                  <mat-icon *ngIf="login_submitted && lf.password.errors" class="error-icon inside">error_outline</mat-icon>
+                  <label for="password">Password</label>
+                  <input type="password" id="password" name="password" required="required"
+                         formControlName="password"/>
+                  <div *ngIf="login_submitted && lf.password.errors" class="invalid-form-text">
+                    <div *ngIf="lf.password.errors.required">Password is required</div>
+                    <div *ngIf="lf.password.errors.custom">{{lf.password.errors.custom}}</div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <a class="form-recovery" (click)="togglePasswordForm()">Forgot Your Password? <mat-icon class="mat-icon-title-inline" style="vertical-align: sub;">mail_outline</mat-icon></a>
+                </div>
+                <div *ngIf="lf.password.errors || lf.username.errors" style="margin-top: 10px;">
+                  <br/>
+                  <br/>
+                  <br/>
+                </div>
+                <p class="invalid-feedback" *ngIf="login_error!=''" style="color: #a94442 !important;">{{login_error}}</p>
+                <div class="form-group">
+                  <button class="login-submit" type="submit" [disabled]="login_loading">Log In</button>
+                  <mat-progress-bar *ngIf="login_loading" class="btn-progress-bar" mode="indeterminate"></mat-progress-bar>
+                </div>
+              </form>
+
+
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-xs-12 col-sm-6 index-input index-input-right" *ngIf="forgotPassswordForm">
+
+          <div class="form-panel login">
+
+            <div style="text-align: center; font-weight: 800; font-size: 50px">
+              <span style="color: rgb(103, 103, 103)">GREPO</span>
+              <span style="color: rgb(24, 188, 156)">DATA</span>
+            </div>
+
+            <div class="form-header">
+              <h1>Reset your password</h1>
+              <h5 *ngIf="!reset_success">Enter your email address to reset your password</h5>
+            </div>
+            <div class="form-content">
+              <form [formGroup]="resetForm" (ngSubmit)="doForgot()" *ngIf="!reset_success">
+                <br/>
+                <br/>
+                <div class="form-group" [ngClass]="{ 'is-invalid-input': reset_submitted && resetf.resetmail.errors }">
+                  <mat-icon *ngIf="reset_submitted && resetf.resetmail.errors" class="error-icon inside">error_outline</mat-icon>
+                  <label for="resetmail">Email Address</label>
+                  <input autocomplete="email" type="text" id="resetmail" name="resetmail" required="required"
+                         formControlName="resetmail"/>
+                  <div *ngIf="reset_submitted && resetf.resetmail.errors" class="invalid-form-text">
+                    <div *ngIf="resetf.resetmail.errors.required">Email address is required</div>
+                    <div *ngIf="resetf.resetmail.errors.custom">{{resetf.resetmail.errors.custom}}</div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <a class="form-recovery" (click)="togglePasswordForm()">
+                    Back to login <mat-icon class="mat-icon-title-inline" style="vertical-align: sub;">login</mat-icon>
+                  </a>
+                </div>
+                <p class="invalid-feedback" *ngIf="reset_error!=''" style="color: #a94442 !important;"><br/><br/>{{reset_error}}</p>
+                <div class="form-group">
+                  <button class="login-submit" type="submit" [disabled]="reset_loading">Request new password</button>
+                  <mat-progress-bar *ngIf="reset_loading" class="btn-progress-bar" mode="indeterminate"></mat-progress-bar>
+                </div>
+              </form>
+
+              <div *ngIf="reset_success">
+
+                <app-alert type="success" title="Password reset link sent" [dismissible]="false">
+                  <h5 class="gd-secondary">You received an email from admin@grepodata.com<br/>(check your spam folder!)</h5>
+                  <h4><strong>Click on the link in the email to continue</strong></h4>
+                </app-alert>
+
+
+                <div style="margin-top: 70px;">
+                  <div class="form-group" style="float: right;">
+                    <a class="form-recovery" (click)="togglePasswordForm()" style="position: inherit !important;">
+                      Back to login <mat-icon class="mat-icon-title-inline" style="vertical-align: sub;">login</mat-icon>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<re-captcha
+  size="invisible"
+  #captchaRef="reCaptcha"
+  siteKey="{{recaptcha_key}}"
+  (resolved)="$event && resolved_captcha($event)">
+</re-captcha>

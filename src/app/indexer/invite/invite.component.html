@@ -1,0 +1,125 @@
+
+<div *ngIf="verification_loading || verifying_script || verifying_invite" class="text-center">
+  <div class="align-middle" style="position: relative; top: 250px; left: 25%; width: 50%;">
+    <h3 class="gd-primary"><strong>Loading...</strong></h3>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+</div>
+
+<div *ngIf="!verification_loading" class="invite-component">
+
+  <div class="container" *ngIf="!error && !logged_in">
+    <div class="row" style="padding: 4% 0 2%;">
+
+
+      <div class="alert alert-warning alert-gd-2 text-center">
+
+        <div class="row">
+          <div class="col-xs-2">
+            <mat-icon style="color: #18bc9c; font-size: 70px;" *ngIf="expired">timer_off</mat-icon>
+            <mat-icon style="color: #18bc9c; font-size: 70px;" *ngIf="!expired && invalid_link">block</mat-icon>
+            <mat-icon style="color: #18bc9c; font-size: 70px;" *ngIf="!expired && !invalid_link">verified_user</mat-icon>
+            <!--report-->
+            <!--lock_open-->
+          </div>
+          <div class="col-xs-10" *ngIf="v2_scriptlink">
+            <h2><strong>Almost there!</strong></h2>
+            <h4><span class="gd-primary">Sign in</span> or <span class="gd-primary">register</span> to activate your userscript.</h4>
+            <h5>You can view and share the collected intel using your GrepoData account.</h5>
+          </div>
+          <div class="col-xs-10" *ngIf="!v2_scriptlink && expired">
+            <h2><strong>Sorry,</strong> this invite link has expired</h2>
+            <h4>Please ask the owner of the team for a new invite link</h4>
+          </div>
+          <div class="col-xs-10" *ngIf="!v2_scriptlink && !expired && invalid_link">
+            <h2><strong>Oops, this is not a valid invite link</strong></h2>
+            <h4>grepodata.com/invite/{{invite_link}} is not a valid invite link.<br/>Please ask the owner of the team for a new invite link</h4>
+          </div>
+          <div class="col-xs-10" *ngIf="!v2_scriptlink && !expired && !invalid_link && v1_redirect">
+            <h2><strong>You have to be logged in to view this index</strong></h2>
+            <h5>As of April 2021, you need to be signed in to collect and share enemy intelligence.</h5>
+            <h5><strong>Note: if you created this index, please register using the same email address that you used to create the index.</strong></h5>
+            <a class="a-link-dialog" *ngIf="!read_more" (click)="read_more=true">read more</a>
+            <a class="a-link-dialog" *ngIf="read_more" (click)="read_more=false">read less</a>
+          </div>
+          <div class="col-xs-10" *ngIf="!v2_scriptlink && !expired && !invalid_link && !v1_redirect">
+            <h2><strong>You have to be logged in to accept this invitation</strong></h2>
+            <h4>Sign in with an existing account or register for a new account to join this team</h4>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="!v2_scriptlink && !expired && !invalid_link && v1_redirect && read_more">
+          <div class="col-xs-12 text-center">
+            <br/>
+            <div class="alert alert-gd-1">
+              <h2 class="gd-primary">Why do I need a GrepoData account?</h2>
+              <div class="faq-content" style="font-size: 16px; font-weight: 400;">
+                <strong>We made this change in order to get official approval for our city indexer tool.</strong>
+                <br/>
+                <br/>
+                A GrepoData account is required to guarantee the security of the intel you collect and the people you share it with.
+                This way, the admin of an team (formerly known as an 'index') can manage exactly who has access to the intel and can revoke their access whenever needed.
+                Simply having a URL to the index will no longer grant you access to the intel in that index.
+                <br/>
+                <br/>
+                Privacy is very important to us. Your username is visible to all GrepoData users but your email address will always remain private and will only be used to authenticate you when you wish to reset your password.
+                At any time, you are able to completely delete your account from our database. Read more in our <a routerLink="/privacy">Privacy Policy</a>.
+              </div>
+            </div>
+            <div class="alert alert-gd-1">
+              <h2 class="gd-primary">Is my old intel/index still available?</h2>
+              <div class="faq-content" style="font-size: 16px; font-weight: 400;">
+                Once you create a GrepoData account and import one of your old indexes, you will be able to view the intel you have collected so far.
+                <br/>
+                <br/>
+                If you are the person that created the old index, please <strong>make sure that your new GrepoData account has the same email address that you used to create the old index</strong>. If you verify your email address, you will automatically become the owner of that index. You can then remove or add users as you wish.
+                <br/>
+                <br/>
+                <strong>Before April 2021, a team used to be known as an 'index'.</strong> Teams are the replacement of the old index system, but their functionality is still very similar.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div *ngIf="!invalid_link && !error && !logged_in">
+    <app-login-register [useCallback]="true" (onEmbeddedCallback)="loginCallback($event[0])"></app-login-register>
+  </div>
+
+  <div class="container" *ngIf="error">
+    <div class="row" style="padding: 4% 0 2%;">
+      <div class="alert alert-warning alert-gd-2 text-center">
+        <div class="row">
+          <div class="col-xs-2">
+            <mat-icon style="color: #18bc9c; font-size: 70px;">error_outline</mat-icon>
+          </div>
+          <div class="col-xs-10">
+            <div [outerHTML]="error"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="invalid_link || error">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 text-center" style="padding-top: 50px;">
+          <button routerLink="/indexer" class="btn btn-lg btn-success mr-1" *ngIf="!logged_in">
+            <mat-icon>keyboard_arrow_left</mat-icon> Back to indexer overview
+          </button>
+          <button routerLink="/profile" class="btn btn-lg btn-success mr-1" *ngIf="logged_in">
+            <mat-icon>keyboard_arrow_left</mat-icon> Back to my intel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+

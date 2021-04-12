@@ -5,12 +5,14 @@
 
   <div mat-dialog-content *ngIf="submitted==false" style=" min-width: 40%;">
 
-	  <div class="alert alert-gd-1 text-center" style="margin: 0 5% 5% 5%;">
+	  <div class="alert alert-gd-1 text-center" style="margin: 25px 0 0 0;">
 	    <div fxLayout="column" fxLayoutAlign="center center" style="width: 100% !important;">
-	      <mat-form-field  style="width: 100% !important; max-width: 500px !important;">
-	        <textarea [disabled]="loading" style="font-size: 20px;" [ngModel]="contact_message" (ngModelChange)="contact_message=$event" required matInput placeholder="Message" rows="4"></textarea>
+	      <mat-form-field  style="width: 100% !important; max-width: 500px !important;" appearance="outline">
+		      <mat-label>Your message</mat-label>
+	        <textarea [disabled]="loading" style="font-size: 20px;" [ngModel]="contact_message" (ngModelChange)="contact_message=$event" required matInput placeholder="Your message" rows="4"></textarea>
 	      </mat-form-field>
-	      <mat-form-field style="width: 100% !important; max-width: 500px !important;">
+	      <mat-form-field style="width: 100% !important; max-width: 500px !important;" appearance="outline">
+		      <mat-label>Email (optional)</mat-label>
 	        <input autocomplete="email" [disabled]="loading" [ngModel]="contact_mail" (ngModelChange)="contact_mail=$event" matInput placeholder="Email (optional)">
 	      </mat-form-field>
 
@@ -19,7 +21,7 @@
 				    <mat-checkbox [disabled]="loading" [(ngModel)]="privacy_agreed"></mat-checkbox>
 			    </div>
 			    <div class="col-xs-11" style="text-align: left;">
-				    <p>By submitting this form you agree with our <a routerLink="/privacy" (click)="dialogRef.close()">Privacy Policy</a></p>
+				    <p>By submitting this form you agree to our <a routerLink="/privacy" (click)="dialogRef.close()">Privacy Policy</a></p>
 			    </div>
 		    </div>
 	      <br/>
@@ -52,7 +54,6 @@
     <div fxLayoutAlign="center center">
       <re-captcha
               size="invisible"
-              badge="inline"
               #captchaRef="reCaptcha"
               siteKey="{{recaptcha_key}}"
               (resolved)="$event && resolved($event)">

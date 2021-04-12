@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ForgotKeysDialog} from "../indexer/indexer.component";
-import { MatDialog } from "@angular/material/dialog";
+import {JwtService} from '../auth/services/jwt.service';
 
 @Component({
   selector: 'app-faq',
@@ -9,21 +8,17 @@ import { MatDialog } from "@angular/material/dialog";
 })
 export class FaqComponent implements OnInit {
 
+  logged_in : boolean = false;
+
   constructor(
-		public dialog: MatDialog
-	) { }
+    private authService: JwtService
+	) {
+    if (authService.refreshToken) {
+      this.logged_in = true;
+    }
+  }
 
   ngOnInit() {
   }
-
-	public showForgotDialog(): void {
-		let dialogRef = this.dialog.open(ForgotKeysDialog, {
-			// width: '600px',
-			// height: '90%'
-			autoFocus: false
-		});
-
-		dialogRef.afterClosed().subscribe(result => {});
-	}
 
 }

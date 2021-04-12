@@ -1,0 +1,100 @@
+<div style="font-size: 18px; max-height: 75vh; max-width: 600px; min-width: 40vw; min-height: 25vh;">
+	<!--height: calc(100% - 20px);-->
+	<a (click)="dialogRef.close()" class="close"></a>
+	<h1 class="mat-primary" style="text-align: center; color: #18BC9C; margin-top: 0px;" mat-dialog-title>
+		Mail List Generator <div class="bg-flag flag-inline-middle flag-{{world.substr(0, 2)}}"></div>&nbsp;<span class="gd-secondary">{{world}}</span>
+	</h1>
+
+	<div class="container-fluid" style="padding: 0px;">
+		<div class="row">
+			<div class="col-xs-10 col-xs-offset-1">
+				<div style="margin-bottom: 15px;">
+					<div style="position: relative;width: 100%;background: #18BC9C;color: #fff;z-index: 11;min-width: 60px;height: 50px;float: right;overflow: hidden;-webkit-transition: width 0.3s;-moz-transition: width 0.3s;transition: width 0.3s;-webkit-backface-visibility: hidden;margin: 2px 0;">
+						<form>
+							<input #searchInputList autocomplete="off" class="sb-search-input" placeholder="Search alliance name to add .." type="search" value="" name="search" id="search-alliances" (keyup)="searchAlliances($event)" style="position: absolute;top: 0;right: 0;border: none;outline: none;background: #f3f3f3;width: 100%;height: 49px;margin: 0;z-index: 10;padding: 15px 55px 15px 15px;font-family: inherit;font-size: 20px;color: #2c3e50;">
+							<input class="sb-search-submit" type="button" value="" style="width: 50px;height: 50px;display: block;position: absolute;right: 0;top: 0;padding: 0;margin: 0;line-height: 50px;text-align: center;cursor: pointer;opacity: 0;color: transparent;border: none;outline: none;z-index: -1;background: #fff;-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';filter: alpha(opacity=0);">
+							<span class="sb-icon-search" (click)="doSearchAlliances()" style="width: 50px;height: 50px;display: block;position: absolute;right: 0;top: 0;padding: 0;margin: 0;line-height: 50px;text-align: center;cursor: pointer;color: #fff;background: #18BC9C;z-index: 90;font-size: 22px;font-family: 'Montserrat';speak: none;font-style: normal;font-weight: normal;font-variant: normal;text-transform: none;-webkit-font-smoothing: antialiased;">
+                            <i class="fa fa-group"></i>
+                        </span>
+						</form>
+					</div>
+
+					<!--Alliance results-->
+					<mat-progress-bar *ngIf="searching" mode="indeterminate"></mat-progress-bar>
+					<div *ngIf="searched">
+						<hr>
+						<br/>
+						<br/>
+						<div *ngIf="alliances?.length < 1 && !searching" class="text-center">
+							<h3>No alliances found for your search <span class="gd-primary">'{{allianceInput}}'</span></h3>
+						</div>
+						<div *ngIf="!searching" class="table" id="search_output_alliances" style="">
+							<div class="row_custom header default">
+								<div class="cell custom-cell">Alliance name</div>
+								<div class="cell hidden-sm">Rank</div>
+								<div class="cell">Members</div>
+								<div class="cell" style="min-width: 100px;">Action</div>
+							</div>
+
+							<div *ngFor="let alliance of alliances" class="row_custom">
+								<div class="cell custom-cell">
+									<a routerLink="/alliance" [queryParams]="{world: alliance?.world, id: alliance?.id}">{{alliance?.name}}</a>
+								</div>
+								<div class="cell hidden-sm">
+									{{alliance?.rank}}
+								</div>
+								<div class="cell">
+									{{alliance?.members}}
+								</div>
+								<!--<div class="cell">-->
+								<!--{{alliance?.points | NumberFilter}}-->
+								<!--</div>-->
+								<!--<div class="cell hidden-sm">-->
+								<!--{{alliance?.towns}}-->
+								<!--</div>-->
+								<div class="cell">
+									<!--<button mat-button matStepperNext>Add alliance</button>-->
+									<button class="btn btn-success" style="overflow: hidden; text-overflow: ellipsis; margin: 5px 0;" (click)="selectAlliance(alliance?.id, alliance?.name, stepper)">
+										<i class="fa fa-plus"></i> Add
+									</button>
+								</div>
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12" style="padding-top: 15px;">
+				<h4 class="gd-secondary text-center">
+					<span class="gd-primary" style="margin-right: 15px;">Alliances:&nbsp;</span>
+					<span *ngFor="let alliance of selected_alliances" style="margin-right: 30px;">
+							{{alliance.name}} <a class="a-link-dialog  diff-neg" (click)="removeAllianceById(alliance.id)"><i class="fa fa-trash"></i></a>
+					</span>
+				</h4>
+
+			</div>
+			<div class="col-xs-12" style="padding-top: 5px;">
+				<pre id="bb_code"
+				     style="max-height: 120px !important; min-width: unset !important;
+				      border-radius: 7px 7px 0 0;
+				      border-bottom: unset !important;
+				      margin: 0px;
+				      border: 1px solid #009688;
+					white-space: pre-wrap;
+					white-space: -moz-pre-wrap;
+					white-space: -pre-wrap;
+					white-space: -o-pre-wrap;
+					word-wrap: break-word;">{{maillist}}</pre>
+				<button *ngIf="!copied" class="btn btn-success" style="width: 100%; border-radius: 0 0 7px 7px; margin-top: 0;" (click)="copyList()">
+					<i class="fa fa-clipboard" aria-hidden="true"></i>&nbsp;copy to clipboard
+				</button>
+				<button *ngIf="copied" class="btn btn-success" style="width: 100%; border-radius: 0 0 7px 7px; margin-top: 0;" (click)="copyList()">
+					<i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;Copied to clipboard!
+				</button>
+			</div>
+		</div>
+	</div>
+
+
+</div>

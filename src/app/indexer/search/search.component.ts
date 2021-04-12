@@ -3,18 +3,20 @@
 import {AfterViewInit, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import { SearchService } from '../../search/search.service';
 import { Router} from "@angular/router";
-import {BBDialog} from "../indexer.component";
+import {BBDialog} from '../utils';
 import { MatDialog } from "@angular/material/dialog";
+import {JwtService} from '../../auth/services/jwt.service';
+import {WorldService} from '../../services/world.service';
 
 @Component({
   selector: 'app-index-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
-  providers: [SearchService]
+  providers: [SearchService, WorldService]
 })
 export class IndexSearchComponent implements AfterViewInit {
 
-  @Input() indexKey: string;
+  @Input() preferredWorld: string;
 
   players;
   alliances;
@@ -23,23 +25,21 @@ export class IndexSearchComponent implements AfterViewInit {
   playerInput = '';
   allianceInput = '';
   townInput = '';
-  islandInput = '';
   searching_players = false;
   searching_alliances = false;
   searching_towns = false;
-  searching_islands = false;
-  invalid_island = false;
   hide_results = false;
   loading = false;
   world = '';
 
   // Debounce
   typingTimer;
-  debounceTime = 300;
+  debounceTime = 600;
 
   constructor(
     private cdr: ChangeDetectorRef,
     private searchService: SearchService,
+    private authService: JwtService,
     private router: Router,
     public dialog: MatDialog) {}
 
@@ -50,7 +50,6 @@ export class IndexSearchComponent implements AfterViewInit {
   searching_false() {
     this.searching_players = false;
     this.searching_alliances = false;
-    this.searching_islands = false;
     this.searching_towns = false;
   }
 
@@ -74,16 +73,18 @@ export class IndexSearchComponent implements AfterViewInit {
     if (this.playerInput.length > 1) {
       this.searching_players = true;
       this.searching_alliances = false;
-      this.searching_islands = false;
       this.searching_towns = false;
       this.hide_results = false;
       this.loading = true;
+      this.cdr.detectChanges();
 
-      this.searchService.searchPlayersIndexed(this.playerInput, this.indexKey)
-        .subscribe(
-          (response) => this.renderPlayerOutput(response),
-          (error) => this.renderPlayerOutput(null)
-        );
+      this.authService.accessToken().then(access_token => {
+        this.searchService.searchPlayersIndexed(access_token, this.playerInput, this.world)
+          .subscribe(
+            (response) => this.renderPlayerOutput(response),
+            (error) => this.renderPlayerOutput(null)
+          );
+      });
     } else {
       this.searching_players = false;
     }
@@ -109,53 +110,18 @@ export class IndexSearchComponent implements AfterViewInit {
     if (this.townInput.length > 1) {
       this.searching_players = false;
       this.searching_alliances = false;
-      this.searching_islands = false;
       this.searching_towns = true;
       this.hide_results = false;
       this.loading = true;
+      this.cdr.detectChanges();
 
-      this.searchService.searchTownsIndexed(this.townInput, this.indexKey)
-        .subscribe(
-          (response) => this.renderTownOutput(response),
-          (error) => this.renderTownOutput(null)
-        );
-    } else {
-      this.searching_towns = false;
-    }
-  }
-
-  searchIslands($event) {
-    if (typeof $event != 'undefined') {
-      this.islandInput = $event.target.value;
-      this.islandInput = this.islandInput.replace(/\D/g,'');
-      this.searching_false()
-    }
-
-    clearTimeout(this.typingTimer);
-    let that = this;
-    this.typingTimer = setTimeout(function () {
-      that.doSearchIslands();
-    }, this.debounceTime);
-  }
-
-  doSearchIslands() {
-    this.num_results = 0;
-    this.towns = [];
-    clearTimeout(this.typingTimer);
-    if (this.islandInput.length > 1) {
-      this.searching_players = false;
-      this.searching_alliances = false;
-      this.searching_towns = false;
-      this.searching_islands = true;
-      this.invalid_island = false;
-      this.hide_results = false;
-      this.loading = true;
-
-      this.searchService.searchIslandsIndexed(this.islandInput, this.indexKey)
-        .subscribe(
-          (response) => this.renderIslandOutput(response),
-          (error) => this.renderIslandOutput(null)
-        );
+      this.authService.accessToken().then(access_token => {
+        this.searchService.searchTownsIndexed(access_token, this.townInput, this.world)
+          .subscribe(
+            (response) => this.renderTownOutput(response),
+            (error) => this.renderTownOutput(null)
+          );
+      });
     } else {
       this.searching_towns = false;
     }
@@ -181,11 +147,12 @@ export class IndexSearchComponent implements AfterViewInit {
     if (this.allianceInput.length > 1) {
       this.searching_alliances = true;
       this.searching_players = false;
-      this.searching_islands = false;
       this.searching_towns = false;
       this.hide_results = false;
       this.loading = true;
-      this.searchService.searchAlliances(this.allianceInput, 0, 30, this.indexKey)
+      this.cdr.detectChanges();
+
+      this.searchService.searchAlliances(this.allianceInput, 0, 30, this.world)
         .subscribe(
           (response) => this.renderAllianceOutput(response),
           (error) => this.renderAllianceOutput(null)
@@ -200,21 +167,6 @@ export class IndexSearchComponent implements AfterViewInit {
       this.world = towns.world;
       this.towns = towns.results;
       if (this.num_results != towns.count) this.num_results = towns.count;
-    }
-    this.loading = false;
-    this.cdr.detectChanges();
-  }
-
-  renderIslandOutput(towns) {
-    if (towns != null) {
-      if (towns.message && towns.message == "No island found") {
-        this.invalid_island = true;
-      } else {
-        this.invalid_island = false;
-        this.world = towns.world;
-        this.towns = towns.results;
-        if (this.num_results != towns.count) this.num_results = towns.count;
-      }
     }
     this.loading = false;
     this.cdr.detectChanges();
@@ -240,34 +192,4 @@ export class IndexSearchComponent implements AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  public openBBdialog(type) {
-    let dataBB = {
-      data: {},
-      key: this.indexKey,
-      world: this.world
-    };
-    if (type == 'island') {
-      let towns = this.towns;
-      dataBB.data = {
-        towns: towns,
-        island: this.islandInput
-      }
-    } else {
-      return false;
-    }
-
-    let dialogRef = this.dialog.open(BBDialog, {
-      // width: '90%',
-      // height: '80%',
-      autoFocus: false,
-      data: {
-        dataBB: dataBB,
-        type: type
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {});
-
-    this.cdr.detectChanges();
-  }
 }

@@ -1,0 +1,442 @@
+<div id="pagehead" style="height: 100%;">
+
+	<div *ngIf="loading" class="text-center">
+		<div class="align-middle" style="position: relative; top: 250px; left: 25%; width: 50%;">
+			<h3 class="gd-primary"><strong>Loading team...</strong></h3>
+			<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+		</div>
+	</div>
+
+  <div *ngIf="key != '' && !loading && error">
+    <div class="container" style="max-width: 100%;">
+      <div class="row" style="padding: 4% 0 2%;">
+        <div class="alert alert-warning alert-gd-2 alert-gd-error text-center">
+          <div class="row" style="display: flex;">
+            <div class="col-xs-2" style="display: flex;">
+              <mat-icon style="color: #18bc9c; font-size: 70px;">report</mat-icon>
+            </div>
+            <div class="col-xs-10">
+              <div [outerHTML]="error"></div>
+              <p>Team key: {{index_name}}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xs-12 text-center" style="padding-top: 50px;">
+          <button routerLink="/profile" class="btn btn-lg btn-success mr-1">
+            <mat-icon>keyboard_arrow_left</mat-icon> Back to my intel
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+	<div *ngIf="key != '' && !loading && !error">
+
+    <app-alert *ngIf="world_stopped" title="This game world is no longer active" type="error" [dismissible]="false">
+      Game world <strong>{{world}}</strong> is finished and all detailed data related to this world has been deleted from our database. This team overview is still available but the underlying intel has been removed.
+    </app-alert>
+
+		<div class="index-overview">
+
+			<div class="">
+
+				<div *ngIf="data.total_reports != 0">
+
+					<!--<app-index-version *ngIf="data.total_reports != 0 && !loading"-->
+					<!--[version]="data.latest_version" [message]="data.update_message" [key]="key"></app-index-version>-->
+
+					<div class="hidden-md hidden-lg">
+						<mat-card class="dense-card">
+							<mat-tab-group mat-stretch-tabs>
+								<mat-tab>
+									<ng-template mat-tab-label>
+										<img style="height: 20px; margin-top: 0;" src="../../assets/images/player_ico.png"/>&nbsp;Players
+									</ng-template>
+									<ng-container *ngTemplateOutlet="players"></ng-container>
+								</mat-tab>
+								<mat-tab>
+									<ng-template mat-tab-label>
+										<img style="height: 20px; margin-top: 0;" src="../../assets/images/ally_ico.png"/>&nbsp;Alliances
+									</ng-template>
+									<ng-container *ngTemplateOutlet="allys"></ng-container>
+								</mat-tab>
+								<mat-tab>
+									<ng-template mat-tab-label>
+										<mat-icon style="opacity: 1; vertical-align: bottom;">account_balance</mat-icon>&nbsp;
+										<span class="hidden-xs">Team info</span>
+										<span class="hidden-md hidden-sm hidden-lg">Info</span>
+									</ng-template>
+									<ng-container *ngTemplateOutlet="info"></ng-container>
+								</mat-tab>
+							</mat-tab-group>
+						</mat-card>
+					</div>
+
+					<div class="hidden-xs hidden-sm" fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="0" style="margin-bottom: -25px;">
+						<div fxFlex="33" fxLayout="column" fxLayoutGap="5px">
+							<ng-container *ngTemplateOutlet="info"></ng-container>
+							<br/>
+						</div>
+						<div fxFlex="34">
+							<ng-container *ngTemplateOutlet="players"></ng-container>
+						</div>
+						<div fxFlex="33">
+							<ng-container *ngTemplateOutlet="allys"></ng-container>
+						</div>
+					</div>
+
+					<div class="hidden-xs hidden-sm">
+						<mat-card class="dense-card conquests-card" style="padding: 17px 5px 12px !important;">
+							<app-index-search></app-index-search>
+						</mat-card>
+					</div>
+
+					<!--recent conquests-->
+<!--					<div *ngIf="!loadingInfo && recent_conquests && recent_conquests.length > 0" class="hidden-xs hidden-sm">-->
+<!--						<mat-card class="dense-card conquests-card">-->
+<!--							<mat-card-title>-->
+<!--								<div class="form-group row" style='margin: 0px;'>-->
+<!--									<h3 style='font-weight: 300; color: #304357; margin-top: 0px;'><span class='world-title' style='color: #18BC9C;'>Recent sieges</span>&nbsp;&nbsp;-->
+<!--										<a class="a-link-dialog" *ngIf="recent_conquests.length >= 2" (click)="loadSiegeListDialog()" style="color: #949494;">-->
+<!--											Show all sieges&nbsp;<mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon>-->
+<!--										</a>-->
+<!--									</h3>-->
+<!--								</div>-->
+<!--							</mat-card-title>-->
+<!--							<mat-card-content>-->
+<!--								<div class="conquests-list-vertical">-->
+<!--									<div class="conquest-item" *ngFor="let conquest of recent_conquests">-->
+<!--										<app-siege-->
+<!--											[embedded]="true"-->
+<!--											[isCard]="true"-->
+<!--											[hideKey]="false"-->
+<!--											[conquest]="conquest"-->
+<!--											[conquestId]="conquest?.conquest_id"-->
+<!--											[world]="world"-->
+<!--											[key] = "key">-->
+<!--										</app-siege>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--							</mat-card-content>-->
+<!--						</mat-card>-->
+<!--					</div>-->
+
+					<!--recent latest intel-->
+					<div *ngIf="latest_intel && latest_intel.length>0" class="hidden-xs hidden-sm">
+						<mat-card class="dense-card" style="margin-top: 5px;">
+							<mat-card-title>
+								<div class="form-group row" style='margin: 0px;'>
+									<h3 style='font-weight: 300; color: #304357; margin-top: 0px;'><span class='world-title' style='color: #18BC9C;'>Latest reports indexed</span></h3>
+								</div>
+							</mat-card-title>
+							<mat-card-content>
+								<div>
+									<div class="table intel-table" id="table_all">
+										<div class="row_custom header bg-gd-2" >
+											<div class="cell">
+												Type
+											</div>
+											<div class="cell">
+												Town
+											</div>
+											<div class="cell">
+												Player
+											</div>
+											<div class="cell">
+												Alliance
+											</div>
+											<div class="cell">
+												Date
+											</div>
+											<div class="cell" style="width: 50%;">
+												Units
+											</div>
+										</div>
+
+										<div class='row_custom' *ngFor="let town of latest_intel" style="height: 40px;">
+											<div class="cell unit-cell-small" matTooltip="{{town.type}}" style="transform: scale(.55); margin-top: -8px;">
+												<img src="../../assets/images/game/towninfo/attack.png" *ngIf="town.type === 'friendly_attack'">
+												<div *ngIf="town.type === 'enemy_attack'" style="-moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); filter: FlipH; -ms-filter: ;">
+													<img src="../../assets/images/game/towninfo/attack.png">
+												</div>
+												<img src="../../assets/images/game/towninfo/wisdom.png" *ngIf="town.type === 'wisdom'">
+												<img src="../../assets/images/game/towninfo/support.png" *ngIf="town.type === 'support'">
+												<img src="../../assets/images/game/towninfo/conquer.png" *ngIf="town.type === 'attack_on_conquest'">
+												<img src="../../assets/images/game/towninfo/espionage_2.67.png" *ngIf="town.type === 'spy'">
+											</div>
+											<div class="cell">
+												<a routerLink="/intel/town/{{world}}/{{town?.town_id}}">{{town?.town_name}}</a>
+											</div>
+											<div class="cell">
+												<a routerLink="/intel/player/{{world}}/{{town?.player_id}}">{{town?.player_name}}</a>
+											</div>
+											<div class="cell">
+												<a routerLink="/intel/alliance/{{world}}/{{town?.alliance_id}}">{{town?.alliance_name}}</a>
+											</div>
+											<div class="cell">
+												{{town.date | IndexDate}}
+											</div>
+											<div class="cell" style="width: 50%; display: flex;">
+                        <span style="transform: scale(.8); margin-right: 32px;" *ngFor="let unit of town.units | ValuesPipe; let i = index;"
+                              matTooltip="{{unit.name.replace('_',' ')}}">
+                          <div class="unit_icon40x40 {{unit.name}}"></div>
+	                        <div class="unit-val" style="margin-right: -40px; top: 0px; background: #9898986e; height: 40px; width: 40px;">
+	                          <div>{{unit.count}}</div>
+	                          <div style="color: #d00; margin-top: -6px;" *ngIf="unit.killed>0">-{{unit.killed}}</div>
+	                        </div>
+                        </span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</mat-card-content>
+						</mat-card>
+					</div>
+
+
+				</div>
+
+				<ng-template #info>
+					<mat-card class="dense-card index-card-info">
+						<div class="card-header bg-gd-4">
+							<h1 class="entity-name gd-white">City Indexer Team</h1>
+							<h3 class="gd-primary">
+								<mat-icon style="vertical-align: sub;">account_balance</mat-icon>&nbsp;{{index_name}}
+							</h3>
+							<div *ngIf="is_admin" class="a-link card-action gd-white" matTooltip="Index settings" (click)="showSettingsDialog()">
+								<mat-icon>settings</mat-icon>
+							</div>
+						</div>
+						<mat-card-content>
+							<div style="max-height: 240px; height: 240px; min-height: 240px; overflow-y: auto;">
+								<table class="table table-no-more">
+									<tbody>
+									<tr *ngIf="!is_admin">
+										<th>Name</th>
+										<td>{{index_name}}</td>
+									</tr>
+									<tr>
+										<th>World</th>
+										<td>
+											<a routerLink="/points" [queryParams]="{world: world}"><span [outerHTML]="world | WorldNamePipe"></span></a>
+										</td>
+									</tr>
+									<tr class="hidden-xs hidden-sm hidden-md" *ngIf="data.total_reports > 0">
+										<th>last addition</th>
+										<td>{{data.latest_report}}</td>
+									</tr>
+									<tr *ngIf="data.total_reports > 0">
+										<th>
+											Team owner<span *ngIf="data.owners && data.owners.length > 1">s</span>
+										</th>
+										<td>
+											<div style="float: right;" *ngIf="is_admin">
+												<a><mat-icon class="edit-owner" (click)="showSettingsDialog()">edit</mat-icon></a>
+											</div>
+											<div *ngFor="let owner of data.owners" matTooltip="Your intel is shared with allied alliances. You will see their intel, and they will see your intel. You can not see intel about each other's towns.">
+												<p class="gd-primary"><img src="../../assets/images/ally_ico.png" style="margin-top: -4px;"/> {{owner.alliance_name}}</p>
+											</div>
+										</td>
+									</tr>
+									<tr *ngIf="data.total_reports > 0 && !is_admin">
+                    <td colspan="2" class="text-center gd-primary">
+                      <strong *ngIf="role=='read'">You are not allowed to contribute to this team.</strong>
+                      <strong *ngIf="role=='write' && contribute===true">You are currently contributing to this team.</strong>
+                      <strong *ngIf="role=='write' && contribute===false">You have disabled contributions to this team. The intel you collect will not be added to this team.</strong>
+                    </td>
+									</tr>
+									<tr *ngIf="data.total_reports == 0">
+										<td colspan="2" class="text-center">
+											<app-alert type="warning" [dismissible]="false">
+												This team is still empty!
+											</app-alert>
+										</td>
+									</tr>
+									</tbody>
+								</table>
+
+								<div *ngIf="is_admin">
+									<div class="index-options-container">
+										<div class="col-xs-12 col-sm-6">
+                      <button style="width: 100%;" class="btn btn-secondary mr-1" (click)="showMembersDialog()">
+                        <span class="hidden-md">Manage users</span>
+                        <span class="hidden-xs hidden-sm hidden-lg">Users</span>
+                        &nbsp;<mat-icon>admin_panel_settings</mat-icon>
+                      </button>
+										</div>
+										<div class="col-xs-12 col-sm-6">
+											<button style="width: 100%;" class="btn btn-success mr-1" (click)="showShareDialog()">
+                        <span class="hidden-md">Share team</span>
+                        <span class="hidden-xs hidden-sm hidden-lg">Share</span>
+                        &nbsp;<mat-icon>group_add</mat-icon></button>
+										</div>
+									</div>
+								</div>
+
+							</div>
+
+						</mat-card-content>
+					</mat-card>
+				</ng-template>
+
+				<ng-template #players>
+					<mat-card class="dense-card index-card-info">
+						<mat-card-title>
+							<div class="form-group row" style='margin: 0px;'>
+								<h3 style='font-weight: 300; color: #304357; margin-top: 0 !important;'><span class='world-title' style='color: #18BC9C;'>Most indexed players</span>
+									<button name="open_bb" style="float: right;" class="btn btn-success btn-xs" (click)="openBBdialog('players_indexed')">
+										<i class="fa fa-code"></i> BB code
+									</button>
+								</h3>
+							</div>
+						</mat-card-title>
+						<mat-card-content>
+							<div class="table" id="table_players" style='margin: auto; margin-bottom: 0px;'>
+								<div class="row_custom header" >
+									<div class="cell" style="width: 39%;">
+										Player
+									</div>
+									<div class="cell" style="width: 22%;">
+										Intel count
+									</div>
+									<div class="cell" style="width: 30%;">
+										View
+									</div>
+								</div>
+							</div>
+							<div class="players-intel-table" style="max-height: 275px; overflow-y: auto;">
+								<div class="table" id="table_players_rows" style='margin: auto; margin-bottom: 0px;'>
+									<div class='row_custom' *ngFor="let player of data.players_indexed">
+										<div class="cell" style="width: 45%;">
+											<a routerLink="/intel/player/{{world}}/{{player?.player_id}}">{{player?.player_name}}</a>
+										</div>
+										<div class="cell" style="width: 25%;">
+											{{player.count}}
+										</div>
+										<div class="cell" style="width: 30%;">
+											<a routerLink="/intel/player/{{world}}/{{player?.player_id}}">intel</a>
+											<span class="hidden-xs">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+											<br class="hidden-sm hidden-md hidden-lg"/>
+											<a routerLink="/player" [queryParams]="{world: world, id: player?.player_id}">stats</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</mat-card-content>
+					</mat-card>
+				</ng-template>
+
+				<ng-template #allys>
+					<mat-card class="dense-card index-card-info">
+						<mat-card-title>
+							<div class="form-group row" style='margin: 0px;'>
+								<h3 style='font-weight: 300; color: #304357; margin-top: 0 !important;'><span class='world-title' style='color: #18BC9C;'>Most indexed alliances</span>
+									<button name="open_bb" style="float: right;" class="btn btn-success btn-xs" (click)="openBBdialog('alliances_indexed')">
+										<i class="fa fa-code"></i> BB code
+									</button>
+								</h3>
+							</div>
+						</mat-card-title>
+						<mat-card-content>
+							<div class="table" id="table_players" style='margin: auto; margin-bottom: 0px;'>
+								<div class="row_custom header" >
+									<div class="cell" style="width: 39%;">
+										Alliance
+									</div>
+									<div class="cell" style="width: 22%;">
+										Intel count
+									</div>
+									<div class="cell" style="width: 30%;">
+										View
+									</div>
+								</div>
+							</div>
+							<div class="players-intel-table" style="max-height: 275px; overflow-y: auto;">
+								<div class="table" id="table_alliances" style='margin: auto; margin-bottom: 0px;'>
+
+									<div class='row_custom' *ngFor="let alliance of data.alliances_indexed">
+										<div class="cell">
+											<a routerLink="/intel/alliance/{{world}}/{{alliance?.alliance_id}}">{{alliance?.alliance_name}}</a>
+										</div>
+										<div class="cell">
+											{{alliance.count}}
+										</div>
+										<div class="cell">
+											<a routerLink="/intel/alliance/{{world}}/{{alliance?.alliance_id}}">intel</a>
+											<span class="hidden-xs">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+											<br class="hidden-sm hidden-md hidden-lg"/>
+											<a routerLink="/alliance" [queryParams]="{world: world, id: alliance?.alliance_id}">stats</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</mat-card-content>
+					</mat-card>
+				</ng-template>
+
+				<div *ngIf="data.total_reports == 0">
+					<div id="help_by_contributing" style="display: none;"></div>
+
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-12 text-center">
+
+								<div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="0" style="margin-bottom: -25px;">
+									<div fxFlex="35" fxLayout="column" fxLayoutGap="5px">
+										<ng-container *ngTemplateOutlet="info"></ng-container>
+									</div>
+									<div fxFlex="65" fxLayout="column" fxLayoutGap="5px">
+										<mat-card class="dense-card index-card-info">
+											<mat-card-title class="text-left">
+												<h1 class="gd-primary">Welcome to your very own city indexer team!</h1>
+												<h4>This team allows you to share collected intelligence with other users.</h4>
+											</mat-card-title>
+											<mat-card-content class="text-left">
+												<app-alert *ngIf="is_admin && share_link && share_link!='Unauthorized'" class="" type="success" title="Invite your allies" [dismissible]="false">
+<!--													<ul style="font-size: 20px;">-->
+<!--														<li>Install the GrepoData userscript to collect intelligence.</li>-->
+<!--														<li>Invite others to join this team by sending them the link below.</li>-->
+<!--													</ul>-->
+                          <div class="row">
+                            <div class="col-xs-12 gd-share-link-container">
+                              <label style="font-weight: 600">Send this link to your allies to give them access to this team:</label>
+                              <br/>
+                              <div class="row invite-link-container" (click)="copyLink()">
+                                <input #shareLink
+                                       [ngClass]="{ 'copied': copied }"
+                                       [disabled]="true"
+                                       class="col-xs-9 col-sm-8 col-md-7 col-lg-7 ur share-link-actual"
+                                       type="url"
+                                       value="https://grepodata.com/invite/{{key}}{{share_link}}"
+                                       id="siegeShareUrl"
+                                       aria-describedby="inputGroup-sizing-default"
+                                       style="height: 40px; font-size: 20px !important; color: #009688; font-weight: 900;">
+                                <button class="cpy" (click)="copyLink()"><i class="fa fa-clone"></i> Copy</button><span class="message" *ngIf="copied"> Link copied!</span>
+                              </div>
+                            </div>
+                          </div>
+												</app-alert>
+											</mat-card-content>
+										</mat-card>
+									</div>
+								</div>
+
+								<div class="hidden-xs hidden-sm text-left" style="margin-top: 34px;">
+									<app-userscript></app-userscript>
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+				<br/>
+
+			</div>
+		</div>
+	</div>
+
+</div>

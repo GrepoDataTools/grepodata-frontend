@@ -3,17 +3,35 @@ mat-card {
   box-shadow: none !important;
 }
 
+.search-icon {
+  font-size: 34px;
+  position: absolute;
+  left: 8px;
+  top: 9px;
+}
+#sb-search-players {
+  .search-icon {
+    left: 10px !important;
+  }
+}
+
 .top-container {
   margin-bottom: 5px;
 }
 
+.searching-loading {
+  z-index: 10;
+  bottom: 0px;
+  position: absolute;
+}
+
 @media (min-width:1200px) {
-  .top-container {
-    position: -webkit-sticky; /* Safari */
-    position: sticky;
-    top: 67px;
-    z-index: 999;
-  }
+  //.top-container {
+  //  position: -webkit-sticky; /* Safari */
+  //  position: sticky;
+  //  top: 67px;
+  //  z-index: 999;
+  //}
 }
 
 .table {
@@ -142,5 +160,8 @@ mat-paginator {
     font-size: 16px !important;
     height: 35px !important;
     line-height: 35px !important;
+  }
+  .search-icon {
+    top: 0 !important;
   }
 }

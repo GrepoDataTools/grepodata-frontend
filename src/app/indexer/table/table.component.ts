@@ -1,10 +1,10 @@
 import {AfterViewInit, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
-import {BBDialog} from "../indexer.component";
 import {MatDialog} from "@angular/material/dialog";
 import {LocalCacheService} from "../../services/local-cache.service";
 import {IndexerService} from "../indexer.service";
 import {Router} from "@angular/router";
 import {Globals} from '../../globals';
+import {BBDialog} from '../utils';
 
 @Component({
   selector: 'intel-table',
@@ -32,8 +32,6 @@ export class TableComponent implements OnInit, AfterViewInit {
   loading = true;
   showNonPriority = false;
   hideAvailable = false;
-
-  private csa = false;
 
   constructor(
     private globals: Globals,
@@ -97,28 +95,6 @@ export class TableComponent implements OnInit, AfterViewInit {
       this.showNonPriority = this.globals.get_show_duplicates();
     }
 
-    // Check cleanup token
-    this.csa = LocalCacheService.get('csa'+this.key);
-  }
-
-  deleteIntel(id) {
-    if (this.csa != false) {
-      LocalCacheService.set('csa'+this.key, this.csa, (31 * 24 * 60));
-      this.indexerService.deleteRecordById(this.csa, this.key, id).subscribe(_=>{});
-    }
-  }
-
-  deleteIntelUndo(id) {
-    if (this.csa != false) {
-      LocalCacheService.set('csa'+this.key, this.csa, (31 * 24 * 60));
-      this.indexerService.deleteRecordUndo(this.csa, this.key, id).subscribe(_=>{});
-    }
-  }
-
-  cleanupLogout() {
-    LocalCacheService.set('csa'+this.key, false, 0);
-    this.csa = false;
-    this.router.navigate(['/indexer/'+this.key]);
   }
 
   ngAfterViewInit() {

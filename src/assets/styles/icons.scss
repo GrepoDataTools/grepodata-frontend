@@ -4,6 +4,12 @@
   float: left;
   margin-right: 15px;
 }
+.gd-chip {
+  .gd-icon {
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+  }
+}
 .gd-icon-sm {
   height: 18px;
   width: 18px;

@@ -208,7 +208,7 @@
 										        <a *ngIf="report?.attacker?.friendly==true || hideKey" routerLink="/alliance" [queryParams]="{world: world, id: report?.attacker?.alliance_id}"><img src="../../assets/images/ally_ico.png"/>&nbsp;{{allianceNames[report?.attacker?.alliance_id]}}</a>
 													</span>
 													<span *ngIf="report?.attacker?.friendly==true && !hideKey">
-														&nbsp;&nbsp;Town hidden: attacker is index owner
+														&nbsp;&nbsp;Town hidden: attacker is team owner
 													</span>
 												</div>
 
@@ -305,10 +305,10 @@
 						<div class="col-xs-12 conquest-share" *ngIf="!hideKey && !loadingReports && !error && !isCard && conquestId.toString().length == 32">
 							<div class="row">
 								<div class="col-xs-12 col-sm-10 col-md-8 gd-share-link-container">
-									<label style="font-weight: 600">Anonymous sharing link: (index key is hidden for anyone with this url)</label>
+									<label style="font-weight: 600">Anonymous sharing link: (town names are hidden for anyone with this url)</label>
 									<br/>
 									<div class="row">
-										<input #shareLink [disabled]="true" class="col-xs-8 ur" type="url" value="https://grepodata.com/siege/{{conquestId}}" id="siegeShareUrl" aria-describedby="inputGroup-sizing-default" style="height: 40px;">
+										<input #shareLink [ngClass]="{ 'copied': copied }" [disabled]="true" class="col-xs-8 ur" type="url" value="https://grepodata.com/siege/{{conquestId}}" id="siegeShareUrl" aria-describedby="inputGroup-sizing-default" style="height: 40px;">
 										<button class="cpy" (click)="copyLink(shareLink)"><i class="fa fa-clone"></i> Copy</button><span class="message" *ngIf="copied"> Link copied!</span>
 									</div>
 								</div>

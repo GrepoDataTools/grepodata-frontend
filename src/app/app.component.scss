@@ -2,6 +2,11 @@
 @font-face {
     font-family: Montserrat;
     src: url("/assets/vendor/fonts/montserrat-regular-webfont.woff") format("woff");
+  //font-family: Poppins;
+  //font-family: Raleway;
+  //src: url("/assets/vendor/fonts/Poppins-Black.ttf") format("truetype");
+  //src: url("/assets/vendor/fonts/Poppins-Light.ttf") format("truetype");
+  //src: url("/assets/vendor/fonts/Raleway-VariableFont_wght.ttf") format("truetype");
 }
 
 //.adsense {
@@ -26,7 +31,9 @@ html {
 
 .content-container {
     //height: 100%;
-    font-family: Montserrat;
+    //font-family: Montserrat;
+  //font-family: Poppins,Helvetica,"sans-serif";
+  //font-family: Raleway,Helvetica,"sans-serif";
 }
 
 //.content-component {
@@ -55,5 +62,5 @@ app-root {
 .Site-content {
     //flex: 1;
     // 100 viewport - header - footer
-    min-height: calc(100vh - 70px - 90px);
+    min-height: calc(100vh - 70px - 75px);
 }

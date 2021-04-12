@@ -1,18 +1,22 @@
-import {Component, OnInit, Pipe, PipeTransform} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, Pipe, PipeTransform} from '@angular/core';
 import {IndexerService} from "../indexer.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ContactDialog} from "../../header/header.component";
 import { MatDialog } from "@angular/material/dialog";
 import {LocalCacheService} from "../../services/local-cache.service";
 import {ConquestReportDialog} from '../siege/siege.service';
+import {JwtService} from '../../auth/services/jwt.service';
+import {WorldService} from '../../services/world.service';
+import {ShareIndexDialog} from '../../shared/dialogs/share-index/share-index.component';
+import {IntelSourceDialog} from '../../shared/dialogs/intel-source/intel-source.component';
 
 @Component({
   selector: 'app-index-town',
   templateUrl: './town.component.html',
   styleUrls: ['./town.component.scss'],
-  providers: [IndexerService]
+  providers: [IndexerService, WorldService]
 })
-export class IndexTownComponent implements OnInit {
+export class IndexTownComponent implements AfterViewInit {
 
   townName = '';
   playerId = '';
@@ -23,6 +27,7 @@ export class IndexTownComponent implements OnInit {
   copied = false;
   err = '';
   world = '';
+  worldName = '';
   key = '';
   id = '';
   build = [];
@@ -38,18 +43,37 @@ export class IndexTownComponent implements OnInit {
   hasWall = false;
   hasConquest = false;
 
-  private csa : any = false;
+  routeParams: any;
 
-  constructor(public dialog: MatDialog, private indexerService: IndexerService, private router: Router, private route: ActivatedRoute) {
-    this.route.params.subscribe( params => this.load(params));
+  constructor(
+    public dialog: MatDialog,
+    private indexerService: IndexerService,
+    private router: Router,
+    private worldService: WorldService,
+    private authService: JwtService,
+    private route: ActivatedRoute
+  ) {
+    this.route.params.subscribe( params => this.routeParams = params );
+
+    this.worldService.getWorldInfo(this.world).then((response) => {
+      if (response && 'name' in response) {
+        this.worldName = response.name;
+      }
+    });
   }
 
-  ngOnInit() {
+  ngAfterViewInit() {
+    this.load(this.routeParams)
   }
 
   private load(params) {
+    console.log('wtf')
+
     // Save params
-    this.key = params['key'];
+    this.key = '0';
+    if ('key' in params) {
+      this.key = params['key'];
+    }
     this.world = params['world'];
     this.id = params['id'];
 
@@ -60,15 +84,14 @@ export class IndexTownComponent implements OnInit {
     this.allCities = [];
     this.notes = [];
 
-    // Check cleanup token
-    this.csa = LocalCacheService.get('csa'+this.key);
-
     // Load town intel
-    this.indexerService.loadTownIntel(this.key, this.id)
-      .subscribe(
-        (response) => this.renderTownIntel(response),
-        (error) => this.renderTownIntel(null)
-      );
+    this.authService.accessToken().then(access_token => {
+      this.indexerService.loadTownIntel(access_token, this.world, this.id)
+        .subscribe(
+          (response) => this.renderTownIntel(response),
+          (error) => this.renderTownIntel(null)
+        );
+    });
   }
 
   public copyBB () {
@@ -119,7 +142,7 @@ export class IndexTownComponent implements OnInit {
           } catch (e) {
             console.log(e);
           }
-          
+
           this.build.push({
             'name':key,
             'val':level,
@@ -176,25 +199,40 @@ export class IndexTownComponent implements OnInit {
     });
   }
 
-  deleteIntel(id) {
-    if (this.csa != false) {
-      LocalCacheService.set('csa'+this.key, this.csa, (31 * 24 * 60));
-      this.indexerService.deleteRecordById(this.csa, this.key, id).subscribe(_=>{});
-    }
-  }
+  // deleteIntel(id) {
+  //   alert("TODO")
+  //   // if (this.csa != false) {
+  //   //   LocalCacheService.set('csa'+this.key, this.csa, (31 * 24 * 60));
+  //   //   this.indexerService.deleteRecordById(this.csa, this.key, id).subscribe(_=>{});
+  //   // }
+  // }
+  //
+  // deleteNote(id) {
+  //   alert("TODO")
+  //   // if (this.csa != false) {
+  //   //   LocalCacheService.set('csa'+this.key, this.csa, (31 * 24 * 60));
+  //   //   this.indexerService.deleteNoteById(this.csa, this.key, id).subscribe(_=>{});
+  //   // }
+  // }
+  //
+  // deleteIntelUndo(id) {
+  //   alert("TODO")
+  //   // if (this.csa != false) {
+  //   //   LocalCacheService.set('csa'+this.key, this.csa, (31 * 24 * 60));
+  //   //   this.indexerService.deleteRecordUndo(this.csa, this.key, id).subscribe(_=>{});
+  //   // }
+  // }
 
-  deleteNote(id) {
-    if (this.csa != false) {
-      LocalCacheService.set('csa'+this.key, this.csa, (31 * 24 * 60));
-      this.indexerService.deleteNoteById(this.csa, this.key, id).subscribe(_=>{});
-    }
-  }
-
-  deleteIntelUndo(id) {
-    if (this.csa != false) {
-      LocalCacheService.set('csa'+this.key, this.csa, (31 * 24 * 60));
-      this.indexerService.deleteRecordUndo(this.csa, this.key, id).subscribe(_=>{});
-    }
+  openShareInfoDialog(shared_list) {
+    let indexes = shared_list.split(', ')
+    let dialogRef = this.dialog.open(IntelSourceDialog, {
+      autoFocus: false,
+      disableClose: false,
+      data: {
+        index_list: indexes,
+        intel_type: 'incoming'
+      }
+    });
   }
 
 }

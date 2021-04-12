@@ -241,7 +241,7 @@ export class SearchComponent implements AfterViewInit {
       this.searching_players = false;
       this.hide_results = false;
       this.loading = true;
-      this.searchService.searchAlliances(this.allianceInput, this.from, this.size, null)
+      this.searchService.searchAlliances(this.allianceInput, this.from, this.size)
         .subscribe(
           (response) => this.renderAllianceOutput(response),
           (error) => this.renderAllianceOutput(null)

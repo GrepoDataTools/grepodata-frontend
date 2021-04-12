@@ -1,0 +1,23 @@
+<div mat-dialog-content style="min-width: 90%; min-height: 70%;">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12">
+				<a (click)="close()" class="close"></a>
+
+				<app-share *ngIf="index" [indexInput]="index"></app-share>
+
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<div mat-dialog-actions class="dialog-action">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12">
+				<button mat-button class="mat-focus-indicator mat-raised-button bg-gd-1 text-white mat-button mat-button-base" (click)="close()" style="float: right;">Close</button>
+			</div>
+		</div>
+	</div>
+</div>

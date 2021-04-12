@@ -11,6 +11,9 @@ export class FooterComponent implements OnInit {
   date = new Date();
   sidebar = false;
   height_adjust = false;
+  simplified = false;
+  copyright = true;
+  hidden = false;
 
   constructor(
     public dialog: MatDialog,
@@ -21,10 +24,22 @@ export class FooterComponent implements OnInit {
         let path = val.url;
         this.height_adjust = false;
         this.sidebar = false;
+        this.simplified = false;
+        this.copyright = true;
+        this.hidden = false;
         if (path.indexOf('/compare') !== -1) {
           this.sidebar = true;
         } else if (path.indexOf('/points') !== -1) {
           this.height_adjust = true;
+        } else if (path.indexOf('/indexer') !== -1) {
+          this.simplified = true;
+        } else if (
+          path.indexOf('/profile') !== -1
+          || path.indexOf('/intel') !== -1
+        ) {
+          this.simplified = true;
+          this.copyright = false;
+          this.hidden = true;
         }
       }
     });

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../environments/environment";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {JwtService} from '../auth/services/jwt.service';
 import {Globals} from '../globals';
 
 const apiUrl = environment.apiUrl;
@@ -9,113 +10,105 @@ const apiUrl = environment.apiUrl;
 export class IndexerService {
 
   constructor(
-    private http: HttpClient,
-    private globals: Globals
+    private globals: Globals,
+    private http: HttpClient
   ) {}
 
   getStats() {
     let url =  '/indexer/stats';
     return this.http.get(apiUrl + url);
   }
-  getIndex(key) {
-    this.globals.store_v1_key(key);
-    let url =  '/indexer/getindex?key='+key;
-    return this.http.get(apiUrl + url);
+
+  getIndex(access_token, key) {
+    let url =  '/indexer/v2/getindex?key='+key;
+    return this.http.get(apiUrl + url, {
+      headers: new HttpHeaders().set('access_token', access_token)
+    });
   }
+
   getWorlds() {
     let url =  '/indexer/worlds';
     return this.http.get(apiUrl + url);
   }
-  isValid(key) {
-    this.globals.store_v1_key(key);
-    let url =  '/indexer/isvalid?key='+key;
-    return this.http.get(apiUrl + url);
-  }
-  createNewIndex(mail, world, captcha) {
+
+  createNewIndex(access_token, index_name, world, captcha): any {
     if (captcha == '' || captcha == undefined) captcha = '_';
-    let url =  '/indexer/newindex?mail='+mail+'&world='+world+'&captcha='+captcha;
-    return this.http.get<any>(apiUrl + url);
-  }
-  updateIndexKey(key, mail, captcha) {
-    this.globals.store_v1_key(key);
-    if (captcha == '' || captcha == undefined) captcha = '_';
-    let url =  '/indexer/newkey?key='+key+'&mail='+mail+'&captcha='+captcha;
-    return this.http.get<any>(apiUrl + url);
-  }
-	requestCleanupSession(key, mail, captcha) {
-    this.globals.store_v1_key(key);
-    if (captcha == '' || captcha == undefined) captcha = '_';
-    let url =  '/indexer/cleanup?key='+key+'&mail='+mail+'&captcha='+captcha;
-    return this.http.get<any>(apiUrl + url);
-  }
-	forgotIndexKeys(mail, captcha) {
-    if (captcha == '' || captcha == undefined) captcha = '_';
-    let url =  '/indexer/forgotkeys?mail='+mail+'&captcha='+captcha;
-    return this.http.get<any>(apiUrl + url);
-  }
-  confirmAction(token) {
-    let url =  '/indexer/confirmaction?token='+token;
-    return this.http.get<any>(apiUrl + url);
+    let url =  '/indexer/v2/newindex?world='+world+'&index_name='+index_name+'&captcha='+captcha;
+    return this.http.get(apiUrl + url, {
+      headers: new HttpHeaders().set('access_token', access_token)
+    });
   }
 
+  createNewLink(access_token, index_key): any {
+    let url =  '/indexer/v2/newlink?index_key='+index_key;
+    return this.http.get(apiUrl + url, {
+      headers: new HttpHeaders().set('access_token', access_token)
+    });
+  }
+
+  loadPlayerIntel(access_token, world, id) {
+    let url =  '/indexer/v2/player?world='+world+'&player_id='+id;
+    return this.http.get(apiUrl + url, {
+      headers: new HttpHeaders().set('access_token', access_token)
+    });
+  }
+
+  loadAllianceIntel(access_token, world, id) {
+    let url =  '/indexer/v2/alliance?world='+world+'&alliance_id='+id;
+    return this.http.get(apiUrl + url, {
+      headers: new HttpHeaders().set('access_token', access_token)
+    });
+  }
+
+  loadTownIntel(access_token, world, id) {
+    console.log('loading town intel')
+    let url =  '/indexer/v2/town?world='+world+'&town_id='+id;
+    return this.http.get(apiUrl + url, {
+      headers: new HttpHeaders().set('access_token', access_token)
+    });
+  }
+
+  // Full stats
+  loadStatsIndexer() {
+    let url = '/analytics/indexer';
+    return this.http.get(apiUrl + url);
+  }
+
+  getLocalIndexInfo(index_key) {
+    let localIndexes = this.globals.get_all_indexes();
+    if (!localIndexes) return false;
+    for (let i of (<any>localIndexes)) {
+      if (i.key == index_key)  {
+        return i;
+      }
+    }
+  }
+
+  /**
+   * @deprecated
+   */
   resetIndexOwners(key, mail, captcha) {
-    this.globals.store_v1_key(key);
     if (captcha == '' || captcha == undefined) captcha = '_';
     let url =  '/indexer/owner/reset?key='+key+'&mail='+mail+'&captcha='+captcha;
     return this.http.get<any>(apiUrl + url);
   }
+
+  /**
+   * @deprecated
+   */
   excludeIndexOwner(key, mail, captcha, id) {
-    this.globals.store_v1_key(key);
     if (captcha == '' || captcha == undefined) captcha = '_';
     let url =  '/indexer/owner/exclude?key='+key+'&mail='+mail+'&alliance_id='+id+'&captcha='+captcha;
     return this.http.get<any>(apiUrl + url);
   }
+
+  /**
+   * @deprecated
+   */
   includeIndexOwner(key, mail, captcha, id) {
-    this.globals.store_v1_key(key);
     if (captcha == '' || captcha == undefined) captcha = '_';
     let url =  '/indexer/owner/include?key='+key+'&mail='+mail+'&alliance_id='+id+'&captcha='+captcha;
     return this.http.get<any>(apiUrl + url);
   }
 
-	deleteRecordById(csa, key, id) {
-    this.globals.store_v1_key(key);
-		console.log('delete ', id);
-		let url =  '/indexer/delete?csa='+csa+'&key='+key+'&id='+id;
-		return this.http.get(apiUrl + url);
-	}
-	deleteNoteById(csa, key, id) {
-    this.globals.store_v1_key(key);
-		console.log('delete ', id);
-		let url =  '/indexer/delnote?csa='+csa+'&key='+key+'&note_id='+id;
-		return this.http.get(apiUrl + url);
-	}
-	deleteRecordUndo(csa, key, id) {
-    this.globals.store_v1_key(key);
-		console.log('delete undo ', id);
-		let url =  '/indexer/undodelete?csa='+csa+'&key='+key+'&id='+id;
-		return this.http.get(apiUrl + url);
-	}
-
-  loadPlayerIntel(key, id) {
-    this.globals.store_v1_key(key);
-    let url =  '/indexer/player?key='+key+'&id='+id;
-    return this.http.get(apiUrl + url);
-  }
-  loadAllianceIntel(key, id) {
-    this.globals.store_v1_key(key);
-    let url =  '/indexer/alliance?key='+key+'&id='+id;
-    return this.http.get(apiUrl + url);
-  }
-  loadTownIntel(key, id) {
-    this.globals.store_v1_key(key);
-    // let url =  '/indexer/town?key='+key+'&id='+id;
-    let url =  '/indexer/api/town?key='+key+'&id='+id;
-    return this.http.get(apiUrl + url);
-  }
-
-  // stats
-  loadStatsIndexer() {
-    let url = '/analytics/indexer';
-    return this.http.get(apiUrl + url);
-  }
 }

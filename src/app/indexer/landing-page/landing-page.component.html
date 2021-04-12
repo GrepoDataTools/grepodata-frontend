@@ -1,0 +1,193 @@
+<div id="pagehead" style="height: 100%;">
+
+	<div class="no-index-container">
+		<mat-card class="no-index-card decorated-card">
+			<mat-card-title class='decorated-card-header-secondary decorated-title'>
+				<h1>
+					<i class="fa fa-university gd-secondary" aria-hidden="true"></i>&nbsp;<span><strong class="gd-secondary">Userscript:</strong> Enemy City Indexer</span>
+				</h1>
+				<h4 class="gd-tertiary hidden-xs">Easily collect and share intelligence about enemy cities with your own private team</h4>
+			</mat-card-title>
+			<mat-card-content>
+
+
+        <div class="container hidden-xs hidden-sm">
+          <br/>
+
+          <div class="row bs-wizard" style="border-bottom:0;">
+
+            <div class="col-xs-3 bs-wizard-step complete" matTooltip="An account is required to collect and share enemy city intelligence">
+              <div class="text-center bs-wizard-stepnum">Step 1</div>
+              <div class="progress"><div class="progress-bar"></div></div>
+              <a class="bs-wizard-dot"></a>
+              <a class="bs-wizard-pulsate"></a>
+              <div class="bs-wizard-info text-center"><strong>Create</strong><span class="hidden-xs hidden-sm hidden-md"> a GrepoData account</span><span class="hidden-lg"> an account</span></div>
+            </div>
+
+            <div class="col-xs-3 bs-wizard-step" matTooltip="The userscript adds in-game functionality and links to your GrepoData account"><!-- complete -->
+              <div class="text-center bs-wizard-stepnum">Step 2</div>
+              <div class="progress"><div class="progress-bar"></div></div>
+              <a class="bs-wizard-dot inactive"></a>
+              <div class="bs-wizard-info text-center"><strong>Install</strong> the userscript</div>
+            </div>
+
+            <div class="col-xs-3 bs-wizard-step" matTooltip="Upload new reports while playing the game by clicking the 'Index +' button on forum and inbox reports"><!-- complete -->
+              <div class="text-center bs-wizard-stepnum">Step 3</div>
+              <div class="progress"><div class="progress-bar"></div></div>
+              <a class="bs-wizard-dot inactive"></a>
+              <div class="bs-wizard-info text-center"><strong>Upload</strong> new reports</div>
+            </div>
+
+            <div class="col-xs-3 bs-wizard-step" matTooltip="Create a team and invite your allies to share the collected intel"><!-- complete -->
+              <div class="text-center bs-wizard-stepnum">Step 4</div>
+              <div class="progress"><div class="progress-bar"></div></div>
+              <a class="bs-wizard-dot inactive"></a>
+              <div class="bs-wizard-info text-center"><strong>Share</strong> with a <span class="hidden-xs hidden-sm hidden-md">GrepoData </span><strong>team</strong></div>
+            </div>
+
+          </div>
+        </div>
+
+        <div>
+          <app-login-register></app-login-register>
+        </div>
+
+				<br/>
+				<br/>
+
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12">
+              <app-userscript></app-userscript>
+            </div>
+          </div>
+        </div>
+
+				<!--FaQ-->
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12">
+							<mat-card class="decorated-card">
+								<mat-card-title class='decorated-card-header-secondary decorated-title text-center' style="margin-bottom: 0px;">
+									<h3><i class="fa fa-question-circle"></i> Frequently asked questions</h3>
+								</mat-card-title>
+								<mat-card-content class="decorated-card-content" style="border: 1px solid #138F77;">
+									<br/>
+									<app-faq></app-faq>
+								</mat-card-content>
+							</mat-card>
+						</div>
+					</div>
+				</div>
+
+        <br/>
+
+        <div class="container-fluid" *ngIf="stats != ''">
+          <div class="col-xs-12 text-center">
+
+            <h1 style="font-family: Montserrat !important;" class="gd-primary">
+              Currently in our database
+              <button mat-button class="mat-raised-button bg-gd-2" style="vertical-align: bottom; margin-left: 50px;" routerLink="/analytics">
+                View detailed report&nbsp;<mat-icon style="margin-top: -3px;">launch</mat-icon>
+              </button>
+            </h1>
+
+            <br/>
+
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-2 col-sm-2 col-xs-4">
+                  <div class="circle-tile ">
+                    <div class="circle-tile-heading dark-blue"><i class="fa fa-list fa-fw fa-2x"></i></div>
+                    <div class="circle-tile-content dark-blue">
+                      <div class="circle-tile-description text-faded"> Teams created</div>
+                      <div class="circle-tile-number text-faded ">{{stats.index_count}}</div>
+                      <!--<a class="circle-tile-footer" href="#">More Info <i class="fa fa-chevron-circle-right"></i></a>-->
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-2 col-sm-2 col-xs-4">
+                  <div class="circle-tile ">
+                    <div class="circle-tile-heading dark-blue"><i class="fa fa-code fa-fw fa-2x"></i></div>
+                    <div class="circle-tile-content dark-blue">
+                      <div class="circle-tile-description text-faded"> Active intelligence</div>
+                      <div class="circle-tile-number text-faded " sty>{{stats.reports | NumberFilter}}</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-2 col-sm-2 col-xs-4">
+                  <div class="circle-tile ">
+                    <div class="circle-tile-heading red"><i class="fa fa-university fa-fw fa-2x"></i></div>
+                    <div class="circle-tile-content red">
+                      <div class="circle-tile-description text-faded"> Fireship cities</div>
+                      <div class="circle-tile-number text-faded ">{{stats.fire_count | NumberFilter}}</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-2 col-sm-2 col-xs-4">
+                  <div class="circle-tile ">
+                    <div class="circle-tile-heading blue"><i class="fa fa-university fa-fw fa-2x"></i></div>
+                    <div class="circle-tile-content blue">
+                      <div class="circle-tile-description text-faded"> Mythical cities</div>
+                      <div class="circle-tile-number text-faded ">{{stats.myth_count | NumberFilter}}</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-2 col-sm-2 col-xs-4">
+                  <div class="circle-tile ">
+                    <div class="circle-tile-heading green"><i class="fa fa-user fa-fw fa-2x"></i></div>
+                    <div class="circle-tile-content green">
+                      <div class="circle-tile-description text-faded"> Enemy players</div>
+                      <div class="circle-tile-number text-faded ">{{stats.player_count | NumberFilter}}</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-2 col-sm-2 col-xs-4">
+                  <div class="circle-tile ">
+                    <div class="circle-tile-heading green"><i class="fa fa-users fa-fw fa-2x"></i></div>
+                    <div class="circle-tile-content green">
+                      <div class="circle-tile-description text-faded"> Enemy alliances</div>
+                      <div class="circle-tile-number text-faded ">{{stats.alliance_count | NumberFilter}}</div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <br/>
+
+				<div class="container">
+					<div class="col-xs-10 col-xs-offset-1 text-center">
+						<br/>
+						<h2 class="gd-secondary">Preview gallery</h2>
+						<img class="img-thumbnail" src="../../assets/images/indexer.png" alt="Enemy city indexer">
+					</div>
+				</div>
+				<br/>
+				<br/>
+
+				<br/>
+				<br/>
+				<div class="container text-center">
+					<div class="col-xs-12 col-xs-offset-0 col-sm-6 col-sm-offset-3">
+						<button (click)="scrollTop()" style="font-size: 30px; padding: 10px; width: 100%;" mat-button class="mat-raised-button mat-primary btn-no-index">
+							Sign up today!
+						</button>
+					</div>
+				</div>
+				<br/>
+				<br/>
+
+			</mat-card-content>
+		</mat-card>
+	</div>
+
+</div>

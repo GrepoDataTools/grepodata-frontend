@@ -11,7 +11,7 @@
     <li (click)="routing('/ranking')" [ngClass]="{'nav-active': isRanking}"><a routerLinkActive="active"><span class="fa fa-line-chart"></span> RANKINGS</a></li>
     <li (click)="openIndexer()" [ngClass]="{'nav-active': isIndexer}"><a routerLinkActive="active"><span class="fa fa-university"></span> CITY INDEXER</a></li>
     <li (click)="showContactDialog()"><a><span class="fa fa-envelope"></span> CONTACT</a></li>
-	  <!--<li (click)="routing('/message')" [ngClass]="{'nav-active': isRanking}" class="hidden-xs hidden-sm hidden-md"><a routerLinkActive="active">DONATE</a></li>-->
+<!--	  <li (click)="routing('/message')" [ngClass]="{'nav-active': isRanking}" class="hidden-xs hidden-sm hidden-md"><a routerLinkActive="active">DONATE</a></li>-->
 	  <li class="li-donate hidden-xs hidden-sm hidden-md" style="display: flex; float: right;" (click)="donate()">
 		  <div>
 			  <div style="height: 5px;"></div>
@@ -22,6 +22,9 @@
 			  </form>
 		  </div>
 	  </li>
+    <li class="hidden-xs hidden-sm hidden-md" matTooltip="Check us out on Github!">
+      <a href="https://github.com/GrepoDataTools" target="_blank"><mat-icon><img src="assets/images/icons/GitHub.png"/></mat-icon></a>
+    </li>
   </ul>
 
   <div id="toggle" (click)="toggleNav()" [ngClass]="{'on': toggled}">

@@ -64,9 +64,6 @@
 				<button *ngIf="submitted==false && building==false" style="font-size: 22px; padding: 8px; width: 100%;" mat-button class="mat-raised-button mat-primary" (click)="captchaRef.execute()">
 					Create team
 				</button>
-				<button *ngIf="submitted==true && building==false" style="font-size: 22px; padding: 8px; width: 100%;" mat-button class="mat-raised-button mat-primary" (click)="dialogRef.close()">
-					Close
-				</button>
 			</div>
 
 		</div>
@@ -91,14 +88,32 @@
 			<h5>
 				All reports that you index in world <strong><span [outerHTML]="createdIndex.world | WorldNamePipe"></span></strong> will now be added to this team.
 				<br/>
-				<br/>
-				<strong>Tip:</strong> Share the team with your allies to work together to collect enemy intelligence!
 			</h5>
+      <div *ngIf="createdIndex.share_link && createdIndex.share_link != 'Unauthorized' && !clickedShare">
+        <div class="row">
+          <div class="col-xs-12 gd-share-link-container">
+            <br/>
+            <h5 style="margin-bottom: 0;"><strong>Tip:</strong> send this link to your allies to give them access to this team:</h5>
+            <br/>
+            <div class="row invite-link-container" (click)="copyLink()">
+              <input #shareLink
+                     [ngClass]="{ 'copied': copied }"
+                     [disabled]="true"
+                     class="col-xs-9 col-sm-8 col-md-7 col-lg-7 ur share-link-actual"
+                     type="url"
+                     value="https://grepodata.com/invite/{{createdIndex.key}}{{createdIndex.share_link}}"
+                     id="siegeShareUrl"
+                     aria-describedby="inputGroup-sizing-default"
+                     style="height: 40px; font-size: 20px !important; color: #009688; font-weight: 900;">
+              <button class="cpy" (click)="copyLink()"><i class="fa fa-clone"></i> Copy</button><span class="message" *ngIf="copied"> Link copied!</span>
+            </div>
+          </div>
+        </div>
+      </div>
 		</app-alert>
 		<br/>
-		<button *ngIf="createdIndex.key" class="btn btn-primary mr-1" (click)="showShareDialog()">Share team <mat-icon>group_add</mat-icon></button>
-		<button *ngIf="createdIndex.key" class="btn btn-secondary mr-1" routerLink="/profile/team/{{createdIndex.key}}">Go to team overview <mat-icon>launch</mat-icon></button>
-		<button class="btn btn-secondary mr-1" style="float: right;" (click)="close()">Close</button>
+		<button *ngIf="createdIndex.key" class="btn btn-primary mr-1" (click)="showShareDialog()">Invite users <mat-icon>group_add</mat-icon></button>
+		<button *ngIf="createdIndex.key" class="btn btn-secondary mr-1" style="float: right;" routerLink="/profile/team/{{createdIndex.key}}">Go to team overview <mat-icon>launch</mat-icon></button>
 	</div>
 
 	<div *ngIf="submitted==true && createError != ''">

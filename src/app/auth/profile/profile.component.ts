@@ -11,6 +11,7 @@ import {BasicDialog} from '../../shared/dialogs/basic/basic.component';
 import {MatSidenav} from '@angular/material/sidenav';
 import {SidenavService} from '../../layout/sidebar/sidenav-service';
 import {IndexAuthService} from '../services/index.service';
+import {Globals} from '../../globals';
 
 @Component({
   selector: 'app-profile',
@@ -41,6 +42,7 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
     private profileService: ProfileService,
     private sidenavService: SidenavService,
     private router: Router,
+    private globals: Globals,
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private location: Location,
@@ -173,6 +175,10 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
           if (response.hasOwnProperty('mail_is_confirmed') && response.mail_is_confirmed === true) {
             this.account_confirmed = true;
             refresh = true;
+
+            this.globals.showSnackbar(
+              `<h4>Your email address has been verified. <span class="gd-primary">Thank you for using GrepoData</span></h4>`,
+              'success', '', false,20000);
           }
           // if (response.hasOwnProperty('account_is_linked') && response.account_is_linked === true) {
           //   this.account_linked = true;

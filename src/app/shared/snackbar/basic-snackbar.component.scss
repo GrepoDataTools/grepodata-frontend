@@ -1,0 +1,72 @@
+.snackbar {
+  display: flex;
+  font-weight: 400;
+  line-height: 1.43;
+
+  &.hidden {
+    display: none;
+  }
+
+  &.info {
+    //background-color: rgb(232, 244, 253);
+  }
+
+  &.warning {
+    //background-color: rgb(255, 244, 229);
+  }
+
+  &.error {
+    //background-color: rgb(253, 236, 234);
+  }
+
+  &.success {
+    //background-color: rgb(237, 247, 237);
+  }
+
+  &__title {
+    font-size: 1.7rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  &__message {
+    flex: 1 1 auto;
+    align-self: center;
+  }
+
+  &__icon {
+    display: flex;
+    align-self: center;
+    margin-right: 20px;
+  }
+
+  &__title, &__icon {
+    &.info {
+      color: #2196f3;
+    }
+
+    &.warning {
+      color: #ff9800;
+    }
+
+    &.error {
+      color: #f44336;
+    }
+
+    &.success {
+      color: #4caf50;
+    }
+  }
+
+  &::ng-deep p, h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 5px;
+  }
+
+  &__close {
+    align-self: center;
+    cursor: pointer;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-left: 20px;
+  }
+}

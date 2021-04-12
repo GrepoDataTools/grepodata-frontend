@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgModule } from '@angular/core';
+import {Component, Inject, NgModule} from '@angular/core';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -20,7 +20,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {MAT_SNACK_BAR_DATA, MatSnackBarModule} from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -128,6 +128,7 @@ import { InviteComponent } from './indexer/invite/invite.component';
 import { LoginRegisterComponent } from './auth/login-register/login-register.component';
 import { BugReportComponent } from './auth/profile/components/bug-report/bug-report.component';
 import {MatSortModule} from '@angular/material/sort';
+import {BasicSnackbar} from './shared/snackbar/basic-snackbar.component';
 
 const appRoutes: Routes = [
     { path: 'login', component: LandingPageComponent },
@@ -236,6 +237,7 @@ export function jwtTokenGetter(): any {
         ConquestComponent,
         CompareComponent,
         CompareSnackbar,
+        BasicSnackbar,
         MessageComponent,
         ChangelogComponent,
         AllianceChangeComponent,
@@ -332,6 +334,7 @@ export function jwtTokenGetter(): any {
         PlayerOverviewDialog,
         AllianceOverviewDialog,
         CompareSnackbar,
+        BasicSnackbar,
     ],
 })
 export class AppModule {}

@@ -1,0 +1,8 @@
+<div class="snackbar {{type}}">
+  <mat-icon class="snackbar__icon {{ type }} material-icons" color="accent">{{ selectIcon() }}</mat-icon>
+  <div class="snackbar__message">
+    <div class="snackbar__title {{ type }}" *ngIf="!!data.title">{{ data.title }}</div>
+    <div [outerHTML]="data.message"></div>
+  </div>
+  <mat-icon *ngIf="data.dismissible" class="snackbar__close material-icons" (click)="hideSnackbar()">close</mat-icon>
+</div>

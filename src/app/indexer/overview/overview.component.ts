@@ -88,7 +88,7 @@ export class OverviewComponent implements OnInit {
   }
 
   copyLink() {
-    navigator.clipboard.writeText(this.share_link).then(() => {});
+    navigator.clipboard.writeText(`https://grepodata.com/invite/${this.key}${this.share_link}`).then(() => {});
     this.copied = true;
     window.setTimeout(()=>{this.copied = false;}, 6000);
   }

@@ -1,159 +1,159 @@
-<app-paper
-  icon="account_circle"
-  title="Linked accounts">
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-xs-12" *ngIf="!loading">
-					<app-alert title="Verify your Grepolis player name" type="info">
-							<p>
-								You can verify your Grepolis account by temporarily changing one of your town names.<br/><br/>
-								<a class="a-link-dialog" *ngIf="!moreinfo" (click)="moreinfo=true">More info..</a>
-								<span *ngIf="moreinfo">
-									If you want to use the indexer tool, we need to be sure that you are who you say you are.<br/>
-									If you change any one of your town names to the token we give you, we will be able to verify your player name.<br/>
-									<strong>It may take a few hours for the verification to complete.</strong><br/><br/>
-									Once you have changed one of your town names, we will notice this change within a few hours when we get the updated town data.<br/>
-									It is important that you <strong>keep the temporary town name until your name is verified</strong>, as shown on this page.<br/>
-									Once the name is verified, you can change your town name back to whatever you like.<br/><br/>
-									Feel free to <a class="a-link-dialog" (click)="showContactDialog()">contact us</a> if you encounter any issues.<br/>
-								</span>
-								<a class="a-link-dialog" *ngIf="moreinfo" (click)="moreinfo=false"><br/>Less info..</a>
-							</p>
-            </app-alert>
-        </div>
-				<div class="col-xs-12">
+<!--<app-paper-->
+<!--  icon="account_circle"-->
+<!--  title="Linked accounts">-->
+<!--		<div class="container-fluid">-->
+<!--			<div class="row">-->
+<!--				<div class="col-xs-12" *ngIf="!loading">-->
+<!--					<app-alert title="Verify your Grepolis player name" type="info">-->
+<!--							<p>-->
+<!--								You can verify your Grepolis account by temporarily changing one of your town names.<br/><br/>-->
+<!--								<a class="a-link-dialog" *ngIf="!moreinfo" (click)="moreinfo=true">More info..</a>-->
+<!--								<span *ngIf="moreinfo">-->
+<!--									If you want to use the indexer tool, we need to be sure that you are who you say you are.<br/>-->
+<!--									If you change any one of your town names to the token we give you, we will be able to verify your player name.<br/>-->
+<!--									<strong>It may take a few hours for the verification to complete.</strong><br/><br/>-->
+<!--									Once you have changed one of your town names, we will notice this change within a few hours when we get the updated town data.<br/>-->
+<!--									It is important that you <strong>keep the temporary town name until your name is verified</strong>, as shown on this page.<br/>-->
+<!--									Once the name is verified, you can change your town name back to whatever you like.<br/><br/>-->
+<!--									Feel free to <a class="a-link-dialog" (click)="showContactDialog()">contact us</a> if you encounter any issues.<br/>-->
+<!--								</span>-->
+<!--								<a class="a-link-dialog" *ngIf="moreinfo" (click)="moreinfo=false"><br/>Less info..</a>-->
+<!--							</p>-->
+<!--            </app-alert>-->
+<!--        </div>-->
+<!--				<div class="col-xs-12">-->
 
-					<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+<!--					<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>-->
 
-					<div class="linked-table" *ngIf="!loading">
-						<table class="table">
-							<thead>
-							<tr>
-								<th scope="col">Player name</th>
-								<th scope="col">Server</th>
-								<th scope="col">
-									Verification status
-								</th>
-								<th scope="col">
-									Verification town name
-								</th>
-								<th scope="col">Actions</th>
-							</tr>
-							</thead>
-							<tbody>
-								<ng-container *ngFor="let account of accounts; let i = index;">
-									<tr *ngIf="!account.unlinked">
-										<td><img src="../../assets/images/player_ico.png"/> {{account.player_name}}</td>
-										<td><mat-icon class="icon-margin"><div class="bg-flag flag-{{account.server}}"></div></mat-icon> {{account.server}}</td>
-										<td [ngStyle]="!account.confirmed && { display: 'flex', justifyContent: 'center', alignItems: 'center'}">
-                      <app-badge type="error" text="Unverified" *ngIf="!account.confirmed" matTooltip="Change one of your town names to the token shown on the right. It may take a few hours for this to be processed."></app-badge>
-                      <mat-icon class="mat-icon-title-inline a-link" [ngStyle]="{ marginLeft: '5px' }" *ngIf="!account.confirmed" matTooltip="Your player name will be verified if you temporarily change one of your town names to the displayed token.">info_outline</mat-icon>
-                      <app-badge type="success" text="Verified" *ngIf="account.confirmed"></app-badge>
-										</td>
-										<td>
-											<div class="row" *ngIf="!account.confirmed && account.town_token != '' && account.town_token != 'error'">
-												<div class="col-xs-12 gd-share-link-container">
-													<label style="font-weight: 600">Town name required: </label>
-													<input #shareLink [ngClass]="{ 'copied': account.copied }" [disabled]="true" class="ur" type="url" value="{{account.town_token}}" id="VerifyToken{{account.player_id}}" aria-describedby="inputGroup-sizing-default" style="padding-left: 10px; height: 40px;">
-													<button class="cpy" (click)="copyLink(account)"><span *ngIf="account.copied">Copied!</span><span *ngIf="!account.copied"><i class="fa fa-clone"></i> Copy</span></button>
-												</div>
-											</div>
-											<div *ngIf="!account.confirmed && account.town_token == ''">
-												<label style="font-weight: 200">Loading token.. </label>
-												<mat-progress-bar mode="indeterminate"></mat-progress-bar>
-											</div>
-											<div *ngIf="!account.confirmed && account.town_token == 'error'">
-												<label style="font-weight: 200" class="diff-neg">Oops, something went wrong. Try reloading this page. </label>
-											</div>
-<!--                      <mat-icon class="mat-icon-title-inline a-link" [ngStyle]="{ marginLeft: '5px' }" *ngIf="!account.confirmed" matTooltip="Change one of your town names to this token and wait a few hours. You can change your town name back to whatever you like, once your name is verified.">info_outline</mat-icon>-->
-                    </td>
-										<td>
-											<button class="btn btn-secondary btn-sm" (click)="unlink(account)" *ngIf="!account.error">Unlink</button>
-											<span class="diff-neg" *ngIf="account.error">{{account.error}}</span>
-										</td>
-									</tr>
-								</ng-container>
-							</tbody>
-						</table>
-					</div>
+<!--					<div class="linked-table" *ngIf="!loading">-->
+<!--						<table class="table">-->
+<!--							<thead>-->
+<!--							<tr>-->
+<!--								<th scope="col">Player name</th>-->
+<!--								<th scope="col">Server</th>-->
+<!--								<th scope="col">-->
+<!--									Verification status-->
+<!--								</th>-->
+<!--								<th scope="col">-->
+<!--									Verification town name-->
+<!--								</th>-->
+<!--								<th scope="col">Actions</th>-->
+<!--							</tr>-->
+<!--							</thead>-->
+<!--							<tbody>-->
+<!--								<ng-container *ngFor="let account of accounts; let i = index;">-->
+<!--									<tr *ngIf="!account.unlinked">-->
+<!--										<td><img src="../../assets/images/player_ico.png"/> {{account.player_name}}</td>-->
+<!--										<td><mat-icon class="icon-margin"><div class="bg-flag flag-{{account.server}}"></div></mat-icon> {{account.server}}</td>-->
+<!--										<td [ngStyle]="!account.confirmed && { display: 'flex', justifyContent: 'center', alignItems: 'center'}">-->
+<!--                      <app-badge type="error" text="Unverified" *ngIf="!account.confirmed" matTooltip="Change one of your town names to the token shown on the right. It may take a few hours for this to be processed."></app-badge>-->
+<!--                      <mat-icon class="mat-icon-title-inline a-link" [ngStyle]="{ marginLeft: '5px' }" *ngIf="!account.confirmed" matTooltip="Your player name will be verified if you temporarily change one of your town names to the displayed token.">info_outline</mat-icon>-->
+<!--                      <app-badge type="success" text="Verified" *ngIf="account.confirmed"></app-badge>-->
+<!--										</td>-->
+<!--										<td>-->
+<!--											<div class="row" *ngIf="!account.confirmed && account.town_token != '' && account.town_token != 'error'">-->
+<!--												<div class="col-xs-12 gd-share-link-container">-->
+<!--													<label style="font-weight: 600">Town name required: </label>-->
+<!--													<input #shareLink [ngClass]="{ 'copied': account.copied }" [disabled]="true" class="ur" type="url" value="{{account.town_token}}" id="VerifyToken{{account.player_id}}" aria-describedby="inputGroup-sizing-default" style="padding-left: 10px; height: 40px;">-->
+<!--													<button class="cpy" (click)="copyLink(account)"><span *ngIf="account.copied">Copied!</span><span *ngIf="!account.copied"><i class="fa fa-clone"></i> Copy</span></button>-->
+<!--												</div>-->
+<!--											</div>-->
+<!--											<div *ngIf="!account.confirmed && account.town_token == ''">-->
+<!--												<label style="font-weight: 200">Loading token.. </label>-->
+<!--												<mat-progress-bar mode="indeterminate"></mat-progress-bar>-->
+<!--											</div>-->
+<!--											<div *ngIf="!account.confirmed && account.town_token == 'error'">-->
+<!--												<label style="font-weight: 200" class="diff-neg">Oops, something went wrong. Try reloading this page. </label>-->
+<!--											</div>-->
+<!--&lt;!&ndash;                      <mat-icon class="mat-icon-title-inline a-link" [ngStyle]="{ marginLeft: '5px' }" *ngIf="!account.confirmed" matTooltip="Change one of your town names to this token and wait a few hours. You can change your town name back to whatever you like, once your name is verified.">info_outline</mat-icon>&ndash;&gt;-->
+<!--                    </td>-->
+<!--										<td>-->
+<!--											<button class="btn btn-secondary btn-sm" (click)="unlink(account)" *ngIf="!account.error">Unlink</button>-->
+<!--											<span class="diff-neg" *ngIf="account.error">{{account.error}}</span>-->
+<!--										</td>-->
+<!--									</tr>-->
+<!--								</ng-container>-->
+<!--							</tbody>-->
+<!--						</table>-->
+<!--					</div>-->
 
-					<div class="linked-new" *ngIf="!loading">
+<!--					<div class="linked-new" *ngIf="!loading">-->
 
-						<div class="container-fluid">
-							<div class="row">
-								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" [ngStyle]="!form_opened && {display: 'flex', justifyContent: 'center', paddingTop: '50px'}">
-									<button *ngIf="!form_opened" (click)="form_opened=true" class="btn btn-primary">
-                    <span><mat-icon>add</mat-icon></span>
-                    <span>Verify new account</span>
-                  </button>
-									<div *ngIf="form_opened" class="new-acc-form-container">
-										<h4 class="gd-primary">Find your player name:</h4>
-										<button (click)="form_opened=false; players = []; searched = false;" class="btn btn-secondary" style="position: absolute; right: 20px; top: 5px;">Cancel</button>
-										<!--<div class="form-group">-->
-										<!--<label for="playername">Player name</label>-->
-										<!--<input autocomplete="playername" type="text" formControlName="playername" class="form-control"/>-->
-										<!--</div>-->
+<!--						<div class="container-fluid">-->
+<!--							<div class="row">-->
+<!--								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" [ngStyle]="!form_opened && {display: 'flex', justifyContent: 'center', paddingTop: '50px'}">-->
+<!--									<button *ngIf="!form_opened" (click)="form_opened=true" class="btn btn-primary">-->
+<!--                    <span><mat-icon>add</mat-icon></span>-->
+<!--                    <span>Verify new account</span>-->
+<!--                  </button>-->
+<!--									<div *ngIf="form_opened" class="new-acc-form-container">-->
+<!--										<h4 class="gd-primary">Find your player name:</h4>-->
+<!--										<button (click)="form_opened=false; players = []; searched = false;" class="btn btn-secondary" style="position: absolute; right: 20px; top: 5px;">Cancel</button>-->
+<!--										&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+<!--										&lt;!&ndash;<label for="playername">Player name</label>&ndash;&gt;-->
+<!--										&lt;!&ndash;<input autocomplete="playername" type="text" formControlName="playername" class="form-control"/>&ndash;&gt;-->
+<!--										&lt;!&ndash;</div>&ndash;&gt;-->
 
-										<div class="row" style="margin-top: 15px">
-											<div class="col-xs-12">
+<!--										<div class="row" style="margin-top: 15px">-->
+<!--											<div class="col-xs-12">-->
 
-												<div style="position: relative;width: 100%;background: #18BC9C;color: #fff;z-index: 11;min-width: 60px;height: 50px;float: right;overflow: hidden;-webkit-transition: width 0.3s;-moz-transition: width 0.3s;transition: width 0.3s;-webkit-backface-visibility: hidden;margin: 2px 0px;">
-													<form>
-														<input autocomplete="off" class="sb-search-input" placeholder="Search player name..." type="search" value="" name="search" id="search-players" (keyup)="searchPlayers($event)" style="position: absolute;top: 0;right: 0;border: none;outline: none;background: #ffffff;width: 100%;height: 49px;margin: 0;z-index: 10;padding: 15px 55px 15px 15px;font-family: inherit;font-size: 20px;color: #2c3e50;">
-														<input class="sb-search-submit" type="button" value="" style="width: 50px;height: 50px;display: block;position: absolute;right: 0;top: 0;padding: 0;margin: 0;line-height: 50px;text-align: center;cursor: pointer;opacity: 0;color: transparent;border: none;outline: none;z-index: -1;background: #fff;-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';filter: alpha(opacity=0);">
-														<span class="sb-icon-search" (click)="doSearchPlayers()" style="width: 50px;height: 50px;display: block;position: absolute;right: 0;top: 0;padding: 0;margin: 0;line-height: 50px;text-align: center;cursor: pointer;color: #fff;background: #18BC9C;z-index: 90;font-size: 22px;font-family: 'Montserrat';speak: none;font-style: normal;font-weight: normal;font-variant: normal;text-transform: none;-webkit-font-smoothing: antialiased;">
-                            <i class="fa fa-group"></i>
-                        </span>
-													</form>
-												</div>
-												<div class="col-xs-12">
-													<!--Player results-->
-													<mat-progress-bar *ngIf="searching" mode="indeterminate"></mat-progress-bar>
-													<div *ngIf="searched">
-														<div *ngIf="players?.length < 1 && !searching" class="text-center">
-															<h3>No Players found for your search <span class="gd-primary">'{{playerInput}}'</span></h3>
-														</div>
-														<div *ngIf="!searching" class="table" id="search_output_players" style="">
-															<div class="row_custom header default">
-																<div class="cell custom-cell">Player name</div>
-																<div class="cell">Server</div>
-																<div class="cell" style="min-width: 100px;">Action</div>
-															</div>
+<!--												<div style="position: relative;width: 100%;background: #18BC9C;color: #fff;z-index: 11;min-width: 60px;height: 50px;float: right;overflow: hidden;-webkit-transition: width 0.3s;-moz-transition: width 0.3s;transition: width 0.3s;-webkit-backface-visibility: hidden;margin: 2px 0px;">-->
+<!--													<form>-->
+<!--														<input autocomplete="off" class="sb-search-input" placeholder="Search player name..." type="search" value="" name="search" id="search-players" (keyup)="searchPlayers($event)" style="position: absolute;top: 0;right: 0;border: none;outline: none;background: #ffffff;width: 100%;height: 49px;margin: 0;z-index: 10;padding: 15px 55px 15px 15px;font-family: inherit;font-size: 20px;color: #2c3e50;">-->
+<!--														<input class="sb-search-submit" type="button" value="" style="width: 50px;height: 50px;display: block;position: absolute;right: 0;top: 0;padding: 0;margin: 0;line-height: 50px;text-align: center;cursor: pointer;opacity: 0;color: transparent;border: none;outline: none;z-index: -1;background: #fff;-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';filter: alpha(opacity=0);">-->
+<!--														<span class="sb-icon-search" (click)="doSearchPlayers()" style="width: 50px;height: 50px;display: block;position: absolute;right: 0;top: 0;padding: 0;margin: 0;line-height: 50px;text-align: center;cursor: pointer;color: #fff;background: #18BC9C;z-index: 90;font-size: 22px;font-family: 'Montserrat';speak: none;font-style: normal;font-weight: normal;font-variant: normal;text-transform: none;-webkit-font-smoothing: antialiased;">-->
+<!--                            <i class="fa fa-group"></i>-->
+<!--                        </span>-->
+<!--													</form>-->
+<!--												</div>-->
+<!--												<div class="col-xs-12">-->
+<!--													&lt;!&ndash;Player results&ndash;&gt;-->
+<!--													<mat-progress-bar *ngIf="searching" mode="indeterminate"></mat-progress-bar>-->
+<!--													<div *ngIf="searched">-->
+<!--														<div *ngIf="players?.length < 1 && !searching" class="text-center">-->
+<!--															<h3>No Players found for your search <span class="gd-primary">'{{playerInput}}'</span></h3>-->
+<!--														</div>-->
+<!--														<div *ngIf="!searching" class="table" id="search_output_players" style="">-->
+<!--															<div class="row_custom header default">-->
+<!--																<div class="cell custom-cell">Player name</div>-->
+<!--																<div class="cell">Server</div>-->
+<!--																<div class="cell" style="min-width: 100px;">Action</div>-->
+<!--															</div>-->
 
-															<div *ngFor="let player of players" class="row_custom">
-																<div class="cell custom-cell">
-																	<img src="../../assets/images/player_ico.png"/> {{player.name}}
-																	<!--<a routerLink="/player" [queryParams]="{world: player?.world, id: player?.id}">{{player?.name}}</a>-->
-																</div>
-																<div class="cell">
-																	<mat-icon class="icon-margin"><div class="bg-flag flag-{{player?.server}}"></div></mat-icon>{{player?.server}}
-																</div>
-																<div class="cell">
-																	<button class="btn btn-success" style="overflow: hidden; text-overflow: ellipsis; margin: 5px 0;" (click)="selectPlayer(player?.id, player?.name, player?.server)">
-																		<i class="fa fa-plus"></i> Verify
-																	</button>
-																</div>
-															</div>
-
-
-														</div>
-													</div>
-												</div>
-											</div>
-
-										</div>
+<!--															<div *ngFor="let player of players" class="row_custom">-->
+<!--																<div class="cell custom-cell">-->
+<!--																	<img src="../../assets/images/player_ico.png"/> {{player.name}}-->
+<!--																	&lt;!&ndash;<a routerLink="/player" [queryParams]="{world: player?.world, id: player?.id}">{{player?.name}}</a>&ndash;&gt;-->
+<!--																</div>-->
+<!--																<div class="cell">-->
+<!--																	<mat-icon class="icon-margin"><div class="bg-flag flag-{{player?.server}}"></div></mat-icon>{{player?.server}}-->
+<!--																</div>-->
+<!--																<div class="cell">-->
+<!--																	<button class="btn btn-success" style="overflow: hidden; text-overflow: ellipsis; margin: 5px 0;" (click)="selectPlayer(player?.id, player?.name, player?.server)">-->
+<!--																		<i class="fa fa-plus"></i> Verify-->
+<!--																	</button>-->
+<!--																</div>-->
+<!--															</div>-->
 
 
-									</div>
+<!--														</div>-->
+<!--													</div>-->
+<!--												</div>-->
+<!--											</div>-->
 
-								</div>
-							</div>
-						</div>
+<!--										</div>-->
 
 
-					</div>
+<!--									</div>-->
 
-				</div>
-			</div>
-		</div>
-</app-paper>
+<!--								</div>-->
+<!--							</div>-->
+<!--						</div>-->
+
+
+<!--					</div>-->
+
+<!--				</div>-->
+<!--			</div>-->
+<!--		</div>-->
+<!--</app-paper>-->

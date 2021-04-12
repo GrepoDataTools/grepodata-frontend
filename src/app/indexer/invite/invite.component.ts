@@ -76,6 +76,12 @@ export class InviteComponent implements OnInit {
     }).catch(rejected => {
       this.verification_loading = false;
       this.logged_in = false;
+
+      if (!this.v2_scriptlink && !this.expired && !this.invalid_link) {
+        this.globals.showSnackbar(
+          `<h4>You have to be logged in to join this team.</h4>`,
+          'error', '', true,6000);
+      }
     });
   }
 
@@ -139,6 +145,11 @@ export class InviteComponent implements OnInit {
     console.log(response);
     if (response.verified && response.verified === true) {
       // User has access to index!
+      if ('is_new_access' in response && response.is_new_access === true) {
+        this.globals.showSnackbar(
+          `<h4>You have been added to team <span class="gd-primary">${response.index_name}</span></h4>`,
+          'success', '', true,300000);
+      }
       this.redirect();
     } else {
       this.error = '<h2>Sorry, we are unable to verify this invite</h2><h4>Please try again later or contact us if this error persists</h4>';

@@ -26,6 +26,8 @@ export class NewIndexDialog {
   key = '';
   submitted = false;
   building = false;
+  copied = false;
+  clickedShare = false;
   captcha = '';
   error = '';
   worldData = '';
@@ -135,6 +137,7 @@ export class NewIndexDialog {
   }
 
   showShareDialog() {
+    this.clickedShare = true;
     let dialogRef = this.dialog.open(ShareIndexDialog, {
       minWidth: '60%',
       // height: '90%'
@@ -154,5 +157,11 @@ export class NewIndexDialog {
     dialogRef.afterClosed().subscribe(result => {
       // this.close();
     });
+  }
+
+  copyLink() {
+    navigator.clipboard.writeText(`https://grepodata.com/invite/${this.createdIndex.key}${this.createdIndex.share_link}`).then(() => {});
+    this.copied = true;
+    window.setTimeout(()=>{this.copied = false;}, 6000);
   }
 }

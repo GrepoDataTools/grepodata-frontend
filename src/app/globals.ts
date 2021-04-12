@@ -1,6 +1,8 @@
 // globals.ts
 import {EventEmitter, Injectable} from '@angular/core';
 import * as moment from 'moment';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {BasicSnackbar} from './shared/snackbar/basic-snackbar.component';
 
 @Injectable()
 export class Globals {
@@ -17,6 +19,8 @@ export class Globals {
   private active_intel:   any = null;
   private show_duplicates: any = false;
   public duplicateVisChange: EventEmitter<any> = new EventEmitter();
+
+  constructor(public snackBar: MatSnackBar) {}
 
   /**
    * Last selected game world
@@ -166,5 +170,24 @@ export class Globals {
       expires: expire
     };
     localStorage.setItem(url, JSON.stringify(data));
+  }
+
+  showSnackbar(message, type, title='', dismissible=true, lifetime=5000, customActionHtml=null, customActionCallback=null, customActionData=null) {
+    let snackBarRef = this.snackBar.openFromComponent(BasicSnackbar, {
+      data: {
+        message: message,
+        type: type,
+        title: title,
+        dismissible: dismissible,
+        customActionHtml: customActionHtml,
+        customActionCallback: customActionCallback,
+        customActionData: customActionData,
+      },
+      duration: lifetime,
+      panelClass: ['default-snackbar']
+    });
+    snackBarRef.afterDismissed().subscribe(() => {
+      console.log('snackbar dismissed')
+    });
   }
 }

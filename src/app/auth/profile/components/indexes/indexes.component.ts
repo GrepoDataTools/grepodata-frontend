@@ -68,8 +68,13 @@ export class IndexesComponent implements OnInit {
     });
   }
 
+  goToOverview(index_key) {
+    this.routing(`/profile/team/${index_key}`)
+  }
+
   ngOnInit() {
     this.loadIndexes();
+
   }
 
   public routing(url) {
@@ -165,6 +170,8 @@ export class IndexesComponent implements OnInit {
     if (!force_refresh && localIndexes) {
       console.log('using local index list');
       this.indexes = localIndexes;
+    } else if (force_refresh) {
+      this.deleteIndexListFromCache();
     }
 
     this.error = '';
@@ -265,8 +272,15 @@ export class IndexesComponent implements OnInit {
                 if (response && 'success_code' in response && response.success_code === 1500) {
                   // left successfully
                   this.leave_success = '<h4>You are no longer a member of team <span class="gd-primary">'+index.name+'</span>. Your intel will no longer be shared with this team. </h4>';
-                  this.deleteIndexListFromCache();
-                  this.loadIndexes();
+
+                  this.indexes = this.indexes.filter(i => i.key != index.key);
+
+                  this.loadIndexes(true);
+
+                  this.globals.showSnackbar(
+                    `<h4>You are no longer a member of team <span class="gd-primary">${index.name}</span></h4>`,
+                    'success', '', false,10000);
+
                 } else if (response && 'error_code' in response && response.error_code === 7610) {
                   // User cant leave because they are the only owner and there are still other members
                   this.leave_error = '<h5>You are the only remaining owner of this team and there are still other non-owner members in the team. ' +

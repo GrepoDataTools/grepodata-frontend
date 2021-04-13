@@ -5,24 +5,22 @@
 	</mat-card>
 
 	<mat-card class="index-card index-intel-card">
-		<div class="card-header bg-gd-1 text-center text-white" style="margin-bottom: 0;">
+		<div class="card-header bg-gd-1 text-center text-white" style="margin-bottom: 0; padding: 20px 0 0 !important;">
 
       <h2 style="cursor: pointer; margin: 0;">
-        <span class="hidden-xs hidden-sm">Showing your combined intel for:&nbsp;</span>
+        <span class="hidden-xs hidden-sm hidden-md">Showing your combined intel for:&nbsp;</span>
+        <span class="hidden-xs hidden-sm hidden-lg">Combined intel for:&nbsp;</span>
 	      <div class="name-circle" (click)="copyBB()">
 		      <img style="height: 25px; margin-top: -5px;" src="../../assets/images/town_ico.png"/>&nbsp;
 		      <span class="gd-brown">{{townName}}</span>
 	      </div>
-	      <span style="display: none;" id="bbcode">[town]{{id}}[/town]</span>
 	      &nbsp;<button name="open_bb" class="btn btn-primary" (click)="copyBB()">
 	        <i class="fa fa-clipboard"></i>&nbsp;<span *ngIf="!copied">Copy BB</span><span *ngIf="copied">Copied!&nbsp;</span>
         </button>
       </h2>
-      <h3>
-	      World: <div *ngIf="world" class="bg-flag flag-inline-middle flag-{{world.substring(0, 2)}}"></div>&nbsp;<span class='world-title'><a class="a-link-dialog gd-secondary" routerLink="/points" [queryParams]="{world: world}">{{worldName}} ({{world}})</a></span>
-        &nbsp;&nbsp;&nbsp;
-	      Player intel: <span class='world-title'><a class="a-link-dialog gd-secondary" routerLink="/intel/player/{{world}}/{{playerId}}">{{playerName}}</a></span>
-      </h3>
+      <br/>
+      <app-indexer-breadcrumbs [data]="breadcrumb_data"></app-indexer-breadcrumbs>
+
     </div>
     <mat-card-content class="decorated-card-content" style="padding: 0 !important;">
 

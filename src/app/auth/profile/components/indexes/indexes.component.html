@@ -2,7 +2,17 @@
 	<div class="container-fluid">
 			<div class="row">
 				<div class="col-xs-12">
-					<h2>My teams</h2>
+          <h2>
+            <mat-icon style="font-size: 40px; vertical-align: top; margin-right: 25px; color: #18bc9c;">group</mat-icon>
+            My teams
+
+            <button *ngIf="confirmed" (click)="newIndex()" class="btn btn-success mr-1" style="margin-left: 3%;">
+              <span class="hidden-sm hidden-xs">Create a new team</span>
+              <span class="hidden-md hidden-lg">New team</span>
+              &nbsp;<mat-icon>library_add</mat-icon>
+            </button>
+
+          </h2>
 
 					<div *ngIf="!confirmed">
             <h4 class="gd-error">Please confirm your email address to start sharing intel</h4>
@@ -53,13 +63,15 @@
 						</app-alert>
 					</div>
 
-          <div class="index-new" *ngIf="confirmed && !loading && indexes.length > 10">
+<!--          <div class="index-new" *ngIf="confirmed && !loading && indexes.length > 10" style="position: absolute; right: 23px; top: 0;">-->
 
-            <button (click)="newIndex()" class="btn btn-success mr-1" style="margin-right: 10px;">
-              Create a new team <mat-icon>library_add</mat-icon>
-            </button>
+<!--            <button (click)="newIndex()" class="btn btn-success mr-1">-->
+<!--              <span class="hidden-sm hidden-xs">Create a new team</span>-->
+<!--              <span class="hidden-md hidden-lg">New team</span>-->
+<!--              &nbsp;<mat-icon>library_add</mat-icon>-->
+<!--            </button>-->
 
-          </div>
+<!--          </div>-->
 
 					<div *ngIf="indexes.length > 0">
 
@@ -81,7 +93,7 @@
 									<th scope="col" class="text-right btn-column-th settings">Settings</th>
 									<th scope="col" class="text-right btn-column-th actions hidden-xs">Actions</th>
 								</tr>
-								<tr class="filter-row index-filters" *ngIf="indexes.length > 10">
+								<tr class="filter-row index-filters" *ngIf="indexes.length > 15">
 									<td scope="col"><input type="text" placeholder="Filter team name" [(ngModel)]="filter_index_name"></td>
 									<td scope="col" class="hidden-xs hidden-sm hidden-md">
                     <select [(ngModel)]="filter_world">
@@ -103,7 +115,7 @@
                   </td>
 									<td scope="col"></td>
 									<td scope="col" style="text-align: right !important;" class="hidden-xs">
-                    <a class="a-link-dialog" (click)="filter_role=''; filter_world = ''; filter_index_owners=''; filter_index_name='';">Clear filters <mat-icon style="vertical-align: middle;">close</mat-icon></a>
+                    <a *ngIf="filter_role || filter_world || filter_index_owners || filter_index_name" class="a-link-dialog" (click)="filter_role=''; filter_world = ''; filter_index_owners=''; filter_index_name='';">Clear filters <mat-icon style="vertical-align: middle;">close</mat-icon></a>
                   </td>
 								</tr>
 								</thead>

@@ -448,6 +448,7 @@ export class TownDialog {
   copied = false;
 
   constructor(
+    private globals: Globals,
     private playerService: PlayerService,
     public dialogRef: MatDialogRef<TownDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -482,6 +483,9 @@ export class TownDialog {
     document.execCommand("copy");
     selection.removeAllRanges();
     this.copied = true;
+    this.globals.showSnackbar(
+      `<h4>BB code table copied to clipboard!</h4>`,
+      'success', '', true,5000);
   }
 
 }

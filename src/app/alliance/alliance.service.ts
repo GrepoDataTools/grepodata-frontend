@@ -3,6 +3,7 @@ import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {SearchService} from '../search/search.service';
+import {Globals} from '../globals';
 
 const apiUrl = environment.apiUrl;
 
@@ -94,6 +95,7 @@ export class MailListDialog {
   constructor(
     private allianceService: AllianceService,
     private searchService: SearchService,
+    private globals: Globals,
     public dialogRef: MatDialogRef<MailListDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.params = data;
@@ -187,7 +189,10 @@ export class MailListDialog {
     document.execCommand("copy");
     selection.removeAllRanges();
     this.copied = true;
-    window.setTimeout(()=>{this.copied = false;}, 5000)
+    window.setTimeout(()=>{this.copied = false;}, 5000);
+    this.globals.showSnackbar(
+      `<h4>Mailing list copied to clipboard</h4>`,
+      'success', '', true,5000);
   }
 
 }

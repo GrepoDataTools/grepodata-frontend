@@ -3,6 +3,7 @@ import {EventEmitter, Injectable} from '@angular/core';
 import * as moment from 'moment';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {BasicSnackbar} from './shared/snackbar/basic-snackbar.component';
+import {NavigationEnd, Router} from '@angular/router';
 
 @Injectable()
 export class Globals {
@@ -20,7 +21,9 @@ export class Globals {
   private show_duplicates: any = false;
   public duplicateVisChange: EventEmitter<any> = new EventEmitter();
 
-  constructor(public snackBar: MatSnackBar) {}
+  constructor(
+    public snackBar: MatSnackBar,
+  ) {}
 
   /**
    * Last selected game world

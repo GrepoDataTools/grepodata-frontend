@@ -1,0 +1,99 @@
+<nav aria-label="breadcrumb">
+
+  <ol class="breadcrumb">
+
+    <!-- Back navigation -->
+    <li class="breadcrumb-item">
+      <a routerLink="/profile"><mat-icon style="vertical-align: bottom;">arrow_back</mat-icon> My intel</a>
+    </li>
+
+    <!-- World -->
+    <li class="breadcrumb-item active" *ngIf="data.world">
+      <div [outerHTML]="data.world | WorldNamePipe"></div>
+    </li>
+
+    <!-- Teams -->
+    <li class="breadcrumb-item active" *ngIf="data.teams && data.teams.length > 0" (mouseover)="toggleTeams(true)" (mouseleave)="toggleTeams(false)">
+      <mat-icon style="vertical-align: text-bottom;">group</mat-icon>
+      <a routerLink="/profile/team/{{data.teams[0].index_key}}"> {{data.teams[0].index_name}}</a>
+      <mat-icon style="vertical-align: bottom;" class="hidden-xs hidden-sm">arrow_drop_down</mat-icon>
+      <div *ngIf="expandedTeams" class="expand-options">
+        <div *ngFor="let team of data.teams">
+          <mat-icon class="directory">subdirectory_arrow_right</mat-icon>
+          Team:
+          <a routerLink="/profile/team/{{team.index_key}}">
+            {{team.index_name}}
+            <mat-icon>launch</mat-icon>
+          </a>
+        </div>
+      </div>
+    </li>
+
+    <!-- Alliance -->
+    <li class="breadcrumb-item active" *ngIf="data.alliance" (mouseover)="toggleAlliance(true)" (mouseleave)="toggleAlliance(false)" [ngClass]="{'active': data.alliance.active===true || !data.alliance.name}">
+      <img src="../../../assets/images/ally_ico.png" style="height: 20px; margin-top: -1px;"/>
+      <a *ngIf="data.alliance.name && !data.alliance.active" routerLink="/intel/alliance/{{data.world}}/{{data.alliance.id}}">
+        &nbsp;{{data.alliance.name}}
+      </a>
+      <span *ngIf="data.alliance.name && data.alliance.active===true">
+        &nbsp;{{data.alliance.name}}
+      </span>
+      <span *ngIf="!data.alliance.name">
+        &nbsp;no alliance
+      </span>
+      <mat-icon style="vertical-align: bottom;" class="hidden-xs hidden-sm">arrow_drop_down</mat-icon>
+      <div *ngIf="expandedAlliance" class="expand-options">
+        <div style="margin-bottom: 10px;" *ngIf="!data.alliance.active">
+          <mat-icon class="directory">subdirectory_arrow_right</mat-icon>
+          <a routerLink="/intel/alliance/{{data.world}}/{{data.alliance.id}}">
+            View alliance intel
+            <mat-icon>launch</mat-icon>
+          </a>
+        </div>
+        <div>
+          <mat-icon class="directory">subdirectory_arrow_right</mat-icon>
+          <a routerLink="/alliance" [queryParams]="{world: data.world, id: data.alliance.id}">
+            View alliance statistics
+            <mat-icon>launch</mat-icon>
+          </a>
+        </div>
+      </div>
+    </li>
+
+    <!-- Player -->
+    <li class="breadcrumb-item" *ngIf="data.player" (mouseover)="togglePlayer(true)" (mouseleave)="togglePlayer(false)" [ngClass]="{'active': data.player.active===true}">
+      <img src="../../../assets/images/player_ico.png" style="height: 20px; margin-top: -1px;"/>
+      <a *ngIf="data.player.name && !data.player.active" routerLink="/intel/player/{{data.world}}/{{data.player.id}}">
+        &nbsp;{{data.player.name}}
+      </a>
+      <span *ngIf="data.player.active===true">
+        {{data.player.name}}
+      </span>
+      <mat-icon style="vertical-align: bottom;" class="hidden-xs hidden-sm">arrow_drop_down</mat-icon>
+      <div *ngIf="expandedPlayer" class="expand-options">
+        <div style="margin-bottom: 10px;" *ngIf="!data.player.active">
+          <mat-icon class="directory">subdirectory_arrow_right</mat-icon>
+          <a routerLink="/intel/player/{{data.world}}/{{data.player.id}}">
+            View player intel
+            <mat-icon>launch</mat-icon>
+          </a>
+        </div>
+        <div>
+          <mat-icon class="directory">subdirectory_arrow_right</mat-icon>
+          <a routerLink="/alliance" [queryParams]="{world: data.player, id: data.player.id}">
+            View player statistics
+            <mat-icon>launch</mat-icon>
+          </a>
+        </div>
+      </div>
+    </li>
+
+    <!-- Town -->
+    <li class="breadcrumb-item active" aria-current="page" *ngIf="data.town">
+      <img src="../../../assets/images/town_ico.png" style="height: 20px; margin-top: -1px;"/>
+      &nbsp;{{data.town.name}}
+    </li>
+
+  </ol>
+
+</nav>

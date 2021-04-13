@@ -111,4 +111,9 @@ export class IndexerService {
     return this.http.get<any>(apiUrl + url);
   }
 
+
+  addRecentlyVisitedEvent(entity, name, id, world, intel_count) {
+    // TODO: store recent intel views and show quick links on 'My intel page'
+  }
+
 }

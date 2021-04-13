@@ -787,6 +787,7 @@ export class BBScoreboardDialog {
     slider: any = 10;
 
     constructor(
+        private globals: Globals,
         public dialogRef: MatDialogRef<BBScoreboardDialog>,
         @Inject(MAT_DIALOG_DATA) public data: any,
         public googleAnalyticsEventsService: GoogleAnalyticsEventsService
@@ -834,6 +835,9 @@ export class BBScoreboardDialog {
         document.execCommand('copy');
         selection.removeAllRanges();
         this.copied = true;
+        this.globals.showSnackbar(
+        `<h4>BB code table copied to clipboard!</h4>`,
+        'success', '', true,5000);
     }
 }
 

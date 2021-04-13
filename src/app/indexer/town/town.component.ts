@@ -9,6 +9,7 @@ import {JwtService} from '../../auth/services/jwt.service';
 import {WorldService} from '../../services/world.service';
 import {ShareIndexDialog} from '../../shared/dialogs/share-index/share-index.component';
 import {IntelSourceDialog} from '../../shared/dialogs/intel-source/intel-source.component';
+import {Globals} from '../../globals';
 
 @Component({
   selector: 'app-index-town',
@@ -35,6 +36,7 @@ export class IndexTownComponent implements AfterViewInit {
   notes = [];
   version = '';
   message = '';
+  breadcrumb_data: any = {};
 
   hasStonehail = false;
   hasSilver = false;
@@ -49,6 +51,7 @@ export class IndexTownComponent implements AfterViewInit {
     public dialog: MatDialog,
     private indexerService: IndexerService,
     private router: Router,
+    private globals: Globals,
     private worldService: WorldService,
     private authService: JwtService,
     private route: ActivatedRoute
@@ -60,6 +63,7 @@ export class IndexTownComponent implements AfterViewInit {
         this.worldName = response.name;
       }
     });
+
   }
 
   ngAfterViewInit() {
@@ -67,8 +71,6 @@ export class IndexTownComponent implements AfterViewInit {
   }
 
   private load(params) {
-    console.log('wtf')
-
     // Save params
     this.key = '0';
     if ('key' in params) {
@@ -83,28 +85,24 @@ export class IndexTownComponent implements AfterViewInit {
     this.noIntel = false;
     this.allCities = [];
     this.notes = [];
+    this.breadcrumb_data = {};
 
     // Load town intel
-    this.authService.accessToken().then(access_token => {
-      this.indexerService.loadTownIntel(access_token, this.world, this.id)
-        .subscribe(
-          (response) => this.renderTownIntel(response),
-          (error) => this.renderTownIntel(null)
-        );
-    });
+    if (this.id) {
+      this.authService.accessToken().then(access_token => {
+        this.indexerService.loadTownIntel(access_token, this.world, this.id)
+          .subscribe(
+            (response) => this.renderTownIntel(response),
+            (error) => this.renderTownIntel(null)
+          );
+      });
+    }
   }
 
   public copyBB () {
-    var selection = window.getSelection();
-    var txt = document.getElementById('bbcode');
-    var range = document.createRange();
-    range.selectNodeContents(txt);
-    selection.removeAllRanges();
-    selection.addRange(range);
-    document.execCommand("copy");
-    selection.removeAllRanges();
+    navigator.clipboard.writeText(`[town]${this.id}[/town]`).then(() => {});
     this.copied = true;
-    window.setTimeout(()=>{this.copied = false;}, 2000)
+    window.setTimeout(()=>{this.copied = false;}, 5000);
   }
 
   private renderTownIntel(data) {
@@ -167,6 +165,23 @@ export class IndexTownComponent implements AfterViewInit {
         for (let key in data.notes) {
           let note = data.notes[key];
           this.notes.push(note);
+        }
+      }
+
+      this.breadcrumb_data = {
+        world: this.world,
+        teams: data.teams || [],
+        player: {
+          name: this.playerName,
+          id: this.id
+        },
+        alliance: {
+          name: data.alliance_name || '',
+          id: this.allianceId,
+        },
+        town: {
+          name: this.townName,
+          id: this.id,
         }
       }
 

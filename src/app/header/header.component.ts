@@ -51,7 +51,7 @@ export class HeaderComponent implements OnInit {
         } else {
           this.isScoreboard = false;   this.isRanking = false;   this.isIndexer = false;   this.isCompare = false;
         }
-        this.isProfile = path.includes('/profile') || path.includes('/indexer');
+        this.isProfile = path.includes('/profile') || path.includes('/indexer') || path.includes('/intel');
       }
     });
   }
@@ -148,16 +148,9 @@ export class ContactDialog {
   }
 
   public copy() {
-    var selection = window.getSelection();
-    var txt = document.getElementById('mail');
-    var range = document.createRange();
-    range.selectNodeContents(txt);
-    selection.removeAllRanges();
-    selection.addRange(range);
-    document.execCommand("copy");
-    selection.removeAllRanges();
+    navigator.clipboard.writeText(`admin@grepodata.com`).then(() => {});
     this.copied = true;
-    window.setTimeout(()=>{this.copied = false;}, 5000)
+    window.setTimeout(()=>{this.copied = false;}, 5000);
   }
 
   public sendContactMessage() {

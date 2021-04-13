@@ -45,6 +45,7 @@ export class IndexPlayerComponent implements AfterViewInit {
   tabsLandIndex = 0;
 
   routeParams: any;
+  breadcrumb_data: any = {};
 
   constructor(
     public dialog: MatDialog,
@@ -95,6 +96,7 @@ export class IndexPlayerComponent implements AfterViewInit {
     this.defCities = [];
     this.offCities = [];
     this.totalCount = 0;
+    this.breadcrumb_data = {};
 
     // Load player info
     this.playerService.loadPlayerInfo(this.world, this.id, true)
@@ -121,6 +123,18 @@ export class IndexPlayerComponent implements AfterViewInit {
     this.playerName = data.name;
     this.allianceId = data.alliance_id;
     this.allianceName = data.alliance_name;
+    this.breadcrumb_data = {
+      world: this.world,
+      player: {
+        name: this.playerName,
+        id: this.id,
+        active: true
+      },
+      alliance: {
+        name: this.allianceName,
+        id: this.allianceId,
+      }
+    }
     this.cdr.detectChanges();
   }
 
@@ -156,6 +170,10 @@ export class IndexPlayerComponent implements AfterViewInit {
       // console.log(this.offCities);
       // console.log(this.defCities);
       // console.log(this.tabsLandIndex);
+
+      if ('teams' in data && data.teams) {
+        this.breadcrumb_data['teams'] = data.teams;
+      }
     }
     this.loading = false;
 

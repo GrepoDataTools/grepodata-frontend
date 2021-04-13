@@ -1,6 +1,7 @@
 import {Component, Inject, Pipe, PipeTransform} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import {GoogleAnalyticsEventsService} from "../services/google-analytics-events.service";
+import {Globals} from '../globals';
 
 @Component({
   selector: 'bb-dialog',
@@ -18,6 +19,7 @@ export class BBDialog {
   showNonPriority: boolean = false;
 
   constructor(
+    private globals: Globals,
     public dialogRef: MatDialogRef<BBDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public googleAnalyticsEventsService: GoogleAnalyticsEventsService) {
@@ -47,6 +49,9 @@ export class BBDialog {
     document.execCommand("copy");
     selection.removeAllRanges();
     this.copied = true;
+    this.globals.showSnackbar(
+      `<h4>BB code table copied to clipboard!</h4>`,
+      'success', '', true,5000);
   }
 
 }

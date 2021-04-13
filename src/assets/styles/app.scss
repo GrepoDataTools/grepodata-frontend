@@ -1022,29 +1022,6 @@ ul.list-style-none {
   float: right;
 }
 
-.page-breadcrumb {
-  .breadcrumb {
-    padding: 0px;
-    margin: 0px;
-    background: transparent;
-    .breadcrumb-item {
-      font-size: 14px;
-    }
-    .breadcrumb-item a {
-      padding-right: 0.5rem;
-    }
-    .breadcrumb-item + .breadcrumb-item::before {
-      content: "\e649";
-      font-family: themify;
-      color: $sidebar-icons;
-      font-size: 11px;
-      padding-right: 0.5rem;
-    }
-    .breadcrumb-item + .breadcrumb-item.active {
-      color: $sidebar-icons;
-    }
-  }
-}
 
 .list-unstyled {
   margin: 0px;
@@ -1064,6 +1041,3 @@ ul.list-style-none {
   cursor: pointer;
 }
 
-.page-breadcrumb .breadcrumb .breadcrumb-item a {
-  display: initial;
-}

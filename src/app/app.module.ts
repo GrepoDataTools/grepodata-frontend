@@ -129,6 +129,7 @@ import { LoginRegisterComponent } from './auth/login-register/login-register.com
 import { BugReportComponent } from './auth/profile/components/bug-report/bug-report.component';
 import {MatSortModule} from '@angular/material/sort';
 import {BasicSnackbar} from './shared/snackbar/basic-snackbar.component';
+import { IndexerBreadcrumbsComponent } from './layout/indexer-breadcrumbs/indexer-breadcrumbs.component';
 
 const appRoutes: Routes = [
     { path: 'login', component: LandingPageComponent },
@@ -270,6 +271,7 @@ export function jwtTokenGetter(): any {
         InviteComponent,
         LoginRegisterComponent,
         BugReportComponent,
+        IndexerBreadcrumbsComponent,
     ],
     imports: [
         FormsModule,

@@ -86,11 +86,9 @@
 					white-space: -pre-wrap;
 					white-space: -o-pre-wrap;
 					word-wrap: break-word;">{{maillist}}</pre>
-				<button *ngIf="!copied" class="btn btn-success" style="width: 100%; border-radius: 0 0 7px 7px; margin-top: 0;" (click)="copyList()">
-					<i class="fa fa-clipboard" aria-hidden="true"></i>&nbsp;copy to clipboard
-				</button>
-				<button *ngIf="copied" class="btn btn-success" style="width: 100%; border-radius: 0 0 7px 7px; margin-top: 0;" (click)="copyList()">
-					<i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;Copied to clipboard!
+				<button class="btn btn-success" style="width: 100%; border-radius: 0 0 7px 7px; margin-top: 0;" (click)="copyList()">
+          <span *ngIf="!copied"><i class="fa fa-clipboard" aria-hidden="true"></i>&nbsp;copy to clipboard</span>
+          <span *ngIf="copied"><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;Copied to clipboard!</span>
 				</button>
 			</div>
 		</div>

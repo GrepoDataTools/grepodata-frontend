@@ -1,0 +1,39 @@
+.breadcrumb {
+  font-size: 18px;
+  font-weight: 400;
+  color: #18BC9C !important;
+  padding-bottom: 0;
+  border-radius: 0;
+
+  a {
+    color: #18BC9C !important;
+  }
+
+  li {
+    padding-bottom: 8px;
+  }
+
+  .expand-options {
+    position: absolute;
+    background: #f7f5f5;
+    padding: 8px;
+    margin-left: 15px;
+    margin-top: 5px;
+    min-width: 200px;
+    text-align: left;
+    z-index: 1000000;
+    box-shadow: 0px 0px 10px 1px #1833331c !important;
+
+    .mat-icon {
+      vertical-align: text-top;
+
+      &.directory {
+        vertical-align: sub !important;
+      }
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  }
+}

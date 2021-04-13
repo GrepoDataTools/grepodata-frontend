@@ -44,6 +44,7 @@ export class IndexAllianceComponent implements AfterViewInit {
   tabsLandIndex = 0;
 
   routeParams: any;
+  breadcrumb_data: any = {};
 
   constructor(
     public dialog: MatDialog,
@@ -112,7 +113,6 @@ export class IndexAllianceComponent implements AfterViewInit {
 	}
 
   private load(params) {
-    console.log('wtf a')
     if (params !== null) {
       // Save params
       this.key = '0';
@@ -138,6 +138,7 @@ export class IndexAllianceComponent implements AfterViewInit {
 		this.hasMatch = true;
 		this.showNoResults = false;
 		this.filterType = '';
+    this.breadcrumb_data = {};
 
     // Load alliance info
     this.allianceService.loadAllianceInfo(this.world, this.id)
@@ -165,6 +166,14 @@ export class IndexAllianceComponent implements AfterViewInit {
     this.rank = data.rank;
     this.allianceName = data.name;
     this.cdr.detectChanges();
+    this.breadcrumb_data = {
+      world: this.world,
+      alliance: {
+        name: this.allianceName,
+        id: this.id,
+        active: true
+      }
+    }
   }
 
   private renderAllianceIntel(data) {
@@ -188,6 +197,10 @@ export class IndexAllianceComponent implements AfterViewInit {
 
       this.tabsSeaIndex = Object.keys(this.firePlayers).length>0?0:(Object.keys(this.birPlayers).length>0?1:(Object.keys(this.trirPlayers).length>0?2:0));
       this.tabsLandIndex = Object.keys(this.mythPlayers).length>0?0:(Object.keys(this.offPlayers).length>0?1:(Object.keys(this.defPlayers).length>0?2:0));
+
+      if ('teams' in data && data.teams) {
+        this.breadcrumb_data['teams'] = data.teams;
+      }
     }
     this.loading = false;
     this.cdr.detectChanges();

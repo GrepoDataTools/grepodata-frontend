@@ -52,7 +52,7 @@ export class IntelComponent implements OnInit {
       this.profileService.getUserIntel(access_token, this.from, this.size).subscribe(
         (response) => {
           this.intel = response.items;
-          if ('total_items' in response && response.total_items > 0) {
+          if ('total_items' in response && response.total_items >= 0) {
             this.num_results = response.total_items;
           }
           if (response.batch_size <= 0) {
@@ -62,6 +62,7 @@ export class IntelComponent implements OnInit {
           this.paging = false;
         },
         (error) => {
+          this.num_results = 0;
           this.hasIntel = false;
           this.loading = false;
           this.paging = false;

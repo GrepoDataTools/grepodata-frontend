@@ -44,6 +44,7 @@ export class IndexTownComponent implements AfterViewInit {
   hasHero = false;
   hasWall = false;
   hasConquest = false;
+  hasSharingDetails = false;
 
   routeParams: any;
 
@@ -156,6 +157,7 @@ export class IndexTownComponent implements AfterViewInit {
           this.hasGod = town.god ? true : this.hasGod;
           this.hasHero = town.hero ? true : this.hasHero;
           this.hasWall = town.wall ? true : this.hasWall;
+          this.hasSharingDetails = town.shared_via_indexes ? true : this.hasSharingDetails;
           this.hasConquest = town.conquest_id && town.conquest_id > 0 ? true : this.hasConquest;
           this.allCities.push(town);
         }
@@ -202,7 +204,7 @@ export class IndexTownComponent implements AfterViewInit {
 
   public loadConquestDetails(conquest_id): void {
     let dialogRef = this.dialog.open(ConquestReportDialog, {
-      panelClass: 'tight-dialog-container',
+      panelClass: ['tight-dialog-container'],
       autoFocus: false,
       data: {
         key: this.key,
@@ -238,16 +240,21 @@ export class IndexTownComponent implements AfterViewInit {
   //   // }
   // }
 
-  openShareInfoDialog(shared_list) {
-    let indexes = shared_list.split(', ')
-    let dialogRef = this.dialog.open(IntelSourceDialog, {
-      autoFocus: false,
-      disableClose: false,
-      data: {
-        index_list: indexes,
-        intel_type: 'incoming'
+  openShareInfoDialog(town) {
+    if ('shared_via_indexes' in town) {
+      let shared_list = town.shared_via_indexes || '';
+      let indexes = shared_list.split(', ')
+      if (shared_list.length > 0 && indexes.length > 0) {
+        let dialogRef = this.dialog.open(IntelSourceDialog, {
+          autoFocus: false,
+          disableClose: false,
+          data: {
+            index_list: indexes,
+            intel_type: 'incoming'
+          }
+        });
       }
-    });
+    }
   }
 
 }

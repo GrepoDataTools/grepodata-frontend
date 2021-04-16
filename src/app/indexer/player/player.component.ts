@@ -29,6 +29,7 @@ export class IndexPlayerComponent implements AfterViewInit {
   allianceName = '';
   loading = true;
   noIntel = false;
+  playerFound = false;
   err = '';
   worldName = '';
   allCities: any = [];
@@ -97,16 +98,19 @@ export class IndexPlayerComponent implements AfterViewInit {
     this.offCities = [];
     this.totalCount = 0;
     this.breadcrumb_data = {};
+    this.cdr.detectChanges();
 
     // Load player info
+    this.playerFound = false;
+    // Optional call for faster loading team of basic player info, but info is also returned by intel route
     this.playerService.loadPlayerInfo(this.world, this.id, true)
       .subscribe(
         (response) => this.renderPlayerInfo(response),
-        (error) => this.playerName = "Not found"
+        (error) => {console.log("Unable to find player details")}
       );
 
     // Load player intel
-    this.authService.accessToken().then(access_token => {
+    this.authService.accessToken(false).then(access_token => {
       this.indexerService.loadPlayerIntel(access_token, this.world, this.id)
         .subscribe(
           (response) => this.renderPlayerIntel(response),
@@ -120,9 +124,15 @@ export class IndexPlayerComponent implements AfterViewInit {
   }
 
   private renderPlayerInfo(data) {
+    this.playerFound = true;
     this.playerName = data.name;
     this.allianceId = data.alliance_id;
     this.allianceName = data.alliance_name;
+    this.buildBreadcrumbData();
+    this.cdr.detectChanges();
+  }
+
+  private buildBreadcrumbData() {
     this.breadcrumb_data = {
       world: this.world,
       player: {
@@ -171,9 +181,17 @@ export class IndexPlayerComponent implements AfterViewInit {
       // console.log(this.defCities);
       // console.log(this.tabsLandIndex);
 
+      if (!this.playerFound && 'info' in data) {
+        this.playerName = data.info.player_name;
+        this.allianceId = data.info.alliance_id;
+        this.allianceName = data.info.alliance_name;
+        this.buildBreadcrumbData();
+      }
+
       if ('teams' in data && data.teams) {
         this.breadcrumb_data['teams'] = data.teams;
       }
+
     }
     this.loading = false;
 

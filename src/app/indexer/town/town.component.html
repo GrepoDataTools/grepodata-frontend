@@ -101,10 +101,10 @@
 									              <div class="cell hidden-xs hidden-sm" *ngIf="hasConquest" style="max-width: 15vw !important; width: 15vw;">
 										              Siege report
 									              </div>
-									              <div class="cell"></div>
+									              <div class="cell" *ngIf="hasSharingDetails"></div>
 								              </div>
 
-								              <div class='row_custom' *ngFor="let town of allCities" (click)="openShareInfoDialog(town.shared_via_indexes)">
+								              <div class='row_custom' *ngFor="let town of allCities">
 									              <div class="cell" matTooltip="{{town.type}}">
 										              <img src="../../assets/images/game/towninfo/attack.png" *ngIf="town.type === 'friendly_attack'">
 										              <div *ngIf="town.type === 'enemy_attack'" style="-moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); filter: FlipH; -ms-filter: ;">
@@ -177,9 +177,12 @@
 																	<!--</span>-->
 									              <!--</div>-->
 
-                                <div class="cell gd-primary a-link-dialog" matTooltip="Click here to see how this intel was shared with you">
+                                <div *ngIf="town.shared_via_indexes" class="cell gd-primary a-link-dialog" matTooltip="Click here to see how this intel was shared with you" (click)="openShareInfoDialog(town)">
                                   <mat-icon>supervised_user_circle</mat-icon>
                                 </div>
+                                <div *ngIf="!town.shared_via_indexes" class="cell"></div>
+
+
 								              </div>
 							              </div>
 						              </div>

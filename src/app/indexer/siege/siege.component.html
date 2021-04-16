@@ -35,7 +35,7 @@
 				<div class="conquest-item" style="max-width: 100% !important;" [ngStyle]="{'font-size': isCard?'17px':'20px'}">
 					<div class="conquest-contents" style="max-width: 100% !important;" [ngClass]="{ 'conquest-card': isCard || !embedded }">
 						<div class="col-xs-12 text-center conquest-title">
-							<strong *ngIf="!hideKey">
+							<strong class="conquest-subject" *ngIf="!hideKey">
 								<a routerLink="/indexer/town/{{key}}/{{world}}/{{conquest?.town_id}}">
 									<img src="../../assets/images/town_ico.png"/>&nbsp;{{conquest.town_name}}
 								</a>
@@ -302,18 +302,19 @@
 
 						</div>
 
-						<div class="col-xs-12 conquest-share" *ngIf="!hideKey && !loadingReports && !error && !isCard && conquestId.toString().length == 32">
-							<div class="row">
-								<div class="col-xs-12 col-sm-10 col-md-8 gd-share-link-container">
-									<label style="font-weight: 600">Anonymous sharing link: (town names are hidden for anyone with this url)</label>
-									<br/>
-									<div class="row">
-										<input #shareLink [ngClass]="{ 'copied': copied }" [disabled]="true" class="col-xs-8 ur" type="url" value="https://grepodata.com/siege/{{conquestId}}" id="siegeShareUrl" aria-describedby="inputGroup-sizing-default" style="height: 40px;">
-										<button class="cpy" (click)="copyLink(shareLink)"><i class="fa fa-clone"></i> Copy</button><span class="message" *ngIf="copied"> Link copied!</span>
-									</div>
-								</div>
-							</div>
-						</div>
+<!--						<div class="col-xs-12 conquest-share" *ngIf="!hideKey && !loadingReports && !error && !isCard && conquestId.toString().length == 32">-->
+<!--							<div class="row">-->
+<!--								<div class="col-xs-12 col-sm-10 col-md-8 gd-share-link-container">-->
+<!--									<label style="font-weight: 600">Anonymous sharing link: (town names are hidden for anyone with this url)</label>-->
+<!--									<br/>-->
+<!--									<div class="row">-->
+<!--										<input #shareLink [ngClass]="{ 'copied': copied }" [disabled]="true" class="col-xs-8 ur" type="url" value="https://grepodata.com/siege/{{conquestId}}" id="siegeShareUrl" aria-describedby="inputGroup-sizing-default" style="height: 40px;">-->
+<!--										<button class="cpy" (click)="copyLink(shareLink)"><i class="fa fa-clone"></i> Copy</button><span class="message" *ngIf="copied"> Link copied!</span>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--						</div>-->
+
 					</div>
 				</div>
 

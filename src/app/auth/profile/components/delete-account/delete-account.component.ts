@@ -73,6 +73,5 @@ export class DeleteAccountComponent implements OnInit {
       );
     });
 
-    // alert("TODO");
   }
 }

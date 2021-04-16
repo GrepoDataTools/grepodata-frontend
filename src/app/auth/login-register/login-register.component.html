@@ -104,7 +104,7 @@
                 <div class="form-group">
                   <a class="form-recovery" (click)="togglePasswordForm()">Forgot Your Password? <mat-icon class="mat-icon-title-inline" style="vertical-align: sub;">mail_outline</mat-icon></a>
                 </div>
-                <div *ngIf="lf.password.errors || lf.username.errors" style="margin-top: 10px;">
+                <div *ngIf="lf.password.errors || lf.username.errors || login_error" style="margin-top: 10px;">
                   <br/>
                   <br/>
                   <br/>

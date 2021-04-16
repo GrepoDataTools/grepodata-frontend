@@ -41,7 +41,9 @@ pre {
   box-shadow: none !important;
   padding: 0 !important;
 }
-
+.world-title {
+  font-weight: 400;
+}
 .hover-scale {
   transition: all .2s ease-in-out !important;
 }
@@ -991,6 +993,7 @@ fieldset[disabled] .btn-success.active {
 }
 .tight-dialog-container .mat-dialog-container {
   padding: 0 !important;
+  overflow: hidden !important;
 }
 
 mat-progress-bar {
@@ -1009,6 +1012,10 @@ mat-paginator {
     all: unset !important;
     font-size: 14px !important;
   }
+}
+.gd-loading-overlay {
+  opacity: 0.3 !important;
+  pointer-events: none !important;
 }
 .gd-spinner {
   position: absolute;

@@ -94,34 +94,35 @@
 					</div>
 
 					<!--recent conquests-->
-<!--					<div *ngIf="!loadingInfo && recent_conquests && recent_conquests.length > 0" class="hidden-xs hidden-sm">-->
-<!--						<mat-card class="dense-card conquests-card">-->
-<!--							<mat-card-title>-->
-<!--								<div class="form-group row" style='margin: 0px;'>-->
-<!--									<h3 style='font-weight: 300; color: #304357; margin-top: 0px;'><span class='world-title' style='color: #18BC9C;'>Recent sieges</span>&nbsp;&nbsp;-->
-<!--										<a class="a-link-dialog" *ngIf="recent_conquests.length >= 2" (click)="loadSiegeListDialog()" style="color: #949494;">-->
-<!--											Show all sieges&nbsp;<mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon>-->
-<!--										</a>-->
-<!--									</h3>-->
-<!--								</div>-->
-<!--							</mat-card-title>-->
-<!--							<mat-card-content>-->
-<!--								<div class="conquests-list-vertical">-->
-<!--									<div class="conquest-item" *ngFor="let conquest of recent_conquests">-->
-<!--										<app-siege-->
-<!--											[embedded]="true"-->
-<!--											[isCard]="true"-->
-<!--											[hideKey]="false"-->
-<!--											[conquest]="conquest"-->
-<!--											[conquestId]="conquest?.conquest_id"-->
-<!--											[world]="world"-->
-<!--											[key] = "key">-->
-<!--										</app-siege>-->
-<!--									</div>-->
-<!--								</div>-->
-<!--							</mat-card-content>-->
-<!--						</mat-card>-->
-<!--					</div>-->
+					<div *ngIf="!loading && recent_conquests && recent_conquests.length > 0" class="hidden-xs hidden-sm">
+						<mat-card class="dense-card conquests-card">
+							<mat-card-title>
+								<div class="form-group row" style='margin: 0px;'>
+									<h3 style='font-weight: 300; color: #304357; margin-top: 0px;'><span class='world-title' style='color: #18BC9C;'>Recent sieges</span>&nbsp;&nbsp;
+										<a class="a-link-dialog" *ngIf="recent_conquests.length >= 2" (click)="loadSiegeListDialog()" style="color: #949494;">
+											Show all sieges&nbsp;<mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon>
+										</a>
+									</h3>
+								</div>
+							</mat-card-title>
+							<mat-card-content>
+								<div class="conquests-list-vertical">
+									<div class="conquest-item" *ngFor="let conquest of recent_conquests">
+										<app-siege
+                      *ngIf="conquest.conquest_id"
+											[embedded]="true"
+											[isCard]="true"
+											[hideKey]="false"
+											[conquest]="conquest"
+											[conquestId]="conquest?.conquest_id"
+											[world]="world"
+											[key] = "key">
+										</app-siege>
+									</div>
+								</div>
+							</mat-card-content>
+						</mat-card>
+					</div>
 
 					<!--recent latest intel-->
 					<div *ngIf="latest_intel && latest_intel.length>0" class="hidden-xs hidden-sm">
@@ -203,7 +204,7 @@
 						<div class="card-header bg-gd-4">
 							<h1 class="entity-name gd-white">City Indexer Team</h1>
 							<h3 class="gd-primary">
-								<mat-icon style="vertical-align: sub;">account_balance</mat-icon>&nbsp;{{index_name}}
+								<mat-icon style="vertical-align: sub;">group</mat-icon>&nbsp;{{index_name}}
 							</h3>
 							<div *ngIf="is_admin" class="a-link card-action gd-white" matTooltip="Index settings" (click)="showSettingsDialog()">
 								<mat-icon>settings</mat-icon>
@@ -211,10 +212,10 @@
 						</div>
 						<mat-card-content>
 							<div style="max-height: 240px; height: 240px; min-height: 240px; overflow-y: auto;">
-								<table class="table table-no-more">
+								<table class="table table-no-more intel-info-table">
 									<tbody>
 									<tr *ngIf="!is_admin">
-										<th>Name</th>
+										<th>Team name</th>
 										<td>{{index_name}}</td>
 									</tr>
 									<tr>
@@ -242,6 +243,7 @@
 									</tr>
 									<tr *ngIf="data.total_reports > 0 && !is_admin">
                     <td colspan="2" class="text-center gd-primary">
+                      <br/>
                       <strong *ngIf="role=='read'">You are not allowed to contribute to this team.</strong>
                       <strong *ngIf="role=='write' && contribute===true">You are currently contributing to this team.</strong>
                       <strong *ngIf="role=='write' && contribute===false">You have disabled contributions to this team. The intel you collect will not be added to this team.</strong>

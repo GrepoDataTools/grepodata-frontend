@@ -46,17 +46,32 @@ export class IntelComponent implements OnInit {
   }
 
   loadUserIntel() {
-    this.paging = true;
+    let localIntel = this.getIntelListFromCache();
+    if (localIntel && this.from == 0 && this.size == 20) {
+      console.log('using local intel list');
+      this.intel = localIntel.items;
+      if ('total_items' in localIntel && localIntel.total_items >= 0) {
+        this.num_results = localIntel.total_items;
+      }
+      this.hasIntel = true;
+      this.loading = false;
+      this.paging = true;
+    } else {
+      this.paging = true;
+    }
 
     this.authService.accessToken().then(access_token => {
       this.profileService.getUserIntel(access_token, this.from, this.size).subscribe(
         (response) => {
           this.intel = response.items;
-          if ('total_items' in response && response.total_items >= 0) {
+          if ('total_items' in response && response.total_items!=null && response.total_items >= 0) {
+            console.log('setting total items: ', response.total_items);
             this.num_results = response.total_items;
           }
           if (response.batch_size <= 0) {
             this.hasIntel = false;
+          } else if (this.from == 0 && this.size == 20) {
+            this.saveIntelListToCache(response);
           }
           this.loading = false;
           this.paging = false;
@@ -142,5 +157,13 @@ export class IntelComponent implements OnInit {
 
   getIndexListFromCache() {
     return this.globals.get_top_indexes()
+  }
+
+  saveIntelListToCache(data) {
+    this.globals.set_recent_intel(data, 60 * 24 * 14)
+  }
+
+  getIntelListFromCache() {
+    return this.globals.get_recent_intel()
   }
 }

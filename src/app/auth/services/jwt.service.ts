@@ -24,41 +24,56 @@ export class JwtService {
     return localStorage.getItem('refresh_token');
   }
 
-  public accessToken(): Promise<string> {
+  public accessToken(force_login_required = true): Promise<string> {
     return new Promise(resolve => {
       let token = localStorage.getItem('access_token');
       if (!token) {
+        // no token.. login required
+        this.rejectToken(force_login_required);
         reject(null);
       }
       let payload = jwt_decode(token);
-      if (payload.exp < Date.now() / 1000 - 60) {
+      if (payload.exp < Date.now() / 1000 - 600) {
+        // expired token, try a refresh
         console.log('refreshing');
         localStorage.removeItem('access_token');
         if (this.refreshToken !== null) {
           // Try to refresh
           this.refreshAccessToken().subscribe((response) => {
               if (response.success_code && response.success_code === 1101) {
+                // got a valid token via refresh
                 resolve(localStorage.getItem('access_token'));
               } else {
-                localStorage.removeItem('refresh_token');
-                this.logout();
+                // unable to refresh, discard tokens and reject (new login required)
+                this.rejectToken(force_login_required);
                 reject(null);
               }
             },
             (error) => {
+              // unable to refresh, discard tokens and reject (new login required)
               console.log("Unable to refresh with token", error);
-              this.logout();
+              this.rejectToken(force_login_required);
               reject(null);
             })
         } else {
+          // No refresh token.. login required
           console.log("Missing refresh token. Login required");
-          this.logout();
+          this.rejectToken(force_login_required);
           reject(null);
         }
       } else {
+        // valid token found
         resolve(token)
       }
     });
+  }
+
+  private rejectToken(force_login_required) {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    if (force_login_required) {
+      this.router.navigate(['/indexer']);
+    }
   }
 
   public login(email: string, password: string, captcha: string) {
@@ -222,6 +237,7 @@ export class JwtService {
     LocalCacheService.remove('refresh_token');
     this.globals.delete_all_indexes();
     this.globals.delete_top_indexes();
+    this.globals.delete_recent_intel();
 
     this.router.navigate(['/indexer']);
 

@@ -84,8 +84,8 @@
 
 	<mat-card-content style="padding: 0 30px 15px;">
 
-		<div *ngIf="loading || paging" style="padding: 30px;">
-			<mat-progress-bar style="margin-top: -10px;" mode="indeterminate"></mat-progress-bar>
+		<div *ngIf="loading || paging">
+			<mat-progress-bar style="margin-top: -3px; margin-bottom: -7px;" mode="indeterminate"></mat-progress-bar>
 		</div>
 
 <!--    <div *ngIf="!loading && num_results <= 0">-->
@@ -176,9 +176,10 @@
 							</div>
 						</div>
 
-            <div class="cell gd-primary a-link-dialog" matTooltip="Click here to see who this intel was shared with" (click)="openShareInfoDialog(town.shared_via_indexes)">
+            <div *ngIf="town.shared_via_indexes" class="cell gd-primary a-link-dialog" matTooltip="Click here to see who this intel was shared with" (click)="openShareInfoDialog(town.shared_via_indexes)">
               <mat-icon>supervised_user_circle</mat-icon>
             </div>
+            <div *ngIf="!town.shared_via_indexes" class="cell"></div>
 
 					</div>
 				</div>

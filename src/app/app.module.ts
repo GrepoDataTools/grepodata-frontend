@@ -168,8 +168,8 @@ const appRoutes: Routes = [
     { path: 'invite/:invite_link/:type/:world/:id', component: InviteComponent }, // Invite route to catch V1 redirects
     { path: 'link/:uid', component: InviteComponent }, // V2 userscript authentication
     { path: 'userscript', component: UserscriptComponent },
-    { path: 'siege/:id/:key', component: SiegeComponent },
-    { path: 'siege/:uid', component: SiegeComponent },
+    // { path: 'siege/:id/:key', component: SiegeComponent },
+    // { path: 'siege/:uid', component: SiegeComponent },
     { path: 'player/:world/:id', component: PlayerComponent },
     { path: 'player', component: PlayerComponent },
     { path: 'alliance/:world/:id', component: AllianceComponent },

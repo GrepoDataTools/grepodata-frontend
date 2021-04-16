@@ -1,4 +1,7 @@
-
+.report-container {
+  padding-right: 10px;
+  padding-left: 10px;
+}
 .conquests-container {
   width: 100%;
   font-size: 17px;
@@ -20,6 +23,8 @@
   }
   .conquest-contents.conquest-card {
     max-width: 570px;
+    background: #f8f9fa;
+    font-weight: 400;
     display: inline-block;
     box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
   }
@@ -32,14 +37,30 @@
     }
     .conquest-title {
       font-size: 17px;
-      background: #ebebeb;
+      //background: #C3D6EF;
+      background: #304356;
       padding: 8px 5px;
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
+      color: #304356;
+
+      .conquest-subject {
+        display: inline-block;
+        background: #f8f9fa;
+        border-radius: 10rem;
+        height: 27px;
+        padding: 2px 15px 0;
+      }
+
+      a {
+        //color: #18BC9C;
+        //color: #fff;
+        color: #304356;
+      }
     }
     .conquest-belligerents {
-      border-top: 1px solid #ddd;
+      border-top: 1px dashed #ddd;
       padding: 7px 15px !important;
       min-height: 111px !important;
       .att {
@@ -48,11 +69,11 @@
       }
     }
     .conquest-losses {
-      border-top: 1px solid #ddd;
+      border-top: 1px dashed #ddd;
       padding: 7px 15px !important;
     }
     .conquest-result {
-      border-top: 1px solid #ddd;
+      border-top: 1px dashed #ddd;
       padding: 7px 15px !important;
     }
     .conquest-reports {

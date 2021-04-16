@@ -130,7 +130,6 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   load(response) {
-    console.log(response);
     if (response.hasOwnProperty('activetab')) {
       this.active_tab = response.activetab;
     }

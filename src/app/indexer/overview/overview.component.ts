@@ -11,6 +11,7 @@ import {ContactDialog} from '../../header/header.component';
 import {IndexSettingsDialog} from '../../shared/dialogs/index-settings/index-settings.component';
 import {ShareIndexDialog} from '../../shared/dialogs/share-index/share-index.component';
 import {IndexMembersDialog} from '../../shared/dialogs/index-members/index-members.component';
+import {SiegeListDialog} from '../siege/siege.service';
 
 @Component({
   selector: 'app-overview',
@@ -131,17 +132,18 @@ export class OverviewComponent implements OnInit {
     this.loading = false;
   }
 
-  // public loadSiegeListDialog(): void {
-  //   let dialogRef = this.dialog.open(SiegeListDialog, {
-  //     autoFocus: false,
-  //     data: {
-  //       key: this.key,
-  //       world: this.world
-  //     }
-  //   });
-  //
-  //   dialogRef.afterClosed().subscribe(result => {});
-  // }
+  public loadSiegeListDialog(): void {
+    let dialogRef = this.dialog.open(SiegeListDialog, {
+      autoFocus: false,
+      data: {
+        key: this.key,
+        world: this.world,
+        index_name: this.index_name
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {});
+  }
 
   public openBBdialog(type) {
     let dataBB = {

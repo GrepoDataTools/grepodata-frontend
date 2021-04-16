@@ -12,6 +12,7 @@ export class Globals {
   ACTIVE_INTEL_WORLD  = 'active_intel_worlds';
   TOP_INDEX_LIST      = 'topindexlist';
   ALL_INDEX_LIST      = 'allindexlist';
+  RECENT_INTEL_LIST   = 'recentintellist';
 
   private active_world:   string = '';
   private active_server:  string = '';
@@ -132,6 +133,19 @@ export class Globals {
   }
   delete_top_indexes() {
     localStorage.removeItem(this.TOP_INDEX_LIST);
+  }
+
+  /**
+   * Recent intel list
+   */
+  get_recent_intel() {
+    return this.get_json_with_expiry(this.RECENT_INTEL_LIST)
+  }
+  set_recent_intel(top_indexes, lifetime=60 * 24 * 14) {
+    return this.set_json_with_expiry(this.RECENT_INTEL_LIST, top_indexes, lifetime)
+  }
+  delete_recent_intel() {
+    localStorage.removeItem(this.RECENT_INTEL_LIST);
   }
 
   /**

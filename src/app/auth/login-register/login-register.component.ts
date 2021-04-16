@@ -49,7 +49,7 @@ export class LoginRegisterComponent implements OnInit {
     private formBuilder: FormBuilder,
     private indexAuthService: IndexAuthService
   ) {
-    this.authService.accessToken().then(access_token => {
+    this.authService.accessToken(false).then(access_token => {
       this.loginComplete(access_token);
     });
   }

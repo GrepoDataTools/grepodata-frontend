@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ConquestReportDialog, SiegeService} from './siege.service';
 import {MatDialog} from '@angular/material/dialog';
 import {environment} from '../../../environments/environment';
+import {JwtService} from '../../auth/services/jwt.service';
 
 @Component({
   selector: 'app-siege',
@@ -35,6 +36,7 @@ export class SiegeComponent implements AfterViewInit, OnChanges {
     public siegeService : SiegeService,
     public router: Router,
     private route: ActivatedRoute,
+    private authService: JwtService,
     public dialog: MatDialog
   ) {
     if (window.screen.width > 768) { // 768px portrait
@@ -52,7 +54,7 @@ export class SiegeComponent implements AfterViewInit, OnChanges {
       if (this.getByUid) {
         this.loadByUid();
       } else {
-        this.loadByKey();
+        this.loadById();
       }
     } else {
       // render conquest only
@@ -62,47 +64,49 @@ export class SiegeComponent implements AfterViewInit, OnChanges {
 
   ngAfterViewInit(): void {
     // Routed loading
-    this.route.params.subscribe( params => {
-      if (this.route.routeConfig && this.route.routeConfig.path.search('siege/') >= 0) {
-        this.isCard = false;
-        this.embedded = false;
-        this.hideKey = true;
-        this.conquest = {};
-        if (params.key && params.id) {
-          this.conquestId = params.id;
-          this.key = params.key;
-          this.hideKey = false;
-          this.loadByKey();
-        } else if (params.uid) {
-          this.conquestId = params.uid;
-          this.loadByUid();
-        }
-      }
-    });
+    // this.route.params.subscribe( params => {
+    //   if (this.route.routeConfig && this.route.routeConfig.path.search('siege/') >= 0) {
+    //     this.isCard = false;
+    //     this.embedded = false;
+    //     this.hideKey = true;
+    //     this.conquest = {};
+    //     if (params.key && params.id) {
+    //       this.conquestId = params.id;
+    //       this.key = params.key;
+    //       this.hideKey = false;
+    //       this.loadById();
+    //     } else if (params.uid) {
+    //       this.conquestId = params.uid;
+    //       this.loadByUid();
+    //     }
+    //   }
+    // });
   }
 
   loadByUid(): void {
-    this.siegeService.getConquestDetailsByUid(this.conquestId).subscribe(
-      (response) => this.renderResult(response),
-      (error) => {
-        this.error = this.conquest == null || this.conquest.conquest_id == null;
-        this.errorReports = true;
-        this.loading = false;
-        this.loadingReports = false;
-        console.log(error);
-      });
+    // this.siegeService.getConquestDetailsByUid(this.conquestId).subscribe(
+    //   (response) => this.renderResult(response),
+    //   (error) => {
+    //     this.error = this.conquest == null || this.conquest.conquest_id == null;
+    //     this.errorReports = true;
+    //     this.loading = false;
+    //     this.loadingReports = false;
+    //     console.log(error);
+    //   });
   }
 
-  loadByKey(): void {
-    this.siegeService.getConquestDetailsByKey(this.key, this.conquestId).subscribe(
-      (response) => this.renderResult(response),
-      (error) => {
-        this.error = this.conquest == null || this.conquest.conquest_id == null;
-        this.errorReports = true;
-        this.loading = false;
-        this.loadingReports = false;
-        console.log(error);
-      });
+  loadById(): void {
+    this.authService.accessToken().then(access_token => {
+      this.siegeService.getConquestDetailsById(access_token, this.conquestId).subscribe(
+        (response) => this.renderResult(response),
+        (error) => {
+          this.error = this.conquest == null || this.conquest.conquest_id == null;
+          this.errorReports = true;
+          this.loading = false;
+          this.loadingReports = false;
+          console.log(error);
+        });
+    });
   }
 
   renderResult(data) {
@@ -110,6 +114,7 @@ export class SiegeComponent implements AfterViewInit, OnChanges {
       this.reports = data.intel;
       this.world = data.world;
       if (this.conquest == null || this.conquest.conquest_id == null) {
+        // if coming from player, town or alliance intel, then conquest overview needs to be loaded
         this.conquest = data.conquest;
         this.conquestId = data.conquest.conquest_id;
       }
@@ -129,35 +134,23 @@ export class SiegeComponent implements AfterViewInit, OnChanges {
 
   public loadConquestDetails(): void {
     let dialogRef = this.dialog.open(ConquestReportDialog, {
-      panelClass: 'tight-dialog-container',
+      panelClass: ['tight-dialog-container'],
       autoFocus: false,
       data: {
         key: this.key,
         world: this.world,
         conquest: this.conquest,
         conquest_id: this.conquestId,
-        get_by_uid: true,
+        get_by_uid: false,
       }
     });
   }
 
-  copyLink(inputElement) {
-    let url = environment.url + '/siege/' + this.conquestId;
-    navigator.clipboard.writeText(url).then(() => {});
-    // let selection = window.getSelection();
-    // let txt = document.getElementById('siegeShareUrl');
-    // let range = document.createRange();
-    // range.selectNodeContents(txt);
-    // console.log(range);
-    // selection.removeAllRanges();
-    // selection.addRange(range);
-    // document.execCommand("copy");
-    // selection.removeAllRanges();
-    // inputElement.select();
-    // document.execCommand('copy');
-    // inputElement.setSelectionRange(0, 0);
-    this.copied = true;
-    window.setTimeout(()=>{this.copied = false;}, 4000);
-  }
+  // copyLink(inputElement) {
+  //   let url = environment.url + '/siege/' + this.conquestId;
+  //   navigator.clipboard.writeText(url).then(() => {});
+  //   this.copied = true;
+  //   window.setTimeout(()=>{this.copied = false;}, 4000);
+  // }
 
 }

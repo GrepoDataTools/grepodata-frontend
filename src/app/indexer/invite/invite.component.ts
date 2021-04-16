@@ -70,7 +70,7 @@ export class InviteComponent implements OnInit {
       }
     }
 
-    this.authService.accessToken().then(access_token => {
+    this.authService.accessToken(false).then(access_token => {
       console.log('found local access_token');
       this.loginCallback(access_token);
     }).catch(rejected => {

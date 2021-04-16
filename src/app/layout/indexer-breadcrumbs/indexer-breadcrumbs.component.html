@@ -26,6 +26,13 @@
             <mat-icon>launch</mat-icon>
           </a>
         </div>
+        <div>
+          <mat-icon class="directory">subdirectory_arrow_right</mat-icon>
+          <a routerLink="/profile/teams">
+            All my teams
+            <mat-icon>launch</mat-icon>
+          </a>
+        </div>
       </div>
     </li>
 
@@ -41,8 +48,8 @@
       <span *ngIf="!data.alliance.name">
         &nbsp;no alliance
       </span>
-      <mat-icon style="vertical-align: bottom;" class="hidden-xs hidden-sm">arrow_drop_down</mat-icon>
-      <div *ngIf="expandedAlliance" class="expand-options">
+      <mat-icon style="vertical-align: bottom;" class="hidden-xs hidden-sm" *ngIf="data.alliance.id">arrow_drop_down</mat-icon>
+      <div *ngIf="expandedAlliance && data.alliance.id" class="expand-options">
         <div style="margin-bottom: 10px;" *ngIf="!data.alliance.active">
           <mat-icon class="directory">subdirectory_arrow_right</mat-icon>
           <a routerLink="/intel/alliance/{{data.world}}/{{data.alliance.id}}">

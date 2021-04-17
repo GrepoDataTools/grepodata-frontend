@@ -87,8 +87,8 @@ export class SiegeListDialog {
   objectKeys = Object.keys;
 
   from = 0;
-  size = 2;
-  num_results = 2;
+  size = 20;
+  num_results = 20;
   pageEvent: PageEvent;
   paging = true;
 

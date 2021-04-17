@@ -19,7 +19,7 @@
 				<div class="conquests-container container-fluid">
 					<div class="conquests-list row" style="margin: 0 !important;">
 
-            <mat-paginator *ngIf="from > 0 || num_results > 2" [length]="num_results"
+            <mat-paginator *ngIf="from > 0 || num_results > 20" [length]="num_results"
                            [pageSize]="size"
                            [pageSizeOptions]="[20, 50, 100]"
                            (page)="paginatorEvent($event)"

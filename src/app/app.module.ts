@@ -130,6 +130,7 @@ import { BugReportComponent } from './auth/profile/components/bug-report/bug-rep
 import {MatSortModule} from '@angular/material/sort';
 import {BasicSnackbar} from './shared/snackbar/basic-snackbar.component';
 import { IndexerBreadcrumbsComponent } from './layout/indexer-breadcrumbs/indexer-breadcrumbs.component';
+import { PlayerActivityComponent } from './layout/player-activity/player-activity.component';
 
 const appRoutes: Routes = [
     { path: 'login', component: LandingPageComponent },
@@ -272,6 +273,7 @@ export function jwtTokenGetter(): any {
         LoginRegisterComponent,
         BugReportComponent,
         IndexerBreadcrumbsComponent,
+        PlayerActivityComponent,
     ],
     imports: [
         FormsModule,

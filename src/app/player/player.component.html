@@ -67,17 +67,7 @@
                   <th>Points</th>
                   <td>
                     {{points | NumberFilter}}
-                    <div *ngIf="playerInfoData.hours_inactive" style="display: inline-block; padding-left: 10px; vertical-align: text-top;">
-                      <div *ngIf="playerInfoData.hours_inactive<24">
-                        <div class="btn-success btn-xs" matTooltip="Last activity (town oor attack points): {{inactive_readable}}">Active</div>
-                      </div>
-                      <div *ngIf="playerInfoData.hours_inactive>=24 && playerInfoData.hours_inactive<72">
-                        <div class="btn-warning btn-xs" matTooltip="Last activity (town oor attack points): {{inactive_readable}}">Inactive</div>
-                      </div>
-                      <div *ngIf="playerInfoData.hours_inactive>=72">
-                        <div class="btn-danger btn-xs" matTooltip="Last activity (town oor attack points): {{inactive_readable}}">Inactive</div>
-                      </div>
-                    </div>
+                    <app-player-activity [hours_inactive]="playerInfoData.hours_inactive" style="padding-left: 10px;"></app-player-activity>
                   </td>
                 </tr>
                 <tr>
@@ -213,13 +203,24 @@
               </ng-template>
               <br/>
 	            <mat-card-title>
-		            <div>
-		              <h4 style='font-weight: 300; color: #304357;'><span class='world-title' style='color: #18BC9C;'>This feature has been removed.</span></h4>
-			            <p>Due to privacy concerns, the activity heatmap feature has been removed from GrepoData entirely.<br/>
-			              <br/>
-				            <br/>
-			            </p>
-	              </div>
+                <div style="text-align: center; margin-top: 40px;">
+                  <h2 style='font-weight: 300; color: #304357;'><span class='world-title' style='color: #18BC9C;'>Sorry, the heatmap feature has been removed.</span></h2>
+                  <h4><strong>Due to privacy concerns, the activity heatmap feature has been removed from GrepoData entirely.</strong><br/>
+                    <br/>
+                    Instead of the heatmap, we will now show the last time this player has been active. This is indicated by one of these labels on the left panel: <br/>
+                  </h4>
+                  <div style="display: inline-grid; font-size: 16px;">
+                    <div style="display: inline-flex; margin-bottom: 5px;">
+                      <div class="btn-success btn-xs">Active</div> &nbsp; Player has gained attack or town points within the last 24 hours.
+                    </div>
+                    <div style="display: inline-flex; margin-bottom: 5px;">
+                    <div class="btn-warning btn-xs">Inactive</div> &nbsp; Player has gained attack or town points within the last 72 hours.
+                    </div>
+                    <div style="display: inline-flex;">
+                    <div class="btn-danger btn-xs">Inactive</div> &nbsp; Player has not gained any attack or town points for at least 72 hours or more.
+                    </div>
+                  </div>
+                </div>
 	            </mat-card-title>
 
             </mat-tab>

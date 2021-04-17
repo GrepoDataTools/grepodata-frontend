@@ -172,82 +172,24 @@
 			          <mat-icon style="opacity: 1; vertical-align: bottom;">watch_later</mat-icon>&nbsp;Activity<span class="hidden-xs">&nbsp;heatmap</span>
 		          </ng-template>
 		          <mat-card-content style="overflow: hidden;">
-			          <div>
-				          <h4 style='font-weight: 300; color: #304357;'><span class='world-title' style='color: #18BC9C;'>This feature has been removed.</span></h4>
-				          <p>Due to privacy concerns, the activity heatmap feature has been removed from GrepoData entirely.<br/>
-					          <br/>
-					          <br/>
-				          </p>
-			          </div>
-			          <!---->
-			          <!--<div class="container-fluid" style="padding-right: 40px;">-->
-				          <!--<div class="row" style="overflow: hidden;">-->
-					          <!--<div #overviewLeft class="col-xs-12 col-sm-6 text-center">-->
-						          <!--<form class="form-inline">-->
-							          <!--<label style='font-weight: 700; font-size: 18px; margin: 12px; line-height: 1.1;'>-->
-								          <!--<span class='world-title gd-primary'>Least active player on</span>-->
-							          <!--</label>-->
-							          <!--<select #dayOfWeek id="dayOfWeek" name="dayOfWeek" [(ngModel)]="selectedDay" class="form-control mr-2" (change)="renderPlayerActivity($event)">-->
-								          <!--<option *ngFor="let day of daysOfWeek; let i = index;" [ngValue]="i">{{day}}</option>-->
-							          <!--</select>-->
-						          <!--</form>-->
-
-						          <!--<ngx-charts-bar-horizontal-->
-							          <!--[animations]="false"-->
-							          <!--[view]="[overviewLeft.offsetWidth-50, 60 + leastActiveDay.length * 24]"-->
-							          <!--[scheme]="{domain: ['#297fb9']}"-->
-							          <!--[results]="leastActiveDay"-->
-							          <!--[gradient]="false"-->
-							          <!--[xAxis]="true"-->
-							          <!--[yAxis]="true"-->
-							          <!--[legend]="false"-->
-							          <!--[showXAxisLabel]="true"-->
-							          <!--[showYAxisLabel]="false"-->
-							          <!--[roundDomains]="true"-->
-							          <!--[barPadding]="2"-->
-							          <!--[showDataLabel]="false"-->
-							          <!--[xAxisLabel]="'Activity'"-->
-							          <!--[yAxisLabel]="'Player'"-->
-							          <!--(select)="onPlayerClick($event)">-->
-						          <!--</ngx-charts-bar-horizontal>-->
-					          <!--</div>-->
-					          <!--<div #overviewRight class="col-xs-12 col-sm-6 text-center">-->
-						          <!--<form class="form-inline">-->
-							          <!--<label style='font-weight: 700; font-size: 18px; margin: 12px; line-height: 1.1;'>-->
-								          <!--<span class='world-title gd-primary'>Least active player at</span>-->
-							          <!--</label>-->
-							          <!--<select #hourOfDay id="hourOfDay" name="hourOfDay" [(ngModel)]="selectedHour" class="form-control mr-2" (change)="renderPlayerActivity($event)">-->
-								          <!--<option *ngFor="let hour of hoursOfDay; let i = index;" [ngValue]="i">{{i<10?'0':''}}{{i}}:00</option>-->
-							          <!--</select>-->
-						          <!--</form>-->
-
-						          <!--<ngx-charts-bar-horizontal-->
-							          <!--[animations]="false"-->
-							          <!--[view]="[overviewRight.offsetWidth-50, 60 + leastActiveHour.length * 24]"-->
-							          <!--[scheme]="{domain: ['#297fb9']}"-->
-							          <!--[results]="leastActiveHour"-->
-							          <!--[gradient]="false"-->
-							          <!--[xAxis]="true"-->
-							          <!--[yAxis]="true"-->
-							          <!--[legend]="false"-->
-							          <!--[showXAxisLabel]="true"-->
-							          <!--[showYAxisLabel]="false"-->
-							          <!--[roundDomains]="true"-->
-							          <!--[barPadding]="2"-->
-							          <!--[showDataLabel]="false"-->
-							          <!--[xAxisLabel]="'Activity'"-->
-							          <!--[yAxisLabel]="'Player'"-->
-							          <!--(select)="onPlayerClick($event)">-->
-						          <!--</ngx-charts-bar-horizontal>-->
-					          <!--</div>-->
-				          <!--</div>-->
-			          <!--</div>-->
-
-			          <!--<p class="gd-secondary">This tab shows player activity for the members of this alliance at the specified time.-->
-				          <!--Player activity is a metric that we calculate based on the attack frequency in the last 4 weeks.-->
-				          <!--An activity value of 1 means that the player did not send any attacks in that timeframe.-->
-				          <!--All times are in the same timezone as the local Grepolis server.</p>-->
-
+                <div style="text-align: center; margin-top: 40px;">
+                  <h2 style='font-weight: 300; color: #304357;'><span class='world-title' style='color: #18BC9C;'>Sorry, the heatmap feature has been removed.</span></h2>
+                  <h4><strong>Due to privacy concerns, the activity heatmap feature has been removed from GrepoData entirely.</strong><br/>
+                    <br/>
+                    Instead of the heatmap, we will now show the last time this player has been active. This is indicated by one of these labels on the left panel: <br/>
+                  </h4>
+                  <div style="display: inline-grid; font-size: 16px;">
+                    <div style="display: inline-flex; margin-bottom: 5px;">
+                      <div class="btn-success btn-xs">Active</div> &nbsp; Player has gained attack or town points within the last 24 hours.
+                    </div>
+                    <div style="display: inline-flex; margin-bottom: 5px;">
+                      <div class="btn-warning btn-xs">Inactive</div> &nbsp; Player has gained attack or town points within the last 72 hours.
+                    </div>
+                    <div style="display: inline-flex;">
+                      <div class="btn-danger btn-xs">Inactive</div> &nbsp; Player has not gained any attack or town points for at least 72 hours or more.
+                    </div>
+                  </div>
+                </div>
 		          </mat-card-content>
 	          </mat-tab>
             <mat-tab style="overflow: hidden;">
@@ -389,7 +331,7 @@
         <mat-card class="dense-card" fxFlex="60" fxFlex.gt-md="60" fxFlex.gt-xs="100">
           <mat-card-title>
             <div fxLayout="row">
-	            <h3 style='font-weight: 700; color: #304357;'><span class='world-title' style='color: #18BC9C;'>Members</span></h3>
+	            <h3 style='font-weight: 700; color: #304357;'><span class='world-title' style='color: #18BC9C;'>Alliance members</span></h3>
             </div>
           </mat-card-title>
           <mat-card-content [ngClass]="{'loading-overlay': loadingMembers}">
@@ -414,6 +356,7 @@
 		                  <div class="cell hidden-xs">#</div>
 	                    <div class="cell">Rank</div>
 	                    <div class="cell sticky-cell">Player</div>
+	                    <div class="cell">Activity</div>
 	                    <div class="cell">Points</div>
 	                    <div *ngFor="let date of allianceMembersData.dates; let i = index;" class="cell">
 	                      {{date | Datex : "D MMM"}}
@@ -423,7 +366,12 @@
 	                  <div class="row_custom" *ngFor="let m of allianceMembersData.members; let i = index;">
 		                  <div class="cell hidden-xs">{{i+1}}</div>
 	                    <div class="cell">{{m.rank}}</div>
-	                    <div class="cell formatted-cell sticky-cell"><a routerLink="/player" [queryParams]="{world: world, id: m.id}">{{m.name}}</a></div>
+	                    <div class="cell formatted-cell sticky-cell">
+                        <a routerLink="/player" [queryParams]="{world: world, id: m.id}">{{m.name}}</a>
+                      </div>
+                      <div class="cell">
+                        <app-player-activity [hours_inactive]="m.hours_inactive" [tooltip]="'basic'" [player_name]="m.name"></app-player-activity>
+                      </div>
 	                    <div class="cell formatted-cell">{{m.points | NumberFilter}}</div>
 	                    <div *ngFor="let h of m.history.slice().reverse(); let i = index;" class="cell">
 	                      <a routerLink="/points" [queryParams]="{world: world, date: h.date}">

@@ -175,7 +175,7 @@ export class IndexTownComponent implements AfterViewInit {
         teams: data.teams || [],
         player: {
           name: this.playerName,
-          id: this.id
+          id: this.playerId
         },
         alliance: {
           name: data.alliance_name || '',

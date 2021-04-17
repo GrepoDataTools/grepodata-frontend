@@ -131,7 +131,7 @@
 			<mat-card-title *ngIf="(firePlayers | ValuesPipe).length>3">
 				<form class="form-inline" style="font-size: 18px; font-weight: 300;">
 					<label class="gd-secondary" style="margin-right: 5px;">Filter by player name:</label>
-					<input type="text" autocomplete="off" class="form-control" name="playerNameFilter"
+					<input type="text" autocomplete="off" class="form-control filter-input" name="playerNameFilter" placeholder="Enter player name"
 					       [(ngModel)]="playerNameFilterSea" (keyup)="filterPlayers('sea');" style="margin-right: 5px;"/>
 					<label *ngIf="playerNameFilterSea != ''" class="fa fa-times" (click)="clearFilter()"></label>
 				</form>
@@ -157,10 +157,10 @@
 		</div>
 		<div *ngIf="tabsSeaIndex===1">
 			<br/>
-			<mat-card-title *ngIf="birPlayers.length>3">
+			<mat-card-title *ngIf="(birPlayers | ValuesPipe).length>3">
 				<form class="form-inline" style="font-size: 18px; font-weight: 300;">
 					<label class="gd-secondary" style="margin-right: 5px;">Filter by player name:</label>
-					<input type="text" autocomplete="off" class="form-control" name="playerNameFilter"
+					<input type="text" autocomplete="off" class="form-control filter-input" name="playerNameFilter" placeholder="Enter player name"
 					       [(ngModel)]="playerNameFilterSea" (keyup)="filterPlayers('sea');" style="margin-right: 5px;"/>
 					<label *ngIf="playerNameFilterSea != ''" class="fa fa-times" (click)="clearFilter()"></label>
 				</form>
@@ -186,10 +186,10 @@
 		</div>
 		<div *ngIf="tabsSeaIndex===2">
 			<br/>
-			<mat-card-title *ngIf="trirPlayers.length>3">
+			<mat-card-title *ngIf="(trirPlayers | ValuesPipe).length>3">
 				<form class="form-inline" style="font-size: 18px; font-weight: 300;">
 					<label class="gd-secondary" style="margin-right: 5px;">Filter by player name:</label>
-					<input type="text" autocomplete="off" class="form-control" name="playerNameFilter"
+					<input type="text" autocomplete="off" class="form-control filter-input" name="playerNameFilter" placeholder="Enter player name"
 					       [(ngModel)]="playerNameFilterSea" (keyup)="filterPlayers('sea');" style="margin-right: 5px;"/>
 					<label *ngIf="playerNameFilterSea != ''" class="fa fa-times" (click)="clearFilter()"></label>
 				</form>
@@ -245,7 +245,7 @@
 			<mat-card-title *ngIf="(mythPlayers | ValuesPipe).length>3">
 				<form class="form-inline" style="font-size: 18px; font-weight: 300;">
 					<label class="gd-secondary" style="margin-right: 5px;">Filter by player name:</label>
-					<input type="text" autocomplete="off" class="form-control" name="playerNameFilter"
+					<input type="text" autocomplete="off" class="form-control filter-input" name="playerNameFilter" placeholder="Enter player name"
 					       [(ngModel)]="playerNameFilterLand" (keyup)="filterPlayers('land');" style="margin-right: 5px;"/>
 					<label *ngIf="playerNameFilterLand != ''" class="fa fa-times" (click)="clearFilter()"></label>
 				</form>
@@ -274,7 +274,7 @@
 			<mat-card-title *ngIf="(offPlayers | ValuesPipe).length>3">
 				<form class="form-inline" style="font-size: 18px; font-weight: 300;">
 					<label class="gd-secondary" style="margin-right: 5px;">Filter by player name:</label>
-					<input type="text" autocomplete="off" class="form-control" name="playerNameFilter"
+					<input type="text" autocomplete="off" class="form-control filter-input" name="playerNameFilter" placeholder="Enter player name"
 					       [(ngModel)]="playerNameFilterLand" (keyup)="filterPlayers('land');" style="margin-right: 5px;"/>
 					<label *ngIf="playerNameFilterLand != ''" class="fa fa-times" (click)="clearFilter()"></label>
 				</form>
@@ -303,7 +303,7 @@
 			<mat-card-title *ngIf="(defPlayers | ValuesPipe).length>3">
 				<form class="form-inline" style="font-size: 18px; font-weight: 300;">
 					<label class="gd-secondary" style="margin-right: 5px;">Filter by player name:</label>
-					<input type="text" autocomplete="off" class="form-control" name="playerNameFilter"
+					<input type="text" autocomplete="off" class="form-control filter-input" name="playerNameFilter" placeholder="Enter player name"
 					       [(ngModel)]="playerNameFilterLand" (keyup)="filterPlayers('land');" style="margin-right: 5px;"/>
 					<label *ngIf="playerNameFilterLand != ''" class="fa fa-times" (click)="clearFilter()"></label>
 				</form>

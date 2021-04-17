@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {environment} from '../../../../../environments/environment';
 import {JwtService} from '../../../services/jwt.service';
+import {RecaptchaComponent} from 'ng-recaptcha';
 
 @Component({
   selector: 'app-change-password',
@@ -9,11 +10,14 @@ import {JwtService} from '../../../services/jwt.service';
   styleUrls: ['./change-password.component.scss']
 })
 export class ChangePasswordComponent implements OnInit {
+  @ViewChild(RecaptchaComponent, {static: false}) captchaRef:RecaptchaComponent;
+  recaptcha_key = environment.recaptcha;
 
   environment = environment;
   passwordForm: FormGroup;
 
   error = '';
+  captcha = '';
   success = false;
   loading = false;
   submitted = false;
@@ -35,6 +39,10 @@ export class ChangePasswordComponent implements OnInit {
 
   public sendRequest() {
     this.submitted = true;
+    if (this.captchaRef != undefined) {
+      this.captchaRef.reset();
+    }
+
     if (this.passwordForm.invalid) {
       return;
     }
@@ -64,7 +72,7 @@ export class ChangePasswordComponent implements OnInit {
 
     this.loading = true;
     this.authService.accessToken().then(access_token => {
-      this.authService.changeActivePassword(access_token, old_password, new_password, 'dev').subscribe(
+      this.authService.changeActivePassword(access_token, old_password, new_password, this.captcha != '' ? this.captcha : 'dev').subscribe(
         (response) => {
           // console.log(response);
           this.error = '';
@@ -83,5 +91,10 @@ export class ChangePasswordComponent implements OnInit {
       );
     });
 
+  }
+
+  resolved_captcha(captchaResponse: string) {
+    this.captcha = captchaResponse;
+    this.sendRequest();
   }
 }

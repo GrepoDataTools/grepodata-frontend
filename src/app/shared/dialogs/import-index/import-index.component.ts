@@ -64,7 +64,7 @@ export class ImportIndexDialog {
       this.building = true;
 
       this.authService.accessToken().then(access_token => {
-        this.indexerAuthService.importV1Keys(access_token, this.index_name, true).subscribe(
+        this.indexerAuthService.importV1Keys(access_token, this.index_name, true, this.captcha).subscribe(
           (response) => {
 
             if ('success_code' in response && response.success_code == 1400) {

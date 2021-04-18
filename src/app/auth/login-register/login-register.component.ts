@@ -256,7 +256,7 @@ export class LoginRegisterComponent implements OnInit {
         if (error.error.message != undefined && error.error.message.search('Invalid captcha') != -1) {
           this.reset_error = 'Sorry, we could not verify the captcha. Please try again later or contact us if this error persists.';
         } else if (error.error.error_code != undefined && error.error.error_code == 3004) {
-          this.resetForm.controls.resetmail.setErrors({'custom': 'Unknown email address.'});
+          this.resetForm.controls.resetmail.setErrors({'custom': 'Unknown email address. If you created an index before April 2021: please register for a new account using the form on the left. You can use the same email address again.'});
         } else {
           this.reset_error = 'Sorry, something went wrong. Please try again later or contact us if this error persists.';
         }

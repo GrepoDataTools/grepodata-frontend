@@ -68,7 +68,7 @@ const MENU_ITEMS: Array<Menu> = [
   {
     mobileOnly: false,
     state: 'profile/logout',
-    name: 'Log Out',
+    name: 'Sign Out',
     type: 'action',
     icon: 'power_settings_new',
     action: 'logout',

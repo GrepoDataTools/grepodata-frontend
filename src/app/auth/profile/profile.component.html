@@ -12,51 +12,84 @@
   </mat-sidenav>
 	<div class="profile-container" *ngIf="logged_in">
 
-    <div class="page-wrapper"></div>
+    <div class="profile-page">
+      <div class="page-wrapper"></div>
 
-		<div *ngIf="!account_confirmed" style="">
-			<app-confirm></app-confirm>
-		</div>
+      <div *ngIf="!account_confirmed" style="">
+        <app-confirm></app-confirm>
+      </div>
 
-		<!--<app-alert type="error" title="Verify your Grepolis player name" *ngIf="!account_linked && active_tab !== 'linked'">-->
-      <!--<p>-->
-        <!--You have not yet verified your Grepolis player name. You can only share intel with others if your player name is verified.-->
-      <!--</p>-->
-      <!--<p>-->
-				<!--<a class="a-link-dialog" routerLink="/profile/linked">Request a new player verification here</a>-->
-      <!--</p>-->
-		<!--</app-alert>-->
+      <!--<app-alert type="error" title="Verify your Grepolis player name" *ngIf="!account_linked && active_tab !== 'linked'">-->
+        <!--<p>-->
+          <!--You have not yet verified your Grepolis player name. You can only share intel with others if your player name is verified.-->
+        <!--</p>-->
+        <!--<p>-->
+          <!--<a class="a-link-dialog" routerLink="/profile/linked">Request a new player verification here</a>-->
+        <!--</p>-->
+      <!--</app-alert>-->
 
-    <div *ngIf="active_tab === 'bug'">
-      <app-bug-report></app-bug-report>
-    </div>
-    <div *ngIf="active_tab === 'team'">
-      <app-overview></app-overview>
-    </div>
-    <div *ngIf="active_tab === 'player'">
-      <app-index-player></app-index-player>
-    </div>
-    <div *ngIf="active_tab === 'alliance'">
-      <app-index-alliance></app-index-alliance>
-    </div>
-    <div *ngIf="active_tab === 'town'">
-      <app-index-town></app-index-town>
-    </div>
-    <span *ngIf="active_tab === 'intel'"><app-intel></app-intel></span>
-    <span *ngIf="active_tab === 'linked'"><app-linked-accounts></app-linked-accounts></span>
-    <span *ngIf="active_tab === 'teams'"><app-indexes></app-indexes></span>
-    <span *ngIf="active_tab === 'script'"><app-userscript></app-userscript></span>
-    <span *ngIf="active_tab === 'settings'"><app-settings></app-settings></span>
-    <span *ngIf="active_tab === 'password'"><app-change-password></app-change-password></span>
-    <span *ngIf="active_tab === 'delete'"><app-delete-account></app-delete-account></span>
-    <span *ngIf="active_tab === 'faq'">
-	    <mat-card class="index-card">
-		    <h2><mat-icon>help_outline</mat-icon>&nbsp;Frequently asked questions</h2>
-		    <h4>Can't find what you are looking for? Feel free to <a class="a-link-dialog" (click)="showContactDialog()">send us a message</a> and we will responds as soon as possible.</h4>
-	      <br/>
-		    <app-faq></app-faq>
-	    </mat-card>
-    </span>
+      <div *ngIf="active_tab === 'bug'">
+        <app-bug-report></app-bug-report>
+      </div>
+      <div *ngIf="active_tab === 'team'">
+        <app-overview></app-overview>
+      </div>
+      <div *ngIf="active_tab === 'player'">
+        <app-index-player></app-index-player>
+      </div>
+      <div *ngIf="active_tab === 'alliance'">
+        <app-index-alliance></app-index-alliance>
+      </div>
+      <div *ngIf="active_tab === 'town'">
+        <app-index-town></app-index-town>
+      </div>
+      <span *ngIf="active_tab === 'intel'"><app-intel></app-intel></span>
+      <span *ngIf="active_tab === 'linked'"><app-linked-accounts></app-linked-accounts></span>
+      <span *ngIf="active_tab === 'teams'"><app-indexes></app-indexes></span>
+      <span *ngIf="active_tab === 'script'"><app-userscript></app-userscript></span>
+      <span *ngIf="active_tab === 'settings'"><app-settings></app-settings></span>
+      <span *ngIf="active_tab === 'password'"><app-change-password></app-change-password></span>
+      <span *ngIf="active_tab === 'delete'"><app-delete-account></app-delete-account></span>
+      <span *ngIf="active_tab === 'faq'">
+        <mat-card class="index-card">
+          <h2><mat-icon>help_outline</mat-icon>&nbsp;Frequently asked questions</h2>
+          <h4>Can't find what you are looking for? Feel free to <a class="a-link-dialog" (click)="showContactDialog()">send us a message</a> and we will responds as soon as possible.</h4>
+          <br/>
+          <app-faq></app-faq>
+        </mat-card>
+      </span>
 
-</div>
+      <div class="footer-push"></div>
+    </div>
+
+    <div class="profile-footer">
+      <div class="text-center footer-content">
+        <div class="footer-below">
+          <div>
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 disclaimer">
+                <!--<strong>Copyright notices: </strong>&nbsp;-->
+                Grepolis is a browser game by InnoGames GmbH. This is an unofficial 3rd party site
+                <br/>
+                Gameplay images related to Grepolis are copyright of InnoGames GmbH.
+              </div>
+              <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 disclaimer">
+                Copyright &copy; Grepodata {{date| date:'yyyy'}}
+                <br/>
+                <a class="a-link-dialog" (click)="showDisclaimerDialog()">Disclaimer</a>
+                &nbsp; | &nbsp;
+                <a class="a-link-dialog" routerLink="/privacy">Privacy</a>
+                &nbsp; | &nbsp;
+                <a class="a-link-dialog" routerLink="/analytics">Status</a>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </mat-sidenav-container>
+

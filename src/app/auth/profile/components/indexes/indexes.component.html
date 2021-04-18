@@ -128,7 +128,7 @@
                     (!filter_role || index.role == filter_role)
                   ">
 									<td style="text-align: left !important;" (click)="routing('/profile/team/' + index.key)">
-										<a><mat-icon style="opacity: 1; vertical-align: sub;">account_balance</mat-icon> {{index.name || index.key}}</a>
+										<a><mat-icon style="opacity: 1; vertical-align: sub;">group</mat-icon> {{index.name || index.key}}</a>
                     <div class="hidden-lg">
                       <div [outerHTML]="index.world | WorldNamePipe"></div>
                     </div>

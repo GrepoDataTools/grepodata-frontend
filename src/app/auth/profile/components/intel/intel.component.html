@@ -61,7 +61,7 @@
 					<mat-card class="top-index-cards text-white text-center top-index">
 						<mat-icon class="launch-icon hidden-xs hidden-sm hidden-md" style="float: right;">launch</mat-icon>
 						<div>
-							<h3 class="m-0"><mat-icon style="vertical-align: sub;">account_balance</mat-icon> {{index.name}}</h3>
+							<h3 class="m-0"><mat-icon style="vertical-align: sub;">group</mat-icon> {{index.name}}</h3>
 							<div [outerHTML]="index.world | WorldNamePipe"></div>
 							<div *ngFor="let owner of index.stats.owners;">
 								<img src="../../assets/images/ally_ico.png"/> {{owner.alliance_name}}

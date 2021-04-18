@@ -12,6 +12,7 @@ import {MatSidenav} from '@angular/material/sidenav';
 import {SidenavService} from '../../layout/sidebar/sidenav-service';
 import {IndexAuthService} from '../services/index.service';
 import {Globals} from '../../globals';
+import {DisclaimerDialog} from '../../footer/footer.component';
 
 @Component({
   selector: 'app-profile',
@@ -20,6 +21,7 @@ import {Globals} from '../../globals';
   providers: [ProfileService, IndexAuthService, JwtService],
 })
 export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
+  date = new Date();
   logged_in = false;
   account_confirmed = false;
   account_linked = false;
@@ -199,6 +201,17 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
 
   showContactDialog() {
     let dialogRef = this.dialog.open(ContactDialog, {
+      autoFocus: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {});
+  }
+
+
+  public showDisclaimerDialog(): void {
+    let dialogRef = this.dialog.open(DisclaimerDialog, {
+      // width: '600px',
+      // height: '80%'
       autoFocus: false
     });
 

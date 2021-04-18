@@ -64,7 +64,7 @@
 								</mat-tab>
 								<mat-tab>
 									<ng-template mat-tab-label>
-										<mat-icon style="opacity: 1; vertical-align: bottom;">account_balance</mat-icon>&nbsp;
+										<mat-icon style="opacity: 1; vertical-align: bottom;">group</mat-icon>&nbsp;
 										<span class="hidden-xs">Team info</span>
 										<span class="hidden-md hidden-sm hidden-lg">Info</span>
 									</ng-template>
@@ -236,7 +236,7 @@
 											<div style="float: right;" *ngIf="is_admin">
 												<a><mat-icon class="edit-owner" (click)="showSettingsDialog()">edit</mat-icon></a>
 											</div>
-											<div *ngFor="let owner of data.owners" matTooltip="Your intel is shared with allied alliances. You will see their intel, and they will see your intel. You can not see intel about each other's towns.">
+											<div *ngFor="let owner of data.owners" matTooltip="These alliances are the main contributors to this team. The team admin can choose to hide all intel about the towns of these alliances.">
 												<p class="gd-primary"><img src="../../assets/images/ally_ico.png" style="margin-top: -4px;"/> {{owner.alliance_name}}</p>
 											</div>
 										</td>

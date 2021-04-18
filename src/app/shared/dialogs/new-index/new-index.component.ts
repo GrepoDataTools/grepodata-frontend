@@ -91,6 +91,9 @@ export class NewIndexDialog {
     } else if (this.captcha == undefined || this.captcha == '' || this.captcha == null) {
       this.error = 'Sorry, we could not verify the captcha. Please try again later or contact us if this error persists.';
       if (this.captchaRef != undefined) { this.captchaRef.reset(); }
+    } else if (this.index_name.length > 24) {
+      this.error = 'Team name is too long. Team names can be at most 24 characters.';
+      if (this.captchaRef != undefined) { this.captchaRef.reset(); }
     } else {
       this.building = true;
 

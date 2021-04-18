@@ -14,19 +14,21 @@ export class ContentComponent implements OnInit {
   worldData = '';
   servers = [];
   worlds = [];
-  server: any = 'nl'; // TODO: dynamic default??
-  world: any = ''; // TODO: dynamic default??
+  server: any = 'en';
+  world: any = '';
 
   constructor(
     private globals: Globals,
     private worldService: WorldService,
     private router: Router,
     private route: ActivatedRoute) {
-    this.worldService.getWorlds().then((response) => this.loadWorlds(response));
     this.server = worldService.getDefaultServer();
+    this.worldService.getWorlds().then((response) => this.loadWorlds(response));
     if (this.globals.get_active_world() !== false) {
       this.world = this.globals.get_active_world();
       this.server = this.world.substr(0,2);
+    } else {
+      this.world = '';
     }
   }
 
@@ -39,7 +41,7 @@ export class ContentComponent implements OnInit {
     for (let i of this.worldData) {
       this.servers.push((<any>i).server);
       if ((<any>i).server == this.server) {
-        if (this.world == '') {
+        if (!this.world) {
           this.world = (<any>i).worlds[0].id;
           this.globals.set_active_world(this.world);
           this.globals.set_active_server(this.world.substr(0,2));

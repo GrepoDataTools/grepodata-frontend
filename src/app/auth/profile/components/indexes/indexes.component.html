@@ -6,7 +6,7 @@
             <mat-icon style="font-size: 40px; vertical-align: top; margin-right: 25px; color: #18bc9c;">group</mat-icon>
             My teams
 
-            <button *ngIf="confirmed" (click)="newIndex()" class="btn btn-success mr-1" style="margin-left: 3%;">
+            <button *ngIf="confirmed && indexes && !loading && indexes.length > 0" (click)="newIndex()" class="btn btn-success mr-1" style="margin-left: 3%;">
               <span class="hidden-sm hidden-xs">Create a new team</span>
               <span class="hidden-md hidden-lg">New team</span>
               &nbsp;<mat-icon>library_add</mat-icon>

@@ -67,7 +67,7 @@
                   <th>Points</th>
                   <td>
                     {{points | NumberFilter}}
-                    <app-player-activity [hours_inactive]="playerInfoData.hours_inactive" style="padding-left: 10px;"></app-player-activity>
+                    <app-player-activity [hours_inactive]="playerInfoData.hours_inactive" style="padding-left: 10px;" [show_active]="true"></app-player-activity>
                   </td>
                 </tr>
                 <tr>

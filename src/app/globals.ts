@@ -33,7 +33,12 @@ export class Globals {
     if (this.active_world != '') {
       return this.active_world;
     } else if (localStorage.getItem(this.ACTIVE_WORLD)) {
-      return localStorage.getItem(this.ACTIVE_WORLD);
+      let local_world = localStorage.getItem(this.ACTIVE_WORLD);
+      if (local_world == 'undefined') {
+        localStorage.removeItem(this.ACTIVE_WORLD);
+        return false;
+      }
+      return local_world;
     } else {
       return false;
     }
@@ -50,7 +55,12 @@ export class Globals {
     if (this.active_server != '') {
       return this.active_server;
     } else if (localStorage.getItem(this.ACTIVE_SERVER)) {
-      return localStorage.getItem(this.ACTIVE_SERVER);
+      let local_server = localStorage.getItem(this.ACTIVE_SERVER);
+      if (local_server == 'un') {
+        localStorage.removeItem(this.ACTIVE_SERVER);
+        return false;
+      }
+      return local_server;
     } else {
       return false;
     }

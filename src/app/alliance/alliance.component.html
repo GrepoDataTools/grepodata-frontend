@@ -370,7 +370,7 @@
                         <a routerLink="/player" [queryParams]="{world: world, id: m.id}">{{m.name}}</a>
                       </div>
                       <div class="cell">
-                        <app-player-activity [hours_inactive]="m.hours_inactive" [tooltip]="'basic'" [player_name]="m.name"></app-player-activity>
+                        <app-player-activity [hours_inactive]="m.hours_inactive" [tooltip]="'basic'" [player_name]="m.name" [show_active]="true"></app-player-activity>
                       </div>
 	                    <div class="cell formatted-cell">{{m.points | NumberFilter}}</div>
 	                    <div *ngFor="let h of m.history.slice().reverse(); let i = index;" class="cell">

@@ -4,6 +4,7 @@ import {RecaptchaComponent} from 'ng-recaptcha';
 import {environment} from '../../../../../environments/environment';
 import {CaptchaService} from '../../../../services/captcha.service';
 import {MessageService} from '../../../../services/message.service';
+import {Platform} from '@angular/cdk/platform';
 
 @Component({
   selector: 'app-bug-report',
@@ -25,7 +26,9 @@ export class BugReportComponent {
 
   constructor(
     public captchaService : CaptchaService,
-    private messageService : MessageService) { }
+    private platform : Platform,
+    private messageService : MessageService) {
+  }
 
   resolved(captchaResponse: string) {
     this.captcha = captchaResponse;
@@ -45,8 +48,25 @@ export class BugReportComponent {
       return;
     }
 
+    let report = this.bug_report;
+    try {
+      if (this.platform) {
+        let platform = {
+          Android: this.platform.ANDROID,
+          iOS: this.platform.IOS,
+          Firefox: this.platform.FIREFOX,
+          Blink: this.platform.BLINK,
+          Webkit: this.platform.WEBKIT,
+          Trident: this.platform.TRIDENT,
+          Edge: this.platform.EDGE,
+          Safari: this.platform.SAFARI
+        }
+        report += ' ' + JSON.stringify(platform);
+      }
+    } catch (e) {}
+
     this.loading = true;
-    this.messageService.sendMessage(this.bug_report, '', 'bug_report', this.captcha, this.files).subscribe(
+    this.messageService.sendMessage(report, '', 'bug_report', this.captcha, this.files).subscribe(
       (response) => {
         this.submitted = true;
         this.loading = false;

@@ -246,27 +246,27 @@
 			</div>
 
 			<!--VERSION-->
-			<div class="col-md-12 text-left" *ngIf="!loading_index && script_version.length > 0">
+<!--			<div class="col-md-12 text-left" *ngIf="!loading_index && script_version.length > 0">-->
 
-				<h2 class="gd-secondary">Indexer version migration</h2>
+<!--				<h2 class="gd-secondary">Indexer version migration</h2>-->
 
-				<div class="ngx-chart-container">
-					<!--<ngx-charts-area-chart-stacked-->
-					<ngx-charts-area-chart-normalized
-						[scheme]="colorScheme"
-						[legend]="showLegend"
-						[showXAxisLabel]="showXAxisLabel"
-						[showYAxisLabel]="showYAxisLabel"
-						[xAxis]="showXAxis"
-						[yAxis]="showYAxis"
-						[xAxisLabel]="xAxisLabel"
-						[yAxisLabel]="yAxisLabel"
-						[timeline]="timeline"
-						[results]="script_version"
-						(select)="onSelect($event)">
-					</ngx-charts-area-chart-normalized>
-				</div>
-			</div>
+<!--				<div class="ngx-chart-container">-->
+<!--					&lt;!&ndash;<ngx-charts-area-chart-stacked&ndash;&gt;-->
+<!--					<ngx-charts-area-chart-normalized-->
+<!--						[scheme]="colorScheme"-->
+<!--						[legend]="showLegend"-->
+<!--						[showXAxisLabel]="showXAxisLabel"-->
+<!--						[showYAxisLabel]="showYAxisLabel"-->
+<!--						[xAxis]="showXAxis"-->
+<!--						[yAxis]="showYAxis"-->
+<!--						[xAxisLabel]="xAxisLabel"-->
+<!--						[yAxisLabel]="yAxisLabel"-->
+<!--						[timeline]="timeline"-->
+<!--						[results]="script_version"-->
+<!--						(select)="onSelect($event)">-->
+<!--					</ngx-charts-area-chart-normalized>-->
+<!--				</div>-->
+<!--			</div>-->
 
 			<!--warning rate-->
 			<div class="col-md-12 text-left" *ngIf="!loading_index && warning_rate.length > 0">

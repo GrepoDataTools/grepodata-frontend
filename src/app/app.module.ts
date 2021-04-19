@@ -131,6 +131,7 @@ import {MatSortModule} from '@angular/material/sort';
 import {BasicSnackbar} from './shared/snackbar/basic-snackbar.component';
 import { IndexerBreadcrumbsComponent } from './layout/indexer-breadcrumbs/indexer-breadcrumbs.component';
 import { PlayerActivityComponent } from './layout/player-activity/player-activity.component';
+import {PlatformModule} from '@angular/cdk/platform';
 
 const appRoutes: Routes = [
     { path: 'login', component: LandingPageComponent },
@@ -287,6 +288,7 @@ export function jwtTokenGetter(): any {
         MatNativeDateModule,
         MatCheckboxModule,
         MatButtonModule,
+        PlatformModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
         NgxChartsModule,

@@ -32,7 +32,8 @@ export class AnalyticsComponent implements OnInit {
       '#F44336']
   };
   autoScale = true;
-  timeline = true;
+  // timeline = true; // broken as of ngx-charts@17.0
+  timeline = false;
   animations = false;
 
   onSelect(event) {

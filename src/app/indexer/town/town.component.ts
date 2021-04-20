@@ -45,6 +45,7 @@ export class IndexTownComponent implements AfterViewInit {
   hasWall = false;
   hasConquest = false;
   hasSharingDetails = false;
+  hasOldIntel = false;
 
   routeParams: any;
 
@@ -57,7 +58,11 @@ export class IndexTownComponent implements AfterViewInit {
     private authService: JwtService,
     private route: ActivatedRoute
   ) {
-    this.route.params.subscribe( params => this.routeParams = params );
+    this.route.params.subscribe( params => {
+      console.log('town params: ', params);
+      this.routeParams = params
+      this.load(this.routeParams)
+    } );
 
     this.worldService.getWorldInfo(this.world).then((response) => {
       if (response && 'name' in response) {
@@ -65,11 +70,10 @@ export class IndexTownComponent implements AfterViewInit {
       }
     });
 
+    console.log('construct town!');
   }
 
-  ngAfterViewInit() {
-    this.load(this.routeParams)
-  }
+  ngAfterViewInit() { }
 
   private load(params) {
     // Save params
@@ -87,6 +91,7 @@ export class IndexTownComponent implements AfterViewInit {
     this.allCities = [];
     this.notes = [];
     this.breadcrumb_data = {};
+    this.hasOldIntel = false;
 
     // Load town intel
     if (this.id) {
@@ -159,6 +164,7 @@ export class IndexTownComponent implements AfterViewInit {
           this.hasWall = town.wall ? true : this.hasWall;
           this.hasSharingDetails = town.shared_via_indexes ? true : this.hasSharingDetails;
           this.hasConquest = town.conquest_id && town.conquest_id > 0 ? true : this.hasConquest;
+          this.hasOldIntel = ('is_previous_owner_intel' in town && town.is_previous_owner_intel == true) ? true : this.hasOldIntel;
           this.allCities.push(town);
         }
       }

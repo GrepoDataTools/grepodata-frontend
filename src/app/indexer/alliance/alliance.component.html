@@ -1,10 +1,6 @@
 <div style="overflow-x: hidden; min-height: 100%;">
 
-	<mat-card class="search-card" *ngIf="!embedded">
-		<app-index-search></app-index-search>
-	</mat-card>
-
-	<mat-card [ngClass]="embedded?'embedded-intel-card':'index-card'">
+	<mat-card [ngClass]="embedded?'embedded-intel-card':'index-card'" style="margin-top: 0 !important;">
 		<div [ngClass]="{'embedded-padding': embedded}">
 			<div class="card-header bg-gd-1 text-center text-white" style="margin-bottom: 0; padding: 20px 0 0 !important;" *ngIf="!embedded">
 

@@ -1,6 +1,6 @@
 
 
-import {AfterViewInit, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnInit, Renderer2, ViewChild} from '@angular/core';
 import { SearchService } from '../../search/search.service';
 import { Router} from "@angular/router";
 import {BBDialog} from '../utils';
@@ -16,6 +16,8 @@ import {WorldService} from '../../services/world.service';
 })
 export class IndexSearchComponent implements AfterViewInit {
 
+  @ViewChild('searchContainer') searchContainer: ElementRef;
+
   @Input() preferredWorld: string;
 
   players;
@@ -28,7 +30,7 @@ export class IndexSearchComponent implements AfterViewInit {
   searching_players = false;
   searching_alliances = false;
   searching_towns = false;
-  hide_results = false;
+  hide_results = true;
   loading = false;
   world = '';
 
@@ -41,7 +43,23 @@ export class IndexSearchComponent implements AfterViewInit {
     private searchService: SearchService,
     private authService: JwtService,
     private router: Router,
-    public dialog: MatDialog) {}
+    private renderer: Renderer2,
+    public dialog: MatDialog) {
+
+    this.renderer.listen('window', 'click',(e:Event)=>{
+      if(!this.searchContainer.nativeElement.contains(e.target)) {
+        // hide results when clicking outside of the search container
+        this.hide_results = true;
+        this.cdr.detectChanges();
+      }
+    });
+
+    router.events.subscribe((params) => {
+      // hide results on navigation
+      this.hide_results = true;
+      this.cdr.detectChanges();
+    });
+  }
 
   ngAfterViewInit() {
     this.cdr.detach();
@@ -90,6 +108,39 @@ export class IndexSearchComponent implements AfterViewInit {
     }
   }
 
+  clickedPlayerInput() {
+    if (this.players.length > 0) {
+      this.searching_players = true;
+      this.searching_alliances = false;
+      this.searching_towns = false;
+      this.num_results = this.players.length;
+      this.hide_results = false;
+      this.cdr.detectChanges();
+    }
+  }
+
+  clickedAllianceInput() {
+    if (this.alliances.length > 0) {
+      this.searching_players = false;
+      this.searching_alliances = true;
+      this.searching_towns = false;
+      this.num_results = this.alliances.length;
+      this.hide_results = false;
+      this.cdr.detectChanges();
+    }
+  }
+
+  clickedTownInput() {
+    if (this.towns.length > 0) {
+      this.searching_players = false;
+      this.searching_alliances = false;
+      this.searching_towns = true;
+      this.num_results = this.towns.length;
+      this.hide_results = false;
+      this.cdr.detectChanges();
+    }
+  }
+
   searchTowns($event) {
     if (typeof $event != 'undefined') {
       this.townInput = $event.target.value;
@@ -116,7 +167,12 @@ export class IndexSearchComponent implements AfterViewInit {
       this.cdr.detectChanges();
 
       this.authService.accessToken().then(access_token => {
-        this.searchService.searchTownsIndexed(access_token, this.townInput, this.world)
+        // this.searchService.searchTownsIndexed(access_token, this.townInput)
+        //   .subscribe(
+        //     (response) => this.renderTownOutput(response),
+        //     (error) => this.renderTownOutput(null)
+        //   );
+        this.searchService.searchTowns(this.townInput, null, access_token)
           .subscribe(
             (response) => this.renderTownOutput(response),
             (error) => this.renderTownOutput(null)
@@ -152,7 +208,7 @@ export class IndexSearchComponent implements AfterViewInit {
       this.loading = true;
       this.cdr.detectChanges();
 
-      this.searchService.searchAlliances(this.allianceInput, 0, 30, this.world)
+      this.searchService.searchAlliances(this.allianceInput, 0, 30)
         .subscribe(
           (response) => this.renderAllianceOutput(response),
           (error) => this.renderAllianceOutput(null)
@@ -164,31 +220,31 @@ export class IndexSearchComponent implements AfterViewInit {
 
   renderTownOutput(towns) {
     if (towns != null) {
-      this.world = towns.world;
       this.towns = towns.results;
       if (this.num_results != towns.count) this.num_results = towns.count;
     }
     this.loading = false;
+    this.hide_results = false;
     this.cdr.detectChanges();
   }
 
   renderPlayerOutput(players) {
     if (players != null) {
-      this.world = players.world;
       this.players = players.results;
       if (this.num_results != players.count) this.num_results = players.count;
     }
     this.loading = false;
+    this.hide_results = false;
     this.cdr.detectChanges();
   }
 
   renderAllianceOutput(alliances) {
     if (alliances != null) {
-      this.world = alliances.world;
       this.alliances = alliances.results;
       if (this.num_results != alliances.count) this.num_results = alliances.count;
     }
     this.loading = false;
+    this.hide_results = false;
     this.cdr.detectChanges();
   }
 

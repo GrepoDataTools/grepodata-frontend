@@ -9,6 +9,7 @@ import {JwtService} from '../services/jwt.service';
 export class ConfirmComponent implements OnInit {
 
   submitting = false;
+  blocked = false;
   error = '';
   success = '';
 
@@ -40,7 +41,17 @@ export class ConfirmComponent implements OnInit {
             this.submitting = false;
           },
           (error) => {
-            this.error = 'Unable to request new email. Please try again later or contact us if this error persists.';
+            console.log(error);
+            if (error.error.error_code != undefined && error.error.error_code == 3035) {
+              this.blocked = true;
+              if ('invalid_address' in error.error && error.error.invalid_address) {
+                this.error = '"'+error.error.invalid_address+'" is not a valid email address. We can not send messages to your mail box. Please register for a new account using a different email address';
+              } else {
+                this.error = 'The email address that you used to register is not a valid email address. We can not send messages to your mail box. Please register for a new account using a different email address';
+              }
+            } else {
+              this.error = 'Unable to request new email. Please try again later or contact us if this error persists.';
+            }
             this.submitting = false;
           }
         );

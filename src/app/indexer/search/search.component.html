@@ -3,13 +3,13 @@
     <mat-card fxFlex>
       <mat-card-content>
 
-        <div class="search-container container-fluid">
+        <div #searchContainer class="search-container container-fluid">
 
           <div class="row">
             <div class="col-sm-4 search-group" [ngClass]="{'hidden-xs': !searching_players && num_results > 0}">
               <div id="sb-search-players" class="sb-search">
                 <form>
-                  <input autocomplete="off" class="sb-search-input" placeholder="Search players..." type="search" value="" name="search" id="search-players" (keyup)="searchPlayers($event)">
+                  <input (click)="clickedPlayerInput()" autocomplete="off" class="sb-search-input" placeholder="Search players..." type="search" value="" name="search" id="search-players" (keyup)="searchPlayers($event)">
                   <input class="sb-search-submit" type="button" value="">
                   <span class="sb-icon-search" (click)="doSearchPlayers()"><mat-icon class="search-icon">person_search</mat-icon></span>
                   <mat-progress-bar *ngIf="searching_players && loading" class="searching-loading" mode="indeterminate"></mat-progress-bar>
@@ -19,7 +19,7 @@
             <div class="col-sm-4 search-group" [ngClass]="{'hidden-xs': !searching_alliances && num_results > 0}">
               <div id="sb-search-alliances" class="sb-search">
                 <form>
-                  <input autocomplete="off" class="sb-search-input" placeholder="Search alliances..." type="search" value="" name="search" id="search-alliances" (keyup)="searchAlliances($event)">
+                  <input (click)="clickedAllianceInput()" autocomplete="off" class="sb-search-input" placeholder="Search alliances..." type="search" value="" name="search" id="search-alliances" (keyup)="searchAlliances($event)">
                   <input class="sb-search-submit" type="button" value="">
                   <span class="sb-icon-search" (click)="doSearchAlliances()"><mat-icon class="search-icon">groups</mat-icon></span>
                   <mat-progress-bar *ngIf="searching_alliances && loading" class="searching-loading" mode="indeterminate"></mat-progress-bar>
@@ -29,7 +29,7 @@
             <div class="col-sm-4 search-group" [ngClass]="{'hidden-xs': !searching_towns && num_results > 0}">
               <div id="sb-search-towns" class="sb-search">
                 <form>
-                  <input autocomplete="off" class="sb-search-input" placeholder="Search towns..." type="search" value="" name="search" id="search-towns" (keyup)="searchTowns($event)">
+                  <input (click)="clickedTownInput()" autocomplete="off" class="sb-search-input" placeholder="Search towns..." type="search" value="" name="search" id="search-towns" (keyup)="searchTowns($event)">
                   <input class="sb-search-submit" type="button" value="">
                   <span class="sb-icon-search" (click)="doSearchTowns()"><mat-icon class="search-icon">account_balance</mat-icon></span>
                   <mat-progress-bar *ngIf="searching_towns && loading" class="searching-loading" mode="indeterminate"></mat-progress-bar>
@@ -38,94 +38,75 @@
             </div>
           </div>
 
-          <div class="row text-center">
+          <div *ngIf="!hide_results" class="row text-center search-results-container" [ngClass]="searching_towns?'town':searching_players?'player':'alliance'">
 
             <!--Player results-->
-            <div *ngIf="searching_players" class="col-xs-12 col-sm-12 col-md-5">
+            <div *ngIf="searching_players" class="">
               <div *ngIf="players?.length < 1 && !loading" class="text-center">
                 <div class="alert alert-gd-1">
-                  <h3>No intel found for '<span class="gd-secondary">{{playerInput}}</span>'</h3>
+                  <h3>No player found for '<span class="gd-secondary">{{playerInput}}</span>'</h3>
                 </div>
               </div>
-              <div *ngIf="!hide_results && num_results > 0 && !loading" id="search_output">
+              <div *ngIf="num_results > 0 && !loading" id="search_output">
                 <div class="table">
                   <div class="row_custom header default">
                     <div class="cell custom-cell">Player name</div>
                     <div class="cell">world</div>
-                    <div class="cell">Intel</div>
                   </div>
 
                   <div *ngFor="let player of players" class="row_custom">
-                    <div class="cell custom-cell">
-                      <a routerLink="/intel/player/{{player?.world}}/{{player?.id}}">{{player?.name}}</a>
-                    </div>
-                    <div class="cell">
-	                    <a routerLink="/points" [queryParams]="{world: player?.world}">
-	                      <span [outerHTML]="player?.world | WorldNamePipe"></span>
-	                    </a>
-                    </div>
-                    <div class="cell">
+                    <div class="cell custom-cell" style="width: 70%;">
                       <a routerLink="/intel/player/{{player?.world}}/{{player?.id}}">
-	                      {{player?.count}} <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon>
+                        <img src="../../assets/images/player_ico.png"/>
+                        {{player?.name}}
                       </a>
+                    </div>
+                    <div class="cell world-cell" style="width: 30%;">
+	                    <span [outerHTML]="player?.world | WorldNamePipe"></span>
                     </div>
                   </div>
                 </div>
 
               </div>
 
-              <div *ngIf="!loading" fxLayout="row" fxLayoutAlign="center center">
-                <!--<button *ngIf="hide_results" type="button" class="btn btn-link search-control" (click)="hide_results = false;">-->
-                  <!--Show results <i class="fa fa-caret-down"></i>-->
-                <!--</button>-->
-                <!--<button *ngIf="!hide_results" type="button" class="btn btn-link search-control" (click)="hide_results = true;">-->
-                  <!--Hide results <i class="fa fa-caret-up"></i>-->
-                <!--</button>-->
-                <button type="button" class="btn btn-link search-control" (click)="num_results = 0; searching_players = false; cdr.detectChanges();">
-                  Close search results <i class="fa fa-close"></i>
-                </button>
-              </div>
             </div>
 
             <!--Alliance results-->
-            <div *ngIf="searching_alliances" class="col-xs-12 col-sm-12 col-md-6 col-md-offset-3">
+            <div *ngIf="searching_alliances" class="">
               <div *ngIf="alliances?.length < 1 && !loading" class="text-center">
                 <div class="alert alert-gd-1">
-                  <h3>No intel found for '<span class="gd-secondary">{{allianceInput}}</span>'</h3>
+                  <h3>No alliance found for '<span class="gd-secondary">{{allianceInput}}</span>'</h3>
                 </div>
               </div>
               <div *ngIf="!hide_results && num_results > 0 && !loading" id="search_output_alliances">
                 <div class="table">
                   <div class="row_custom header default">
-                    <div class="cell custom-cell">Alliance name</div>
+                    <div class="cell custom-cell name-cell">Alliance name</div>
                     <div class="cell hidden-xs">Rank</div>
                     <!--<div class="cell hidden-xs hidden-sm">Members</div>-->
                     <div class="cell hidden-xs">World</div>
-                    <div class="cell hidden-xs">Points</div>
-                    <div class="cell hidden-xs">Intel</div>
+                    <div class="cell hidden-xs hidden-sm hidden-md">Points</div>
                     <!--<div class="cell hidden-xs">Towns</div>-->
                   </div>
 
                   <div *ngFor="let alliance of alliances" class="row_custom">
-                    <div class="cell custom-cell">
-                      <a routerLink="/intel/alliance/{{alliance?.world}}/{{alliance?.id}}">{{alliance?.name}}</a>
+                    <div class="cell custom-cell name-cell">
+                      <a routerLink="/intel/alliance/{{alliance?.world}}/{{alliance?.id}}">
+                        <img src="../../assets/images/ally_ico.png"/>
+                        {{alliance?.name}}
+                      </a>
                     </div>
-                    <div class="cell hidden-xs">
+                    <div class="cell hidden-xs" style="width: 10%;">
                       {{alliance?.rank}}
                     </div>
                     <!--<div class="cell hidden-xs hidden-sm">-->
                       <!--{{alliance?.members}}-->
                     <!--</div>-->
-	                  <div class="cell hidden-xs">
-		                  <a routerLink="/points" [queryParams]="{world: alliance?.world}">
-			                  <span [outerHTML]="alliance?.world | WorldNamePipe"></span>
-		                  </a>
+	                  <div class="cell hidden-xs world-cell" style="width: 25%;">
+		                  <span [outerHTML]="alliance?.world | WorldNamePipe"></span>
 	                  </div>
-                    <div class="cell hidden-xs">
+                    <div class="cell hidden-xs hidden-sm hidden-md" style="width: 25%;">
                       {{alliance?.points | NumberFilter}}
-                    </div>
-                    <div class="cell hidden-xs">
-                      <a routerLink="/intel/alliance/{{alliance?.world}}/{{alliance?.id}}"><mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon></a>
                     </div>
                     <!--<div class="cell hidden-xs">-->
                       <!--{{alliance?.towns}}-->
@@ -134,74 +115,51 @@
                 </div>
 
               </div>
-              <div *ngIf="!loading" fxLayout="row" fxLayoutAlign="center center">
-                <!--<h4 style="margin: 0px;">Found {{num_results}} <span style='color: #18BC9C;'>alliance{{num_results!=1? 's':''}}</span> for your search '<span style='color: #18BC9C;'>{{allianceInput}}</span>'</h4>-->
-                <!--<button *ngIf="hide_results" type="button" class="btn btn-link search-control" (click)="hide_results = false;">-->
-                  <!--Show results <i class="fa fa-caret-down"></i>-->
-                <!--</button>-->
-                <!--<button *ngIf="!hide_results" type="button" class="btn btn-link search-control" (click)="hide_results = true;">-->
-                  <!--Hide results <i class="fa fa-caret-up"></i>-->
-                <!--</button>-->
-                <button type="button" class="btn btn-link search-control" (click)="num_results = 0; searching_alliances = false; cdr.detectChanges();">
-                  Close search results <i class="fa fa-close"></i>
-                </button>
-                <!--<mat-spinner class="search-control" *ngIf="loading" strokeWidth="4" [diameter]="40"></mat-spinner>-->
-
-              </div>
             </div>
 
             <!--Town results-->
-            <div *ngIf="searching_towns" class="col-xs-12 col-sm-12 col-md-5 col-md-offset-7">
+            <div *ngIf="searching_towns" class="">
               <div *ngIf="towns?.length < 1 && !loading" class="text-center">
-                <div class="alert alert-gd-1">
-                  <h3>No intel found for '<span class="gd-secondary">{{townInput}}</span>'</h3>
+                <div class="alert alert-gd-1" style="margin-bottom: 0 !important; border-radius: 0 !important;">
+                  <h3 style="margin:0;">No towns found matching '<span class="gd-secondary">{{townInput}}</span>'</h3>
                 </div>
               </div>
               <div *ngIf="!hide_results && num_results > 0 && !loading" id="search_output_towns">
                 <div class="table">
                   <div class="row_custom header default">
                   <div class="cell custom-cell">Town name</div>
-                  <div class="cell">Player</div>
-                  <div class="cell">world</div>
-                  <div class="cell hidden-sm hidden-xs">Intel</div>
+                  <div class="cell hidden-xs">Player</div>
+                  <div class="cell hidden-xs hidden-sm">world</div>
                 </div>
 
                   <div *ngFor="let town of towns" class="row_custom">
-                    <div class="cell custom-cell">
-                      <a routerLink="/intel/town/{{town?.world}}/{{town?.id}}">{{town?.name}}</a>
-                    </div>
-                    <div class="cell">
-                      <a routerLink="/intel/player/{{town?.world}}/{{town?.player_id}}">{{town?.player_name}}</a>
-                    </div>
-	                  <div class="cell">
-		                  <a routerLink="/points" [queryParams]="{world: town?.world}">
-			                  <span [outerHTML]="town?.world | WorldNamePipe"></span>
-		                  </a>
-	                  </div>
-                    <div class="cell hidden-sm hidden-xs">
+                    <div class="cell custom-cell name-cell">
                       <a routerLink="/intel/town/{{town?.world}}/{{town?.id}}">
-	                      {{town?.count}} <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon>
+                        <img src="../../assets/images/town_ico.png"/>
+                        {{town?.name}}
                       </a>
                     </div>
+                    <div class="cell hidden-xs" style="width: 30%;">
+                      <a routerLink="/intel/player/{{town?.world}}/{{town?.player_id}}" *ngIf="town?.player_id>0">
+                        <img src="../../assets/images/player_ico.png"/>
+                        {{town?.player_name}}
+                      </a>
+                      <span *ngIf="town?.player_id<=0">Ghost</span>
+                    </div>
+	                  <div class="cell world-cell hidden-xs hidden-sm" style="width: 30%;">
+		                  <span [outerHTML]="town?.world | WorldNamePipe"></span>
+	                  </div>
                   </div>
                 </div>
 
               </div>
+            </div>
 
-              <div *ngIf="!loading" fxLayout="row" fxLayoutAlign="center center">
-                <!--<h4 style="margin: 0px;">Found {{num_results}} <span style='color: #18BC9C;'>town{{num_results!=1? 's':''}}</span> for your search '<span style='color: #18BC9C;'>{{townInput}}</span>'</h4>-->
-                <!--<button *ngIf="hide_results" type="button" class="btn btn-link search-control" (click)="hide_results = false;">-->
-                  <!--Show results <i class="fa fa-caret-down"></i>-->
-                <!--</button>-->
-                <!--<button *ngIf="!hide_results" type="button" class="btn btn-link search-control" (click)="hide_results = true;">-->
-                  <!--Hide results <i class="fa fa-caret-up"></i>-->
-                <!--</button>-->
-                <button type="button" class="btn btn-link search-control" (click)="num_results = 0; searching_towns = false; cdr.detectChanges();">
-                  Close search results <i class="fa fa-close"></i>
-                </button>
-                <!--<mat-spinner class="search-control" *ngIf="loading" strokeWidth="4" [diameter]="40"></mat-spinner>-->
+            <div *ngIf="!loading" fxLayout="row" fxLayoutAlign="center center">
+              <a class="close-results" (click)="hide_results = true; cdr.detectChanges();">
+                Close search results <i class="fa fa-close"></i>
+              </a>
 
-              </div>
             </div>
 
           </div>

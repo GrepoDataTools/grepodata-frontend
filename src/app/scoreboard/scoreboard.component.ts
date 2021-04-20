@@ -179,7 +179,7 @@ export class ScoreboardComponent implements OnInit {
         if (this.playerInput.length > 2) {
             this.searching = true;
             this.searchService
-                .searchPlayers(this.playerInput, 0, 7, this.server, this.world, false, null, null, true, '')
+                .searchPlayers(this.playerInput, 0, 7, this.server, this.world, false, null, null, true, '', null)
                 .subscribe(
                     (response) => this.renderSearchResults(response),
                     (error) => {

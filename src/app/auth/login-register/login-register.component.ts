@@ -222,6 +222,8 @@ export class LoginRegisterComponent implements OnInit {
           this.registerForm.controls.newusername.setErrors({'custom': 'The username you entered is too short. Please enter a different username.'});
         } else if (error.error.error_code != undefined && error.error.error_code == 3034) {
           this.registerForm.controls.newusername.setErrors({'custom': 'The username you entered is too long. Please enter a different username.'});
+        } else if (error.error.error_code != undefined && error.error.error_code == 3035) {
+          this.registerForm.controls.mail.setErrors({'custom': 'This is not a valid email address; we can not send emails to this mail box. Please try to register using a different email address.'});
         } else {
           this.register_error = "Sorry, something went wrong. Please try again later or contact us if this error persists.";
         }

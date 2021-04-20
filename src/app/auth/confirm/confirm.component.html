@@ -4,7 +4,7 @@
 		You have received an email with an activation link from admin@grepodata.com <strong>(Also check your spam folder!)</strong>.
 		<br/><br/>
 		Have you not received our email? click the button below to request a new activation mail.<br/>
-		<button [disabled]="submitting" style="margin-top: 8px;" class="btn btn-secondary mr-1" (click)="sendNewActivationMail()">Send a new activation email <mat-icon>email</mat-icon></button>
+		<button *ngIf="!blocked" [disabled]="submitting" style="margin-top: 8px;" class="btn btn-secondary mr-1" (click)="sendNewActivationMail()">Send a new activation email <mat-icon>email</mat-icon></button>
 	</h5>
 	<mat-progress-bar *ngIf="submitting" mode="indeterminate"></mat-progress-bar>
 	<h3 *ngIf="error!=''" class="gd-error"><strong>{{error}}</strong></h3>

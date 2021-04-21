@@ -20,7 +20,7 @@ export class PlayerActivityComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    if (this.hours_inactive) {
+    if (this.hours_inactive >= 0) {
       let hours_inactive = this.hours_inactive;
       let hours = hours_inactive % 24;
       let days = Math.floor((hours_inactive % (24 * 7)) / 24);
@@ -38,6 +38,7 @@ export class PlayerActivityComponent implements OnInit, OnChanges {
       }
       time_readable_parts.push(`${hours} hour${hours == 1 ? '' : 's'} ago`);
       this.inactive_readable = time_readable_parts.join(', ');
+      console.log(this.inactive_readable);
     }
   }
 

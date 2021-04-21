@@ -33,6 +33,9 @@ export class FooterComponent implements OnInit {
           this.height_adjust = true;
         } else if (path.indexOf('/indexer') !== -1) {
           this.simplified = true;
+        } else if (path === '/') {
+          // hide on homepage
+          this.hidden = true;
         } else if (
           path.indexOf('/profile') !== -1
           || path.indexOf('/intel') !== -1

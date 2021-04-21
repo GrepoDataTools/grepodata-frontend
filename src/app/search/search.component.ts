@@ -39,6 +39,10 @@ export class SearchComponent implements AfterViewInit {
   compare = false;
   @Input()
   close : any;
+  @Input()
+  homepage = false;
+  @Input()
+  detach_cdr = false;
 
 	public mobile: boolean = true;
 
@@ -52,7 +56,7 @@ export class SearchComponent implements AfterViewInit {
 
   // Debounce
   typingTimer;
-  debounceTime = 300;
+  debounceTime = 450;
 
   constructor(
   	private globals: Globals,
@@ -103,7 +107,9 @@ export class SearchComponent implements AfterViewInit {
 			this.debounceTime = 600; // Larger debounce time on mobile
 		}
 
-    this.cdr.detach();
+		if (this.detach_cdr) {
+      this.cdr.detach();
+    }
 		this.cdr.detectChanges();
 
 		setTimeout(_ => this.cdr.detectChanges(), 250);
@@ -206,7 +212,7 @@ export class SearchComponent implements AfterViewInit {
 				preferred_server = '';
 			}
 
-      this.searchService.searchPlayers(id!=null?null:this.playerInput, this.from, this.size, this.server, this.world, this.showStopped, null, id, false, preferred_server)
+      this.searchService.searchPlayers(id!=null?null:this.playerInput, this.from, this.size, this.server, this.world, this.showStopped, null, id, false, preferred_server, null)
         .subscribe(
           (response) => this.renderPlayerOutput(response),
           (error) => this.renderPlayerOutput(null)

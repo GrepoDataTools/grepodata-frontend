@@ -10,14 +10,8 @@ export class SearchService {
   constructor(private http: HttpClient) {}
 
 
-  searchPlayersIndexed(access_token: string, query: string, world: string) {
-    return this.searchPlayers(query, 0, 30, null, world, false, null, null, false, null, access_token);
-    // let url = '/indexer/search/player?';
-    // if (typeof query != 'undefined') url += 'query=' + query.toLowerCase() + '&';
-    // if (typeof world != 'undefined' && world != null && world != '') url += 'world=' + world + '&';
-    // return this.http.get(apiUrl + url, {
-    //   headers: new HttpHeaders().set('access_token', access_token)
-    // });
+  searchPlayersIndexed(access_token: string, query: string) {
+    return this.searchPlayers(query, 0, 30, null, null, false, null, null, false, null, access_token);
   }
 
   searchPlayers(query: string, from: number, size: number, server: string,

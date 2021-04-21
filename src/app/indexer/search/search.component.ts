@@ -97,7 +97,7 @@ export class IndexSearchComponent implements AfterViewInit {
       this.cdr.detectChanges();
 
       this.authService.accessToken().then(access_token => {
-        this.searchService.searchPlayersIndexed(access_token, this.playerInput, this.world)
+        this.searchService.searchPlayersIndexed(access_token, this.playerInput)
           .subscribe(
             (response) => this.renderPlayerOutput(response),
             (error) => this.renderPlayerOutput(null)

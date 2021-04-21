@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {RecaptchaComponent} from 'ng-recaptcha';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {environment} from "../../../environments/environment";
@@ -14,10 +14,12 @@ import {MatDialog} from '@angular/material/dialog';
   styleUrls: ['./login-register.component.scss'],
   providers: [IndexAuthService]
 })
-export class LoginRegisterComponent implements OnInit {
+export class LoginRegisterComponent implements OnInit, AfterViewInit {
   @ViewChild(RecaptchaComponent, { static: false }) captchaRef: RecaptchaComponent;
 
   @Input() useCallback: boolean;
+  @Input() require_explicit_action = false; // Require interaction with form before redirecting
+
   @Output() onEmbeddedCallback: EventEmitter<any> = new EventEmitter();
 
   environment = environment;
@@ -49,9 +51,6 @@ export class LoginRegisterComponent implements OnInit {
     private formBuilder: FormBuilder,
     private indexAuthService: IndexAuthService
   ) {
-    this.authService.accessToken(false).then(access_token => {
-      this.loginComplete(access_token);
-    });
   }
 
   ngOnInit(): void {
@@ -68,6 +67,14 @@ export class LoginRegisterComponent implements OnInit {
       newpassword: ['', Validators.required],
       privacy: ['', Validators.required]
     });
+  }
+
+  ngAfterViewInit() {
+    if (!this.require_explicit_action) {
+      this.authService.accessToken(false).then(access_token => {
+        this.loginComplete(access_token);
+      });
+    }
   }
 
   // convenience getter for easy access to form fields

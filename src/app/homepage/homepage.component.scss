@@ -1,0 +1,235 @@
+/*
+Scorilo 1.0.1 - HTML Template by WowThemes.net
+Visit: https://www.wowthemes.net
+================================================== */
+
+$gd-light: #18BC9C;
+$gd-dark: #334254;
+
+h1,h2,h3,h4,h5,h6 {
+  font-weight:700;
+}
+.unstyle ul li,.unstyle ol li,ul.unstyle li,ol.unstyle li {
+  list-style:none;
+  line-height:inherit;
+}
+.text-left {
+  text-align:left !Important;
+}
+a:hover {
+  text-decoration:none;
+}
+.content-block {
+  padding:50px 0;
+  margin-top:50px;
+}
+.header {
+  margin-left: -32px;
+}
+.item.content,.item.portfolio,.item.team,.item.pricing,.item.contact {
+  padding-top:40px;
+  padding-bottom:0px;
+}
+.padding-top-100 {
+  padding-top:180px !important;
+}
+.padding-bottom-40 {
+  padding-bottom:40px !important;
+}
+.logo-grepo {
+  color: #fff;
+}
+.logo-data {
+  color: #2C3E50;
+}
+.item.header {
+  height: 400px;
+  background: linear-gradient(-45deg, #685b94, #6b6b83, #3b8d99);
+  background-size: 400% 400%;
+  animation: gradient 10s ease infinite;
+}
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+.discord-btn {
+  background-color: #7289da;
+  border-radius: 3px;
+  font-size: 15px;
+  padding: 15px 25px;
+  position: relative;
+  -webkit-transition: all .12s ease-out;
+  transition: all .12s ease-out;
+  top: 0;
+  cursor: pointer;
+  color: #fff;
+  text-transform: uppercase;
+  font-family: Whitney,Helvetica Neue,Helvetica,Arial,sans-serif;
+  font-weight: 400;
+}
+.text-homeimage {
+  position: absolute;
+  width: 100%;
+  margin: auto;
+  padding-top:80px;
+
+  text-align:center;
+  color:#fff;
+  z-index:2;
+  font-size:75px;
+  line-height:90px;
+  text-transform:uppercase;
+  font-weight:700;
+  font-family: "Roboto", sans-serif;
+}
+.subtext-image {
+  font-size: 26px;
+  text-transform:none;
+  font-weight:100 !Important;
+}
+.toparea {
+  background:#fff;
+  margin-top:-100px;
+  padding-top:30px;
+}
+.numbertext {
+  font-weight:700;
+  font-size:20px;
+  line-height:38px;
+  color:#444;
+  text-transform:uppercase;
+  display:block;
+  margin-bottom:10px;
+}
+.numberstep {
+  background-color:$gd-light;
+  border-radius:50%;
+  color:#fff;
+  margin-right:4px;
+  text-align:center;
+  height:60px;
+  width:60px;
+  line-height:60px;
+  display:inline-block;
+  font-size:25px;
+  font-weight:700;
+  margin-top:20px;
+}
+.homebrowseitems {
+  text-decoration:none;
+  background-color:$gd-light;
+  font-weight:700;
+  font-size:20px;
+  border:0;
+  padding:13px 39px;
+  letter-spacing:1px;
+  margin-top:-20px;
+  display:inline-block;
+  color:#fff;
+  margin-bottom:0px;
+}
+.homebrowseitemsicon {
+  color:#fff;
+  display:inline-block;
+  padding:13px 20px;
+  margin-top:-13px;
+  margin-bottom:-13px;
+  margin-right:-39px;
+  margin-left:15px;
+  background:rgba(0,0,0,0.2);
+}
+a.homebrowseitems:hover {
+  color:#fff;
+  opacity: 0.8;
+  cursor: pointer;
+}
+img {
+  max-width: 100%;
+}
+/*Product Box*/
+.maxproduct {
+  max-height:300px;
+  overflow:hidden;
+  display:inline-block;
+}
+.productbox {
+  background:#fff;
+  padding:13px;
+  border:1px solid #e4e4e4;
+  margin-bottom:30px;
+}
+.productbox:hover {
+  cursor: pointer;
+}
+.latest-items .productbox {
+  margin-bottom:30px;
+}
+.productbox h1 {
+  display:block;
+  font-size:17px;
+  text-transform:uppercase;
+  margin-top:15px;
+  border-bottom:double medium #eee;
+  padding-bottom:15px;
+  margin-bottom:10px;
+  font-weight:500;
+  color:#333;
+}
+.product-details {
+  padding:6px 0 0 0;
+  text-align:center;
+  color:#444;
+}
+.productbox .price {
+  font-weight:400;
+}
+.fadeshop {
+  position:relative;
+  max-height:300px;
+}
+
+
+.footer ul.social-iconsfooter li {
+  display:inline-block;
+  float:none;
+  position:relative;
+  background:transparent;
+  margin-right:5px;
+  border:1px solid #333;
+}
+.footer ul.social-iconsfooter li a {
+  color:#fff;
+  width:60px;
+  height:60px;
+  line-height:60px;
+  display:inline-block;
+}
+.footer {
+  background:#222;
+  color:#999;
+  font-size:14px;
+  padding:60px 0 40px 0;
+  margin-top:0px;
+}
+ul,ol {
+  -moz-padding-start:0px;
+  -webkit-padding-start:0px;
+  -khtml-padding-start:0px;
+  -o-padding-start:0px;
+  padding-start:0px;
+  padding-left:0px;
+}
+.footernote {
+  font-size:30px;
+  color:#fff;
+}
+.footer a {
+  color:$gd-light;
+}

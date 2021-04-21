@@ -5,6 +5,7 @@ import {environment} from '../../../../../environments/environment';
 import {CaptchaService} from '../../../../services/captcha.service';
 import {MessageService} from '../../../../services/message.service';
 import {Platform} from '@angular/cdk/platform';
+import {JwtService} from '../../../services/jwt.service';
 
 @Component({
   selector: 'app-bug-report',
@@ -27,6 +28,7 @@ export class BugReportComponent {
   constructor(
     public captchaService : CaptchaService,
     private platform : Platform,
+    private authService : JwtService,
     private messageService : MessageService) {
   }
 
@@ -66,18 +68,21 @@ export class BugReportComponent {
     } catch (e) {}
 
     this.loading = true;
-    this.messageService.sendMessage(report, '', 'bug_report', this.captcha, this.files).subscribe(
-      (response) => {
-        this.submitted = true;
-        this.loading = false;
-        if (this.captchaRef != undefined) { this.captchaRef.reset(); }
-      },
-      (error) => {
-        this.error = 'Invalid captcha response. Please try again later.';
-        this.loading = false;
-        if (this.captchaRef != undefined) { this.captchaRef.reset(); }
-      }
-    );
+
+    this.authService.accessToken().then(access_token => {
+      this.messageService.sendMessage(report, access_token, 'bug_report', this.captcha, this.files).subscribe(
+        (response) => {
+          this.submitted = true;
+          this.loading = false;
+          if (this.captchaRef != undefined) { this.captchaRef.reset(); }
+        },
+        (error) => {
+          this.error = 'Invalid captcha response. Please try again later.';
+          this.loading = false;
+          if (this.captchaRef != undefined) { this.captchaRef.reset(); }
+        }
+      );
+    });
 
   }
 

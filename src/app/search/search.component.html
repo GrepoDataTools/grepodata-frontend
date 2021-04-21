@@ -4,7 +4,7 @@
 <!--</div>-->
 
 <!--Search-->
-<div class="top-container" *ngIf="!hide_search" (click)="cdr.detectChanges()" [ngClass]="{'search-shadow': !searching_players && !searching_alliances}">
+<div class="top-container" *ngIf="!hide_search" (click)="cdr.detectChanges()" [ngClass]="{'search-shadow': !homepage && !searching_players && !searching_alliances}">
   <div fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="5px">
     <mat-card fxFlex [ngClass]="(secondary==true)?'search-secondary search':'search'">
       <mat-card-content>
@@ -80,55 +80,71 @@
 	              <div class="row">
 
 		              <!--Filters-->
-		              <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" *ngIf="filters_active && showFilter">
+<!--		              <div class="col-xs-12" *ngIf="filters_active && showFilter">-->
 
-			              <h1 class="gd-primary">Filters:</h1>
+<!--			              <h1 class="gd-primary">Filters:</h1>-->
 
-                    <mat-form-field style="margin-right: 10px;" (click)="cdr.detectChanges();" >
-                      <mat-select placeholder="Server" [ngModel]="server" (ngModelChange)="setServer($event)" #select>
-	                      <mat-option value="" (click)="cdr.detectChanges();">All servers</mat-option>
-                        <mat-option *ngFor="let s of form.servers" value="{{s.key}}" (click)="cdr.detectChanges();">
-	                        <div class="bg-flag flag-inline flag-{{s.key}}"></div>&nbsp;{{s.key}} [{{s.doc_count}} results]
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                    <mat-form-field style="margin-right: 10px;" (click)="cdr.detectChanges();">
-                      <mat-select placeholder="World" [ngModel]="world" (ngModelChange)="setWorld($event)">
-	                      <mat-option value="" (click)="cdr.detectChanges();">All worlds</mat-option>
-                        <mat-option *ngFor="let w of form.worlds" value="{{w.key}}" (click)="cdr.detectChanges();">{{w.key}} [{{w.doc_count}} results]</mat-option>
-                      </mat-select>
-                    </mat-form-field>
-											<br/>
-                    <button type="button" class="btn btn-link search-control" (click)="clearFilter()">
-                      Clear filters <i class="fa fa-filter"></i>
-                    </button>
-                    <button type="button" class="btn btn-link search-control" (click)="toggleFilter()">
-                      Hide filters <i class="fa fa-caret-up"></i>
-                    </button>
-		              </div>
+<!--                    <mat-form-field style="margin-right: 10px;" (click)="cdr.detectChanges();" >-->
+<!--                      <mat-select placeholder="Server" [ngModel]="server" (ngModelChange)="setServer($event)" #select>-->
+<!--	                      <mat-option value="" (click)="cdr.detectChanges();">All servers</mat-option>-->
+<!--                        <mat-option *ngFor="let s of form.servers" value="{{s.key}}" (click)="cdr.detectChanges();">-->
+<!--	                        <div class="bg-flag flag-inline flag-{{s.key}}"></div>&nbsp;{{s.key}} [{{s.doc_count}} results]-->
+<!--                        </mat-option>-->
+<!--                      </mat-select>-->
+<!--                    </mat-form-field>-->
+<!--                    <mat-form-field style="margin-right: 10px;" (click)="cdr.detectChanges();">-->
+<!--                      <mat-select placeholder="World" [ngModel]="world" (ngModelChange)="setWorld($event)">-->
+<!--	                      <mat-option value="" (click)="cdr.detectChanges();">All worlds</mat-option>-->
+<!--                        <mat-option *ngFor="let w of form.worlds" value="{{w.key}}" (click)="cdr.detectChanges();">{{w.key}} [{{w.doc_count}} results]</mat-option>-->
+<!--                      </mat-select>-->
+<!--                    </mat-form-field>-->
+<!--											<br/>-->
+<!--                    <button type="button" class="btn btn-link search-control" (click)="clearFilter()">-->
+<!--                      Clear filters <i class="fa fa-filter"></i>-->
+<!--                    </button>-->
+<!--                    <button type="button" class="btn btn-link search-control" (click)="toggleFilter()">-->
+<!--                      Hide filters <i class="fa fa-caret-up"></i>-->
+<!--                    </button>-->
+<!--		              </div>-->
 
 		              <!--Result table-->
-		              <div class="col-xs-12 col-sm-12" [ngClass]="{'col-md-10': filters_active && showFilter}">
+		              <div class="col-xs-12">
 			              <div class="row" *ngIf="players?.length > 0" [ngClass]="(hide_results==true)?'hidden-search-control':''">
-				              <div class="col-sm-12 col-md-12 col-lg-6">
-					              <h3 style="margin:3px;">
-						              Found {{num_results}} <span style='color: #18BC9C;'>player{{num_results!=1? 's':''}}</span> for '<span style='color: #18BC9C;'>{{playerInputSearching}}</span>'
-						              <button *ngIf="filters_active && !showFilter" type="button" class="btn btn-link search-control" (click)="toggleFilter()">
-							              Show filters <i class="fa fa-caret-down"></i>
-						              </button>
-						              <button type="button" class="btn btn-link search-control" (click)="clearFilter()" *ngIf="world != '' || server != ''">
-							              Clear filters <i class="fa fa-close"></i>
-						              </button>
-						              <button *ngIf="!secondary" type="button" class="btn btn-link search-control" (click)="hide_results = true; cdr.detectChanges();">
-							              Hide results <i class="fa fa-caret-up"></i>
-						              </button>
-						              <button type="button" class="btn btn-link search-control" (click)="hide_results = true; searching_players = false; cdr.detectChanges();">
-							              Close results <i class="fa fa-close"></i>
-						              </button>
-					              </h3>
+				              <div class="col-sm-12 col-md-12 col-lg-6 text-left">
+<!--					              <h3 style="margin:3px;">-->
+<!--						              Found {{num_results}} <span style='color: #18BC9C;'>player{{num_results!=1? 's':''}}</span> for '<span style='color: #18BC9C;'>{{playerInputSearching}}</span>'-->
+<!--						              <button *ngIf="filters_active && !showFilter" type="button" class="btn btn-link search-control" (click)="toggleFilter()">-->
+<!--							              Show filters <i class="fa fa-caret-down"></i>-->
+<!--						              </button>-->
+<!--						              <button type="button" class="btn btn-link search-control" (click)="clearFilter()" *ngIf="world != '' || server != ''">-->
+<!--							              Clear filters <i class="fa fa-close"></i>-->
+<!--						              </button>-->
+<!--						              <button *ngIf="!secondary" type="button" class="btn btn-link search-control" (click)="hide_results = true; cdr.detectChanges();">-->
+<!--							              Hide results <i class="fa fa-caret-up"></i>-->
+<!--						              </button>-->
+<!--						              <button type="button" class="btn btn-link search-control" (click)="hide_results = true; searching_players = false; cdr.detectChanges();">-->
+<!--							              Close results <i class="fa fa-close"></i>-->
+<!--						              </button>-->
+<!--					              </h3>-->
+
+                        <mat-form-field *ngIf="filters_active && showFilter" style="margin-right: 10px; font-size: unset !important; width: unset !important;" (click)="cdr.detectChanges();" >
+                          <mat-select placeholder="Server" [ngModel]="server" (ngModelChange)="setServer($event)" #select>
+                            <mat-option value="" (click)="cdr.detectChanges();">All servers</mat-option>
+                            <mat-option *ngFor="let s of form.servers" value="{{s.key}}" (click)="cdr.detectChanges();">
+                              <div class="bg-flag flag-inline flag-{{s.key}}"></div>&nbsp;{{s.key}} [{{s.doc_count}} results]
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field *ngIf="filters_active && showFilter" style="margin-right: 10px; font-size: unset !important; width: unset !important;" (click)="cdr.detectChanges();">
+                          <mat-select placeholder="World" [ngModel]="world" (ngModelChange)="setWorld($event)">
+                            <mat-option value="" (click)="cdr.detectChanges();">All worlds</mat-option>
+                            <mat-option *ngFor="let w of form.worlds" value="{{w.key}}" (click)="cdr.detectChanges();">{{w.key}} [{{w.doc_count}} results]</mat-option>
+                          </mat-select>
+                        </mat-form-field>
 
 				              </div>
-				              <div class="col-sm-12 col-md-12 col-lg-6" *ngIf="players?.length >= size" style="padding-top: 12px;">
+				              <div class="col-sm-12 col-md-12 col-lg-6 text-right" *ngIf="players?.length >= size" style="padding-top: 12px;">
 					              <mat-paginator [length]="num_results"
 					                             [pageSize]="size"
 					                             [pageSizeOptions]="[10, 30, 50, 100, 200]"

@@ -1,0 +1,228 @@
+<header class="item header margin-top-0">
+  <div class="wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <div class="text-homeimage">
+            <div #headerText class="maintext-image">
+              <div *ngIf="headerInView" [@enterTop]>
+                <span class="logo-grepo" >GREPO</span>
+                <span class="logo-data" >DATA</span>
+              </div>
+            </div>
+            <div class="subtext-image">
+              <div *ngIf="headerInView" [@enterBot]>
+                <span class="skills hidden-xs">Advanced tools and statistics for the MMOG Grepolis</span>
+                <span class="skills hidden-sm hidden-md hidden-lg">Tools and statistics for Grepolis</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- STEPS =============================-->
+<div class="item content">
+  <div class="container toparea">
+    <div class="row text-center" style="padding-bottom: 20px;">
+      <div class="col-md-12" style="margin-top: -30px; padding: 0 !important;">
+        <app-search [homepage]="true"></app-search>
+        <br/>
+        <br/>
+      </div>
+      <div class="col-md-4 hidden-xs hidden-sm">
+        <div class="col editContent">
+          <span class="numberstep"><i class="fa fa-bar-chart"></i></span>
+          <h3 class="numbertext">Game statistics</h3>
+          <p>
+            We collect data from the Grepolis API once every hour. You can browse daily scoreboards for each game world as well as detailed player and alliance statistics.
+          </p>
+        </div>
+      </div>
+      <div class="col-md-4 editContent hidden-xs hidden-sm">
+        <div class="col">
+          <span class="numberstep"><i class="fa fa-github"></i></span>
+          <h3 class="numbertext">Open source</h3>
+          <p>
+            GrepoData is 100% open source!<br/>
+            Interested in contributing?<br/>
+            Check out our <a href="https://github.com/GrepoDataTools" target="_blank">GitHub</a> page
+          </p>
+        </div>
+      </div>
+      <div class="col-md-4 editContent hidden-xs hidden-sm">
+        <div class="col">
+          <span class="numberstep"><i class="fa fa-wrench"></i></span>
+          <h3 class="numbertext">Tools</h3>
+          <p>
+            Add our Discord bot to your server or get started using our city indexer userscript to collect & share enemy intelligence with your alliance.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- LATEST ITEMS =============================-->
+<section class="item content">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="productbox" routerLink="/points">
+          <div class="fadeshop">
+            <span class="maxproduct"><img src="../../assets/images/scoreboard.png" alt=""></span>
+          </div>
+          <div class="product-details">
+            <a href="#">
+              <h1>Daily scoreboard</h1>
+            </a>
+            <span class="price">
+						<span class="edd_price">
+              VIEW&nbsp;&nbsp;<i class="fa fa-trophy"></i>
+            </span>
+						</span>
+          </div>
+        </div>
+      </div>
+      <!-- /.productbox -->
+      <div class="col-md-4">
+        <div class="productbox" routerLink="/points">
+          <div class="fadeshop">
+            <span class="maxproduct"><img src="../../assets/images/player.png" alt=""></span>
+          </div>
+          <div class="product-details">
+            <a href="#">
+              <h1>Player & Alliance statistics</h1>
+            </a>
+            <span class="price">
+						<span class="edd_price">
+              EXPLORE&nbsp;&nbsp;<i class="fa fa-line-chart"></i>
+            </span>
+						</span>
+          </div>
+        </div>
+      </div>
+      <!-- /.productbox -->
+      <div class="col-md-4">
+        <div class="productbox" routerLink="/compare">
+          <div class="fadeshop">
+            <span class="maxproduct"><img src="../../assets/images/compare.png" alt=""></span>
+          </div>
+          <div class="product-details">
+            <a href="#">
+              <h1>Compare</h1>
+            </a>
+            <span class="price">
+						<span class="edd_price">
+              START COMPARING&nbsp;&nbsp;<i class="fa fa-compress"></i>
+            </span>
+						</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="productbox" routerLink="/discord">
+          <div class="fadeshop">
+            <span class="maxproduct"><img src="../../assets/images/discord.png" alt=""></span>
+          </div>
+          <div class="product-details">
+            <a href="#">
+              <h1>Discord bot</h1>
+            </a>
+            <span class="price">
+						<span class="edd_price">
+              ADD TO DISCORD
+            </span>
+						</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="productbox" routerLink="/indexer">
+          <div class="fadeshop">
+            <span class="maxproduct"><img src="../../assets/images/indexer_town_sm.png" alt=""></span>
+          </div>
+          <div class="product-details">
+            <a href="#">
+              <h1>USERSCRIPT: City indexer</h1>
+            </a>
+            <span class="price">
+						<span class="edd_price">
+              GET STARTED&nbsp;&nbsp;<i class="fa fa-university"></i>
+            </span>
+						</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- BUTTON =============================-->
+<div class="item content">
+  <div class="container text-center">
+    <br/>
+    <br/>
+    <a (click)="showContactDialog()" class="homebrowseitems">Contact us
+      <div class="homebrowseitemsicon">
+        <i class="fa fa-comments"></i>
+      </div>
+    </a>
+  </div>
+</div>
+<br/>
+
+<!--Indexer-->
+<div #indexerText class="item content">
+  <div *ngIf="indexerInView && loggedOut" class="container">
+    <div class="col-md-12 text-center">
+      <h2><span class="uppercase">CITY INDEXER</span></h2>
+      <p>
+        Create an account to collect & share in-game reports to keep track of enemy intelligence
+      </p>
+
+      <app-login-register [require_explicit_action]="true"></app-login-register>
+
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+    </div>
+  </div>
+</div>
+
+
+<!-- FOOTER =============================-->
+<div class="footer text-center">
+  <div class="container">
+    <div class="row">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 disclaimer">
+          <!--<strong>Copyright notices: </strong>&nbsp;-->
+          Grepolis is a browser game by InnoGames GmbH. This is an unofficial 3rd party site
+          <br/>
+          Gameplay images related to Grepolis are copyright of InnoGames GmbH.
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 disclaimer">
+          Copyright &copy; Grepodata {{date| date:'yyyy'}}
+          <br/>
+          <a class="a-link-dialog" (click)="showDisclaimerDialog()">Disclaimer</a>
+          &nbsp; | &nbsp;
+          <a class="a-link-dialog" routerLink="/privacy">Privacy</a>
+          &nbsp; | &nbsp;
+          <a class="a-link-dialog" routerLink="/analytics">Status</a>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>

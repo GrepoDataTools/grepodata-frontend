@@ -132,6 +132,7 @@ import {BasicSnackbar} from './shared/snackbar/basic-snackbar.component';
 import { IndexerBreadcrumbsComponent } from './layout/indexer-breadcrumbs/indexer-breadcrumbs.component';
 import { PlayerActivityComponent } from './layout/player-activity/player-activity.component';
 import {PlatformModule} from '@angular/cdk/platform';
+import { HomepageComponent } from './homepage/homepage.component';
 
 const appRoutes: Routes = [
     { path: 'login', component: LandingPageComponent },
@@ -181,9 +182,9 @@ const appRoutes: Routes = [
     { path: 'conquest', component: ConquestComponent },
     { path: 'discord', component: DiscordComponent },
     { path: 'faq', component: FaqComponent },
-    { path: 'test', component: ContentComponent },
-    { path: '', component: ContentComponent },
-    { path: '**', component: ContentComponent },
+    { path: 'test', component: HomepageComponent },
+    { path: '', component: HomepageComponent },
+    { path: '**', component: HomepageComponent },
 ];
 
 export function jwtTokenGetter(): any {
@@ -275,6 +276,7 @@ export function jwtTokenGetter(): any {
         BugReportComponent,
         IndexerBreadcrumbsComponent,
         PlayerActivityComponent,
+        HomepageComponent
     ],
     imports: [
         FormsModule,

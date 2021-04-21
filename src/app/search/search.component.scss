@@ -16,6 +16,11 @@ mat-card {
   }
 }
 
+::ng-deep {
+  .mat-option-text {
+    line-height: 2 !important;
+  }
+}
 @media (min-width:1200px) {
   .top-container {
     position: -webkit-sticky; /* Safari */

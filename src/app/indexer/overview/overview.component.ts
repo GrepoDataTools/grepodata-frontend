@@ -33,6 +33,7 @@ export class OverviewComponent implements OnInit {
   role = '';
   contribute = false;
   world_stopped = false;
+  missing_v1_owner = false;
   share_link = '';
   delete_days = '';
   allow_join_v1_key = '';
@@ -126,6 +127,11 @@ export class OverviewComponent implements OnInit {
       }
       if (data.recent_conquests) {
         this.recent_conquests = data.recent_conquests;
+      }
+      if ('has_v2_owner' in data && 'index_version' in data) {
+        if (data.has_v2_owner === false && data.index_version === '1') {
+          this.missing_v1_owner = true;
+        }
       }
     }
 

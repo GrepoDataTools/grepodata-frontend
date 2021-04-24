@@ -38,6 +38,11 @@
       Game world <strong>{{world}}</strong> is finished and all detailed data related to this world has been deleted from our database. This team overview is still available but the underlying intel has been removed.
     </app-alert>
 
+    <app-alert *ngIf="missing_v1_owner" title="This team does not have a registered owner" type="error" [dismissible]="false">
+      This team was imported from an old index (created before April 2021). This team does not currently have an active registered owner. If you created this index, you have to register for a GrepoData account using the same email address that you used to create the index. This is the only way to become the owner of this team.
+      If this is not possible for you, please <a class="a-link-dialog" (click)="showContactDialog()">contact us</a>.
+    </app-alert>
+
 		<div class="index-overview">
 
 			<div class="">

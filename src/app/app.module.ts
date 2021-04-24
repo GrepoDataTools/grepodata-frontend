@@ -45,7 +45,6 @@ import {
     IndexDate,
 } from './app.component';
 import { HeaderComponent, ContactDialog } from './header/header.component';
-import { ContentComponent } from './content/content.component';
 import { SearchComponent } from './search/search.component';
 import {
     ScoreboardComponent,
@@ -133,6 +132,7 @@ import { IndexerBreadcrumbsComponent } from './layout/indexer-breadcrumbs/indexe
 import { PlayerActivityComponent } from './layout/player-activity/player-activity.component';
 import {PlatformModule} from '@angular/cdk/platform';
 import { HomepageComponent } from './homepage/homepage.component';
+import { IndexerUpdateComponent } from './homepage/indexer-update/indexer-update.component';
 
 const appRoutes: Routes = [
     { path: 'login', component: LandingPageComponent },
@@ -195,7 +195,6 @@ export function jwtTokenGetter(): any {
     declarations: [
         AppComponent,
         HeaderComponent,
-        ContentComponent,
         SearchComponent,
         ScoreboardComponent,
         BBScoreboardDialog,
@@ -276,7 +275,8 @@ export function jwtTokenGetter(): any {
         BugReportComponent,
         IndexerBreadcrumbsComponent,
         PlayerActivityComponent,
-        HomepageComponent
+        HomepageComponent,
+        IndexerUpdateComponent
     ],
     imports: [
         FormsModule,

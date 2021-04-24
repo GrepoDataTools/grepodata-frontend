@@ -56,6 +56,11 @@
       <span *ngIf="active_tab === 'password'"><app-change-password></app-change-password></span>
       <span *ngIf="active_tab === 'delete'"><app-delete-account></app-delete-account></span>
       <span *ngIf="active_tab === 'faq'">
+
+        <div style="padding: 20px 20px 0">
+          <app-indexer-update></app-indexer-update>
+        </div>
+
         <mat-card class="index-card">
           <h2><mat-icon>help_outline</mat-icon>&nbsp;Frequently asked questions</h2>
           <h4>Can't find what you are looking for? Feel free to <a class="a-link-dialog" (click)="showContactDialog()">send us a message</a> and we will responds as soon as possible.</h4>
@@ -84,8 +89,8 @@
                 <a class="a-link-dialog" (click)="showDisclaimerDialog()">Disclaimer</a>
                 &nbsp; | &nbsp;
                 <a class="a-link-dialog" routerLink="/privacy">Privacy</a>
-                &nbsp; | &nbsp;
-                <a class="a-link-dialog" routerLink="/analytics">Status</a>
+<!--                &nbsp; | &nbsp;-->
+<!--                <a class="a-link-dialog" routerLink="/analytics">Status</a>-->
               </div>
 
 

@@ -26,13 +26,11 @@
 <!-- STEPS =============================-->
 <div class="item content">
   <div class="container toparea">
-    <div class="row text-center" style="padding-bottom: 20px;">
+    <div class="row text-center">
       <div class="col-md-12" style="margin-top: -30px; padding: 0 !important;">
         <app-search [homepage]="true"></app-search>
-        <br/>
-        <br/>
       </div>
-      <div class="col-md-4 hidden-xs hidden-sm">
+      <div class="col-md-4 hidden-xs hidden-sm" style="padding-bottom: 20px;">
         <div class="col editContent">
           <span class="numberstep"><i class="fa fa-bar-chart"></i></span>
           <h3 class="numbertext">Game statistics</h3>
@@ -74,7 +72,7 @@
       <div class="col-md-4">
         <div class="productbox" routerLink="/points">
           <div class="fadeshop">
-            <span class="maxproduct"><img src="../../assets/images/scoreboard.png" alt=""></span>
+            <span class="maxproduct"><img src="../../assets/images/scoreboard.png?v=1" alt=""></span>
           </div>
           <div class="product-details">
             <a href="#">
@@ -92,7 +90,7 @@
       <div class="col-md-4">
         <div class="productbox" routerLink="/points">
           <div class="fadeshop">
-            <span class="maxproduct"><img src="../../assets/images/player.png" alt=""></span>
+            <span class="maxproduct"><img src="../../assets/images/player.png?v=1" alt=""></span>
           </div>
           <div class="product-details">
             <a href="#">
@@ -110,7 +108,7 @@
       <div class="col-md-4">
         <div class="productbox" routerLink="/compare">
           <div class="fadeshop">
-            <span class="maxproduct"><img src="../../assets/images/compare.png" alt=""></span>
+            <span class="maxproduct"><img src="../../assets/images/compare.png?v=1" alt=""></span>
           </div>
           <div class="product-details">
             <a href="#">
@@ -180,14 +178,27 @@
 </div>
 <br/>
 
+
+<div class="item content">
+  <div class="container text-center">
+    <br/>
+    <app-indexer-update></app-indexer-update>
+    <br/>
+  </div>
+</div>
+<br/>
+
+
 <!--Indexer-->
 <div #indexerText class="item content">
   <div *ngIf="indexerInView && loggedOut" class="container">
-    <div class="col-md-12 text-center">
-      <h2><span class="uppercase">CITY INDEXER</span></h2>
-      <p>
-        Create an account to collect & share in-game reports to keep track of enemy intelligence
-      </p>
+    <div class="col-md-12 text-center" style="margin: 0 -25px;">
+      <div class="container">
+        <h2><span class="uppercase">CITY INDEXER</span></h2>
+        <p>
+          Create an account to collect & share in-game reports to keep track of enemy intelligence
+        </p>
+      </div>
 
       <app-login-register [require_explicit_action]="true"></app-login-register>
 
@@ -217,8 +228,8 @@
           <a class="a-link-dialog" (click)="showDisclaimerDialog()">Disclaimer</a>
           &nbsp; | &nbsp;
           <a class="a-link-dialog" routerLink="/privacy">Privacy</a>
-          &nbsp; | &nbsp;
-          <a class="a-link-dialog" routerLink="/analytics">Status</a>
+<!--          &nbsp; | &nbsp;-->
+<!--          <a class="a-link-dialog" routerLink="/analytics">Status</a>-->
         </div>
 
 

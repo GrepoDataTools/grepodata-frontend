@@ -76,7 +76,7 @@ export class HomepageComponent implements OnInit {
     const scrollPosition = window.pageYOffset;
     const windowHeight = window.innerHeight;
 
-    if (this.indexerText && this.indexerText.nativeElement.offsetTop <= scrollPosition + windowHeight) {
+    if (this.mobileQuery.matches && this.indexerText && this.indexerText.nativeElement.offsetTop <= scrollPosition + windowHeight) {
       console.log('indexer');
       this.indexerInView = true;
     }

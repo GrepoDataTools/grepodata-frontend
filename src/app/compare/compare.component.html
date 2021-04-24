@@ -215,7 +215,9 @@
                     <tr>
                       <th>World</th>
                       <td *ngFor="let i of infoData;">
-                        <a *ngIf="i.alliance_id != 0 && i.alliance_name != ''" routerLink="/points" [queryParams]="{world: i.world}">{{i.world}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a>
+                        <a *ngIf="i.alliance_id != 0 && i.alliance_name != ''" routerLink="/points" [queryParams]="{world: i.world}">
+                          <div [outerHTML]="i.world | WorldNamePipe"></div>
+                        </a>
                       </td>
                     </tr>
                     <tr>
@@ -265,7 +267,9 @@
                     <tr>
                       <th>World</th>
                       <td *ngFor="let i of infoData;">
-                        <a *ngIf="i.alliance_id != 0 && i.alliance_name != ''" routerLink="/points" [queryParams]="{world: i.world}">{{i.world}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a>
+                        <a *ngIf="i.alliance_id != 0 && i.alliance_name != ''" routerLink="/points" [queryParams]="{world: i.world}">
+                          <div [outerHTML]="i.world | WorldNamePipe"></div>
+                        </a>
                       </td>
                     </tr>
                     <tr>
@@ -354,7 +358,23 @@
                           (select)="onSelect($event)">
                   </ngx-charts-pie-chart>
                 </div>
-                <div class="hidden-xs col-sm-6 hidden-md hidden-lg text-center compare-chart-container">
+<!--                <div class="hidden-xs col-sm-6 hidden-md hidden-lg text-center compare-chart-container">-->
+<!--                </div>-->
+                <div class="col-xs-12 text-center" style="padding: 0 calc(50% - 400px);">
+                  <h3 class="gd-primary">Play style</h3>
+                  <ngx-charts-polar-chart
+                    [view]="[800, 500]"
+                    [scheme]="colorScheme"
+                    [legend]="true"
+                    [showXAxisLabel]="false"
+                    [showYAxisLabel]="false"
+                    [xAxis]="true"
+                    [yAxis]="false"
+                    [xAxisLabel]="'Play style'"
+                    [yAxisLabel]="'Rank'"
+                    [results]="polar_chart_data"
+                    (select)="onSelect($event)">
+                  </ngx-charts-polar-chart>
                 </div>
 
               </div>

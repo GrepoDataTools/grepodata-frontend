@@ -53,7 +53,6 @@ export class AnalyticsComponent implements OnInit {
   script_version = [];
   total_indexes = [];
   total_reports = [];
-  index_types_agg = [];
   index_world_bins = [];
 
   constructor(
@@ -190,9 +189,6 @@ export class AnalyticsComponent implements OnInit {
     if (data.indexer_stats_agg) {
       let chartNumIndex = [];
       let chartNumReports = [];
-      let chartTypeSpy = [];
-      let chartTypeAtt = [];
-      let chartTypeDef = [];
       for(let i in data.indexer_stats_agg.data) {
         let record = data.indexer_stats_agg.data[i];
         let date = new Date(record.created_at);
@@ -204,18 +200,6 @@ export class AnalyticsComponent implements OnInit {
           'name' : date,
           'value' : record.reports,
         });
-        chartTypeSpy.unshift({
-          'name' : date,
-          'value' : record.spy_count,
-        });
-        chartTypeAtt.unshift({
-          'name' : date,
-          'value' : record.att_count,
-        });
-        chartTypeDef.unshift({
-          'name' : date,
-          'value' : record.def_count,
-        });
       }
       this.total_indexes.push({
         'name': 'Number of teams',
@@ -224,18 +208,6 @@ export class AnalyticsComponent implements OnInit {
       this.total_reports.push({
         'name': 'Active intel records',
         'series': chartNumReports,
-      });
-      this.index_types_agg.push({
-        'name': 'Espionage reports',
-        'series': chartTypeSpy,
-      });
-      this.index_types_agg.push({
-        'name': 'Attack reports',
-        'series': chartTypeAtt,
-      });
-      this.index_types_agg.push({
-        'name': 'Support reports',
-        'series': chartTypeDef,
       });
     }
 

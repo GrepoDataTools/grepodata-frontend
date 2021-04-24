@@ -44,9 +44,9 @@ a:hover {
 }
 .item.header {
   height: 400px;
-  background: linear-gradient(-45deg, #685b94, #6b6b83, #3b8d99);
+  background: linear-gradient(-45deg, #6d8eac, #6b6b83, #3b8d99);
   background-size: 400% 400%;
-  animation: gradient 10s ease infinite;
+  animation: gradient 30s ease infinite;
 }
 @keyframes gradient {
   0% {
@@ -232,4 +232,11 @@ ul,ol {
 }
 .footer a {
   color:$gd-light;
+}
+
+@media (max-width: 600px) {
+
+  .text-homeimage {
+    font-size: 45px !important;
+  }
 }

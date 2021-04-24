@@ -15,6 +15,54 @@
 			</div>
 
 
+      <!--error rate-->
+      <div class="col-md-12 text-left" *ngIf="!loading_index && indexer_error_rate.length > 0">
+
+        <h2 class="gd-secondary">Report parsing error rate (per day)</h2>
+
+        <div class="ngx-chart-container">
+          <ngx-charts-line-chart
+            [scheme]="{domain:['#f07057']}"
+            [results]="indexer_error_rate"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [legend]="showLegend"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel"
+            [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel"
+            [autoScale]="autoScale"
+            [timeline]="timeline"
+            (select)="onSelect($event)">
+          </ngx-charts-line-chart>
+        </div>
+      </div>
+
+      <!--warning rate-->
+      <div class="col-md-12 text-left" *ngIf="!loading_index && warning_rate.length > 0">
+
+        <h2 class="gd-secondary">GrepoData logger warning rate (per day)</h2>
+
+        <div class="ngx-chart-container">
+          <ngx-charts-line-chart
+            [scheme]="{domain:['#d6be7b']}"
+            [results]="warning_rate"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [legend]="showLegend"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel"
+            [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel"
+            [autoScale]="autoScale"
+            [timeline]="timeline"
+            (select)="onSelect($event)">
+          </ngx-charts-line-chart>
+        </div>
+      </div>
+
 			<!--<div class="col-md-12 text-center">-->
 				<!--<mat-tab-group mat-stretch-tabs>-->
 					<!--<mat-tab class="history-chart" style="padding: 20px 0; overflow: hidden !important;">-->
@@ -106,34 +154,10 @@
 				</div>
 			</div>
 
-			<!--error rate-->
-			<div class="col-md-12 text-left" *ngIf="!loading_index && indexer_error_rate.length > 0">
-
-				<h2 class="gd-secondary">Report parsing error rate (per day)</h2>
-
-				<div class="ngx-chart-container">
-					<ngx-charts-line-chart
-						[scheme]="{domain:['#f07057']}"
-						[results]="indexer_error_rate"
-						[gradient]="gradient"
-						[xAxis]="showXAxis"
-						[yAxis]="showYAxis"
-						[legend]="showLegend"
-						[showXAxisLabel]="showXAxisLabel"
-						[showYAxisLabel]="showYAxisLabel"
-						[xAxisLabel]="xAxisLabel"
-						[yAxisLabel]="yAxisLabel"
-						[autoScale]="autoScale"
-						[timeline]="timeline"
-						(select)="onSelect($event)">
-					</ngx-charts-line-chart>
-				</div>
-			</div>
-
 			<!--Reports total-->
 			<div class="col-md-12 text-left" *ngIf="!loading_index && total_reports.length > 0">
 
-				<h2 class="gd-secondary">Active intelligence</h2>
+				<h2 class="gd-secondary">Total number of reports indexed (accumulative)</h2>
 
 				<div class="ngx-chart-container">
 					<ngx-charts-line-chart
@@ -224,26 +248,26 @@
 			</div>
 
 			<!--STATS-->
-			<div class="col-md-12 text-left" *ngIf="!loading_index && index_types_agg.length > 0">
+<!--			<div class="col-md-12 text-left" *ngIf="!loading_index && index_types_agg.length > 0">-->
 
-				<h2 class="gd-secondary">Report types (accumulative)</h2>
+<!--				<h2 class="gd-secondary">Report types (accumulative)</h2>-->
 
-				<div class="ngx-chart-container">
-					<ngx-charts-area-chart-stacked
-						[scheme]="colorScheme"
-						[legend]="showLegend"
-						[showXAxisLabel]="showXAxisLabel"
-						[showYAxisLabel]="showYAxisLabel"
-						[xAxis]="showXAxis"
-						[yAxis]="showYAxis"
-						[xAxisLabel]="xAxisLabel"
-						[yAxisLabel]="yAxisLabel"
-						[timeline]="timeline"
-						[results]="index_types_agg"
-						(select)="onSelect($event)">
-					</ngx-charts-area-chart-stacked>
-				</div>
-			</div>
+<!--				<div class="ngx-chart-container">-->
+<!--					<ngx-charts-area-chart-stacked-->
+<!--						[scheme]="colorScheme"-->
+<!--						[legend]="showLegend"-->
+<!--						[showXAxisLabel]="showXAxisLabel"-->
+<!--						[showYAxisLabel]="showYAxisLabel"-->
+<!--						[xAxis]="showXAxis"-->
+<!--						[yAxis]="showYAxis"-->
+<!--						[xAxisLabel]="xAxisLabel"-->
+<!--						[yAxisLabel]="yAxisLabel"-->
+<!--						[timeline]="timeline"-->
+<!--						[results]="index_types_agg"-->
+<!--						(select)="onSelect($event)">-->
+<!--					</ngx-charts-area-chart-stacked>-->
+<!--				</div>-->
+<!--			</div>-->
 
 			<!--VERSION-->
 <!--			<div class="col-md-12 text-left" *ngIf="!loading_index && script_version.length > 0">-->
@@ -268,29 +292,6 @@
 <!--				</div>-->
 <!--			</div>-->
 
-			<!--warning rate-->
-			<div class="col-md-12 text-left" *ngIf="!loading_index && warning_rate.length > 0">
-
-				<h2 class="gd-secondary">GrepoData logger warning rate (per day)</h2>
-
-				<div class="ngx-chart-container">
-					<ngx-charts-line-chart
-						[scheme]="{domain:['#d6be7b']}"
-						[results]="warning_rate"
-						[gradient]="gradient"
-						[xAxis]="showXAxis"
-						[yAxis]="showYAxis"
-						[legend]="showLegend"
-						[showXAxisLabel]="showXAxisLabel"
-						[showYAxisLabel]="showYAxisLabel"
-						[xAxisLabel]="xAxisLabel"
-						[yAxisLabel]="yAxisLabel"
-						[autoScale]="autoScale"
-						[timeline]="timeline"
-						(select)="onSelect($event)">
-					</ngx-charts-line-chart>
-				</div>
-			</div>
 
 		</div>
 	</div>

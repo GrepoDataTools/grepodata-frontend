@@ -328,4 +328,7 @@ export class SearchComponent implements AfterViewInit {
     this.cdr.detectChanges();
   }
 
+  scrollTop() {
+    window.scrollTo(0, 0);
+  }
 }

@@ -1,17 +1,22 @@
 <div id="pagehead" style="height: 100%;">
 
 	<div class="no-index-container">
-		<mat-card class="no-index-card decorated-card">
-			<mat-card-title class='decorated-card-header-secondary decorated-title'>
-				<h1>
-					<i class="fa fa-university gd-secondary" aria-hidden="true"></i>&nbsp;<span><strong class="gd-secondary">Userscript:</strong> Enemy City Indexer</span>
+		<mat-card class="no-index-card decorated-card main-card">
+			<mat-card-title class='decorated-card-header-secondary decorated-title header'>
+				<h1 class="title">
+					<strong class="gd-secondary">USERSCRIPT:</strong>
+          ENEMY CITY INDEXER
 				</h1>
-				<h4 class="gd-tertiary hidden-xs">Easily collect and share intelligence about enemy cities with your own private team</h4>
+				<h4 class="gd-tertiary hidden-xs subtitle">Easily collect and share intelligence about enemy cities with your own private team</h4>
 			</mat-card-title>
 			<mat-card-content>
 
+        <div style="margin-top: -110px;">
+          <app-login-register></app-login-register>
+        </div>
 
         <div class="container hidden-xs hidden-sm">
+          <br/>
           <br/>
 
           <div class="row bs-wizard" style="border-bottom:0;">
@@ -48,20 +53,19 @@
           </div>
         </div>
 
-        <div>
-          <app-login-register></app-login-register>
-        </div>
-
 				<br/>
 				<br/>
 
         <div class="container">
           <div class="row">
             <div class="col-xs-12 col-sm-12">
-              <app-userscript></app-userscript>
+              <app-indexer-update></app-indexer-update>
+              <br/>
+              <br/>
             </div>
           </div>
         </div>
+
 
 				<!--FaQ-->
         <div class="container">
@@ -85,91 +89,33 @@
         <div class="container-fluid" *ngIf="stats != ''">
           <div class="col-xs-12 text-center">
 
-            <h1 style="font-family: Montserrat !important;" class="gd-primary">
+            <h2 #databaseStats style="font-family: Montserrat !important;" class="gd-primary">
               Currently in our database
-              <button mat-button class="mat-raised-button bg-gd-2" style="vertical-align: bottom; margin-left: 50px;" routerLink="/analytics">
-                View detailed report&nbsp;<mat-icon style="margin-top: -3px;">launch</mat-icon>
-              </button>
-            </h1>
+            </h2>
 
             <br/>
 
-            <div class="container">
+            <div class="container" *ngIf="show_stats">
               <div class="row">
-                <div class="col-lg-3 col-sm-3 col-xs-4">
-                  <div class="circle-tile ">
-                    <div class="circle-tile-heading dark-blue"><i class="fa fa-user fa-fw fa-2x"></i></div>
-                    <div class="circle-tile-content dark-blue">
-                      <div class="circle-tile-description text-faded">Registered users</div>
-                      <div class="circle-tile-number text-faded ">{{stats.player_count | NumberFilter}}</div>
-                      <!--<a class="circle-tile-footer" href="#">More Info <i class="fa fa-chevron-circle-right"></i></a>-->
-                    </div>
-                  </div>
+                <div class="col-xs-12">
+                  <ngx-charts-number-card
+                    [scheme]="colorScheme"
+                    [results]="stats_data"
+                    [cardColor]="cardColor"
+                    [valueFormatting]="formatStatValue"
+                    (select)="viewDetails()"
+                  >
+                  </ngx-charts-number-card>
+
+<!--                  <a class="a-link" style="color:#6d6d6d" routerLink="/analytics">-->
+<!--                    View detailed report-->
+<!--                  </a>-->
                 </div>
-
-                <div class="col-lg-3 col-sm-3 col-xs-4">
-                  <div class="circle-tile ">
-                    <div class="circle-tile-heading dark-blue"><i class="fa fa-list fa-fw fa-2x"></i></div>
-                    <div class="circle-tile-content dark-blue">
-                      <div class="circle-tile-description text-faded"> Teams created</div>
-                      <div class="circle-tile-number text-faded ">{{stats.index_count | NumberFilter}}</div>
-                      <!--<a class="circle-tile-footer" href="#">More Info <i class="fa fa-chevron-circle-right"></i></a>-->
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-lg-3 col-sm-3 col-xs-4">
-                  <div class="circle-tile ">
-                    <div class="circle-tile-heading dark-blue"><i class="fa fa-code fa-fw fa-2x"></i></div>
-                    <div class="circle-tile-content dark-blue">
-                      <div class="circle-tile-description text-faded"> Active intelligence</div>
-                      <div class="circle-tile-number text-faded " sty>{{stats.reports | NumberFilter}}</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-lg-3 col-sm-3 col-xs-4">
-                  <div class="circle-tile ">
-                    <div class="circle-tile-heading dark-blue"><i class="fa fa-university fa-fw fa-2x"></i></div>
-                    <div class="circle-tile-content dark-blue">
-                      <div class="circle-tile-description text-faded"> Unique towns</div>
-                      <div class="circle-tile-number text-faded ">{{stats.town_count | NumberFilter}}</div>
-                    </div>
-                  </div>
-                </div>
-
-<!--                <div class="col-lg-2 col-sm-2 col-xs-4">-->
-<!--                  <div class="circle-tile ">-->
-<!--                    <div class="circle-tile-heading dark-blue"><i class="fa fa-university fa-fw fa-2x"></i></div>-->
-<!--                    <div class="circle-tile-content dark-blue">-->
-<!--                      <div class="circle-tile-description text-faded"> Fireship cities</div>-->
-<!--                      <div class="circle-tile-number text-faded ">{{stats.fire_count | NumberFilter}}</div>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-
-<!--                <div class="col-lg-2 col-sm-2 col-xs-4">-->
-<!--                  <div class="circle-tile ">-->
-<!--                    <div class="circle-tile-heading dark-blue"><i class="fa fa-university fa-fw fa-2x"></i></div>-->
-<!--                    <div class="circle-tile-content dark-blue">-->
-<!--                      <div class="circle-tile-description text-faded"> Mythical cities</div>-->
-<!--                      <div class="circle-tile-number text-faded ">{{stats.myth_count | NumberFilter}}</div>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-
-<!--                <div class="col-lg-2 col-sm-2 col-xs-4">-->
-<!--                  <div class="circle-tile ">-->
-<!--                    <div class="circle-tile-heading green"><i class="fa fa-users fa-fw fa-2x"></i></div>-->
-<!--                    <div class="circle-tile-content green">-->
-<!--                      <div class="circle-tile-description text-faded"> Enemy alliances</div>-->
-<!--                      <div class="circle-tile-number text-faded ">{{stats.alliance_count | NumberFilter}}</div>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-
               </div>
             </div>
+
+
+
 
           </div>
         </div>
@@ -178,8 +124,10 @@
 				<div class="container">
 					<div class="col-xs-10 col-xs-offset-1 text-center">
 						<br/>
-						<h2 class="gd-secondary">Preview</h2>
-						<img class="img-thumbnail" src="../../assets/images/indexer.png" alt="Enemy city indexer">
+            <h2 style="font-family: Montserrat !important;" class="gd-primary">
+              Preview
+            </h2>
+						<img class="img-thumbnail" src="../../assets/images/indexer.png?v=1" alt="Enemy city indexer">
 					</div>
 				</div>
 				<br/>

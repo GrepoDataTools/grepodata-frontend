@@ -29,6 +29,17 @@ pre {
   min-width: 60vw !important;
 }
 
+@media (max-width:960px) {
+  .card-header {
+    margin: -10px -30px 30px !important;
+  }
+}
+@media (min-width:961px) {
+  .card-header {
+    margin: -30px -30px 30px !important;
+  }
+}
+
 .search-card {
   border-radius: 1rem !important;
   padding: 10px 0 5px !important;
@@ -62,7 +73,7 @@ pre {
   border: 0;
 
   .card-header {
-    margin: -30px -30px 30px !important;
+    //margin: -30px -30px 30px !important;
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
     padding: 20px 30px 5px !important;
@@ -92,7 +103,7 @@ pre {
   border: 0;
 
   .card-header {
-    margin: -30px -30px 30px !important;
+    //margin: -30px -30px 30px !important;
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
     padding: 20px 30px 5px !important;

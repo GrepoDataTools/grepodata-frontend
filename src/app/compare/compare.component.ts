@@ -62,9 +62,11 @@ export class CompareComponent implements OnInit {
   fightGauge = [];
   attGauge = [];
   defGauge = [];
+  polarGauge = [];
   data_fight_gauge: any[];
   data_att_gauge: any[];
   data_def_gauge: any[];
+  polar_chart_data: any[];
 
   //private vars
   comparedPlayers : any = [];
@@ -276,7 +278,7 @@ export class CompareComponent implements OnInit {
     this.pointsChart.sort(this.sortCompare);
     this.data_points = this.pointsChart;
     this.data_points = [...this.data_points];
-    
+
     this.attChart.push({
       'name': unit,
       'series': chartAtt,
@@ -284,7 +286,7 @@ export class CompareComponent implements OnInit {
     this.attChart.sort(this.sortCompare);
     this.data_att = this.attChart;
     this.data_att = [...this.data_att];
-    
+
     this.defChart.push({
       'name': unit,
       'series': chartDef,
@@ -292,7 +294,7 @@ export class CompareComponent implements OnInit {
     this.defChart.sort(this.sortCompare);
     this.data_def = this.defChart;
     this.data_def = [...this.data_def];
-    
+
     this.townChart.push({
       'name': unit,
       'series': chartTowns,
@@ -315,7 +317,7 @@ export class CompareComponent implements OnInit {
     this.fightGauge.sort(this.sortCompare);
     this.data_fight_gauge = this.fightGauge;
     this.data_fight_gauge = [...this.data_fight_gauge];
-    
+
     this.attGauge.push({
       'name': unit,
       'value': json.att
@@ -323,7 +325,7 @@ export class CompareComponent implements OnInit {
     this.attGauge.sort(this.sortCompare);
     this.data_att_gauge = this.attGauge;
     this.data_att_gauge = [...this.data_att_gauge];
-    
+
     this.defGauge.push({
       'name': unit,
       'value': json.def
@@ -332,18 +334,45 @@ export class CompareComponent implements OnInit {
     this.data_def_gauge = this.defGauge;
     this.data_def_gauge = [...this.data_def_gauge];
 
+    this.polarGauge.push(
+      {
+        'name': unit,
+        'series': [
+          {
+            'name': ' Attacking',
+            'value': json.att
+          },
+          {
+            'name': ' Defending',
+            'value': json.def
+          },
+          // {
+          //   'name': 'fighting',
+          //   'value': json.att + json.def
+          // },
+          {
+            'name': ' Town points',
+            'value': json.points
+          }
+        ]
+      }
+    );
+    this.polarGauge.sort(this.sortCompare);
+    this.polar_chart_data = this.polarGauge;
+    this.polar_chart_data = [...this.polar_chart_data];
+
     this.loadingStats = false;
   }
 
   sortCompare = function (a, b) {
     return a.name.localeCompare(b.name);
   }
-  
+
   removePlayer(id, world){
     this.compare.removePlayer(id, world);
     this.doComparePlayers(world);
   }
-  
+
   removeAlliance(id, world){
     this.compare.removeAlliance(id, world);
     this.doCompareAlliances(world);

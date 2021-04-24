@@ -48,6 +48,10 @@ mat-card {
   box-shadow: 0 5px 5px -5px #333!important;
 }
 
+.no-shadow {
+  box-shadow: unset !important;
+}
+
 //.search-container {
 //  margin-top: -20px;
 //}

@@ -1,5 +1,5 @@
 <h2 class="gd-secondary">Add a new user to team <span class="gd-primary"><mat-icon style="opacity: 1; vertical-align: sub; font-size: 40px; margin-right: 10px;">group</mat-icon>&nbsp;{{index.name}}</span></h2>
-<h5>You can share this team with your allies to collect intel together. Invite them using their GrepoData username or send them an invite link.</h5>
+<h5>You can share this team with your allies to collect intel together. Invite them by sending them an invite link.</h5>
 
 <div class="alert alert-gd-1">
 	<h2 class="gd-secondary"><mat-icon style="opacity: 1; vertical-align: middle;">link</mat-icon> Invite link</h2>
@@ -34,91 +34,91 @@
 	</div>
 </div>
 
-<div class="alert alert-gd-1">
-	<h2 class="gd-secondary"><mat-icon style="opacity: 1; vertical-align: middle;">group_add</mat-icon> Add a user by name</h2>
-	<h5>You can also invite a user to join your team by finding their <strong>GrepoData username</strong>.</h5>
+<!--<div class="alert alert-gd-1">-->
+<!--	<h2 class="gd-secondary"><mat-icon style="opacity: 1; vertical-align: middle;">group_add</mat-icon> Add a user by name</h2>-->
+<!--	<h5>You can also invite a user to join your team by finding their <strong>GrepoData username</strong>.</h5>-->
 
-	<app-alert type="error" title="Unable to add user" *ngIf="adding_error">
-		<h5><span [outerHTML]="adding_error"></span></h5>
-	</app-alert>
+<!--	<app-alert type="error" title="Unable to add user" *ngIf="adding_error">-->
+<!--		<h5><span [outerHTML]="adding_error"></span></h5>-->
+<!--	</app-alert>-->
 
-	<app-alert type="success" title="User now has access to your team" *ngIf="adding_success">
-		<h5><span [outerHTML]="adding_success"></span></h5>
-	</app-alert>
+<!--	<app-alert type="success" title="User now has access to your team" *ngIf="adding_success">-->
+<!--		<h5><span [outerHTML]="adding_success"></span></h5>-->
+<!--	</app-alert>-->
 
-	<app-alert type="warning" title="User is already a member of your team" *ngIf="already_member">
-		<h5>User <span class='gd-primary'><strong>{{already_member}}</strong></span> is already a member of this team.</h5>
-		<button class="btn btn-secondary mr-1" (click)="openMembersDialog()">Manage team members <mat-icon>admin_panel_settings</mat-icon></button>
-	</app-alert>
+<!--	<app-alert type="warning" title="User is already a member of your team" *ngIf="already_member">-->
+<!--		<h5>User <span class='gd-primary'><strong>{{already_member}}</strong></span> is already a member of this team.</h5>-->
+<!--		<button class="btn btn-secondary mr-1" (click)="openMembersDialog()">Manage team members <mat-icon>admin_panel_settings</mat-icon></button>-->
+<!--	</app-alert>-->
 
-	<mat-progress-bar *ngIf="adding_user" mode="indeterminate"></mat-progress-bar>
+<!--	<mat-progress-bar *ngIf="adding_user" mode="indeterminate"></mat-progress-bar>-->
 
-	<div class="">
-		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-8 col-lg-6">
-				<div class="alert alert-gd-2" style=" max-width: 800px;">
-					<h3><img src="../../assets/images/grepodata_icon.ico" style="vertical-align: bottom;"/> Search by GrepoData username: </h3>
+<!--	<div class="">-->
+<!--		<div class="row">-->
+<!--			<div class="col-xs-12 col-sm-12 col-md-8 col-lg-6">-->
+<!--				<div class="alert alert-gd-2" style=" max-width: 800px;">-->
+<!--					<h3><img src="../../assets/images/grepodata_icon.ico" style="vertical-align: bottom;"/> Search by GrepoData username: </h3>-->
 
-					<div style="min-height: 55px; height: auto !important;">
-						<div style="position: relative;width: 100%;background: #18BC9C;color: #fff;z-index: 11;min-width: 60px;height: 50px;float: right;overflow: hidden;-webkit-transition: width 0.3s;-moz-transition: width 0.3s;transition: width 0.3s;-webkit-backface-visibility: hidden;margin: 2px 0;">
-							<form>
-								<input #username_input autocomplete="off" class="sb-search-input" placeholder="Search GrepoData username..." type="search" value="" name="search" id="search-users" (keyup)="searchUsers($event)" style="position: absolute;top: 0;right: 0;border: none;outline: none;background: #f3f3f3;width: 100%;height: 49px;margin: 0;z-index: 10;padding: 15px 55px 15px 15px;font-family: inherit;font-size: 20px;color: #2c3e50;">
-								<input class="sb-search-submit" type="button" value="" style="width: 50px;height: 50px;display: block;position: absolute;right: 0;top: 0;padding: 0;margin: 0;line-height: 50px;text-align: center;cursor: pointer;opacity: 0;color: transparent;border: none;outline: none;z-index: -1;background: #fff;-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';filter: alpha(opacity=0);">
-								<span class="sb-icon-search" (click)="doSearchUsers()" style="width: 50px;height: 50px;display: block;position: absolute;right: 0;top: 0;padding: 0;margin: 0;line-height: 50px;text-align: center;cursor: pointer;color: #fff;background: #18BC9C;z-index: 90;font-size: 22px;font-family: 'Montserrat';speak: none;font-style: normal;font-weight: normal;font-variant: normal;text-transform: none;-webkit-font-smoothing: antialiased;">
-            <i class="fa fa-search"></i>
-          </span>
-							</form>
-						</div>
+<!--					<div style="min-height: 55px; height: auto !important;">-->
+<!--						<div style="position: relative;width: 100%;background: #18BC9C;color: #fff;z-index: 11;min-width: 60px;height: 50px;float: right;overflow: hidden;-webkit-transition: width 0.3s;-moz-transition: width 0.3s;transition: width 0.3s;-webkit-backface-visibility: hidden;margin: 2px 0;">-->
+<!--							<form>-->
+<!--								<input #username_input autocomplete="off" class="sb-search-input" placeholder="Search GrepoData username..." type="search" value="" name="search" id="search-users" (keyup)="searchUsers($event)" style="position: absolute;top: 0;right: 0;border: none;outline: none;background: #f3f3f3;width: 100%;height: 49px;margin: 0;z-index: 10;padding: 15px 55px 15px 15px;font-family: inherit;font-size: 20px;color: #2c3e50;">-->
+<!--								<input class="sb-search-submit" type="button" value="" style="width: 50px;height: 50px;display: block;position: absolute;right: 0;top: 0;padding: 0;margin: 0;line-height: 50px;text-align: center;cursor: pointer;opacity: 0;color: transparent;border: none;outline: none;z-index: -1;background: #fff;-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';filter: alpha(opacity=0);">-->
+<!--								<span class="sb-icon-search" (click)="doSearchUsers()" style="width: 50px;height: 50px;display: block;position: absolute;right: 0;top: 0;padding: 0;margin: 0;line-height: 50px;text-align: center;cursor: pointer;color: #fff;background: #18BC9C;z-index: 90;font-size: 22px;font-family: 'Montserrat';speak: none;font-style: normal;font-weight: normal;font-variant: normal;text-transform: none;-webkit-font-smoothing: antialiased;">-->
+<!--            <i class="fa fa-search"></i>-->
+<!--          </span>-->
+<!--							</form>-->
+<!--						</div>-->
 
-						<!--User results-->
-						<mat-progress-bar *ngIf="searching" mode="indeterminate"></mat-progress-bar>
+<!--						&lt;!&ndash;User results&ndash;&gt;-->
+<!--						<mat-progress-bar *ngIf="searching" mode="indeterminate"></mat-progress-bar>-->
 
-						<div *ngIf="too_short" class="text-center">
-							<h4 class="gd-error">Your search query is too short, please enter at least 4 characters to start searching</h4>
-						</div>
+<!--						<div *ngIf="too_short" class="text-center">-->
+<!--							<h4 class="gd-error">Your search query is too short, please enter at least 4 characters to start searching</h4>-->
+<!--						</div>-->
 
-						<div *ngIf="searched && !too_short">
-							<hr>
-							<br/>
-							<br/>
-							<div *ngIf="users?.length < 1 && !searching" class="text-center">
-								<h3>No GrepoData users found for your search <span class="gd-primary">'{{userInput}}'</span></h3>
-							</div>
-							<div *ngIf="!searching && users?.length > 0" class="table" id="search_output_users" style="">
-								<div class="row_custom header default">
-									<div class="cell custom-cell">GrepoData username</div>
-									<div class="cell" style="min-width: 100px;">Add user to team</div>
-								</div>
+<!--						<div *ngIf="searched && !too_short">-->
+<!--							<hr>-->
+<!--							<br/>-->
+<!--							<br/>-->
+<!--							<div *ngIf="users?.length < 1 && !searching" class="text-center">-->
+<!--								<h3>No GrepoData users found for your search <span class="gd-primary">'{{userInput}}'</span></h3>-->
+<!--							</div>-->
+<!--							<div *ngIf="!searching && users?.length > 0" class="table" id="search_output_users" style="">-->
+<!--								<div class="row_custom header default">-->
+<!--									<div class="cell custom-cell">GrepoData username</div>-->
+<!--									<div class="cell" style="min-width: 100px;">Add user to team</div>-->
+<!--								</div>-->
 
-								<div *ngFor="let user of users" class="row_custom">
-									<div class="cell custom-cell gd-primary">
-										<i class="fa fa-user" ></i>
-										<!--<img src="../../assets/images/grepodata_icon.ico" style="vertical-align: bottom;"/>-->
-										&nbsp;{{user?.username}}
-									</div>
-									<div class="cell">
-										<button [disabled]="updating_users" class="btn btn-success" style="overflow: hidden; text-overflow: ellipsis; margin: 5px 0;" (click)="selectUser(user)">
-											<i class="fa fa-plus" style="vertical-align: text-bottom;"></i>&nbsp;Add user to team
-										</button>
-									</div>
-								</div>
-
-
-							</div>
-						</div>
-					</div>
-
-				</div>
-			</div>
-			<div *ngIf="added_users.length > 0" class="col-xs-12 col-sm-12 col-md-4 col-lg-6">
-				<h3 class="gd-secondary">Added users:&nbsp;
-					<span *ngFor="let user of added_users; let i = index;" class="gd-primary"><i class="fa fa-user" ></i>&nbsp;{{user.username}}<span *ngIf="i!=added_users.length-1">,&nbsp;</span></span>
-				</h3>
-				<p>You have recently added these users to your team.</p>
-				<button class="btn btn-secondary mr-1" (click)="openMembersDialog()">Manage team members <mat-icon>admin_panel_settings</mat-icon></button>
-			</div>
-		</div>
-	</div>
+<!--								<div *ngFor="let user of users" class="row_custom">-->
+<!--									<div class="cell custom-cell gd-primary">-->
+<!--										<i class="fa fa-user" ></i>-->
+<!--										&lt;!&ndash;<img src="../../assets/images/grepodata_icon.ico" style="vertical-align: bottom;"/>&ndash;&gt;-->
+<!--										&nbsp;{{user?.username}}-->
+<!--									</div>-->
+<!--									<div class="cell">-->
+<!--										<button [disabled]="updating_users" class="btn btn-success" style="overflow: hidden; text-overflow: ellipsis; margin: 5px 0;" (click)="selectUser(user)">-->
+<!--											<i class="fa fa-plus" style="vertical-align: text-bottom;"></i>&nbsp;Add user to team-->
+<!--										</button>-->
+<!--									</div>-->
+<!--								</div>-->
 
 
-</div>
+<!--							</div>-->
+<!--						</div>-->
+<!--					</div>-->
+
+<!--				</div>-->
+<!--			</div>-->
+<!--			<div *ngIf="added_users.length > 0" class="col-xs-12 col-sm-12 col-md-4 col-lg-6">-->
+<!--				<h3 class="gd-secondary">Added users:&nbsp;-->
+<!--					<span *ngFor="let user of added_users; let i = index;" class="gd-primary"><i class="fa fa-user" ></i>&nbsp;{{user.username}}<span *ngIf="i!=added_users.length-1">,&nbsp;</span></span>-->
+<!--				</h3>-->
+<!--				<p>You have recently added these users to your team.</p>-->
+<!--				<button class="btn btn-secondary mr-1" (click)="openMembersDialog()">Manage team members <mat-icon>admin_panel_settings</mat-icon></button>-->
+<!--			</div>-->
+<!--		</div>-->
+<!--	</div>-->
+
+
+<!--</div>-->

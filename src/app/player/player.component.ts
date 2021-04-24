@@ -23,6 +23,7 @@ export class PlayerComponent implements OnInit {
   // Chart vars
   data_default: any[];
   view: any[] = [1200, 320];
+  polar_chart_data: any[];
   showXAxis = true;
   showYAxis = true;
   gradient = false;
@@ -260,6 +261,26 @@ export class PlayerComponent implements OnInit {
     this.att = json.att;
     this.def = json.def;
     this.loadingInfo = false;
+
+    this.polar_chart_data = [
+      {
+        'name': this.playerName,
+        'series': [
+          {
+            'name': 'attacking',
+            'value': json.att_rank
+          },
+          {
+            'name': 'defending',
+            'value': json.def_rank
+          },
+          {
+            'name': 'fighting',
+            'value': json.fight_rank
+          }
+        ]
+      }
+    ]
 
     // Load history
     this.playerService.loadPlayerHistory(this.world, this.id)

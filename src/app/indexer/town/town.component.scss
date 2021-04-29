@@ -18,6 +18,11 @@
   padding-top: 2px;
 }
 
+.unknown-unit-val {
+  left: 2px !important;
+  right: unset !important;
+}
+
 .intel-cell {
   overflow-x: auto !important;
   overflow-y: hidden !important;

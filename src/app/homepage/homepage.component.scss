@@ -189,6 +189,13 @@ img {
 }
 .productbox .price {
   font-weight:400;
+  border: 1px solid $gd-light;
+  padding: 3px 10px;
+  border-radius: 15px;
+}
+.productbox .price:hover {
+  background: #18BC9C;
+  color: #fff;
 }
 .fadeshop {
   position:relative;
@@ -238,5 +245,12 @@ ul,ol {
 
   .text-homeimage {
     font-size: 45px !important;
+  }
+  .item.header {
+    height: 180px !important;
+  }
+  .text-homeimage {
+    padding-top: unset !important;
+    line-height: unset !important;
   }
 }

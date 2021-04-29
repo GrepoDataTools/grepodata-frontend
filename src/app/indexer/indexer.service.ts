@@ -26,6 +26,13 @@ export class IndexerService {
     });
   }
 
+  getCommandOverview(access_token, world) {
+    let url =  '/commands/get?world='+world;
+    return this.http.get(apiUrl + url, {
+      headers: new HttpHeaders().set('access_token', access_token)
+    });
+  }
+
   getWorlds() {
     let url =  '/indexer/worlds';
     return this.http.get(apiUrl + url);

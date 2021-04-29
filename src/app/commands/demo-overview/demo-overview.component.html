@@ -1,0 +1,62 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12 text-center">
+      <h2 class="gd-primary">GrepoData Team Command Overview (demo)</h2>
+
+      <div class="command-overview-container">
+
+        <div class="command-overview-header">
+
+        </div>
+
+        <div class="command-overview-content">
+          <div class="command-list">
+            <div class="command" *ngFor="let command of data.items | ValuesPipe">
+              <div class="source">
+                <div class="town">
+                  <img style="height: 25px; margin-top: -5px;" src="../../assets/images/town_ico.png"/>&nbsp;
+                  <span class="gd-brown">{{command.source_town_name}}</span>
+                </div>
+                <div class="player">
+                  <img style="height: 25px; margin-top: -5px;" src="../../assets/images/player_ico.png"/>&nbsp;
+                  <span class="gd-brown">{{command.source_player_name}}</span>
+                </div>
+                <div class="alliance">
+                  <img style="height: 25px; margin-top: -5px;" src="../../assets/images/ally_ico.png"/>&nbsp;
+                  <span class="gd-brown">{{command.source_player_name}}</span>
+                </div>
+              </div>
+
+              <div class="time">
+                {{command.arrival_at}}
+              </div>
+
+              <div class="target">
+                <div class="town">
+                  <img style="height: 25px; margin-top: -5px;" src="../../assets/images/town_ico.png"/>&nbsp;
+                  <span class="gd-brown">{{command.target_town_name}}</span>
+                </div>
+                <div class="player">
+                  <img style="height: 25px; margin-top: -5px;" src="../../assets/images/player_ico.png"/>&nbsp;
+                  <span class="gd-brown">{{command.target_player_name}}</span>
+                </div>
+                <div class="alliance">
+                  <img style="height: 25px; margin-top: -5px;" src="../../assets/images/ally_ico.png"/>&nbsp;
+                  <span class="gd-brown">{{command.target_player_name}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="command-overview-footer">
+
+        </div>
+
+      </div>
+
+      <h3>This overview is intended for DEMO purposes only! [DO NOT DISTRIBUTE]</h3>
+
+    </div>
+  </div>
+</div>

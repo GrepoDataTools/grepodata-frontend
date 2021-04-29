@@ -133,6 +133,7 @@ import { PlayerActivityComponent } from './layout/player-activity/player-activit
 import {PlatformModule} from '@angular/cdk/platform';
 import { HomepageComponent } from './homepage/homepage.component';
 import { IndexerUpdateComponent } from './homepage/indexer-update/indexer-update.component';
+import { DemoOverviewComponent } from './commands/demo-overview/demo-overview.component';
 
 const appRoutes: Routes = [
     { path: 'login', component: LandingPageComponent },
@@ -179,6 +180,7 @@ const appRoutes: Routes = [
     { path: 'alliance', component: AllianceComponent },
     { path: 'conquest/:type/:world/:id', component: ConquestComponent },
     { path: 'changes/:type/:world/:id', component: AllianceChangeComponent },
+    { path: 'command_sharing_demo/:world', component: DemoOverviewComponent },
     { path: 'conquest', component: ConquestComponent },
     { path: 'discord', component: DiscordComponent },
     { path: 'faq', component: FaqComponent },
@@ -276,7 +278,8 @@ export function jwtTokenGetter(): any {
         IndexerBreadcrumbsComponent,
         PlayerActivityComponent,
         HomepageComponent,
-        IndexerUpdateComponent
+        IndexerUpdateComponent,
+        DemoOverviewComponent
     ],
     imports: [
         FormsModule,

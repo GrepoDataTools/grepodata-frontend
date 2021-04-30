@@ -1,61 +1,110 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-xs-12 text-center">
-      <h2 class="gd-primary">GrepoData Team Command Overview (demo)</h2>
+      <h2 class="gd-primary">Team Command Overview (<mat-icon>group</mat-icon> Team: {{world}})</h2>
+      <br/>
 
       <div class="command-overview-container">
+
+        <div class="command-overview-filters">
+          <div class="left">
+            <select>
+              <option>Uploaded by player A</option>
+              <option>Uploaded by player B</option>
+              <option>Uploaded by player C</option>
+            </select>
+            <input type="text" placeholder="Filter by text "/>
+          </div>
+          <div class="right">
+            <select>
+              <option>Town A</option>
+              <option>Town B</option>
+              <option>Town C</option>
+            </select>
+          </div>
+        </div>
 
         <div class="command-overview-header">
 
         </div>
 
-        <div class="command-overview-content">
+        <div class="command-overview-content" *ngIf="data.items">
           <div class="command-list">
-            <div class="command" *ngFor="let command of data.items | ValuesPipe">
-              <div class="source">
-                <div class="town">
-                  <img style="height: 25px; margin-top: -5px;" src="../../assets/images/town_ico.png"/>&nbsp;
-                  <span class="gd-brown">{{command.source_town_name}}</span>
+            <div class="command {{i%2==1?'odd':'even'}}" *ngFor="let command of data.items | ValuesPipe; let i = index;">
+              <div class="left">
+
+                <div class="command-type">
+                  <div class="attack_type32x32 {{command.type}}"></div>
                 </div>
-                <div class="player">
-                  <img style="height: 25px; margin-top: -5px;" src="../../assets/images/player_ico.png"/>&nbsp;
-                  <span class="gd-brown">{{command.source_player_name}}</span>
+
+                <div class="command-details">
+                  <div class="command-targets">
+                    <img style="height: 18px; margin-top: -5px;" src="../../assets/images/town_ico.png"/>&nbsp;
+                    <span class="gd-brown">{{command.source_town_name}}</span>
+                    (
+                    <img style="height: 18px; margin-top: -5px;" src="../../assets/images/player_ico.png"/>&nbsp;
+                    <span class="gd-brown">{{command.source_player_name}}</span>
+                    )
+                    <span *ngIf="command.is_returning" class="overview_incoming icon"></span>
+                    <span *ngIf="!command.is_returning" class="overview_outgoing icon"></span>
+                    <img style="height: 18px; margin-top: -5px;" src="../../assets/images/town_ico.png"/>&nbsp;
+                    <span class="gd-brown">{{command.target_town_name}}</span>
+                    (
+                    <img style="height: 18px; margin-top: -5px;" src="../../assets/images/player_ico.png"/>&nbsp;
+                    <span class="gd-brown">{{command.target_player_name}}</span>
+                    )
+                  </div>
+                  <div class="command-timing">
+                    <span class="eta" *ngIf="command.eta">{{command.eta}}</span> (Arrival at: {{command.arrival_at*1000 | Datex : "D MMM HH:mm:ss"}})
+                  </div>
                 </div>
-                <div class="alliance">
-                  <img style="height: 25px; margin-top: -5px;" src="../../assets/images/ally_ico.png"/>&nbsp;
-                  <span class="gd-brown">{{command.source_player_name}}</span>
+
+              </div>
+              <div class="right">
+                <div class="unit-row">
+                  <div class="unit-icon-sm" *ngFor="let unit of command.units | keyvalue" title="{{unit.key}}">
+                    <div class="unit_icon40x40 {{unit.key}}"><span class="unit-val">{{unit.value}}</span></div>
+                  </div>
                 </div>
               </div>
 
-              <div class="time">
-                {{command.arrival_at}}
-              </div>
-
-              <div class="target">
-                <div class="town">
-                  <img style="height: 25px; margin-top: -5px;" src="../../assets/images/town_ico.png"/>&nbsp;
-                  <span class="gd-brown">{{command.target_town_name}}</span>
-                </div>
-                <div class="player">
-                  <img style="height: 25px; margin-top: -5px;" src="../../assets/images/player_ico.png"/>&nbsp;
-                  <span class="gd-brown">{{command.target_player_name}}</span>
-                </div>
-                <div class="alliance">
-                  <img style="height: 25px; margin-top: -5px;" src="../../assets/images/ally_ico.png"/>&nbsp;
-                  <span class="gd-brown">{{command.target_player_name}}</span>
-                </div>
-              </div>
             </div>
           </div>
         </div>
 
         <div class="command-overview-footer">
+          <div class="command_filter">
+            <strong>Filter:</strong>
 
+            <div class="options">
+
+              <div class="support_filter attack_land"></div>
+
+              <div class="support_filter support"></div>
+
+              <div class="support_filter attack_sea"></div>
+
+              <div class="support_filter attack_spy"></div>
+
+              <div class="support_filter farm_attack"></div>
+
+              <div class="support_filter abort"></div>
+
+              <div class="support_filter revolt"></div>
+
+            </div>
+          </div>
         </div>
 
       </div>
 
+      <br/>
       <h3>This overview is intended for DEMO purposes only! [DO NOT DISTRIBUTE]</h3>
+      <h5>1. This overview will only be visible to the members of team XYZ<br>
+      2. This overview will show a combined command overview, consisting only of commands uploaded by members of team XYZ<br>
+      3. This overview will include filters similar to the in-game filters (search, town, attack type, etc)<br>
+      4. This overview will not be automated. Members have to upload their command overview manually and repeatedly.<br>
+      5. This overview will be secured using the GrepoData account sign in.</h5>
 
     </div>
   </div>

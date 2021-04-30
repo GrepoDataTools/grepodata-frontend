@@ -46,6 +46,7 @@ const MENU_ITEMS: Array<Menu> = [
   { mobileOnly: false, state: '', name: 'Indexer', type: 'separator', iconType: 'material' },
   { mobileOnly: false, state: 'profile/intel', name: 'My intel', type: 'link', icon: 'account_balance', iconType: 'material', active: '/intel' },
   { mobileOnly: false, state: 'profile/teams', name: 'My teams', type: 'link', icon: 'group', iconType: 'material', active: '/teams' },
+  // { mobileOnly: false, state: 'profile/commands', name: 'My commands', type: 'link', icon: 'group', iconType: 'material', active: '/teams' },
   { mobileOnly: false, state: 'profile/script', name: 'Userscript', type: 'link', icon: 'description' },
   // { mobileOnly: false, state: '', name: 'Account', type: 'separator', iconType: 'material' },
   // { mobileOnly: false, state: 'profile/linked', name: 'Linked accounts', type: 'link', icon: 'link', iconType: 'material' },

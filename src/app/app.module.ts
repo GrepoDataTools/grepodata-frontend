@@ -180,7 +180,7 @@ const appRoutes: Routes = [
     { path: 'alliance', component: AllianceComponent },
     { path: 'conquest/:type/:world/:id', component: ConquestComponent },
     { path: 'changes/:type/:world/:id', component: AllianceChangeComponent },
-    { path: 'command_sharing_demo/:world', component: DemoOverviewComponent },
+    { path: 'command_sharing_demo/:key', component: DemoOverviewComponent },
     { path: 'conquest', component: ConquestComponent },
     { path: 'discord', component: DiscordComponent },
     { path: 'faq', component: FaqComponent },

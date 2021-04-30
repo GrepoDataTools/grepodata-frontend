@@ -253,7 +253,7 @@ export class IndexesComponent implements OnInit {
         messageHtml: '<div class="text-center"><h3>Are you sure you want to leave team <span class="gd-primary">' + index.name + '</span>?</h3><p>You will have to be invited to join the team again.</p></div>',
         cancel_action: 'Cancel',
         action_type: 'danger',
-        action: 'Leave index',
+        action: 'Leave team',
       }
     });
 

@@ -69,11 +69,32 @@ mat-chip:hover {
   margin:5px 3px;
 }
 
+.shadow {
+  position: absolute;
+  z-index: 10000;
+  width: 400px;
+  right: 0;
+  height: 160px;
+  background: linear-gradient(90deg, transparent, white);
+  background: -webkit-linear-gradient(90deg, transparent, white);
+  background: -o-linear-gradient(90deg, transparent, white);
+  background: -moz-linear-gradient(90deg, transparent, white);
+}
+
+.push {
+  min-width: 350px;
+  height: 160px;
+}
+
 .conquest-card-container {
-  padding: 0 0 25px;
+  margin-bottom: 25px;
   display: flex;
+  max-width: 100%;
+  overflow-x: auto;
 
   .conquest-card {
+    min-width: 240px;
+    overflow-x: auto;
     padding-top: 15px;
     margin-right: 25px;
 
@@ -88,7 +109,8 @@ mat-chip:hover {
     text-align: center;
 
     background-size:cover;
-    background-image: url("../../assets/images/senate_blurred.png");
+    background-image: url("../../assets/images/grepo-battle.jpg");
+    //background-image: url("../../assets/images/senate_blurred.png");
     //filter: contrast(50%);
     //opacity: .9;
     box-shadow: 0px 0px 10px 1px #18333330 !important;
@@ -98,6 +120,9 @@ mat-chip:hover {
       place-content: space-evenly;
       a {
         color: #fff !important;
+      }
+      a:hover {
+        text-decoration: underline;
       }
     }
     .war-score {

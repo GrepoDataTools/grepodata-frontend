@@ -181,7 +181,7 @@
               </div>
             </mat-card-title>
             <mat-card-content>
-              <div class="conquests-list-vertical">
+              <div class="conquests-list-vertical gd-scrollbar">
                 <div class="conquest-item" *ngFor="let conquest of recent_conquests">
                   <app-siege
                     *ngIf="conquest.conquest_id"
@@ -336,7 +336,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="players-intel-table" style="max-height: 275px; overflow-y: auto;">
+							<div class="players-intel-table gd-scrollbar" style="max-height: 275px; overflow-y: auto;">
 								<div class="table" id="table_players_rows" style='margin: auto; margin-bottom: 0px;'>
 									<div class='row_custom' *ngFor="let player of data.players_indexed">
 										<div class="cell" style="width: 45%;">
@@ -383,7 +383,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="players-intel-table" style="max-height: 275px; overflow-y: auto;">
+							<div class="players-intel-table gd-scrollbar" style="max-height: 275px; overflow-y: auto;">
 								<div class="table" id="table_alliances" style='margin: auto; margin-bottom: 0px;'>
 
 									<div class='row_custom' *ngFor="let alliance of data.alliances_indexed">

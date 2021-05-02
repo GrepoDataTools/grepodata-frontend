@@ -29,6 +29,18 @@ pre {
   min-width: 60vw !important;
 }
 
+.gd-scrollbar::-webkit-scrollbar {
+  width: 12px;
+}
+.gd-scrollbar::-webkit-scrollbar-track {
+  background: #fff;
+}
+.gd-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #30435796;
+  border-radius: 20px;
+  border: 3px solid #fff;
+}
+
 @media (max-width:960px) {
   .card-header {
     margin: -10px -30px 30px !important;

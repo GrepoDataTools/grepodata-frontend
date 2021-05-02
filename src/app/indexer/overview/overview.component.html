@@ -52,7 +52,7 @@
 					<!--<app-index-version *ngIf="data.total_reports != 0 && !loading"-->
 					<!--[version]="data.latest_version" [message]="data.update_message" [key]="key"></app-index-version>-->
 
-					<div class="hidden-md hidden-lg">
+					<div *ngIf="!mobileQuery.matches">
 						<mat-card class="dense-card">
 							<mat-tab-group mat-stretch-tabs>
 								<mat-tab>
@@ -79,124 +79,125 @@
 						</mat-card>
 					</div>
 
-					<div class="hidden-xs hidden-sm" fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="0" style="margin-bottom: -25px;">
-						<div fxFlex="33" fxLayout="column" fxLayoutGap="5px">
+					<div *ngIf="mobileQuery.matches" fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="0" style="margin-bottom: -25px;">
+						<div fxFlex="30" fxLayout="column" fxLayoutGap="5px">
 							<ng-container *ngTemplateOutlet="info"></ng-container>
 							<br/>
 						</div>
-						<div fxFlex="34">
-							<ng-container *ngTemplateOutlet="players"></ng-container>
+						<div fxFlex="70">
+              <div class="hidden-xs hidden-sm" fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="0" style="margin-bottom: -25px;">
+                <div fxFlex="50">
+                  <ng-container *ngTemplateOutlet="players"></ng-container>
+                </div>
+                <div fxFlex="50">
+                  <ng-container *ngTemplateOutlet="allys"></ng-container>
+                </div>
+              </div>
+
+              <!--recent conquests-->
+              <div *ngIf="!loading && recent_conquests && recent_conquests.length > 0" class="hidden-xs hidden-sm">
+                <ng-container *ngTemplateOutlet="sieges"></ng-container>
+              </div>
+
+              <!--recent latest intel-->
+              <div *ngIf="latest_intel && latest_intel.length>0" class="hidden-xs hidden-sm">
+                <ng-container *ngTemplateOutlet="recentIntel"></ng-container>
+              </div>
+
 						</div>
-						<div fxFlex="33">
-							<ng-container *ngTemplateOutlet="allys"></ng-container>
-						</div>
-					</div>
-
-					<!--recent conquests-->
-					<div *ngIf="!loading && recent_conquests && recent_conquests.length > 0" class="hidden-xs hidden-sm">
-						<mat-card class="dense-card conquests-card">
-							<mat-card-title>
-								<div class="form-group row" style='margin: 0px;'>
-									<h3 style='font-weight: 300; color: #304357; margin-top: 0px;'><span class='world-title' style='color: #18BC9C;'>Recent sieges</span>&nbsp;&nbsp;
-										<a class="a-link-dialog" *ngIf="recent_conquests.length >= 2" (click)="loadSiegeListDialog()" style="color: #949494;">
-											Show all sieges&nbsp;<mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon>
-										</a>
-									</h3>
-								</div>
-							</mat-card-title>
-							<mat-card-content>
-								<div class="conquests-list-vertical">
-									<div class="conquest-item" *ngFor="let conquest of recent_conquests">
-										<app-siege
-                      *ngIf="conquest.conquest_id"
-											[embedded]="true"
-											[isCard]="true"
-											[hideKey]="false"
-											[conquest]="conquest"
-											[conquestId]="conquest?.conquest_id"
-											[world]="world"
-											[key] = "key">
-										</app-siege>
-									</div>
-								</div>
-							</mat-card-content>
-						</mat-card>
-					</div>
-
-					<!--recent latest intel-->
-					<div *ngIf="latest_intel && latest_intel.length>0" class="hidden-xs hidden-sm">
-						<mat-card class="dense-card" style="margin-top: 5px;">
-							<mat-card-title>
-								<div class="form-group row" style='margin: 0px;'>
-									<h3 style='font-weight: 300; color: #304357; margin-top: 0px;'><span class='world-title' style='color: #18BC9C;'>Latest reports indexed</span></h3>
-								</div>
-							</mat-card-title>
-							<mat-card-content>
-								<div>
-									<div class="table intel-table" id="table_all">
-										<div class="row_custom header bg-gd-2" >
-											<div class="cell">
-												Type
-											</div>
-											<div class="cell">
-												Town
-											</div>
-											<div class="cell">
-												Player
-											</div>
-											<div class="cell">
-												Alliance
-											</div>
-											<div class="cell">
-												Date
-											</div>
-											<div class="cell" style="width: 50%;">
-												Units
-											</div>
-										</div>
-
-										<div class='row_custom' *ngFor="let town of latest_intel" style="height: 40px;">
-											<div class="cell unit-cell-small" matTooltip="{{town.type}}" style="transform: scale(.55); margin-top: -8px;">
-												<img src="../../assets/images/game/towninfo/attack.png" *ngIf="town.type === 'friendly_attack'">
-												<div *ngIf="town.type === 'enemy_attack'" style="-moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); filter: FlipH; -ms-filter: ;">
-													<img src="../../assets/images/game/towninfo/attack.png">
-												</div>
-												<img src="../../assets/images/game/towninfo/wisdom.png" *ngIf="town.type === 'wisdom'">
-												<img src="../../assets/images/game/towninfo/support.png" *ngIf="town.type === 'support'">
-												<img src="../../assets/images/game/towninfo/conquer.png" *ngIf="town.type === 'attack_on_conquest'">
-												<img src="../../assets/images/game/towninfo/espionage_2.67.png" *ngIf="town.type === 'spy'">
-											</div>
-											<div class="cell">
-												<a routerLink="/intel/town/{{world}}/{{town?.town_id}}">{{town?.town_name}}</a>
-											</div>
-											<div class="cell">
-												<a routerLink="/intel/player/{{world}}/{{town?.player_id}}">{{town?.player_name}}</a>
-											</div>
-											<div class="cell">
-												<a routerLink="/intel/alliance/{{world}}/{{town?.alliance_id}}">{{town?.alliance_name}}</a>
-											</div>
-											<div class="cell">
-												{{town.date | IndexDate}}
-											</div>
-											<div class="cell" style="width: 50%; display: flex;">
-                        <span style="transform: scale(.8); margin-right: 32px;" *ngFor="let unit of town.units | ValuesPipe; let i = index;"
-                              matTooltip="{{unit.name.replace('_',' ')}}">
-                          <div class="unit_icon40x40 {{unit.name}}"></div>
-	                        <div class="unit-val" style="margin-right: -40px; top: 0px; background: #9898986e; height: 40px; width: 40px;">
-	                          <div>{{unit.count}}</div>
-	                          <div style="color: #d00; margin-top: -6px;" *ngIf="unit.killed>0">-{{unit.killed}}</div>
-	                        </div>
-                        </span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</mat-card-content>
-						</mat-card>
 					</div>
 
 
 				</div>
+
+				<ng-template #recentIntel>
+          <mat-card class="dense-card" style="margin-top: 35px !important;">
+            <mat-card-title>
+              <div class="form-group row" style='margin: 0px;'>
+                <h3 style='font-weight: 300; color: #304357; margin-top: 0px;'><span class='world-title' style='color: #18BC9C;'>Latest reports indexed</span></h3>
+              </div>
+            </mat-card-title>
+            <mat-card-content>
+              <div>
+                <div class="table intel-table" id="table_all">
+                  <div class="row_custom header bg-gd-2" >
+                    <div class="cell">
+                      Type
+                    </div>
+                    <div class="cell">
+                      Town
+                    </div>
+                    <div class="cell">
+                      Date
+                    </div>
+                    <div class="cell" style="width: 50%;">
+                      Units
+                    </div>
+                  </div>
+
+                  <div class='row_custom' *ngFor="let town of latest_intel" style="height: 40px;">
+                    <div class="cell unit-cell-small" matTooltip="{{town.type}}">
+                      <img src="../../assets/images/game/towninfo/attack.png" *ngIf="town.type === 'friendly_attack'">
+                      <div *ngIf="town.type === 'enemy_attack'" style="-moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); filter: FlipH; -ms-filter: ;">
+                        <img src="../../assets/images/game/towninfo/attack.png">
+                      </div>
+                      <img src="../../assets/images/game/towninfo/wisdom.png" *ngIf="town.type === 'wisdom'">
+                      <img src="../../assets/images/game/towninfo/support.png" *ngIf="town.type === 'support'">
+                      <img src="../../assets/images/game/towninfo/conquer.png" *ngIf="town.type === 'attack_on_conquest'">
+                      <img src="../../assets/images/game/towninfo/espionage_2.67.png" *ngIf="town.type === 'spy'">
+                    </div>
+                    <div class="cell intel-cell-town">
+                      <img style="height: 18px; margin-top: -5px;" src="../../assets/images/town_ico.png"/>&nbsp;<a routerLink="/intel/town/{{world}}/{{town?.town_id}}">{{town?.town_name}}</a><br/>
+                      <img style="height: 18px; margin-top: -5px;" src="../../assets/images/player_ico.png"/>&nbsp;<a routerLink="/intel/player/{{world}}/{{town?.player_id}}">{{town?.player_name}}</a>
+                      &nbsp;(<img style="height: 18px; margin-top: -5px;" src="../../assets/images/ally_ico.png"/>&nbsp;<a routerLink="/intel/alliance/{{world}}/{{town?.alliance_id}}">{{town?.alliance_name}}</a>)
+                    </div>
+                    <div class="cell intel-cell-town">
+                      {{town.date | IndexDate}}
+                    </div>
+                    <div class="cell">
+                      <div class="unit-row">
+                        <div class="unit-icon-sm" *ngFor="let unit of town.units | ValuesPipe; let i = index;" title="{{unit?.name}}">
+                          <div class="unit_icon40x40 {{unit.name}}"><span class="unit-val">{{unit.count}}</span></div>
+                          <div style="color: #d00;" *ngIf="unit.killed>0">-{{unit.killed}}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </ng-template>
+
+				<ng-template #sieges>
+          <mat-card class="dense-card conquests-card" style="margin-top: 35px !important; margin-bottom: -10px !important;">
+            <mat-card-title>
+              <div class="form-group row" style='margin: 0px;'>
+                <h3 style='font-weight: 300; color: #304357; margin-top: 0px;'><span class='world-title' style='color: #18BC9C;'>Recent sieges</span>&nbsp;&nbsp;
+                  <a class="a-link-dialog" *ngIf="recent_conquests.length >= 2" (click)="loadSiegeListDialog()" style="color: #949494;">
+                    Show all sieges&nbsp;<mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon>
+                  </a>
+                </h3>
+              </div>
+            </mat-card-title>
+            <mat-card-content>
+              <div class="conquests-list-vertical">
+                <div class="conquest-item" *ngFor="let conquest of recent_conquests">
+                  <app-siege
+                    *ngIf="conquest.conquest_id"
+                    [embedded]="true"
+                    [isCard]="true"
+                    [hideKey]="false"
+                    [conquest]="conquest"
+                    [conquestId]="conquest?.conquest_id"
+                    [world]="world"
+                    [key] = "key">
+                  </app-siege>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </ng-template>
 
 				<ng-template #info>
 					<mat-card class="dense-card index-card-info">
@@ -210,7 +211,7 @@
 							</div>
 						</div>
 						<mat-card-content>
-							<div style="max-height: 240px; height: 240px; min-height: 240px; overflow-y: auto;">
+							<div>
 								<table class="table table-no-more intel-info-table">
 									<tbody>
 									<tr *ngIf="!is_admin">
@@ -223,9 +224,13 @@
 											<a routerLink="/points" [queryParams]="{world: world}"><span [outerHTML]="world | WorldNamePipe"></span></a>
 										</td>
 									</tr>
-									<tr class="hidden-xs hidden-sm hidden-md" *ngIf="data.total_reports > 0">
-										<th>last addition</th>
+									<tr class="hidden-xs hidden-sm" *ngIf="data.total_reports > 0">
+										<th>Last addition</th>
 										<td>{{data.latest_report}}</td>
+									</tr>
+									<tr class="hidden-xs hidden-sm" *ngIf="data.total_reports > 0">
+										<th>Total reports</th>
+										<td>{{data.total_reports}}</td>
 									</tr>
 									<tr *ngIf="data.total_reports > 0">
 										<th>
@@ -259,7 +264,7 @@
 								</table>
 
 								<div *ngIf="is_admin">
-									<div class="index-options-container">
+									<div class="index-options-container row">
 										<div class="col-xs-12 col-sm-6">
                       <button style="width: 100%;" class="btn btn-secondary mr-1" (click)="showMembersDialog()">
                         <span class="hidden-md">Manage users</span>
@@ -275,6 +280,30 @@
 										</div>
 									</div>
 								</div>
+
+                <div class="index-events">
+                  <app-event-list [key]="key" [update]="update"></app-event-list>
+                </div>
+
+<!--                <div class="index-contributors" *ngIf="data.contributors && data.contributors.length>0">-->
+<!--                  <h3>Top intel contributors</h3>-->
+<!--                  <div class="table">-->
+<!--                    <div class="row_custom header bg-gd-2">-->
+<!--                      <div class="cell">Player</div>-->
+<!--                      <div class="cell">Contributions</div>-->
+<!--                    </div>-->
+
+<!--                    <div class="row_custom" *ngFor="let player of data.contributors; let i = index;">-->
+<!--                      <div class="cell">-->
+<!--                        <img style="height: 20px; margin-top: 0;" src="../../assets/images/player_ico.png"/> {{player.player_name}}-->
+<!--                      </div>-->
+<!--                      <div class="cell">-->
+<!--                        {{player.count}}-->
+<!--                      </div>-->
+<!--                    </div>-->
+
+<!--                  </div>-->
+<!--                </div>-->
 
 							</div>
 

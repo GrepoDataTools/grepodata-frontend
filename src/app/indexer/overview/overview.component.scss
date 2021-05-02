@@ -35,10 +35,12 @@
   white-space: nowrap;
 }
 .conquest-item {
-  max-width: 600px;
+  max-width: 550px;
   display: inline-block;
   vertical-align: top;
   padding: 5px 15px;
+  transform: scale(0.85);
+  margin: -30px -40px;
 }
 .intel-info-table {
   td, th {
@@ -79,26 +81,26 @@ mat-form-field {
 }
 
 .index-card-info {
-  max-height: 400px;
-  height: 400px;
-  min-height: 400px;
+  //max-height: 400px;
+  //height: 400px;
+  //min-height: 400px;
 }
 @media (max-width:1000px) {
   .index-card-info {
-    max-height: 800px;
-    height: 800px;
-    min-height: 800px;
+    //max-height: 800px;
+    //height: 800px;
+    //min-height: 800px;
   }
   .players-intel-table {
     max-height: unset !important;
   }
   .index-options-container {
-    position: relative !important;
-    width: 100% !important;
-    margin-top: 30px !important;
-    button {
-      margin-bottom: 10px !important;
-    }
+    //position: relative !important;
+    //width: 100% !important;
+    //margin-top: 30px !important;
+    //button {
+    //  margin-bottom: 10px !important;
+    //}
   }
   .card-header {
     margin: 0px !important;
@@ -270,15 +272,23 @@ tr {
 }
 
 .unit-cell-small {
-  transform: scale(.65);
-  position: absolute;
-  margin-top: -13px;
+  transform: scale(.8);
+}
+
+.intel-cell-town {
+  transform: scale(.8);
+  max-width: unset !important;
+}
+
+.index-events {
+  margin-top: 10px;
 }
 
 .index-options-container {
-  position: absolute;
-  bottom: 20px;
-  width: calc(100% - 60px);
+  margin-top: 30px;
+  //position: absolute;
+  //bottom: 20px;
+  //width: calc(100% - 60px);
 }
 
 .edit-owner {

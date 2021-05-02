@@ -134,6 +134,7 @@ import {PlatformModule} from '@angular/cdk/platform';
 import { HomepageComponent } from './homepage/homepage.component';
 import { IndexerUpdateComponent } from './homepage/indexer-update/indexer-update.component';
 import { DemoOverviewComponent } from './commands/demo-overview/demo-overview.component';
+import { EventListComponent } from './indexer/event-list/event-list.component';
 
 const appRoutes: Routes = [
     { path: 'login', component: LandingPageComponent },
@@ -279,7 +280,8 @@ export function jwtTokenGetter(): any {
         PlayerActivityComponent,
         HomepageComponent,
         IndexerUpdateComponent,
-        DemoOverviewComponent
+        DemoOverviewComponent,
+        EventListComponent
     ],
     imports: [
         FormsModule,

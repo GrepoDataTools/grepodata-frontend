@@ -1,0 +1,43 @@
+<div class="index-events-container">
+  <div *ngIf="loading">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+<!--  <div *ngIf="error">{{error}}</div>-->
+  <div *ngIf="!error && !loading && events.length > 0" class="text-left">
+    <div class="event-header">
+      <h3>Team events</h3>
+
+      <mat-paginator *ngIf="total_events > size"
+                     [length]="total_events"
+                     [pageSize]="size"
+                     [hidePageSize]="true"
+                     [pageIndex]="from/size"
+                     (page)="paginatorEvent($event)"
+                     [disabled]="paging">
+      </mat-paginator>
+    </div>
+
+    <div class="spinner-overlay" *ngIf="paging">
+      <mat-spinner [diameter]="50"></mat-spinner>
+    </div>
+
+    <div class="events-list" [ngClass]="{'loading-overlay':paging}">
+      <div class="event" [ngClass]="{'odd':i%2==1}" *ngFor="let event of events; let i = index">
+        <div class="event-date">
+          {{event.local_time | Datex : 'D MMM YYYY'}}<br/>
+          {{event.local_time | Datex : 'HH:mm'}}
+        </div>
+        <div class="event-parts">
+          <ng-container *ngFor="let part of event['json'];">
+            <span class="event-part" *ngIf="part.type == 'text'">{{part.text}}</span>
+            <span class="event-part" *ngIf="part.type == 'bold'"><strong>{{part.text}}</strong></span>
+            <span class="event-part entity" *ngIf="part.type == 'user'"><mat-icon>perm_identity</mat-icon> {{part.text}}</span>
+            <span class="event-part entity" *ngIf="part.type == 'alliance'"><img style="height: 18px; margin-top: 0;" src="../../assets/images/ally_ico.png"/> {{part.text}}</span>
+            <span class="event-part entity" *ngIf="part.type == 'player'"><img style="height: 18px; margin-top: 0;" src="../../assets/images/player_ico.png"/> {{part.text}}</span>
+            <span class="event-part entity" *ngIf="part.type == 'team'" routerLink="/profile/team/{{part.params.key}}"><mat-icon>group</mat-icon> {{part.text}}</span>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

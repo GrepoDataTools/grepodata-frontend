@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {WorldService} from '../../services/world.service';
 import {LocalCacheService} from '../../services/local-cache.service';
 import {IndexerService} from '../indexer.service';
@@ -12,6 +12,7 @@ import {IndexSettingsDialog} from '../../shared/dialogs/index-settings/index-set
 import {ShareIndexDialog} from '../../shared/dialogs/share-index/share-index.component';
 import {IndexMembersDialog} from '../../shared/dialogs/index-members/index-members.component';
 import {SiegeListDialog} from '../siege/siege.service';
+import {MediaMatcher} from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-overview',
@@ -27,7 +28,9 @@ export class OverviewComponent implements OnInit {
   key = '';
   data: any = '';
   error = '';
+  errorEvents = '';
   loading = true;
+  loadingEvents = true;
   clicked = false;
   is_admin = false;
   role = '';
@@ -40,6 +43,11 @@ export class OverviewComponent implements OnInit {
   index_version = '2';
   latest_intel: any = [];
   recent_conquests: any = [];
+  events: any = [];
+  update: any = '';
+
+  mobileQuery: MediaQueryList;
+  private readonly _mediaQueryListener: () => void;
 
   constructor(
     private globals: Globals,
@@ -47,8 +55,15 @@ export class OverviewComponent implements OnInit {
     public router: Router,
     private route: ActivatedRoute,
     private authService: JwtService,
-    public dialog: MatDialog) {
+    public dialog: MatDialog,
+    changeDetectorRef: ChangeDetectorRef,
+    media: MediaMatcher
+  ) {
     this.route.params.subscribe( params => this.load(params));
+
+    this.mobileQuery = media.matchMedia('(min-width: 1200px)');
+    this._mediaQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addEventListener('change', () => this._mediaQueryListener());
   }
 
   ngOnInit() {
@@ -56,9 +71,11 @@ export class OverviewComponent implements OnInit {
 
   private load(params) {
     this.loading = true;
+    this.loadingEvents = true;
     this.world = '';
     this.key = '';
     this.error = '';
+    this.events = [];
     this.latest_intel = [];
     this.recent_conquests = [];
     if (typeof params['key'] != 'undefined' && params['key'].length == 8) {
@@ -244,6 +261,7 @@ export class OverviewComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       // this.load({key: this.key});
+      this.update = new Date();
     });
   }
 

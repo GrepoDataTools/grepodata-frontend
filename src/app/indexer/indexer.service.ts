@@ -26,6 +26,20 @@ export class IndexerService {
     });
   }
 
+  getUserEvents(access_token) {
+    let url =  '/events/user';
+    return this.http.get(apiUrl + url, {
+      headers: new HttpHeaders().set('access_token', access_token)
+    });
+  }
+
+  getTeamEvents(access_token, index_key, from, size) {
+    let url =  '/events/team?index_key='+index_key+'&from='+from+'&size='+size;
+    return this.http.get(apiUrl + url, {
+      headers: new HttpHeaders().set('access_token', access_token)
+    });
+  }
+
   getCommandOverview(access_token, world) {
     let url =  '/commands/get?world='+world;
     return this.http.get(apiUrl + url, {

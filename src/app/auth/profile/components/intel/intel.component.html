@@ -96,6 +96,7 @@
 
 			<mat-paginator *ngIf="from > 0 || num_results > 20" [length]="num_results"
 			               [pageSize]="size"
+                     [pageIndex]="from/size"
 			               [pageSizeOptions]="[20, 50, 100]"
 			               (page)="paginatorEvent($event)"
 			               [disabled]="paging"

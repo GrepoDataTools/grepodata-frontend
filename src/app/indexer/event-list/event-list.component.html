@@ -34,7 +34,7 @@
             <span class="event-part entity" *ngIf="part.type == 'user'"><mat-icon>perm_identity</mat-icon> {{part.text}}</span>
             <span class="event-part entity" *ngIf="part.type == 'alliance'"><img style="height: 18px; margin-top: 0;" src="../../assets/images/ally_ico.png"/> {{part.text}}</span>
             <span class="event-part entity" *ngIf="part.type == 'player'"><img style="height: 18px; margin-top: 0;" src="../../assets/images/player_ico.png"/> {{part.text}}</span>
-            <span class="event-part entity" *ngIf="part.type == 'team'" routerLink="/profile/team/{{part.params.key}}"><mat-icon>group</mat-icon> {{part.text}}</span>
+            <span class="event-part entity" *ngIf="part.type == 'team'"><mat-icon>group</mat-icon> {{part.text}}</span>
           </ng-container>
         </div>
       </div>

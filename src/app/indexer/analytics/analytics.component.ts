@@ -31,6 +31,7 @@ export class AnalyticsComponent implements OnInit {
       '#673AB7',
       '#F44336']
   };
+  colorScheme2 = {domain: ['#18bc9c','#334254']};
   autoScale = true;
   // timeline = true; // broken as of ngx-charts@17.0
   timeline = false;
@@ -53,7 +54,12 @@ export class AnalyticsComponent implements OnInit {
   script_version = [];
   total_indexes = [];
   total_reports = [];
+  total_users = [];
   index_world_bins = [];
+
+  single: any[];
+  cardColor: string = '#232837';
+  cards_data: any[];
 
   constructor(
     private indexerService: IndexerService
@@ -70,60 +76,49 @@ export class AnalyticsComponent implements OnInit {
         (response) => this.renderIndexStats(response),
         (error) => this.renderIndexStats(null)
       );
+
+    // Cards data
+    this.indexerService.getStats().subscribe(
+      (response : any) => {
+        this.cards_data = [
+          {
+            "name": "Registered Users (+24hr)",
+            "value": response.now.user_count,
+            "extra": response.now.user_count - response.yesterday.user_count,
+          },
+          {
+            "name": "Teams Created (+24hr)",
+            "value": response.now.index_count,
+            "extra": response.now.index_count - response.yesterday.index_count,
+          },
+          {
+            "name": "Reports Indexed (+24hr)",
+            "value": response.now.reports,
+            "extra": response.now.reports - response.yesterday.reports,
+          },
+          {
+            "name": "Unique Towns (+24hr)",
+            "value": response.now.town_count,
+            "extra": response.now.town_count - response.yesterday.town_count,
+          }
+        ]
+      },
+      (error) => {}
+    );
+  }
+
+  formatStatValue(event) {
+    if ('data' in event && 'extra' in event.data && event.data.extra!==null) {
+      return `${event.value.toLocaleString()} (+${event.data.extra.toLocaleString()})`;
+    } else {
+      return event.value.toLocaleString();
+    }
   }
 
   private renderIndexStats(data) {
     console.log(data);
     if (data == null) {
       this.error = true;
-    }
-
-    if (data.indexer_num_reports_per_day) {
-      // Build chart data
-      let chart = [];
-      for(let i in data.indexer_num_reports_per_day.data) {
-        let record = data.indexer_num_reports_per_day.data[i];
-        chart.unshift({
-          'name' : new Date(record.date),
-          'value' : record.count,
-        });
-      }
-      this.total_per_day.push({
-        'name': 'New reports',
-        'series': chart,
-      });
-    }
-
-    if (data.indexer_num_unique_uploaders_per_day) {
-      // Build chart data
-      let chart = [];
-      for(let i in data.indexer_num_unique_uploaders_per_day.data) {
-        let record = data.indexer_num_unique_uploaders_per_day.data[i];
-        chart.unshift({
-          'name' : new Date(record.date),
-          'value' : record.count,
-        });
-      }
-      this.users_per_day.push({
-        'name': 'Unique users',
-        'series': chart,
-      });
-    }
-
-    if (data.indexer_num_unique_indexes_per_day) {
-      // Build chart data
-      let chart = [];
-      for(let i in data.indexer_num_unique_indexes_per_day.data) {
-        let record = data.indexer_num_unique_indexes_per_day.data[i];
-        chart.unshift({
-          'name' : new Date(record.date),
-          'value' : record.count,
-        });
-      }
-      this.indexes_per_day.push({
-        'name': 'Active teams',
-        'series': chart,
-      });
     }
 
     if (data.indexer_error_rate) {
@@ -189,6 +184,16 @@ export class AnalyticsComponent implements OnInit {
     if (data.indexer_stats_agg) {
       let chartNumIndex = [];
       let chartNumReports = [];
+      let chartNumUsers = [];
+      let newReportsPerDay = [];
+      let newReportsMovingAverage = [];
+      let newReportsMovingAverageEntries = [];
+      let usersPerDay = [];
+      let usersPerWeek = [];
+      let usersPerMonth = [];
+      let teamsPerDay = [];
+      let teamsPerWeek = [];
+      let teamsPerMonth = [];
       for(let i in data.indexer_stats_agg.data) {
         let record = data.indexer_stats_agg.data[i];
         let date = new Date(record.created_at);
@@ -200,14 +205,101 @@ export class AnalyticsComponent implements OnInit {
           'name' : date,
           'value' : record.reports,
         });
+        chartNumUsers.unshift({
+          'name' : date,
+          'value' : record.user_count,
+        });
+
+        newReportsPerDay.unshift({
+          'name' : date,
+          'value' : record.reports_today,
+        });
+        newReportsMovingAverage.unshift(record.reports_today);
+        if (newReportsMovingAverage.length > 7) {
+          newReportsMovingAverage.pop();
+          let moving_average = newReportsMovingAverage.reduce( ( p, c ) => p + c, 0 ) / newReportsMovingAverage.length;
+          newReportsMovingAverageEntries.unshift({
+            'name' : date,
+            'value' : moving_average,
+          });
+        }
+
+        usersPerDay.unshift({
+          'name' : date,
+          'value' : record.users_today,
+        });
+        teamsPerDay.unshift({
+          'name' : date,
+          'value' : record.teams_today,
+        });
+        if (record.users_week>0) {
+          usersPerWeek.unshift({
+            'name' : date,
+            'value' : record.users_week,
+          });
+        }
+        if (record.users_month>0) {
+          usersPerMonth.unshift({
+            'name' : date,
+            'value' : record.users_month,
+          });
+        }
+        if (record.teams_week>0) {
+          teamsPerWeek.unshift({
+            'name' : date,
+            'value' : record.teams_week,
+          });
+        }
+        if (record.teams_month>0) {
+          teamsPerMonth.unshift({
+            'name' : date,
+            'value' : record.teams_month,
+          });
+        }
       }
       this.total_indexes.push({
         'name': 'Number of teams',
         'series': chartNumIndex,
       });
       this.total_reports.push({
-        'name': 'Active intel records',
+        'name': 'Total reports indexed',
         'series': chartNumReports,
+      });
+      this.total_users.push({
+        'name': 'Registered users',
+        'series': chartNumUsers,
+      });
+      this.total_per_day.push({
+        'name': 'Daily new reports',
+        'series': newReportsPerDay,
+      });
+      this.total_per_day.push({
+        'name': '7-day moving average',
+        'series': newReportsMovingAverageEntries,
+      });
+      this.users_per_day.push({
+        'name': 'Daily active users',
+        'series': usersPerDay,
+      });
+      this.users_per_day.push({
+        'name': 'Weekly active users',
+        'series': usersPerWeek,
+      });
+      this.users_per_day.push({
+        'name': 'Monthly active users',
+        'series': usersPerMonth,
+      });
+      this.indexes_per_day.push({
+        'name': 'Daily active teams',
+        'series': teamsPerDay,
+      });
+      this.indexes_per_day.push({
+        'name': 'Weekly active teams',
+        'series': teamsPerWeek,
+      });
+      this.indexes_per_day.push({
+        'name': 'Monthly active teams',
+        'series': teamsPerMonth,
       });
     }
 

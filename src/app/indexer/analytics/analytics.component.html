@@ -5,20 +5,32 @@
 		<div class="row">
 			<div class="col-md-12 text-center">
 				<h1 class="gd-primary">Usage statistics</h1>
-				<br/>
+        <h4>The figures on this page are based on aggregated usage data. This page is intended to monitor the status of the service.</h4>
+        <br/>
 
-				<mat-progress-bar *ngIf="loading_index"></mat-progress-bar>
+        <mat-progress-bar *ngIf="loading_index" mode="indeterminate"></mat-progress-bar>
 			</div>
 
 			<div class="col-md-12 text-left" *ngIf="error">
 				<h2 class="gd-secondary">Sorry, we are unable to load statistics at this moment.</h2>
 			</div>
 
+      <div class="col-md-12 text-left" *ngIf="cards_data && cards_data.length > 0" style="max-height: 180px; margin-bottom: 20px;">
+
+        <ngx-charts-number-card
+          [scheme]="colorScheme"
+          [results]="cards_data"
+          [cardColor]="cardColor"
+          [valueFormatting]="formatStatValue"
+        >
+        </ngx-charts-number-card>
+      </div>
 
       <!--error rate-->
-      <div class="col-md-12 text-left" *ngIf="!loading_index && indexer_error_rate.length > 0">
+      <div class="col-md-12 text-left chart-container" *ngIf="!loading_index && indexer_error_rate.length > 0" >
 
-        <h2 class="gd-secondary">Report parsing error rate (per day)</h2>
+        <h2 class="gd-secondary">Report parsing error rate</h2>
+        <p>Some report parsing errors are expected. Elevated error rates may indicate a change in report structure (parser changes required).</p>
 
         <div class="ngx-chart-container">
           <ngx-charts-line-chart
@@ -40,9 +52,10 @@
       </div>
 
       <!--warning rate-->
-      <div class="col-md-12 text-left" *ngIf="!loading_index && warning_rate.length > 0">
+      <div class="col-md-12 text-left chart-container" *ngIf="!loading_index && warning_rate.length > 0">
 
-        <h2 class="gd-secondary">GrepoData logger warning rate (per day)</h2>
+        <h2 class="gd-secondary">GrepoData logger warning rate</h2>
+        <p>Elevated warning rates may indicate an issue with the service.</p>
 
         <div class="ngx-chart-container">
           <ngx-charts-line-chart
@@ -83,13 +96,14 @@
 			<!--</div>-->
 
 			<!--TOTAL-->
-			<div class="col-md-12 text-left" *ngIf="!loading_index && total_per_day.length > 0">
+			<div class="col-md-12 text-left chart-container" *ngIf="!loading_index && total_per_day.length > 0">
 
-				<h2 class="gd-secondary">Number of new reports indexed (per day)</h2>
+				<h2 class="gd-secondary">Number of new reports indexed per day</h2>
+        <p>Duplicate report uploads are ignored, only unique new reports are counted.</p>
 
 				<div class="ngx-chart-container">
 					<ngx-charts-line-chart
-						[scheme]="colorScheme"
+						[scheme]="colorScheme2"
 						[results]="total_per_day"
 						[gradient]="gradient"
 						[xAxis]="showXAxis"
@@ -107,9 +121,10 @@
 			</div>
 
 			<!--Users-->
-			<div class="col-md-12 text-left" *ngIf="!loading_index && users_per_day.length > 0">
+			<div class="col-md-12 text-left chart-container" *ngIf="!loading_index && users_per_day.length > 0">
 
-				<h2 class="gd-secondary">Number of unique uploaders (per day)</h2>
+				<h2 class="gd-secondary">Number of active users</h2>
+        <p>A user is considered active if they indexed at least 1 new report in the last 24 hours, 7 days or 1 month respectively</p>
 
 				<div class="ngx-chart-container">
 					<ngx-charts-line-chart
@@ -131,9 +146,10 @@
 			</div>
 
 			<!--Indexes-->
-			<div class="col-md-12 text-left" *ngIf="!loading_index && indexes_per_day.length > 0">
+			<div class="col-md-12 text-left chart-container" *ngIf="!loading_index && indexes_per_day.length > 0">
 
-				<h2 class="gd-secondary">Number of active teams (per day)</h2>
+				<h2 class="gd-secondary">Number of active teams</h2>
+        <p>A team is considered active if it gained at least 1 new report in the last 24 hours, 7 days or 1 month respectively</p>
 
 				<div class="ngx-chart-container">
 					<ngx-charts-line-chart
@@ -155,9 +171,10 @@
 			</div>
 
 			<!--Reports total-->
-			<div class="col-md-12 text-left" *ngIf="!loading_index && total_reports.length > 0">
+			<div class="col-md-12 text-left chart-container" *ngIf="!loading_index && total_reports.length > 0">
 
 				<h2 class="gd-secondary">Total number of reports indexed (accumulative)</h2>
+        <p>How many unique reports have been indexed since the service went live?</p>
 
 				<div class="ngx-chart-container">
 					<ngx-charts-line-chart
@@ -179,9 +196,10 @@
 			</div>
 
 			<!--Indexes total-->
-			<div class="col-md-12 text-left" *ngIf="!loading_index && total_indexes.length > 0">
+			<div class="col-md-12 text-left chart-container" *ngIf="!loading_index && total_indexes.length > 0">
 
 				<h2 class="gd-secondary">Total number of teams created (accumulative)</h2>
+        <p>How many teams (previously known as 'index') have been created since the service went live?</p>
 
 				<div class="ngx-chart-container">
 					<ngx-charts-line-chart
@@ -202,10 +220,36 @@
 				</div>
 			</div>
 
+			<!--Users total-->
+			<div class="col-md-12 text-left chart-container" *ngIf="!loading_index && total_users.length > 0">
+
+				<h2 class="gd-secondary">Total number of registered users (accumulative)</h2>
+        <p>How many users have registered since April 18, 2021?</p>
+
+				<div class="ngx-chart-container">
+					<ngx-charts-line-chart
+						[scheme]="colorScheme"
+						[results]="total_users"
+						[gradient]="gradient"
+						[xAxis]="showXAxis"
+						[yAxis]="showYAxis"
+						[legend]="showLegend"
+						[showXAxisLabel]="showXAxisLabel"
+						[showYAxisLabel]="showYAxisLabel"
+						[xAxisLabel]="xAxisLabel"
+						[yAxisLabel]="yAxisLabel"
+						[autoScale]="autoScale"
+						[timeline]="timeline"
+						(select)="onSelect($event)">
+					</ngx-charts-line-chart>
+				</div>
+			</div>
+
 			<!--Indexes servers-->
-			<div class="col-md-12 text-left" *ngIf="!loading_index && index_world_bins.length > 0">
+			<div class="col-md-12 text-left chart-container" *ngIf="!loading_index && index_world_bins.length > 0">
 
 				<h2 class="gd-secondary">Number of active teams by country</h2>
+        <p>For this graph, a team is considered active if it gained at least 1 new report in the last 3 months.</p>
 
 				<div class="ngx-chart-container" style="width: 84%;">
 					<ngx-charts-bar-vertical
@@ -225,9 +269,10 @@
 			</div>
 
 			<!--TYPE-->
-			<div class="col-md-12 text-left" *ngIf="!loading_index && report_type_per_day.length > 0">
+			<div class="col-md-12 text-left chart-container" *ngIf="!loading_index && report_type_per_day.length > 0">
 
-				<h2 class="gd-secondary">Report source types (per day)</h2>
+				<h2 class="gd-secondary">Report source types</h2>
+        <p>What percentage of new reports is coming from the inbox versus the forum?</p>
 
 				<div class="ngx-chart-container">
 					<!--<ngx-charts-area-chart-stacked-->
@@ -246,52 +291,6 @@
 					</ngx-charts-area-chart-normalized>
 				</div>
 			</div>
-
-			<!--STATS-->
-<!--			<div class="col-md-12 text-left" *ngIf="!loading_index && index_types_agg.length > 0">-->
-
-<!--				<h2 class="gd-secondary">Report types (accumulative)</h2>-->
-
-<!--				<div class="ngx-chart-container">-->
-<!--					<ngx-charts-area-chart-stacked-->
-<!--						[scheme]="colorScheme"-->
-<!--						[legend]="showLegend"-->
-<!--						[showXAxisLabel]="showXAxisLabel"-->
-<!--						[showYAxisLabel]="showYAxisLabel"-->
-<!--						[xAxis]="showXAxis"-->
-<!--						[yAxis]="showYAxis"-->
-<!--						[xAxisLabel]="xAxisLabel"-->
-<!--						[yAxisLabel]="yAxisLabel"-->
-<!--						[timeline]="timeline"-->
-<!--						[results]="index_types_agg"-->
-<!--						(select)="onSelect($event)">-->
-<!--					</ngx-charts-area-chart-stacked>-->
-<!--				</div>-->
-<!--			</div>-->
-
-			<!--VERSION-->
-<!--			<div class="col-md-12 text-left" *ngIf="!loading_index && script_version.length > 0">-->
-
-<!--				<h2 class="gd-secondary">Indexer version migration</h2>-->
-
-<!--				<div class="ngx-chart-container">-->
-<!--					&lt;!&ndash;<ngx-charts-area-chart-stacked&ndash;&gt;-->
-<!--					<ngx-charts-area-chart-normalized-->
-<!--						[scheme]="colorScheme"-->
-<!--						[legend]="showLegend"-->
-<!--						[showXAxisLabel]="showXAxisLabel"-->
-<!--						[showYAxisLabel]="showYAxisLabel"-->
-<!--						[xAxis]="showXAxis"-->
-<!--						[yAxis]="showYAxis"-->
-<!--						[xAxisLabel]="xAxisLabel"-->
-<!--						[yAxisLabel]="yAxisLabel"-->
-<!--						[timeline]="timeline"-->
-<!--						[results]="script_version"-->
-<!--						(select)="onSelect($event)">-->
-<!--					</ngx-charts-area-chart-normalized>-->
-<!--				</div>-->
-<!--			</div>-->
-
 
 		</div>
 	</div>

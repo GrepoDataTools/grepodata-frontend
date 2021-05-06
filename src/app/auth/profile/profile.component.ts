@@ -13,6 +13,7 @@ import {SidenavService} from '../../layout/sidebar/sidenav-service';
 import {IndexAuthService} from '../services/index.service';
 import {Globals} from '../../globals';
 import {DisclaimerDialog} from '../../footer/footer.component';
+import {NewIndexDialog} from '../../shared/dialogs/new-index/new-index.component';
 
 @Component({
   selector: 'app-profile',
@@ -81,10 +82,23 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() { }
 
   checkTokenStatus() {
-    console.log('checking token status')
     this.route.queryParams.subscribe((params) => {
       if ('token' in params) {
         this.showTokenMessage(params.token)
+      }
+      if ('action' in params) {
+        switch (params.action) {
+          case 'new_team':
+            let dialogRef = this.dialog.open(NewIndexDialog, {
+              autoFocus: false,
+              disableClose: true,
+              data: {
+                world: params.world || null,
+                closeOnNavigation: false
+              }
+            });
+            dialogRef.afterClosed().subscribe(result => {});
+        }
       }
     });
   }

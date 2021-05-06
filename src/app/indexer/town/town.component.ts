@@ -23,6 +23,7 @@ export class IndexTownComponent implements AfterViewInit {
   playerId = '';
   playerName = '';
   allianceId = '';
+  allianceName = '';
   loading = false;
   noIntel = false;
   copied = false;
@@ -176,6 +177,7 @@ export class IndexTownComponent implements AfterViewInit {
         }
       }
 
+      this.allianceName = data.alliance_name || '';
       this.breadcrumb_data = {
         world: this.world,
         teams: data.teams || [],
@@ -184,7 +186,7 @@ export class IndexTownComponent implements AfterViewInit {
           id: this.playerId
         },
         alliance: {
-          name: data.alliance_name || '',
+          name: this.allianceName,
           id: this.allianceId,
         },
         town: {
@@ -248,13 +250,22 @@ export class IndexTownComponent implements AfterViewInit {
 
   openShareInfoDialog(town) {
     if ('shared_via_indexes' in town) {
+      town['world'] = this.world;
+      town['town_id'] = this.id;
+      town['town_name'] = this.townName;
+      town['player_id'] = this.playerId;
+      town['player_name'] = this.playerName;
+      town['alliance_id'] = this.allianceId;
+      town['alliance_name'] = this.allianceName;
       let shared_list = town.shared_via_indexes || '';
       let indexes = shared_list.split(', ')
       if (shared_list.length > 0 && indexes.length > 0) {
         let dialogRef = this.dialog.open(IntelSourceDialog, {
+          width: '70%',
           autoFocus: false,
           disableClose: false,
           data: {
+            intel: town,
             index_list: indexes,
             intel_type: 'incoming'
           }

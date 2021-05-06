@@ -15,6 +15,7 @@ import {LocalCacheService} from '../../../services/local-cache.service';
 export class IntelSourceDialog {
 
   index_list: any = {};
+  intel_record: any = {};
   intel_type: string = 'incoming'; // 'incoming' => shared with me, 'outgoing' => who is my intel shared with
   index_info: any = [];
   expanded_info_available = false;
@@ -25,7 +26,7 @@ export class IntelSourceDialog {
     public dialogRef: MatDialogRef<IntelSourceDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    console.log(data.index);
+    this.intel_record = data.intel;
     this.index_list = data.index_list;
     this.intel_type = data.intel_type;
     this.index_info = [];

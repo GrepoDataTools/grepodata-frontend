@@ -172,7 +172,7 @@
 							</div>
 						</div>
 
-            <div *ngIf="town.shared_via_indexes" class="cell gd-primary a-link-dialog" matTooltip="Click here to see who this intel was shared with" (click)="openShareInfoDialog(town.shared_via_indexes)">
+            <div *ngIf="town.shared_via_indexes" class="cell gd-primary a-link-dialog" matTooltip="Click here to see who this intel was shared with" (click)="openShareInfoDialog(town)">
               <mat-icon>supervised_user_circle</mat-icon>
             </div>
             <div *ngIf="!town.shared_via_indexes" class="cell"></div>

@@ -206,6 +206,7 @@
 							<h3 class="gd-primary">
 								<mat-icon style="vertical-align: sub;">group</mat-icon>&nbsp;{{index_name}}
 							</h3>
+
 							<div *ngIf="is_admin" class="a-link card-action gd-white" matTooltip="Index settings" (click)="showSettingsDialog()">
 								<mat-icon>settings</mat-icon>
 							</div>
@@ -214,9 +215,34 @@
 							<div>
 								<table class="table table-no-more intel-info-table">
 									<tbody>
-									<tr *ngIf="!is_admin">
+									<tr>
 										<th>Team name</th>
-										<td>{{index_name}}</td>
+										<td>
+                      <span *ngIf="!editting_name" (click)="doEditName()">
+                        <a>{{index_name}}
+                        <mat-icon class="edit-owner" style="vertical-align: sub;" *ngIf="is_admin">create</mat-icon></a>
+                      </span>
+                      <span *ngIf="editting_name">
+                        <form (submit)="saveIndexName()">
+                          <input autocomplete="off" name="teamname" maxlength="24" [(ngModel)]="index_name_edit">
+                        </form>
+                        <mat-icon style="vertical-align: sub;" class="edit-owner gd-primary" (click)="saveIndexName()" *ngIf="index_name_edit!=index_name">save</mat-icon>
+                        <mat-icon style="vertical-align: sub;" class="edit-owner gd-primary" (click)="editting_name=false;index_name_edit=index_name;">clear</mat-icon>
+                      </span>
+
+                      <span *ngIf="name_saved" class="gd-primary">
+                        <br/><mat-icon style="vertical-align: bottom;">check_circle_outline</mat-icon>
+                        Index name updated
+                      </span>
+                      <span *ngIf="saving_name" class="gd-primary">
+                        <br/>
+                        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                      </span>
+                      <span *ngIf="saving_error" class="gd-primary">
+                        <br/><mat-icon style="vertical-align: bottom;">error_outline</mat-icon>
+                        {{saving_error}}
+                      </span>
+                    </td>
 									</tr>
 									<tr>
 										<th>World</th>

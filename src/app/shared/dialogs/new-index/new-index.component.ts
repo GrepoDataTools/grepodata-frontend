@@ -47,8 +47,13 @@ export class NewIndexDialog {
     private authService: JwtService,
     private dialog: MatDialog,
     public googleAnalyticsEventsService: GoogleAnalyticsEventsService) {
-    this.server = worldService.getDefaultServer();
+    if (data && !!data.world) {
+      this.server = data.world.substr(0, 2);
+      this.world = data.world;
+    } else {
+      this.server = worldService.getDefaultServer();
 
+    }
     indexerService.getWorlds().subscribe((response) => this.loadWorlds(response));
 
     try {

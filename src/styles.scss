@@ -1210,6 +1210,11 @@ mat-paginator {
   display: inline-block;
   vertical-align: bottom;
 }
+.mat-option-text {
+  .flag-inline {
+    vertical-align: sub;
+  }
+}
 .flag-inline-title {
   display: inline-block;
   vertical-align: text-top;

@@ -23,8 +23,13 @@ import {MediaMatcher} from '@angular/cdk/layout';
 export class OverviewComponent implements OnInit {
 
   copied = false;
+  editting_name = false;
+  saving_name = false;
+  saving_error = '';
+  name_saved = false;
   world = '';
   index_name = '';
+  index_name_edit = '';
   key = '';
   data: any = '';
   error = '';
@@ -81,6 +86,7 @@ export class OverviewComponent implements OnInit {
     if (typeof params['key'] != 'undefined' && params['key'].length == 8) {
       this.key = params['key'];
       this.index_name = this.key;
+      this.index_name_edit = this.key;
       this.authService.accessToken().then(access_token => {
         this.indexerService.getIndex(access_token, this.key).subscribe(
           (response) => this.loadIndex(response),
@@ -138,6 +144,7 @@ export class OverviewComponent implements OnInit {
       this.contribute = data.contribute===1;
       this.world = data.world;
       this.index_name = data.index_name;
+      this.index_name_edit = data.index_name;
       this.data = data;
       if (data.latest_intel) {
         this.latest_intel = data.latest_intel;
@@ -217,6 +224,37 @@ export class OverviewComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.load({key: this.key});
+    });
+  }
+
+  doEditName() {
+    if (this.is_admin) {
+      this.editting_name=true;
+    }
+  }
+
+  saveIndexName() {
+    this.editting_name = false;
+    this.index_name = this.index_name_edit;
+    this.saving_name = true;
+    this.saving_error = '';
+
+    this.authService.accessToken().then(access_token => {
+      this.indexerService.updateTeamName(access_token, this.key, this.index_name_edit).subscribe(
+        (response) => {
+          if (!!response['success']) {
+            this.name_saved = true;
+            setTimeout(_ => {this.name_saved = false;}, 4000);
+          } else {
+            this.saving_error = 'Unable to update name. Try again later';
+          }
+          this.saving_name = false;
+          },
+        (error) => {
+          this.saving_error = 'Unable to update name. Try again later';
+          this.saving_name = false;
+        }
+      );
     });
   }
 

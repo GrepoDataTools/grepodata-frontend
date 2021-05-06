@@ -139,16 +139,23 @@ export class IntelComponent implements OnInit {
     this.loadUserIntel();
   }
 
-  openShareInfoDialog(shared_list) {
-    let indexes = shared_list.split(', ')
-    let dialogRef = this.dialog.open(IntelSourceDialog, {
-      autoFocus: false,
-      disableClose: false,
-      data: {
-        index_list: indexes,
-        intel_type: 'outgoing'
+  openShareInfoDialog(town) {
+    if ('shared_via_indexes' in town) {
+      let shared_list = town.shared_via_indexes || '';
+      let indexes = shared_list.split(', ')
+      if (shared_list.length > 0 && indexes.length > 0) {
+        let dialogRef = this.dialog.open(IntelSourceDialog, {
+          width: '70%',
+          autoFocus: false,
+          disableClose: false,
+          data: {
+            intel: town,
+            index_list: indexes,
+            intel_type: 'outgoing'
+          }
+        });
       }
-    });
+    }
   }
 
   saveIndexListToCache(data) {

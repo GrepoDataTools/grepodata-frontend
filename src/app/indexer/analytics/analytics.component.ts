@@ -126,8 +126,10 @@ export class AnalyticsComponent implements OnInit {
       let chart = [];
       for(let i in data.indexer_error_rate.data) {
         let record = data.indexer_error_rate.data[i];
+        let date = new Date(record.date);
+        date.setDate(date.getDate() - 1);
         chart.unshift({
-          'name' : new Date(record.date),
+          'name' : date,
           'value' : record.count,
         });
       }
@@ -142,8 +144,10 @@ export class AnalyticsComponent implements OnInit {
       let chart = [];
       for(let i in data.indexer_generic_warning_rate.data) {
         let record = data.indexer_generic_warning_rate.data[i];
+        let date = new Date(record.date);
+        date.setDate(date.getDate() - 1);
         chart.unshift({
-          'name' : new Date(record.date),
+          'name' : date,
           'value' : record.count,
         });
       }
@@ -197,6 +201,7 @@ export class AnalyticsComponent implements OnInit {
       for(let i in data.indexer_stats_agg.data) {
         let record = data.indexer_stats_agg.data[i];
         let date = new Date(record.created_at);
+        date.setDate(date.getDate() - 1);
         chartNumIndex.unshift({
           'name' : date,
           'value' : record.index_count,

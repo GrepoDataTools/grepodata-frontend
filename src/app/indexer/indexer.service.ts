@@ -26,6 +26,13 @@ export class IndexerService {
     });
   }
 
+  updateTeamName(access_token, key, team_name) {
+    let url =  '/indexer/settings/name?key='+key+'&team_name='+team_name;
+    return this.http.get(apiUrl + url, {
+      headers: new HttpHeaders().set('access_token', access_token)
+    });
+  }
+
   getUserEvents(access_token) {
     let url =  '/events/user';
     return this.http.get(apiUrl + url, {

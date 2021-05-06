@@ -190,6 +190,13 @@ export class Globals {
 
   }
 
+  /**
+   * store an item in local storage with expiry (lifetime given in minutes)
+   * @param url
+   * @param cachedData
+   * @param lifetime
+   * @private
+   */
   private set_json_with_expiry(url, cachedData, lifetime) {
     let expire = moment().add(lifetime, 'm').toDate();
     let data = {

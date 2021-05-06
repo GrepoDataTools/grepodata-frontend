@@ -4,51 +4,187 @@
 			<div class="col-xs-12">
 				<a (click)="close()" class="close"></a>
 
-        <span *ngIf="intel_type=='outgoing'">
-          <h2 style="margin-top: 0;" class="gd-primary">Who was this intel shared with?</h2>
-          <h5>Intel you collect is shared with all teams you are a part of (on that game world).</h5>
-          <h4>This specific report was shared with the following team<span *ngIf="index_list.length > 1">s</span>:</h4>
-        </span>
-        <span *ngIf="intel_type!='outgoing'">
-          <h2 style="margin-top: 0;" class="gd-primary">How was this intel shared with you?</h2>
-          <h4>This report is available to you because it was shared via the following team<span *ngIf="index_list.length > 1">s</span>:</h4>
-        </span>
+        <div class="intel-record">
+          <h3 class="gd-primary">Report details</h3>
 
-        <div class="table">
-          <div class="row_custom header default">
-            <div class="cell" *ngIf="!expanded_info_available">Team</div>
-            <div class="cell" *ngIf="expanded_info_available">Team name</div>
-            <div class="cell" *ngIf="expanded_info_available">Team owners</div>
-            <div class="cell" *ngIf="expanded_info_available"></div>
+          <h3>
+            <img style="height: 18px; margin-top: -5px;" src="../../assets/images/town_ico.png"/>&nbsp;<a style="color: #5e7a92;" routerLink="/intel/town/{{world}}/{{intel_record?.town_id}}">{{intel_record?.town_name}}</a> -
+            <img style="height: 18px; margin-top: -5px;" src="../../assets/images/player_ico.png"/>&nbsp;<a style="color: #5e7a92;" routerLink="/intel/player/{{world}}/{{intel_record?.player_id}}">{{intel_record?.player_name}}</a> -
+            <img style="height: 18px; margin-top: -5px;" src="../../assets/images/ally_ico.png"/>&nbsp;<a style="color: #5e7a92;" routerLink="/intel/alliance/{{world}}/{{intel_record?.alliance_id}}">{{intel_record?.alliance_name}}</a> -
+            <span *ngIf="world"><span [outerHTML]="world | WorldNamePipe"></span></span>
+          </h3>
+
+          <div style="overflow: auto;">
+            <div class="table intel-table" id="table_all" style="">
+
+              <div class="row_custom header bg-gd-2" >
+                <div class="cell" style="max-width: 10% !important; width: 10%;">
+                  Type
+                </div>
+                <div class="cell" style="max-width: 20% !important; width: 20%;">
+                  Date
+                </div>
+                <div class="cell text-left">
+                  Units
+                </div>
+                <div class="cell text-left" *ngIf="!!intel_record?.hero">
+                  Hero
+                </div>
+                <div class="cell text-left" *ngIf="!!intel_record?.god">
+                  God
+                </div>
+                <div class="cell" *ngIf="!!intel_record?.wall">
+                  Wall
+                </div>
+                <div class="cell" *ngIf="!!intel_record?.stonehail">
+                  Stonehail
+                </div>
+                <div class="cell" *ngIf="!!intel_record?.silver">
+                  Silver
+                </div>
+<!--                <div class="cell hidden-xs hidden-sm" *ngIf="!!intel_record?.conquest_id" style="max-width: 15vw !important; width: 15vw;">-->
+<!--                  Siege report-->
+<!--                </div>-->
+              </div>
+
+              <ng-container>
+
+                <div class='row_custom'>
+                  <div class="cell" matTooltip="{{intel_record.type}}">
+                    <img src="../../assets/images/game/towninfo/attack.png" *ngIf="intel_record.type === 'friendly_attack'">
+                    <div *ngIf="intel_record.type === 'enemy_attack'" style="-moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); filter: FlipH; -ms-filter: ;">
+                      <img src="../../assets/images/game/towninfo/attack.png">
+                    </div>
+                    <img src="../../assets/images/game/towninfo/wisdom.png" *ngIf="intel_record.type === 'wisdom'">
+                    <img src="../../assets/images/game/towninfo/support.png" *ngIf="intel_record.type === 'support'">
+                    <img src="../../assets/images/game/towninfo/conquer.png" *ngIf="intel_record.type === 'attack_on_conquest'">
+                    <img src="../../assets/images/game/towninfo/espionage_2.67.png" *ngIf="intel_record.type === 'spy'">
+                  </div>
+                  <div class="cell">
+                    {{intel_record.date | IndexDate}}
+                  </div>
+                  <div class="cell" style="display: flex; margin-bottom: 8px;">
+                                    <span style="transform: scale(1.05); float: left; margin: 8px 12px 0 0;" *ngFor="let unit of intel_record.units | ValuesPipe; let i = index;"
+                                          matTooltip="{{(unit?.name == 'unknown' || unit?.name == 'unknown_naval'?'This attack killed roughly '+unit?.killed+' '+(unit?.name == 'unknown'?'land':'sea')+' population (this is estimated based on the battle points gained)':unit?.name?.replace('_',' '))}}">
+                                      <div class="unit_icon40x40 {{unit?.name}}"><span class="unit-val" [ngClass]="{'unknown-unit-val': unit.name == 'unknown' || unit.name == 'unknown_naval'}">{{unit?.count}}</span></div>
+                                      <span style="color: #d00;" *ngIf="unit.name != 'unknown' && unit.name != 'unknown_naval' && unit?.killed>0">-{{unit?.killed}}</span>
+                                      <span style="color: #d00;" *ngIf="(unit.name == 'unknown' || unit.name == 'unknown_naval') && unit?.killed>=0">
+                                        <img src="../../assets/images/icons/bp_ico.png"/>~{{unit?.killed}}
+                                      </span>
+                                    </span>
+                  </div>
+                  <div class="cell" *ngIf="!!intel_record?.hero" style="min-width: 50px;">
+                                    <span style="transform: scale(1.05); float: left; margin: -19px 0 0 0;"
+                                          matTooltip="{{intel_record?.hero?.replace('_',' ')}}">
+                                      <div class="unit_icon40x40 {{intel_record?.hero}}"></div>
+                                    </span>
+                  </div>
+                  <div class="cell" *ngIf="!!intel_record?.god" style="min-width: 50px;">
+                                    <span style="transform: scale(1.05); float: left; margin: -5px 0 0 0;"
+                                          matTooltip="{{intel_record.god}}">
+                                      <div class="unit_icon40x40 {{intel_record.god}}"></div>
+                                    </span>
+                  </div>
+                  <div class="cell" *ngIf="!!intel_record?.wall" style="padding-top: 7px;">
+                    <!--<span [outerHTML]="intel_record.wall | HideNoLossPipe"></span>-->
+                    <span *ngIf="intel_record.wall!=null && intel_record.wall!=''" class="build-cell" style="min-width: 70px;">
+                                      <div class="building_icon40x40 wall" matTooltip="Wall: {{intel_record.wall}}"></div>
+                                      <div>
+                                        <span [outerHTML]="intel_record.wall | HideNoLossPipe"></span>
+                                      </div>
+                                    </span>
+                  </div>
+                  <div class="cell" *ngIf="!!intel_record?.stonehail" style="padding-top: 7px;">
+                                    <span *ngIf="intel_record.stonehail!=null && intel_record.stonehail!=''" class="build-cell" style="">
+                                      <div class="building_icon40x40 {{intel_record.stonehail.building}}" matTooltip="Stonehail: {{intel_record.stonehail.building}} {{intel_record.stonehail.value}}"></div>
+                                      <div>
+                                        <span [outerHTML]="intel_record.stonehail.value | HideNoLossPipe"></span>
+                                      </div>
+                                    </span>
+                  </div>
+                  <div class="cell" *ngIf="!!intel_record?.silver">
+                    <span *ngIf="intel_record?.silver">{{intel_record?.silver?.replace('(+',' (+')}}</span>
+                  </div>
+<!--                  <div class="cell hidden-xs hidden-sm" *ngIf="!!intel_record?.conquest_id">-->
+<!--                    <div *ngIf="intel_record?.conquest_id && intel_record?.conquest_id > 0">-->
+<!--                      &lt;!&ndash;<a class="a-link-dialog" (click)="loadConquestDetails(intel_record?.conquest_id)">View report <mat-icon style="opacity: 1; vertical-align: bottom;">launch</mat-icon></a>&ndash;&gt;-->
+<!--                      <button class="gd-btn-2" (click)="loadConquestDetails(intel_record?.conquest_id)">View report <mat-icon style="opacity: 1; vertical-align: bottom;">launch</mat-icon></button>-->
+<!--                    </div>-->
+<!--                  </div>-->
+                  <!--<div class="cell" style="">-->
+                  <!--<button *ngIf="!town.deleted || town?.deleted==false" name="open_bb" class="btn btn-danger" style=""-->
+                  <!--(click)="deleteIntel(town?.id); town.deleted = true;">-->
+                  <!--<i class="fa fa-close"></i>&nbsp;Delete-->
+                  <!--</button>-->
+                  <!--<span *ngIf="town.deleted && town?.deleted==true" title="This record will be deleted within 24 hours.">-->
+                  <!--<p style="font-size: 17px; margin: 0;" class="gd-secondary">Marked for deletion</p>-->
+                  <!--<button name="open_bb" class="btn btn-primary btn-xs" style="margin-top: -6px;"-->
+                  <!--(click)="deleteIntelUndo(town?.id); town.deleted = false;">-->
+                  <!--<i class="fa fa-arrow-left"></i>&nbsp;Undo-->
+                  <!--</button>-->
+                  <!--</span>-->
+                  <!--</div>-->
+
+                </div>
+
+              </ng-container>
+
+            </div>
           </div>
+        </div>
 
-          <div *ngFor="let index of index_info" class="row_custom">
-            <div class="cell" *ngIf="!expanded_info_available">
-              <a routerLink="/profile/team/{{index.key}}">{{index.key}} <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon></a>
+        <div class="share-info">
+          <span *ngIf="intel_type=='outgoing'">
+            <h3 style="margin-top: 0;" class="gd-primary">Who was this intel shared with?</h3>
+            <h5>Intel you collect is shared with all teams you are contributing to (on that game world).
+            <strong>This specific report was shared with the following team<span *ngIf="index_list.length > 1">s</span>:</strong></h5>
+          </span>
+            <span *ngIf="intel_type!='outgoing'">
+            <h3 style="margin-top: 0;" class="gd-primary">How was this intel shared with you?</h3>
+            <h5>This report is available to you because it was shared via the following team<span *ngIf="index_list.length > 1">s</span>:</h5>
+          </span>
+
+          <div class="table">
+            <div class="row_custom header default">
+              <div class="cell" *ngIf="!expanded_info_available">Team</div>
+              <div class="cell" *ngIf="expanded_info_available">Team name</div>
+              <div class="cell" *ngIf="expanded_info_available">Team owners</div>
+              <div class="cell" *ngIf="expanded_info_available">Team overview</div>
             </div>
-            <div class="cell" *ngIf="expanded_info_available">
-              <a routerLink="/profile/team/{{index.key}}"><span *ngIf="index.name">{{index.name}}</span><span *ngIf="!index.name">{{index.key}}</span></a>
-            </div>
-            <div class="cell" style="padding: 0 !important; font-size: 14px; vertical-align: middle;" *ngIf="expanded_info_available">
+
+            <div *ngFor="let index of index_info" class="row_custom">
+              <div class="cell" *ngIf="!expanded_info_available">
+                <a routerLink="/profile/team/{{index.key}}">{{index.key}} <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon></a>
+              </div>
+              <div class="cell" *ngIf="expanded_info_available">
+                <a routerLink="/profile/team/{{index.key}}"><span *ngIf="index.name">{{index.name}}</span><span *ngIf="!index.name">{{index.key}}</span> <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon></a>
+              </div>
+              <div class="cell" style="padding: 0 !important; font-size: 14px; vertical-align: middle;" *ngIf="expanded_info_available">
               <span *ngIf="index.stats && index.stats.owners">
                 <div *ngFor="let owner of index.stats.owners; let i = index;">
                   <img src="../../assets/images/ally_ico.png"/> {{owner.alliance_name}}
                 </div>
               </span>
-            </div>
-            <div class="cell" *ngIf="expanded_info_available" style="padding: 6px;">
-              <button style="float: right;" class="btn btn-success btn-xs" routerLink="/profile/team/{{index.key}}">
-                Team overview <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon>
-              </button>
+              </div>
+              <div class="cell" *ngIf="expanded_info_available" style="padding: 6px;">
+                <button class="btn btn-success btn-xs mr-1" routerLink="/profile/team/{{index.key}}">
+                  View overview <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon>
+                </button>
+<!--                <button *ngIf="index.role==='admin'||index.role==='owner'" class="btn btn-danger btn-xs mr-1" routerLink="/profile/team/{{index.key}}">-->
+<!--                  Delete intel from team <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">delete</mat-icon>-->
+<!--                </button>-->
+<!--                <h6 *ngIf="index.role!=='admin'&&index.role!=='owner'"><strong>Unauthorized:</strong> you are not an admin of this team</h6>-->
+              </div>
             </div>
           </div>
+
+          <div style="margin-top: 10px;"></div>
+          <span *ngIf="world"><span [outerHTML]="world | WorldNamePipe"></span></span>
+          <a class="top-index-card" routerLink="/profile/teams" style="color: #949494; font-weight: 700; font-size: 21px; float: right;">
+            View all my teams <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon>
+          </a>
         </div>
 
-        <div style="margin-top: 10px;"></div>
-        <span *ngIf="world"><span [outerHTML]="world | WorldNamePipe"></span></span>
-        <a class="top-index-card" routerLink="/profile/teams" style="color: #949494; font-weight: 700; font-size: 21px; float: right;">
-          View all my teams <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon>
-        </a>
 
 			</div>
 

@@ -302,7 +302,6 @@
 			    </mat-card-title>
 			    <mat-card-content>
             <mat-progress-bar *ngIf="loadingWars" mode="indeterminate" style="opacity: 0.2;"></mat-progress-bar>
-            <div class="shadow" *ngIf="allianceWars.length > 6"></div>
 				    <div class="conquest-card-container gd-scrollbar">
 					    <div class="conquest-card" *ngFor="let war of allianceWars">
 						    <div class="war-title">
@@ -316,7 +315,6 @@
 							    <div class="score-right neg" title="{{allianceName}} has lost {{war?.towns_lost_to}} towns to {{war?.alliance_name}}">{{war?.towns_lost_to}}</div>
 						    </div>
 					    </div>
-              <div class="push" *ngIf="allianceWars.length > 6"></div>
 				    </div>
 
 			    </mat-card-content>

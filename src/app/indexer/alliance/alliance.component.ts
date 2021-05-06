@@ -43,6 +43,7 @@ export class IndexAllianceComponent implements AfterViewInit {
 	playerNameFilter = '';
   tabsSeaIndex = 0;
   tabsLandIndex = 0;
+  viewIsLimited = false;
 
   routeParams: any;
   breadcrumb_data: any = {};
@@ -138,6 +139,7 @@ export class IndexAllianceComponent implements AfterViewInit {
 		this.playerNameFilter = '';
 		this.hasMatch = true;
 		this.showNoResults = false;
+		this.viewIsLimited = false;
 		this.filterType = '';
     this.breadcrumb_data = {};
     this.cdr.detectChanges();
@@ -204,6 +206,9 @@ export class IndexAllianceComponent implements AfterViewInit {
       this.offPlayers = data.off.players;
       this.defPlayers = data.def.players;
       this.noIntel = false;
+      if ('view_is_limited' in data && data.view_is_limited == true) {
+        this.viewIsLimited = true;
+      }
 
       this.tabsSeaIndex = Object.keys(this.firePlayers).length>0?0:(Object.keys(this.birPlayers).length>0?1:(Object.keys(this.trirPlayers).length>0?2:0));
       this.tabsLandIndex = Object.keys(this.mythPlayers).length>0?0:(Object.keys(this.offPlayers).length>0?1:(Object.keys(this.defPlayers).length>0?2:0));

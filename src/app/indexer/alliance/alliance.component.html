@@ -45,6 +45,10 @@
 
         <div class="container-fluid" *ngIf="!noIntel && !loading" style="padding: 0 !important;">
 
+          <app-alert *ngIf="viewIsLimited" type="warning" title="Showing partial overview" [dismissible]="false">
+            You have too much intel about this alliance to show in a single overview. The intel you see here is limited to only the 3000 most recent reports.
+          </app-alert>
+
 	        <div *ngIf="mobile">
 		        <mat-tab-group mat-stretch-tabs (click)="cdr.detectChanges();">
 			        <mat-tab>

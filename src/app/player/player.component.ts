@@ -64,6 +64,15 @@ export class PlayerComponent implements OnInit {
   bShowHeatmapChart = false;
   bShowIntel = false;
 
+  // ghost params
+  bIsGhost = true;
+  loading_ghost_towns = false;
+  has_ghost_details = false;
+  ghost_time = null;
+  ghost_alliance = null;
+  copied = false;
+  math = Math;
+
   onSelect(event) {
     console.log(event);
   }
@@ -96,6 +105,8 @@ export class PlayerComponent implements OnInit {
       this.bShowIntel = true;
     } else if (type === 'heatmap') {
       this.tabsIndex = 1;
+    } else if (type === 'ghost') {
+      this.tabsIndex = 4;
     }
 		if (this.infoTabs && this.showLegend==false) {
     	this.infoTabs.nativeElement.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -111,6 +122,7 @@ export class PlayerComponent implements OnInit {
   playerAllianceChanges = [];
   playerHistoryData = [];
   playerHistoryChart = [];
+  ghost_town_data: any[] = [];
   playerName = '';
   points = '';
   rank = '';
@@ -135,6 +147,7 @@ export class PlayerComponent implements OnInit {
   selectionChanged = false;
   historyError = false;
   hasIndex = false;
+  generated_at : any;
 
   constructor(
     public dialog: MatDialog,
@@ -174,6 +187,8 @@ export class PlayerComponent implements OnInit {
         }
       }
     });
+
+    this.generated_at = new Date().toLocaleString();
   }
 
   private load(params) {
@@ -192,6 +207,8 @@ export class PlayerComponent implements OnInit {
     this.playerName = 'Loading..';
     this.hasIndex = false;
     this.bShowIntel = false;
+    this.bIsGhost = false;
+    this.ghost_town_data = [];
 
     this.notFound = false;
     this.historyError = false;
@@ -281,6 +298,45 @@ export class PlayerComponent implements OnInit {
         ]
       }
     ]
+
+    if ('is_ghost' in json && json.is_ghost === true) {
+      this.bIsGhost = true;
+      this.setActiveTab('ghost');
+      this.loading_ghost_towns = true;
+
+      // load ghost towns
+      this.playerService.loadGhostTowns(this.world, this.id)
+        .subscribe(
+          (response : any) => {
+            if ('items' in response) {
+              this.ghost_town_data = response?.items ?? [];
+              this.ghost_town_data = this.ghost_town_data.sort((a, b) => (a.town_name > b.town_name ? 1 : -1));
+
+              if ('has_ghost_details' in response && response.has_ghost_details === true) {
+                this.has_ghost_details = true;
+                if ('ghost_alliance' in response) {
+                  this.ghost_alliance = response.ghost_alliance;
+                }
+                if ('ghost_time' in response) {
+                  this.ghost_time = response.ghost_time;
+                }
+              } else {
+                this.has_ghost_details = false;
+                this.ghost_alliance = null;
+                this.ghost_time = null;
+              }
+            } else {
+              this.ghost_town_data = [];
+            }
+            console.log(this.ghost_town_data);
+            this.loading_ghost_towns = false;
+          },
+          (error) => {
+            this.ghost_town_data = [];
+            this.loading_ghost_towns = false;
+          }
+        )
+    }
 
     // Load history
     this.playerService.loadPlayerHistory(this.world, this.id)
@@ -411,21 +467,40 @@ export class PlayerComponent implements OnInit {
   }
 
   public showTownDialog(): void {
-    let dialogRef = this.dialog.open(TownDialog, {
-      // width: '70%',
-      // height: '90%',
-      autoFocus: false,
-      data: {
-        id: this.id,
-        name: this.playerName,
-        world: this.world
-      }
-    });
+    if (this.bIsGhost === true) {
+      this.setActiveTab('ghost');
+    } else {
+      let dialogRef = this.dialog.open(TownDialog, {
+        // width: '70%',
+        // height: '90%',
+        autoFocus: false,
+        data: {
+          id: this.id,
+          name: this.playerName,
+          world: this.world
+        }
+      });
 
-    dialogRef.afterClosed().subscribe(result => {});
+      dialogRef.afterClosed().subscribe(result => {});
+    }
   }
 
   ngOnInit() {
+  }
+
+  copyBB() {
+    let selection = window.getSelection();
+    let txt = document.getElementById('bb_code');
+    let range = document.createRange();
+    range.selectNodeContents(txt);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    document.execCommand("copy");
+    selection.removeAllRanges();
+    this.copied = true;
+    this.globals.showSnackbar(
+      `<h4>BB code table copied to clipboard!</h4>`,
+      'success', '', true,5000);
   }
 
 }

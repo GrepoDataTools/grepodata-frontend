@@ -24,6 +24,13 @@ export class PlayerService {
     return this.http.get(apiUrl + url);
   }
 
+  loadGhostTowns(world: string, id: string) {
+    var url =  '/player/ghosttowns';
+    if (typeof world != 'undefined') url += '?world=' + world;
+    if (typeof id != 'undefined') url += '&id=' + id;
+    return this.http.get(apiUrl + url);
+  }
+
   loadPlayerChanges(world: string, id: any, from: any = undefined, size: any = undefined) {
     var url =  '/player/changes';
     if (typeof world != 'undefined') url += '?world=' + world;

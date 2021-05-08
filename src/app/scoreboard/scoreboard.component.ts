@@ -38,6 +38,7 @@ export class ScoreboardComponent implements OnInit {
 
     // API data
     playerData = '' as any;
+    ghostsData = '' as any;
     playerDiffs = '' as any;
     allianceData = '' as any;
     allianceChangesData = [] as any;
@@ -65,6 +66,7 @@ export class ScoreboardComponent implements OnInit {
     mobile = false;
     noticePlayer = '';
     noticeAlliance = '';
+    conquestVisibleRows = 20;
 
     // Datepicker
     minDate = '';
@@ -106,10 +108,9 @@ export class ScoreboardComponent implements OnInit {
         if (window.screen.width < 560) {
             // 768px portrait
             this.mobile = true;
+            this.conquestVisibleRows = 10;
             this.debounceTime = 750;
         }
-
-        // Object.assign(this, {data_default});ve
 
         this.server = worldService.getDefaultServer();
 
@@ -368,7 +369,9 @@ export class ScoreboardComponent implements OnInit {
         this.loadingDiffs = true;
         this.playerDiffs = '';
         this.searchResults = [];
+        this.ghostsData = [];
         this.searching = false;
+        this.conquestVisibleRows = this.mobile ? 10 : 20;
         // this.hasOverview = false;
         this.showMap = false;
         this.showTodaysMap = false;
@@ -534,6 +537,12 @@ export class ScoreboardComponent implements OnInit {
             }
 
             this.loadWorlds(this.worldData);
+
+            if ('ghosts' in json && json.ghosts.length > 0) {
+              this.ghostsData = json.ghosts.filter(ghost => ghost.num_towns > 3).sort((a, b) => b.num_towns - a.num_towns)
+              let num_ghosts = this.ghostsData.length;
+              this.conquestVisibleRows = Math.max(8, this.conquestVisibleRows - num_ghosts - 3);
+            }
         }
         this.loadingPlayers = false;
 

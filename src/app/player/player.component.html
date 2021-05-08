@@ -328,6 +328,103 @@
 	              </div>
               </div>
             </mat-tab>
+            <mat-tab *ngIf="bIsGhost" class="ghost-chart" style="padding: 20px 0; overflow: hidden !important;">
+              <ng-template mat-tab-label>
+                <mat-icon style="opacity: 1; vertical-align: bottom;">outlined_flag</mat-icon>&nbsp;Ghost towns
+              </ng-template>
+              <br/>
+              <mat-card-title>
+                <app-alert title="This player has reset their account. All their towns are now ghost towns." type="warning" [dismissible]="false">
+                  <p>Below is an overview of all ghost towns that this player has left behind.
+                  <span *ngIf="ghost_time">Player reset was at around {{ghost_time | Datex : "HH:00 on D MMM YYYY"}}</span></p>
+                </app-alert>
+                <mat-progress-bar *ngIf="loading_ghost_towns" mode="indeterminate"></mat-progress-bar>
+              </mat-card-title>
+              <mat-card-content style="overflow: hidden !important;" *ngIf="!loading_ghost_towns">
+                <div>
+
+                  <mat-tab-group mat-stretch-tabs>
+                    <mat-tab>
+                      <ng-template mat-tab-label>
+                        <mat-icon style="opacity: 1; vertical-align: bottom;">list</mat-icon>&nbsp;Ghost towns
+                      </ng-template>
+                      <br/>
+                      <div class="table-container">
+                        <div class="table" id="ghost_towns_table" style="">
+                          <div class="row_custom header default">
+                            <div class="cell">Town</div>
+                            <div class="cell">Points</div>
+                            <div class="cell">Ocean</div>
+                            <div class="cell" *ngIf="has_ghost_details">New owner</div>
+                          </div>
+
+                          <div class="row_custom" *ngFor="let town of ghost_town_data; let i = index;" [ngClass]="{'ghost-lost': (!!ghost_alliance && town.n_a_id>0 && ghost_alliance != town.n_a_id), 'ghost-won': (!!ghost_alliance && town.n_a_id>0 && ghost_alliance == town.n_a_id)}">
+                            <div class="cell">
+                              <a routerLink="/conquest/town/{{world}}/{{town.town_id}}">
+                                <img style="height: 18px; margin-top: -5px;" src="../../assets/images/town_ico.png"/>&nbsp;
+                                {{town.town_name}}
+                              </a>
+                            </div>
+                            <div class="cell">
+                              {{town.points}}
+                            </div>
+                            <div class="cell">
+                              {{math.floor(town.island_x/100)}}{{math.floor(town.island_y/100)}}
+                            </div>
+                            <div class="cell" *ngIf="has_ghost_details">
+                              <span *ngIf="town.n_p_id>0">
+                                <a routerLink="/player" [queryParams]="{world: world, id: town.n_p_id}">
+                                  <img style="height: 18px; margin-top: -5px;" src="../../assets/images/player_ico.png"/>&nbsp;
+                                  {{town.n_p_name}}
+                                </a>
+                              </span>
+                              <span *ngIf="town.n_a_id>0"> (
+                                <a routerLink="/alliance" [queryParams]="{world: world, id: town.n_a_id}">
+                                  <img style="height: 18px; margin-top: -5px;" src="../../assets/images/ally_ico.png"/>&nbsp;
+                                  {{town.n_a_name}}
+                                </a>
+                                )</span>
+                              <span *ngIf="!!town.conquest_time"> - {{town.conquest_time | Datex : "D MMM YYYY HH:mm"}}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </mat-tab>
+                    <mat-tab>
+                      <ng-template mat-tab-label>
+                        <mat-icon style="opacity: 1; vertical-align: bottom;">code</mat-icon>&nbsp;BB code
+                      </ng-template>
+                      <br/>
+
+                      <div style="font-size: 18px;">
+                        <div>
+
+                          <div class="container-fluid" style="padding: 0px;">
+                            <button class="btn btn-success" style="margin-bottom: 5px; width: 100%;" (click)="copyBB()">
+                              <i class="fa fa-clipboard" aria-hidden="true"></i>&nbsp;<span *ngIf="!copied">copy to clipboard</span><span *ngIf="copied">Copied to clipboard!</span>
+                            </button>
+                          </div>
+
+                          <pre id="bb_code" style="min-width: unset !important; height: unset !important;">[quote]
+ [table]
+  [**]#[||]Town[||]Points[||]Ocean[||]New Owner[/**]<span *ngFor="let town of ghost_town_data; let i = index;">
+  [*]{{i+1}}[|][town]{{town.town_id}}[/town][|]{{town.points}}[|]{{math.floor(town.island_x/100)}}{{math.floor(town.island_y/100)}}[|]<span *ngIf="town.n_p_id>0">[player]{{town.n_p_name}}[/player]<span *ngIf="town.n_a_id>0"> ([ally]{{town.n_a_name}}[/ally])</span></span>[/*]</span>
+ [/table]
+[i]This table was generated on [b]{{generated_at}}[/b].
+[url=https://grepodata.com/player?world={{world}}&id={{id}}]View updated version on grepodata.com[/url][/i]
+
+[/quote]</pre>
+
+                        </div>
+
+                      </div>
+                    </mat-tab>
+                  </mat-tab-group>
+
+                </div>
+              </mat-card-content>
+
+            </mat-tab>
           </mat-tab-group>
         </mat-card>
 

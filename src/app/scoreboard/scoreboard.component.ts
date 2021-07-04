@@ -395,6 +395,11 @@ export class ScoreboardComponent implements OnInit {
             (response) => this.renderAllianceChanges(response, params['date']),
             (error) => this.renderAllianceChanges(null, params['date'])
         );
+
+        this.scoreboardService.loadPlayerResets(this.world, params['date'], this.server).subscribe(
+            (response) => this.renderPlayerResets(response),
+            (error) => this.renderPlayerResets(null)
+        );
     }
 
     loadWorlds(worldData) {
@@ -470,6 +475,16 @@ export class ScoreboardComponent implements OnInit {
         this.load([]);
     }
 
+    renderPlayerResets(json) {
+      if ('items' in json && json.items.length > 0) {
+        this.ghostsData = json.items.filter(ghost => ghost.num_towns > 3).sort((a, b) => b.num_towns - a.num_towns).slice(0, 12)
+        let num_ghosts = this.ghostsData.length;
+        if (num_ghosts > 0) {
+          this.conquestVisibleRows = Math.max(8, this.conquestVisibleRows - num_ghosts - 3);
+        }
+      }
+    }
+
     renderPlayerScoreboard(json, date) {
         if (json == null) {
             this.noticePlayer = 'We found no player scoreboard for ' + this.world + ' on ' + date;
@@ -537,12 +552,6 @@ export class ScoreboardComponent implements OnInit {
             }
 
             this.loadWorlds(this.worldData);
-
-            if ('ghosts' in json && json.ghosts.length > 0) {
-              this.ghostsData = json.ghosts.filter(ghost => ghost.num_towns > 3).sort((a, b) => b.num_towns - a.num_towns)
-              let num_ghosts = this.ghostsData.length;
-              this.conquestVisibleRows = Math.max(8, this.conquestVisibleRows - num_ghosts - 3);
-            }
         }
         this.loadingPlayers = false;
 

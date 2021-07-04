@@ -77,8 +77,20 @@ export class ScoreboardService {
       url += 'server=' + server + '&';
     }
     if (typeof date != 'undefined') url += 'date=' + date + '&';
-    if (typeof from != 'undefined') url += '&from=' + from;
-    if (typeof size != 'undefined') url += '&size=' + size;
+    if (typeof from != 'undefined') url += 'from=' + from + '&';
+    if (typeof size != 'undefined') url += 'size=' + size;
+
+    return this.http.get(apiUrl + url);
+  }
+
+  loadPlayerResets(world: string, date: string, server: string) {
+    var url =  '/scoreboard/ghosts?';
+    if (typeof world != 'undefined' && world != '') {
+      url += 'world=' + world + '&';
+    } else if (typeof server != 'undefined' && server != ''){
+      url += 'server=' + server + '&';
+    }
+    if (typeof date != 'undefined') url += 'date=' + date + '&';
 
     return this.http.get(apiUrl + url);
   }

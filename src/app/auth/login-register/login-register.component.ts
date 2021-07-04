@@ -179,6 +179,11 @@ export class LoginRegisterComponent implements OnInit, AfterViewInit {
     this.register_submitted = true;
     let has_error = false;
 
+    if (!this.rf.privacy.invalid && this.rf.privacy.value !== true) {
+      this.registerForm.controls.privacy.setErrors({'custom': 'Accept our privacy policy to continue'});
+      has_error = true;
+    }
+
     if (!this.rf.newusername.invalid && this.rf.newusername.value.length < 4) {
       this.registerForm.controls.newusername.setErrors({'custom': 'Your username must be at least 4 characters long'});
       has_error = true;

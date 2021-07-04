@@ -11,6 +11,12 @@
   pointer-events: none !important;
 }
 
+.ghost-towns-table {
+  .cell {
+    max-width: unset !important;
+  }
+}
+
 mat-expansion-panel-header {
   height: 40px !important;
 

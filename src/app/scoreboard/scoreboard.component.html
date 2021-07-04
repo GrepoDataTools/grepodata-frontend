@@ -339,37 +339,28 @@
               <div class="col-xs-12 scoreboard-table" *ngIf="!!ghostsData && ghostsData.length > 0">
 
                 <h3 class="mat-title table-title" style="float: left;">
-                  <span>Ghosted players</span>
+                  <span>Ghost towns</span>
                 </h3>
 
                 <div class="index-events-container">
                   <div class="text-left">
 
                     <div class="events-list">
-                      <div class="event" [ngClass]="{'odd':i%2==1}" *ngFor="let ghost of ghostsData; let i = index">
-                        <div class="event-date">
-                          {{ghost.time | Datex : 'D MMM YYYY ~HH:00'}}
+                      <div class="event" [ngClass]="{'odd':i%2==1}" *ngFor="let ghost of ghostsData; let i = index" routerLink="/player" [queryParams]="{world: world, id: ghost.player_id}">
+                        <div class="event-date hidden-xs hidden-sm">
+                          {{ghost.ghost_time | Datex : 'D MMM YYYY ~HH:00'}}
                         </div>
                         <div>
-                          Player
                           <a routerLink="/player" [queryParams]="{world: world, id: ghost.player_id}">
                             <img style="height: 18px; margin-top: -5px;" src="../../assets/images/player_ico.png"/>&nbsp;
                             <span class="gd-brown">{{ghost.player_name}}</span>
                           </a>
-                          <span *ngIf="!ghost.alliance_id && ghost.alliance_id > 0">
-                            &nbsp; (
-                            <a routerLink="/alliance" [queryParams]="{world: world, id: ghost.alliance_id}">
-                              <img style="height: 18px; margin-top: -5px;" src="../../assets/images/ally_ico.png"/>&nbsp;
-                              <span class="gd-brown">{{ghost.alliance_name}}</span>
-                            </a>
-                            )
-                          </span>
-                          Ghosted with
-                          <span class="event-part entity"><strong>{{ghost.num_towns}}</strong></span>
-                          towns.
+                          has reset their account
+                          (<span class="event-part entity"><strong>{{ghost.num_towns}}</strong></span>
+                          ghost towns).
                         </div>
-                        <div>
-                          <a class="btn-success btn-xs" routerLink="/player" [queryParams]="{world: world, id: ghost.player_id}">
+                        <div class="hidden-xs hidden-sm">
+                          <a class="btn-success btn-xs">
                             View ghost towns
                           </a>
                         </div>

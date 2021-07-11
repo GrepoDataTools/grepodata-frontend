@@ -311,6 +311,35 @@
                   <app-event-list [key]="key" [update]="update"></app-event-list>
                 </div>
 
+                <div class="index-contributors" *ngIf="contributors">
+                  <h3>Team contributors</h3>
+                  <div>
+                    <div class="table intel-table" id="table_contributors">
+                      <div class="row_custom header bg-gd-2" >
+                        <div class="cell">
+                          User
+                        </div>
+                        <div class="cell">
+                          Contributions
+                        </div>
+                      </div>
+
+                      <div class='row_custom' *ngFor="let user of contributors">
+                        <div class="cell contributor-user">
+                          <span class="user"><mat-icon>perm_identity</mat-icon>&nbsp;{{user.username}}</span>
+                          <br/>
+                          <span class="player"><img src="../../assets/images/player_ico.png"/>&nbsp;{{user.player_name}}</span>
+                        </div>
+                        <div class="cell contributor-count">
+                          Total: {{user.contributions}}
+                          <br/>
+                          <span class="last-contribution">Last: {{user.last_contribution | Datex : "D MMM YYYY"}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
 <!--                <div class="index-contributors" *ngIf="data.contributors && data.contributors.length>0">-->
 <!--                  <h3>Top intel contributors</h3>-->
 <!--                  <div class="table">-->

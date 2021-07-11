@@ -40,6 +40,7 @@ export class OverviewComponent implements OnInit {
   is_admin = false;
   role = '';
   contribute = false;
+  contributors = false;
   world_stopped = false;
   missing_v1_owner = false;
   share_link = '';
@@ -83,6 +84,7 @@ export class OverviewComponent implements OnInit {
     this.events = [];
     this.latest_intel = [];
     this.recent_conquests = [];
+    this.contributors = false;
     if (typeof params['key'] != 'undefined' && params['key'].length == 8) {
       this.key = params['key'];
       this.index_name = this.key;
@@ -151,6 +153,9 @@ export class OverviewComponent implements OnInit {
       }
       if (data.recent_conquests) {
         this.recent_conquests = data.recent_conquests;
+      }
+      if (data.contributors_actual) {
+        this.contributors = data.contributors_actual;
       }
       if ('has_v2_owner' in data && 'index_version' in data) {
         if (data.has_v2_owner === false && data.index_version === '1') {

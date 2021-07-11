@@ -28,6 +28,26 @@
   background: #f3f3f3;
   color: #18bc9b;
 }
+.contributor-user {
+  font-size: 16px;
+  .mat-icon {
+    vertical-align: sub;
+  }
+  .user {
+    color: #18bc9b;
+  }
+  .player {
+    img {
+      vertical-align: text-top;
+    }
+    color: #804000;
+    font-weight: 700;
+  }
+}
+.last-contribution {
+  color: grey;
+  font-size: 16px;
+}
 
 .conquests-list-vertical {
   overflow-x: scroll;

@@ -14,6 +14,7 @@ export class DeleteAccountComponent implements OnInit {
 
   error = '';
   success = false;
+  deleted = false;
   loading = false;
   submitted = false;
   confirmNeeded = false;
@@ -30,6 +31,10 @@ export class DeleteAccountComponent implements OnInit {
   }
 
   get f() { return this.passwordForm.controls; }
+
+  signOut() {
+    this.authService.logout();
+  }
 
   deleteAccount() {
     this.submitted = true;
@@ -60,6 +65,14 @@ export class DeleteAccountComponent implements OnInit {
           this.error = '';
           this.loading = false;
           this.success = true;
+
+          if ('status' in response && response.status === 'Account deleted') {
+            // Account has not been confirmed, so account was deleted already.
+            this.deleted = true;
+            this.authService.logout(false);
+          } else {
+            this.deleted = false;
+          }
         },
         (error) => {
           console.log(error);

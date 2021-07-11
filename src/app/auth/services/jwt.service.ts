@@ -231,7 +231,7 @@ export class JwtService {
       });
   }
 
-  logout() {
+  logout(navigate = true) {
     // Clear local cache items
     LocalCacheService.remove('access_token');
     LocalCacheService.remove('refresh_token');
@@ -239,7 +239,9 @@ export class JwtService {
     this.globals.delete_top_indexes();
     this.globals.delete_recent_intel();
 
-    this.router.navigate(['/indexer']);
+    if (navigate === true) {
+      this.router.navigate(['/indexer']);
+    }
 
   }
 }

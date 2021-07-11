@@ -13,13 +13,20 @@
 				<!--<li>All linked Grepolis accounts will be unlinked from your GrepoData account.</li>-->
 				<li>If you want to use our services again sometime, you will have to create a new account.</li>
 			</ul>
-			<p>After submitting the form below, you will receive an email to confirm the request.</p>
+			<p>After submitting the form below, you may receive an email to confirm the request.</p>
 		</app-alert>
 
-		<app-alert type="warning" [dismissible]="false" *ngIf="success">
+		<app-alert type="warning" [dismissible]="false" *ngIf="success && !deleted">
 			<h3>Email confirmation required.</h3>
 			<p>You received an email with a confirmation link to complete your request <strong>(Check your spam folder!)</strong></p>
 			<p>Click on the link in the email you received to confirm the removal of your data.</p>
+		</app-alert>
+
+		<app-alert type="success" [dismissible]="false" *ngIf="success && deleted">
+			<h3>Account deleted.</h3>
+			<p>Your account and personal data has been deleted</p>
+			<p>You can now sign out.</p>
+      <button class="btn btn-danger" (click)="signOut()">Sign out</button>
 		</app-alert>
 
 		<div class="alert alert-gd-1" style="margin: 0 0 15px 0;" *ngIf="!success">

@@ -157,8 +157,11 @@
 							{{town.date | IndexDate}}
 						</div>
 						<div class="cell">
-							<div *ngIf="town?.parsed != true">
-								<span class="gd-error">Sorry, we were unable to parse this report. Developers have been notified.</span>
+							<div *ngIf="town?.parsed_err == true">
+								<span class="gd-error">Sorry, we were unable to parse this report. Reason: {{town?.parsed_msg}}. Developers have been notified.</span>
+							</div>
+							<div *ngIf="town?.parsed_err != true && town?.parsed != true">
+								<span class="gd-error">This report is invalid. Reason: {{town?.parsed_msg}}.</span>
 							</div>
 							<div style="display: flex;" *ngIf="town?.parsed == true">
                 <span style="transform: scale(.8); margin-right: 32px;" *ngFor="let unit of town.units | ValuesPipe; let i = index;"

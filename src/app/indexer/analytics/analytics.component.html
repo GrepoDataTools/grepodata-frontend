@@ -30,24 +30,24 @@
       <div class="col-md-12 text-left chart-container" *ngIf="!loading_index && indexer_error_rate.length > 0" >
 
         <h2 class="gd-secondary">Report parsing error rate</h2>
-        <p>Some report parsing errors are expected. Elevated error rates may indicate a change in report structure (parser changes required).</p>
+        <p>
+          Some report parsing errors are expected. Elevated error rates may indicate a change in report structure (parser changes required).
+          <a style="color: #FFFFFF" href="http://api-grepodata-com.debugger:8080/bEk6BmaBZBRTeRtM.php?level=all&error=true" target="_blank">debug</a>
+        </p>
 
         <div class="ngx-chart-container">
-          <ngx-charts-line-chart
+          <ngx-charts-bar-vertical
             [scheme]="{domain:['#f07057']}"
             [results]="indexer_error_rate"
-            [gradient]="gradient"
-            [xAxis]="showXAxis"
+            [xAxis]="true"
             [yAxis]="showYAxis"
-            [legend]="showLegend"
-            [showXAxisLabel]="showXAxisLabel"
+            [legend]="false"
+            [showXAxisLabel]="false"
             [showYAxisLabel]="showYAxisLabel"
             [xAxisLabel]="xAxisLabel"
             [yAxisLabel]="yAxisLabel"
-            [autoScale]="autoScale"
-            [timeline]="timeline"
             (select)="onSelect($event)">
-          </ngx-charts-line-chart>
+          </ngx-charts-bar-vertical>
         </div>
       </div>
 
@@ -116,6 +116,36 @@
 						[autoScale]="autoScale"
 						[timeline]="timeline"
 						(select)="onSelect($event)">
+					</ngx-charts-line-chart>
+				</div>
+			</div>
+
+			<!--TOTAL HOURLY-->
+			<div class="col-md-12 text-left chart-container" *ngIf="!loading_index && total_per_day.length > 0">
+
+				<h2 class="gd-secondary">Number of new reports indexed per hour</h2>
+        <p>Duplicate report uploads are ignored, only unique new reports are counted.</p>
+
+				<div class="ngx-chart-container">
+					<ngx-charts-line-chart
+						[scheme]="colorScheme2"
+						[results]="hourly_reports"
+						[gradient]="gradient"
+						[xAxis]="showXAxis"
+						[yAxis]="showYAxis"
+						[legend]="showLegend"
+						[showXAxisLabel]="showXAxisLabel"
+						[showYAxisLabel]="showYAxisLabel"
+						[xAxisLabel]="xAxisLabel"
+						[yAxisLabel]="yAxisLabel"
+						[autoScale]="autoScale"
+						[timeline]="timeline"
+						(select)="onSelect($event)">
+            <ng-template #tooltipTemplate let-model="model">
+              {{model.name | Datex : "D MMM HH:mm"}}<br/>
+              {{model.value}} {{model.series}}
+              <!--<pre>{{model|json}}</pre>-->
+            </ng-template>
 					</ngx-charts-line-chart>
 				</div>
 			</div>

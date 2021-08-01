@@ -56,6 +56,7 @@ export class AnalyticsComponent implements OnInit {
   total_reports = [];
   total_users = [];
   index_world_bins = [];
+  hourly_reports = [];
 
   single: any[];
   cardColor: string = '#232837';
@@ -128,15 +129,12 @@ export class AnalyticsComponent implements OnInit {
         let record = data.indexer_error_rate.data[i];
         let date = new Date(record.date);
         date.setDate(date.getDate() - 1);
-        chart.unshift({
+        chart.push({
           'name' : date,
           'value' : record.count,
         });
       }
-      this.indexer_error_rate.push({
-        'name': 'Report parsing errors',
-        'series': chart,
-      });
+      this.indexer_error_rate = chart;
     }
 
     if (data.indexer_generic_warning_rate) {
@@ -155,6 +153,32 @@ export class AnalyticsComponent implements OnInit {
         'name': 'Logger warnings',
         'series': chart,
       });
+    }
+
+    if (data.indexer_hourly_new_reports) {
+      let chart = [];
+      let chartusers = [];
+      for(let i in data.indexer_hourly_new_reports.data) {
+        let record = data.indexer_hourly_new_reports.data[i];
+        let date = new Date(record.datehour);
+        chart.push({
+          'name' : date,
+          'value' : record.count,
+        });
+        chartusers.push({
+          'name' : date,
+          'value' : record.usercount,
+        });
+      }
+      this.hourly_reports.push({
+        'name': 'Hourly new reports',
+        'series': chart,
+      });
+      this.hourly_reports.push({
+        'name': 'Hourly active users',
+        'series': chartusers,
+      });
+      console.log(this.hourly_reports);
     }
 
     if (data.indexer_num_inbox_per_day && data.indexer_num_forum_per_day) {
@@ -225,7 +249,7 @@ export class AnalyticsComponent implements OnInit {
           let moving_average = newReportsMovingAverage.reduce( ( p, c ) => p + c, 0 ) / newReportsMovingAverage.length;
           newReportsMovingAverageEntries.unshift({
             'name' : date,
-            'value' : moving_average,
+            'value' : Math.floor(moving_average),
           });
         }
 

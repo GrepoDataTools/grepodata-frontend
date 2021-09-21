@@ -167,31 +167,6 @@
                 </div>
               </mat-card-content>
             </mat-tab>
-	          <mat-tab style="overflow: hidden;">
-		          <ng-template mat-tab-label>
-			          <mat-icon style="opacity: 1; vertical-align: bottom;">watch_later</mat-icon>&nbsp;Activity<span class="hidden-xs">&nbsp;heatmap</span>
-		          </ng-template>
-		          <mat-card-content style="overflow: hidden;">
-                <div style="text-align: center; margin-top: 40px;">
-                  <h2 style='font-weight: 300; color: #304357;'><span class='world-title' style='color: #18BC9C;'>Sorry, the heatmap feature has been removed.</span></h2>
-                  <h4><strong>Due to privacy concerns, the activity heatmap feature has been removed from GrepoData entirely.</strong><br/>
-                    <br/>
-                    Instead of the heatmap, we will now show the last time this player has been active. This is indicated by one of these labels on the left panel: <br/>
-                  </h4>
-                  <div style="display: inline-grid; font-size: 16px;">
-                    <div style="display: inline-flex; margin-bottom: 5px;">
-                      <div class="btn-success btn-xs">Active</div> &nbsp; Player has gained attack or town points within the last 24 hours.
-                    </div>
-                    <div style="display: inline-flex; margin-bottom: 5px;">
-                      <div class="btn-warning btn-xs">Inactive</div> &nbsp; Player has gained attack or town points within the last 72 hours.
-                    </div>
-                    <div style="display: inline-flex;">
-                      <div class="btn-danger btn-xs">Inactive</div> &nbsp; Player has not gained any attack or town points for at least 72 hours or more.
-                    </div>
-                  </div>
-                </div>
-		          </mat-card-content>
-	          </mat-tab>
             <mat-tab style="overflow: hidden;">
               <ng-template mat-tab-label>
 	              <mat-icon style="opacity: 1; vertical-align: bottom;">compare_arrows</mat-icon>&nbsp;
@@ -200,8 +175,17 @@
               </ng-template>
               <br/>
               <mat-card-content style="overflow: hidden;">
-                <div *ngIf="playerAllianceChanges.length <= 0" class="alert alert-warning text-center alert-gd-1">
-                  <h3>No alliance changes found.</h3>
+                <div *ngIf="playerAllianceChanges.length <= 0">
+                  <div class="container-fluid">
+                    <div class="row">
+                      <br/>
+                      <br/>
+                      <div class="alert alert-warning text-center alert-gd-1">
+                        <h2><strong>No alliance changes found.</strong></h2>
+                        <p>We have not yet recorded any alliance changes for this alliance.</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div class="table-container" *ngIf="playerAllianceChanges.length > 0">
                   <div class="table" id="player_changes_table" style="">
@@ -248,14 +232,13 @@
                       <div class="cell hidden-md hidden-sm hidden-xs">{{c.player_points | NumberFilter}}</div>
                     </div>
                   </div>
+
+                  <h3 style='font-weight: 700; color: #304357; height: 20px;'>
+                    <a *ngIf="playerAllianceChanges.length >= 10" routerLink="/changes/alliance/{{world}}/{{id}}" style="color: #949494; right: 20px; position: absolute;">
+                      <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon> Show all changes
+                    </a>
+                  </h3>
                 </div>
-	              <div>
-		              <h3 style='font-weight: 700; color: #304357; height: 20px;'>
-			              <a *ngIf="playerAllianceChanges.length >= 10" routerLink="/changes/alliance/{{world}}/{{id}}" style="color: #949494; right: 20px; position: absolute;">
-				              <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon> Show all changes
-			              </a>
-		              </h3>
-	              </div>
               </mat-card-content>
             </mat-tab>
             <mat-tab>

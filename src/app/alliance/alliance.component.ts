@@ -8,6 +8,7 @@ import { WorldService } from '../services/world.service';
 import { Globals } from '../globals';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import {MatDialog} from '@angular/material/dialog';
+import {JwtService} from '../auth/services/jwt.service';
 
 @Component({
     selector: 'app-alliance',
@@ -91,6 +92,7 @@ export class AllianceComponent implements AfterViewInit {
         private globals: Globals,
         private allianceService: AllianceService,
         private worldService: WorldService,
+        private authService: JwtService,
         private router: Router,
         private route: ActivatedRoute,
         private compare: CompareService,
@@ -161,7 +163,7 @@ export class AllianceComponent implements AfterViewInit {
         let that = this;
         setTimeout(function () {
             that.cdr.detectChanges();
-            if (that.tabsIndex == 3) {
+            if (that.tabsIndex == 2) {
                 that.bShowIntel = true;
             }
         }, 1);
@@ -199,9 +201,8 @@ export class AllianceComponent implements AfterViewInit {
         );
 
         // Check if intel is available
-        let active_intel: any = this.globals.get_active_intel();
-        if (active_intel !== false && this.world in active_intel) {
-            this.hasIndex = true;
+        if (this.authService.refreshToken) {
+          this.hasIndex = true;
         }
     }
 
@@ -221,7 +222,7 @@ export class AllianceComponent implements AfterViewInit {
     }
 
     onTabClick(event: MatTabChangeEvent) {
-        if (event.index == 3) {
+        if (event.index == 2) {
             this.bShowIntel = true;
         }
         this.tabsIndex = event.index;
@@ -231,7 +232,7 @@ export class AllianceComponent implements AfterViewInit {
     }
 
     openIntelTab() {
-        this.tabsIndex = 3;
+        this.tabsIndex = 2;
         this.bShowIntel = true;
         this.cdr.detectChanges();
         if (this.infoTabs && this.showLegend == false) {

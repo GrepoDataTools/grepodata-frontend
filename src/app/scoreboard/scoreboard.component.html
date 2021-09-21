@@ -134,7 +134,7 @@
 <!--              We are sorry for the inconvenience, but there is nothing we can do about the issue.-->
 <!--            </h3>-->
 <!--          </app-alert>-->
-	        <div style="display: flex; place-content: center; width: 100%;">
+	        <div style="display: flex; place-content: center; width: 100%;" [ngClass]="{'loading-overlay':loadingPlayers}">
 	          <div style="max-width: 100%;"
 	               #overviewContainer class="row hidden-xs text-center"
 	               *ngIf="!noPlayerData && playerData.overview && playerData.overview.length > 2"
@@ -175,6 +175,15 @@
                   <div class="cell">Points</div>
 	                <div class="cell hidden-xs hidden-sm" *ngIf="!mobile && hasOverview"></div>
                 </div>
+
+                <ng-container *ngIf="loadingPlayers">
+                  <div *ngFor="let p of [].constructor((mobile?10:20)); let i = index;" class="row_custom loading_cell">
+                    <div class="cell hidden-xs"></div>
+                    <div class="cell"><div style="opacity: 0.1">loading ...</div></div>
+                    <div class="cell"></div>
+                    <div class="cell hidden-xs hidden-sm" *ngIf="!mobile && hasOverview"></div>
+                  </div>
+                </ng-container>
 
                 <div *ngFor="let p of playerData.att; let i = index;" class="row_custom {{i>=(mobile?10:20) && toggleMore ? 'hidden-cell' : '' }}">
                   <!--<div class="cell hidden-xs" *ngIf="i==0"><i class="fa fa-trophy fa-2x" aria-hidden="true" style="padding: 5px; color: #233140;"></i></div>-->
@@ -263,6 +272,15 @@
                   <div class="cell">Points</div>
 	                <div class="cell hidden-xs hidden-sm" *ngIf="!mobile && hasOverview"></div>
                 </div>
+
+                <ng-container *ngIf="loadingPlayers">
+                  <div *ngFor="let p of [].constructor((mobile?10:20)); let i = index;" class="row_custom loading_cell">
+                    <div class="cell hidden-xs"></div>
+                    <div class="cell"><div style="opacity: 0.1">loading ...</div></div>
+                    <div class="cell"></div>
+                    <div class="cell hidden-xs hidden-sm" *ngIf="!mobile && hasOverview"></div>
+                  </div>
+                </ng-container>
 
                 <div *ngFor="let p of playerData.def; let i = index;" class="row_custom {{i>=(mobile?10:20) && toggleMore ? 'hidden-cell' : '' }}">
                   <div class="cell hidden-xs" *ngIf="i==0">🏆</div>
@@ -387,6 +405,15 @@
                     <div class="cell hidden-xs hidden-sm" *ngIf="!mobile"></div>
                   </div>
 
+                  <ng-container *ngIf="loadingPlayers">
+                    <div *ngFor="let p of [].constructor(conquestVisibleRows); let i = index;" class="row_custom loading_cell">
+                      <div class="cell hidden-xs"></div>
+                      <div class="cell"><div style="opacity: 0.1">loading ...</div></div>
+                      <div class="cell"></div>
+                      <div class="cell hidden-xs hidden-sm" *ngIf="!mobile"></div>
+                    </div>
+                  </ng-container>
+
                   <div *ngFor="let p of playerData.con; let i = index;" class="row_custom {{i>=conquestVisibleRows && toggleMore ? 'hidden-cell' : '' }}">
                     <div class="cell hidden-xs" *ngIf="i==0">🏆</div>
                     <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
@@ -432,6 +459,15 @@
                     <div class="cell">Towns</div>
                     <div class="cell hidden-xs hidden-sm" *ngIf="!mobile"></div>
                   </div>
+
+                  <ng-container *ngIf="loadingPlayers">
+                    <div *ngFor="let p of [].constructor(conquestVisibleRows); let i = index;" class="row_custom loading_cell">
+                      <div class="cell hidden-xs"></div>
+                      <div class="cell"><div style="opacity: 0.1">loading ...</div></div>
+                      <div class="cell"></div>
+                      <div class="cell hidden-xs hidden-sm" *ngIf="!mobile"></div>
+                    </div>
+                  </ng-container>
 
                   <div *ngFor="let p of playerData.los; let i = index;" class="row_custom {{i>=conquestVisibleRows && toggleMore ? 'hidden-cell' : '' }}">
                     <div class="cell hidden-xs" *ngIf="i==0">🚫</div>

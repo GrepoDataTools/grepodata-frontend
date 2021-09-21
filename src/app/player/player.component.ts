@@ -10,6 +10,7 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import {WorldService} from "../services/world.service";
 import {Globals} from "../globals";
 import {Datex} from '../app.component';
+import {JwtService} from '../auth/services/jwt.service';
 
 @Component({
   selector: 'app-player',
@@ -87,7 +88,7 @@ export class PlayerComponent implements OnInit {
 				this.bShowHistoryChart = false;
 				this.bShowHeatmapChart = true;
 				break;
-			case 3:
+			case 2:
 				this.bShowIntel = true;
 				let that = this;
 				setTimeout(function () {
@@ -101,12 +102,10 @@ export class PlayerComponent implements OnInit {
   setActiveTab(type) {
     if (type === 'intel') {
       // this.tabsIndex = this.bShowHeatmapTab ? 3 : 2;
-      this.tabsIndex = 3;
+      this.tabsIndex = 2;
       this.bShowIntel = true;
-    } else if (type === 'heatmap') {
-      this.tabsIndex = 1;
     } else if (type === 'ghost') {
-      this.tabsIndex = 4;
+      this.tabsIndex = 3;
     }
 		if (this.infoTabs && this.showLegend==false) {
     	this.infoTabs.nativeElement.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -156,6 +155,7 @@ export class PlayerComponent implements OnInit {
     private worldService: WorldService,
     private router: Router,
     private route: ActivatedRoute,
+    private authService: JwtService,
     public datePipe: Datex,
     public compare: CompareService) {
     Object.assign(this, {data_default});
@@ -236,9 +236,7 @@ export class PlayerComponent implements OnInit {
       );
 
     // Check if intel is available
-    let active_intel: any = this.globals.get_active_intel();
-    console.log(active_intel);
-    if (active_intel !== false && this.world in active_intel) {
+    if (this.authService.refreshToken) {
       this.hasIndex = true;
     }
   }

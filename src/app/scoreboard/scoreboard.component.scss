@@ -33,6 +33,20 @@
   padding: 0 !important;
 }
 
+.loading_cell {
+  opacity: 1;
+  animation: fade 2s infinite linear;
+}
+
+.loading-overlay {
+  opacity: .3;
+}
+
+@keyframes fade {
+  0%,100% { opacity: .5 }
+  50% { opacity: 1 }
+}
+
 .search-row {
 
 }

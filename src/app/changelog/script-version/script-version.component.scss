@@ -1,0 +1,19 @@
+p {
+  font-size: 16px !important;
+  font-weight: 400;
+}
+
+::ng-deep {
+  .collapsable:hover {
+    cursor: pointer;
+  }
+}
+
+.toggle-info {
+  float: right;
+  font-style: italic;
+  opacity: .4;
+}
+.toggle-info:hover {
+  opacity: 1;
+}

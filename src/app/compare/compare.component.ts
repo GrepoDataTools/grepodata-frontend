@@ -63,10 +63,12 @@ export class CompareComponent implements OnInit {
   attGauge = [];
   defGauge = [];
   polarGauge = [];
+  polarGaugeAbs = [];
   data_fight_gauge: any[];
   data_att_gauge: any[];
   data_def_gauge: any[];
   polar_chart_data: any[];
+  polar_chart_data_abs: any[];
 
   //private vars
   comparedPlayers : any = [];
@@ -79,6 +81,8 @@ export class CompareComponent implements OnInit {
   realWorlds : any;
   playerWorld = '';
   allianceWorld = '';
+
+  math = Math;
 
   public showSearch$: any = new Subject();
 
@@ -339,20 +343,16 @@ export class CompareComponent implements OnInit {
         'name': unit,
         'series': [
           {
-            'name': ' Attacking',
-            'value': json.att
+            'name': ' APPT',
+            'value': Math.floor(json.att / json.towns)
           },
           {
-            'name': ' Defending',
-            'value': json.def
+            'name': ' DPPT',
+            'value': Math.floor(json.def / json.towns)
           },
-          // {
-          //   'name': 'fighting',
-          //   'value': json.att + json.def
-          // },
           {
-            'name': ' Town points',
-            'value': json.points
+            'name': ' TPPT',
+            'value': Math.floor(json.points / json.towns)
           }
         ]
       }
@@ -360,6 +360,30 @@ export class CompareComponent implements OnInit {
     this.polarGauge.sort(this.sortCompare);
     this.polar_chart_data = this.polarGauge;
     this.polar_chart_data = [...this.polar_chart_data];
+
+
+    this.polarGaugeAbs.push(
+      {
+        'name': unit,
+        'series': [
+          {
+            'name': ' Attacking',
+            'value': json.att
+          },
+          {
+            'name': ' Defending',
+            'value': json.def
+          },
+          {
+            'name': ' Town Points',
+            'value': json.points
+          }
+        ]
+      }
+    );
+    this.polarGaugeAbs.sort(this.sortCompare);
+    this.polar_chart_data_abs = this.polarGaugeAbs;
+    this.polar_chart_data_abs = [...this.polar_chart_data_abs];
 
     this.loadingStats = false;
   }

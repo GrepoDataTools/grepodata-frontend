@@ -30,14 +30,16 @@ export class PlayerActivityComponent implements OnInit, OnChanges {
       if (months > 0) {
         time_readable_parts.push(`${months} month${months > 1 ? 's' : ''}`);
       }
-      if (weeks > 0) {
+      if (weeks > 0 && months <= 3) {
         time_readable_parts.push(`${weeks} week${weeks > 1 ? 's' : ''}`);
       }
-      if (days > 0) {
+      if (days > 0 && months <= 0) {
         time_readable_parts.push(`${days} day${days > 1 ? 's' : ''}`);
       }
-      time_readable_parts.push(`${hours} hour${hours == 1 ? '' : 's'} ago`);
-      this.inactive_readable = time_readable_parts.join(', ');
+      if (weeks <= 0) {
+        time_readable_parts.push(`${hours} hour${hours == 1 ? '' : 's'}`);
+      }
+      this.inactive_readable = time_readable_parts.join(', ') + ' ago';
       console.log(this.inactive_readable);
     }
   }

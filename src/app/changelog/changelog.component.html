@@ -1,6 +1,6 @@
-<div class="container" style="margin-top: 30px;">
+<div class="container-fluid" style="margin-top: 30px;">
   <div class="row">
-    <div class="col-lg-8 col-md-10 col-sm-12" style="float: none; margin: auto;">
+    <div class="col-lg-8 col-md-12 col-sm-12" style="float: none; margin: auto;">
       <div class=" alert alert-default alert-gd-1" style="padding: 30px 30px 50px 30px;">
 
         <!--<div style="float: left;">-->
@@ -15,55 +15,62 @@
         <!--</a>-->
         <!--</div>-->
         <!--<br/>-->
-        <div class="text-center"><h2 style=""> City Indexer Userscript Changelog</h2>
+        <div class="text-center"><h1 class="gd-secondary"> City Indexer Userscript Changelog</h1>
           <h4>
             <a href="https://github.com/GrepoDataTools/grepodata-backend/commits/master/Software/Application/Indexer/indexer.js" target="_blank">
-              <i class="fa fa-github" aria-hidden="true"></i> View full userscript change history on GitHub
+              <i class="fa fa-github" aria-hidden="true"></i> Full history (GitHub)
             </a>
           </h4>
-          <p><strong>Note:</strong> You do not have to update the GrepoData userscript.
-            <br/>Your browser will automatically use the latest version.</p>
+          <h5><strong>Note:</strong> You do not have to update the GrepoData userscript.
+            <br/>Your browser will automatically use the latest version.</h5>
         </div>
         <br/>
         <br/>
 
-	      <h4>
-          21-09-2021 - <span class="label label-warning">Latest version</span> &nbsp;
-          <a href="https://github.com/GrepoDataTools/grepodata-backend/commit/9d08adba8c2a234d5b11c980c8c162c10cbb1d9a#diff-c99d467c47c572f6de633952fa1de8c54b36adb85d925f031b05dcad62e2d39e" target="_blank">
-            <i class="fa fa-github" aria-hidden="true"></i> View detailed changes on github.com
-          </a>
-        </h4>
-	      <p>- Added a bugfix for town names in the support overview. Due to a bug in the game, the support overview shows the current town instead of the source town of your units. We added a function to our userscript that fixes this bug. </p>
+        <app-script-version
+          [collapsable]="false"
+          [title]="'05-11-2021 - Forum reactions'"
+          [github_url]="'https://github.com/GrepoDataTools/grepodata-backend/commit/65f4367b9500e3b563152e49f21258a6b1caefdd#diff-c99d467c47c572f6de633952fa1de8c54b36adb85d925f031b05dcad62e2d39e'">
+          <p>
+            Added forum reactions. If you have the userscript installed, you can leave reactions to posts on the in-game alliance forum. Your alliance members can see your reaction and you can see theirs, but only if they also use the userscript and are part of the same GrepoData team.
+            <br/>You can disable this feature in the settings.
+          </p>
+          <br/><img style="max-width: 80vw;" src="../../assets/images/forum_reactions.png"><br/><br/>
+        </app-script-version>
+
+        <hr/>
+
+        <app-script-version
+          [title]="'21-09-2021 - Bugfix for support overview'"
+          [github_url]="'https://github.com/GrepoDataTools/grepodata-backend/commit/9d08adba8c2a234d5b11c980c8c162c10cbb1d9a#diff-c99d467c47c572f6de633952fa1de8c54b36adb85d925f031b05dcad62e2d39e'">
+          <p>Added a bugfix for town names in the support overview. Due to a bug in the game, the support overview shows the current town instead of the source town of your units. We added a function to our userscript that fixes this bug. </p>
+        </app-script-version>
+
+        <hr/>
+
+        <app-script-version
+          [title]="'17-09-2021 - Bugfix for GrepoData dialog windows'"
+          [github_url]="'https://github.com/GrepoDataTools/grepodata-backend/commit/11537c906c7b446882e4dc3cd54e4a9d92b1b42e#diff-c99d467c47c572f6de633952fa1de8c54b36adb85d925f031b05dcad62e2d39e'">
+          <p>Fixed a bug that would cause the GrepoData dialog windows to open in a weird way. </p>
+        </app-script-version>
 
 	      <hr/>
 
-	      <h4>
-          17-09-2021 -
-          <a href="https://github.com/GrepoDataTools/grepodata-backend/commit/11537c906c7b446882e4dc3cd54e4a9d92b1b42e#diff-c99d467c47c572f6de633952fa1de8c54b36adb85d925f031b05dcad62e2d39e" target="_blank">
-            <i class="fa fa-github" aria-hidden="true"></i> View detailed changes on github.com
-          </a>
-        </h4>
-	      <p>- Fixed a bug that would cause the GrepoData dialog windows to open in a weird way. </p>
+        <app-script-version
+          [title]="'11-07-2021 - Intel tooltip'"
+          [github_url]="'https://github.com/GrepoDataTools/grepodata-backend/commit/a2620466801a256728c3a979bb15f12389cf95d2#diff-c99d467c47c572f6de633952fa1de8c54b36adb85d925f031b05dcad62e2d39e'">
+          <p>Added a tooltip to spy reports in the intel viewer that shows how much silver was used. </p>
+        </app-script-version>
 
 	      <hr/>
 
-	      <h4>
-          11-07-2021 -
-          <a href="https://github.com/GrepoDataTools/grepodata-backend/commit/a2620466801a256728c3a979bb15f12389cf95d2#diff-c99d467c47c572f6de633952fa1de8c54b36adb85d925f031b05dcad62e2d39e" target="_blank">
-            <i class="fa fa-github" aria-hidden="true"></i> View detailed changes on github.com
-          </a>
-        </h4>
-	      <p>- Add a tooltip to spy reports in the intel viewer that shows how much silver was used. </p>
+        <app-script-version
+          [title]="'26-05-2021 - Return time bugfix'"
+          [github_url]="'https://github.com/GrepoDataTools/grepodata-backend/commit/dcfc38d27ff78ce50955b13b9a4a5b94071dda9d#diff-c99d467c47c572f6de633952fa1de8c54b36adb85d925f031b05dcad62e2d39e'">
+          <p>Bugfix for return time on movements to own cities. </p>
+        </app-script-version>
 
-	      <hr/>
 
-	      <h4>
-          26-05-2021 -
-          <a href="https://github.com/GrepoDataTools/grepodata-backend/commit/dcfc38d27ff78ce50955b13b9a4a5b94071dda9d#diff-c99d467c47c572f6de633952fa1de8c54b36adb85d925f031b05dcad62e2d39e" target="_blank">
-            <i class="fa fa-github" aria-hidden="true"></i> View detailed changes on github.com
-          </a>
-        </h4>
-	      <p>- Bugfix for return time on movements to own cities. </p>
 
       </div>
     </div>

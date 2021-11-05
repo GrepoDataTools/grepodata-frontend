@@ -135,6 +135,7 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { IndexerUpdateComponent } from './homepage/indexer-update/indexer-update.component';
 import { DemoOverviewComponent } from './commands/demo-overview/demo-overview.component';
 import { EventListComponent } from './indexer/event-list/event-list.component';
+import { ScriptVersionComponent } from './changelog/script-version/script-version.component';
 
 const appRoutes: Routes = [
     { path: 'login', component: LandingPageComponent },
@@ -281,7 +282,8 @@ export function jwtTokenGetter(): any {
         HomepageComponent,
         IndexerUpdateComponent,
         DemoOverviewComponent,
-        EventListComponent
+        EventListComponent,
+        ScriptVersionComponent
     ],
     imports: [
         FormsModule,

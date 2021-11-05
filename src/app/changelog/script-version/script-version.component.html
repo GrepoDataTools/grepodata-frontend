@@ -1,0 +1,10 @@
+<h4 (click)="details_hidden=!details_hidden" [ngClass]="{'collapsable': collapsable}">
+  {{title}} <span *ngIf="!collapsable" class="label label-success">New</span>
+  <span *ngIf="collapsable" class="toggle-info">{{details_hidden?'More':'Less'}} info</span>
+</h4>
+<p *ngIf="!collapsable || !details_hidden">
+  <ng-content></ng-content>
+  <a href="{{github_url}}" target="_blank">
+    <i class="fa fa-github" aria-hidden="true"></i> View detailed changes on github.com
+  </a>
+</p>

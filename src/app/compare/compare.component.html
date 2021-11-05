@@ -221,33 +221,56 @@
                       </td>
                     </tr>
                     <tr>
-                      <th>Rank</th>
-                      <td *ngFor="let i of infoData;">
-                        <a routerLink="/ranking/player/{{i.world}}/points/{{i.rank}}/{{i.grep_id}}">{{i.rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a>
-                      </td>
-                    </tr>
-                    <tr>
                       <th>Towns</th>
                       <td *ngFor="let i of infoData;">
-                        <a routerLink="/conquest/player/{{i.world}}/{{i.grep_id}}">{{i.towns}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a>
+                        <a routerLink="/conquest/player/{{i.world}}/{{i.grep_id}}">{{i.towns}} <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon></a>
                       </td>
                     </tr>
+
                     <tr>
-                      <th>Points</th>
-                      <td *ngFor="let i of infoData;">{{i.points | NumberFilter}}</td>
+                      <th>
+                        Points (Avg. per town)
+                        <br/><mat-icon class="directory">subdirectory_arrow_right</mat-icon>Overall Rank
+                      </th>
+                      <td *ngFor="let i of infoData;">
+                        {{i.points | NumberFilter}} (⌀ {{math.floor(i.points / math.max(1, i.towns)) | NumberFilter}})
+                        <br/><a routerLink="/ranking/player/{{i.world}}/points/{{i.rank}}/{{i.grep_id}}">#{{i.rank}} <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon></a>
+                      </td>
                     </tr>
+
                     <tr>
-                      <th>Fighting</th>
-                      <td *ngFor="let i of infoData;">{{i.att + i.def | NumberFilter}}</td>
+                      <th>
+                        Fighting Points (Avg. per town)
+                        <br/><mat-icon class="directory">subdirectory_arrow_right</mat-icon>Fighting Rank
+                      </th>
+                      <td *ngFor="let i of infoData;">
+                        {{i.att + i.def | NumberFilter}} (⌀ {{math.floor((i.att + i.def) / math.max(1, i.towns)) | NumberFilter}})
+                        <br/><a routerLink="/ranking/player/{{i.world}}/fight/{{i.fight_rank}}/{{i.grep_id}}">#{{i.fight_rank}} <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon></a>
+                      </td>
                     </tr>
+
                     <tr>
-                      <th>Attacking</th>
-                      <td *ngFor="let i of infoData;">{{i.att | NumberFilter}}</td>
+                      <th>
+                        Attack Points (Avg. per town)
+                        <br/><mat-icon class="directory">subdirectory_arrow_right</mat-icon>Attack Rank
+                      </th>
+                      <td *ngFor="let i of infoData;">
+                        {{i.att | NumberFilter}} (⌀ {{math.floor(i.att / math.max(1, i.towns)) | NumberFilter}})
+                        <br/><a routerLink="/ranking/player/{{i.world}}/attack/{{i.att_rank}}/{{i.grep_id}}">#{{i.att_rank}} <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon></a>
+                      </td>
                     </tr>
+
                     <tr>
-                      <th>Defending</th>
-                      <td *ngFor="let i of infoData;">{{i.def |NumberFilter}}</td>
+                      <th>
+                        Defence Points (Avg. per town)
+                        <br/><mat-icon class="directory">subdirectory_arrow_right</mat-icon>Defence Rank
+                      </th>
+                      <td *ngFor="let i of infoData;">
+                        {{i.def |NumberFilter}} (⌀ {{math.floor(i.def / math.max(1, i.towns)) | NumberFilter}})
+                        <br/><a routerLink="/ranking/player/{{i.world}}/defence/{{i.def_rank}}/{{i.grep_id}}">#{{i.def_rank}} <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon></a>
+                      </td>
                     </tr>
+
                     <tr>
                       <th></th>
                       <td *ngFor="let i of infoData;">
@@ -256,6 +279,7 @@
                         </button>
                       </td>
                     </tr>
+
                   </tbody>
                   <tbody *ngIf="comparingAlliances">
                     <tr>
@@ -360,8 +384,11 @@
                 </div>
 <!--                <div class="hidden-xs col-sm-6 hidden-md hidden-lg text-center compare-chart-container">-->
 <!--                </div>-->
-                <div class="col-xs-12 text-center" style="padding: 0 calc(50% - 400px);">
-                  <h3 class="gd-primary">Play style</h3>
+                <div class="col-xs-12 col-sm-12 col-md-6 text-center" style="">
+                  <br/>
+                  <br/>
+                  <h3 class="gd-primary">Play style (average per town)</h3>
+                  <p>APPT = Attack Points Per Town, DPPT = Defence Points Per Town, TPPT = Town Points Per Town</p>
                   <ngx-charts-polar-chart
                     [view]="[800, 500]"
                     [scheme]="colorScheme"
@@ -373,6 +400,25 @@
                     [xAxisLabel]="'Play style'"
                     [yAxisLabel]="'Rank'"
                     [results]="polar_chart_data"
+                    (select)="onSelect($event)">
+                  </ngx-charts-polar-chart>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-6 text-center" style="">
+                  <br/>
+                  <br/>
+                  <h3 class="gd-primary">Play style (absolute)</h3>
+                  <p>Total Attack, Defence and Town points</p>
+                  <ngx-charts-polar-chart
+                    [view]="[800, 500]"
+                    [scheme]="colorScheme"
+                    [legend]="true"
+                    [showXAxisLabel]="false"
+                    [showYAxisLabel]="false"
+                    [xAxis]="true"
+                    [yAxis]="false"
+                    [xAxisLabel]="'Play style'"
+                    [yAxisLabel]="'Rank'"
+                    [results]="polar_chart_data_abs"
                     (select)="onSelect($event)">
                   </ngx-charts-polar-chart>
                 </div>

@@ -303,7 +303,7 @@
               <mat-card-title>
                 <app-alert title="This player has reset their account. All their towns are now ghost towns." type="warning" [dismissible]="false">
                   <p>Below is an overview of all ghost towns that this player has left behind.
-                  <span *ngIf="ghost_time">Player reset was at around {{ghost_time | Datex : "HH:00 on D MMM YYYY"}}</span></p>
+                  <span *ngIf="ghost_time">Player reset was around {{ghost_time | Datex : "HH:00 on D MMM YYYY"}}</span></p>
                 </app-alert>
                 <mat-progress-bar *ngIf="loading_ghost_towns" mode="indeterminate"></mat-progress-bar>
               </mat-card-title>

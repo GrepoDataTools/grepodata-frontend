@@ -35,7 +35,7 @@
     "@ngx-share/core": "^7.0.0",
     "@swimlane/ngx-charts": "^17.0.1",
     "@types/bootstrap": "^4.1.2",
-    "ajv": "^6.5.5",
+    "ajv": "^6.12.3",
     "ajv-keywords": "^3.2.0",
     "bootstrap": "^3.3.7",
     "bootstrap-3-typeahead": "^4.0.2",

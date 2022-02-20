@@ -136,9 +136,17 @@ export class InviteComponent implements OnInit {
         } else if (error.error.error_code && error.error.error_code === 3042) {
           // expired script token
           this.error = '<h2>Sorry, your userscript token has <strong>expired</strong></h2><h4>Please request a new token using the in-game script.</h4>';
+        } else if (error.error.error_code && error.error.error_code === 3003) {
+          // access token is not valid!
+          this.authService.logout(false);
+          this.error = '';
+          this.logged_in = false;
         } else {
-          // script auth failed ?
-          this.error = '<h2>Sorry, we were unable to link your account to the userscript</h2><h4>You can request a new token using the in-game script, try again later or contact us if this error persists.</h4>';
+          this.error = `
+            <h2>Sorry, we were unable to link your account to the userscript</h2>
+            <h4>You can request a new token using the in-game script. Please try again later or contact us if this error persists.<br/>When you contact us, add a screenshot of the information below:</h4>
+            <pre class="pre-no-css">UNIX ${Date.now()} - ${JSON.stringify(error)}</pre>
+        `;
         }
         this.verifying_script = false;
         this.verification_loading = false;
@@ -168,30 +176,31 @@ export class InviteComponent implements OnInit {
         `;
       if (response.error_code && response.error_code === 3008) {
         // Generic invalid invite link
-        this.error = '<h2>Invalid invite link</h2><h4>Please ask the owner of the team for a new invite link.</h4>';
+        this.error = '<h2>Invalid invite link</h2><h4>Please ask the owner of the team for a new invite link</h4>';
       } else if (response.error_code && response.error_code === 7101) {
         // No index found for this key (?)
         if (this.v1_redirect) {
-          this.error = '<h2>Unable to find this team</h2><h4>Please try again later or contact us if this error persists.</h4>';
+          this.error = '<h2>Unable to find this team</h2><h4>Please try again later or contact us if this error persists</h4>';
         } else {
-          this.error = '<h2>Invalid invite link</h2><h4>Please ask the owner of the team for a new invite link.</h4>';
+          this.error = '<h2>Invalid invite link</h2><h4>Please ask the owner of the team for a new invite link</h4>';
         }
       } else if (response.error_code && response.error_code === 3009) {
         // Expired invite link
-        this.error = '<h2>Sorry, this invite link has expired</h2><h4>Please ask the owner of the team for a new invite link.</h4>';
+        this.error = '<h2>Sorry, this invite link has expired</h2><h4>Please ask the owner of the team for a new invite link</h4>';
       } else if (response.error_code && response.error_code === 7601) {
         // V1 key joining is disabled
         this.error = '<h2>Sorry, the owner of this team has disabled backwards compatible redirects</h2>' +
-          '<h4>Please ask the owner of this team for an invite link to get access to the team.</h4>';
+          '<h4>Please ask the owner of this team for an invite link to get access to the team</h4>';
       } else if (response.error && response.error.error_code && response.error.error_code === 3003) {
         // access token is not valid!
         this.authService.logout(false);
+        this.error = '';
         this.verification_loading = false;
         this.logged_in = false;
 
         if (!this.v2_scriptlink && !this.expired && !this.invalid_link) {
           this.globals.showSnackbar(
-            `<h4>You have to be logged in to join this team.</h4>`,
+            `<h4>You have to be logged in to join this team</h4>`,
             'error', '', true,10000);
         }
       }

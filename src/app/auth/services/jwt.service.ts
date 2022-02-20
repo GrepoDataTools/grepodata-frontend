@@ -33,9 +33,10 @@ export class JwtService {
       );
 
       const { exp } = JSON.parse(jsonPayload);
-      const expired = Date.now() / 1000 - 600 >= exp
+      const expired = Date.now() / 1000 >= exp - 600
       return expired
     } catch (e) {
+      console.log(e);
       return false;
     }
   }
@@ -68,7 +69,7 @@ export class JwtService {
           this.refreshAccessToken().subscribe((response) => {
               if (response.success_code && response.success_code === 1101) {
                 // got a valid token via refresh
-                resolve(localStorage.getItem('access_token'));
+                resolve(response.access_token);
               } else {
                 // unable to refresh, discard tokens and reject (new login required)
                 console.log("Unable to refresh with token", response);

@@ -1,3 +1,29 @@
+td {
+  vertical-align: middle !important;
+}
+.user-row:hover {
+  background: #e5e5e5;
+}
 .highlighted-user {
   background: #d0d0d0;
+}
+.contributor-user {
+  font-size: 16px;
+  font-weight: 700;
+  .mat-icon {
+    vertical-align: sub;
+  }
+  .user {
+    color: #18bc9b;
+  }
+  .player {
+    img {
+      vertical-align: text-top;
+    }
+    color: #804000;
+  }
+}
+.contributor-info {
+  font-size: 14px;
+  font-weight: 300;
 }

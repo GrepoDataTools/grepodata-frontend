@@ -9,7 +9,7 @@
 	                        <h2 style="color: #dde6e4;">GrepoData Bot</h2>
 	                        <span style="color: #dde6e4; !important;">Add GrepoData commands to your Discord server!</span>
                         </div>
-                        <a target="_blank" rel="nofollow" href="https://discordapp.com/api/oauth2/authorize?client_id=652263344429858872&permissions=2147502080&scope=bot" alt="Add GrepoData Bot to Your Discord" class="button">
+                        <a target="_blank" rel="nofollow" href="https://discord.com/api/oauth2/authorize?client_id=652263344429858872&permissions=2147502080&scope=applications.commands%20bot" alt="Add GrepoData Bot to Your Discord" class="button">
 	                        Add to Discord
                         </a>
                     </div>
@@ -24,70 +24,68 @@
 
                     <h1>List of commands</h1>
 
+                    <app-alert [type]="'warning'" [title]="'Slash commands'" [dismissible]="false">
+                      <h5>As of <strong>April 30 2022</strong>, the GrepoData discord bot will only respond to slash commands due to a <a href="https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Privileged-Intent-for-Verified-Bots" target="_blank">change in Discord's policy</a>. The old commands using the '!gd' prefix will no longer trigger a response because the bot will not see those messages. Please use these slash commands if you want to keep using the bot.</h5>
+                    </app-alert>
+
                     <hr>
 
                     <h3>Configuration</h3>
-		                <div class="row">
-			                <div class="col-xs-5 vcenter"><pre>!gd server [server]</pre></div>
-			                <div class="col-xs-7 vcenter">Set the <strong>default server</strong> to [server] <br/>e.g. <span style="font-style: italic;">!gd setServer en134</span> will change the default server to nl74</div>
-		                </div>
+                    <div class="row">
+                      <div class="col-xs-5 vcenter"><pre>/help</pre></div>
+                      <div class="col-xs-7 vcenter">Shows a list of all commands</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 vcenter"><pre>/world [world]</pre></div>
+                      <div class="col-xs-7 vcenter">Set the <strong>default world</strong> for your discord to [world] <br/>e.g. <span style="font-style: italic;">/world en141</span> will change the default world to en141</div>
+                    </div>
 
                     <hr>
 
-                    <h3>Statistics</h3>
-		                <div class="row">
-			                <div class="col-xs-5 vcenter"><pre>!gd server [server]</pre></div>
-			                <div class="col-xs-7 vcenter">Set the <strong>default server</strong> to [server] <br/>e.g. <span style="font-style: italic;">!gd setServer en134</span> will change the default server to nl74</div>
-		                </div>
+                    <h3>Daily scoreboard</h3>
                     <div class="row">
-                        <div class="col-xs-5 vcenter"><pre>!gd today</pre></div>
-	                    <div class="col-xs-7 vcenter">Shows today's <strong>scoreboard</strong> for the default server</div>
+                        <div class="col-xs-5 vcenter"><pre>/today</pre></div>
+	                    <div class="col-xs-7 vcenter">Shows today's <strong>scoreboard</strong> for the default world</div>
                     </div>
 		                <div class="row">
-			                <div class="col-xs-5 vcenter"><pre>!gd today [server]</pre></div>
-			                <div class="col-xs-7 vcenter">Shows the <strong>scoreboard</strong> for the given server <br/>E.g. !gd today nl74 will show the scoreboard for nl74</div>
+			                <div class="col-xs-5 vcenter"><pre>/today [world]</pre></div>
+			                <div class="col-xs-7 vcenter">Shows today's <strong>scoreboard</strong> for the given world <br/>E.g. '/today nl74' will show the scoreboard for nl74</div>
 		                </div>
+
+                    <br/>
+
                     <div class="row">
-                        <div class="col-xs-5 vcenter"><pre>!gd yesterday</pre></div>
-                        <div class="col-xs-7 vcenter">Shows yesterday's <strong>scoreboard</strong> for the default server</div>
+                        <div class="col-xs-5 vcenter"><pre>/yesterday</pre></div>
+                        <div class="col-xs-7 vcenter">Shows yesterday's <strong>scoreboard</strong> for the default world</div>
                     </div>
-		                <div class="row">
-			                <div class="col-xs-5 vcenter"><pre>!gd search [player_name]</pre></div>
-			                <div class="col-xs-7 vcenter">Search for players by name and show their latest online time.</div>
-		                </div>
+                    <div class="row">
+                      <div class="col-xs-5 vcenter"><pre>/yesterday [world]</pre></div>
+                      <div class="col-xs-7 vcenter">Shows yesterday's <strong>scoreboard</strong> for the given world <br/>E.g. '/yesterday nl74' will show yesterday's scoreboard for nl74</div>
+                    </div>
+
+                    <br/>
+
+                    <div class="row">
+                        <div class="col-xs-5 vcenter"><pre>/alliance</pre></div>
+                        <div class="col-xs-7 vcenter">Shows today's <strong>alliance scoreboard</strong> for the default world</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 vcenter"><pre>/alliance [world]</pre></div>
+                      <div class="col-xs-7 vcenter">Shows today's <strong>alliance scoreboard</strong> for the given world <br/>E.g. '/alliance nl74' will show today's alliance scoreboard for nl74</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-5 vcenter"><pre>/alliance [world] [day]</pre></div>
+                      <div class="col-xs-7 vcenter">Shows today's <strong>alliance scoreboard</strong> for the given world <br/>[day] can be 'today' or 'yesterday'<br/>E.g. '/alliance nl74 yesterday' will show yesterday's alliance scoreboard for nl74</div>
+                    </div>
 
                     <hr>
 
-                    <h3>Other</h3>
-
-		                <div class="row">
-			                <div class="col-xs-5 vcenter"><pre>!gd calculator [units]</pre></div>
-			                <div class="col-xs-7 vcenter">
-				                Calculate resource cost, attack value, defense value and population for troops.
-				                <br/>e.g. <span style="font-style: italic;">!gd calculator 95archer 55griff 85char</span>
-			                </div>
-		                </div>
+                    <h3>Player search</h3>
 
                     <div class="row">
-                      <div class="col-xs-5 vcenter"><pre>!gd indexer</pre></div>
-                      <div class="col-xs-7 vcenter">Get started using the GrepoData city indexer</div>
+                        <div class="col-xs-5 vcenter"><pre>/search [name]</pre></div>
+                        <div class="col-xs-7 vcenter">Search for <strong>players</strong> by name</div>
                     </div>
-
-                    <br/>
-                    <br/>
-
-                    <div style="float: left;">
-                        <a mat-button style="font-size: 18px; color: gray;" routerLink="/">
-                            <span class="fa fa-backward"></span> Homepage
-                        </a>
-                    </div>
-
-                    <div style="float: right;">
-                        <a mat-button style="font-size: 18px; color: gray;" routerLink="/indexer">
-                            <span class="fa fa-forward"></span> City Indexer
-                        </a>
-                    </div>
-
 
                 </div>
 

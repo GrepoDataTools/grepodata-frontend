@@ -87,7 +87,7 @@
   </div>
 
   <div *ngIf="!invalid_link && !error && !logged_in">
-    <app-login-register [useCallback]="true" (onEmbeddedCallback)="loginCallback($event[0])"></app-login-register>
+    <app-login-register [require_explicit_action]="true" [useCallback]="true" (onEmbeddedCallback)="loginCallback($event[0])"></app-login-register>
   </div>
 
   <div class="container" *ngIf="error">

@@ -32,7 +32,9 @@ export class ResetPasswordComponent implements OnInit {
     private authService : JwtService) {
 
     this.authService.accessToken(false).then(access_token => {
-      this.router.navigate(['/profile']);
+      if (access_token != 'refresh_failed') {
+        this.router.navigate(['/profile']);
+      }
     });
 
     this.route.params.subscribe((params) => {

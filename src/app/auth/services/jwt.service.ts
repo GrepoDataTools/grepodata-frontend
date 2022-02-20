@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { tap } from 'rxjs/operators';
-import * as jwt_decode from 'jwt-decode';
 import {Router} from '@angular/router';
 import {reject} from 'q';
 import {LocalCacheService} from '../../services/local-cache.service';
@@ -20,8 +19,35 @@ export class JwtService {
     private httpClient: HttpClient
   ) {}
 
+  public isExpiredToken(token): boolean {
+    try {
+      const base64Url = token.split(".")[1];
+      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split("")
+          .map(function (c) {
+            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+          })
+          .join("")
+      );
+
+      const { exp } = JSON.parse(jsonPayload);
+      const expired = Date.now() / 1000 - 600 >= exp
+      return expired
+    } catch (e) {
+      return false;
+    }
+  }
+
   public get refreshToken(): string {
-    return localStorage.getItem('refresh_token');
+    let refresh_token = localStorage.getItem('refresh_token');
+    if (refresh_token != null && this.isExpiredToken(refresh_token)) {
+      console.log('refresh token is expired.');
+      localStorage.removeItem('refresh_token');
+      return null;
+    }
+    return refresh_token;
   }
 
   public accessToken(force_login_required = true): Promise<string> {
@@ -29,13 +55,13 @@ export class JwtService {
       let token = localStorage.getItem('access_token');
       if (!token) {
         // no token.. login required
+        console.log('no access token', force_login_required);
         this.rejectToken(force_login_required);
-        reject(null);
+        throw new Error(null);
       }
-      let payload = jwt_decode(token);
-      if (payload.exp < Date.now() / 1000 - 600) {
+      if (this.isExpiredToken(token)) {
         // expired token, try a refresh
-        console.log('refreshing');
+        console.log('access token is expired, refreshing');
         localStorage.removeItem('access_token');
         if (this.refreshToken !== null) {
           // Try to refresh
@@ -45,21 +71,30 @@ export class JwtService {
                 resolve(localStorage.getItem('access_token'));
               } else {
                 // unable to refresh, discard tokens and reject (new login required)
+                console.log("Unable to refresh with token", response);
                 this.rejectToken(force_login_required);
-                reject(null);
+                if (!force_login_required) {
+                  resolve("refresh_failed");
+                } else {
+                  reject(null);
+                }
               }
             },
             (error) => {
               // unable to refresh, discard tokens and reject (new login required)
               console.log("Unable to refresh with token", error);
               this.rejectToken(force_login_required);
-              reject(null);
+              if (!force_login_required) {
+                resolve("refresh_failed");
+              } else {
+                reject(null);
+              }
             })
         } else {
           // No refresh token.. login required
           console.log("Missing refresh token. Login required");
           this.rejectToken(force_login_required);
-          reject(null);
+          throw new Error(null);
         }
       } else {
         // valid token found

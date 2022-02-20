@@ -4,6 +4,8 @@ import {HttpClient} from "@angular/common/http";
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {SearchService} from '../search/search.service';
 import {Globals} from '../globals';
+import {WorldService} from '../services/world.service';
+import {LocalCacheService} from '../services/local-cache.service';
 
 const apiUrl = environment.apiUrl;
 
@@ -70,7 +72,7 @@ export class AllianceService {
 @Component({
   selector: 'maillist-dialog',
   templateUrl: 'maillist-dialog.html',
-  providers: [AllianceService, SearchService]
+  providers: [AllianceService, SearchService, WorldService, LocalCacheService]
 })
 export class MailListDialog {
 

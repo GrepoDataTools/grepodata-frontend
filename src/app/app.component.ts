@@ -21,6 +21,7 @@ declare let ga: Function;
 })
 export class AppComponent {
   title = 'app';
+  hidden_warning = false;
 
   public greenType = false;
   public whiteType = false;

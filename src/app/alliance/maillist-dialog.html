@@ -1,9 +1,9 @@
 <div style="font-size: 18px; max-height: 75vh; max-width: 600px; min-width: 40vw; min-height: 25vh;">
 	<!--height: calc(100% - 20px);-->
 	<a (click)="dialogRef.close()" class="close"></a>
-	<h1 class="mat-primary" style="text-align: center; color: #18BC9C; margin-top: 0px;" mat-dialog-title>
-		Mail List Generator <div class="bg-flag flag-inline-middle flag-{{world.substr(0, 2)}}"></div>&nbsp;<span class="gd-secondary">{{world}}</span>
-	</h1>
+	<h2 class="mat-primary" style="text-align: center; color: #18BC9C; margin-top: 0px;" mat-dialog-title>
+		Mail List Generator <div [outerHTML]="world | WorldNamePipe"></div>
+	</h2>
 
 	<div class="container-fluid" style="padding: 0px;">
 		<div class="row">

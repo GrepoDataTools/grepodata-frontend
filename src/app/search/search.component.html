@@ -171,7 +171,7 @@
 							              <a routerLink="/player" [queryParams]="{world: player?.world, id: player?.id}" (click)="hide_results = true; cdr.detectChanges();">{{player?.name}}</a>
 						              </div>
 						              <div class="cell">
-							              <div class="bg-flag flag-inline-middle flag-{{player?.server}}"></div>&nbsp;<a routerLink="/points" [queryParams]="{world: player?.world}">{{player?.world}}</a>
+							              <a routerLink="/points" [queryParams]="{world: player?.world}"><div [outerHTML]="player?.world | WorldNamePipe"></div></a>
 						              </div>
 						              <div class="cell">
 							              <a routerLink="/alliance" [queryParams]="{world: player?.world, id: player?.alliance_id}" (click)="hide_results = true; cdr.detectChanges();">{{player?.alliance_name}}</a>
@@ -243,7 +243,7 @@
                     <a routerLink="/alliance" [queryParams]="{world: alliance?.world, id: alliance?.id}" (click)="hide_results = true; cdr.detectChanges();">{{alliance?.name}}</a>
                   </div>
                   <div class="cell">
-	                  <div class="bg-flag flag-inline-middle flag-{{alliance?.server}}"></div>&nbsp;<a routerLink="/points" [queryParams]="{world: player?.world}">{{alliance?.world}}</a>
+                    <a routerLink="/points" [queryParams]="{world: alliance?.world}"><div [outerHTML]="alliance?.world | WorldNamePipe"></div></a>
                   </div>
                   <div class="cell hidden-sm">
 	                  {{alliance?.rank}}

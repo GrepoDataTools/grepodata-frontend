@@ -8,13 +8,21 @@
       <div class="alert alert-warning text-center">
         <br/>
         <br/>
-        <h3><strong>This alliance no longer exists!</strong> No alliance found with id {{id}} in world {{world}}</h3>
+        <h3><strong>This alliance does not exist (anymore)!</strong> No alliance found with id {{id}} in world {{world}}</h3>
 	      <p>Try the search function to find alliances.</p>
         <br/>
         <br/>
       </div>
     </mat-card-content>
     <mat-card-content *ngIf="!notFound">
+
+<!--      <app-alert class="text-center" type="error" title="Grepolis API Offline: Data Unavailable" *ngIf="world.substring(0,2)=='en'||world.substring(0,2)=='pt'" [dismissible]="false">-->
+<!--        <h3>-->
+<!--          The Grepolis API for the EN and PT servers is offline. We have to wait for Grepolis to fix the issue.<br/>-->
+<!--          As a result, the scoreboard can not be updated and all players in this world will start to show as inactive.<br/>-->
+<!--          We are sorry for the inconvenience, but there is nothing we (as a third party) can do about the issue.-->
+<!--        </h3>-->
+<!--      </app-alert>-->
 
       <div class="alliance-cards" style="margin-bottom: 0 !important;" fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="5px">
         <mat-card class="dense-card" fxFlex="25">

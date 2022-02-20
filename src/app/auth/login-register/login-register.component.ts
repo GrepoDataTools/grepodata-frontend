@@ -72,7 +72,9 @@ export class LoginRegisterComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     if (!this.require_explicit_action) {
       this.authService.accessToken(false).then(access_token => {
-        this.loginComplete(access_token);
+        if (access_token != 'refresh_failed') {
+          this.loginComplete(access_token);
+        }
       });
     }
   }

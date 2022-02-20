@@ -71,18 +71,27 @@ export class InviteComponent implements OnInit {
     }
 
     this.authService.accessToken(false).then(access_token => {
-      console.log('found local access_token');
-      this.loginCallback(access_token);
-    }).catch(rejected => {
-      this.verification_loading = false;
-      this.logged_in = false;
-
-      if (!this.v2_scriptlink && !this.expired && !this.invalid_link) {
-        this.globals.showSnackbar(
-          `<h4>You have to be logged in to join this team.</h4>`,
-          'error', '', true,6000);
+      console.log('found local access_token', access_token);
+      if (access_token == 'refresh_failed') {
+        this.loginRequired();
+      } else {
+        this.loginCallback(access_token);
       }
+    }).catch(rejected => {
+      this.loginRequired();
     });
+  }
+
+  loginRequired() {
+    console.log('login required!');
+    this.verification_loading = false;
+    this.logged_in = false;
+
+    if (!this.v2_scriptlink && !this.expired && !this.invalid_link) {
+      this.globals.showSnackbar(
+        `<h4>You have to be logged in to join this team.</h4>`,
+        'error', '', true,10000);
+    }
   }
 
   /**
@@ -152,7 +161,11 @@ export class InviteComponent implements OnInit {
       }
       this.redirect();
     } else {
-      this.error = '<h2>Sorry, we are unable to verify this invite</h2><h4>Please try again later or contact us if this error persists</h4>';
+      this.error = `
+            <h2>Sorry, we are unable to verify this invite</h2>
+            <h4>Please try again later or contact us if this error persists.<br/>When you contact us, add a screenshot of the information below:</h4>
+            <pre class="pre-no-css">UNIX ${Date.now()} - ${JSON.stringify(response)}</pre>
+        `;
       if (response.error_code && response.error_code === 3008) {
         // Generic invalid invite link
         this.error = '<h2>Invalid invite link</h2><h4>Please ask the owner of the team for a new invite link.</h4>';
@@ -170,6 +183,17 @@ export class InviteComponent implements OnInit {
         // V1 key joining is disabled
         this.error = '<h2>Sorry, the owner of this team has disabled backwards compatible redirects</h2>' +
           '<h4>Please ask the owner of this team for an invite link to get access to the team.</h4>';
+      } else if (response.error && response.error.error_code && response.error.error_code === 3003) {
+        // access token is not valid!
+        this.authService.logout(false);
+        this.verification_loading = false;
+        this.logged_in = false;
+
+        if (!this.v2_scriptlink && !this.expired && !this.invalid_link) {
+          this.globals.showSnackbar(
+            `<h4>You have to be logged in to join this team.</h4>`,
+            'error', '', true,10000);
+        }
       }
 
       // this.router.navigate(['/profile']);

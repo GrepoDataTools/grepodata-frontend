@@ -190,6 +190,8 @@ export class CompareComponent implements OnInit {
       this.fightGauge = [];
       this.attGauge = [];
       this.defGauge = [];
+      this.polarGauge = [];
+      this.polarGaugeAbs = [];
 
       Object.keys(this.comparedPlayers[this.playerWorld]).forEach(player => {
         this.playerService.loadPlayerHistory(this.playerWorld, this.comparedPlayers[this.playerWorld][player].id)
@@ -228,6 +230,8 @@ export class CompareComponent implements OnInit {
       this.fightGauge = [];
       this.attGauge = [];
       this.defGauge = [];
+      this.polarGauge = [];
+      this.polarGaugeAbs = [];
 
       Object.keys(this.comparedAlliances[this.allianceWorld]).forEach(alliance => {
         this.allianceService.loadAllianceHistory(this.allianceWorld, this.comparedAlliances[this.allianceWorld][alliance].id)

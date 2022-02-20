@@ -41,6 +41,13 @@ pre {
   border: 3px solid #fff;
 }
 
+.pre-no-css {
+  max-height: unset !important;
+  height: unset !important;
+  min-width: unset !important;
+  white-space: normal !important;
+}
+
 @media (max-width:960px) {
   .card-header {
     margin: -10px -30px 30px !important;

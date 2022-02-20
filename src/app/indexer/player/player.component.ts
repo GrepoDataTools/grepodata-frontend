@@ -110,7 +110,7 @@ export class IndexPlayerComponent implements AfterViewInit {
       );
 
     // Load player intel
-    this.authService.accessToken(false).then(access_token => {
+    this.authService.accessToken().then(access_token => {
       this.indexerService.loadPlayerIntel(access_token, this.world, this.id)
         .subscribe(
           (response) => this.renderPlayerIntel(response),

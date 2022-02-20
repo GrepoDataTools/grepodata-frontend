@@ -23,7 +23,8 @@
 							<thead>
 							<tr>
 								<th scope="col" class="text-center">#</th>
-								<th scope="col" class="text-center">GrepoData username</th>
+								<th scope="col" class="text-center" matTooltip="GrepoData username and player name">Username</th>
+								<th scope="col" class="text-center" matTooltip="Detailed information is only available for users that actively contribute to this team">Info</th>
 								<th scope="col" class="text-center" matTooltip="Remove a user to deny their read access to this team">Can read intel</th>
 								<th scope="col" class="text-center" matTooltip="Default role for new members: these users can index new reports and add town notes">Can add intel</th>
 								<th scope="col" class="text-center" matTooltip="Team admins can change the index settings. They can also share the team with new users or remove users from the team.">Can manage team settings</th>
@@ -32,15 +33,25 @@
 							</tr>
 							</thead>
 							<tbody>
-							<tr *ngFor="let user of users; let i = index;" [ngClass]="{'highlighted-user':user.user_id===my_id}">
+							<tr *ngFor="let user of users; let i = index;" [ngClass]="{'highlighted-user':user.user_id===my_id}" class="user-row">
 								<td>
 									{{i+1}}
 								</td>
-								<td class="gd-primary">
-									<i class="fa fa-user" ></i>
-									<!--<img src="../../assets/images/grepodata_icon.ico" style="vertical-align: bottom;"/>-->
-									&nbsp;{{user.username}}
-								</td>
+                <td class="contributor-user">
+                  <span class="user"><mat-icon>perm_identity</mat-icon>&nbsp;{{user.username}}</span>
+                  <br/>
+                  <span class="player" *ngIf="user.player_name !== null"><img src="../../assets/images/player_ico.png"/>&nbsp;{{user.player_name}}</span>
+                  <span class="" *ngIf="user.player_name === null" matTooltip="This user has not contributed to this team so we can not display their player name.">Player Unknown</span>
+                </td>
+								<td class="contributor-info">
+                  <span *ngIf="user.contributions">
+                    Contributions: {{user.contributions}}<br/>
+                    Last contribution: {{user.last_contribution | Datex : 'D MMM YYYY'}}
+                  </span>
+                  <span *ngIf="!user.contributions">
+                    No contributions
+                  </span>
+                </td>
 								<td matTooltip="Read only: remove a user to deny their read access on this team">
 									<mat-checkbox [checked]="true" disabled="true"></mat-checkbox>
 								</td>

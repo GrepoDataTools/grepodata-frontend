@@ -30,6 +30,15 @@
       <div class="col-md-12 text-left chart-container" *ngIf="!loading_index && indexer_error_rate.length > 0" >
 
         <h2 class="gd-secondary">Report parsing error rate</h2>
+
+<!--        <app-alert type="error" title="16 Feb 2022: Forum report indexing is temporarily disabled" [dismissible]="false">-->
+<!--          <p>-->
+<!--            <strong>Due to a change in the structure of forum reports after the recent Grepolis update, we have disabled the option to index reports from your alliance forum.</strong><br/>-->
+<!--            We have to update our parser to be able to handle the new format. The feature will be enabled again as soon as a fix is in place.<br/>-->
+<!--            Indexing reports from your inbox is still possible, please let us know if you encounter any issues there.-->
+<!--          </p>-->
+<!--        </app-alert>-->
+
         <p>
           Some report parsing errors are expected. Elevated error rates may indicate a change in report structure (parser changes required).
           <a style="color: #FFFFFF" href="http://api-grepodata-com.debugger:8080/bEk6BmaBZBRTeRtM.php?level=all&error=true" target="_blank">debug</a>

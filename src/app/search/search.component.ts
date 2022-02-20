@@ -5,12 +5,14 @@ import { PageEvent } from "@angular/material/paginator";
 import {GoogleAnalyticsEventsService} from "../services/google-analytics-events.service";
 import {CompareService} from "../compare/compare.service";
 import {Globals} from "../globals";
+import {WorldService} from '../services/world.service';
+import {LocalCacheService} from '../services/local-cache.service';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
-  providers: [SearchService]
+  providers: [SearchService, WorldService, LocalCacheService]
 })
 export class SearchComponent implements AfterViewInit {
 

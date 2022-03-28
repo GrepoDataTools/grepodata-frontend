@@ -67,8 +67,8 @@
                                     <span style="transform: scale(1.05); float: left; margin: 8px 12px 0 0;" *ngFor="let unit of intel_record.units | ValuesPipe; let i = index;"
                                           matTooltip="{{(unit?.name == 'unknown' || unit?.name == 'unknown_naval'?'This attack killed roughly '+unit?.killed+' '+(unit?.name == 'unknown'?'land':'sea')+' population (this is estimated based on the battle points gained)':unit?.name?.replace('_',' '))}}">
                                       <div class="unit_icon40x40 {{unit?.name}}"><span class="unit-val" [ngClass]="{'unknown-unit-val': unit.name == 'unknown' || unit.name == 'unknown_naval'}">{{unit?.count}}</span></div>
-                                      <span style="color: #d00;" *ngIf="unit.name != 'unknown' && unit.name != 'unknown_naval' && unit?.killed>0">-{{unit?.killed}}</span>
-                                      <span style="color: #d00;" *ngIf="(unit.name == 'unknown' || unit.name == 'unknown_naval') && unit?.killed>=0">
+                                      <span style="color: #d00;" *ngIf="unit.name != 'unknown' && unit.name != 'unknown_naval' && unit?.killed && unit?.killed!=0">-{{unit?.killed}}</span>
+                                      <span style="color: #d00;" *ngIf="(unit.name == 'unknown' || unit.name == 'unknown_naval') && unit?.killed">
                                         <img src="../../assets/images/icons/bp_ico.png"/>~{{unit?.killed}}
                                       </span>
                                     </span>

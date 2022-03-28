@@ -1,4 +1,8 @@
-<div style="overflow-x: hidden; min-height: 100%;">
+<div *ngIf="world && world.substr(0,2)=='ru'" >
+  <img style="width: 50%; margin-left: 25%;" src="assets/images/ua.png">
+</div>
+
+<div *ngIf="!world || world.substr(0,2)!='ru'" style="overflow-x: hidden; min-height: 100%;">
 
 	<mat-card [ngClass]="embedded?'embedded-intel-card':'index-card'" class="index-intel-card" style="margin-top: 0 !important;">
 		<div [ngClass]="{'embedded-padding': embedded}">

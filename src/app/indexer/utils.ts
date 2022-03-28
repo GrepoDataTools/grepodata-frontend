@@ -99,7 +99,7 @@ export class UnitIconPipe implements PipeTransform {
       // console.log(unit);
       if (unitString != '') {unitString+=', ';}
       unitString += unit.count + ' ';
-      if (unit.killed > 0) {unitString += '(-'+unit.killed+') '}
+      if (unit.killed && unit.killed!=0) {unitString += '(-'+unit.killed+') '}
       unitString += unit.name;
     }
     unitString = unitString.replace(/_/g, ' ');

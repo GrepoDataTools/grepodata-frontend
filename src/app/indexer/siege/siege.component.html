@@ -222,7 +222,7 @@
 													        <div class="unit_icon40x40 {{unit.name}}">
 														        <span class="unit-val">
 															        {{unit.count}}
-															        <span class="diff-neg" *ngIf="unit.killed>0" style="font-size: 17px;">-{{unit.killed}}</span>
+															        <span class="diff-neg" *ngIf="unit.killed_new!=0" style="font-size: 17px;">-{{unit.killed_new}}</span>
 														        </span>
 													        </div>
 												        </div>
@@ -249,12 +249,12 @@
 															<div class="conquest-unit-row" style="float: right; margin-top: -30px;">
 
 																<div class="conquest-unit" *ngFor="let unit of report?.defender?.units?.land">
-																	<div class="unit-icon-lg" *ngIf="!mobile || unit.count > 20 || unit.killed > 0">
+																	<div class="unit-icon-lg" *ngIf="!mobile || unit.count > 20 || unit.killed_new!=0">
 																		<div class="unit_icon40x40 {{unit.name}}">
 															        <span class="unit-val" [ngStyle]="{'font-size': unit.count<=9999?'17px':(unit.count<=99999?'15px':'13px')}">
 																        {{unit.count}}
-																        <span class="diff-neg" *ngIf="unit.killed>0" style="font-size: 17px;" [ngStyle]="{'margin-top': unit.count<=9999?'0':(unit.count<=99999?'3px':'5px')}">
-																	        -{{unit.killed}}
+																        <span class="diff-neg" *ngIf="unit.killed_new!=0" style="font-size: 17px;" [ngStyle]="{'margin-top': unit.count<=9999?'0':(unit.count<=99999?'3px':'5px')}">
+																	        -{{unit.killed_new}}
 																        </span>
 															        </span>
 																		</div>
@@ -262,12 +262,12 @@
 																</div>
 
 																<div class="conquest-unit" *ngFor="let unit of report?.defender?.units?.sea">
-																	<div class="unit-icon-lg" *ngIf="!mobile || unit.count > 30 || unit.killed > 0 || unit.name == 'colonize_ship'">
+																	<div class="unit-icon-lg" *ngIf="!mobile || unit.count > 30 || unit.killed_new!=0 || unit.name == 'colonize_ship'">
 																		<div class="unit_icon40x40 {{unit.name}}">
 															        <span class="unit-val" [ngStyle]="{'font-size': unit.count<=9999?'17px':(unit.count<=99999?'15px':'13px')}">
 																        {{unit.count}}
-																        <span class="diff-neg" *ngIf="unit.killed>0" style="font-size: 17px;" [ngStyle]="{'margin-top': unit.count<=9999?'0':(unit.count<=99999?'3px':'5px')}">
-																	        -{{unit.killed}}
+																        <span class="diff-neg" *ngIf="unit.killed_new!=0" style="font-size: 17px;" [ngStyle]="{'margin-top': unit.count<=9999?'0':(unit.count<=99999?'3px':'5px')}">
+																	        -{{unit.killed_new}}
 																        </span>
 															        </span>
 																		</div>

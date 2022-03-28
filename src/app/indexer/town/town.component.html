@@ -1,4 +1,8 @@
-<div style="min-height: calc(100vh - 160px);">
+<div *ngIf="world && world.substr(0,2)=='ru'" >
+  <img style="width: 50%; margin-left: 25%;" src="assets/images/ua.png">
+</div>
+
+<div *ngIf="!world || world.substr(0,2)!='ru'" style="min-height: calc(100vh - 160px);">
 
 	<mat-card class="index-card index-intel-card">
 		<div class="card-header bg-gd-1 text-center text-white" style="margin-bottom: 0; padding: 20px 0 0 !important;">
@@ -120,8 +124,8 @@
                                     <span style="transform: scale(1.05); float: left; margin: 8px 12px 0 0;" *ngFor="let unit of town.units | ValuesPipe; let i = index;"
                                           matTooltip="{{(unit?.name == 'unknown' || unit?.name == 'unknown_naval'?'This attack killed roughly '+unit?.killed+' '+(unit?.name == 'unknown'?'land':'sea')+' population (this is estimated based on the battle points gained)':unit?.name?.replace('_',' '))}}">
                                       <div class="unit_icon40x40 {{unit?.name}}"><span class="unit-val" [ngClass]="{'unknown-unit-val': unit.name == 'unknown' || unit.name == 'unknown_naval'}">{{unit?.count}}</span></div>
-                                      <span style="color: #d00;" *ngIf="unit.name != 'unknown' && unit.name != 'unknown_naval' && unit?.killed>0">-{{unit?.killed}}</span>
-                                      <span style="color: #d00;" *ngIf="(unit.name == 'unknown' || unit.name == 'unknown_naval') && unit?.killed>=0">
+                                      <span style="color: #d00;" *ngIf="unit.name != 'unknown' && unit.name != 'unknown_naval' && unit?.killed && unit?.killed!=0">-{{unit?.killed}}</span>
+                                      <span style="color: #d00;" *ngIf="(unit.name == 'unknown' || unit.name == 'unknown_naval') && unit?.killed && unit?.killed!=0">
                                         <img src="../../assets/images/icons/bp_ico.png"/>~{{unit?.killed}}
                                       </span>
                                     </span>

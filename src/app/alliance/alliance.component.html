@@ -1,6 +1,10 @@
 <app-search [compare]="true" [detach_cdr]="true"></app-search>
 
-<div style="padding: 1px; overflow-x: auto;">
+<div *ngIf="world && world.substr(0,2)=='ru'" >
+  <img style="width: 50%; margin-left: 25%;" src="assets/images/ua.png">
+</div>
+
+<div *ngIf="!world || world.substr(0,2)!='ru'" style="padding: 1px; overflow-x: auto;">
 
   <div>
     <div id="pagehead"></div>

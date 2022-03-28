@@ -72,7 +72,7 @@ export class InviteComponent implements OnInit {
 
     this.authService.accessToken(false).then(access_token => {
       console.log('found local access_token', access_token);
-      if (access_token == 'refresh_failed') {
+      if (access_token == 'refresh_failed' || access_token == '' || access_token == null || !access_token) {
         this.loginRequired();
       } else {
         this.loginCallback(access_token);
@@ -191,8 +191,12 @@ export class InviteComponent implements OnInit {
         // V1 key joining is disabled
         this.error = '<h2>Sorry, the owner of this team has disabled backwards compatible redirects</h2>' +
           '<h4>Please ask the owner of this team for an invite link to get access to the team</h4>';
-      } else if (response.error && response.error.error_code && response.error.error_code === 3003) {
-        // access token is not valid!
+      } else if (
+        response.error
+        && response.error.error_code
+        && (response.error.error_code === 3003 || response.error.error_code === 1010)) {
+        // 3003 access token is not valid
+        // 1010 bad request (probably empty access token)
         this.authService.logout(false);
         this.error = '';
         this.verification_loading = false;

@@ -64,7 +64,7 @@
 						<div class="unit-row">
 							<div class="unit-icon-sm" *ngFor="let unit of town.units | ValuesPipe; let i = index;" title="{{unit?.name}}">
 								<div class="unit_icon40x40 {{unit.name}}"><span class="unit-val">{{unit.count}}</span></div>
-								<div style="color: #d00;" *ngIf="unit.killed>0">-{{unit.killed}}</div>
+								<div style="color: #d00;" *ngIf="unit.killed && unit.killed!=0">-{{unit.killed}}</div>
 							</div>
 						</div>
 					</div>
@@ -73,7 +73,7 @@
               <!--<div class="unit_icon40x40 {{unit.name}}"></div>-->
               <!--<div class="unit-val" style="margin-right: -40px; top: 0px; background: #9898986e; height: 40px; width: 40px;">-->
                 <!--<div>{{unit.count}}</div>-->
-                <!--<div style="color: #d00; margin-top: -6px; text-shadow: none;" *ngIf="unit.killed>0">-{{unit.killed}}</div>-->
+                <!--<div style="color: #d00; margin-top: -6px; text-shadow: none;" *ngIf="unit.killed && unit.killed!=0">-{{unit.killed}}</div>-->
               <!--</div>-->
             <!--</span>-->
 					<!--</div>-->

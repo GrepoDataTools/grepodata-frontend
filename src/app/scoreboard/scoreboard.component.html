@@ -111,7 +111,12 @@
           </div>
         </div>
       </mat-card-title>
-      <mat-card-content style="width: 100% !important;">
+
+      <div *ngIf="server && server=='ru'" >
+        <img style="width: 50%; margin-left: 25%;" src="assets/images/ua.png">
+      </div>
+
+      <mat-card-content *ngIf="!server || server!='ru'"  style="width: 100% !important;">
 
         <hr/>
 

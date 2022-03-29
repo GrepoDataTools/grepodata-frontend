@@ -38,15 +38,57 @@
 
 	<div *ngIf="key != '' && !loading && !error">
 
+    <!-- FINISHED WORLD -->
     <app-alert *ngIf="world_stopped" title="This game world is no longer active" type="error" [dismissible]="false">
       Game world <strong>{{world}}</strong> is finished and all detailed data related to this world has been deleted from our database. This team overview is still available but the underlying intel has been removed.
     </app-alert>
 
+    <!-- MISSING OWNER -->
     <app-alert *ngIf="missing_v1_owner" title="This team does not have a registered owner" type="error" [dismissible]="false">
       This team was imported from an old index (created before April 2021). This team does not currently have an active registered owner. If you created this index, you have to register for a GrepoData account using the same email address that you used to create the index. This is the only way to become the owner of this team.
       If this is not possible for you, please <a class="a-link-dialog" (click)="showContactDialog()">contact us</a>.
     </app-alert>
 
+    <!-- UNCOMMITTED INTEL -->
+    <div *ngIf="mobileQuery.matches && contribute && commit_complete" style="padding: 8px 12px 8px;">
+      <app-alert title="Previous intel import completed" type="info" [dismissible]="false">
+        <h4><strong>Import complete.</strong> We have successfully imported your existing intel to this team.</h4>
+        <button style="!important; display: flex;" class="btn btn-secondary" (click)="commitPrevIntel('ignore')">
+          Hide this message
+        </button>
+      </app-alert>
+    </div>
+    <div *ngIf="mobileQuery.matches && has_uncommitted_intel > 5 && contribute && !commit_complete" style="padding: 8px 12px 8px;">
+      <app-alert title="You have previous intel available that can be shared with this team" type="info" [dismissible]="false">
+        <h5 *ngIf="!committing_prev_intel">Before you joined this team, you had already indexed <strong>{{has_uncommitted_intel}} reports</strong> that have not yet been shared with this team.
+          <br/>Use the button below to <strong>import your intel and share it with this team</strong>. This can not be undone.</h5>
+
+        <div *ngIf="committing_prev_intel">
+          <h4>We are processing your request, this may take a while.. Please contact us if this takes longer than an hour. You can safely close this page.</h4>
+          <mat-progress-bar style="opacity: .3;" mode="indeterminate"></mat-progress-bar>
+        </div>
+
+        <div *ngIf="committing_error">
+          <h3 style="color: #f07057;">{{committing_error}}</h3>
+        </div>
+
+        <div class="index-options-container row" *ngIf="!committing_prev_intel">
+          <div class="col-xs-12 col-sm-6">
+            <button style="" class="btn btn-secondary" (click)="commitPrevIntel('commit')">
+              Yes, I want to share my previous intel<span class="hidden-sm hidden-md"> with this team ({{has_uncommitted_intel}} reports)</span>
+              &nbsp;<mat-icon>share</mat-icon>
+            </button>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <button style="color: #334254 !important; display: flex;" class="btn btn-link" (click)="commitPrevIntel('ignore')">
+              No, I don't want to share my intel. Don't show this message again
+            </button>
+          </div>
+        </div>
+      </app-alert>
+    </div>
+
+    <!-- OVERVIEW -->
 		<div class="index-overview">
 
 			<div class="">

@@ -24,6 +24,9 @@ export class OverviewComponent implements OnInit {
 
   copied = false;
   editting_name = false;
+  committing_prev_intel = false;
+  committing_error = '';
+  commit_complete = false;
   saving_name = false;
   saving_error = '';
   name_saved = false;
@@ -43,6 +46,7 @@ export class OverviewComponent implements OnInit {
   contributors = false;
   world_stopped = false;
   missing_v1_owner = false;
+  has_uncommitted_intel = 0;
   share_link = '';
   delete_days = '';
   allow_join_v1_key = '';
@@ -85,6 +89,10 @@ export class OverviewComponent implements OnInit {
     this.latest_intel = [];
     this.recent_conquests = [];
     this.contributors = false;
+    this.committing_prev_intel = false;
+    this.commit_complete = false;
+    this.committing_error = '';
+    this.has_uncommitted_intel = 0;
     if (typeof params['key'] != 'undefined' && params['key'].length == 8) {
       this.key = params['key'];
       this.index_name = this.key;
@@ -156,6 +164,15 @@ export class OverviewComponent implements OnInit {
       }
       if (data.contributors_actual) {
         this.contributors = data.contributors_actual;
+      }
+      if (data.uncommitted_reports && data.uncommitted_reports > 0 && data.uncommitted_status != 'ignore') {
+        this.has_uncommitted_intel = data.uncommitted_reports;
+        if (data.uncommitted_status == 'processing') {
+          this.committing_prev_intel = true;
+        }
+      }
+      if (data.uncommitted_status && data.uncommitted_status == 'success') {
+        this.commit_complete = true;
       }
       if ('has_v2_owner' in data && 'index_version' in data) {
         if (data.has_v2_owner === false && data.index_version === '1') {
@@ -258,6 +275,37 @@ export class OverviewComponent implements OnInit {
         (error) => {
           this.saving_error = 'Unable to update name. Try again later';
           this.saving_name = false;
+        }
+      );
+    });
+  }
+
+  commitPrevIntel(action) {
+    this.committing_prev_intel = true;
+    this.commit_complete = false;
+    this.committing_error = '';
+
+    this.authService.accessToken().then(access_token => {
+      this.indexerService.commitPrevIntel(access_token, this.key, action).subscribe(
+        (response) => {
+          if (response.error_code && (response.error_code === 2020 || response.error_code === 1300 || response.error_code === 7503)) {
+            // index does not exist or request is already processing or user can not write
+            this.committing_error = 'Error: ' + response.message;
+          } else if (response.has_error && response.has_error === true) {
+            this.committing_error = 'We ran into an error while processing your import. Please try again later or contact us if this error persists.';
+          } else if (response.success_code && response.success_code === 1000) {
+            // Ignore
+            this.has_uncommitted_intel = 0;
+          } else if (response.success_code && response.success_code === 1410) {
+            this.commit_complete = true;
+          } else {
+            this.committing_error = 'Unknown error. Please try again later or contact us if this error persists.';
+          }
+          this.committing_prev_intel = false;
+        },
+        (error) => {
+          this.committing_error = 'Unable to import. Try again later or contact us if this error persists';
+          this.committing_prev_intel = false;
         }
       );
     });

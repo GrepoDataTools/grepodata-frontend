@@ -74,6 +74,13 @@ export class IndexerService {
     });
   }
 
+  commitPrevIntel(access_token, index_key, action): any {
+    let url =  '/indexer/commitprevintel?index_key='+index_key+'&action='+action;
+    return this.http.get(apiUrl + url, {
+      headers: new HttpHeaders().set('access_token', access_token)
+    });
+  }
+
   loadPlayerIntel(access_token, world, id) {
     let url =  '/indexer/v2/player?world='+world+'&player_id='+id;
     return this.http.get(apiUrl + url, {

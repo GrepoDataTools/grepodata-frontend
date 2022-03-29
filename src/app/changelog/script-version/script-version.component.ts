@@ -8,6 +8,7 @@ import {Component, Input, OnInit} from '@angular/core';
 export class ScriptVersionComponent implements OnInit {
   @Input() details_hidden: boolean = true;
   @Input() collapsable: boolean = true;
+  @Input() new: boolean = false;
   @Input() title: string;
   @Input() github_url: string;
 

@@ -19,6 +19,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   mobileQuery: MediaQueryList;
   status = true;
+  new_updates = false;
   activePath: string;
   itemSelect: Array<number> = [];
   parentIndex = 0;
@@ -34,6 +35,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.mobileQuery = media.matchMedia('(min-width: 768px)');
     this._mediaQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addEventListener('change', () => this._mediaQueryListener());
+    this.new_updates = new Date(2022, 3, 6).valueOf() > new Date().valueOf(); // Month is zero-indexed! e.g. month 3 = april
 
     router.events.subscribe((params) => {
       let val: any = params;

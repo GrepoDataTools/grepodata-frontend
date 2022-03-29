@@ -39,6 +39,7 @@
         <fa-icon [classes]="['fa-icon']" [icon]="menuItem.icon" *ngIf="menuItem.iconType === 'fontawesome'"></fa-icon>
         <span>{{ menuItem.name }}</span>
         <span fxFlex></span>
+        <span *ngIf="menuItem.name === 'Changelog' && new_updates" class="label label-success">New!</span>
         <span class="label label-{{ badge.type }}" *ngFor="let badge of menuItem.badge">{{ badge.value }}</span>
       </a>
 

@@ -54,6 +54,7 @@ export class AnalyticsComponent implements OnInit {
   script_version = [];
   total_indexes = [];
   total_reports = [];
+  total_shared_relative = [];
   total_users = [];
   index_world_bins = [];
   hourly_reports = [];
@@ -212,6 +213,9 @@ export class AnalyticsComponent implements OnInit {
     if (data.indexer_stats_agg) {
       let chartNumIndex = [];
       let chartNumReports = [];
+      let chartNumReportsShared = [];
+      let chartNumReportsSharedNormalized = [];
+      let chartNumReportsSharedNormalizedRelative = [];
       let chartNumUsers = [];
       let newReportsPerDay = [];
       let newReportsMovingAverage = [];
@@ -234,6 +238,21 @@ export class AnalyticsComponent implements OnInit {
           'name' : date,
           'value' : record.reports,
         });
+        chartNumReportsShared.unshift({
+          'name' : date,
+          'value' : record.shared_count,
+        });
+        chartNumReportsSharedNormalized.unshift({
+          'name' : date,
+          'value' : record.shared_count - record.reports,
+        });
+
+        // Average percentage of report sharing
+        chartNumReportsSharedNormalizedRelative.unshift({
+          'name' : date,
+          'value' : (((record.shared_count - record.reports) / record.reports) * 100).toFixed(2),
+        });
+
         chartNumUsers.unshift({
           'name' : date,
           'value' : record.user_count,
@@ -290,10 +309,6 @@ export class AnalyticsComponent implements OnInit {
         'name': 'Number of teams',
         'series': chartNumIndex,
       });
-      this.total_reports.push({
-        'name': 'Total reports indexed',
-        'series': chartNumReports,
-      });
       this.total_users.push({
         'name': 'Registered users',
         'series': chartNumUsers,
@@ -329,6 +344,22 @@ export class AnalyticsComponent implements OnInit {
       this.indexes_per_day.push({
         'name': 'Monthly active teams',
         'series': teamsPerMonth,
+      });
+      this.total_reports.push({
+        'name': 'Total Unique Reports',
+        'series': chartNumReports,
+      });
+      // this.total_reports.push({
+      //   'name': 'Total Shared',
+      //   'series': chartNumReportsShared,
+      // });
+      this.total_reports.push({
+        'name': 'Total Shared',
+        'series': chartNumReportsSharedNormalized,
+      });
+      this.total_shared_relative.push({
+        'name': 'Report Sharing Relative %',
+        'series': chartNumReportsSharedNormalizedRelative,
       });
     }
 

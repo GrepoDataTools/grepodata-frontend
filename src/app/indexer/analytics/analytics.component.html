@@ -213,12 +213,38 @@
 			<div class="col-md-12 text-left chart-container" *ngIf="!loading_index && total_reports.length > 0">
 
 				<h2 class="gd-secondary">Total number of reports indexed (accumulative)</h2>
-        <p>How many unique reports have been indexed since the service went live?</p>
+        <p>How many unique reports have been indexed VS. How many times has a report been shared with a team</p>
 
 				<div class="ngx-chart-container">
 					<ngx-charts-line-chart
 						[scheme]="colorScheme"
 						[results]="total_reports"
+						[gradient]="gradient"
+						[xAxis]="showXAxis"
+						[yAxis]="showYAxis"
+						[legend]="showLegend"
+						[showXAxisLabel]="showXAxisLabel"
+						[showYAxisLabel]="showYAxisLabel"
+						[xAxisLabel]="xAxisLabel"
+						[yAxisLabel]="yAxisLabel"
+						[autoScale]="autoScale"
+						[timeline]="timeline"
+						(select)="onSelect($event)">
+					</ngx-charts-line-chart>
+				</div>
+			</div>
+
+
+			<!--Reports total-->
+			<div class="col-md-12 text-left chart-container" *ngIf="!loading_index && total_reports.length > 0">
+
+				<h2 class="gd-secondary">Relative Report Sharing Index</h2>
+        <p>What percentage of reports are being shared with a team? 100% means every report is being shared with at least 1 team (on average). Some reports are shared with nobody, while other reports may be shared with multiple teams.</p>
+
+				<div class="ngx-chart-container">
+					<ngx-charts-line-chart
+						[scheme]="colorScheme"
+						[results]="total_shared_relative"
 						[gradient]="gradient"
 						[xAxis]="showXAxis"
 						[yAxis]="showYAxis"

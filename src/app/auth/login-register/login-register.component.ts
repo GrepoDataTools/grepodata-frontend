@@ -287,9 +287,6 @@ export class LoginRegisterComponent implements OnInit, AfterViewInit {
   loginComplete(access_token) {
     console.log("login complete")
 
-    // Implicit v1 migration
-    this.indexAuthService.implicitV1Migration(access_token);
-
     // Login callback
     if (!this.useCallback) {
       // No callback specified, direct to profile

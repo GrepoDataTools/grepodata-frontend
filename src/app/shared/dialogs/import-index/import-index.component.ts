@@ -49,6 +49,10 @@ export class ImportIndexDialog {
     this.close()
   }
 
+  /**
+   * Explicit V1 index import (user needs to provide the 8 charachter index key)
+   * @param event
+   */
   importIndex(event) {
     this.captcha = event;
     if (this.index_name == '') {

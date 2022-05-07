@@ -65,9 +65,6 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
       this.logout();
     } else {
       this.authService.accessToken().then(access_token => {
-        // Implicit v1 migration
-        this.indexerAuthService.implicitV1Migration(access_token);
-
         this.route.params.subscribe((params) => this.load(params));
       });
     }

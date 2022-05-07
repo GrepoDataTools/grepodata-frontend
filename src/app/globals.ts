@@ -111,28 +111,6 @@ export class Globals {
   }
 
   /**
-   * migration from local storage (Get V1 keys from local storage)
-   */
-  get_v1_keys() {
-    try {
-      let storage_key = 'gd_key_list_v1';
-      let migration_complete = 'gd_migration_complete';
-      if (!localStorage.getItem(migration_complete) && localStorage.getItem(storage_key)) {
-        let keys = JSON.parse(localStorage.getItem(storage_key));
-        console.log('Loaded V1 keys from local storage: ', keys);
-        return keys;
-      }
-      return false;
-    } catch (e) {
-      console.log('Error loading v1 keys: ', e);
-    }
-  }
-  set_migration_complete() {
-    let migration_complete = 'gd_migration_complete'
-    localStorage.setItem(migration_complete, 'true');
-  }
-
-  /**
    * Top index list
    */
   get_top_indexes() {

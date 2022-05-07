@@ -131,6 +131,13 @@ export class IndexAuthService {
     });
   }
 
+  /**
+   * @deprecated V1 indexes are deprecated, use V2 indexes instead
+   * @param access_token
+   * @param keys
+   * @param verbose
+   * @param captcha
+   */
 	importV1Keys(access_token, keys, verbose=false, captcha='') {
     let data = new HttpParams()
       .set('index_keys', keys)
@@ -142,26 +149,5 @@ export class IndexAuthService {
       headers: new HttpHeaders({'access_token': access_token})
     });
 	}
-
-	// Check for V1 keys in local storage and migrate them to authenticated user if logged in
-	implicitV1Migration(access_token) {
-	  try {
-	    console.log('Checking for implicit V1 key migration');
-      // Check v1 keys
-      let local_v1_keys = this.globals.get_v1_keys();
-      if (local_v1_keys) {
-        console.log('Found local v1 keys: ', local_v1_keys);
-        this.importV1Keys(access_token, local_v1_keys, false, '').subscribe((response) => {
-          console.log('V1 migration response: ', response);
-          if (response.success_code && response.success_code === 1400) {
-            console.log('migration successful. Removing local v1 keys');
-            this.globals.set_migration_complete();
-          }
-        });
-      }
-    } catch (e) {
-	    console.log('V1 implicit key migration failed: ', e);
-    }
-  }
 
 }

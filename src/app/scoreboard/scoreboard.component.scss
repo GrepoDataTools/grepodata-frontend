@@ -186,12 +186,64 @@ $duration: 130s;
   }
 }
 
+.filter-dropdown-btn {
+  position: absolute;
+  top: 28px;
+  left: 30px;
+  .rotated {
+    transform: rotate(180deg);
+  }
+  span {
+    position: absolute;
+    left: 35px;
+    width: 150px;
+  }
+}
+.filter-dropdown-btn:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+.hour-diff-filter-container {
+  background: #e5e5e5de;
+  padding: 5px 15px;
+  position: absolute;
+  width: calc(100% - 30px);
+}
+
+.hour-diff-title {
+  background: #e5e5e5;
+  margin-bottom: 0px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  padding: 5px;
+  margin-top: 20px;
+
+  h3 {
+    margin: unset !important;
+  }
+}
+
+.diff-filter-alliance {
+  margin-right: 10px;
+}
+
 .overview-container-scroll {
+  min-height: 30vh !important;
   max-height: 60vh !important;
   overflow-y: auto;
   overflow-x: hidden;
   background: #f1f1f1;
   padding-bottom: 15px;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.overview-container {
+  background: #f1f1f1;
+  padding: 15px;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
 }
 
 .map-container {

@@ -3,7 +3,8 @@
 
 		<div class="text-center" style="width: 100%;">
 			<h2 mat-dialog-title>Points gained by <a routerLink="/alliance" [queryParams]="{world: world, id: alliance_id}"><img src="../../assets/images/ally_ico.png" style="height: 28px; margin-top: -5px;"/> {{alliance_name}}</a> on <span class="gd-primary">{{date}}</span></h2>
-		</div>
+      <h4>Note: click on one of the bars to see an hourly breakdown for that player</h4>
+    </div>
 
     <mat-progress-bar *ngIf="loading" mode="indeterminate" style="margin: 25px 0px;"></mat-progress-bar>
 
@@ -18,16 +19,20 @@
             <div class="container-fluid">
 	            <div class="row" style="overflow: hidden; max-width: 60vw; min-width: 60vw; width: 60vw;">
 		            <div #overviewDay class="col-sm-12">
-			            <div class="overview-container-scroll">
+                  <h3 class="mat-secondary" style="text-align: center; background: #e5e5e5; margin-bottom: 0px; border-top-left-radius: 20px; border-top-right-radius: 20px; color: #334254; padding: 5px;">
+                    Breakdown by player
+                  </h3>
+                  <div class="overview-container-scroll gd-scrollbar-trans" style="padding: 15px;">
 	                  <ngx-charts-bar-horizontal-2d
 		                  [animations]="false"
-	                    [view]="[overviewDay.offsetWidth, 120 + data.length * 40]"
+	                    [view]="[overviewDay.offsetWidth-30, 120 + data.length * 40]"
 	                    [scheme]="{domain: ['#ea6153', '#297fb9']}"
 	                    [results]="data"
 	                    [gradient]="false"
 	                    [xAxis]="true"
 	                    [yAxis]="true"
 	                    [legend]="true"
+                      [legendTitle]="'Points gained by'"
 	                    [showXAxisLabel]="true"
 	                    [showYAxisLabel]="true"
 	                    [roundDomains]="true"

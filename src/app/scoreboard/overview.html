@@ -1,36 +1,70 @@
-<div style="font-size: 18px; max-height: 75vh; min-height: 40vh; max-width: 70vw; min-width: 70vw; overflow: hidden;">
+<div style="font-size: 18px; max-height: 85vh; min-height: 40vh; max-width: 75vw; min-width: 75vw; overflow: hidden;">
 	<a (click)="dialogRef.close()" class="close"></a>
 
 	<!--<h1 class="mat-primary" style="text-align: center; color: #18BC9C; margin-top: 0px;" mat-dialog-title>Points gained between {{hourStart}} and {{hourRaw}} on {{date}}</h1>-->
 
-	<div class="text-center" style="width: 100%;">
-		<h2 mat-dialog-title>Points gained between <span class="gd-primary">{{hourStart}}</span> and <span class="gd-primary">{{hourRaw}}</span> on <span class="gd-primary">{{date}}</span></h2>
+	<div class="text-center" style="width: 100%;" (click)="filtering=false">
+		<h2 mat-dialog-title>Points gained between <span class="gd-primary">±{{hourStart}}</span> and <span class="gd-primary">±{{hourEnd}}</span> on <span class="gd-primary">{{date}}</span></h2>
+    <h4 class="hidden-xs">Note: due to the Grepolis data dump delay, the attack and defend hours are not always aligned (margin: ±1 hour).</h4>
 	</div>
 
-	<mat-progress-bar *ngIf="loading" mode="indeterminate" style="margin: 25px 0px;"></mat-progress-bar>
 
+  <div class="row" style="width: 100%; padding: 10px 20px 0; margin-top: -40px;">
+    <div class="col-xs-6 text-left">
+      <mat-chip-list class="scoreboard-control-chips" style="float: left;" [multiple]="true" [selectable]="true" [disabled]="loading">
+        <mat-chip style="cursor: pointer" class="btn-chip" *ngIf="hour!=2" (click)="setHour(hour-1)"><mat-icon matChipAvatar>chevron_left</mat-icon>Previous hour</mat-chip>
+      </mat-chip-list>
+    </div>
+    <div class="col-xs-6 text-right">
+      <mat-chip-list class="scoreboard-control-chips" style="float: right;" [multiple]="true" [selectable]="true" [disabled]="loading">
+        <mat-chip style="cursor: pointer" class="btn-chip" *ngIf="hour!=1" (click)="setHour(hour+1)">Next hour<mat-icon matChipRemove style="color: #fff; opacity: 1;">chevron_right</mat-icon></mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
 
-	<div mat-dialog-content style="overflow-y: auto; overflow-x: hidden; max-height: 85%; height: 85%;">
+	<mat-progress-bar *ngIf="loading" mode="indeterminate" style="padding: 10px; margin: -20px; width: 50%; margin-left: 25%;"></mat-progress-bar>
 
-		<div *ngIf="error">
+	<div mat-dialog-content style="overflow-y: auto; overflow-x: hidden; max-height: 85%; height: 85%; width: 100%;">
+
+		<div *ngIf="error" class="text-center">
 			Unable to load data for this hour.
 		</div>
 
-		<div *ngIf="!loading && !error">
+		<div *ngIf="!error" [ngClass]="{'loading-overlay': loading}" style="margin-top: 5px;">
 			<div class="container-fluid" style="padding-right: 40px;">
 				<div class="row" style="overflow: hidden;">
 					<div #overviewLeft class="col-xs-6">
-						<h3 class="mat-secondary" style="text-align: center;">Attacking</h3>
-						<div class="overview-container-scroll">
-							<ngx-charts-bar-horizontal
+            <div class="hour-diff-title" style="color: #811d13; border-bottom: 2px solid #811d13;">
+              <div class="filter-dropdown-btn" (click)="toggleFilter()">
+                <mat-icon [ngClass]="{'rotated': filtering}">filter_list</mat-icon>
+                <span *ngIf="filtering">Close filter</span>
+                <span *ngIf="!filtering">{{att_all_selected ? 'Alliances' : 'Filtered'}}</span>
+              </div>
+              <h3 class="mat-secondary" style="text-align: center;" (click)="filtering=false">
+                ⚔ Attack points
+              </h3>
+            </div>
+            <div class="hour-diff-filter-container" *ngIf="filtering">
+              <mat-checkbox class="diff-filter-alliance" (ngModelChange)="doSelectAllAtt($event)" [(ngModel)]="att_all_selected">
+                Select all
+              </mat-checkbox>
+              <br/>
+              <mat-checkbox class="diff-filter-alliance" *ngFor="let alliance of alliances_att" [(ngModel)]="alliance.toggle" (ngModelChange)="doFilterAlliances(); att_all_selected=false;">
+<!--                <img src="../../assets/images/ally_ico.png"/>-->
+                {{alliance.name}} ({{alliance.score | NumberFilter}})
+              </mat-checkbox>
+            </div>
+						<div class="overview-container-scroll gd-scrollbar-trans" (click)="filtering=false">
+							<ngx-charts-bar-horizontal-stacked
 								[animations]="false"
-								[view]="[overviewLeft.offsetWidth-50, 30 + data.att.length * 30]"
-								[scheme]="{domain: ['#ea6153']}"
+								[view]="[overviewLeft.offsetWidth-50, 70 + data.att.length * 30]"
+								[scheme]="{domain: att_colors_actual}"
 								[results]="data.att"
 								[gradient]="false"
 								[xAxis]="true"
 								[yAxis]="true"
-								[legend]="false"
+								[legend]="true"
+                [legendTitle]="'Hour'"
 								[showXAxisLabel]="false"
 								[showYAxisLabel]="false"
 								[noBarWhenZero]="true"
@@ -40,22 +74,42 @@
 								[xAxisLabel]="'Hour'"
 								[yAxisLabel]="'Score'"
 								(select)="onAttSelect($event)">
-							</ngx-charts-bar-horizontal>
+							</ngx-charts-bar-horizontal-stacked>
 						</div>
 					</div>
 					<div #overviewRight class="col-xs-6">
-						<h3 class="mat-secondary" style="text-align: center;">Defending</h3>
-						<div class="overview-container-scroll">
-							<ngx-charts-bar-horizontal
+            <div class="hour-diff-title" style="color: #0b4372; border-bottom: 2px solid #0b4372;">
+              <div class="filter-dropdown-btn" (click)="toggleFilter()">
+                <mat-icon [ngClass]="{'rotated': filtering}">filter_list</mat-icon>
+                <span *ngIf="filtering">Close filter</span>
+                <span *ngIf="!filtering">{{def_all_selected ? 'Alliances' : 'Filtered'}}</span>
+              </div>
+              <h3 class="mat-secondary" style="text-align: center;" (click)="filtering=false">
+                🛡 Defence points
+              </h3>
+            </div>
+            <div class="hour-diff-filter-container" *ngIf="filtering">
+              <mat-checkbox class="diff-filter-alliance" (ngModelChange)="doSelectAllDef($event)" [(ngModel)]="def_all_selected">
+                Select all
+              </mat-checkbox>
+              <br/>
+              <mat-checkbox class="diff-filter-alliance" *ngFor="let alliance of alliances_def" [(ngModel)]="alliance.toggle" (ngModelChange)="doFilterAlliances(); def_all_selected=false;">
+                <!--                <img src="../../assets/images/ally_ico.png"/>-->
+                {{alliance.name}} ({{alliance.score | NumberFilter}})
+              </mat-checkbox>
+            </div>
+						<div class="overview-container-scroll gd-scrollbar-trans" (click)="filtering=false">
+							<ngx-charts-bar-horizontal-stacked
 								[animations]="false"
-								[view]="[overviewRight.offsetWidth-50, 30 + data.def.length * 30]"
-								[scheme]="{domain: ['#297fb9']}"
+								[view]="[overviewRight.offsetWidth-50, 70 + data.def.length * 30]"
+								[scheme]="{domain: def_colors_actual}"
 								[results]="data.def"
 								[gradient]="false"
 								[xAxis]="true"
 								[yAxis]="true"
 								[noBarWhenZero]="true"
-								[legend]="false"
+								[legend]="true"
+                [legendTitle]="'Hour'"
 								[showXAxisLabel]="false"
 								[showYAxisLabel]="false"
 								[roundDomains]="true"
@@ -64,12 +118,13 @@
 								[xAxisLabel]="'Hour'"
 								[yAxisLabel]="'Score'"
 								(select)="onDefSelect($event)">
-							</ngx-charts-bar-horizontal>
+							</ngx-charts-bar-horizontal-stacked>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
 
 </div>

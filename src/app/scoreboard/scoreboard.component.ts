@@ -866,89 +866,234 @@ export class BBScoreboardDialog {
     providers: [ScoreboardService],
 })
 export class OverviewDialog implements AfterViewInit {
-    world;
-    date;
-    hour;
-    hourRaw;
-    hourStart;
-    data;
+  world;
+  date;
+  hour;
+  hourRaw;
+  hourStart;
+  hourEnd;
+  data = {
+    att: [],
+    def: []
+  };
+  data_raw;
+  data_is_filtered;
 
-    error;
-    loading = false;
+  hours;
+  att_colors = ['#ea6153', '#d7a49b', '#811d13'];
+  att_colors_actual = this.att_colors;
+  def_colors = ['#297fb9', '#7FAED5', '#1b588c'];
+  def_colors_actual = this.def_colors;
 
-    constructor(
-        private cdr: ChangeDetectorRef,
-        private router: Router,
-        public dialogRef: MatDialogRef<OverviewDialog>,
-        @Inject(MAT_DIALOG_DATA) public dialogData: any,
-        private scoreboardService: ScoreboardService,
-        public dialog: MatDialog
-    ) {
-        this.world = dialogData.world;
-        this.date = dialogData.date;
-        this.hourRaw = dialogData.hour;
-        this.hour = this.hourRaw.replace(':00', '').replace(/^0+/, '');
-        this.hourStart = (this.hour < 10 ? '0' : '') + (this.hour - 1) + ':00';
+  // filtering alliances
+  filtering = false;
+  alliances_att;
+  alliances_def;
+  att_all_selected = true;
+  def_all_selected = true;
 
-        this.loading = true;
-        this.scoreboardService.loadHourDiffs(this.world, this.date, this.hour).subscribe(
-            (response) => this.renderResults(response),
-            (error) => {
-                console.log(error);
-                this.error = true;
-                this.loading = false;
-            }
-        );
-    }
+  error;
+  loading = false;
 
-    onNoClick(): void {
-        this.dialogRef.close();
-        this.cdr.detectChanges();
-        setTimeout((_) => this.cdr.detectChanges(), 250);
-    }
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private router: Router,
+    public dialogRef: MatDialogRef<OverviewDialog>,
+    @Inject(MAT_DIALOG_DATA) public dialogData: any,
+    private scoreboardService: ScoreboardService,
+    public dialog: MatDialog
+  ) {
+    this.world = dialogData.world;
+    this.date = dialogData.date;
+    this.hourRaw = dialogData.hour;
+    this.hour = +this.hourRaw.replace(':00', '').replace(/^0+/, '');
 
-    ngAfterViewInit() {
-        this.cdr.detach();
-        this.cdr.detectChanges();
-        setTimeout((_) => this.cdr.detectChanges(), 250);
-    }
+    this.loadHour();
+  }
 
-    onDefSelect(event) {
-        let player = this.data.def.filter((obj) => obj.name === event.name);
-        this.dialogRef.close('navigate');
-        this.openPlayerOverviewdialog(player[0].id, event.name);
-        this.cdr.detectChanges();
-        setTimeout((_) => this.cdr.detectChanges(), 250);
-    }
+  loadHour() {
+    this.hourStart = (this.hour - 1 < 10 ? '0' : '') + (this.hour - 1) + ':00';
+    this.hourEnd = (this.hour + 1 < 10 ? '0' : '') + (this.hour + 1) + ':00';
 
-    onAttSelect(event) {
-        let player = this.data.att.filter((obj) => obj.name === event.name);
-        this.dialogRef.close('navigate');
-        this.openPlayerOverviewdialog(player[0].id, event.name);
-        this.cdr.detectChanges();
-        setTimeout((_) => this.cdr.detectChanges(), 250);
-    }
-
-    public openPlayerOverviewdialog(id, name) {
-        let dialogRef = this.dialog.open(PlayerOverviewDialog, {
-            autoFocus: false,
-            data: {
-                world: this.world,
-                date: this.date,
-                id: id,
-                name: name,
-            },
-        });
-        dialogRef.afterClosed().subscribe((result) => {});
-    }
-
-    renderResults(json) {
-        this.data = json;
+    this.att_all_selected = true;
+    this.def_all_selected = true;
+    this.loading = true;
+    this.filtering = false;
+    this.error = null;
+    this.scoreboardService.loadHourDiffs(this.world, this.date, this.hour).subscribe(
+      (response) => this.renderResults(response),
+      (error) => {
+        console.log(error);
+        this.error = true;
         this.loading = false;
-        //console.log(json);
-        this.cdr.detectChanges();
-        setTimeout((_) => this.cdr.detectChanges(), 250);
+      }
+    );
+  }
+
+  setHour(new_hour) {
+    this.hour = new_hour % 24==0 ? 24 : Math.abs(new_hour % 24);
+
+    this.loadHour();
+  }
+
+  toggleFilter() {
+    this.filtering=!this.filtering;
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+  ngAfterViewInit() {
+  }
+
+  onDefSelect(event) {
+    if (typeof event == 'string' && event.indexOf('±') !== -1) {
+      this.filterResults(event);
+    } else {
+      let player = this.data.def.filter((obj) => obj.name === event.series);
+      this.dialogRef.close('navigate');
+      this.openPlayerOverviewdialog(player[0].id, player[0].name);
     }
+  }
+
+  onAttSelect(event) {
+    if (typeof event == 'string' && event.indexOf('±') !== -1) {
+      this.filterResults(event);
+    } else {
+      let player = this.data.att.filter((obj) => obj.name === event.series);
+      this.dialogRef.close('navigate');
+      this.openPlayerOverviewdialog(player[0].id, player[0].name);
+    }
+  }
+
+  public openPlayerOverviewdialog(id, name) {
+    let dialogRef = this.dialog.open(PlayerOverviewDialog, {
+      autoFocus: false,
+      data: {
+        world: this.world,
+        date: this.date,
+        id: id,
+        name: name,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {});
+  }
+
+  filterResults(hour) {
+    if (this.data_is_filtered) {
+      this.unfilter();
+    } else {
+      this.data_is_filtered = true;
+      this.data = JSON.parse(this.data_raw);
+
+      this.data.att = this.data.att.map(player => {
+        let filtered_player = player;
+        filtered_player.series = filtered_player.series.filter(series => series.name == hour);
+        if (filtered_player.series.length > 0) {
+          return filtered_player;
+        }
+      }).filter(player => player != undefined);
+
+      this.data.def = this.data.def.map(player => {
+        let filtered_player = player;
+        filtered_player.series = filtered_player.series.filter(series => series.name == hour);
+        if (filtered_player.series.length > 0) {
+          return filtered_player;
+        }
+      }).filter(player => player != undefined);
+
+      // get color
+      let colorIndex = this.hours.indexOf(hour);
+      this.att_colors_actual = [this.att_colors[colorIndex]];
+      this.def_colors_actual = [this.def_colors[colorIndex]];
+    }
+  }
+
+  unfilter() {
+    this.data_is_filtered = false;
+    this.data = JSON.parse(this.data_raw);
+    this.att_colors_actual = this.att_colors;
+    this.def_colors_actual = this.def_colors;
+  }
+
+  renderResults(json) {
+    this.data_is_filtered = false;
+    this.data_raw = JSON.stringify(json);
+    this.data = json;
+    this.loading = false;
+    console.log(json);
+    this.hours = [];
+    this.alliances_att = {};
+    this.alliances_def = {};
+    json.att.forEach(player => {
+      if (!(player.alliance_id in this.alliances_att)) {
+        this.alliances_att[player.alliance_id] = {
+          name: player.alliance_name,
+          toggle: true,
+          score: 0
+        };
+      }
+      this.alliances_att[player.alliance_id].score += player.value;
+      player.series.forEach(series => {
+        this.hours.push(series.name);
+      });
+    });
+    json.def.forEach(player => {
+      if (!(player.alliance_id in this.alliances_def)) {
+        this.alliances_def[player.alliance_id] = {
+          name: player.alliance_name,
+          toggle: true,
+          score: 0
+        };
+      }
+      this.alliances_def[player.alliance_id].score += player.value;
+      player.series.forEach(series => {
+        this.hours.push(series.name);
+      });
+    });
+    this.hours = [...new Set(this.hours)];
+    this.att_colors_actual = this.att_colors;
+    this.def_colors_actual = this.def_colors;
+    this.alliances_att = Object.values(this.alliances_att).sort((a:any, b:any) => a.score < b.score ? 1 : -1);
+    this.alliances_def = Object.values(this.alliances_def).sort((a:any, b:any) => a.score < b.score ? 1 : -1);
+  }
+
+  doFilterAlliances() {
+    // reset filter
+    this.unfilter();
+
+    // Check which alliances we need to include
+    let included_alliances_att = [];
+    let included_alliances_def = [];
+    this.alliances_att.forEach(alliance => {
+      if (alliance.toggle) {
+        included_alliances_att.push(alliance.name);
+      }
+    });
+    this.alliances_def.forEach(alliance => {
+      if (alliance.toggle) {
+        included_alliances_def.push(alliance.name);
+      }
+    });
+
+    // Filter data
+    this.data.att = this.data.att.filter(player => {
+      return included_alliances_att.indexOf(player.alliance_name) > -1;
+    });
+    this.data.def = this.data.def.filter(player => {
+      return included_alliances_def.indexOf(player.alliance_name) > -1;
+    });
+  }
+
+  doSelectAllAtt(toggle) {
+    this.alliances_att.forEach((alliance) => alliance.toggle = toggle);
+    this.doFilterAlliances();
+  }
+  doSelectAllDef(toggle) {
+    this.alliances_def.forEach((alliance) => alliance.toggle = toggle);
+    this.doFilterAlliances();
+  }
 }
 
 @Component({
@@ -1028,9 +1173,11 @@ export class PlayerOverviewDialog implements AfterViewInit {
     }
 
     onSelect(event) {
+      if ('series' in event) {
         let hour = event.series;
         this.dialogRef.close('navigate');
         this.openOverviewDialog(hour);
+      }
     }
 
     renderResults(json) {
@@ -1109,9 +1256,11 @@ export class AllianceOverviewDialog implements AfterViewInit {
     }
 
     onSelect(event) {
+      if ('series' in event) {
         let player = this.data.filter((obj) => obj.name === event.series)[0];
         this.dialogRef.close('navigate');
         this.openPlayerOverviewdialog(player.id, player.name);
+      }
     }
 
     renderResults(json) {

@@ -18,6 +18,9 @@ import {Globals} from '../../../../globals';
 import {BasicDialog} from '../../../../shared/dialogs/basic/basic.component';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {Sort} from '@angular/material/sort';
+import {HttpClient} from '@angular/common/http';
+
+const apiUrl = environment.apiUrl;
 
 @Component({
   selector: 'app-indexes',
@@ -57,6 +60,7 @@ export class IndexesComponent implements OnInit {
     private router: Router,
     private dialog: MatDialog,
     private indexAuthService: IndexAuthService,
+    private httpClient: HttpClient,
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher
   ) {

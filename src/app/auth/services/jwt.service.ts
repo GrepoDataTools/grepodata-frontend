@@ -19,36 +19,49 @@ export class JwtService {
     private httpClient: HttpClient
   ) {}
 
-  public isExpiredToken(token): boolean {
-    try {
-      const base64Url = token.split(".")[1];
-      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-      const jsonPayload = decodeURIComponent(
-        atob(base64)
-          .split("")
-          .map(function (c) {
-            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-          })
-          .join("")
-      );
+  public isExpiredToken(token): Promise<boolean> {
+    return new Promise(resolve => {
+      try {
+        // get expiration from token payload
+        const base64Url = token.split(".")[1];
+        const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+        const jsonPayload = decodeURIComponent(
+          atob(base64)
+            .split("")
+            .map(function (c) {
+              return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+            })
+            .join("")
+        );
+        const { exp } = JSON.parse(jsonPayload);
 
-      const { exp } = JSON.parse(jsonPayload);
-      const expired = Date.now() / 1000 >= exp - 600
-      return expired
-    } catch (e) {
-      console.log(e);
-      return false;
-    }
+        // get time offset from server
+        this.getServerTimeOffset().then(
+          (offset: any) => {
+            console.log("GD auth: using server offset: ", offset);
+            if (!offset || offset == false || offset == null || isNaN(offset)) {
+              offset = 0;
+            }
+            // check if token is expired
+            const expired = (Date.now() / 1000) >= exp - 600 + offset
+            resolve(expired);
+          },
+          (reject) => {
+            // continue without offset
+            console.log("GD auth: server offset rejected, using no offset");
+            const expired = (Date.now() / 1000) >= exp - 600
+            resolve(expired);
+          }
+        );
+      } catch (e) {
+        console.log('Error checking token expiration: ', e);
+        resolve(true);
+      }
+    });
   }
 
   public get refreshToken(): string {
-    let refresh_token = localStorage.getItem('refresh_token');
-    if (refresh_token != null && this.isExpiredToken(refresh_token)) {
-      console.log('refresh token is expired.');
-      localStorage.removeItem('refresh_token');
-      return null;
-    }
-    return refresh_token;
+    return localStorage.getItem('refresh_token');
   }
 
   public accessToken(force_login_required = true): Promise<string> {
@@ -58,50 +71,91 @@ export class JwtService {
         // no token.. login required
         console.log('no access token', force_login_required);
         this.rejectToken(force_login_required);
-        throw new Error(null);
+        throw new Error('no access token');
       }
-      if (this.isExpiredToken(token)) {
-        // expired token, try a refresh
-        console.log('access token is expired, refreshing');
-        localStorage.removeItem('access_token');
-        if (this.refreshToken !== null) {
-          // Try to refresh
-          this.refreshAccessToken().subscribe((response) => {
-              if (response.success_code && response.success_code === 1101) {
-                // got a valid token via refresh
-                resolve(response.access_token);
-              } else {
+      this.isExpiredToken(token).then(is_expired => {
+        if (is_expired) {
+          // expired token, try a refresh
+          console.log('access token is expired, refreshing');
+          if (this.refreshToken !== null) {
+            // Try to refresh
+            this.refreshAccessToken().subscribe((response) => {
+                if (response.success_code && response.success_code === 1101) {
+                  // got a valid token via refresh, save locally & resolve
+                  localStorage.setItem('access_token', response.access_token);
+                  localStorage.setItem('refresh_token', response.refresh_token);
+                  resolve(response.access_token);
+                } else {
+                  // unable to refresh, discard tokens and reject (new login required)
+                  console.log("Unable to refresh with token", response);
+                  this.rejectToken(force_login_required);
+                  if (!force_login_required) {
+                    resolve("refresh_failed");
+                  } else {
+                    reject(null);
+                  }
+                }
+              },
+              (error) => {
                 // unable to refresh, discard tokens and reject (new login required)
-                console.log("Unable to refresh with token", response);
+                console.log("Unable to refresh with token", error);
                 this.rejectToken(force_login_required);
                 if (!force_login_required) {
                   resolve("refresh_failed");
                 } else {
                   reject(null);
                 }
-              }
-            },
-            (error) => {
-              // unable to refresh, discard tokens and reject (new login required)
-              console.log("Unable to refresh with token", error);
-              this.rejectToken(force_login_required);
-              if (!force_login_required) {
-                resolve("refresh_failed");
-              } else {
-                reject(null);
-              }
-            })
+              })
+          } else {
+            // No refresh token.. login required
+            console.log("Missing refresh token. Login required");
+            this.rejectToken(force_login_required);
+            reject(null);
+          }
         } else {
-          // No refresh token.. login required
-          console.log("Missing refresh token. Login required");
-          this.rejectToken(force_login_required);
-          throw new Error(null);
+          // valid token found
+          resolve(token)
         }
-      } else {
-        // valid token found
+      }, (rejected) => {
         resolve(token)
       }
+      );
     });
+  }
+
+  /**
+   * Retrieves offset in seconds between server time and client time
+   */
+  public getServerTimeOffset() {
+    let url =  '/gd/sync';
+    let data = LocalCacheService.get(url);
+    if (data !== false) {
+      // Return server time from local cache
+      return new Promise(resolve => {
+        resolve(data)
+      });
+    } else {
+      // Get server time from API
+      return new Promise(resolve =>
+      {
+        this.httpClient.get<any>(apiUrl + '/sync').subscribe(
+          (response) => {
+            if ('time' in response) {
+              let offset = Math.round(Date.now()/1000) - response.time;
+              console.log("GD auth: calculated Server-Client offset: ", offset);
+              LocalCacheService.set(url, offset, (20));
+              resolve(offset);
+            } else {
+              resolve(false);
+            }
+          },
+          (error) => {
+            console.log("GD auth: error retrieving server sync: ", error);
+            resolve(false);
+          }
+        );
+      });
+    }
   }
 
   private rejectToken(force_login_required) {
@@ -133,19 +187,6 @@ export class JwtService {
         headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' }),
       });
   }
-
-  // TODO
-  // public loginWithDiscord(code: string) {
-  //   const data = new FormData();
-  //   data.append('client_id', environment.discordClientId);
-  //   data.append('client_secret', environment.discordClientSecret);
-  //   data.append('grant_type', 'authorization_code');
-  //   data.append('redirect_uri', 'http://localhost:4200/login');
-  //   data.append('scope', 'identify');
-  //   data.append('code', code);
-  //
-  //   return this.httpClient.post('https://discord.com/api/oauth2/token', data);
-  // }
 
   public register(username: string, email: string, password: string, captcha: string) {
     let data = new HttpParams()

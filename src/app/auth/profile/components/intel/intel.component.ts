@@ -77,6 +77,8 @@ export class IntelComponent implements OnInit {
           this.paging = false;
         },
         (error) => {
+          // TODO: if error_code is 3003 (invalid JWT) try a refresh or navigate to login if needed
+
           this.num_results = 0;
           this.hasIntel = false;
           this.loading = false;

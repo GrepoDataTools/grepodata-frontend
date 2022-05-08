@@ -72,9 +72,13 @@ export class LoginRegisterComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     if (!this.require_explicit_action) {
       this.authService.accessToken(false).then(access_token => {
-        if (access_token != 'refresh_failed') {
+        if (access_token && access_token != 'refresh_failed') {
+          console.log('already logged in, redirecting..');
           this.loginComplete(access_token);
         }
+      },
+      rejected => {
+        console.log(rejected);
       });
     }
   }
@@ -149,6 +153,9 @@ export class LoginRegisterComponent implements OnInit, AfterViewInit {
         (response) => {
           this.login_error = '';
           this.login_success = true;
+
+          localStorage.setItem('access_token', response.access_token);
+          localStorage.setItem('refresh_token', response.refresh_token);
 
           // handle login complete
           this.loginComplete(response.access_token);

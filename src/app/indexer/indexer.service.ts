@@ -96,7 +96,6 @@ export class IndexerService {
   }
 
   loadTownIntel(access_token, world, id) {
-    console.log('loading town intel')
     let url =  '/indexer/v2/town?world='+world+'&town_id='+id;
     return this.http.get(apiUrl + url, {
       headers: new HttpHeaders().set('access_token', access_token)

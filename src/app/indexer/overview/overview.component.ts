@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {WorldService} from '../../services/world.service';
 import {LocalCacheService} from '../../services/local-cache.service';
 import {IndexerService} from '../indexer.service';
@@ -13,6 +13,7 @@ import {ShareIndexDialog} from '../../shared/dialogs/share-index/share-index.com
 import {IndexMembersDialog} from '../../shared/dialogs/index-members/index-members.component';
 import {SiegeListDialog} from '../siege/siege.service';
 import {MediaMatcher} from '@angular/cdk/layout';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-overview',
@@ -20,7 +21,8 @@ import {MediaMatcher} from '@angular/cdk/layout';
   styleUrls: ['./overview.component.scss'],
   providers: [IndexerService, LocalCacheService, WorldService],
 })
-export class OverviewComponent implements OnInit {
+export class OverviewComponent implements OnInit, OnDestroy, OnInit {
+  paramsSubscription : Subscription;
 
   copied = false;
   editting_name = false;
@@ -69,7 +71,12 @@ export class OverviewComponent implements OnInit {
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher
   ) {
-    this.route.params.subscribe( params => this.load(params));
+    this.paramsSubscription = this.route.params.subscribe( params => {
+      if ('activetab' in params && params.activetab == 'team') {
+        console.log('Construct team component: ', params);
+        this.load(params);
+      }
+    });
 
     this.mobileQuery = media.matchMedia('(min-width: 1200px)');
     this._mediaQueryListener = () => changeDetectorRef.detectChanges();
@@ -77,6 +84,11 @@ export class OverviewComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    console.log('destroy team component');
+    this.paramsSubscription.unsubscribe();
   }
 
   private load(params) {

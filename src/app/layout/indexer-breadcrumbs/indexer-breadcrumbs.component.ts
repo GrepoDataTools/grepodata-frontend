@@ -24,7 +24,6 @@ export class IndexerBreadcrumbsComponent implements OnInit {
   togglePlayer(show) {
     this.expandedPlayer = show;
     this.cdr.detectChanges();
-    console.log(this.data);
   }
 
   toggleAlliance(show) {

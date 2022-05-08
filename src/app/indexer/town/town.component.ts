@@ -10,6 +10,7 @@ import {WorldService} from '../../services/world.service';
 import {ShareIndexDialog} from '../../shared/dialogs/share-index/share-index.component';
 import {IntelSourceDialog} from '../../shared/dialogs/intel-source/intel-source.component';
 import {Globals} from '../../globals';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-index-town',
@@ -17,7 +18,8 @@ import {Globals} from '../../globals';
   styleUrls: ['./town.component.scss'],
   providers: [IndexerService, WorldService]
 })
-export class IndexTownComponent implements AfterViewInit {
+export class IndexTownComponent implements AfterViewInit, OnDestroy, OnInit {
+  paramsSubscription : Subscription;
 
   townName = '';
   playerId = '';
@@ -59,10 +61,12 @@ export class IndexTownComponent implements AfterViewInit {
     private authService: JwtService,
     private route: ActivatedRoute
   ) {
-    this.route.params.subscribe( params => {
-      console.log('town params: ', params);
-      this.routeParams = params
-      this.load(this.routeParams)
+    this.paramsSubscription = this.route.params.subscribe( params => {
+      if ('activetab' in params && params.activetab == 'town') {
+        console.log('load town intel: ', params);
+        this.routeParams = params;
+        this.load(this.routeParams);
+      }
     } );
 
     this.worldService.getWorldInfo(this.world).then((response) => {
@@ -70,11 +74,16 @@ export class IndexTownComponent implements AfterViewInit {
         this.worldName = response.name;
       }
     });
-
-    console.log('construct town!');
   }
 
   ngAfterViewInit() { }
+
+  ngOnInit() {}
+
+  ngOnDestroy() {
+    console.log('destroy town component');
+    this.paramsSubscription.unsubscribe();
+  }
 
   private load(params) {
     // Save params
@@ -133,12 +142,12 @@ export class IndexTownComponent implements AfterViewInit {
           let date = data.buildings[key].date;
 
           try {
-            if (level.indexOf(" (-") >= 0) {
+            if (typeof level == 'string' && level.indexOf(" (-") >= 0) {
               let parts = level.split(" (-");
               let base = parts[0];
               level = base;
               if (parts.length > 1) {
-                let mod = parts[1].split(')');
+                let mod:any = parts[1].split(')');
                 if (mod.length > 1 && !isNaN(mod[0])) {
                   level -= mod[0];
                 }

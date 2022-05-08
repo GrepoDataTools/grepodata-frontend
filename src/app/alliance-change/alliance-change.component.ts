@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AllianceService} from '../alliance/alliance.service';
@@ -11,7 +11,7 @@ import {ScoreboardService} from '../scoreboard/scoreboard.service';
   styleUrls: ['./alliance-change.component.scss'],
   providers: [AllianceService, PlayerService]
 })
-export class AllianceChangeComponent implements OnInit {
+export class AllianceChangeComponent implements OnInit, OnDestroy {
 
 
   loading = false;
@@ -30,10 +30,17 @@ export class AllianceChangeComponent implements OnInit {
     public playerService : PlayerService,
     public allianceService : AllianceService,
     public router: Router, private route: ActivatedRoute) {
-    this.route.params.subscribe( params => this.load(params));
+    this.route.params.subscribe( params => {
+      console.log('load alliance changes: ', params);
+      this.load(params)
+    });
   }
 
   ngOnInit() {}
+
+  ngOnDestroy() {
+    console.log('destroy alliance changes component');
+  }
 
   paginatorEvent($event) {
     this.pageEvent = $event;

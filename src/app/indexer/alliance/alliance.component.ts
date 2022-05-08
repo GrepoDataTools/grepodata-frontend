@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, Input} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy} from '@angular/core';
 import {IndexerService} from "../indexer.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ContactDialog} from "../../header/header.component";
@@ -7,6 +7,7 @@ import {AllianceService} from "../../alliance/alliance.service";
 import {BBDialog} from '../utils';
 import {WorldService} from "../../services/world.service";
 import {JwtService} from '../../auth/services/jwt.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-index-alliance',
@@ -14,7 +15,8 @@ import {JwtService} from '../../auth/services/jwt.service';
   styleUrls: ['./alliance.component.scss'],
   providers: [AllianceService, IndexerService, WorldService]
 })
-export class IndexAllianceComponent implements AfterViewInit {
+export class IndexAllianceComponent implements AfterViewInit, OnDestroy {
+  paramsSubscription : Subscription;
 
   @Input() embedded: boolean;
   @Input() key: string;
@@ -57,7 +59,17 @@ export class IndexAllianceComponent implements AfterViewInit {
     private indexerService: IndexerService,
     private router: Router,
     private route: ActivatedRoute) {
-    this.route.params.subscribe( params => this.routeParams = params );
+    this.paramsSubscription = this.route.params.subscribe( params => {
+      if ('activetab' in params && params.activetab == 'alliance') {
+        console.log('Construct alliance intel: ', params);
+        this.routeParams = params;
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    console.log('destroy alliance component');
+    this.paramsSubscription.unsubscribe();
   }
 
   ngAfterViewInit() {

@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {IndexerService} from "../indexer.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PlayerService} from "../../player/player.service";
@@ -8,6 +8,7 @@ import {BBDialog} from '../utils';
 import {WorldService} from "../../services/world.service";
 import {LocalCacheService} from "../../services/local-cache.service";
 import {JwtService} from '../../auth/services/jwt.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-index-player',
@@ -15,7 +16,8 @@ import {JwtService} from '../../auth/services/jwt.service';
   styleUrls: ['./player.component.scss'],
   providers: [PlayerService, IndexerService, WorldService, LocalCacheService]
 })
-export class IndexPlayerComponent implements AfterViewInit {
+export class IndexPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
+  paramsSubscription : Subscription;
 
   @Input() embedded: boolean;
   @Input() key: string;
@@ -57,7 +59,19 @@ export class IndexPlayerComponent implements AfterViewInit {
     private indexerService: IndexerService,
     private router: Router,
     private route: ActivatedRoute) {
-    this.route.params.subscribe( params => this.routeParams = params );
+    this.paramsSubscription = this.route.params.subscribe( params => {
+      if ('activetab' in params && params.activetab == 'player') {
+        console.log('load player intel: ', params);
+        this.routeParams = params;
+      }
+    } );
+  }
+
+  ngOnInit() {}
+
+  ngOnDestroy() {
+    console.log('destroy player component');
+    this.paramsSubscription.unsubscribe();
   }
 
   ngAfterViewInit() {

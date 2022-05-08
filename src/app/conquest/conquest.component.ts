@@ -239,13 +239,12 @@ export class ConquestComponent implements AfterViewInit, OnChanges {
         }
 
         if (this.id) {
-          console.log('conquests for id', this.id);
           this.conquestService.getConquests(this.type, this.world, this.id, this.from, this.size, filters).subscribe(
             (response) => this.renderConquests(response, filters),
             (error) => this.renderConquests(null, filters)
           );
         }
-        
+
         this.cdr.detectChanges();
         setTimeout((_) => this.cdr.detectChanges(), 250);
     }

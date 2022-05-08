@@ -40,7 +40,7 @@ export class PlayerActivityComponent implements OnInit, OnChanges {
         time_readable_parts.push(`${hours} hour${hours == 1 ? '' : 's'}`);
       }
       this.inactive_readable = time_readable_parts.join(', ') + ' ago';
-      console.log(this.inactive_readable);
+      // console.log(this.inactive_readable);
     }
   }
 

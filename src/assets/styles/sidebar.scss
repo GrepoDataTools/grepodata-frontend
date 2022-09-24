@@ -51,7 +51,7 @@ mat-sidenav {
     }
 
     a{
-      height: 45px;
+      height: 35px;
       padding: 0 10px;
       margin-bottom: 10px;
       align-items: center;
@@ -219,6 +219,10 @@ use profile section
 
   &:hover {
     background: none;
+
+    a {
+      background: #f1f1f1 !important;
+    }
   }
 
   .mat-list-item-content {
@@ -235,7 +239,7 @@ use profile section
   }
 
   a {
-    height: 45px;
+    height: 35px;
     padding: 0 10px;
     margin-bottom: 10px;
     align-items: center;

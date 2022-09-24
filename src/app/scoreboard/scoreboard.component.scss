@@ -224,6 +224,12 @@ $duration: 130s;
   }
 }
 
+::ng-deep .legend-label-text {
+  color: black !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+
 .diff-filter-alliance {
   margin-right: 10px;
 }

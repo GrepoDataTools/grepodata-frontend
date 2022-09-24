@@ -51,9 +51,14 @@ const MENU_ITEMS: Array<Menu> = [
   // { mobileOnly: false, state: '', name: 'Account', type: 'separator', iconType: 'material' },
   // { mobileOnly: false, state: 'profile/linked', name: 'Linked accounts', type: 'link', icon: 'link', iconType: 'material' },
   // { mobileOnly: false, state: 'profile/discord', name: 'Link with Discord', type: 'link', icon: faDiscord, iconType: 'fontawesome' },
-  { mobileOnly: false, state: '', name: 'Other', type: 'separator', icon: 'person', iconType: 'material' },
-  { mobileOnly: false, state: '/profile/changelog', name: 'Changelog', type: 'link', icon: 'description'},
+
+  { mobileOnly: false, state: '', name: 'Community', type: 'separator', icon: ''},
   { mobileOnly: false, state: '/profile/bug', name: 'Report a bug', type: 'link', icon: 'bug_report', iconType: 'material' },
+  // { mobileOnly: false, state: '/profile/ideas', name: 'Idea board', type: 'link', icon: 'tips_and_updates'},
+  { mobileOnly: false, state: '/profile/api', name: 'API documentation', type: 'link', icon: 'code'},
+
+  { mobileOnly: false, state: '', name: 'Other', type: 'separator', icon: '' },
+  { mobileOnly: false, state: '/profile/changelog', name: 'Changelog', type: 'link', icon: 'description'},
   {
     mobileOnly: false,
     state: 'profile/settings',

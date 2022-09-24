@@ -34,6 +34,8 @@ export class IndexesComponent implements OnInit {
 
   indexes: IndexList[] = [];
   loading = false;
+  show_stopped_worlds = false;
+  stopped_world_count = 0;
   confirmed = true;
   error = '';
   leave_error = '';
@@ -174,6 +176,8 @@ export class IndexesComponent implements OnInit {
     if (!force_refresh && localIndexes) {
       console.log('using local index list');
       this.indexes = localIndexes;
+      this.stopped_world_count = 0;
+      this.indexes.forEach(i => {if (i.world_stopped) this.stopped_world_count += 1;})
     } else if (force_refresh) {
       this.deleteIndexListFromCache();
     }
@@ -186,6 +190,8 @@ export class IndexesComponent implements OnInit {
         (response) => {
           console.log(response);
           this.indexes = response.items;
+          this.stopped_world_count = 0;
+          this.indexes.forEach(i => {if (i.world_stopped) this.stopped_world_count += 1;})
           this.saveIndexListToCache(this.indexes);
           this.loading = false;
           if (this.active_sort!=null) {

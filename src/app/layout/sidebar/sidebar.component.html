@@ -29,7 +29,7 @@
     >
       <!--[ngClass]=" ? 'selected' : ''"-->
       <a
-        class=""
+        class="a-menu-item"
         appAccordionAnchor
         [routerLink]="['/' + menuItem.state]"
         *ngIf="menuItem.type === 'link'"
@@ -44,7 +44,7 @@
       </a>
 
       <a
-        class=""
+        class="a-menu-item"
         appAccordionAnchor
         *ngIf="menuItem.type === 'action'"
       >
@@ -55,7 +55,7 @@
         <span class="label label-{{ badge.type }}" *ngFor="let badge of menuItem.badge">{{ badge.value }}</span>
       </a>
 
-      <a class="" appAccordionAnchor href="{{ menuItem.state }}" *ngIf="menuItem.type === 'extLink'">
+      <a class="a-menu-item" appAccordionAnchor href="{{ menuItem.state }}" *ngIf="menuItem.type === 'extLink'">
         <mat-icon *ngIf="menuItem.iconType === 'material' || menuItem.iconType === undefined">{{ menuItem.icon }}</mat-icon>
         <fa-icon [classes]="['fa-icon']" [icon]="menuItem.icon" *ngIf="menuItem.iconType === 'fontawesome'"></fa-icon>
         <span>{{ menuItem.name }}</span>
@@ -63,7 +63,7 @@
         <span class="label label-{{ badge.type }}" *ngFor="let badge of menuItem.badge">{{ badge.value }}</span>
       </a>
       <a
-        class=""
+        class="a-menu-item"
         appAccordionAnchor
         href="{{ menuItem.state }}"
         target="_blank"
@@ -76,7 +76,7 @@
         <span class="label label-{{ badge.type }}" *ngFor="let badge of menuItem.badge">{{ badge.value }}</span>
       </a>
 
-      <a class="" appAccordionAnchor *ngIf="menuItem.type === 'sub'">
+      <a class="a-menu-item" appAccordionAnchor *ngIf="menuItem.type === 'sub'">
         <mat-icon *ngIf="menuItem.iconType === 'material' || menuItem.iconType === undefined">{{ menuItem.icon }}</mat-icon>
         <fa-icon [classes]="['fa-icon']" [icon]="menuItem.icon" *ngIf="menuItem.iconType === 'fontawesome'"></fa-icon>
         <span>{{ menuItem.name }}</span>

@@ -64,8 +64,15 @@
 
 .index-filters {
   select {
-    width: 100%;
+    width: 80% !important;
     height: 34px;
+    margin: -4px !important;
+    padding: 0 !important;
+  }
+  input {
+    width: 80% !important;
+    margin: -4px !important;
+    padding: 0 !important;
   }
 }
 

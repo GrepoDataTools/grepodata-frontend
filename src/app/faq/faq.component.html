@@ -1,18 +1,32 @@
 <div class="faq-container">
-  <div class="alert alert-gd-1" *ngIf="logged_in">
-    <h2 class="gd-primary">How do I install the userscript?</h2>
+
+  <div class="alert alert-gd-1">
+    <h2 class="gd-primary">Why do I need a GrepoData account?</h2>
     <div class="faq-content">
-      Check out the detailed instructions on this page: <a routerLink="/profile/script" style="text-decoration: underline;">Userscript installation instructions</a>
+      A GrepoData account is required to guarantee the security of the intel you collect and the people you share it with.
+      This way, the admin of a GrepoData team can manage exactly who has access to the intel and can revoke their access whenever needed.
+      <br/>
+      <br/>
+      Privacy is very important to us. Your username is visible to all GrepoData users but your email address will always remain private and will only be used to authenticate you when you wish to reset your password.
+      At any time, you are able to completely delete your account from our database. Read more in our <a routerLink="/privacy">Privacy Policy</a>.
     </div>
   </div>
+
+  <div class="alert alert-gd-1" *ngIf="!logged_in">
+    <h2 class="gd-primary">I did not receive the confirmation email.</h2>
+    <div class="faq-content">
+      Check your spam folder and make sure you did not make any spelling mistakes when entering your email address. If you did make a spelling mistake, you can simply register again with the correct email. It may take a couple minutes for the email to arrive. If you still do not receive the email, feel free to contact us at admin@grepodata.com.
+    </div>
+  </div>
+
   <div class="alert alert-gd-1">
-    <h2 class="gd-primary">How does it work?</h2>
+    <h2 class="gd-primary">How does the City Indexer work?</h2>
     <div class="faq-content">
       <br/>
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8">
           1. <strong>Indexing:</strong> Reports in your inbox and on your forum will receive an additional '<strong class="gd-primary">Index +</strong>' button.
-          When you click on this button, the report is uploaded to your GrepoData account.
+          When you click on this button, the report is uploaded to your personal GrepoData account.
         </div>
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
           <img class="lib-img" style="max-width: 100%; display: block; border: 1px solid #334254;" src="../../assets/images/index.png" alt="Grepolis index report">
@@ -21,9 +35,8 @@
       <br/>
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8">
-          2. <strong>Browsing:</strong> Our service will analyse the report to extract enemy intelligence.
-          The extracted enemy intel is linked to your GrepoData account.
-          This allows you to browse the collected intel using the in-game town intel view or by logging in here.
+          2. <strong>Browsing:</strong> The extracted enemy intelligence from the report is linked to your personal GrepoData account.
+          This allows you to browse the collected intel using the in-game town intel view or by signing in here.
           <br/>
           <br/>
           3. <strong>Sharing:</strong> If you are a member of a GrepoData team and if you enable contributions to that team, the report you just indexed will also be shared with your allies as long as they also have access to that team.
@@ -35,29 +48,17 @@
       </div>
     </div>
   </div>
-  <div class="alert alert-gd-1">
-    <h2 class="gd-primary">Why do I need a GrepoData account?</h2>
+
+
+  <div class="alert alert-gd-1" *ngIf="logged_in">
+    <h2 class="gd-primary">How do I install the userscript?</h2>
     <div class="faq-content">
-      A GrepoData account is required to guarantee the security of the intel you collect and the people you share it with.
-      This way, the admin of a team (formerly known as 'index') can manage exactly who has access to the intel and can revoke their access whenever needed.
-      Simply having a URL to an index will no longer grant you access to the intel in that index.
-      <br/>
-      This is also one of the measures we had to take to pursue official approval of our userscript.
-      <br/>
-      <br/>
-      Privacy is very important to us. Your username is visible to all GrepoData users but your email address will always remain private and will only be used to authenticate you when you wish to reset your password.
-      At any time, you are able to completely delete your account from our database. Read more in our <a routerLink="/privacy">Privacy Policy</a>.
+      Check out the detailed instructions on this page: <a routerLink="/profile/script" style="text-decoration: underline;">Userscript installation instructions</a>
     </div>
   </div>
+
   <div class="alert alert-gd-1">
-    <h2 class="gd-primary">How do I delete my GrepoData account?</h2>
-    <div class="faq-content">
-      You can delete your account and all associated data from our server by logging in to your account and navigating to the '<a routerLink="/profile/settings">My Account</a>' section.
-      Here you can enter your password and submit a request to delete your account. Once you confirm the request by clicking on the link in the email you received, all your personal data will be permanently removed from our database.
-    </div>
-  </div>
-  <div class="alert alert-gd-1">
-    <h2 class="gd-primary">What is a team?</h2>
+    <h2 class="gd-primary">What is a GrepoData team?</h2>
     <div class="faq-content">
       A <strong>team</strong> is a collection of enemy intelligence. Anyone can create a new team and invite others to join their team.
       The members of a team can then choose to contribute the reports they collect to the team. All members of the team will also be able to browse this intel.
@@ -65,15 +66,17 @@
       Our recommendation is that you create a team together with your alliance. This way, you can work together to gather enemy intelligence.
       <br/>
       <br/>
-      <strong>Before April 2021, a team used to be known as an 'index'.</strong> Teams are the replacement of the old index system, but their functionality is still very similar.
+      Before April 2021, a team used to be known as an 'index'. Teams are the replacement of the old index system, but their functionality is still very similar.
     </div>
   </div>
+
   <div class="alert alert-gd-1">
     <h2 class="gd-primary">Userscript keyboard shortcuts (in-game inbox)</h2>
     <div class="faq-content">
       You can use the <strong>[</strong> and <strong>]</strong> keys on your keyboard to navigate to the previous and next report in your reports inbox.
     </div>
   </div>
+
   <div class="alert alert-gd-1">
     <h2 class="gd-primary">Is it allowed?</h2>
     <div class="faq-content">
@@ -88,14 +91,16 @@
       </ul>
     </div>
   </div>
+
   <div class="alert alert-gd-1">
     <h2 class="gd-primary">What type of reports are collected?</h2>
     <div class="faq-content">
       Currently our userscript allows you to collect published reports that are posted on your alliance forum or sent to you in a personal message.
-      Reports from your reports inbox can also be indexed without publishing them.
-      Converted reports from other third party tools can not yet be indexed.
-    </div>B
+      Reports from your personal reports inbox can also be indexed without publishing them.
+      Converted reports from other third party tools can not be indexed.
+    </div>
   </div>
+
   <div class="alert alert-gd-1">
     <h2 class="gd-primary">Is my data secure?</h2>
     <div class="faq-content">
@@ -111,12 +116,22 @@
       As an admin or owner of a team, you can add or remove users from the team at any time.
       Only active members of the team will have access to the information in the team.
       Once you remove a user, they will nog longer be able to access the collected intel from your team.
+      Any intel that they collected themselves will still be available to them.
     </div>
   </div>
+
+  <div class="alert alert-gd-1">
+    <h2 class="gd-primary">How do I delete my GrepoData account?</h2>
+    <div class="faq-content">
+      You can delete your account and all associated data from our server by logging in to your account and navigating to the '<a routerLink="/profile/settings">My Account</a>' section.
+      There you can enter your password and submit a request to delete your account. Once you confirm the request by clicking on the link in the email you received, all your personal data will be permanently removed from our database.
+    </div>
+  </div>
+
   <div class="alert alert-gd-1">
     <h2 class="gd-primary">Who should install the userscript?</h2>
     <div class="faq-content">
-      The userscript is the only way to contribute new intel to a team collection. You should encourage your team members to also use the script in order to maximize the collected intel.
+      The userscript is the only way to contribute new intelligence to a team. You should encourage your team members to also use the script in order to maximize the collected intel.
     </div>
   </div>
   <div class="alert alert-gd-1">
@@ -129,13 +144,15 @@
   <div class="alert alert-gd-1">
     <h2 class="gd-primary">Can I create multiple teams?</h2>
     <div class="faq-content">
-      You can create as many teams as you wish. Please note that you should make a new team for each world you wish to play in.
+      You can create as many teams as you wish. Please note that a team only works on 1 game world. You should make a new team for each world you wish to play in.
     </div>
   </div>
   <div class="alert alert-gd-1">
     <h2 class="gd-primary">Can I merge my team with another team from a friendly alliance?</h2>
     <div class="faq-content">
-      Merging and forking of teams will be part of a future release.
+      You can invite the users of the other alliance to join your existing team, or you can simply create a brand new team and invite everybody to that one. Once they join the new team, each individual user will have to option to upload their existing intel to the new team.
+      <br/><br/>In order to commit your existing intel, go to the overview for the new team on grepodata.com. If there is any existing intel to commit, you will be prompted with a message to share the intel (as shown below). If you do not see this message, there is no intel to share.
+      <br/><img style="max-width: 80vw;" src="../../assets/images/intel_imports.png"><br/><br/>
     </div>
   </div>
   <div class="alert alert-gd-1">

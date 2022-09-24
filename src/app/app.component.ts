@@ -176,6 +176,7 @@ export class IndexNamePipe implements PipeTransform {
     if (!index_key) return index_key;
     let indexname = index_key;
     let indexinfo = this.indexService.getLocalIndexInfo(index_key);
+    console.log('info',indexinfo);
     if (indexinfo && 'name' in indexinfo) {
       indexname = indexinfo.name
     }

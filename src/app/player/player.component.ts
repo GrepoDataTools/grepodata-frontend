@@ -66,7 +66,7 @@ export class PlayerComponent implements OnInit {
   bShowIntel = false;
 
   // ghost params
-  bIsGhost = true;
+  bIsGhost = false;
   loading_ghost_towns = false;
   has_ghost_details = false;
   ghost_time = null;

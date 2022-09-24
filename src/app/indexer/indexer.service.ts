@@ -33,8 +33,8 @@ export class IndexerService {
     });
   }
 
-  getUserEvents(access_token) {
-    let url =  '/events/user';
+  getUserEvents(access_token, from, size) {
+    let url =  '/events/user?from='+from+'&size='+size;
     return this.http.get(apiUrl + url, {
       headers: new HttpHeaders().set('access_token', access_token)
     });

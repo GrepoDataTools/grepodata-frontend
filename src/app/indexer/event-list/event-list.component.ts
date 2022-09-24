@@ -23,6 +23,7 @@ export class EventListComponent implements OnChanges {
   from = 0;
   size = 10;
   pageEvent : any;
+  event_type;
 
   constructor(
     private indexerService: IndexerService,
@@ -35,39 +36,18 @@ export class EventListComponent implements OnChanges {
   }
 
   load () {
-    if (this.key !== null) {
+    if (typeof this.key != 'undefined') {
       // Load all events for a specific team
+      console.log("loading team events");
+      this.event_type = 'team';
       this.getTeamEvents();
     } else {
       // Load all events for the current user
-      // this.getUserEvents();
+      console.log("loading user events");
+      this.event_type = 'user';
+      // this.size = 5;
+      this.getUserEvents();
     }
-  }
-
-  public getTeamEvents() {
-    this.paging = true;
-    this.error = '';
-    this.authService.accessToken().then(access_token => {
-      this.indexerService.getTeamEvents(access_token, this.key, this.from, this.size).subscribe(
-        (response) => {
-          if ('total' in response) {
-            this.total_events = response['total'];
-          } else if (this.total_events <= 0) {
-            this.total_events = response['count'];
-          }
-          this.events = response['items'];
-          this.loading = false;
-          this.paging = false;
-          this.error = '';
-          console.log(this.events);
-        },
-        (error) => {
-          this.loading = false;
-          this.paging = false;
-          this.error = 'error'
-        }
-      );
-    });
   }
 
   paginatorEvent($event) {
@@ -79,21 +59,49 @@ export class EventListComponent implements OnChanges {
     }
   }
 
-  // public getUserEvents() {
-  //   this.authService.accessToken().then(access_token => {
-  //     this.indexerService.getUserEvents(access_token).subscribe(
-  //       (response) => {
-  //         this.events = response['items'];
-  //         this.loading = false;
-  //         this.error = '';
-  //         console.log(this.events);
-  //       },
-  //       (error) => {
-  //         this.loading = false;
-  //         this.error = 'error'
-  //       }
-  //     );
-  //   });
-  // }
+  public getTeamEvents() {
+    this.paging = true;
+    this.error = '';
+    this.authService.accessToken().then(access_token => {
+      this.indexerService.getTeamEvents(access_token, this.key, this.from, this.size).subscribe(
+        (response) => {
+          this.parseEventResults(response);
+        },
+        (error) => {
+          this.loading = false;
+          this.paging = false;
+          this.error = 'error'
+        }
+      );
+    });
+  }
+
+  public getUserEvents() {
+    this.authService.accessToken().then(access_token => {
+      this.indexerService.getUserEvents(access_token, this.from, this.size).subscribe(
+        (response) => {
+          this.parseEventResults(response);
+        },
+        (error) => {
+          this.loading = false;
+          this.paging = false;
+          this.error = 'error'
+        }
+      );
+    });
+  }
+
+  public parseEventResults(response) {
+    if ('total' in response) {
+      this.total_events = response['total'];
+    } else if (this.total_events <= 0) {
+      this.total_events = response['count'];
+    }
+    this.events = response['items'];
+    this.loading = false;
+    this.paging = false;
+    this.error = '';
+    // console.log(this.events);
+  }
 
 }

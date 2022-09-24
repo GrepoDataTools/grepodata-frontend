@@ -1,0 +1,949 @@
+<div class="left-menu">
+  <div class="content-menu">
+
+
+    <div class="content-infos">
+      <div class="logo">
+        <h1>API Documentation</h1>
+      </div>
+      <div class="info"><b>Version:</b> 1.0.1</div>
+      <div class="info"><b>Last Updated:</b> 20th July, 2022</div>
+    </div>
+    <ul>
+      <li>
+        <hr>
+      </li>
+      <li class="scroll-to-link" (click)="scroll(getstarted)">
+        <a>Get Started</a>
+      </li>
+      <li class="scroll-to-link" (click)="scroll(errors)">
+        <a>Error Codes</a>
+      </li>
+      <li>
+        <hr>
+      </li>
+      <li class="scroll-to-link" (click)="scroll(authenticate)">
+        <a>POST - Authenticate</a>
+      </li>
+      <li>
+        <hr>
+      </li>
+      <li class="scroll-to-link" (click)="scroll(town)">
+        <a>GET - Town Intel</a>
+      </li>
+      <li class="scroll-to-link" (click)="scroll(player)">
+        <a>GET - Player Intel</a>
+      </li>
+      <li class="scroll-to-link" (click)="scroll(alliance)">
+        <a>GET - Alliance Intel</a>
+      </li>
+      <li class="scroll-to-link" (click)="scroll(exportintel)">
+        <a>GET - Export Team Intel</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+<div #getstarted class="content-page">
+  <div class="content">
+    <div class="overflow-hidden content-section">
+      <h2>Get started</h2>
+      <p>
+        The GrepoData API provides programmatic access to your enemy intelligence. <br/>
+        You can retrieve intel for towns, players or alliances. <br/>
+        All you need to get started is a GrepoData account. <br/>
+        You can only retrieve intel that was collected by yourself or your teammates.
+      </p>
+      <p>
+        Getting started:<br/>
+        &nbsp;&nbsp;1. Get an <strong>access_token</strong> using the <a class="a-link-dialog" (click)="scroll(authenticate)">authentication</a> route<br/>
+        &nbsp;&nbsp;2. Use the access_token from step 1 to get town, player or alliance intel<br/>
+      </p>
+      <p>
+        If you need any help or support, feel free to contact us at <a href="mailto:admin@grepodata.com">admin@grepodata.com</a>
+      </p>
+      <div style="margin: 0 30px">
+        <app-alert type="warning" title="Fair use policy" [dismissible]="false">
+          <p style="padding: 0">This is a free service. We apply a fair use policy. If you abuse any of these routes, we reserve the right to block your GrepoData account.</p>
+        </app-alert>
+      </div>
+    </div>
+
+    <hr #errors>
+
+    <div class="overflow-hidden content-section">
+      <h2>Common Error Codes</h2>
+      <p>
+        The GrepoData API uses the following error codes. You may encounter any of these as the <strong>error_code</strong> property in the API response.
+      </p>
+      <table>
+        <thead>
+        <tr>
+          <th>error_code</th>
+          <th>Meaning</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td>1010</td><td>Bad request. Invalid or missing request parameters.<br/>Make sure your request has a "Content-Type: application/x-www-form-urlencoded" header set.</td></tr>
+        <tr><td>3003</td><td>Invalid access_token. See the <a class="a-link-dialog" (click)="scroll(authenticate)">authenticate</a> section to get a valid access_token.</td></tr>
+        <tr><td>3004</td><td>Unknown username or email address used when attempting to authenticate.</td></tr>
+        <tr><td>3005</td><td>Invalid password used when attempting to authenticate.</td></tr>
+        <tr><td>7101</td><td>No team found for this index_key. Make sure you use the 8 character team id visible in the url on your team overview.</td></tr>
+        <tr><td>7504</td><td>Unauthorized. You are not allowed to read this index. Your account does not have read permissions on the given team.</td></tr>
+        </tbody>
+      </table>
+
+
+
+      <p>
+        A full list of all response codes is available on
+        <a href="https://github.com/GrepoDataTools/grepodata-backend/blob/master/Software/Library/Router/ResponseCode.php" target="_blank">
+          github.com (opens in new tab)
+        </a>
+      </p>
+    </div>
+
+    <hr #authenticate>
+
+    <div class="overflow-hidden content-section">
+      <h2>Authenticate (POST)</h2>
+      <p>
+        To get an <strong>access_token</strong> you need to make a POST call to the following url:<br><br>
+        <code class="higlighted break-word" id="copy_login_url">https://api.grepodata.com/auth/login</code> <span class="copy-txt" (click)="copyText('copy_login_url')">&nbsp;copy</span>
+      </p>
+      <br>
+      <div class="row">
+        <div class="col-xs-6">
+          <h4>QUERY PARAMETERS</h4>
+          <p>These parameters must be added to the POST body of your reqest:</p>
+          <table>
+            <thead>
+              <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>password</td><td>String</td><td>Your personal GrepoData password.</td></tr>
+              <tr><td>mail</td><td>String</td><td>Username or email of your personal GrepoData account.</td></tr>
+            </tbody>
+          </table>
+          <br/>
+          <h4>RESPONSE PROPERTIES</h4>
+          <p>A successful response (HTTP status 200) will contain these properties:</p>
+          <table>
+            <thead>
+              <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>success</td><td>Boolean</td><td>True if the request was successfull</td></tr>
+              <tr><td>success_code</td><td>Integer</td><td>1110 if the request was successfull</td></tr>
+              <tr><td>message</td><td>String</td><td>Indication of request status</td></tr>
+              <tr><td>access_token</td><td>String</td><td>JWT token user for future interactions with the API. This is the token you want to extract.</td></tr>
+              <tr><td>refresh_token</td><td>String</td><td>JWT refresh token. You don't need to use this token. Simply get a new access_token whenever you need to interact with the API.</td></tr>
+              <tr><td>expires_in</td><td>Integer</td><td>access_token expiration window. The default setting is 86400 seconds (24 hours). Your access_token is only valid during this time.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-xs-6">
+          <h4>CURL REQUEST EXAMPLE</h4>
+          <br/>
+          <pre>curl
+        -X POST https://api.grepodata.com/auth/login
+        -H "Content-Type: application/x-www-form-urlencoded"
+        -d mail="your_grepodata_username"
+        -d password="your_grepodata_password"</pre>
+          <br/>
+          <br/>
+          <h4>RESPONSE EXAMPLE</h4>
+          <br/>
+          <pre>
+{{'{'}}
+    "success": true,
+    "success_code": 1110,
+    "message": "User login successful",
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+    "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjMxMjMxMjM4OTAiLCJuYW1lIjoiSm9obiBEb2UiLCJpYXQiOjE1MTYyMzkwMjJ9.BRJzJVEozqjndfukurhrarQBPmXsb6qM9kec9quYNgg",
+    "expires_in": 86400
+{{'}'}}</pre>
+          <br/>
+          <br/>
+          <h4>POSSIBLE ERROR CODES</h4>
+          <p>Possible <a class="a-link-dialog" (click)="scroll(errors)">error codes</a> are: 1010, 3004, 3005</p>
+          <br/>
+          <h4>Source Code</h4>
+          <p>
+            <a href="https://github.com/GrepoDataTools/grepodata-backend/blob/fb99ac3f207dd2bee9aeadcfdd2efd248969643f/Software/Application/API/Route/Authentication.php#L171" target="_blank">
+              View on github.com (opens in new tab)
+            </a>
+          </p>
+        </div>
+      </div>
+
+      <br>
+
+    </div>
+
+    <hr #town>
+
+    <div class="overflow-hidden content-section">
+      <h2>Get Town Intel (GET)</h2>
+      <p>
+        This route will return a json object containing all intel records for the given town.<br>
+        To retrieve the town intel, make a GET call to the following url:<br><br>
+        <code class="higlighted break-word" id="copy_town_url">https://api.grepodata.com/indexer/v2/town</code> <span class="copy-txt" (click)="copyText('copy_town_url')">&nbsp;copy</span>
+      </p>
+
+      <br/>
+
+      <div class="row">
+        <div class="col-xs-6">
+          <h4>QUERY PARAMETERS</h4>
+          <p>These parameters must be added to the GET request:</p>
+          <table>
+            <thead>
+            <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+            <tr><td>access_token</td><td>String</td><td><a class="a-link-dialog" (click)="scroll(authenticate)">access_token</a> for your personal GrepoData account</td></tr>
+            <tr><td>world</td><td>String</td><td>Grepolis game world identifier (e.g. nl97, de90 or en143)</td></tr>
+            <tr><td>town_id</td><td>Integer</td><td>Grepolis town identifier. This is the same number you see in the town BB code. e.g. if the town BB code is [town]3190[/town] then the town_id is 3190</td></tr>
+            </tbody>
+          </table>
+          <br/>
+          <h4>RESPONSE PROPERTIES</h4>
+          <p>The main response body has some general details about the town, but also contains lists of all the information relevant to this town:</p>
+          <table>
+            <thead>
+            <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+            <tr><td>notes</td><td>List</td><td>List of all notes for this town</td></tr>
+            <tr><td>buildings</td><td>List</td><td>List of latest building intel for this town (if available)</td></tr>
+            <tr><td>intel</td><td>List</td><td>List of all intel records for this town. See details below</td></tr>
+            <tr><td>teams</td><td>List</td><td>List of all teams that together produced the response (intel from different teams is combined into a single response)</td></tr>
+            <tr><td>+ others</td><td></td><td>Various basic attributes such as town name, player, alliance and island coordinates</td></tr>
+            </tbody>
+          </table>
+          <p>The response body contains an <strong>"intel"</strong> property. This is a list of all intel records for this town. Each record has these properties:</p>
+          <table>
+            <thead>
+            <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>date</td><td>Date</td><td>Original date of the attack/report. Date format: DD-MM-YY HH:mm:ss. Timezone depends on the Grepolis server, all times are local server times.</td></tr>
+              <tr><td>units</td><td>Object</td><td>List of units extracted from the report. Each unit has a 'name' (grepolis unit name), 'count' (how many were in the report) and 'killed' (how many died) property</td></tr>
+              <tr><td>type</td><td>String</td><td>Type of report. Can be one of: friendly_attack, enemy_attack, spy, attack_on_conquest, support</td></tr>
+              <tr><td>silver</td><td>String</td><td>Amount of silver used (only applicable if type=spy)</td></tr>
+              <tr><td>wall</td><td>String</td><td>Level of wall if visible in report</td></tr>
+              <tr><td>hero</td><td>String</td><td>Name of hero if present in report</td></tr>
+              <tr><td>god</td><td>String</td><td>Name of god if present in report</td></tr>
+              <tr><td>shared_via_indexes</td><td>String</td><td>Concatenated string of all teams that shared this report with you</td></tr>
+              <tr><td>indexed_by_users</td><td>Integer</td><td>GrepoData user id of the user that first indexed the report</td></tr>
+              <tr><td>is_previous_owner_intel</td><td>Boolean</td><td>true if the town has gotten a new owner after this intel record was collected (i.e. expired intel)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-xs-6">
+          <h4>CURL REQUEST EXAMPLE</h4>
+          <br/>
+          <pre>curl
+        -X GET -G https://api.grepodata.com/indexer/v2/town
+        -H "Content-Type: application/x-www-form-urlencoded"
+        -d access_token="your_grepodata_access_token"
+        -d world="nl97"
+        -d town_id="3190"</pre>
+          <br/>
+          <br/>
+          <h4>RESPONSE EXAMPLE</h4>
+          <br/>
+          <pre style="max-height: 1000px !important; overflow-y: scroll !important;">
+{{'{'}}
+  "query_ms": 7,
+  "world": "nl97",
+  "town_id": "3190",
+  "name": "KK02.Rood",
+  "ix": 531,
+  "iy": 547,
+  "player_id": 1415706,
+  "alliance_id": 106,
+  "player_name": "mittaTheBeast",
+  "alliance_name": "'31'",
+  "has_stonehail": false,
+  "notes": [],
+  "buildings": [],
+  "intel": [
+    {{'{'}}
+        "id": 6729521,
+        "deleted": false,
+        "sort_date": "2022-07-13T22:53:05.000000Z",
+        "date": "13-07-22 22:53:05",
+        "units": [
+            {{'{'}}
+              "name": "attack_ship",
+              "count": "253",
+              "killed": "0"
+            {{'}'}}
+        ],
+        "type": "enemy_attack",
+        "silver": "",
+        "wall": "",
+        "stonehail": null,
+        "conquest_id": 0,
+        "hero": "",
+        "god": "",
+        "cost": 246675,
+        "shared_via_indexes": "z0kt17jx, hyjjkl9h",
+        "indexed_by_users": "1",
+        "is_previous_owner_intel": false
+    {{'}'}},
+    {{'{'}}
+        "id": 6729524,
+        "deleted": false,
+        "sort_date": "2022-07-13T23:22:28.000000Z",
+        "date": "13-07-22 23:22:28",
+        "units": [
+            {{'{'}}
+                "name": "attack_ship",
+                "count": "100",
+                "killed": "0"
+            {{'}'}}
+        ],
+        "type": "enemy_attack",
+        "silver": "",
+        "wall": "",
+        "stonehail": null,
+        "conquest_id": 0,
+        "hero": "",
+        "god": "",
+        "cost": 19500,
+        "shared_via_indexes": "z0kt17jx, hyjjkl9h",
+        "indexed_by_users": "1",
+        "is_previous_owner_intel": false
+    {{'}'}}
+  ],
+  "teams": [
+      {{'{'}}
+          "index_key": "z0kt17jx",
+          "index_name": "test"
+      {{'}'}},
+      {{'{'}}
+          "index_key": "hyjjkl9h",
+          "index_name": "big guys"
+      {{'}'}}
+  ],
+  "latest_version": null,
+  "update_message": "Major update to improve index security. A GrepoData account will now be required to continue using the indexer. Read more: grepodata.com/indexer",
+  "has_intel": true
+{{'}'}}</pre>
+          <br/>
+          <br/>
+          <h4>POSSIBLE ERROR CODES</h4>
+          <p>
+            Possible <a class="a-link-dialog" (click)="scroll(errors)">error codes</a> are: 1010, 3003<br/>
+            The request will also return a 404 HTTP status code if either the world or town were not found in our database.
+          </p>
+          <br/>
+          <h4>Source Code</h4>
+          <p>
+            <a href="https://github.com/GrepoDataTools/grepodata-backend/blob/fb99ac3f207dd2bee9aeadcfdd2efd248969643f/Software/Application/API/Route/IndexV2/Intel.php#L149" target="_blank">
+              View on github.com (opens in new tab)
+            </a>
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <hr #player>
+
+    <div class="overflow-hidden content-section">
+      <h2>Get Player Intel (GET)</h2>
+      <p>
+        This route will return a json object containing all intel records for the given player.<br>
+        To retrieve the player intel, make a GET call to the following url:<br><br>
+        <code class="higlighted break-word" id="copy_player_url">https://api.grepodata.com/indexer/v2/player</code> <span class="copy-txt" (click)="copyText('copy_player_url')">&nbsp;copy</span>
+      </p>
+
+      <br/>
+
+      <div class="row">
+        <div class="col-xs-6">
+          <h4>QUERY PARAMETERS</h4>
+          <p>These parameters must be added to the GET request:</p>
+          <table>
+            <thead>
+            <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+            <tr><td>access_token</td><td>String</td><td><a class="a-link-dialog" (click)="scroll(authenticate)">access_token</a> for your personal GrepoData account</td></tr>
+            <tr><td>world</td><td>String</td><td>Grepolis game world identifier (e.g. nl97, de90 or en143)</td></tr>
+            <tr><td>player_id</td><td>Integer</td><td>Grepolis player identifier. You can find this id by going to the player's statistics page on grepodata.com and copying the id from the url</td></tr>
+            </tbody>
+          </table>
+          <br/>
+          <h4>RESPONSE PROPERTIES</h4>
+          <p>Note that this requests does some preprocessing on the intel by splitting it into unit categories in the response. The categories are fire, myth, off, bir, def and trir.</p>
+          <table>
+            <thead>
+            <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+            <tr><td>info</td><td>Object</td><td>Some basic info about the player: player id + name, alliance id + name</td></tr>
+            <tr><td>cities</td><td>Object</td><td>This object contains a list of all towns for the player</td></tr>
+            <tr><td>fire</td><td>Object</td><td>A list of all <strong>attack ship</strong> intelligence for all towns of the parent player</td></tr>
+            <tr><td>myth</td><td>Object</td><td>A list of all <strong>mythical unit</strong> intelligence for all towns of the parent player</td></tr>
+            <tr><td>off</td><td>Object</td><td>A list of all <strong>offensive land unit</strong> intelligence for all towns of the parent player</td></tr>
+            <tr><td>bir</td><td>Object</td><td>A list of all <strong>bireme</strong> intelligence for all towns of the parent player</td></tr>
+            <tr><td>def</td><td>Object</td><td>A list of all <strong>defensive land unit</strong> intelligence for all towns of the parent player</td></tr>
+            <tr><td>trir</td><td>Object</td><td>A list of all <strong>trireme</strong> intelligence for all towns of the parent player</td></tr>
+            <tr><td>cached_response</td><td>Boolean</td><td>Rendered responses are cached for 5 minutes. This field is true if the response is a cached response</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-xs-6">
+          <h4>CURL REQUEST EXAMPLE</h4>
+          <br/>
+          <pre>curl
+        -X GET -G https://api.grepodata.com/indexer/v2/player
+        -H "Content-Type: application/x-www-form-urlencoded"
+        -d access_token="your_grepodata_access_token"
+        -d world="nl97"
+        -d player_id="1415706"</pre>
+          <br/>
+          <br/>
+          <h4>RESPONSE EXAMPLE</h4>
+          <br/>
+          <pre style="max-height: 400px !important; overflow-y: scroll !important;">
+{{'{'}}
+    "info": {{'{'}}
+        "player_name": "mittaTheBeast",
+        "player_id": 1415706,
+        "alliance_id": 106,
+        "alliance_name": "'31'"
+    {{'}'}}
+    "cities": {{'{'}}
+        "players": {{'{'}}
+            "1415706": {{'{'}}
+                "id": 1415706,
+                "name": "mittaTheBeast",
+                "towns": [
+                  {{'{'}}
+                      "id": 6131853,
+                      "deleted": false,
+                      "name": "DD01.Mittathebeast",
+                      "town_id": 440,
+                      "player_id": 1415706,
+                      "alliance_id": 106,
+                      "count": 1
+                  {{'}'}},
+                  {{'{'}}
+                      "id": 6494899,
+                      "deleted": false,
+                      "name": "EE01.Pecunianonole",
+                      "town_id": 2409,
+                      "player_id": 1415706,
+                      "alliance_id": 106,
+                      "count": 1
+                  {{'}'}}
+                ]
+            {{'}'}}
+        {{'}'}}
+    {{'}'}},
+    "fire": {{'{'}}
+        "players": {{'{'}}
+            "1415706": {{'{'}}
+                "name": "mittaTheBeast",
+                "id": 1415706,
+                "towns": [
+                  {{'{'}}
+                      "id": 6494899,
+                      "deleted": false,
+                      "csa_prio": true,
+                      "cost": 221,
+                      "town_id": 2409,
+                      "town_name": "EE01.Pecunianonole",
+                      "date": "23-06-22 11:28:10",
+                      "units": "329(-160)",
+                      "count": "329",
+                      "priority": true
+                  {{'}'}},
+                  {{'{'}}
+                      "id": 6494891,
+                      "deleted": false,
+                      "csa_prio": true,
+                      "cost": 141,
+                      "town_id": 2569,
+                      "town_name": "FF02.pro4you",
+                      "date": "23-06-22 11:23:33",
+                      "units": "249(-249)",
+                      "count": "249",
+                      "priority": true
+                  {{'}'}}
+                ],
+                "contains_duplicates": true
+            {{'}'}}
+        {{'}'}}
+    {{'}'}},
+    "myth": {{'{'}}
+        "players": []
+    {{'}'}},
+    "off": {{'{'}}
+        "players": {{'{'}}
+            "1415706": {{'{'}}
+                "id": 1415706,
+                "name": "mittaTheBeast",
+                "towns": [
+                  {{'{'}}
+                      "id": 6729522,
+                      "deleted": false,
+                      "csa_prio": true,
+                      "cost": 772,
+                      "town_id": 3270,
+                      "town_name": "kk01.bdeetje",
+                      "date": "13-07-22 23:22:36",
+                      "units": [
+                          {{'{'}}
+                              "name": "slinger",
+                              "count": "832",
+                              "killed": "26"
+                          {{'}'}}
+                          ],
+                          "priority": true
+                  {{'}'}}
+                ],
+                "contains_duplicates": false
+            {{'}'}}
+        {{'}'}}
+    {{'}'}},
+    "bir": {{'{'}}
+        "players": []
+    {{'}'}},
+    "def": {{'{'}}
+        "players": []
+    {{'}'}},
+    "trir": {{'{'}}
+        "players": []
+    {{'}'}},
+    "teams": [
+        {{'{'}}
+            "index_key": "hyjjkl9h",
+            "index_name": "big guys"
+        {{'}'}},
+        {{'{'}}
+            "index_key": "z0kt17jx",
+            "index_name": "test"
+        {{'}'}}
+    ],
+    "script_version": "5.0.2",
+    "update_message": "Major update to improve index security. A GrepoData account will now be required to continue using the indexer. Read more: grepodata.com/indexer",
+    "query_ms": 140,
+    "cached_response": true
+{{'}'}}</pre>
+          <br/>
+          <br/>
+          <h4>POSSIBLE ERROR CODES</h4>
+          <p>
+            Possible <a class="a-link-dialog" (click)="scroll(errors)">error codes</a> are: 1010, 3003<br/>
+            The request will also return a 404 HTTP status code if the world was not found in our database.
+          </p>
+          <br/>
+          <h4>RESPONSE CACHING</h4>
+          <p>
+            Rendered responses are cached in memory for 5 minutes. The cached_response property in the response will be true if the response is a cached response.
+          </p>
+          <br/>
+          <h4>Source Code</h4>
+          <p>
+            <a href="https://github.com/GrepoDataTools/grepodata-backend/blob/fb99ac3f207dd2bee9aeadcfdd2efd248969643f/Software/Application/API/Route/IndexV2/Browse.php#L129" target="_blank">
+              View on github.com (opens in new tab)
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <hr #alliance>
+
+    <div class="overflow-hidden content-section">
+      <h2>Get Alliance Intel (GET)</h2>
+      <p>
+        This route will return a json object containing all intel records for the given alliance.<br>
+        To retrieve the alliance intel, make a GET call to the following url:<br><br>
+        <code class="higlighted break-word" id="copy_alliance_url">https://api.grepodata.com/indexer/v2/alliance</code> <span class="copy-txt" (click)="copyText('copy_alliance_url')">&nbsp;copy</span>
+      </p>
+
+      <br/>
+
+      <div class="row">
+        <div class="col-xs-6">
+          <h4>QUERY PARAMETERS</h4>
+          <p>These parameters must be added to the GET request:</p>
+          <table>
+            <thead>
+            <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+            <tr><td>access_token</td><td>String</td><td><a class="a-link-dialog" (click)="scroll(authenticate)">access_token</a> for your personal GrepoData account</td></tr>
+            <tr><td>world</td><td>String</td><td>Grepolis game world identifier (e.g. nl97, de90 or en143)</td></tr>
+            <tr><td>alliance_id</td><td>Integer</td><td>Grepolis alliance identifier. You can find this id by going to the alliance's statistics page on grepodata.com and copying the id from the url</td></tr>
+            </tbody>
+          </table>
+          <br/>
+          <h4>RESPONSE PROPERTIES</h4>
+          <p>Note that this requests does some preprocessing on the intel by splitting it into unit categories in the response. The categories are fire, myth, off, bir, def and trir. This intel is available for each individual player in the alliance.</p>
+          <table>
+            <thead>
+            <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+            <tr><td>info</td><td>Object</td><td>Some basic info about the alliance: alliance id + name</td></tr>
+            <tr><td>cities</td><td>Object</td><td>This object contains a list of all towns for the player</td></tr>
+            <tr><td>fire</td><td>Object</td><td>A list of all <strong>attack ship</strong> intelligence for all towns of the parent player</td></tr>
+            <tr><td>myth</td><td>Object</td><td>A list of all <strong>mythical unit</strong> intelligence for all towns of the parent player</td></tr>
+            <tr><td>off</td><td>Object</td><td>A list of all <strong>offensive land unit</strong> intelligence for all towns of the parent player</td></tr>
+            <tr><td>bir</td><td>Object</td><td>A list of all <strong>bireme</strong> intelligence for all towns of the parent player</td></tr>
+            <tr><td>def</td><td>Object</td><td>A list of all <strong>defensive land unit</strong> intelligence for all towns of the parent player</td></tr>
+            <tr><td>trir</td><td>Object</td><td>A list of all <strong>trireme</strong> intelligence for all towns of the parent player</td></tr>
+            <tr><td>view_is_limited</td><td>Boolean</td><td>Only the most recent 3000 intel records are used to build the response. If this is exceeded, older intel is excluded and view_is_limited will be true.</td></tr>
+            <tr><td>cached_response</td><td>Boolean</td><td>Rendered responses are cached for 5 minutes. This field is true if the response is a cached response</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-xs-6">
+          <h4>CURL REQUEST EXAMPLE</h4>
+          <br/>
+          <pre>curl
+        -X GET -G https://api.grepodata.com/indexer/v2/alliance
+        -H "Content-Type: application/x-www-form-urlencoded"
+        -d access_token="your_grepodata_access_token"
+        -d world="nl97"
+        -d alliance_id="106"</pre>
+          <br/>
+          <br/>
+          <h4>RESPONSE EXAMPLE</h4>
+          <br/>
+          <pre style="max-height: 500px !important; overflow-y: scroll !important;">
+{{'{'}}
+    "info": {{'{'}}
+          "player_name": "mittaTheBeast",
+          "player_id": 1415706,
+          "alliance_id": 106,
+          "alliance_name": "'31'"
+    {{'}'}},
+    "cities": {{'{'}}
+        "players": {{'{'}}
+            "1415706": {{'{'}}
+                "id": 1415706,
+                "name": "mittaTheBeast",
+                "towns": [
+                  {{'{'}}
+                      "id": 6729521,
+                      "deleted": false,
+                      "name": "KK02.Rood",
+                      "town_id": 3190,
+                      "player_id": 1415706,
+                      "alliance_id": 106,
+                      "count": 1
+                  {{'}'}},
+                  {{'{'}}
+                      "id": 6729522,
+                      "deleted": false,
+                      "name": "kk01.bdeetje",
+                      "town_id": 3270,
+                      "player_id": 1415706,
+                      "alliance_id": 106,
+                      "count": 1
+                  {{'}'}}
+                ]
+            {{'}'}},
+            "341832": {{'{'}}
+                "id": 341832,
+                "name": "nurdontour x",
+                "towns": [
+                    {{'{'}}
+                        "id": 6766432,
+                        "deleted": false,
+                        "name": "N12 Lelouche",
+                        "town_id": 652,
+                        "player_id": 341832,
+                        "alliance_id": 38,
+                        "count": 1
+                    {{'}'}}
+                ]
+            {{'}'}}
+        {{'}'}}
+    {{'}'}},
+    "fire": {{'{'}}
+        "players": {{'{'}}
+            "1415706": {{'{'}}
+                "name": "mittaTheBeast",
+                "id": 1415706,
+                "towns": [
+                    {{'{'}}
+                        "id": 6729521,
+                        "deleted": false,
+                        "csa_prio": true,
+                        "cost": 229,
+                        "town_id": 3190,
+                        "town_name": "KK02.Rood",
+                        "date": "13-07-22 22:53:05",
+                        "units": "253(-0)",
+                        "count": "253",
+                        "priority": true
+                    {{'}'}}
+                ],
+                "contains_duplicates": false
+            {{'}'}}
+        {{'}'}}
+    {{'}'}},
+    "myth": {{'{'}}
+        "players": {{'{'}}
+            "341832": {{'{'}}
+                "id": 341832,
+                "name": "nurdontour x",
+                "towns": [
+                   {{'{'}}
+                      "id": 6766432,
+                      "deleted": false,
+                      "csa_prio": true,
+                      "cost": 77,
+                      "town_id": 652,
+                      "town_name": "N12 Lelouche",
+                      "date": "13-07-22 23:23:45",
+                      "units": [
+                        {{'{'}}
+                            "name": "manticore",
+                            "count": "75",
+                            "killed": "17"
+                        {{'}'}}
+                      ],
+                      "priority": true
+                    {{'}'}}
+                ],
+                "contains_duplicates": false
+            {{'}'}}
+        {{'}'}}
+    {{'}'}},
+    "off": {{'{'}}
+        "players": {{'{'}}
+            "1415706": {{'{'}}
+                "id": 1415706,
+                "name": "mittaTheBeast",
+                "towns": [
+                    {{'{'}}
+                        "id": 6729522,
+                        "deleted": false,
+                        "csa_prio": true,
+                        "cost": 772,
+                        "town_id": 3270,
+                        "town_name": "kk01.bdeetje",
+                        "date": "13-07-22 23:22:36",
+                        "units": [
+                            {{'{'}}
+                                "name": "slinger",
+                                "count": "832",
+                                "killed": "26"
+                            {{'}'}}
+                        ],
+                        "priority": true
+                    {{'}'}}
+                ],
+                "contains_duplicates": false
+            {{'}'}}
+        {{'}'}}
+    {{'}'}},
+    "bir": {{'{'}}
+        "players": []
+    {{'}'}},
+    "def": {{'{'}}
+        "players": []
+    {{'}'}},
+    "trir": {{'{'}}
+        "players": []
+    {{'}'}},
+    "teams": [
+        {{'{'}}
+            "index_key": "avcvl5yu",
+            "index_name": "test"
+        {{'}'}}
+    ],
+    "view_is_limited": false,
+    "script_version": "5.0.2",
+    "update_message": "Major update to improve index security. A GrepoData account will now be required to continue using the indexer. Read more: grepodata.com\/indexer",
+    "query_ms": 1564
+{{'}'}}</pre>
+          <br/>
+          <br/>
+          <h4>POSSIBLE ERROR CODES</h4>
+          <p>
+            Possible <a class="a-link-dialog" (click)="scroll(errors)">error codes</a> are: 1010, 3003<br/>
+            The request will also return a 404 HTTP status code if the world was not found in our database.
+          </p>
+          <br/>
+          <h4>RESPONSE CACHING</h4>
+          <p>
+            Rendered responses are cached in memory for 5 minutes. The cached_response property in the response will be true if the response is a cached response.
+          </p>
+          <br/>
+          <h4>Source Code</h4>
+          <p>
+            <a href="https://github.com/GrepoDataTools/grepodata-backend/blob/fb99ac3f207dd2bee9aeadcfdd2efd248969643f/Software/Application/API/Route/IndexV2/Browse.php#L173" target="_blank">
+              View on github.com (opens in new tab)
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <hr #exportintel>
+
+    <div class="overflow-hidden content-section">
+      <h2>Export Team Intel (GET)</h2>
+      <div style="margin: 0 30px">
+        <app-alert type="info" title="Development token needed" [dismissible]="false">
+          <p style="padding: 0">To use this export route, you need a <strong>dev_token</strong>. Please contact us at <a href="mailto:admin@grepodata.com">admin@grepodata.com</a> to get a development token. This route is very resource hungry so we only distribute keys if your use case requires this functionality. Please explain what you intend to do with this route when contacting us.</p>
+        </app-alert>
+      </div>
+      <p>
+        This route will return a json object containing all intel records for the given team.<br>
+        Once you have received a dev_token from us, you can make a GET call to the following url:<br><br>
+        <code class="higlighted break-word" id="copy_export_url">https://api.grepodata.com/indexer/v2/export</code> <span class="copy-txt" (click)="copyText('copy_login_url')">&nbsp;copy</span>
+      </p>
+
+      <br/>
+
+      <div class="row">
+        <div class="col-xs-6">
+          <h4>QUERY PARAMETERS</h4>
+          <p>These parameters must be added to the GET request:</p>
+          <table>
+            <thead>
+            <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+            <tr><td>access_token</td><td>String</td><td><a class="a-link-dialog" (click)="scroll(authenticate)">access_token</a> for your personal GrepoData account</td></tr>
+            <tr><td>dev_token</td><td>String</td><td>Development token received via email from admin@grepodata.com</td></tr>
+            <tr><td>index_key</td><td>String</td><td>8 character unique team identifier. You can find this ID by going to your team overview on grepodata.com and looking at the URL of that page, it will contain an 8 character key for your team. i.e. <span style="font-style: italic">grepodata.com/profile/team/<strong>index_key</strong></span></td></tr>
+            </tbody>
+          </table>
+          <br/>
+          <h4>RESPONSE PROPERTIES</h4>
+          <p>The response of this request is a long list of all intelligence records. Each record has these properties:</p>
+          <table>
+            <thead>
+            <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+            <tr><td>date</td><td>Date</td><td>Original date of the attack/report. Date format: DD-MM-YY HH:mm:ss. Timezone depends on the Grepolis server, all times are local server times.</td></tr>
+            <tr><td>units</td><td>Object</td><td>List of units extracted from the report. Each unit has a 'name' (grepolis unit name), 'count' (how many were in the report) and 'killed' (how many died) property</td></tr>
+            <tr><td>type</td><td>String</td><td>Type of report. Can be one of: friendly_attack, enemy_attack, spy, attack_on_conquest, support</td></tr>
+            <tr><td>silver</td><td>String</td><td>Amount of silver used (only applicable if type=spy)</td></tr>
+            <tr><td>wall</td><td>String</td><td>Level of wall if visible in report</td></tr>
+            <tr><td>hero</td><td>String</td><td>Name of hero if present in report</td></tr>
+            <tr><td>god</td><td>String</td><td>Name of god if present in report</td></tr>
+            <tr><td>town_id</td><td>Integer</td><td>Grepolis town identifier</td></tr>
+            <tr><td>town_name</td><td>String</td><td>Grepolis town name</td></tr>
+            <tr><td>player_id</td><td>Integer</td><td>Grepolis player identifier</td></tr>
+            <tr><td>player_name</td><td>String</td><td>Grepolis player name</td></tr>
+            <tr><td>alliance_id</td><td>Integer</td><td>Grepolis alliance identifier</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-xs-6">
+          <h4>CURL REQUEST EXAMPLE</h4>
+          <br/>
+          <pre>curl
+        -X GET -G https://api.grepodata.com/indexer/v2/export
+        -H "Content-Type: application/x-www-form-urlencoded"
+        -d access_token="your_grepodata_access_token"
+        -d dev_token="your_grepodata_dev_token"
+        -d index_key="ab12cd34"</pre>
+          <br/>
+          <br/>
+          <h4>RESPONSE EXAMPLE</h4>
+          <br/>
+          <pre style="max-height: 600px !important; overflow-y: scroll !important;">
+[
+  {{'{'}}
+    "id": 6596173,
+    "deleted": false,
+    "sort_date": "2022-07-04T12:59:38.000000Z",
+    "date": "04-07-22 12:59:38",
+    "units": [
+    {{'{'}}
+        "name": "unknown",
+        "count": "?",
+        "killed": "0"
+    {{'}'}}
+    ],
+    "type": "friendly_attack",
+    "silver": "",
+    "wall": "15",
+    "stonehail": null,
+    "conquest_id": 0,
+    "hero": "",
+    "god": "",
+    "cost": 0,
+    "town_id": 9951,
+    "town_name": "Polis",
+    "player_id": 446436,
+    "player_name": "Jane Doe",
+    "alliance_id": 490
+  {{'}'}},
+  {{'{'}}
+    "id": 6596152,
+    "deleted": false,
+    "sort_date": "2022-07-04T12:54:48.000000Z",
+    "date": "04-07-22 12:54:48",
+    "units": [
+    {{'{'}}
+        "name": "big_transporter",
+        "count": "163",
+        "killed": "0"
+    {{'}'}},
+    {{'{'}}
+        "name": "bireme",
+        "count": "2",
+        "killed": "0"
+    {{'}'}},
+    {{'{'}}
+        "name": "slinger",
+        "count": "213",
+        "killed": "1"
+    {{'}'}}
+    ],
+    "type": "friendly_attack",
+    "silver": "",
+    "wall": "1",
+    "stonehail": null,
+    "conquest_id": 0,
+    "hero": "",
+    "god": "",
+    "cost": 49,
+    "town_id": 6212,
+    "town_name": "Polis 2",
+    "player_id": 1451408,
+    "player_name": "John Doe",
+    "alliance_id": 106
+  {{'}'}}
+]</pre>
+          <br/>
+          <br/>
+          <h4>RATE LIMIT</h4>
+          <p>This route has a rate limit of 3 calls per minute</p>
+          <br/>
+          <h4>POSSIBLE ERROR CODES</h4>
+          <p>Possible <a class="a-link-dialog" (click)="scroll(errors)">error codes</a> are: 1010, 3003, 7101, 7504</p>
+          <br/>
+          <h4>Source Code</h4>
+          <p>
+            <a href="https://github.com/GrepoDataTools/grepodata-backend/blob/fb99ac3f207dd2bee9aeadcfdd2efd248969643f/Software/Application/API/Route/IndexV2/Intel.php#L93" target="_blank">
+              View on github.com (opens in new tab)
+            </a>
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

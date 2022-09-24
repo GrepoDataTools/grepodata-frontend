@@ -112,13 +112,16 @@
         </div>
       </mat-card-title>
 
-      <div *ngIf="server && server=='ru'" >
-        <img style="width: 50%; margin-left: 25%;" src="assets/images/ua.png">
-      </div>
-
-      <mat-card-content *ngIf="!server || server!='ru'"  style="width: 100% !important;">
+      <mat-card-content style="width: 100% !important;">
 
         <hr/>
+
+<!--        <app-alert type="error" title="Discord bot temporarily offline (July 29, 2022)" [dismissible]="false">-->
+<!--          <p>-->
+<!--            The GrepoData Discord bot is currently offline because it has exceeded the number of discord servers it can join.<br/>-->
+<!--            <strong>Please help us by removing the bot from your old inactive Discord servers</strong>; this is a short term fix while we implement bot sharding as a permanent fix.-->
+<!--          </p>-->
+<!--        </app-alert>-->
 
         <div class="container-fluid text-center" id="player_scoreboard" style="width: 100% !important;">
           <div *ngIf="loadingPlayers" style="position: relative; top: -40px; height: 0px;">

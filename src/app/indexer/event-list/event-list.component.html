@@ -5,7 +5,8 @@
 <!--  <div *ngIf="error">{{error}}</div>-->
   <div *ngIf="!error && !loading && events.length > 0" class="text-left">
     <div class="event-header">
-      <h3>Team events</h3>
+      <h3 *ngIf="event_type=='team'">Team events</h3>
+      <h3 *ngIf="event_type=='user'">Your GrepoData team events</h3>
 
       <mat-paginator *ngIf="total_events > size"
                      [length]="total_events"
@@ -36,6 +37,9 @@
             <span class="event-part entity" *ngIf="part.type == 'player'"><img style="height: 18px; margin-top: 0;" src="../../assets/images/player_ico.png"/> {{part.text}}</span>
             <span class="event-part entity" *ngIf="part.type == 'team'"><mat-icon>group</mat-icon> {{part.text}}</span>
           </ng-container>
+        </div>
+        <div class="event-teamlink" *ngIf="event_type=='user'">
+          <button routerLink="/profile/team/{{event.index_key}}" class="btn btn-link mr-1 index-btn-browse">Team: {{event.index_key | IndexNamePipe}} <mat-icon>launch</mat-icon></button>
         </div>
       </div>
     </div>

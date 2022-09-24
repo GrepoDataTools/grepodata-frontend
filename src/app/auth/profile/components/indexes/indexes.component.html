@@ -93,39 +93,40 @@
 									<th scope="col" class="text-right btn-column-th settings">Settings</th>
 									<th scope="col" class="text-right btn-column-th actions hidden-xs">Actions</th>
 								</tr>
-								<tr class="filter-row index-filters" *ngIf="indexes.length > 15">
-									<td scope="col"><input type="text" placeholder="Filter team name" [(ngModel)]="filter_index_name"></td>
-									<td scope="col" class="hidden-xs hidden-sm hidden-md">
+								</thead>
+								<tbody>
+                <tr class="filter-row index-filters" *ngIf="indexes.length - stopped_world_count > 12">
+                  <td><input type="text" placeholder="Filter name" [(ngModel)]="filter_index_name"></td>
+                  <td class="hidden-xs hidden-sm hidden-md">
                     <select [(ngModel)]="filter_world">
                       <option value selected>All worlds</option>
                       <option value="{{world}}" *ngFor="let world of uniqueWorlds()">{{world | WorldNamePipe : false}}</option>
                     </select>
                   </td>
-									<td scope="col" class="hidden-xs hidden-sm hidden-md"></td>
-									<td scope="col" class="hidden-xs hidden-sm"><input class="hidden-md" type="text" placeholder="Filter team owners" [(ngModel)]="filter_index_owners"></td>
-									<td scope="col" class="hidden-xs hidden-sm"></td>
-									<td scope="col" class="hidden-xs hidden-sm hidden-md">
+                  <td class="hidden-xs hidden-sm hidden-md"></td>
+                  <td class="hidden-xs hidden-sm"><input class="hidden-md" type="text" placeholder="Filter owners" [(ngModel)]="filter_index_owners"></td>
+                  <td class="hidden-xs hidden-sm"></td>
+                  <td class="hidden-xs hidden-sm hidden-md">
                     <select [(ngModel)]="filter_role">
-                      <option value selected>All roles</option>
+                      <option value selected>All</option>
                       <option value="owner">Owner</option>
                       <option value="admin">Admin</option>
                       <option value="write">Member</option>
                       <option value="read">Read only</option>
                     </select>
                   </td>
-									<td scope="col"></td>
-									<td scope="col" style="text-align: right !important;" class="hidden-xs">
+                  <td></td>
+                  <td style="text-align: right !important;" class="hidden-xs">
                     <a *ngIf="filter_role || filter_world || filter_index_owners || filter_index_name" class="a-link-dialog" (click)="filter_role=''; filter_world = ''; filter_index_owners=''; filter_index_name='';">Clear filters <mat-icon style="vertical-align: middle;">close</mat-icon></a>
                   </td>
-								</tr>
-								</thead>
-								<tbody>
+                </tr>
 								<tr *ngFor="let index of indexes; let i = index;" class="index-row" [ngClass]="{'inactive-index-row': index.world_stopped}">
                   <ng-container *ngIf="
                     (!filter_index_name || index.name.includes(filter_index_name)) &&
                     (!filter_index_owners || hasOwnerFilter(index)) &&
                     (!filter_world || index.world == filter_world) &&
-                    (!filter_role || index.role == filter_role)
+                    (!filter_role || index.role == filter_role) &&
+                    (!index.world_stopped || show_stopped_worlds)
                   ">
 									<td style="text-align: left !important;" (click)="routing('/profile/team/' + index.key)">
 										<a><mat-icon style="opacity: 1; vertical-align: sub;">group</mat-icon> {{index.name || index.key}}</a>
@@ -192,6 +193,9 @@
             <button (click)="newIndex()" class="btn btn-success mr-1" style="margin-right: 10px;">
               Create a new team <mat-icon>library_add</mat-icon>
             </button>
+            <mat-slide-toggle *ngIf="stopped_world_count > 0" [(ngModel)]="show_stopped_worlds" style="margin: 0 30px;">
+              Show finished worlds
+            </mat-slide-toggle>
             <button (click)="importV1Index()" class="btn btn-secondary" style="margin-right: 10px; float: right;">
               Import V1 index <span style="color: dimgrey">(only for indexes created before April 2021)</span> <mat-icon>download</mat-icon>
             </button>
@@ -200,5 +204,16 @@
 
 				</div>
 			</div>
+
 		</div>
+</mat-card>
+
+<mat-card class="index-card">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12">
+        <app-event-list [update]="true"></app-event-list>
+      </div>
+    </div>
+  </div>
 </mat-card>

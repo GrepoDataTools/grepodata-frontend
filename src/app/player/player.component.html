@@ -1,10 +1,6 @@
 <app-search [compare]="true"></app-search>
 
-<div *ngIf="world && world.substr(0,2)=='ru'" >
-  <img style="width: 50%; margin-left: 25%;" src="assets/images/ua.png">
-</div>
-
-<div *ngIf="!world || world.substr(0,2)!='ru'">
+<div>
   <div>
     <div class='' id="pagehead"></div>
     <mat-card-content *ngIf="notFound">

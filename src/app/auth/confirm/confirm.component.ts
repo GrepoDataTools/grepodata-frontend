@@ -56,6 +56,31 @@ export class ConfirmComponent implements OnInit {
           }
         );
     });
+  }
 
+  deleteAccount() {
+    let confirmed = confirm("Are you sure you want to delete your account? This can not be undone. If you click OK, your account will be permanently deleted.");
+    if (confirmed == true) {
+      this.authService.accessToken().then(access_token => {
+        this.authService.deleteAccount(access_token, 'null').subscribe(
+          (response) => {
+            console.log(response);
+            this.error = '';
+            this.submitting = false;
+            if ('status' in response && response.status === 'Account deleted') {
+              this.authService.logout(true);
+            } else {
+              this.error = "Unable to complete your request. Please try again later or contact us if this error persists.";
+            }
+          },
+          (error) => {
+            console.log(error);
+            this.error = "Unable to complete your request. Please try again later or contact us if this error persists.";
+            this.submitting = false;
+          },
+        );
+      });
+    }
   }
 }
+

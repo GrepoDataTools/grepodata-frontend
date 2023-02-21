@@ -169,7 +169,7 @@ export class LoginRegisterComponent implements OnInit, AfterViewInit {
               'Sorry, we could not verify the captcha. Please try again later or contact us if this error persists.';
           }
           if (error.error.error_code != undefined && error.error.error_code == 3004) {
-            this.loginForm.controls.username.setErrors({'custom': 'No user found with this username or email address.  If you created an index before April 2021: please register for a new account using the form on the left. You can use the same email address again.'});
+            this.loginForm.controls.username.setErrors({'custom': 'No user found with this username or email address.'});
           } else if (error.error.error_code != undefined && error.error.error_code == 3005) {
             this.loginForm.controls.password.setErrors({'custom': 'Invalid password for this user.'});
           } else {

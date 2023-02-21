@@ -14,5 +14,14 @@
 		You have received an email with an activation link from admin@grepodata.com <strong>(Also check your spam folder!)</strong>.
 		<br/><br/>
 		<span [outerHTML]="success"></span>
-	</h5>
+    <br/><br/>
+
+    <app-alert type="warning" title="" [dismissible]="false">
+      Is this not your email address or did you make a spelling mistake? Then please click on the button to the right to delete your account and register for a new account.
+      <br/><strong>Warning: this can not be undone!</strong><br/>
+      <button class="btn btn-danger btn-delete" [disabled]="submitting" (click)="deleteAccount()">Delete my account</button>
+      <mat-progress-bar *ngIf="submitting" mode="indeterminate"></mat-progress-bar>
+      <h3 *ngIf="error!=''" class="gd-error"><strong>{{error}}</strong></h3>
+    </app-alert>
+  </h5>
 </app-alert>

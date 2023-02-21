@@ -84,7 +84,7 @@ import { PrivacyComponent } from './privacy/privacy.component';
 import { IndexVersionComponent } from './index-version/index-version.component';
 import { DiscordComponent } from './discord/discord.component';
 import { FaqComponent } from './faq/faq.component';
-import { DonatedComponent } from './donated/donated.component';
+import { DonateComponent } from './donate/donate.component';
 import { ProfileComponent } from './auth/profile/profile.component';
 import { ConquestDialog } from './conquest/conquest.service';
 import { UnitModule } from './advertorial/unit/unit.module';
@@ -138,6 +138,7 @@ import { EventListComponent } from './indexer/event-list/event-list.component';
 import { ScriptVersionComponent } from './changelog/script-version/script-version.component';
 import { IdeasComponent } from './auth/profile/components/ideas/ideas.component';
 import { ApiComponent } from './auth/profile/components/api/api.component';
+import { BlogComponent } from './blog/blog.component';
 
 const appRoutes: Routes = [
     { path: 'login', component: LandingPageComponent },
@@ -163,7 +164,7 @@ const appRoutes: Routes = [
     { path: 'ranking', component: RankingComponent },
     { path: 'compare', component: CompareComponent },
     { path: 'message', component: MessageComponent },
-    { path: 'donated', component: DonatedComponent },
+    { path: 'donate', component: DonateComponent },
     { path: 'privacy', component: PrivacyComponent },
     { path: 'compare/:type/:world', component: CompareComponent },
     { path: 'analytics', component: AnalyticsComponent },
@@ -188,6 +189,7 @@ const appRoutes: Routes = [
     { path: 'conquest', component: ConquestComponent },
     { path: 'discord', component: DiscordComponent },
     { path: 'faq', component: FaqComponent },
+    { path: 'blog', component: BlogComponent },
     { path: 'test', component: HomepageComponent },
     { path: '', component: HomepageComponent },
     { path: '**', component: HomepageComponent },
@@ -254,7 +256,7 @@ export function jwtTokenGetter(): any {
         IndexVersionComponent,
         DiscordComponent,
         FaqComponent,
-        DonatedComponent,
+        DonateComponent,
         ProfileComponent,
         TableComponent,
         AnalyticsComponent,
@@ -287,7 +289,8 @@ export function jwtTokenGetter(): any {
         EventListComponent,
         ScriptVersionComponent,
         IdeasComponent,
-        ApiComponent
+        ApiComponent,
+        BlogComponent
     ],
     imports: [
         FormsModule,

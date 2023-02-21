@@ -5,26 +5,13 @@
     <!--<a class="navbar-brand" href="#page-top">Grepo<span style="color:#18BC9C;">data</span> <span class="fa fa-bar-chart"></span></a>-->
   </span>
   <!--suppress XmlDuplicatedId -->
-  <ul id="menu">
-    <li (click)="routing('/points')" [ngClass]="{'nav-active': isScoreboard}"><a routerLinkActive="active"><span class="fa fa-trophy"></span> SCOREBOARD</a></li>
-    <li (click)="routing('/compare')" [ngClass]="{'nav-active': isCompare}"><a routerLinkActive="active"><span class="fa fa-compress"></span> COMPARE</a></li>
-    <li (click)="routing('/ranking')" [ngClass]="{'nav-active': isRanking}"><a routerLinkActive="active"><span class="fa fa-line-chart"></span> RANKINGS</a></li>
-    <li (click)="openIndexer()" [ngClass]="{'nav-active': isIndexer}"><a routerLinkActive="active"><span class="fa fa-university"></span> CITY INDEXER</a></li>
-    <li (click)="showContactDialog()"><a><span class="fa fa-envelope"></span> CONTACT</a></li>
-<!--	  <li (click)="routing('/message')" [ngClass]="{'nav-active': isRanking}" class="hidden-xs hidden-sm hidden-md"><a routerLinkActive="active">DONATE</a></li>-->
-	  <li class="li-donate hidden-xs hidden-sm hidden-md" style="display: flex; float: right;" (click)="donate()">
-		  <div>
-			  <div style="height: 5px;"></div>
-			  <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-				  <input type="hidden" name="cmd" value="_s-xclick" />
-				  <input type="hidden" name="hosted_button_id" value="WYX6WW65KYQ5N" />
-				  <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
-			  </form>
-		  </div>
-	  </li>
-    <li class="hidden-xs hidden-sm hidden-md" matTooltip="Check us out on Github!">
-      <a href="https://github.com/GrepoDataTools" target="_blank"><mat-icon style="margin-left: -8px;"><img src="assets/images/icons/GitHub.png"/></mat-icon></a>
-    </li>
+  <ul id="menu" class="menu-item-container">
+    <li (click)="routing('/points')" [ngClass]="{'nav-active': isScoreboard}">Scoreboard</li>
+    <li (click)="routing('/compare')" [ngClass]="{'nav-active': isCompare}">Compare</li>
+    <li (click)="routing('/ranking')" [ngClass]="{'nav-active': isRanking}">Ranking</li>
+    <li (click)="openIndexer()" [ngClass]="{'nav-active': isIndexer}">City Indexer</li>
+    <li (click)="showContactDialog()">Contact</li>
+    <a class="a-donate donate" (click)="routing('/donate')" [ngClass]="{'nav-active': isDonate}">DONATE</a>
   </ul>
 
   <div id="toggle" (click)="toggleNav()" [ngClass]="{'on': toggled}">

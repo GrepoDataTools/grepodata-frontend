@@ -123,6 +123,38 @@ export class AnalyticsComponent implements OnInit {
       this.error = true;
     }
 
+    let last_count_inbox = 0;
+    let last_count_forum = 0;
+    if (data.indexer_num_inbox_per_day && data.indexer_num_forum_per_day) {
+      // Build chart data
+      let chartI = [];
+      let chartF = [];
+      for(let i in data.indexer_num_inbox_per_day.data) {
+        let record = data.indexer_num_inbox_per_day.data[i];
+        chartI.unshift({
+          'name' : new Date(record.date),
+          'value' : record.count,
+        });
+        last_count_inbox = record.count;
+      }
+      for(let i in data.indexer_num_forum_per_day.data) {
+        let record = data.indexer_num_forum_per_day.data[i];
+        chartF.unshift({
+          'name' : new Date(record.date),
+          'value' : record.count,
+        });
+        last_count_forum = record.count;
+      }
+      this.report_type_per_day.push({
+        'name': 'Inbox reports',
+        'series': chartI,
+      });
+      this.report_type_per_day.push({
+        'name': 'Forum reports',
+        'series': chartF,
+      });
+    }
+
     if (data.indexer_error_rate) {
       // Build chart data
       let chart = [];
@@ -132,7 +164,7 @@ export class AnalyticsComponent implements OnInit {
         // date.setDate(date.getDate() - 1);
         chart.push({
           'name' : date,
-          'value' : record.count,
+          'value' : (record.count / (last_count_inbox + last_count_forum)) * 100,
         });
       }
       this.indexer_error_rate = chart;
@@ -180,34 +212,6 @@ export class AnalyticsComponent implements OnInit {
         'series': chartusers,
       });
       console.log(this.hourly_reports);
-    }
-
-    if (data.indexer_num_inbox_per_day && data.indexer_num_forum_per_day) {
-      // Build chart data
-      let chartI = [];
-      let chartF = [];
-      for(let i in data.indexer_num_inbox_per_day.data) {
-        let record = data.indexer_num_inbox_per_day.data[i];
-        chartI.unshift({
-          'name' : new Date(record.date),
-          'value' : record.count,
-        });
-      }
-      for(let i in data.indexer_num_forum_per_day.data) {
-        let record = data.indexer_num_forum_per_day.data[i];
-        chartF.unshift({
-          'name' : new Date(record.date),
-          'value' : record.count,
-        });
-      }
-      this.report_type_per_day.push({
-        'name': 'Inbox reports',
-        'series': chartI,
-      });
-      this.report_type_per_day.push({
-        'name': 'Forum reports',
-        'series': chartF,
-      });
     }
 
     if (data.indexer_stats_agg) {

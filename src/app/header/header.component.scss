@@ -248,7 +248,7 @@ nav #menu li:hover {
   }
   #menu li {
     padding: 10px 10px !important;
-    font-size: 14px !important;
+    font-size: 18px !important;
   }
 }
 
@@ -321,5 +321,65 @@ nav #menu li:hover {
   .hidden-push-div {
     display: block;
     height: 68px;
+  }
+}
+
+.menu-item-container {
+  li {
+    color: white;
+    font-weight: 500;
+    font-size: 17px !important;
+    line-height: 1.5 !important;
+    font-family: Verdana,sans-serif !important;
+  }
+}
+
+.a-donate {
+  font: 14px "Helvetica";
+  display: inline-block;
+  margin: 20px;
+  position: relative;
+  text-decoration: none;
+}
+
+$donate-primary: #18BC9C;
+.donate {
+  background: #18BC9C;
+  background: -webkit-linear-gradient(top, transparent 0%, rgba(0,0,0,0.4) 100%),
+  -webkit-linear-gradient(left, lighten($donate-primary, 15%) 0%, $donate-primary 50%, lighten($donate-primary, 15%) 100%);
+  background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 100%),
+  linear-gradient(to right, lighten($donate-primary, 15%) 0%, $donate-primary 50%, lighten($donate-primary, 15%) 100%);
+  background-position: 0 0;
+  background-size: 200% 100%;
+  border-radius: 4px;
+  color: #fff;
+  padding: 7px 25px 5px 7px;
+  text-shadow: 1px 1px 5px #666;
+  -webkit-transition: all 800ms;
+  transition: all 800ms;
+
+  &:after {
+    color: darken(#00684d, 2%);
+    //content: "\f004";
+    content: "\f135";
+    font: 13px "FontAwesome";
+    padding: 1px 0;
+    padding-left: 5px;
+    position: absolute;
+    right: 6px;
+    top: 7px;
+    -webkit-transition: all 600ms 200ms;
+    transition: all 600ms 200ms;
+  }
+
+  &:hover {
+    background-position: -100% 0;
+    cursor: pointer;
+
+    &:after {
+      display: block;
+      color: #fff;
+      text-shadow: 0 0 10px #000;
+    }
   }
 }

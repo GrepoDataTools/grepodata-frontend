@@ -19,6 +19,7 @@ export class HeaderComponent implements OnInit {
   isScoreboard = false;
   isCompare = false;
   isRanking = false;
+  isDonate = false;
   isIndexer = false;
   isProfile = false;
 
@@ -41,15 +42,17 @@ export class HeaderComponent implements OnInit {
       if ('url' in val) {
         let path = val.url;
         if (path.includes('/points')) {
-          this.isScoreboard = true;    this.isRanking = false;   this.isIndexer = false;   this.isCompare = false;
+          this.isScoreboard = true;    this.isRanking = false;   this.isIndexer = false;   this.isCompare = false;   this.isDonate = false;
         } else if (path.includes('/compare')) {
-          this.isScoreboard = false;   this.isRanking = false;   this.isIndexer = false;   this.isCompare = true;
+          this.isScoreboard = false;   this.isRanking = false;   this.isIndexer = false;   this.isCompare = true;   this.isDonate = false;
         } else if (path.includes('/ranking')) {
-          this.isScoreboard = false;   this.isRanking = true;    this.isIndexer = false;   this.isCompare = false;
+          this.isScoreboard = false;   this.isRanking = true;    this.isIndexer = false;   this.isCompare = false;   this.isDonate = false;
+        } else if (path.includes('/donate')) {
+          this.isScoreboard = false;   this.isRanking = false;    this.isIndexer = false;   this.isCompare = false;   this.isDonate = true;
         } else if (path.includes('/indexer') || path.includes('/profile') || path.includes('/login')) {
-          this.isScoreboard = false;   this.isRanking = false;   this.isIndexer = true;    this.isCompare = false;
+          this.isScoreboard = false;   this.isRanking = false;   this.isIndexer = true;    this.isCompare = false;   this.isDonate = false;
         } else {
-          this.isScoreboard = false;   this.isRanking = false;   this.isIndexer = false;   this.isCompare = false;
+          this.isScoreboard = false;   this.isRanking = false;   this.isIndexer = false;   this.isCompare = false;   this.isDonate = false;
         }
         this.isProfile = path.includes('/profile') || path.includes('/indexer') || path.includes('/intel');
       }
@@ -61,7 +64,8 @@ export class HeaderComponent implements OnInit {
 
   donate()
   {
-    window.open("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WYX6WW65KYQ5N&source=url", "_blank")
+    // window.open("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WYX6WW65KYQ5N&source=url", "_blank")
+    this.routing('/donate');
   }
 
   toggleNav()

@@ -29,7 +29,7 @@
       <!--error rate-->
       <div class="col-md-12 text-left chart-container" *ngIf="!loading_index && indexer_error_rate.length > 0" >
 
-        <h2 class="gd-secondary">Report parsing error rate</h2>
+        <h2 class="gd-secondary">Report parsing error rate (%)</h2>
 
 <!--        <app-alert type="error" title="16 Feb 2022: Forum report indexing is temporarily disabled" [dismissible]="false">-->
 <!--          <p>-->
@@ -52,9 +52,10 @@
             [yAxis]="showYAxis"
             [legend]="false"
             [showXAxisLabel]="false"
-            [showYAxisLabel]="showYAxisLabel"
-            [xAxisLabel]="xAxisLabel"
-            [yAxisLabel]="yAxisLabel"
+            [showYAxisLabel]="true"
+            [xAxisLabel]="''"
+            [yAxisLabel]="'% of daily parsed reports'"
+            [yScaleMax]="100"
             (select)="onSelect($event)">
           </ngx-charts-bar-vertical>
         </div>
@@ -63,7 +64,7 @@
       <!--warning rate-->
       <div class="col-md-12 text-left chart-container" *ngIf="!loading_index && warning_rate.length > 0">
 
-        <h2 class="gd-secondary">GrepoData logger warning rate</h2>
+        <h2 class="gd-secondary">GrepoData logger warning count</h2>
         <p>Elevated warning rates may indicate an issue with the service.</p>
 
         <div class="ngx-chart-container">

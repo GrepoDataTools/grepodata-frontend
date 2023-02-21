@@ -23,3 +23,21 @@ Change the frontend .htaccess file to the following:
     </Else>
 </IfModule>
 ```
+
+### Edit backend router
+Change the backend router.php to:
+```
+<?php
+
+namespace Grepodata\Application\API\Http;
+
+require('./../../../config.php');
+require('./../config.api.php');
+
+// Handle router requests
+header('Content-Type: application/json', true, 200);
+return json_encode(array('offline'=>'Sorry, we are offline for maintenance! Check back later'), JSON_PRETTY_PRINT);
+//$oRouter = \Grepodata\Library\Router\Service::GetInstance();
+//$oRouter->Handle();
+
+```

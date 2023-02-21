@@ -1,0 +1,57 @@
+h1 {
+  font-size: 5rem;
+}
+
+h3 {
+  font-size: 3rem;
+}
+
+h4 {
+  font-size: 3rem;
+  line-height: 3.3rem;
+  padding-bottom: 20px;
+}
+
+h5 {
+  font-size: 2.5rem;
+  line-height: 3rem;
+  font-weight: 100;
+}
+
+h6 {
+  font-size: 2rem;
+  line-height: 2.5rem;
+}
+
+.source-link {
+  font-size: 2rem;
+  font-weight: 100;
+}
+
+.subtitle {
+  font-weight: 900 !important;
+}
+
+.contents {
+  background: #eee;
+  padding: 10px 30px;
+  border-radius: 20px;
+  margin-top: 40px;
+  margin-left: 20px;
+
+  h4 {
+    margin-top: 20px;
+    padding-bottom: unset;
+  }
+  h5 {
+    margin-left: 20px;
+  }
+  h6 {
+    margin-left: 40px;
+  }
+
+  :hover {
+    background: #c9c9c9;
+    cursor: pointer;
+  }
+}

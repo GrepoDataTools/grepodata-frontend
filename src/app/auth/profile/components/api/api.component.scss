@@ -1,8 +1,4 @@
 @charset "utf-8";
-
-/* RESET
-----------------------------------------------------------------------------------------*/
-
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -28,9 +24,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 }
 img, embed, object, video { max-width: 100%; }
 .ie6 img.full, .ie6 object.full, .ie6 embed, .ie6 video { width: 100%; }
-
-/* BASE
-----------------------------------------------------------------------------------------*/
 
 *{
   -webkit-transition: all 0.3s ease;
@@ -106,9 +99,6 @@ pre{
   border-radius: 3px;
   font-weight: 700;
 }
-
-/* LEFT-MENU
-----------------------------------------------------------------------------------------*/
 
 .left-menu{
   position: fixed;
@@ -200,9 +190,6 @@ pre{
   display: block;
   text-transform: capitalize;
 }
-
-/* CONTENT-PAGE
-----------------------------------------------------------------------------------------*/
 
 .content-page {
   position: relative;
@@ -350,10 +337,6 @@ pre{
   font-weight: 300;
   color: #777A7A;
 }
-
-
-/* burger-menu-icon
-----------------------------------------------------------------------------------------*/
 .burger-menu-icon {
   background-color: transparent;
   border: none;
@@ -400,11 +383,6 @@ html.menu-opened .burger-menu-icon  .line3 {
   stroke-dashoffset: -134;
   stroke-width: 6;
 }
-
-
-/* ONE CONTENT COLUMN VERSION
-----------------------------------------------------------------------------------------*/
-
 body.one-content-column-version .content h1,
 body.one-content-column-version .content h2,
 body.one-content-column-version .content h3,
@@ -446,4 +424,3 @@ body.one-content-column-version .content table td {
 body.one-content-column-version .content thead {
   color: #417179;
 }
-

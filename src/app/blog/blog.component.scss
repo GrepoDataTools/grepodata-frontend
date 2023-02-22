@@ -55,3 +55,13 @@ h6 {
     cursor: pointer;
   }
 }
+
+@media (max-height: 820px) {
+  .contents {
+    h4, h5, h6 {
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+      font-size: 14px !important;
+    }
+  }
+}

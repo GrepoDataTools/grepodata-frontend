@@ -334,16 +334,14 @@ nav #menu li:hover {
   }
 }
 
-.a-donate {
+$donate-primary: #18BC9C;
+.a-donate-link {
   font: 14px "Helvetica";
   display: inline-block;
   margin: 20px;
   position: relative;
   text-decoration: none;
-}
 
-$donate-primary: #18BC9C;
-.donate {
   background: #18BC9C;
   background: -webkit-linear-gradient(top, transparent 0%, rgba(0,0,0,0.4) 100%),
   -webkit-linear-gradient(left, lighten($donate-primary, 15%) 0%, $donate-primary 50%, lighten($donate-primary, 15%) 100%);

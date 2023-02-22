@@ -3,7 +3,7 @@
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </div>
 <!--  <div *ngIf="error">{{error}}</div>-->
-  <div *ngIf="!error && !loading && events.length > 0" class="text-left">
+  <div *ngIf="!error && !loading && (events.length > 1 || event_type == 'user')" class="text-left">
     <div class="event-header">
       <h3 *ngIf="event_type=='team'">Team events</h3>
       <h3 *ngIf="event_type=='user'">Your GrepoData team events</h3>

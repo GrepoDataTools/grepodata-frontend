@@ -321,13 +321,6 @@
                       <strong *ngIf="role=='write' && contribute===false">You have disabled contributions to this team. The intel you collect will not be added to this team.</strong>
                     </td>
 									</tr>
-									<tr *ngIf="data.total_reports == 0">
-										<td colspan="2" class="text-center">
-											<app-alert type="warning" [dismissible]="false">
-												This team is still empty!
-											</app-alert>
-										</td>
-									</tr>
 									</tbody>
 								</table>
 
@@ -353,7 +346,7 @@
                   <app-event-list [key]="key" [update]="update"></app-event-list>
                 </div>
 
-                <div class="index-contributors" *ngIf="contributors">
+                <div class="index-contributors" *ngIf="contributors && contributors.length > 0">
                   <h3>Team contributors</h3>
                   <div>
                     <div class="table intel-table" id="table_contributors">
@@ -381,26 +374,6 @@
                     </div>
                   </div>
                 </div>
-
-<!--                <div class="index-contributors" *ngIf="data.contributors && data.contributors.length>0">-->
-<!--                  <h3>Top intel contributors</h3>-->
-<!--                  <div class="table">-->
-<!--                    <div class="row_custom header bg-gd-2">-->
-<!--                      <div class="cell">Player</div>-->
-<!--                      <div class="cell">Contributions</div>-->
-<!--                    </div>-->
-
-<!--                    <div class="row_custom" *ngFor="let player of data.contributors; let i = index;">-->
-<!--                      <div class="cell">-->
-<!--                        <img style="height: 20px; margin-top: 0;" src="../../assets/images/player_ico.png"/> {{player.player_name}}-->
-<!--                      </div>-->
-<!--                      <div class="cell">-->
-<!--                        {{player.count}}-->
-<!--                      </div>-->
-<!--                    </div>-->
-
-<!--                  </div>-->
-<!--                </div>-->
 
 							</div>
 
@@ -516,36 +489,52 @@
 									</div>
 									<div fxFlex="65" fxLayout="column" fxLayoutGap="5px">
 										<mat-card class="dense-card index-card-info">
-											<mat-card-title class="text-left">
-												<h1 class="gd-primary">Welcome to your very own city indexer team!</h1>
-												<h4>This team allows you to share collected intelligence with other users.</h4>
-											</mat-card-title>
-											<mat-card-content class="text-left">
-												<app-alert *ngIf="is_admin && share_link && share_link!='Unauthorized'" class="" type="success" title="Invite your allies" [dismissible]="false">
-<!--													<ul style="font-size: 20px;">-->
-<!--														<li>Install the GrepoData userscript to collect intelligence.</li>-->
-<!--														<li>Invite others to join this team by sending them the link below.</li>-->
-<!--													</ul>-->
-                          <div class="row">
-                            <div class="col-xs-12 gd-share-link-container">
-                              <label style="font-weight: 600">Send this link to your allies to give them access to this team:</label>
-                              <br/>
-                              <div class="row invite-link-container" (click)="copyLink()">
-                                <input #shareLink
-                                       [ngClass]="{ 'copied': copied }"
-                                       [disabled]="true"
-                                       class="col-xs-9 col-sm-8 col-md-7 col-lg-7 ur share-link-actual"
-                                       type="url"
-                                       value="https://grepodata.com/invite/{{key}}{{share_link}}"
-                                       id="siegeShareUrl"
-                                       aria-describedby="inputGroup-sizing-default"
-                                       style="height: 40px; font-size: 20px !important; color: #009688; font-weight: 900;">
-                                <button class="cpy" (click)="copyLink()"><i class="fa fa-clone"></i> Copy</button><span class="message" *ngIf="copied"> Link copied!</span>
+                      <div *ngIf="is_admin && share_link && share_link!='Unauthorized'">
+                        <h2 class="gd-secondary text-left" style="margin-top: 0px">
+                          1. Invite your allies
+                        </h2>
+                        <app-alert class="" type="success" title="" [dismissible]="false">
+                          <div class="text-left" style="margin-bottom: 30px;">
+                            <h5>
+                              This team allows you to share collected intelligence with other users.
+                              <br/>Send the following link to your allies to give them access to this team:
+                            </h5>
+                            <div class="" title="">
+                              <div class="row">
+                                <div class="col-xs-12 gd-share-link-container" style="margin-left: -14px;">
+                                  <br/>
+                                  <div class="row invite-link-container" (click)="copyLink()">
+                                    <input #shareLink
+                                           [ngClass]="{ 'copied': copied }"
+                                           [disabled]="true"
+                                           class="col-xs-9 col-sm-8 col-md-7 col-lg-7 ur share-link-actual"
+                                           type="url"
+                                           value="https://grepodata.com/invite/{{key}}{{share_link}}"
+                                           id="siegeShareUrl"
+                                           aria-describedby="inputGroup-sizing-default"
+                                           style="height: 40px; font-size: 20px !important; color: #009688; font-weight: 900;">
+                                    <button class="cpy" (click)="copyLink()"><i class="fa fa-clone"></i> Copy</button><span class="message" *ngIf="copied"> Link copied!</span>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
-												</app-alert>
-											</mat-card-content>
+                        </app-alert>
+
+                        <br/>
+                        <h2 class="gd-secondary text-left" style="margin-top: 0px">
+                          2. Start collecting intel
+                        </h2>
+
+                      </div>
+
+                      <app-alert type="warning" [dismissible]="false">
+                        <div class="text-left">
+                          <strong>There are no reports in this team.</strong> See the instructions below to get started collecting enemy intelligence
+                        </div>
+                      </app-alert>
+
+
 										</mat-card>
 									</div>
 								</div>

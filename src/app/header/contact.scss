@@ -1,0 +1,13 @@
+.contact-form {
+  ::ng-deep .mat-form-field-wrapper {
+    padding: 0 !important;
+  }
+}
+
+.contact-container {
+  font-size: 18px;
+  width: auto;
+  max-width: 600px;
+  min-width: 30vw;
+  padding: 10px 20px;
+}

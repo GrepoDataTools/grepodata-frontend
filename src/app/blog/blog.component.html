@@ -36,7 +36,7 @@
         <br/>
         <h4 #Overview style="text-align: left">Architecture Overview</h4>
         <h5 align="justify">
-          Below is an overview of the complete GrepoData architecture. We have 3 client services. The in-game userscript and the Angular frontend both communicate with our PHP backend. The Discord bot requires a dedicated bot service that runs 24/7.
+          Below is an overview of the complete GrepoData architecture. We serve 3 client services. The in-game userscript and the Angular frontend both communicate with our PHP backend. The Discord bot requires a dedicated bot service that runs 24/7.
           We use a MySQL database for our relational data, an Elasticsearch node to enable our search functionality and a Redis in-memory cache to reduce database load for heavy queries.
           In the rest of this blog we will explain how we use each of these tools to deliver GrepoData to our 20.000 unique monthly users.
         </h5>

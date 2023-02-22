@@ -10,7 +10,7 @@
   border: none;
   color: white;
   font-weight: 500;
-  padding: 15px 32px;
+  padding: 10px 27px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -36,11 +36,19 @@
   }
 }
 
+#donate_mail {
+  font-weight: 100;
+}
+
 .copy-txt {
-  padding-left: 25px;
+  padding-left: 15px;
 
   :hover {
     cursor: pointer;
+  }
+
+  mat-icon {
+    font-size: 16px;
   }
 }
 

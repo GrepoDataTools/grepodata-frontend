@@ -1,17 +1,17 @@
-<div style="font-size: 18px; width: auto; max-width: 600px; min-width: 30vw;">
+<div class="contact-container">
   <a (click)="dialogRef.close()" class="close"></a>
   <h1 class="mat-primary" style="color: #18BC9C; margin-top: 0px;" mat-dialog-title>Contact us</h1>
 	<p>If you want us to reply, please also enter your email address.</p>
 
   <div mat-dialog-content *ngIf="submitted==false" style=" min-width: 40%;">
 
-	  <div class="alert alert-gd-1 text-center" style="margin: 25px 0 0 0;">
+	  <div class="contact-form" style="margin: 25px 0 0 0;">
 	    <div fxLayout="column" fxLayoutAlign="center center" style="width: 100% !important;">
-	      <mat-form-field  style="width: 100% !important; max-width: 500px !important;" appearance="outline">
+	      <mat-form-field  style="width: 100% !important;" appearance="outline">
 		      <mat-label>Your message</mat-label>
 	        <textarea [disabled]="loading" style="font-size: 20px;" [ngModel]="contact_message" (ngModelChange)="contact_message=$event" required matInput placeholder="Your message" rows="4"></textarea>
 	      </mat-form-field>
-	      <mat-form-field style="width: 100% !important; max-width: 500px !important;" appearance="outline">
+	      <mat-form-field style="width: 100% !important;" appearance="outline">
 		      <mat-label>Email (optional)</mat-label>
 	        <input autocomplete="email" [disabled]="loading" [ngModel]="contact_mail" (ngModelChange)="contact_mail=$event" matInput placeholder="Email (optional)">
 	      </mat-form-field>
@@ -26,9 +26,9 @@
 		    </div>
 	      <br/>
 
-	      <div *ngIf="error!=''" class="alert alert-danger">
-	        <strong>Invalid input!</strong> {{error}}.
-	      </div>
+        <app-alert type="error" title="" *ngIf="error!=''" [dismissible]="false">
+          <strong>Invalid input!</strong> {{error}}.
+        </app-alert>
 
 		    <div fxLayout="column" fxLayoutAlign="center" style="width: 100% !important;">
 			    <button [disabled]="loading" style="font-size: 22px; padding: 8px; width: 100%;" mat-button class="mat-raised-button mat-primary"(click)="captchaRef.execute()">

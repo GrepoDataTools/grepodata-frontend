@@ -6,7 +6,7 @@
             <mat-icon style="font-size: 40px; vertical-align: top; margin-right: 25px; color: #18bc9c;">group</mat-icon>
             My teams
 
-            <button *ngIf="confirmed && indexes && !loading && indexes.length > 0" (click)="newIndex()" class="btn btn-success mr-1" style="margin-left: 3%;">
+            <button *ngIf="confirmed && indexes && !loading && (indexes.length - stopped_world_count) > 5" (click)="newIndex()" class="btn btn-success mr-1" style="margin-left: 3%;">
               <span class="hidden-sm hidden-xs">Create a new team</span>
               <span class="hidden-md hidden-lg">New team</span>
               &nbsp;<mat-icon>library_add</mat-icon>
@@ -62,16 +62,6 @@
 							</div>
 						</app-alert>
 					</div>
-
-<!--          <div class="index-new" *ngIf="confirmed && !loading && indexes.length > 10" style="position: absolute; right: 23px; top: 0;">-->
-
-<!--            <button (click)="newIndex()" class="btn btn-success mr-1">-->
-<!--              <span class="hidden-sm hidden-xs">Create a new team</span>-->
-<!--              <span class="hidden-md hidden-lg">New team</span>-->
-<!--              &nbsp;<mat-icon>library_add</mat-icon>-->
-<!--            </button>-->
-
-<!--          </div>-->
 
 					<div *ngIf="indexes.length > 0">
 
@@ -194,11 +184,8 @@
               Create a new team <mat-icon>library_add</mat-icon>
             </button>
             <mat-slide-toggle *ngIf="stopped_world_count > 0" [(ngModel)]="show_stopped_worlds" style="margin: 0 30px;">
-              Show finished worlds
+              Show finished worlds ({{stopped_world_count}})
             </mat-slide-toggle>
-            <button (click)="importV1Index()" class="btn btn-secondary" style="margin-right: 10px; float: right;">
-              Import V1 index <span style="color: dimgrey">(only for indexes created before April 2021)</span> <mat-icon>download</mat-icon>
-            </button>
 
           </div>
 
@@ -208,7 +195,7 @@
 		</div>
 </mat-card>
 
-<mat-card class="index-card">
+<mat-card class="index-card" *ngIf="indexes.length > 0">
   <div class="container-fluid">
     <div class="row">
       <div class="col-xs-12">

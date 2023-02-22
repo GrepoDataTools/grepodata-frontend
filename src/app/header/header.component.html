@@ -11,7 +11,7 @@
     <li (click)="routing('/ranking')" [ngClass]="{'nav-active': isRanking}">Ranking</li>
     <li (click)="openIndexer()" [ngClass]="{'nav-active': isIndexer}">City Indexer</li>
     <li (click)="showContactDialog()">Contact</li>
-    <a class="a-donate donate" (click)="routing('/donate')" [ngClass]="{'nav-active': isDonate}">DONATE</a>
+    <a class="a-donate-link" (click)="routing('/donate')" [ngClass]="{'nav-active': isDonate}">DONATE</a>
   </ul>
 
   <div id="toggle" (click)="toggleNav()" [ngClass]="{'on': toggled}">

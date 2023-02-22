@@ -111,7 +111,6 @@ import 'zone.js/dist/zone';
 import {MailListDialog} from './alliance/alliance.service';
 import {BasicDialog} from './shared/dialogs/basic/basic.component';
 import {NewIndexDialog} from './shared/dialogs/new-index/new-index.component';
-import {ImportIndexDialog} from './shared/dialogs/import-index/import-index.component';
 import {IndexSettingsDialog} from './shared/dialogs/index-settings/index-settings.component';
 import {IndexMembersDialog} from './shared/dialogs/index-members/index-members.component';
 import {ShareIndexDialog} from './shared/dialogs/share-index/share-index.component';
@@ -219,7 +218,6 @@ export function jwtTokenGetter(): any {
         ContactDialog,
         BBDialog,
         NewIndexDialog,
-        ImportIndexDialog,
         IndexSettingsDialog,
         IndexMembersDialog,
         ShareIndexDialog,
@@ -341,7 +339,6 @@ export function jwtTokenGetter(): any {
         DisclaimerDialog,
         ContactDialog,
         NewIndexDialog,
-        ImportIndexDialog,
         IndexSettingsDialog,
         IndexMembersDialog,
         ShareIndexDialog,

@@ -1,9 +1,11 @@
 <div mat-dialog-content style="min-width: 90%; min-height: 70%;">
+  <a (click)="dialogRef.close()" class="close"></a>
+  <h2 class="gd-secondary" style="margin-top: 0px;" mat-dialog-title>Settings for team <span class="gd-primary"><mat-icon style="opacity: 1; vertical-align: sub; font-size: 40px; margin-right: 10px;">group</mat-icon>&nbsp;{{index.name}}</span></h2>
+  <hr>
+
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-xs-12">
-				<a (click)="dialogRef.close()" class="close"></a>
-				<h2 class="gd-secondary">Settings for team <span class="gd-primary"><mat-icon style="opacity: 1; vertical-align: sub; font-size: 40px; margin-right: 10px;">group</mat-icon>&nbsp;{{index.name}}</span></h2>
 
 <!--				<div class="alert alert-gd-1">-->
 <!--					<h2 class="gd-secondary">Automatically delete old intel</h2>-->

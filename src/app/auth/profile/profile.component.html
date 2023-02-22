@@ -37,8 +37,8 @@
 <!--        </p>-->
 <!--      </app-alert>-->
 
-      <mat-card *ngIf="['intel', 'player', 'alliance', 'town', 'team'].indexOf(active_tab)>=0" class="search-card">
-        <app-index-search *ngIf="account_confirmed"></app-index-search>
+      <mat-card *ngIf="account_confirmed && ['intel', 'player', 'alliance', 'town', 'team'].indexOf(active_tab)>=0" class="search-card">
+        <app-index-search></app-index-search>
       </mat-card>
 
       <div *ngIf="active_tab === 'bug'">
@@ -102,8 +102,6 @@
                 <a class="a-link-dialog" routerLink="/privacy">Privacy</a>
                 &nbsp; | &nbsp;
                 <a class="a-link-dialog" routerLink="/analytics">Statistics</a>
-                &nbsp; | &nbsp;
-                <a class="a-link-dialog" routerLink="/blog">Blog</a>
               </div>
 
 

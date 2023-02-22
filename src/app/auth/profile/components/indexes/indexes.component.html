@@ -3,7 +3,6 @@
 			<div class="row">
 				<div class="col-xs-12">
           <h2>
-            <mat-icon style="font-size: 40px; vertical-align: top; margin-right: 25px; color: #18bc9c;">group</mat-icon>
             My teams
 
             <button *ngIf="confirmed && indexes && !loading && (indexes.length - stopped_world_count) > 5" (click)="newIndex()" class="btn btn-success mr-1" style="margin-left: 3%;">
@@ -44,7 +43,7 @@
 						<button *ngIf="created_index.key" class="btn btn-secondary mr-1" routerLink="/profile/team/{{created_index.key}}">Go to team overview <mat-icon>launch</mat-icon></button>
 					</app-alert>
 
-					<app-alert type="info" title="What is a team?" *ngIf="confirmed && !error && !leave_error && !created_index && !contribute_success && indexes.length <= 10" [dismissible]="false">
+					<app-alert type="info" title="What is a team?" *ngIf="confirmed && !error && !leave_error && !created_index && !contribute_success && indexes.length <= 3" [dismissible]="false">
 						<p>
 							A team allows you to share a collection of enemy intelligence with other users.
 							You can create and share your own team, or you can contribute to an existing team.
@@ -198,7 +197,7 @@
 <mat-card class="index-card" *ngIf="indexes.length > 0">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-xs-12">
+      <div class="col-xs-12" style="margin-top: -25px;">
         <app-event-list [update]="true"></app-event-list>
       </div>
     </div>

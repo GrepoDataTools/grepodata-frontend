@@ -1,6 +1,6 @@
 <div style="font-size: 18px; width: auto; max-width: 800px; min-width: 50vw;">
 	<a (click)="close()" class="close" *ngIf="building==false"></a>
-	<h1 class="mat-primary" style="color: #18BC9C; margin-top: 0px;" mat-dialog-title>
+	<h1 class="mat-primary gd-secondary" style="color: #18BC9C; margin-top: 0px;" mat-dialog-title>
 		<span *ngIf="submitted==false && building!=true">Create a new team</span>
 		<span *ngIf="submitted==false && building==true">Creating team..</span>
 		<span *ngIf="submitted==true && building!=true">Team created successfully!</span>

@@ -84,7 +84,6 @@ import { PrivacyComponent } from './privacy/privacy.component';
 import { IndexVersionComponent } from './index-version/index-version.component';
 import { DiscordComponent } from './discord/discord.component';
 import { FaqComponent } from './faq/faq.component';
-import { DonateComponent } from './donate/donate.component';
 import { ProfileComponent } from './auth/profile/profile.component';
 import { ConquestDialog } from './conquest/conquest.service';
 import { UnitModule } from './advertorial/unit/unit.module';
@@ -110,6 +109,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import 'zone.js/dist/zone';
 import {MailListDialog} from './alliance/alliance.service';
 import {BasicDialog} from './shared/dialogs/basic/basic.component';
+import {DonateDialog} from './shared/dialogs/donate/donate.component';
 import {NewIndexDialog} from './shared/dialogs/new-index/new-index.component';
 import {IndexSettingsDialog} from './shared/dialogs/index-settings/index-settings.component';
 import {IndexMembersDialog} from './shared/dialogs/index-members/index-members.component';
@@ -163,7 +163,6 @@ const appRoutes: Routes = [
     { path: 'ranking', component: RankingComponent },
     { path: 'compare', component: CompareComponent },
     { path: 'message', component: MessageComponent },
-    { path: 'donate', component: DonateComponent },
     { path: 'privacy', component: PrivacyComponent },
     { path: 'compare/:type/:world', component: CompareComponent },
     { path: 'analytics', component: AnalyticsComponent },
@@ -213,6 +212,7 @@ export function jwtTokenGetter(): any {
         AllianceComponent,
         AdvertorialComponent,
         BasicDialog,
+        DonateDialog,
         TownDialog,
         DisclaimerDialog,
         ContactDialog,
@@ -254,7 +254,6 @@ export function jwtTokenGetter(): any {
         IndexVersionComponent,
         DiscordComponent,
         FaqComponent,
-        DonateComponent,
         ProfileComponent,
         TableComponent,
         AnalyticsComponent,
@@ -335,6 +334,7 @@ export function jwtTokenGetter(): any {
     bootstrap: [AppComponent],
     entryComponents: [
         BasicDialog,
+        DonateDialog,
         TownDialog,
         DisclaimerDialog,
         ContactDialog,

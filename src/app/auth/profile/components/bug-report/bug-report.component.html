@@ -1,9 +1,10 @@
-<mat-card class="index-card">
+<div class="bug-container">
   <div class="container" style="width: 100%;">
     <div class="row">
-      <div class="col-xs-12 col-xs-offset-0 col-sm-12 col-sm-offset-0 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-        <h2>Report a bug <mat-icon>bug_report</mat-icon></h2>
-        <h5>Thanks for helping us improve the service! Please let us know what bug you encountered.</h5>
+      <div class="col-xs-12">
+        <h2 style="margin-top: 0px;">Report a bug 🐞</h2>
+        <hr/>
+        <h5>Please let us know what bug or issue you encountered.</h5>
 
         <app-alert type="success" title="Bug report received" *ngIf="submitted" [dismissible]="false">
           <h5>Thanks!</h5>
@@ -41,7 +42,7 @@
       </div>
     </div>
   </div>
-</mat-card>
+</div>
 
 <re-captcha
   size="invisible"

@@ -5,6 +5,8 @@ import { MatExpansionPanel } from '@angular/material/expansion';
 import {JwtService} from '../../auth/services/jwt.service';
 import {Router} from '@angular/router';
 import {SidenavService} from './sidenav-service';
+import {MatDialog} from '@angular/material/dialog';
+import {DonateDialog} from '../../shared/dialogs/donate/donate.component';
 
 @Component({
   selector: 'app-sidebar',
@@ -30,6 +32,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private authService: JwtService,
     private router: Router,
     changeDetectorRef: ChangeDetectorRef,
+    public dialog: MatDialog,
     media: MediaMatcher,
     public menuItems: MenuItems) {
     this.mobileQuery = media.matchMedia('(min-width: 768px)');
@@ -79,6 +82,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
       case 'logout':
         this.logout();
         break;
+      case 'donate':
+        this.donate();
+        break;
       default:
         console.log(action);
     }
@@ -89,5 +95,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
       this.sidenavService.close();
     }
     this.scrollToTop();
+  }
+
+  donate() {
+    const dialogRef = this.dialog.open(DonateDialog, {
+      autoFocus: false,
+    });
   }
 }

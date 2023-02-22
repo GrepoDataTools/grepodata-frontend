@@ -122,11 +122,23 @@
 					</div>
 
 					<div *ngIf="mobileQuery.matches" fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="0" style="margin-bottom: -25px;">
+
+
 						<div fxFlex="30" fxLayout="column" fxLayoutGap="5px">
 							<ng-container *ngTemplateOutlet="info"></ng-container>
 							<br/>
 						</div>
 						<div fxFlex="70">
+
+              <!-- This is only shown if the team is small (low number of contributors and very few reports) -->
+              <div *ngIf="is_admin && contributors && contributors.length <= 1 && data.total_reports < 50" class="hidden-xs hidden-sm" fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="0" style="margin-bottom: -25px;">
+                <div fxFlex="100">
+                  <mat-card class="dense-card index-card-info" style="margin-bottom: 30px !important;">
+                    <ng-container *ngTemplateOutlet="inviteAllies"></ng-container>
+                  </mat-card>
+                </div>
+              </div>
+
               <div class="hidden-xs hidden-sm" fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="0" style="margin-bottom: -25px;">
                 <div fxFlex="50">
                   <ng-container *ngTemplateOutlet="players"></ng-container>
@@ -151,6 +163,39 @@
 
 
 				</div>
+
+				<ng-template #inviteAllies>
+          <h2 class="gd-secondary text-left" style="margin-top: 0px">
+            🤗 Invite your allies
+          </h2>
+          <app-alert class="" type="success" title="" [dismissible]="false" [showIcon]="false">
+            <div class="text-left">
+              <h5>
+                This team allows you to share collected intelligence with other users.
+                <br/>Send the following link to your allies to give them access to this team:
+              </h5>
+              <div class="" title="">
+                <div class="row">
+                  <div class="col-xs-12 gd-share-link-container" style="margin-left: -14px;">
+                    <br/>
+                    <div class="row invite-link-container" (click)="copyLink()">
+                      <input #shareLink
+                             [ngClass]="{ 'copied': copied }"
+                             [disabled]="true"
+                             class="col-xs-9 col-sm-8 col-md-7 col-lg-7 ur share-link-actual"
+                             type="url"
+                             value="https://grepodata.com/invite/{{key}}{{share_link}}"
+                             id="siegeShareUrl"
+                             aria-describedby="inputGroup-sizing-default"
+                             style="height: 40px; font-size: 20px !important; color: #009688; font-weight: 900;">
+                      <button class="cpy" (click)="copyLink()"><i class="fa fa-clone"></i> Copy</button><span class="message" *ngIf="copied"> Link copied!</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </app-alert>
+        </ng-template>
 
 				<ng-template #recentIntel>
           <mat-card class="dense-card" style="margin-top: 35px !important;">
@@ -490,40 +535,13 @@
 									<div fxFlex="65" fxLayout="column" fxLayoutGap="5px">
 										<mat-card class="dense-card index-card-info">
                       <div *ngIf="is_admin && share_link && share_link!='Unauthorized'">
-                        <h2 class="gd-secondary text-left" style="margin-top: 0px">
-                          1. Invite your allies
-                        </h2>
-                        <app-alert class="" type="success" title="" [dismissible]="false">
-                          <div class="text-left" style="margin-bottom: 30px;">
-                            <h5>
-                              This team allows you to share collected intelligence with other users.
-                              <br/>Send the following link to your allies to give them access to this team:
-                            </h5>
-                            <div class="" title="">
-                              <div class="row">
-                                <div class="col-xs-12 gd-share-link-container" style="margin-left: -14px;">
-                                  <br/>
-                                  <div class="row invite-link-container" (click)="copyLink()">
-                                    <input #shareLink
-                                           [ngClass]="{ 'copied': copied }"
-                                           [disabled]="true"
-                                           class="col-xs-9 col-sm-8 col-md-7 col-lg-7 ur share-link-actual"
-                                           type="url"
-                                           value="https://grepodata.com/invite/{{key}}{{share_link}}"
-                                           id="siegeShareUrl"
-                                           aria-describedby="inputGroup-sizing-default"
-                                           style="height: 40px; font-size: 20px !important; color: #009688; font-weight: 900;">
-                                    <button class="cpy" (click)="copyLink()"><i class="fa fa-clone"></i> Copy</button><span class="message" *ngIf="copied"> Link copied!</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </app-alert>
+
+                        <ng-container *ngTemplateOutlet="inviteAllies"></ng-container>
 
                         <br/>
+                        <br/>
                         <h2 class="gd-secondary text-left" style="margin-top: 0px">
-                          2. Start collecting intel
+                          🕵 Start collecting intel
                         </h2>
 
                       </div>

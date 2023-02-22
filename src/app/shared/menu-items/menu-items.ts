@@ -29,7 +29,7 @@ export interface Menu {
   name: string;
   type: string;
   icon?: string | IconProp;
-  iconType?: 'material' | 'fontawesome';
+  iconType?: 'material' | 'fontawesome' | 'unicode';
   action?: string;
   active?: string;
   badge?: BadgeItem[];
@@ -53,9 +53,10 @@ const MENU_ITEMS: Array<Menu> = [
   // { mobileOnly: false, state: 'profile/discord', name: 'Link with Discord', type: 'link', icon: faDiscord, iconType: 'fontawesome' },
 
   { mobileOnly: false, state: '', name: 'Community', type: 'separator', icon: ''},
-  { mobileOnly: false, state: '/profile/bug', name: 'Report a bug', type: 'link', icon: 'bug_report', iconType: 'material' },
+  { mobileOnly: false, state: 'donate', name: 'Donate', type: 'action', icon: '🚀', action: 'donate', iconType: 'unicode'},
+  { mobileOnly: false, state: '/profile/bug', name: 'Report an issue', type: 'link', icon: '🐞', iconType: 'unicode' },
   // { mobileOnly: false, state: '/profile/ideas', name: 'Idea board', type: 'link', icon: 'tips_and_updates'},
-  { mobileOnly: false, state: '/profile/api', name: 'API documentation', type: 'link', icon: 'code'},
+  { mobileOnly: false, state: '/profile/api', name: 'API documentation', type: 'link', icon: '📜', iconType: 'unicode'},
 
   { mobileOnly: false, state: '', name: 'Other', type: 'separator', icon: '' },
   { mobileOnly: false, state: '/profile/changelog', name: 'Changelog', type: 'link', icon: 'description'},

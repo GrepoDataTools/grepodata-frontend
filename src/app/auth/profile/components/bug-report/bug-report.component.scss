@@ -3,3 +3,17 @@
     background: white !important;
   }
 }
+
+.bug-container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 25px;
+  margin: 20px 20vw;
+  box-shadow: 8px 9px 15px 0px rgb(0 0 0 / 10%);
+}
+
+@media (max-width: 1279px) {
+  .bug-container {
+    margin: 20px !important;
+  }
+}

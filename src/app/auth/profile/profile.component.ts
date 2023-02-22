@@ -104,17 +104,18 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
     switch (token_status) {
       case 'confirmed':
         this.newBasicDialog(
-          '<span class="gd-primary">Your email address was confirmed successfully!</span>',
-          '<h4>You can now create or join a team to share your enemy intelligence with your allies.</h4>');
+          '<span class="gd-primary">🥳 Email address confirmed successfully!</span>',
+          '<h4>You can now create or join a team to share your enemy intelligence with your allies.</h4>'
+          );
         break;
       case 'failed':
         this.newBasicDialog(
-          '<span class="gd-error">Unable to verify your email address.</span>',
-          '<h4>Sorry, we were unable to verify your email activation link.<br/>Please try again later or contact us if this error persists.</h4>');
+          '<span class="gd-error">😭 Unable to verify your email address.</span>',
+          '<h4>Sorry, we were unable to verify your email activation link. Please try again later or contact us if this error persists.</h4>');
         break;
       case 'invalid':
         this.newBasicDialog(
-          '<span class="gd-error">Unable to verify your email address.</span>',
+          '<span class="gd-error">😭 Unable to verify your email address.</span>',
           '<h4>The activation link you tried to use has expired, please request a new activation email.</h4>');
         break;
       default:
@@ -129,7 +130,8 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
       data: {
         title: title,
         messageHtml: content,
-        closeOnNavigation: false
+        closeOnNavigation: false,
+        action: ''
       }
     });
   }

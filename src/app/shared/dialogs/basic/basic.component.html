@@ -1,8 +1,10 @@
 <a *ngIf="show_close" (click)="close()" class="close"></a>
-<h2 mat-dialog-title *ngIf="title != ''">
+<h2 mat-dialog-title *ngIf="title != ''" style="margin-top: 0px;">
 	<span [outerHTML]="title"></span>
 </h2>
+<hr *ngIf="title != ''"/>
 <div mat-dialog-content *ngIf="messageHtml != ''">
+  <div *ngIf="!show_close && title == ''" style="margin-top: -25px;"></div>
 	<span [outerHTML]="messageHtml"></span>
 </div>
 <div mat-dialog-actions class="dialog-action" *ngIf="cancel_action || action">

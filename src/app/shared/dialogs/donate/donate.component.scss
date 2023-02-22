@@ -1,10 +1,3 @@
-.thank-you-container {
-  background: #e7f5ffa3;
-  padding: 25px;
-  border-radius: 20px;
-  box-shadow: 8px 9px 15px 0px rgb(0 0 0 / 5%);
-}
-
 .donate-btn {
   margin-top: 5px;
   border: none;
@@ -16,6 +9,8 @@
   display: inline-block;
   font-size: 18px;
   border-radius: 25px;
+  position: absolute;
+  bottom: 45px;
 
   &.paypal {
     background-color: #142c8e;
@@ -52,24 +47,11 @@
   }
 }
 
-@media (min-width: 991px) {
-  .donate-container {
-    margin: 0 auto;
-    position: absolute;
-    top: 50%;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
-    width: 100vw;
-  }
-  .donate-option {
-    margin-bottom: 80px !important;
-  }
-}
-
 .donate-option {
   margin-bottom: 20px;
   background: #eeeeee;
   padding: 5px 30px;
   border-radius: 25px;
   box-shadow: 8px 9px 15px 0px rgb(0 0 0 / 20%);
+  min-height: 180px;
 }

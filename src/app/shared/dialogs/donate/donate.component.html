@@ -1,0 +1,44 @@
+<a (click)="close()" class="close"></a>
+<h2 mat-dialog-title style="margin-top: 0px;" class="gd-secondary">
+  🚀 Thank you for supporting GrepoData!
+</h2>
+<hr/>
+<h5 style="margin-top: -10px; margin-bottom: 20px;">
+  <br/>Every donation goes towards the server upkeep costs.
+  Our hosting costs are currently <strong>70€/month</strong>.
+  Your contribution is greatly appreciated!
+</h5>
+
+<div mat-dialog-content>
+  <div class="donate-container">
+
+    <div class="container" style="padding: 0 !important;">
+      <div class="row">
+
+        <div class="col-xs-12 col-md-6">
+          <div class="donate-option">
+            <h2 class="gd-secondary">Donate via PayPal</h2>
+
+            <h4 class="gd-secondary">
+              <span id="donate_mail">admin@grepodata.com</span>
+              <span class="copy-txt" (click)="copyText('donate_mail')"><mat-icon>content_copy</mat-icon></span>
+            </h4>
+            <a class="donate-btn paypal" href="https://paypal.me/grepodata" target="_blank"><img src="https://www.paypalobjects.com/paypal-ui/logos/svg/paypal-mark-monotone-transparent.svg"/>paypal.me/grepodata</a>
+          </div>
+
+        </div>
+
+        <div class="col-xs-12 col-md-6">
+          <div class="donate-option">
+            <h2 class="gd-secondary">Or buy me a coffee</h2>
+            <br/>
+            <a class="donate-btn coffee" href="https://www.buymeacoffee.com/grepodata" target="_blank">☕ buymeacoffee.com/grepodata</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

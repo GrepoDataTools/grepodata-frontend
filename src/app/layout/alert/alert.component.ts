@@ -9,6 +9,7 @@ export class AlertComponent implements OnInit {
   @Input() type: 'error' | 'info' | 'success' | 'warning';
   @Input() title: string;
   @Input() dismissible: boolean = true;
+  @Input() showIcon: boolean = true;
 
   alertHidden = false;
 

@@ -37,6 +37,7 @@
       >
         <mat-icon *ngIf="menuItem.iconType === 'material' || menuItem.iconType === undefined">{{ menuItem.icon }}</mat-icon>
         <fa-icon [classes]="['fa-icon']" [icon]="menuItem.icon" *ngIf="menuItem.iconType === 'fontawesome'"></fa-icon>
+        <span class="unicode-icon" *ngIf="menuItem.iconType === 'unicode'">{{ menuItem.icon }}</span>
         <span>{{ menuItem.name }}</span>
         <span fxFlex></span>
         <span *ngIf="menuItem.name === 'Changelog' && new_updates" class="label label-success">New!</span>
@@ -50,6 +51,7 @@
       >
         <mat-icon *ngIf="menuItem.iconType === 'material' || menuItem.iconType === undefined">{{ menuItem.icon }}</mat-icon>
         <fa-icon [classes]="['fa-icon']" [icon]="menuItem.icon" *ngIf="menuItem.iconType === 'fontawesome'"></fa-icon>
+        <span class="unicode-icon" *ngIf="menuItem.iconType === 'unicode'">{{ menuItem.icon }}</span>
         <span>{{ menuItem.name }}</span>
         <span fxFlex></span>
         <span class="label label-{{ badge.type }}" *ngFor="let badge of menuItem.badge">{{ badge.value }}</span>

@@ -2,6 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {Globals} from '../../../globals';
 import {ContactDialog} from '../../../header/header.component';
+import {GoogleAnalyticsEventsService} from "../../../services/google-analytics-events.service";
 
 @Component({
   selector: 'app-donate-dialog',
@@ -14,8 +15,15 @@ export class DonateDialog {
     public dialog: MatDialog,
     private globals: Globals,
     public dialogRef: MatDialogRef<DonateDialog>,
+    public googleAnalyticsEventsService: GoogleAnalyticsEventsService,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) { }
+  ) {
+    try {
+      this.googleAnalyticsEventsService.emitEvent("donate", "openDonateDialog", "openDonateDialog", 1);
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   close(): void {
     this.dialogRef.close(false);

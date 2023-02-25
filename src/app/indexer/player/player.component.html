@@ -30,7 +30,7 @@
 	      <!--</div>-->
 
 	      <div *ngIf="err != ''" class="text-center">
-	          <div class="container">
+	          <div class="container-fluid">
 		          <div class="row">
 			          <br/>
 			          <br/>
@@ -148,21 +148,10 @@
 <ng-template #seaunits>
 	<mat-card class="index-card text-center sub-card">
 
-		<!--<div class="card-header bg-gd-1">-->
-			<!--<div class="form-group row" style='margin: 0px;'>-->
-				<!--<h1 class="entity-name gd-white">-->
-					<!--<span class=''>Sea units: &nbsp;</span>-->
-					<!--<span class="hidden-xs" *ngIf="!embedded">-->
-						<!--<div class="icon-circle"><img src="../../assets/images/player_ico.png" style="height: 28px; margin-top: -5px;"/></div>&nbsp;<span>{{playerName}}</span>-->
-          <!--</span>-->
-				<!--</h1>-->
-			<!--</div>-->
-		<!--</div>-->
-
 		<mat-card-title>
 			<div class="form-group row" style='margin: 0px;'>
 				<h1 style='font-weight: 300; color: #304357; margin: 0;'>
-					<span class='world-title' style='color: #18BC9C;'>Sea units</span>
+					<span *ngIf="!mobile" class='world-title' style='color: #18BC9C;'>Sea units</span>
 					<span class="hidden-xs" *ngIf="!embedded">
             &nbsp;<img src="../../assets/images/player_ico.png" style="height: 28px; margin-top: -5px;"/>&nbsp;<span>{{playerName}}</span>
           </span>
@@ -194,21 +183,10 @@
 <ng-template #landunits>
 	<mat-card class="index-card text-center sub-card">
 
-		<!--<div class="card-header bg-gd-1">-->
-			<!--<div class="form-group row" style='margin: 0px;'>-->
-				<!--<h1 class="entity-name gd-white">-->
-					<!--<span class=''>Land units: &nbsp;</span>-->
-					<!--<span class="hidden-xs" *ngIf="!embedded">-->
-						<!--<div class="icon-circle"><img src="../../assets/images/player_ico.png" style="height: 28px; margin-top: -5px;"/></div>&nbsp;<span>{{playerName}}</span>-->
-          <!--</span>-->
-				<!--</h1>-->
-			<!--</div>-->
-		<!--</div>-->
-
 		<mat-card-title>
 			<div class="form-group row" style='margin: 0px;'>
 				<h1 style='font-weight: 300; color: #304357; margin: 0;'>
-					<span class='world-title' style='color: #18BC9C;'>Land units</span>
+					<span *ngIf="!mobile" class='world-title' style='color: #18BC9C;'>Land units</span>
 					<span class="hidden-xs" *ngIf="!embedded">
             &nbsp;<img src="../../assets/images/player_ico.png" style="height: 28px; margin-top: -5px;"/>&nbsp;<span>{{playerName}}</span>
           </span>

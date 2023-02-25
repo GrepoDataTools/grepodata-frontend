@@ -142,6 +142,30 @@ mat-form-field {
   }
 }
 
+@media (max-width:1600px) {
+  .title-city-indexer {
+    font-size: 24px !important;
+  }
+  .title-team-name {
+    margin: 0 0 5px;
+  }
+}
+
+@media (max-width:1400px) {
+  .index-card-info {
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 10px !important;
+
+    .card-header {
+      margin: -10px -10px 20px !important;
+    }
+  }
+  .index-team-title {
+    display: none;
+  }
+}
+
 tr {
   text-align: left !important;
 }

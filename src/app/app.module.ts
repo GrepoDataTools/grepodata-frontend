@@ -70,7 +70,6 @@ import { IndexTownComponent } from './indexer/town/town.component';
 import { IndexPlayerComponent } from './indexer/player/player.component';
 import { IndexAllianceComponent } from './indexer/alliance/alliance.component';
 import { IndexSearchComponent } from './indexer/search/search.component';
-import { ActionComponent } from './indexer/action/action.component';
 import { ConquestComponent } from './conquest/conquest.component';
 import { GoogleAnalyticsEventsService } from './services/google-analytics-events.service';
 import { CompareComponent } from './compare/compare.component';
@@ -242,7 +241,6 @@ export function jwtTokenGetter(): any {
         IndexPlayerComponent,
         IndexAllianceComponent,
         IndexSearchComponent,
-        ActionComponent,
         ConquestComponent,
         CompareComponent,
         CompareSnackbar,

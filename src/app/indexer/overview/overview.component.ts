@@ -78,7 +78,7 @@ export class OverviewComponent implements OnInit, OnDestroy, OnInit {
       }
     });
 
-    this.mobileQuery = media.matchMedia('(min-width: 1200px)');
+    this.mobileQuery = media.matchMedia('(min-width: 1400px)');
     this._mediaQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addEventListener('change', () => this._mediaQueryListener());
   }

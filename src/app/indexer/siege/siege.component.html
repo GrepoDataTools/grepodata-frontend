@@ -35,7 +35,7 @@
 				<div class="conquest-item" style="max-width: 100% !important;" [ngStyle]="{'font-size': isCard?'17px':'20px'}">
 					<div class="conquest-contents" style="max-width: 100% !important;" [ngClass]="{ 'conquest-card': isCard || !embedded }">
 						<div class="col-xs-12 text-center conquest-title">
-							<strong class="conquest-subject" *ngIf="!hideKey">
+							<strong class="conquest-subject">
 								<a routerLink="/intel/town/{{world}}/{{conquest?.town_id}}">
 									<img src="../../assets/images/town_ico.png"/>&nbsp;{{conquest.town_name}}
 								</a>
@@ -48,25 +48,6 @@
 											        <a routerLink="/intel/alliance/{{world}}/{{conquest?.alliance_id}}">
 											        <img src="../../assets/images/ally_ico.png"/>&nbsp;{{conquest.alliance_name}}
 										        </a></span>
-								)
-							</strong>
-							<strong *ngIf="hideKey">
-								<a routerLink="/conquest/town/{{world}}/{{conquest?.town_id}}">
-									<img src="../../assets/images/town_ico.png"/>&nbsp;{{conquest.town_name}}
-								</a>
-								(
-								<span *ngIf="conquest.player_name!=''&&conquest.player_id!=0">
-									<a routerLink="/player" [queryParams]="{world: world, id: conquest?.player_id}">
-						        <img src="../../assets/images/player_ico.png"/>&nbsp;{{conquest.player_name}}
-					        </a>
-								</span>
-								<span *ngIf="conquest.player_id==0||conquest.player_name==''">Ghost town</span>
-								<span *ngIf="conquest.alliance_name!=''&&conquest.alliance_id!=0">
-									<span *ngIf="conquest.player_name!=''">, </span>
-					        <a routerLink="/alliance" [queryParams]="{world: world, id: conquest?.alliance_id}">
-						        <img src="../../assets/images/ally_ico.png"/>&nbsp;{{conquest.alliance_name}}
-					        </a>
-								</span>
 								)
 							</strong>
 						</div>
@@ -83,12 +64,9 @@
 									</div>
 								</div>
 								<div class="col-xs-6 text-left left att"  [ngStyle]="{'max-height': isCard?'96px':'144px'}">
-									Attacking<span class="hidden-xs hidden-sm" style="font-style: italic;">&nbsp;({{conquest.num_attacks_counted}} attack<span *ngIf="conquest.num_attacks_counted>1">s</span>)</span>
+									Attackers<span class="hidden-xs hidden-sm" style="font-style: italic;">&nbsp;({{conquest.num_attacks_counted}} attack<span *ngIf="conquest.num_attacks_counted>1">s</span>)</span>
 									<div *ngFor="let bell of conquest.belligerent_all" style="direction: ltr;">
-										<a *ngIf="!hideKey" routerLink="/intel/alliance/{{world}}/{{bell.alliance_id}}">
-											<img src="../../assets/images/ally_ico.png"/>&nbsp;{{bell.alliance_name}}
-										</a>
-										<a *ngIf="hideKey" routerLink="/alliance" [queryParams]="{world: world, id: bell.alliance_id}">
+										<a routerLink="/intel/alliance/{{world}}/{{bell.alliance_id}}">
 											<img src="../../assets/images/ally_ico.png"/>&nbsp;{{bell.alliance_name}}
 										</a>
 									</div>
@@ -153,15 +131,16 @@
 						</div>
 
 						<div class="col-xs-12 conquest-result" *ngIf="isCard || mobile">
-							<div class="">
-								<div class="text-left" style="float: left; padding: 3px 0;">
-									<ng-container *ngTemplateOutlet="result"></ng-container>
-								</div>
-								<div class="text-right" style="float: right;" *ngIf="!mobile">
-									<button class="gd-btn gd-btn-2" (click)="loadConquestDetails()">Detailed report <mat-icon style="opacity: 1; vertical-align: bottom;">launch</mat-icon></button>
-								</div>
-							</div>
+              <div class="text-left" style="float: left; padding: 3px 0;">
+                <ng-container *ngTemplateOutlet="result"></ng-container>
+              </div>
 						</div>
+
+            <div class="col-xs-12 conquest-footer text-left" *ngIf="isCard && !mobile">
+              <button class="btn btn-secondary" (click)="loadConquestDetails()">
+                View full report&nbsp;<mat-icon style="opacity: 1; vertical-align: bottom;">launch</mat-icon>
+              </button>
+            </div>
 
 						<div class="col-xs-12 conquest-reports" *ngIf="!isCard">
 
@@ -190,24 +169,21 @@
 												<div class="conquest-report-title">
 													<!--{{report.date | Datex : "D MMM HH:mm"}}&nbsp;&nbsp;-&nbsp;-->
 													<span *ngIf="report?.attacker?.friendly==false && report?.attacker?.town_id > 0">
-														<a *ngIf="!hideKey" routerLink="/intel/town/{{world}}/{{report?.attacker?.town_id}}">
-															<img src="../../assets/images/town_ico.png"/>&nbsp;{{report?.attacker?.town_name}}
-														</a>
-														<a *ngIf="hideKey" routerLink="/intel/town/{{world}}/{{report?.attacker?.town_id}}">
+														<a routerLink="/intel/town/{{world}}/{{report?.attacker?.town_id}}">
 															<img src="../../assets/images/town_ico.png"/>&nbsp;{{report?.attacker?.town_name}}
 														</a>
 													</span>
 													<span *ngIf="report?.attacker?.player_name!=''">
 														&nbsp;
-														<a *ngIf="report?.attacker?.friendly!=true && !hideKey" routerLink="/intel/player/{{world}}/{{report?.attacker?.player_id}}"><img src="../../assets/images/player_ico.png"/>{{report?.attacker?.player_name}}</a>
-														<a *ngIf="report?.attacker?.friendly==true || hideKey" routerLink="/player" [queryParams]="{world: world, id: report?.attacker?.player_id}"><img src="../../assets/images/player_ico.png"/>{{report?.attacker?.player_name}}</a>
+														<a *ngIf="report?.attacker?.friendly!=true" routerLink="/intel/player/{{world}}/{{report?.attacker?.player_id}}"><img src="../../assets/images/player_ico.png"/>{{report?.attacker?.player_name}}</a>
+														<a *ngIf="report?.attacker?.friendly==true" routerLink="/player" [queryParams]="{world: world, id: report?.attacker?.player_id}"><img src="../../assets/images/player_ico.png"/>{{report?.attacker?.player_name}}</a>
 														&nbsp;
 								          </span>
 													<span *ngIf="report?.attacker?.alliance_id!=0 && allianceNames[report?.attacker?.alliance_id]">
-										        <a *ngIf="report?.attacker?.friendly!=true && !hideKey" routerLink="/intel/alliance/{{world}}/{{report?.attacker?.alliance_id}}"><img src="../../assets/images/ally_ico.png"/>{{allianceNames[report?.attacker?.alliance_id]}}</a>
-										        <a *ngIf="report?.attacker?.friendly==true || hideKey" routerLink="/alliance" [queryParams]="{world: world, id: report?.attacker?.alliance_id}"><img src="../../assets/images/ally_ico.png"/>&nbsp;{{allianceNames[report?.attacker?.alliance_id]}}</a>
+										        <a *ngIf="report?.attacker?.friendly!=true" routerLink="/intel/alliance/{{world}}/{{report?.attacker?.alliance_id}}"><img src="../../assets/images/ally_ico.png"/>{{allianceNames[report?.attacker?.alliance_id]}}</a>
+										        <a *ngIf="report?.attacker?.friendly==true" routerLink="/alliance" [queryParams]="{world: world, id: report?.attacker?.alliance_id}"><img src="../../assets/images/ally_ico.png"/>&nbsp;{{allianceNames[report?.attacker?.alliance_id]}}</a>
 													</span>
-													<span *ngIf="report?.attacker?.friendly==true && !hideKey">
+													<span *ngIf="report?.attacker?.friendly==true">
 														&nbsp;&nbsp;Town hidden: attacker is team owner
 													</span>
 												</div>
@@ -301,19 +277,6 @@
 							</div>
 
 						</div>
-
-<!--						<div class="col-xs-12 conquest-share" *ngIf="!hideKey && !loadingReports && !error && !isCard && conquestId.toString().length == 32">-->
-<!--							<div class="row">-->
-<!--								<div class="col-xs-12 col-sm-10 col-md-8 gd-share-link-container">-->
-<!--									<label style="font-weight: 600">Anonymous sharing link: (town names are hidden for anyone with this url)</label>-->
-<!--									<br/>-->
-<!--									<div class="row">-->
-<!--										<input #shareLink [ngClass]="{ 'copied': copied }" [disabled]="true" class="col-xs-8 ur" type="url" value="https://grepodata.com/siege/{{conquestId}}" id="siegeShareUrl" aria-describedby="inputGroup-sizing-default" style="height: 40px;">-->
-<!--										<button class="cpy" (click)="copyLink(shareLink)"><i class="fa fa-clone"></i> Copy</button><span class="message" *ngIf="copied"> Link copied!</span>-->
-<!--									</div>-->
-<!--								</div>-->
-<!--							</div>-->
-<!--						</div>-->
 
 					</div>
 				</div>

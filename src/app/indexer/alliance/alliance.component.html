@@ -104,7 +104,7 @@
 		<mat-card-title>
 			<div class="form-group row" style='margin: 0px;'>
 				<h1 style='font-weight: 300; color: #304357; margin: 0;'>
-					<span class='world-title' style='color: #18BC9C;'>Sea units</span>
+					<span *ngIf="!mobile" class='world-title' style='color: #18BC9C;'>Sea units</span>
 					<span class="hidden-xs" *ngIf="!embedded">
             &nbsp;<img src="../../assets/images/ally_ico.png" style="height: 28px; margin-top: -5px;"/>&nbsp;<span>{{allianceName}}</span>
           </span>
@@ -218,7 +218,7 @@
 		<mat-card-title>
 			<div class="form-group row" style='margin: 0px;'>
 				<h1 style='font-weight: 300; color: #304357; margin: 0;'>
-					<span class='world-title' style='color: #18BC9C;'>Land units</span>
+					<span *ngIf="!mobile" class='world-title' style='color: #18BC9C;'>Land units</span>
 					<span class="hidden-xs" *ngIf="!embedded">
             &nbsp;<img src="../../assets/images/ally_ico.png" style="height: 28px; margin-top: -5px;"/>&nbsp;<span>{{allianceName}}</span>
           </span>

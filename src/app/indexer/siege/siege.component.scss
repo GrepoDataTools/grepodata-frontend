@@ -38,16 +38,22 @@
     .conquest-title {
       font-size: 17px;
       //background: #C3D6EF;
-      background: #304356;
+      background: #dedede;
+      //background: #304356;
+      //background: #18BC9C;
       padding: 8px 5px;
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
       color: #304356;
+      border-bottom: 2px solid #18BC9C;
 
       .conquest-subject {
         display: inline-block;
-        background: #f8f9fa;
+        //background: #f8f9fa;
+        //background: #18BC9C;
+        //color: #f8f9fa;
+        color: #304356;
         border-radius: 10rem;
         height: 27px;
         padding: 2px 15px 0;
@@ -75,6 +81,9 @@
     .conquest-result {
       border-top: 1px dashed #ddd;
       padding: 7px 15px !important;
+    }
+    .conquest-footer {
+      margin-bottom: 15px;
     }
     .conquest-reports {
       padding: 0 20px 10px !important;

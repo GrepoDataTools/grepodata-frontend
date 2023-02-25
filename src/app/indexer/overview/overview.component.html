@@ -124,11 +124,11 @@
 					<div *ngIf="mobileQuery.matches" fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="0" style="margin-bottom: -25px;">
 
 
-						<div fxFlex="30" fxLayout="column" fxLayoutGap="5px">
+						<div fxFlex="35" fxFlex.gt-lg="30" fxLayout="column" fxLayoutGap="5px">
 							<ng-container *ngTemplateOutlet="info"></ng-container>
 							<br/>
 						</div>
-						<div fxFlex="70">
+						<div fxFlex="65" fxFlex.gt-lg="70">
 
               <!-- This is only shown if the team is small (low number of contributors and very few reports) -->
               <div *ngIf="is_admin && contributors && contributors.length <= 1 && data.total_reports < 50" class="hidden-xs hidden-sm" fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="0" style="margin-bottom: -25px;">
@@ -260,10 +260,11 @@
           <mat-card class="dense-card conquests-card" style="margin-top: 35px !important; margin-bottom: -10px !important;">
             <mat-card-title>
               <div class="form-group row" style='margin: 0px;'>
-                <h3 style='font-weight: 300; color: #304357; margin-top: 0px;'><span class='world-title' style='color: #18BC9C;'>Recent sieges</span>&nbsp;&nbsp;
-                  <a class="a-link-dialog" *ngIf="recent_conquests.length >= 2" (click)="loadSiegeListDialog()" style="color: #949494;">
-                    Show all sieges&nbsp;<mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon>
-                  </a>
+                <h3 class="gd-secondary" style='font-weight: 500; margin-top: 0 !important;'>
+                  Recent Sieges
+                  <button name="open_bb" style="float: right;" class="btn btn-secondary" (click)="loadSiegeListDialog()">
+                    Show all sieges&nbsp;<mat-icon style="vertical-align: inherit; font-size: 20px;">launch</mat-icon>
+                  </button>
                 </h3>
               </div>
             </mat-card-title>
@@ -274,7 +275,6 @@
                     *ngIf="conquest.conquest_id"
                     [embedded]="true"
                     [isCard]="true"
-                    [hideKey]="false"
                     [conquest]="conquest"
                     [conquestId]="conquest?.conquest_id"
                     [world]="world"
@@ -288,9 +288,9 @@
 
 				<ng-template #info>
 					<mat-card class="dense-card index-card-info">
-						<div class="card-header bg-gd-4">
-							<h1 class="entity-name gd-white">City Indexer Team</h1>
-							<h3 class="gd-primary">
+						<div class="card-header bg-gd-4" [ngClass]="{'index-team-title': data.total_reports > 0}">
+							<h1 class="entity-name gd-white title-city-indexer">City Indexer Team</h1>
+							<h3 class="gd-primary title-team-name">
 								<mat-icon style="vertical-align: sub;">group</mat-icon>&nbsp;{{index_name}}
 							</h3>
 
@@ -430,8 +430,9 @@
 					<mat-card class="dense-card index-card-info">
 						<mat-card-title>
 							<div class="form-group row" style='margin: 0px;'>
-								<h3 style='font-weight: 300; color: #304357; margin-top: 0 !important;'><span class='world-title' style='color: #18BC9C;'>Most indexed players</span>
-									<button name="open_bb" style="float: right;" class="btn btn-success btn-xs" (click)="openBBdialog('players_indexed')">
+								<h3 class="gd-secondary" style='font-weight: 500; margin-top: 0 !important;'>
+                  Top Players
+									<button name="open_bb" style="float: right;" class="btn btn-secondary" (click)="openBBdialog('players_indexed')">
 										<i class="fa fa-code"></i> BB code
 									</button>
 								</h3>
@@ -477,8 +478,9 @@
 					<mat-card class="dense-card index-card-info">
 						<mat-card-title>
 							<div class="form-group row" style='margin: 0px;'>
-								<h3 style='font-weight: 300; color: #304357; margin-top: 0 !important;'><span class='world-title' style='color: #18BC9C;'>Most indexed alliances</span>
-									<button name="open_bb" style="float: right;" class="btn btn-success btn-xs" (click)="openBBdialog('alliances_indexed')">
+								<h3 class="gd-secondary" style='font-weight: 500; margin-top: 0 !important;'>
+                  Top Alliances
+									<button name="open_bb" style="float: right;" class="btn btn-secondary" (click)="openBBdialog('alliances_indexed')">
 										<i class="fa fa-code"></i> BB code
 									</button>
 								</h3>
@@ -528,7 +530,7 @@
 						<div class="row">
 							<div class="col-12 text-center">
 
-								<div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="0" style="margin-bottom: -25px;">
+								<div fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="0" style="margin-bottom: -25px;">
 									<div fxFlex="35" fxLayout="column" fxLayoutGap="5px">
 										<ng-container *ngTemplateOutlet="info"></ng-container>
 									</div>

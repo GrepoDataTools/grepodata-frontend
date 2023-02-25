@@ -201,6 +201,7 @@ export class IndexTownComponent implements AfterViewInit, OnDestroy, OnInit {
         town: {
           name: this.townName,
           id: this.id,
+          active: true,
         }
       }
 
@@ -227,35 +228,10 @@ export class IndexTownComponent implements AfterViewInit, OnDestroy, OnInit {
         key: this.key,
         world: this.world,
         conquest: null,
-        conquest_id: conquest_id,
-        get_by_uid: false,
+        conquest_id: conquest_id
       }
     });
   }
-
-  // deleteIntel(id) {
-  //   alert("TODO")
-  //   // if (this.csa != false) {
-  //   //   LocalCacheService.set('csa'+this.key, this.csa, (31 * 24 * 60));
-  //   //   this.indexerService.deleteRecordById(this.csa, this.key, id).subscribe(_=>{});
-  //   // }
-  // }
-  //
-  // deleteNote(id) {
-  //   alert("TODO")
-  //   // if (this.csa != false) {
-  //   //   LocalCacheService.set('csa'+this.key, this.csa, (31 * 24 * 60));
-  //   //   this.indexerService.deleteNoteById(this.csa, this.key, id).subscribe(_=>{});
-  //   // }
-  // }
-  //
-  // deleteIntelUndo(id) {
-  //   alert("TODO")
-  //   // if (this.csa != false) {
-  //   //   LocalCacheService.set('csa'+this.key, this.csa, (31 * 24 * 60));
-  //   //   this.indexerService.deleteRecordUndo(this.csa, this.key, id).subscribe(_=>{});
-  //   // }
-  // }
 
   openShareInfoDialog(town) {
     if ('shared_via_indexes' in town) {

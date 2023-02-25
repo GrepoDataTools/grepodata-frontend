@@ -59,12 +59,12 @@ pre {
   white-space: normal !important;
 }
 
-@media (max-width:960px) {
+@media (max-width:1000px) {
   .card-header {
-    margin: -10px -30px 30px !important;
+    margin: -10px -10px 10px !important;
   }
 }
-@media (min-width:961px) {
+@media (min-width:1001px) {
   .card-header {
     margin: -30px -30px 30px !important;
   }
@@ -121,6 +121,12 @@ pre {
     .mat-icon {
       font-size: 40px;
     }
+  }
+}
+
+@media (max-width:450px) {
+  .hidden-xxs {
+    display: none;
   }
 }
 
@@ -499,8 +505,12 @@ mat-paginator {
     margin-bottom: 25px !important;
   }
   .dense-card {
-    margin: 0 !important;
     padding: 10px !important;
+  }
+}
+@media (max-width:959px) {
+  .dense-card {
+    margin: 0 !important;
   }
 }
 

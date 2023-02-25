@@ -20,6 +20,7 @@ export class IntelSourceDialog {
   index_info: any = [];
   expanded_info_available = false;
   world : null;
+  breadcrumb_data : any = {};
 
   constructor(
     private indexService: IndexerService,
@@ -42,11 +43,30 @@ export class IntelSourceDialog {
       }
       this.index_info.push(expanded_index)
     });
+    this.buildBreadcrumbData();
     console.log(this.index_info);
   }
 
   close(): void {
     this.dialogRef.close();
+  }
+
+  private buildBreadcrumbData() {
+    this.breadcrumb_data = {
+      world: this.world,
+      player: {
+        name: this.intel_record.player_name,
+        id: this.intel_record.player_id,
+      },
+      alliance: {
+        name: this.intel_record.alliance_name,
+        id: this.intel_record.alliance_id,
+      },
+      town: {
+        name: this.intel_record.town_name,
+        id: this.intel_record.town_id,
+      }
+    }
   }
 
 }

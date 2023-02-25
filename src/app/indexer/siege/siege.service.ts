@@ -53,7 +53,6 @@ export class ConquestReportDialog {
   world: any;
   conquest: any;
   conquestId: any;
-  getByUid: any;
 
   constructor(
     public dialogRef: MatDialogRef<ConquestReportDialog>,
@@ -63,7 +62,6 @@ export class ConquestReportDialog {
     this.world = data.world;
     this.conquest = data.conquest;
     this.conquestId = data.conquest_id;
-    this.getByUid = data.get_by_uid;
   }
 
   onNoClick(): void {

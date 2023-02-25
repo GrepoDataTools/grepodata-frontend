@@ -14,8 +14,6 @@ import {JwtService} from '../../auth/services/jwt.service';
 export class SiegeComponent implements AfterViewInit, OnChanges {
   @Input() isCard: boolean;
   @Input() embedded: boolean;
-  @Input() hideKey: boolean;
-  @Input() getByUid: boolean;
   @Input() key: any;
   @Input() world: any;
   @Input() conquestId: any;
@@ -51,49 +49,15 @@ export class SiegeComponent implements AfterViewInit, OnChanges {
       if (this.conquest != null && this.conquest.conquest_id != null) {
         this.loading = false;
       }
-      if (this.getByUid) {
-        this.loadByUid();
-      } else {
-        this.loadById();
-      }
+
+      this.loadById();
     } else {
       // render conquest only
       this.loading = false;
     }
   }
 
-  ngAfterViewInit(): void {
-    // Routed loading
-    // this.route.params.subscribe( params => {
-    //   if (this.route.routeConfig && this.route.routeConfig.path.search('siege/') >= 0) {
-    //     this.isCard = false;
-    //     this.embedded = false;
-    //     this.hideKey = true;
-    //     this.conquest = {};
-    //     if (params.key && params.id) {
-    //       this.conquestId = params.id;
-    //       this.key = params.key;
-    //       this.hideKey = false;
-    //       this.loadById();
-    //     } else if (params.uid) {
-    //       this.conquestId = params.uid;
-    //       this.loadByUid();
-    //     }
-    //   }
-    // });
-  }
-
-  loadByUid(): void {
-    // this.siegeService.getConquestDetailsByUid(this.conquestId).subscribe(
-    //   (response) => this.renderResult(response),
-    //   (error) => {
-    //     this.error = this.conquest == null || this.conquest.conquest_id == null;
-    //     this.errorReports = true;
-    //     this.loading = false;
-    //     this.loadingReports = false;
-    //     console.log(error);
-    //   });
-  }
+  ngAfterViewInit(): void {}
 
   loadById(): void {
     this.authService.accessToken().then(access_token => {
@@ -140,17 +104,9 @@ export class SiegeComponent implements AfterViewInit, OnChanges {
         key: this.key,
         world: this.world,
         conquest: this.conquest,
-        conquest_id: this.conquestId,
-        get_by_uid: false,
+        conquest_id: this.conquestId
       }
     });
   }
-
-  // copyLink(inputElement) {
-  //   let url = environment.url + '/siege/' + this.conquestId;
-  //   navigator.clipboard.writeText(url).then(() => {});
-  //   this.copied = true;
-  //   window.setTimeout(()=>{this.copied = false;}, 4000);
-  // }
 
 }

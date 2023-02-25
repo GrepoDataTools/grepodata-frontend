@@ -96,9 +96,14 @@
     </li>
 
     <!-- Town -->
-    <li class="breadcrumb-item active" aria-current="page" *ngIf="data.town">
+    <li class="breadcrumb-item" aria-current="page" *ngIf="data.town" [ngClass]="{'active': data.town.active===true}">
       <img src="../../../assets/images/town_ico.png" style="height: 20px; margin-top: -1px;"/>
-      &nbsp;{{data.town.name}}
+      <a *ngIf="data.town.name && !data.town.active" routerLink="/intel/town/{{data.world}}/{{data.town.id}}">
+        &nbsp;{{data.town.name}}
+      </a>
+      <span *ngIf="data.town.active===true">
+        &nbsp;{{data.town.name}}
+      </span>
     </li>
 
   </ol>

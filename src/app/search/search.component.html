@@ -5,8 +5,8 @@
 
 <!--Search-->
 <div class="top-container" *ngIf="!hide_search" (click)="cdr.detectChanges()" [ngClass]="{'search-shadow': !homepage && !searching_players && !searching_alliances}">
-  <div fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="5px">
-    <mat-card fxFlex [ngClass]="(secondary==true)?'search-secondary search':'search'" style="box-shadow: none !important;">
+  <div style="width: 100% !important;">
+    <mat-card [ngClass]="(secondary==true)?'search-secondary search':'search'" style="box-shadow: none !important;">
       <mat-card-content>
 
         <div [ngClass]="(secondary==true)?'container':'container-fluid'">

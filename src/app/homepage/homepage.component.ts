@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {animate, style, transition, trigger} from '@angular/animations';
 import {DisclaimerDialog} from '../footer/footer.component';
 import {MatDialog} from '@angular/material/dialog';
@@ -39,7 +39,7 @@ import {JwtService} from '../auth/services/jwt.service';
     ),
   ]
 })
-export class HomepageComponent implements OnInit {
+export class HomepageComponent implements OnInit, OnDestroy {
   @ViewChild('headerText') headerText: ElementRef;
   @ViewChild('indexerText') indexerText: ElementRef;
 
@@ -66,6 +66,10 @@ export class HomepageComponent implements OnInit {
     if (!authService.refreshToken) {
       this.loggedOut = true;
     }
+  }
+
+  ngOnDestroy() {
+    this.mobileQuery.removeEventListener('change', () => this._mediaQueryListener());
   }
 
   ngOnInit(): void {

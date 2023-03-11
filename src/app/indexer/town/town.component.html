@@ -1,9 +1,9 @@
 <div style="min-height: calc(100vh - 160px);">
 
 	<mat-card class="index-card index-intel-card">
-		<div class="card-header bg-gd-1 text-center text-white" style="margin-bottom: 0; padding: 20px 0 0 !important;">
+		<div class="card-header bg-gd-1 text-center text-white" style="margin-bottom: 0;" [ngClass]="{ 'embedded-intel': embedded }">
 
-      <h2 style="cursor: pointer; margin: 0;">
+      <h2 style="cursor: pointer; margin: 0;" *ngIf="!embedded">
         <span class="hidden-xs hidden-sm hidden-md">Showing your combined intel for:&nbsp;</span>
         <span class="hidden-xs hidden-sm hidden-lg">Combined intel for:&nbsp;</span>
 	      <div class="name-circle" (click)="copyBB()">
@@ -14,7 +14,7 @@
 	        <i class="fa fa-clipboard"></i>&nbsp;<span *ngIf="!copied">Copy BB</span><span *ngIf="copied">Copied!&nbsp;</span>
         </button>
       </h2>
-      <br/>
+      <br *ngIf="!embedded" />
       <app-indexer-breadcrumbs [data]="breadcrumb_data"></app-indexer-breadcrumbs>
 
     </div>
@@ -33,19 +33,24 @@
             <div>
               <div>
 
+                <div *ngIf="embedded" class="embedded-bb-copy">
+                  &nbsp;<button name="open_bb" class="btn btn-secondary" (click)="copyBB()" style="vertical-align: text-top;">
+                    <i class="fa fa-clipboard"></i>&nbsp;<span *ngIf="!copied">Copy BB</span><span *ngIf="copied">Copied!&nbsp;</span>
+                  </button>
+                </div>
 
-	              <div class="container-fluid">
+
+	              <div class="container-fluid" [ngClass]="{ 'embedded-container': embedded }">
 		              <div class="row">
 			              <mat-tab-group mat-stretch-tabs>
 				              <mat-tab class="history-chart" style="padding: 20px 0; overflow: hidden !important;">
 					              <ng-template mat-tab-label>
 						              <mat-icon style="opacity: 1; vertical-align: bottom;">account_balance</mat-icon>&nbsp;<span class="hidden-xs hidden-sm">Town intelligence</span><span class="hidden-lg hidden-md">Units</span>
 					              </ng-template>
-					              <br/>
 
 					              <div *ngIf="build.length > 0">
-						              <h3 style='font-weight: 300; color: #304357;'>
-							              <span class='world-title' style='color: #18BC9C;'>Latest building intelligence</span>
+						              <h3 class="gd-secondary" *ngIf="!embedded">
+							              <span class='world-title'>Latest building intelligence</span>
 						              </h3>
 						              <span class="build-cell" style="transform: scale(1.4); float: left; margin: 15px;" *ngFor="let building of build" >
 			                      <div class="building_icon40x40 {{building.name}}" matTooltip="{{building.name}}: {{building.val}} ({{building.date}})">
@@ -63,8 +68,8 @@
 						              </div>
 					              </div>
 					              <div *ngIf="allCities.length > 0">
-						              <h3 style='font-weight: 300; color: #304357;'>
-							              <span class='world-title' style='color: #18BC9C;'>Unit intelligence history</span>
+						              <h3 class="gd-secondary" *ngIf="!embedded">
+							              <span class='world-title'>Unit intelligence history</span>
 						              </h3>
 						              <div style="overflow: auto;">
 							              <div class="table intel-table" id="table_all" style="">
@@ -85,19 +90,19 @@
 									              <div class="cell text-left" *ngIf="hasGod">
 										              God
 									              </div>
-									              <div class="cell" *ngIf="hasWall">
+									              <div class="cell" *ngIf="hasWall && !embedded">
 										              Wall
 									              </div>
-									              <div class="cell" *ngIf="hasStonehail">
+									              <div class="cell" *ngIf="hasStonehail && !embedded">
 										              Stonehail
 									              </div>
-									              <div class="cell" *ngIf="hasSilver">
+									              <div class="cell" *ngIf="hasSilver && !embedded">
 										              Silver
 									              </div>
-									              <div class="cell hidden-xs hidden-sm" *ngIf="hasConquest" style="max-width: 15vw !important; width: 15vw;">
+									              <div class="cell hidden-xs hidden-sm" *ngIf="hasConquest && !embedded" style="max-width: 15vw !important; width: 15vw;">
 										              Siege report
 									              </div>
-									              <div class="cell" *ngIf="hasSharingDetails"></div>
+									              <div class="cell" *ngIf="hasSharingDetails && !embedded"></div>
 								              </div>
 
                               <ng-container *ngFor="let town of allCities">
@@ -127,18 +132,18 @@
                                     </span>
                                   </div>
                                   <div class="cell" *ngIf="hasHero" style="min-width: 50px;">
-                                    <span style="transform: scale(1.05); float: left; margin: -19px 0 0 0;"
-                                          matTooltip="{{town?.hero?.replace('_',' ')}}">
-                                      <div class="unit_icon40x40 {{town?.hero}}"></div>
+                                    <span *ngIf="town?.hero" style="transform: scale(1.05); float: left; margin: -19px 0 0 0;"
+                                          matTooltip="{{town.hero?.replace('_',' ')}}">
+                                      <div class="unit_icon40x40 {{town.hero}}"></div>
                                     </span>
                                   </div>
                                   <div class="cell" *ngIf="hasGod" style="min-width: 50px;">
-                                    <span style="transform: scale(1.05); float: left; margin: -5px 0 0 0;"
+                                    <span *ngIf="town?.god" style="transform: scale(1.05); float: left; margin: -5px 0 0 0;"
                                           matTooltip="{{town.god}}">
-                                      <div class="unit_icon40x40 {{town.god}}"></div>
+                                      <div class="unit_icon40x40 no-border {{town.god}}"></div>
                                     </span>
                                   </div>
-                                  <div class="cell" *ngIf="hasWall" style="padding-top: 7px;">
+                                  <div class="cell" *ngIf="hasWall && !embedded" style="padding-top: 7px;">
                                     <!--<span [outerHTML]="town.wall | HideNoLossPipe"></span>-->
                                     <span *ngIf="town.wall!=null && town.wall!=''" class="build-cell" style="min-width: 70px;">
                                       <div class="building_icon40x40 wall" matTooltip="Wall: {{town.wall}}"></div>
@@ -147,7 +152,7 @@
                                       </div>
                                     </span>
                                   </div>
-                                  <div class="cell" *ngIf="hasStonehail" style="padding-top: 7px;">
+                                  <div class="cell" *ngIf="hasStonehail && !embedded" style="padding-top: 7px;">
                                     <span *ngIf="town.stonehail!=null && town.stonehail!=''" class="build-cell" style="">
                                       <div class="building_icon40x40 {{town.stonehail.building}}" matTooltip="Stonehail: {{town.stonehail.building}} {{town.stonehail.value}}"></div>
                                       <div>
@@ -155,10 +160,10 @@
                                       </div>
                                     </span>
                                   </div>
-                                  <div class="cell" *ngIf="hasSilver">
+                                  <div class="cell" *ngIf="hasSilver && !embedded">
                                     <span *ngIf="town?.silver">{{town?.silver?.replace('(+',' (+')}}</span>
                                   </div>
-                                  <div class="cell hidden-xs hidden-sm" *ngIf="hasConquest">
+                                  <div class="cell hidden-xs hidden-sm" *ngIf="hasConquest && !embedded">
                                     <div *ngIf="town?.conquest_id && town?.conquest_id > 0">
                                       <!--<a class="a-link-dialog" (click)="loadConquestDetails(town?.conquest_id)">View report <mat-icon style="opacity: 1; vertical-align: bottom;">launch</mat-icon></a>-->
                                       <button class="gd-btn-2" (click)="loadConquestDetails(town?.conquest_id)">View report <mat-icon style="opacity: 1; vertical-align: bottom;">launch</mat-icon></button>
@@ -178,10 +183,10 @@
                                     <!--</span>-->
                                   <!--</div>-->
 
-                                  <div *ngIf="town.shared_via_indexes" class="cell gd-primary a-link-dialog" matTooltip="Click here to see how this intel was shared with you" (click)="openShareInfoDialog(town)">
+                                  <div *ngIf="town.shared_via_indexes && !embedded" class="cell gd-primary a-link-dialog" matTooltip="Click here to see how this intel was shared with you" (click)="openShareInfoDialog(town)">
                                     <mat-icon>supervised_user_circle</mat-icon>
                                   </div>
-                                  <div *ngIf="!town.shared_via_indexes" class="cell"></div>
+                                  <div *ngIf="!town.shared_via_indexes && !embedded" class="cell"></div>
 
 
                                 </div>
@@ -222,19 +227,19 @@
 									              <div class="cell text-left" *ngIf="hasGod">
 										              God
 									              </div>
-									              <div class="cell" *ngIf="hasWall">
+									              <div class="cell" *ngIf="hasWall && !embedded">
 										              Wall
 									              </div>
-									              <div class="cell" *ngIf="hasStonehail">
+									              <div class="cell" *ngIf="hasStonehail && !embedded">
 										              Stonehail
 									              </div>
-									              <div class="cell" *ngIf="hasSilver">
+									              <div class="cell" *ngIf="hasSilver && !embedded">
 										              Silver
 									              </div>
-									              <div class="cell hidden-xs hidden-sm" *ngIf="hasConquest" style="max-width: 15vw !important; width: 15vw;">
+									              <div class="cell hidden-xs hidden-sm" *ngIf="hasConquest && !embedded" style="max-width: 15vw !important; width: 15vw;">
 										              Siege report
 									              </div>
-									              <div class="cell" *ngIf="hasSharingDetails"></div>
+									              <div class="cell" *ngIf="hasSharingDetails && !embedded"></div>
 								              </div>
 
                               <ng-container *ngFor="let town of allCities">
@@ -261,18 +266,18 @@
                                     </span>
                                   </div>
                                   <div class="cell" *ngIf="hasHero" style="min-width: 50px;">
-                                    <span style="transform: scale(1.05); float: left; margin: -19px 0 0 0;"
+                                    <span *ngIf="town?.hero.length > 0" style="transform: scale(1.05); float: left; margin: -19px 0 0 0;"
                                           matTooltip="{{town?.hero?.replace('_',' ')}}">
                                       <div class="unit_icon40x40 {{town?.hero}}"></div>
                                     </span>
                                   </div>
                                   <div class="cell" *ngIf="hasGod" style="min-width: 50px;">
-                                    <span style="transform: scale(1.05); float: left; margin: -5px 0 0 0;"
+                                    <span *ngIf="town?.god.length > 0" style="transform: scale(1.05); float: left; margin: -5px 0 0 0;"
                                           matTooltip="{{town.god}}">
-                                      <div class="unit_icon40x40 {{town.god}}"></div>
+                                      <div class="unit_icon40x40 no-border {{town.god}}"></div>
                                     </span>
                                   </div>
-                                  <div class="cell" *ngIf="hasWall" style="padding-top: 7px;">
+                                  <div class="cell" *ngIf="hasWall && !embedded" style="padding-top: 7px;">
                                     <!--<span [outerHTML]="town.wall | HideNoLossPipe"></span>-->
                                     <span *ngIf="town.wall!=null && town.wall!=''" class="build-cell" style="min-width: 70px;">
                                       <div class="building_icon40x40 wall" matTooltip="Wall: {{town.wall}}"></div>
@@ -281,7 +286,7 @@
                                       </div>
                                     </span>
                                   </div>
-                                  <div class="cell" *ngIf="hasStonehail" style="padding-top: 7px;">
+                                  <div class="cell" *ngIf="hasStonehail && !embedded" style="padding-top: 7px;">
                                     <span *ngIf="town.stonehail!=null && town.stonehail!=''" class="build-cell" style="">
                                       <div class="building_icon40x40 {{town.stonehail.building}}" matTooltip="Stonehail: {{town.stonehail.building}} {{town.stonehail.value}}"></div>
                                       <div>
@@ -289,10 +294,10 @@
                                       </div>
                                     </span>
                                   </div>
-                                  <div class="cell" *ngIf="hasSilver">
+                                  <div class="cell" *ngIf="hasSilver && !embedded">
                                     <span *ngIf="town?.silver">{{town?.silver?.replace('(+',' (+')}}</span>
                                   </div>
-                                  <div class="cell hidden-xs hidden-sm" *ngIf="hasConquest">
+                                  <div class="cell hidden-xs hidden-sm" *ngIf="hasConquest && !embedded">
                                     <div *ngIf="town?.conquest_id && town?.conquest_id > 0">
                                       <!--<a class="a-link-dialog" (click)="loadConquestDetails(town?.conquest_id)">View report <mat-icon style="opacity: 1; vertical-align: bottom;">launch</mat-icon></a>-->
                                       <button class="gd-btn-2" (click)="loadConquestDetails(town?.conquest_id)">View report <mat-icon style="opacity: 1; vertical-align: bottom;">launch</mat-icon></button>
@@ -312,10 +317,10 @@
                                     <!--</span>-->
                                   <!--</div>-->
 
-                                  <div *ngIf="town.shared_via_indexes" class="cell gd-primary a-link-dialog" matTooltip="Click here to see how this intel was shared with you" (click)="openShareInfoDialog(town)">
+                                  <div *ngIf="town.shared_via_indexes && !embedded" class="cell gd-primary a-link-dialog" matTooltip="Click here to see how this intel was shared with you" (click)="openShareInfoDialog(town)">
                                     <mat-icon>supervised_user_circle</mat-icon>
                                   </div>
-                                  <div *ngIf="!town.shared_via_indexes" class="cell"></div>
+                                  <div *ngIf="!town.shared_via_indexes && !embedded" class="cell"></div>
 
 
                                 </div>
@@ -389,7 +394,7 @@
 				              </mat-tab>
 
 
-				              <mat-tab class="history-chart" style="padding: 20px 0; overflow: hidden !important;">
+				              <mat-tab class="history-chart" style="padding: 20px 0; overflow: hidden !important;" *ngIf="!embedded">
 					              <ng-template mat-tab-label>
 						              <mat-icon style="opacity: 1; margin-top: -8px; font-weight: 900;">⚔</mat-icon>&nbsp;Conquests
 					              </ng-template>

@@ -54,9 +54,9 @@
 						</a>
 
 					</div>
-					<div class="cell" style="text-align: left;" *ngIf="isSeaUnit" title="{{type=='fire'?'attack ship':'bireme'}}">
+					<div class="cell" style="text-align: left;" *ngIf="isSeaUnit" title="{{tableHeader}}">
 		        <span class="unit-icon-xs hidden-xs">
-		          <div class="unit_icon40x40 {{type}}"></div>
+		          <div class="unit_icon40x40 {{typeActual}}"></div>
 		        </span>
 						<span [outerHTML]="town.units | HideNoLossPipe"></span>
 					</div>

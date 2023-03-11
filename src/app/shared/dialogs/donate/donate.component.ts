@@ -1,7 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {Globals} from '../../../globals';
-import {ContactDialog} from '../../../header/header.component';
 import {GoogleAnalyticsEventsService} from "../../../services/google-analytics-events.service";
 
 @Component({
@@ -45,14 +44,6 @@ export class DonateDialog {
     this.globals.showSnackbar(
       `<h4>Copied to clipboard</h4>`,
       'success', '', true,5000);
-  }
-
-  public showContactDialog(): void {
-    let dialogRef = this.dialog.open(ContactDialog, {
-      autoFocus: false
-    });
-
-    dialogRef.afterClosed().subscribe(result => {});
   }
 
 }

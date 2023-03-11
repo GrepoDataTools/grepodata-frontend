@@ -25,7 +25,7 @@ export class LocalCacheService {
 
   }
 
-  public static set(url, cachedData, lifetime) {
+  public static set(url, cachedData, lifetime=60) {
     let expire = moment().add(lifetime, 'm').toDate();
     let data = {
       data: cachedData,

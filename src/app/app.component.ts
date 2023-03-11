@@ -10,6 +10,7 @@ import {WorldService} from './services/world.service';
 import {SidenavService} from './layout/sidebar/sidenav-service';
 import {Globals} from './globals';
 import {IndexerService} from './indexer/indexer.service';
+import {Title} from '@angular/platform-browser';
 
 declare let ga: Function;
 
@@ -22,6 +23,7 @@ declare let ga: Function;
 export class AppComponent {
   title = 'app';
   hidden_warning = false;
+  show_header = false
 
   public greenType = false;
   public whiteType = false;
@@ -29,12 +31,20 @@ export class AppComponent {
   constructor(
     private router: Router,
     private dialogRef: MatDialog,
-    private sidenavService: SidenavService
+    private sidenavService: SidenavService,
+    private titleService: Title
   ) {
 
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
         return;
+      }
+
+      if (!evt.url.includes('/operations')) {
+        this.show_header = true;
+        if ("GrepoData - Grepolis Statistics" != this.titleService.getTitle()) {
+          this.titleService.setTitle("GrepoData - Grepolis Statistics");
+        }
       }
 
       // Check ad type based on route

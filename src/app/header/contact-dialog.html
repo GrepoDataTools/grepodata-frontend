@@ -1,7 +1,11 @@
 <div class="contact-container">
   <a (click)="dialogRef.close()" class="close"></a>
-  <h2 class="gd-secondary" style="color: #18BC9C; margin-top: 0px;" mat-dialog-title>Contact us</h2>
+  <h2 class="gd-secondary" style="color: #18BC9C; margin-top: 0px;" mat-dialog-title>
+    <span *ngIf="!custom_title">Contact us</span>
+    <span *ngIf="custom_title">{{custom_title}}</span>
+  </h2>
   <hr/>
+	<p *ngIf="context=='cmd_feedback'">If you want to upload an image, please <a routerLink="/profile/bug">submit a bug report</a> instead.</p>
 	<p>If you want us to reply, please also enter your email address.</p>
 
   <div mat-dialog-content *ngIf="submitted==false" style=" min-width: 40%;">
@@ -37,7 +41,7 @@
 				    <span *ngIf="!loading">Send message</span>
 			    </button>
 			    <mat-progress-bar style="margin-top: -10px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px;" *ngIf="loading" mode="indeterminate"></mat-progress-bar>
-			    <p style="font-size: 12px; height: 20px; color: gray; padding-top: 10px; text-align: center;">
+			    <p style="font-size: 14px; height: 20px; color: gray; padding-top: 10px; text-align: center;">
 				    Or send us an email at <span id="mail" class="a-link" (click)="copy()" style="text-decoration: underline; color: #5cc4ef;">admin@grepodata.com</span>
 				    <br/><span *ngIf="copied"><strong>Copied address to clipboard!</strong></span>
 			    </p>

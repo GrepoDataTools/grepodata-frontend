@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, Pipe, PipeTransform} from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit, Pipe, PipeTransform} from '@angular/core';
 import {IndexerService} from "../indexer.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ContactDialog} from "../../header/header.component";
@@ -16,10 +16,15 @@ import {Subscription} from 'rxjs';
   selector: 'app-index-town',
   templateUrl: './town.component.html',
   styleUrls: ['./town.component.scss'],
-  providers: [IndexerService, WorldService]
+  providers: [IndexerService, WorldService, LocalCacheService]
 })
 export class IndexTownComponent implements AfterViewInit, OnDestroy, OnInit {
   paramsSubscription : Subscription;
+
+  @Input() embedded: boolean;
+  @Input() key: string;
+  @Input() id: string;
+  @Input() world: string;
 
   townName = '';
   playerId = '';
@@ -30,10 +35,7 @@ export class IndexTownComponent implements AfterViewInit, OnDestroy, OnInit {
   noIntel = false;
   copied = false;
   err = '';
-  world = '';
   worldName = '';
-  key = '';
-  id = '';
   build = [];
   allCities = [];
   notes = [];
@@ -78,7 +80,15 @@ export class IndexTownComponent implements AfterViewInit, OnDestroy, OnInit {
 
   ngAfterViewInit() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.embedded) {
+      this.load({
+        key: this.key,
+        id: this.id,
+        world: this.world
+      })
+    }
+  }
 
   ngOnDestroy() {
     console.log('destroy town component');
@@ -203,6 +213,12 @@ export class IndexTownComponent implements AfterViewInit, OnDestroy, OnInit {
           id: this.id,
           active: true,
         }
+      }
+
+      if (this.embedded) {
+        this.breadcrumb_data['hide_world'] = true;
+        this.breadcrumb_data['hide_teams'] = true;
+        this.breadcrumb_data['hide_backlink'] = true;
       }
 
       this.noIntel = false;

@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {IndexList, ProfileService} from '../../../services/profile.service';
 import {JwtService} from '../../../services/jwt.service';
 import {Router} from '@angular/router';
@@ -28,7 +28,7 @@ const apiUrl = environment.apiUrl;
   providers: [IndexerService, WorldService, CaptchaService, IndexAuthService],
   encapsulation: ViewEncapsulation.None
 })
-export class IndexesComponent implements OnInit {
+export class IndexesComponent implements OnInit, OnDestroy {
   @ViewChild(RecaptchaComponent, {static: false}) captchaRef:RecaptchaComponent;
 
   indexes: IndexList[] = [];
@@ -71,6 +71,10 @@ export class IndexesComponent implements OnInit {
       this._mediaQueryListener();
       console.log('mobile query matches: ', this.mobileQuery.matches);
     });
+  }
+
+  ngOnDestroy() {
+    this.mobileQuery.removeEventListener('change', () => this._mediaQueryListener());
   }
 
   goToOverview(index_key) {

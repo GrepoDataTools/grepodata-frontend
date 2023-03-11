@@ -131,12 +131,16 @@ import { PlayerActivityComponent } from './layout/player-activity/player-activit
 import {PlatformModule} from '@angular/cdk/platform';
 import { HomepageComponent } from './homepage/homepage.component';
 import { IndexerUpdateComponent } from './homepage/indexer-update/indexer-update.component';
-import { DemoOverviewComponent } from './commands/demo-overview/demo-overview.component';
 import { EventListComponent } from './indexer/event-list/event-list.component';
 import { ScriptVersionComponent } from './changelog/script-version/script-version.component';
 import { IdeasComponent } from './auth/profile/components/ideas/ideas.component';
 import { ApiComponent } from './auth/profile/components/api/api.component';
 import { BlogComponent } from './blog/blog.component';
+import { OperationsComponent } from './indexer/ops/operations/operations.component';
+import { CommandsComponent } from './indexer/ops/commands/commands.component';
+import { OpsHelpDialog } from './indexer/ops/help/help.component';
+import { OpsIntelDialog } from './indexer/ops/intel-dialog/intel-dialog.component';
+import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
 
 const appRoutes: Routes = [
     { path: 'login', component: LandingPageComponent },
@@ -174,6 +178,7 @@ const appRoutes: Routes = [
     { path: 'invite/:invite_link/:type/:world/:id', component: InviteComponent }, // Invite route to catch V1 redirects
     { path: 'link/:uid', component: InviteComponent }, // V2 userscript authentication
     { path: 'userscript', component: UserscriptComponent },
+    { path: 'operations/:team/:world', component: CommandsComponent },
     // { path: 'siege/:id/:key', component: SiegeComponent },
     // { path: 'siege/:uid', component: SiegeComponent },
     { path: 'player/:world/:id', component: PlayerComponent },
@@ -182,7 +187,6 @@ const appRoutes: Routes = [
     { path: 'alliance', component: AllianceComponent },
     { path: 'conquest/:type/:world/:id', component: ConquestComponent },
     { path: 'changes/:type/:world/:id', component: AllianceChangeComponent },
-    { path: 'command_sharing_demo/:key', component: DemoOverviewComponent },
     { path: 'conquest', component: ConquestComponent },
     { path: 'discord', component: DiscordComponent },
     { path: 'faq', component: FaqComponent },
@@ -212,6 +216,8 @@ export function jwtTokenGetter(): any {
         AdvertorialComponent,
         BasicDialog,
         DonateDialog,
+        OpsHelpDialog,
+        OpsIntelDialog,
         TownDialog,
         DisclaimerDialog,
         ContactDialog,
@@ -280,17 +286,19 @@ export function jwtTokenGetter(): any {
         PlayerActivityComponent,
         HomepageComponent,
         IndexerUpdateComponent,
-        DemoOverviewComponent,
         EventListComponent,
         ScriptVersionComponent,
         IdeasComponent,
         ApiComponent,
-        BlogComponent
+        BlogComponent,
+        OperationsComponent,
+        CommandsComponent
     ],
     imports: [
         FormsModule,
         BrowserModule,
         MatChipsModule,
+        NgMultiSelectDropDownModule,
         MatPaginatorModule,
         FlexLayoutModule,
         MatTabsModule,
@@ -333,6 +341,8 @@ export function jwtTokenGetter(): any {
     entryComponents: [
         BasicDialog,
         DonateDialog,
+        OpsHelpDialog,
+        OpsIntelDialog,
         TownDialog,
         DisclaimerDialog,
         ContactDialog,

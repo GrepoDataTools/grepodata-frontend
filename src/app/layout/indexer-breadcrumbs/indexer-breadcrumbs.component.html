@@ -1,19 +1,19 @@
 <nav aria-label="breadcrumb">
 
-  <ol class="breadcrumb">
+  <ol class="breadcrumb" *ngIf="type == 'default'">
 
     <!-- Back navigation -->
-    <li class="breadcrumb-item">
+    <li class="breadcrumb-item" *ngIf="!data.hide_backlink">
       <a routerLink="/profile"><mat-icon style="vertical-align: bottom;">arrow_back</mat-icon> My intel</a>
     </li>
 
     <!-- World -->
-    <li class="breadcrumb-item active" *ngIf="data.world">
+    <li class="breadcrumb-item active" *ngIf="data.world && !data.hide_world">
       <div [outerHTML]="data.world | WorldNamePipe"></div>
     </li>
 
     <!-- Teams -->
-    <li class="breadcrumb-item active" *ngIf="data.teams && data.teams.length > 0" (mouseover)="toggleTeams(true)" (mouseleave)="toggleTeams(false)">
+    <li class="breadcrumb-item active" *ngIf="data.teams && data.teams.length > 0 && !data.hide_teams" (mouseover)="toggleTeams(true)" (mouseleave)="toggleTeams(false)">
       <mat-icon style="vertical-align: text-bottom;">group</mat-icon>
       <a routerLink="/profile/team/{{data.teams[0].index_key}}"> {{data.teams[0].index_name}}</a>
       <mat-icon style="vertical-align: bottom;" class="hidden-xs hidden-sm">arrow_drop_down</mat-icon>
@@ -104,6 +104,33 @@
       <span *ngIf="data.town.active===true">
         &nbsp;{{data.town.name}}
       </span>
+    </li>
+
+  </ol>
+
+  <ol class="breadcrumb" *ngIf="type == 'ops'">
+
+    <!-- Back navigation -->
+    <li class="breadcrumb-item">
+      <a class="gd-secondary hover-scale" routerLink="/profile/ops">
+        <mat-icon style="vertical-align: bottom;">keyboard_backspace</mat-icon>&nbsp;
+        <span class="ops-gd-header">
+          <span style="color: rgb(103, 103, 103)">GREPO</span>
+          <span style="color: rgb(24, 188, 156)">DATA</span>
+        </span>
+        <span style="color: #334254 !important;">&nbsp;Team Ops</span>
+      </a>
+    </li>
+
+    <!-- World -->
+    <li class="breadcrumb-item active" *ngIf="data.world">
+      <div [outerHTML]="data.world | WorldNamePipe"></div>
+    </li>
+
+    <!-- Team -->
+    <li class="breadcrumb-item active" *ngIf="data.team">
+      <mat-icon style="vertical-align: -5px;">group</mat-icon>
+      <a routerLink="/profile/team/{{data.team}}"> {{data.team_name}}</a>
     </li>
 
   </ol>

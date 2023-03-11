@@ -74,13 +74,13 @@
                   <div class="cell" *ngIf="!!intel_record?.hero" style="min-width: 50px;">
                                     <span style="transform: scale(1.05); float: left; margin: -19px 0 0 0;"
                                           matTooltip="{{intel_record?.hero?.replace('_',' ')}}">
-                                      <div class="unit_icon40x40 {{intel_record?.hero}}"></div>
+                                      <div class="unit_icon40x40 no-border {{intel_record?.hero}}"></div>
                                     </span>
                   </div>
                   <div class="cell" *ngIf="!!intel_record?.god" style="min-width: 50px;">
                                     <span style="transform: scale(1.05); float: left; margin: -5px 0 0 0;"
                                           matTooltip="{{intel_record.god}}">
-                                      <div class="unit_icon40x40 {{intel_record.god}}"></div>
+                                      <div class="unit_icon40x40 no-border {{intel_record.god}}"></div>
                                     </span>
                   </div>
                   <div class="cell" *ngIf="!!intel_record?.wall" style="padding-top: 7px;">

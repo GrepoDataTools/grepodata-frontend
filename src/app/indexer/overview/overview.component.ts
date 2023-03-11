@@ -89,6 +89,7 @@ export class OverviewComponent implements OnInit, OnDestroy, OnInit {
   ngOnDestroy() {
     console.log('destroy team component');
     this.paramsSubscription.unsubscribe();
+    this.mobileQuery.removeEventListener('change', () => this._mediaQueryListener());
   }
 
   private load(params) {

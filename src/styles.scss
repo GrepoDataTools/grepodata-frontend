@@ -868,7 +868,8 @@ fieldset[disabled] .btn-primary.active {
   }
 }
 
-.btn-secondary {
+.btn-secondary,
+.btn-secondary:focus {
   color: #365063;
   background-color: #fbfbfb;
   border-color: #365063;
@@ -881,7 +882,6 @@ fieldset[disabled] .btn-primary.active {
   }
 }
 .btn-secondary:hover,
-.btn-secondary:focus,
 .btn-secondary:active,
 .btn-secondary.active,
 .open .dropdown-toggle.btn-secondary {

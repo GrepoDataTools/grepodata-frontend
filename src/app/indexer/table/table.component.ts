@@ -32,6 +32,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   loading = true;
   showNonPriority = false;
   hideAvailable = false;
+  typeActual;
 
   constructor(
     private globals: Globals,
@@ -48,21 +49,25 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.typeActual = this.type;
     switch (this.type) {
       case 'fire':
-        this.tableHeader = this.world.substring(0, 2)=='en'?'Light ships':'Fireships';
+        this.tableHeader = 'Attack ships';
+        this.typeActual = 'attack_ship';
         this.headerClass = '';
         this.iterator = this.seaTowns;
         this.isSeaUnit = true;
         break;
       case 'bir':
         this.tableHeader = 'Biremes';
+        this.typeActual = 'bireme';
         this.headerClass = 'blue';
         this.iterator = this.seaTowns;
         this.isSeaUnit = true;
         break;
       case 'trir':
         this.tableHeader = 'Triremes';
+        this.typeActual = 'trireme';
         this.headerClass = 'orange';
         this.iterator = this.seaTowns;
         this.isSeaUnit = true;

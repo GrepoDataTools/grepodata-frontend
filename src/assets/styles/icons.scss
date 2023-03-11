@@ -94,6 +94,7 @@
   position: relative;
   overflow: hidden;
   background: url(../images/game/buildings_sprite_40x40.png) no-repeat 0 0;
+  border: .5px solid #724b08;
 }
 .building_icon40x40.academy { background-position: 0 0; }
 .building_icon40x40.barracks { background-position: -40px 0; }
@@ -122,6 +123,14 @@
 .unit_icon40x40 {
   width: 40px;
   height: 40px;
+}
+
+.unit_icon40x40 {
+  border: .5px solid #724b08;
+
+  &.no-border {
+    border: none;
+  }
 }
 
 .hero40x40.achilles,
@@ -660,6 +669,16 @@
 .attack_type32x32.attack {
   background: url(../images/game/attack_type_sm.png) no-repeat -32px -32px;
 }
+
+.attack_type32x32.glow::after {
+   content: "";
+   position: absolute;
+   top: -8px;
+   left: -8px;
+   background: url(../images/game/glow.png) no-repeat;
+   width: 48px;
+   height: 48px;
+ }
 
 .attack_type32x32.sea_attack {
   background: url(../images/game/attack_type_sm.png) no-repeat -64px -32px;

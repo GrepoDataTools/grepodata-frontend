@@ -1,0 +1,54 @@
+<a (click)="close()" class="close"></a>
+<h2 mat-dialog-title style="margin-top: 0px;" class="gd-secondary">
+  Team Operations FaQ
+</h2>
+<hr/>
+
+<div mat-dialog-content>
+  <div class="">
+
+    <div class="container" style="padding: 0 !important;">
+      <div class="row">
+
+        <div class="col-xs-12">
+
+          <app-alert type="info2" title="Introducing GrepoData Team Operations" [dismissible]="false">
+            <div style="min-height: 73px !important;">
+              <h5>This tool allows you to share a command overview with your teammates.</h5>
+              <p>
+                1. You can <strong>share commands</strong> using your in-game command overview (Curator Advisor required).<br/>
+                2. Your uploaded commands are shared with the teams that you are currently contributing to.<br/>
+                3. On this page, you and your teammates will see a <strong>real-time combined command overview</strong>.
+              </p>
+              <br/>
+            </div>
+          </app-alert>
+
+        </div>
+
+        <div class="col-xs-12">
+
+          <app-alert type="info" title="" [dismissible]="false">
+            <h4 style="margin: 0;" class="gd-secondary">
+              Use our userscript to share your in-game command overview
+            </h4>
+            <p>
+              If you want to start or contribute to an operation, simply upload your commands using the in-game userscript.<br/>
+              To do this, <strong>you need to have the userscript installed</strong> and you need to be part of a team.<br/>
+              <button class="btn btn-secondary mr-1" routerLink="/profile/script" style="margin-top: 7px;">
+                Install the GrepoData Userscript <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">launch_app</mat-icon>
+              </button>
+              <br/>
+              <br/>
+              <img class="command-share-img" src="../../assets/images/share_commands.jpg?v=1" />
+            </p>
+          </app-alert>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

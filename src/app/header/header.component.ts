@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
 import {MessageService} from "../services/message.service";
 import {NavigationEnd, Router} from "@angular/router";
@@ -14,7 +14,7 @@ import {DonateDialog} from '../shared/dialogs/donate/donate.component';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
 
   toggled = false;
   isScoreboard = false;
@@ -22,6 +22,8 @@ export class HeaderComponent implements OnInit {
   isRanking = false;
   isIndexer = false;
   isProfile = false;
+
+  hideHeader = false;
 
   mobileQuery: MediaQueryList;
   private readonly _mediaQueryListener: () => void;
@@ -45,6 +47,7 @@ export class HeaderComponent implements OnInit {
         this.isRanking = false;
         this.isIndexer = false;
         this.isCompare = false;
+        this.hideHeader = false;
         if (path.includes('/points')) {
           this.isScoreboard = true;
         } else if (path.includes('/compare')) {
@@ -53,10 +56,16 @@ export class HeaderComponent implements OnInit {
           this.isRanking = true;
         } else if (path.includes('/indexer') || path.includes('/profile') || path.includes('/login')) {
           this.isIndexer = true;
+        } else if (path.includes('/operations')) {
+          this.hideHeader = true;
         }
         this.isProfile = path.includes('/profile') || path.includes('/indexer') || path.includes('/intel');
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.mobileQuery.removeEventListener('change', () => this._mediaQueryListener());
   }
 
   ngOnInit() {
@@ -79,9 +88,7 @@ export class HeaderComponent implements OnInit {
     if (this.mobileQuery.matches == false && this.isProfile) {
       // IF profile AND mobile: shown profile sidenav
       this.toggled = false;
-      console.log("yeah boiiii");
       let sidenav = this.sidenavService.toggle();
-      console.log(sidenav);
     } else {
       // ELSE shown regular toggled
       this.toggled = !this.toggled;
@@ -96,11 +103,6 @@ export class HeaderComponent implements OnInit {
 
   openIndexer()
   {
-    // if (this.router.url.search('indexer') === 1) {
-    //   this.routing('/indexer/0');
-    // } else {
-    //   this.routing('/profile/intel');
-    // }
     this.routing('/indexer');
   }
 
@@ -111,12 +113,7 @@ export class HeaderComponent implements OnInit {
   }
 
   public showContactDialog(): void {
-    let dialogRef = this.dialog.open(ContactDialog, {
-      // width: '600px',
-      // height: '90%'
-      autoFocus: false
-    });
-
+    let dialogRef = this.dialog.open(ContactDialog, {autoFocus: false});
     dialogRef.afterClosed().subscribe(result => {});
   }
 
@@ -131,6 +128,8 @@ export class HeaderComponent implements OnInit {
 export class ContactDialog {
   @ViewChild(RecaptchaComponent, {static: false}) captchaRef:RecaptchaComponent;
 
+  custom_title = '';
+  context = '';
   contact_message = '';
   contact_mail = '';
   privacy_agreed = false;
@@ -145,7 +144,15 @@ export class ContactDialog {
     public captchaService : CaptchaService,
     public dialogRef: MatDialogRef<ContactDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private messageService : MessageService) { }
+    private messageService : MessageService)
+  {
+    if (data && 'custom_title' in data) {
+      this.custom_title = data.custom_title;
+    }
+    if (data && 'context' in data) {
+      this.context = data.context;
+    }
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -174,7 +181,8 @@ export class ContactDialog {
       if (this.captchaRef != undefined) { this.captchaRef.reset(); }
     } else {
       this.loading = true;
-      this.messageService.sendMessage(this.contact_message, this.contact_mail, '', this.captcha).subscribe(
+      let context = '_'+this.context;
+      this.messageService.sendMessage(this.contact_message+context, this.contact_mail, '', this.captcha).subscribe(
         (response) => {
           this.submitted = true;
           this.loading = false;

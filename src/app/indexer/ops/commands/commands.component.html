@@ -1,0 +1,414 @@
+<!--<div class="sync-status">-->
+<!--  <p>-->
+<!--    <span>{{game_time_string}}</span>-->
+<!--    <span class="sync-label" [ngClass]="{ 'sync-ok': sync_status=='LIVE' || sync_status=='LOADING' }">-->
+<!--      <span class="rotate-cont"><mat-icon class="rotate-loader" [ngClass]="{ 'rotate-anim': animate_refresh }">refresh</mat-icon></span>-->
+<!--      {{sync_status}}-->
+<!--    </span>-->
+<!--  </p>-->
+<!--</div>-->
+
+<div class="ops-header">
+  <app-indexer-breadcrumbs [data]="{world: world, team: team, team_name: team_name}" [type]="'ops'"></app-indexer-breadcrumbs>
+</div>
+
+<div class="ops-action">
+  <button [disabled]="!is_admin" class="btn btn-secondary mr-1" (click)="openUsersDialog()" title="Only the team admin/owner can manage these settings">
+    Manage Users <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">group</mat-icon>
+  </button>
+  <button class="btn btn-secondary mr-1" (click)="showHelpDialog()">
+    Help <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">live_help</mat-icon>
+  </button>
+  <button class="btn btn-secondary mr-1" (click)="showContactDialog()">
+    Feedback <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">feedback</mat-icon>
+  </button>
+  <button class="btn btn-success mr-1" (click)="copyURL()" title="Team access is required to view this page!">
+    Share <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">share</mat-icon>
+  </button>
+  <button class="btn btn-primary" routerLink="/profile/ops">
+    Back <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">exit_to_app</mat-icon>
+  </button>
+</div>
+
+<div class="commands-container">
+
+  <div class="ops-commands-list-container">
+    <div class="ops-commands-list" style="padding-top: 40px;">
+<!--      <div class="ops-commands-list-header">-->
+<!--        <h3>-->
+<!--          Combined Command Overview-->
+<!--          <span *ngIf="commands && commands.length > 5">&nbsp;({{commands.length}} Total Active Commands)</span>-->
+<!--        </h3>-->
+<!--      </div>-->
+      <div class="command-viewer">
+
+        <div class="command-sidepanel command-filters" >
+          <div class="filter-header">
+            <h3 style="margin: 3px 0 !important;">Filters</h3>
+            <button *ngIf="is_filtered" class="btn btn-success" (click)="clearFilter('all')">
+              Clear all filters
+            </button>
+          </div>
+          <hr style="margin-bottom: 10px;">
+
+          <!-- Filter by text -->
+          <div class="inline-filter" title="This filters on town names, player names and comments">
+            <p>Filter by text</p>
+            <input type="text" placeholder="Type here to search" [(ngModel)]="filter_text" (ngModelChange)="filterText()" [ngClass]="{'filtered': filter_text!=''}"/>
+          </div>
+
+          <!-- Filter by town -->
+          <div class="filter-title">
+            <p>Filter by town</p>
+            <span *ngIf="filter_town.length > 0" (click)="clearFilter('town')">clear</span>
+          </div>
+          <ng-multiselect-dropdown [data]="towns" [settings]="dropdownSettingsTowns" (click)="draw()" [(ngModel)]="filter_town" (ngModelChange)="doFilter()" placeholder="Select Towns"></ng-multiselect-dropdown>
+
+          <!-- Filter by player -->
+          <div class="filter-title">
+            <p>Filter by player</p>
+            <span *ngIf="filter_player.length > 0" (click)="clearFilter('player')">clear</span>
+          </div>
+          <ng-multiselect-dropdown [data]="players" [settings]="dropdownSettingsPlayers" (click)="draw()" [(ngModel)]="filter_player" (ngModelChange)="doFilter()" placeholder="Select Players"></ng-multiselect-dropdown>
+
+          <!-- Filter by uploader -->
+          <div class="filter-title">
+            <p>Filter by uploader</p>
+            <span *ngIf="filter_uploader.length > 0" (click)="clearFilter('uploader')">clear</span>
+          </div>
+          <ng-multiselect-dropdown [data]="uploaders" [settings]="dropdownSettingsUploaders" (click)="draw()" [(ngModel)]="filter_uploader" (ngModelChange)="doFilter()" placeholder="Command uploaded by"></ng-multiselect-dropdown>
+
+          <hr style="margin-bottom: 10px;">
+
+          <!-- Order By -->
+          <div class="inline-filter">
+            <p>Order by</p>
+            <select [(ngModel)]="filter_order" (ngModelChange)="doSort()">
+              <option value="arrival_asc" selected>Arrival time ascending</option>
+              <option value="arrival_desc">Arrival time descending</option>
+            </select>
+          </div>
+
+          <div class="inline-filter">
+            <p>Refresh frequency</p>
+            <select class="frequency-select" [(ngModel)]="command_poll_frequency" (ngModelChange)="doChangeFrequency()">
+              <option *ngFor="let freq of command_poll_frequency_options;" value="{{freq}}">
+                {{freq}} seconds
+              </option>
+            </select>
+          </div>
+
+          <div class="inline-filter">
+            <p>Show cancel times</p>
+            <mat-checkbox [(ngModel)]="showCancelTime" (ngModelChange)="doSettings()"></mat-checkbox>
+          </div>
+
+          <div class="inline-filter">
+            <p>Show deleted commands</p>
+            <mat-checkbox [(ngModel)]="showDeletedCommands" (ngModelChange)="doSettings()"></mat-checkbox>
+          </div>
+
+<!--          <div class="inline-filter">-->
+<!--            <p>Filter by comment</p>-->
+<!--            <input style="width: 130px" type="text" placeholder="Search comments" [(ngModel)]="filter_comment" (ngModelChange)="doFilter()" [ngClass]="{'filtered': filter_comment!=''}"/>-->
+<!--          </div>-->
+
+        </div>
+
+        <div class="command-overview-container">
+
+          <div class="command-overview-title">
+            <div class="server-time" title="Server Time">
+              {{game_time_string}}
+            </div>
+            <div class="title">
+              <p style="margin: 0; font-weight: 500;">Combined Command Overview <span *ngIf="commands && commands.length > 5">&nbsp;({{commands.length}} Total Active Commands)</span></p>
+            </div>
+            <div class="sync-status">
+              <span class="sync-label" [ngClass]="{ 'sync-ok': sync_status=='LIVE' || sync_status=='LOADING' }">
+                <span class="rotate-cont"><mat-icon class="rotate-loader" [ngClass]="{ 'rotate-anim': animate_refresh }">refresh</mat-icon></span>
+                {{sync_status}}
+              </span>
+            </div>
+          </div>
+
+          <div class="command-overview-content">
+
+            <mat-progress-bar style="" *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
+            <div *ngIf="loading || !commands" class="text-center" style="margin-top: 70px;">
+              <h2 *ngIf="!error">Loading commands ...</h2>
+            </div>
+
+            <div class="command-list text-center" *ngIf="!loading && commands && commands.length <= 0">
+              <div *ngIf="is_filtered">
+                <br><h3>No active commands for these filters</h3><br>
+                <a class="a-link-dialog gd-primary" (click)="clearFilter('all')">Clear filters</a>
+              </div>
+              <div *ngIf="!is_filtered">
+                <br><h3>No active commands</h3><br>
+              </div>
+            </div>
+
+            <div *ngIf="error" style="margin-top: 70px;">
+              <h3>
+                <div class="row">
+                  <div class="col-xs-6 col-xs-offset-3">
+                    <app-alert type="error" [dismissible]="false">
+                      <h5>{{error}}</h5>
+                    </app-alert>
+                  </div>
+                </div>
+              </h3>
+            </div>
+
+            <div class="command-list" *ngIf="!loading && commands && commands.length > 0">
+              <div class="command {{i%2==1?'odd':'even'}}"
+                   *ngFor="let command of commands; let i = index; trackBy: trackCommandByFn"
+                   [ngClass]="{'command_highlight': command.type=='attack', 'hidden-command': (command.hidden==true || (!showDeletedCommands && command.delete_status != '')), 'selected-command': selected_command && command.cmd_id == selected_command.cmd_id}"
+                   (click)="selectCommand(command)"
+              >
+                <div class="commend-content">
+                  <div class="left">
+
+                    <div class="command-type">
+                      <div class="attack_type32x32 {{command.type}}" [ngClass]="{'glow': command.type=='attack'}"></div>
+                    </div>
+
+                    <div class="command-details">
+                      <div class="command-targets">
+
+                        <div *ngIf="!command.return">
+                          <ng-container *ngTemplateOutlet="origin; context: {command : command}"></ng-container>
+                          <span class="overview_outgoing icon"></span>
+                          <ng-container *ngTemplateOutlet="destination; context: {command : command}"></ng-container>
+                        </div>
+
+                        <div *ngIf="command.return">
+                          <ng-container *ngTemplateOutlet="destination; context: {command : command}"></ng-container>
+                          <span class="overview_incoming icon"></span>
+                          <ng-container *ngTemplateOutlet="origin; context: {command : command}"></ng-container>
+                        </div>
+
+                      </div>
+                      <div class="command-timing">
+                        <div class="eta">{{command.eta}}</div>
+                        <div class="arrival-human">(Arrival at: {{command.arrival_human}}</div>
+                        <div class="cancel-human" *ngIf="command.cancelable && showCancelTime">, cancelable until: {{command.cancel_human}}</div>)
+                        <div class="deleted-status" *ngIf="command.delete_status != ''">
+                          <mat-icon>delete</mat-icon> This command was deleted.
+                        </div>
+                        <div class="comments" *ngIf="command.delete_status == '' && command.comments && command.comments.length > 0" title="View comments">
+                          <span class="">{{command.comments.length}}</span> 💬
+                          <div class="comment-sneakpeek">{{command.comments.slice(-1)[0].text}}</div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="right">
+                    <div class="unit-row" *ngIf="command.type == 'attack_spy'">
+                      <span class="payed_iron">{{command.units}}</span>
+                    </div>
+                    <div class="unit-row" *ngIf="command.type != 'attack_spy'">
+                      <div class="unit-icon-sm" *ngFor="let unit of command.units | keyvalue" title="{{unit.key}}">
+                        <div class="unit_icon40x40 {{unit.key}}"><span class="unit-val">{{unit.value}}</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="command-overview-footer">
+            <div class="command_filter">
+
+              <div class="options">
+
+                <div
+                  *ngFor="let type of command_types;"
+                  class="support_filter {{type}}"
+                  (click)="toggleCommandTypeFilter(type)"
+                  [ngClass]="{'inactive': !command_type_toggle[type]}"
+                  title="{{type}}"
+                ></div>
+
+              </div>
+            </div>
+
+            <div class="refresh-timer">
+              <h5>Next refresh: <div class="ops-next-refresh">{{next_refresh}}</div></h5>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="command-sidepanel command-comments-container">
+
+          <div class="comment-panel">
+            <div class="comment-header">
+              <h3>Command Details</h3>
+              <hr style="margin-bottom: 10px;">
+            </div>
+            <div *ngIf="!selected_command">
+              <h5 style="text-align: center;">Select a command to view <span class="gd-primary">comments</span> and <span class="gd-primary">BB code</span></h5>
+            </div>
+            <div *ngIf="selected_command">
+
+  <!--            <div class="command-info">-->
+  <!--              <p>Origin:</p>-->
+  <!--              <ng-container *ngTemplateOutlet="origin; context: {command : selected_command}"></ng-container>-->
+  <!--              <br/>-->
+  <!--              <p>Destination:</p>-->
+  <!--              <ng-container *ngTemplateOutlet="destination; context: {command : selected_command}"></ng-container>-->
+  <!--              <br/>-->
+  <!--              <p>Arrival at:</p>-->
+  <!--              <h5>{{selected_command.arrival_human}}</h5>-->
+  <!--              <p>Units:</p>-->
+  <!--              <div class="unit-row" *ngIf="selected_command.type != 'attack_spy'">-->
+  <!--                <div class="unit-icon-sm" *ngFor="let unit of selected_command.units | keyvalue" title="{{unit.key}}">-->
+  <!--                  <div class="unit_icon40x40 {{unit.key}}"><span class="unit-val">{{unit.value}}</span></div>-->
+  <!--                </div>-->
+  <!--              </div>-->
+  <!--            </div>-->
+
+              <div class="town-name-bb" style="margin-bottom: 5px;" *ngIf="selected_command.trg_twn_id > 0">
+                <span class="gd-brown town-name" (click)="copyBB(selected_command.trg_twn_id, 'town')">
+                  <img style="height: 18px; margin-top: -5px;" src="../../assets/images/town_ico.png"/>&nbsp;
+                  {{selected_command.trg_twn_n}}
+                </span>
+                <div>
+                  <button class="btn btn-default btn-xs mr-1"
+                          (click)="copyBB(selected_command.trg_twn_id, 'town')">
+                    BB code
+                  </button>
+                  <button class="btn btn-default btn-xs"
+                          (click)="openIntelDialog(selected_command.trg_twn_id)">
+                    Intel
+                  </button>
+                </div>
+              </div>
+              <div class="town-name-bb" *ngIf="selected_command.src_twn_id > 0">
+                <span class="gd-brown town-name">
+                  <img style="height: 18px; margin-top: -5px;" src="../../assets/images/town_ico.png"/>&nbsp;
+                  {{selected_command.src_twn_n}}
+                </span>
+                <div>
+                  <button class="btn btn-default btn-xs mr-1"
+                          (click)="copyBB(selected_command.src_twn_id, 'town')">
+                    BB code
+                  </button>
+                  <button class="btn btn-default btn-xs"
+                          (click)="openIntelDialog(selected_command.src_twn_id)">
+                    Intel
+                  </button>
+                </div>
+              </div>
+
+              <hr style="margin: 10px;">
+
+              <h5><strong>Comments</strong></h5>
+              <div class="comments-content">
+
+                <div class="comments-list gd-scrollbar-trans">
+                  <div *ngIf="!selected_command.comments || selected_command.comments.length <= 0" class="">
+                    <p>No comments yet. Be the first!</p>
+                  </div>
+                  <div class="ops-comment" *ngFor="let comment of selected_command.comments">
+                    <div class="comment-info">
+                      <div class="user">
+                        {{comment.user}}
+                      </div>
+                      <div class="time">
+                        {{comment.time}}
+                      </div>
+                    </div>
+                    <div class="content">
+                      {{comment.text}}
+                    </div>
+                  </div>
+                  <div #commentPusher></div>
+                </div>
+
+                <div class="comment-input">
+                  <!--<p>Tip: mention your teammates by typing @</p>-->
+                  <textarea type="text" placeholder="Add a comment" [(ngModel)]="comment_input" (keyup.enter)="submitComment(selected_command.es_id)"></textarea>
+                  <button [disabled]="loading_comment" name="add_comment" style="" class="btn btn-primary" (click)="submitComment(selected_command.es_id)">
+                    Submit comment <mat-icon style="float: right;">send</mat-icon>
+                  </button>
+                  <mat-progress-bar *ngIf="loading_comment" style="margin-top: -10px;" mode="indeterminate"></mat-progress-bar>
+                  <p class="error-message" *ngIf="comment_error">{{comment_error}}</p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-panel">
+            <div class="comment-header" *ngIf="selected_command">
+              <!--<h3>Admin</h3><hr>-->
+              <hr style="margin: 10px;">
+              <h5><strong>Admin</strong></h5>
+              <div *ngIf="!user_can_edit_selected_command">
+                <h5>Only team admins or the original uploader can delete commands</h5>
+              </div>
+            </div>
+            <div class="comment-admin" *ngIf="selected_command">
+              <button *ngIf="selected_command.delete_status == ''" [disabled]="!user_can_edit_selected_command || loading_delete" style="" class="btn btn-danger" (click)="deleteCommand(selected_command.es_id, 'soft')">
+                Delete command <mat-icon>delete</mat-icon>
+              </button>
+              <button *ngIf="selected_command.delete_status != ''" [disabled]="!user_can_edit_selected_command || loading_delete" style="" class="btn btn-danger" (click)="deleteCommand(selected_command.es_id, 'undo')">
+                Undo delete <mat-icon>undo</mat-icon>
+              </button>
+              <mat-progress-bar *ngIf="loading_delete" style="margin-top: -10px;" mode="indeterminate"></mat-progress-bar>
+              <p class="error-message" *ngIf="delete_error">{{delete_error}}</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+</div>
+
+
+<ng-template #origin let-command="command">
+  <img style="height: 18px; margin-top: -5px;" src="../../assets/images/town_ico.png"/>&nbsp;
+  <span class="gd-brown town-name" (click)="openIntelDialog(command.src_twn_id)">{{command.src_twn_n}}</span>&nbsp;
+  <span *ngIf="command.src_ply_id <= 0">
+    <span *ngIf="command.subtype == 'quest'">(Quest)</span>
+    <span *ngIf="command.subtype == 'temple'">(Quest)</span>
+    <span *ngIf="command.subtype == 'attack_spot'">(Attack Spot)</span>
+    <span *ngIf="command.subtype == 'default'"></span>
+  </span>
+  <span *ngIf="command.src_ply_id > 0" (click)="copyBB(command.src_ply_id, 'player')">
+    (<img style="height: 18px; margin-top: -5px;" src="../../assets/images/player_ico.png"/>&nbsp;
+    <span class="gd-brown">{{command.src_ply_n}}</span>)
+  </span>
+</ng-template>
+
+<ng-template #destination let-command="command">
+  <img style="height: 18px; margin-top: -5px;" src="../../assets/images/town_ico.png"/>&nbsp;
+  <span class="gd-brown town-name" (click)="openIntelDialog(command.trg_twn_id)">{{command.trg_twn_n}}</span>&nbsp;
+  <span *ngIf="command.trg_ply_id <= 0">
+    <span *ngIf="command.subtype == 'quest'">(Quest)</span>
+    <span *ngIf="command.subtype == 'temple'">(Quest)</span>
+    <span *ngIf="command.subtype == 'attack_spot'">(Attack Spot)</span>
+    <span *ngIf="command.subtype == 'default'"></span>
+  </span>
+  <span *ngIf="command.trg_ply_id > 0" (click)="copyBB(command.trg_ply_id, 'player')">
+    (<img style="height: 18px; margin-top: -5px;" src="../../assets/images/player_ico.png"/>&nbsp;
+    <span class="gd-brown">{{command.trg_ply_n}}</span>)
+  </span>
+</ng-template>
+
+
+<div class="command-footer">
+  Grepolis is a browser game by InnoGames GmbH. Gameplay images related to Grepolis are copyright of InnoGames GmbH. GrepoData is an unofficial 3rd party site.
+</div>

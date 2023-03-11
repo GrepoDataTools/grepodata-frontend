@@ -73,3 +73,30 @@
 @media screen and (min-width: 1800px) {
   .intel-col { max-width: 1000px !important; }
 }
+
+.card-header {
+  padding: 20px 0 0 !important;
+}
+.embedded-intel {
+  margin-bottom: 0 !important;
+  &.card-header {
+    padding: 0 !important;
+  }
+
+}
+
+.embedded-container {
+  margin-top: -15px !important;
+  min-height: 70vh !important;
+  max-height: 70vh !important;
+  overflow-y: auto !important;
+  .building_icon40x40 {
+    transform: scale(.8);
+  }
+}
+
+.embedded-bb-copy {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+}

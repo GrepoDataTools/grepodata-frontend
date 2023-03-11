@@ -1,4 +1,4 @@
-<app-header></app-header>
+<app-header *ngIf="show_header"></app-header>
 <div class="Site" id="content" (scroll)="scrollContent($event)">
     <div class="Site-content">
         <router-outlet></router-outlet>

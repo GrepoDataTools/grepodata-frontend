@@ -1,5 +1,5 @@
-<div class="hidden-push-div"></div>
-<nav>
+<div class="hidden-push-div" *ngIf="!hideHeader"></div>
+<nav *ngIf="!hideHeader">
   <span id="brand">
     <a class="brand-text" routerLink="" routerLinkActive="active">Grepo<span style="color:#18BC9C;">data</span></a>
     <!--<a class="navbar-brand" href="#page-top">Grepo<span style="color:#18BC9C;">data</span> <span class="fa fa-bar-chart"></span></a>-->
@@ -23,7 +23,7 @@
 </nav>
 
 
-<div id="resize" class="menu-small" [ngClass]="{'active': toggled}">
+<div *ngIf="!hideHeader" id="resize" class="menu-small" [ngClass]="{'active': toggled}">
   <!--suppress XmlDuplicatedId -->
   <ul id="menu" class="mobile-nav">
     <li><a (click)="routing('/points')" routerLink="/points" routerLinkActive="active">SCOREBOARD</a></li>

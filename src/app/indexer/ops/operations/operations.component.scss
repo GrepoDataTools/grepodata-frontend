@@ -1,0 +1,147 @@
+.ops-container {
+  .ops-content {
+    padding: 20px;
+  }
+}
+
+.ops-card {
+  border-radius: 1rem !important;
+  box-shadow: 0px 0px 10px 1px #18333314 !important;
+  margin: 22px !important;
+  border: 0;
+}
+
+.ops-teams-list-container {
+  padding: 20px;
+}
+
+.active-op-row {
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+
+  padding: 20px;
+  border-radius: 20px;
+  //box-shadow: 0px 0px 10px 1px #18333305 !important;
+
+  &.is-active-op {
+    //border: 2px solid #18bc9b;
+    //box-shadow: 0px 0px 10px 1px #18333320 !important;
+    animation: pulse-light 2s infinite ease-out;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background: #f3f3f3;
+    //box-shadow: 0px 0px 10px 1px #18333340 !important;
+  }
+
+  .op-details {
+    display: flex;
+    align-items: center;
+
+    .op-server {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+    }
+    .op-info {
+      margin-left: 30px;
+
+      h2, h3, h4 {
+        margin: 0;
+      }
+    }
+    .op-players {
+      margin-left: 30px;
+
+      p {
+        margin: 0;
+      }
+
+      .op-player-list {
+        max-height: 80px;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        gap: 0 20px;
+      }
+    }
+  }
+
+  .op-launch {
+    .btn {
+      //transition: all 0.3s ease-out;
+
+      background: #1a242f;
+      font-size: 20px;
+      font-weight: 900;
+      margin-right: 30px;
+
+      &.btn-offline {
+        color: red;
+        font-weight: 500;
+      }
+
+      &.btn-online {
+        animation: pulse 2s infinite ease-out;
+        color: #18bc9b;
+      }
+
+    }
+  }
+}
+
+.ops-title {
+  display: flex;
+  justify-content: space-between;
+
+  .ops-header {
+    .label {
+      vertical-align: super;
+      font-size: 40%;
+    }
+  }
+
+  .ops-action {
+    margin-top: -10px;
+  }
+}
+
+.table {
+  text-align: left !important;
+}
+@keyframes pulse {
+  0% {
+    transform: scale(0.97);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+  }
+
+  100% {
+    transform: scale(0.97);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+}
+@keyframes pulse-light {
+  0% {
+    border: 2px solid rgba(24, 188, 155, 0.7);
+    box-shadow: 0 0 0 0 rgba(24, 188, 155, 0.7);
+  }
+
+  70% {
+    border: 2px solid #18bc9b;
+    box-shadow: 0 0 0 5px rgba(24, 188, 155, 0);
+  }
+
+  100% {
+    border: 2px solid rgba(24, 188, 155, 0.7);
+    box-shadow: 0 0 0 0 rgba(24, 188, 155, 0);
+  }
+}

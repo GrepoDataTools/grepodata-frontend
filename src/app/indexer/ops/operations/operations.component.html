@@ -1,0 +1,138 @@
+<div class="ops-container">
+
+  <div class="ops-card">
+    <div class="ops-alerts">
+      <div>
+        <div style=" margin-bottom: -5px;">
+          <app-alert type="info2" title="Introducing GrepoData Operations" [dismissible]="true" [dismissPermanentId]="'ops_beta_info'">
+            <div style="min-height: 73px !important;">
+              <h5>This tool allows you to share a command overview with your teammates.</h5>
+              <p>
+                You can <strong>share commands</strong> from your in-game command overview (Curator Advisor required).<br/>
+                On this page, you and your teammates will see a <strong>real-time combined command overview</strong>.
+              </p>
+            </div>
+          </app-alert>
+        </div>
+        <app-alert type="warning" [dismissible]="false" [iconOverride]="'feedback'" *ngIf="!no_teams">
+          <p><strong>This is a BETA feature.</strong> Please <a routerLink="/profile/bug" class="a-link-dialog">submit a bug report</a> if you run into any issues to help us improve the service.</p>
+        </app-alert>
+      </div>
+    </div>
+
+    <div class="ops-content">
+
+      <br *ngIf="no_teams"/>
+
+      <div class="ops-title">
+        <div class="ops-header">
+          <h2 class="gd-secondary" style="margin-top: -10px;">
+            Team Operations
+            <span class="hide visible-lg-inline">&nbsp;<div class="label label-success">BETA</div></span>
+          </h2>
+        </div>
+
+        <div class="ops-action">
+          <button class="btn btn-secondary mr-1" (click)="showHelpDialog()">
+            Help <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">live_help</mat-icon>
+          </button>
+          <button class="btn btn-secondary mr-1" (click)="showContactDialog()">
+            Feedback <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">feedback</mat-icon>
+          </button>
+        </div>
+
+
+      </div>
+
+      <div class="ops-teams-list-container">
+
+        <mat-progress-bar style="margin-top: -10px;" *ngIf="loading_teams" mode="indeterminate"></mat-progress-bar>
+
+        <div *ngIf="no_operations" style="margin-bottom: 15px;">
+          <app-alert type="info" title="No active operations 💤" [dismissible]="false">
+            <h3 style="margin: 0;" class="gd-secondary">
+              Share your in-game command overview to start an operation
+            </h3>
+            <p>
+              1. Install the userscript<br/>
+              2. Click the <strong>'Share with team'</strong> button on your in-game command overview <br/>
+            </p>
+            <a class="a-link-dialog" (click)="showHelpDialog()">More info</a>
+          </app-alert>
+        </div>
+
+        <div class="active-op-row" *ngFor="let team of teams; let i = index;" routerLink="/operations/{{team.index}}/{{team.world}}" [ngClass]="{'is-active-op': team.active}">
+          <div class="op-details">
+            <div class="op-server">
+              <div [outerHTML]="team.world | WorldNamePipe"></div>
+            </div>
+            <div class="op-info">
+              <h2 class="gd-secondary hidden-xs hidden-sm" *ngIf="team.active" style="font-weight: 100; margin-top: -5px;">
+                Active Operation
+              </h2>
+              <h3 class="gd-secondary hidden-xs hidden-sm" *ngIf="!team.active" style="font-weight: 100;">
+                No Active Operation
+              </h3>
+              <h3 class="gd-secondary">
+                Team:
+                <span class="gd-primary">
+                  <mat-icon style="vertical-align: sub;">group</mat-icon>
+                  {{team.team}}
+                </span>
+              </h3>
+              <h4 *ngIf="team.active">
+                Uploaded commands: <span class="gd-primary">{{team.commands}}</span>
+              </h4>
+            </div>
+            <div class="op-players hidden-xs hidden-sm" *ngIf="team.active">
+              <p><strong>Active players:</strong></p>
+              <div class="op-player-list">
+                <p *ngFor="let player of team.players | keyvalue">
+                  <img style="height: 18px; margin-top: -5px;" src="../../assets/images/player_ico.png"/>&nbsp;
+                  <span class="gd-brown">{{player.key}}</span> ({{player.value}})
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="op-launch">
+            <button *ngIf="team.active" class="btn btn-online" routerLink="/operations/{{team.index}}/{{team.world}}">
+              LIVE <mat-icon style="opacity: 1; vertical-align: middle; font-size: 20px;" class="hidden-xs">launch</mat-icon>
+            </button>
+            <button *ngIf="!team.active" class="btn btn-offline" routerLink="/operations/{{team.index}}/{{team.world}}">
+              OFFLINE
+            </button>
+          </div>
+        </div>
+
+        <div class="text-center" *ngIf="error!='' && !loading_teams">
+          <app-alert type="error" title="Unable to load your active operations" [dismissible]="false">
+            <h3>{{error}}</h3>
+            <button class="btn btn-default mr-1" (click)="getActiveTeams()">
+              Retry
+            </button>
+          </app-alert>
+        </div>
+
+        <div *ngIf="no_teams">
+          <app-alert type="warning" title="😕 No active teams" [dismissible]="false">
+            <h3 style="margin: 0;" class="gd-secondary">
+              You are not part of any teams
+            </h3>
+            <p>
+              Create or join a team to start sharing your command overview<br/><br/>
+            </p>
+            <button class="btn btn-success mr-1" (click)="newIndexDialog()">
+              Create a team
+            </button>
+          </app-alert>
+        </div>
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+</div>
+

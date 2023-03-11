@@ -8,6 +8,7 @@ import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 export class IndexerBreadcrumbsComponent implements OnInit {
 
   @Input() data: any;
+  @Input() type: any = 'default';
 
   expandedPlayer = false;
   expandedAlliance = false;

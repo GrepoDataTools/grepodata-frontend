@@ -114,16 +114,16 @@
     <li class="breadcrumb-item">
       <a class="gd-secondary hover-scale" routerLink="/profile/ops">
         <mat-icon style="vertical-align: bottom;">keyboard_backspace</mat-icon>&nbsp;
-        <span class="ops-gd-header">
+        <span class="ops-gd-header hidden-xs hidden-sm">
           <span style="color: rgb(103, 103, 103)">GREPO</span>
           <span style="color: rgb(24, 188, 156)">DATA</span>
         </span>
-        <span style="color: #334254 !important;">&nbsp;Team Ops</span>
+        <span style="color: #334254 !important;" class="hidden-xxs">&nbsp;Team Ops</span>
       </a>
     </li>
 
     <!-- World -->
-    <li class="breadcrumb-item active" *ngIf="data.world">
+    <li class="breadcrumb-item active hidden-xs" *ngIf="data.world">
       <div [outerHTML]="data.world | WorldNamePipe"></div>
     </li>
 

@@ -15,11 +15,12 @@ import * as jwt_decode from 'jwt-decode';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import {IndexMembersDialog} from '../../../shared/dialogs/index-members/index-members.component';
 import { environment } from '../../../../environments/environment';
+import {MediaMatcher} from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-commands',
   templateUrl: './commands.component.html',
-  styleUrls: ['./commands.component.scss', './commands-game.scss'],
+  styleUrls: ['./commands.component.scss', './commands-game.scss', './commands-mobile.scss'],
   providers: [IndexerService, WorldService, LocalCacheService]
 })
 export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
@@ -88,6 +89,12 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
   world_unix_offset = 0;  // This is given by backend: current_time + world_unix_offset = current grepolis server time
   timer_refresh_interval
 
+  // Mobile styling
+  private readonly _mediaQueryListener: () => void;
+  mobileQuery: MediaQueryList;
+  mobile_filters_opened = false;
+  mobile_comments_opened = false;
+
   env = environment;
   constructor(
     public dialog: MatDialog,
@@ -95,9 +102,14 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
     private authService: JwtService,
+    private media: MediaMatcher,
     private indexerService: IndexerService,
     private titleService: Title,
-  ) { }
+  ) {
+    this.mobileQuery = media.matchMedia('(min-width: 1400px)');
+    this._mediaQueryListener = () => cdr.detectChanges();
+    this.mobileQuery.addEventListener('change', () => this._mediaQueryListener());
+  }
 
   /**
    * === Setup & Initialization
@@ -297,6 +309,13 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.editting_view_name = true;
     this.draw();
+    setTimeout(_ => {
+      this.editting_view_name = true;
+      if (this.viewNameInput) {
+        this.viewNameInput.nativeElement.select();
+        this.draw();
+      }
+    }, 50);
   }
 
   saveViewName() {
@@ -839,8 +858,10 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
   selectCommand(command: Command) {
     if (this.selected_command && 'cmd_id' in this.selected_command && command.cmd_id == this.selected_command.cmd_id) {
       // unselect!
+      this.mobile_comments_opened = false;
       this.selected_command = null;
     } else {
+      this.mobile_comments_opened = true;
       this.selected_command = command;
       this.user_can_edit_selected_command = this.is_admin || (this.selected_command.upload_uid == this.my_uid)
     }
@@ -1093,6 +1114,16 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
   /**
    * Other
    */
+
+  toggleFilterTab(show) {
+    this.mobile_filters_opened = show;
+    this.draw();
+  }
+
+  toggleCommentsTab(show) {
+    this.mobile_comments_opened = show;
+    this.draw();
+  }
 
   @HostListener('document:click', [])
   onClick(): void {

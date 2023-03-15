@@ -3,20 +3,20 @@
 </div>
 
 <div class="ops-action">
-  <button class="btn btn-secondary mr-1" (click)="toggleOpSettings(!showOpSettings)" title="Only the team admin/owner can manage these settings">
+  <button class="btn btn-secondary mr-1 hidden-xs" (click)="toggleOpSettings(!showOpSettings)" title="Only the team admin/owner can manage these settings">
     <span *ngIf="!showOpSettings">Operation Settings <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">settings</mat-icon></span>
     <span *ngIf="showOpSettings">Close Settings <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">close</mat-icon></span>
   </button>
   <button class="btn btn-secondary mr-1" (click)="showHelpDialog()">
     Help <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">live_help</mat-icon>
   </button>
-  <button class="btn btn-secondary mr-1" (click)="showContactDialog()">
+  <button class="btn btn-secondary mr-1 hidden-xs hidden-sm" (click)="showContactDialog()">
     Feedback <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">feedback</mat-icon>
   </button>
-  <button class="btn btn-success mr-1" (click)="copyURL()" title="Team access is required to view this page!">
+  <button class="btn btn-success mr-1 hidden-xs hidden-sm" (click)="copyURL()" title="Team access is required to view this page!">
     Share <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">share</mat-icon>
   </button>
-  <button class="btn btn-primary" routerLink="/profile/ops">
+  <button class="btn btn-primary hidden-xs" routerLink="/profile/ops">
     Back <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">exit_to_app</mat-icon>
   </button>
   <div class="op-settings-container" *ngIf="showOpSettings">
@@ -30,16 +30,28 @@
   </div>
 </div>
 
-<div class="commands-container">
+<div class="commands-container" [ngClass]="{'cmd-mobile': !mobileQuery.matches}">
+
+  <div class="mobile-controls">
+    <div class="mobile-toggle toggle-filters" (click)="toggleFilterTab(!mobile_filters_opened)">
+      <mat-icon>filter_list</mat-icon>&nbsp;
+      <span *ngIf="mobile_filters_opened==true">Close filter panel</span>
+      <span *ngIf="mobile_filters_opened!=true">Show filter panel</span>
+    </div>
+    <div class="mobile-toggle hidden-xs">
+      Select a command to view details
+    </div>
+  </div>
 
   <div class="ops-commands-list-container">
     <div class="ops-commands-list" style="padding-top: 40px;">
       <div class="command-viewer">
 
-        <div class="command-sidepanel command-filters" >
+        <div class="command-sidepanel command-filters" [ngClass]="{'opened': mobile_filters_opened}">
+          <a (click)="toggleFilterTab(false)" class="close close-mobile-tab right"></a>
           <div class="view-controls">
             <div class="filter-header view-name-editor">
-              <div class="view-no-edit" *ngIf="!editting_view_name" (click)="doEditViewName()">
+              <div class="view-no-edit" *ngIf="!editting_view_name" (click)="doEditViewName()" title="Click to change view name">
                 <h3 style="margin: 3px 0 !important;">
                   View: <span class="gd-primary">{{active_view.tab_name}}</span>
                 </h3>
@@ -154,7 +166,7 @@
         <div class="command-overview-container">
 
           <div class="command-overview-tabs gd-scrollbar-trans" [ngClass]="{'many':views?.length > 7}">
-            <div class="command-tab new-tab" (click)="newView()">
+            <div class="command-tab new-tab" (click)="newView()" title="Create new view">
               <mat-icon>library_add</mat-icon>
             </div>
             <div class="command-tab view-tab"
@@ -169,7 +181,7 @@
               {{game_time_string}}
             </div>
             <div class="title">
-              <p style="margin: 0; font-weight: 500;">Combined Command Overview <span *ngIf="commands && commands.length > 5">&nbsp;({{commands.length}} active commands)</span></p>
+              <p style="margin: 0; font-weight: 500;">Combined Command Overview <span class="cmd-total-commands" *ngIf="commands && commands.length > 5">&nbsp;({{commands.length}} active commands)</span></p>
             </div>
             <div class="sync-status">
               <span class="sync-label" [ngClass]="{ 'sync-ok': sync_status=='LIVE' || sync_status=='LOADING' }">
@@ -226,12 +238,14 @@
                           <div *ngIf="!command.return">
                             <ng-container *ngTemplateOutlet="origin; context: {command : command}"></ng-container>
                             <span class="overview_outgoing icon"></span>
+                            <div class="mobile-newline"></div>
                             <ng-container *ngTemplateOutlet="destination; context: {command : command}"></ng-container>
                           </div>
 
                           <div *ngIf="command.return">
                             <ng-container *ngTemplateOutlet="destination; context: {command : command}"></ng-container>
                             <span class="overview_incoming icon"></span>
+                            <div class="mobile-newline"></div>
                             <ng-container *ngTemplateOutlet="origin; context: {command : command}"></ng-container>
                           </div>
 
@@ -305,8 +319,8 @@
 
         </div>
 
-        <div class="command-sidepanel command-comments-container">
-
+        <div class="command-sidepanel command-comments-container" [ngClass]="{'opened': mobile_comments_opened}">
+          <a (click)="toggleCommentsTab(false)" class="close close-mobile-tab left"></a>
           <div class="comment-panel">
             <div class="comment-header comment-title">
               <h3>Command Details</h3>

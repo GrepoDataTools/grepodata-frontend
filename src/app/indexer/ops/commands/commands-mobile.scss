@@ -1,0 +1,136 @@
+/**
+Default state (no mobile query match)
+ */
+.close-mobile-tab {
+  display: none;
+}
+.mobile-controls {
+  display: none;
+}
+.mobile-newline {
+  display: inline-block;
+}
+
+/**
+Mobile query matches (max-width: 1400px); controlled by component ngClass
+ */
+.cmd-mobile {
+  .mobile-controls {
+    display: flex;
+    position: fixed;
+    top: 58px;
+    z-index: 10000;
+    justify-content: space-between;
+    align-items: center;
+    width: calc(100% - 40px);
+  }
+  .mobile-toggle {
+    display: flex;
+    padding: 8px;
+    align-items: center;
+    font-weight: 700;
+    font-size: 17px;
+    color: #334254;
+  }
+  .cmd-total-commands {
+    display: none;
+  }
+  .command-viewer {
+    margin: 0;
+    border-radius: 0;
+
+    .command-filters {
+      display: none;
+      min-height: 80vh;
+      z-index: 1001;
+      &.opened {
+        left: 0;
+      }
+    }
+    .command-overview-container {
+      width: 100%;
+    }
+    .command-comments-container {
+      display: none;
+      min-height: 80vh;
+      &.opened {
+        right: 0;
+      }
+      .comment-title {
+        justify-content: flex-end;
+      }
+    }
+  }
+  .command-sidepanel {
+    &.opened {
+      position: absolute;
+      display: flex !important;
+      z-index: 1000;
+      width: max(40%, 300px);
+      border-radius: 0;
+      .close-mobile-tab {
+        display: inline-block;
+        position: absolute;
+        &.right {
+          right: 20px;
+        }
+      }
+    }
+  }
+  .command_filter {
+    .options {
+      flex-wrap: wrap;
+    }
+  }
+}
+
+/**
+Default media queries
+ */
+@media (max-height: 900px) {
+  .command-sidepanel {
+    p {
+      margin: 6px 0 !important;
+    }
+  }
+}
+@media (max-height: 850px) {
+  .command-sidepanel {
+    p {
+      margin: 3px 0 !important;
+    }
+  }
+}
+@media (max-height: 800px) {
+  .command-sidepanel {
+    p {
+      margin: 0 !important;
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .command-targets {
+    font-size: 80%;
+  }
+}
+
+@media (max-width: 800px) {
+  .cmd-mobile {
+    padding: 0 !important;
+    border: none !important;
+  }
+  .command-targets {
+    font-size: 70%;
+    .mobile-newline {
+      display: block;
+    }
+  }
+  .command-viewer {
+    box-shadow: none !important;
+  }
+  .command-overview-container {
+    border: none;
+    box-shadow: none !important;
+  }
+}

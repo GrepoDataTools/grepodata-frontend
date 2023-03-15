@@ -78,7 +78,7 @@ $footer_height: 75px;
   }
 
   p {
-    margin: 20px 0 0;
+    margin: 15px 0 0;
     font-weight: 900;
     font-size: 14px;
     color: #5f758d;
@@ -256,8 +256,8 @@ $footer_height: 75px;
 .command-overview-content {
   background: #FFE19A;
   border: 2px solid #d0be97;
-  min-height: calc(100vh - #{$header_height} - #{$footer_height} - #{$cmd_header_height} - 120px);
-  max-height: calc(100vh - #{$header_height} - #{$footer_height} - #{$cmd_header_height} - 120px);
+  min-height: calc(100vh - #{$header_height} - #{$footer_height} - #{$cmd_header_height} - 90px);
+  max-height: calc(100vh - #{$header_height} - #{$footer_height} - #{$cmd_header_height} - 90px);
   overflow-y: auto;
 
   .command-list {
@@ -393,7 +393,8 @@ $footer_height: 75px;
   .command-tab {
     height: 100%;
     padding: 0 5px;
-    border-right: 1px solid #323f4c;
+    border-right: 1px solid rgba(50, 63, 76, 0.3);
+    border-radius: 10px 10px 0 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -411,14 +412,15 @@ $footer_height: 75px;
   .view-tab {
     min-width: 100px;
     max-width: 200px;
-
+    //border-left: 1px solid #323f4c;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
 
     &.active-tab {
       background: #F6E7C8;
-      border-bottom: 0 !important;
+      border: 0 !important;
+      margin-left: -1px;
       font-weight: 500;
       box-shadow: 0px 0px 10px 1px #18333330 !important;
     }

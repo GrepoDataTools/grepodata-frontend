@@ -11,21 +11,15 @@ $footer_height: 75px;
   box-shadow: 0px 0px 10px 1px #18333310 !important;
 }
 
-.ops-commands-list {
-  //margin: 0 15%;
-}
-
-.ops-commands-list-header {
-  height: $cmd_header_height;
-  padding: 5px 0;
-
+.op-settings-container {
+  padding: 20px;
   display: flex;
-  justify-content: center;
-  align-items: center;
-
-  h3 {
-    font-weight: 300;
-  }
+  background: #fff;
+  margin-top: 10px;
+  max-width: 250px;
+  flex-direction: column;
+  box-shadow: 0px 0px 10px 1px #18333340 !important;
+  gap: 10px;
 }
 
 .ops-next-refresh {
@@ -42,7 +36,6 @@ $footer_height: 75px;
 
 .commands-container {
   padding: 0 20px;
-  //min-height: calc(100% - #{$header_height} - #{$footer_height});
 }
 
 .ops-commands-list-container {
@@ -53,37 +46,26 @@ $footer_height: 75px;
     height: 30px;
   }
 }
-.clear-filters {
-  font-weight: 900;
-  margin-left: 10px;
-  color: #18bc9b;
-
-  &:hover {
-    cursor: pointer;
-    text-decoration: underline;
-  }
-}
 
 .command-viewer {
-  //max-width: 1200px;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin: 0 40px;
-
+  margin: 0 40px 20px;
   box-shadow: 0px 0px 10px 1px #18333320 !important;
   border-radius: 20px;
-  margin-bottom: 20px;
 }
 
 .command-sidepanel {
   width: 20%;
-  //background: rgba(249, 171, 0, 0.2);
   background: #fff;
   padding: 20px;
 }
 
 .command-filters {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   border-radius: 10px 0 0 10px;
 
   .filter-header {
@@ -129,12 +111,8 @@ $footer_height: 75px;
     }
   }
 }
-
 .command-overview-container {
   width: 60%;
-  //margin: 0 15%;
-  //min-width: 1200px;
-  //max-width: 1200px;
   font-size: 18px;
   border: 1px solid #334254;
   box-shadow: 0px 0px 10px 1px #18333314 !important;
@@ -145,6 +123,10 @@ $footer_height: 75px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  .comment-title {
+    display: flex;
+  }
   .command-info {
     margin-bottom: 60px;
     p, h5 {
@@ -156,19 +138,14 @@ $footer_height: 75px;
     height: calc(100% - 100px);
     max-height: max(35vh, 300px);
     overflow-y: auto;
-    //margin: -20px;
-    //padding: 20px;
-    //border: 1px solid #323f4c;
   }
   .comment-input {
-    //margin-top: 20px;
     textarea {
       width: 100%;
       height: 50px;
       padding: 4px;
       background-color: #fff;
       resize: none;
-      //border-radius: 7px 7px 0 0;
     }
     button {
       width: 100%;
@@ -177,11 +154,8 @@ $footer_height: 75px;
     }
   }
   .ops-comment {
-    //border-radius: 10px;
-    //box-shadow: -1px 4px 20px 0px #18333325 !important;
     background: #ffffff;
     padding: 5px;
-    //margin-top: 10px;
     display: flex;
     flex-direction: column;
     .comment-info {
@@ -196,9 +170,6 @@ $footer_height: 75px;
         font-size: 70%;
         margin-left: 15px;
       }
-    }
-    .content {
-
     }
   }
   .ops-comment:nth-child(odd) {
@@ -271,38 +242,48 @@ $footer_height: 75px;
   border: 3px solid #18bc9b;
   padding: 0 !important;
 }
+.total-units {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f6e7c8;
+  padding: 0 3px;
+  gap: 10px;
+  .smaller-text {
+    font-size: 13px !important;
+  }
+}
 .command-overview-content {
-  //background: rgba(249, 171, 0, 0.1);
   background: #FFE19A;
   border: 2px solid #d0be97;
-  //min-height: 50vh;
-  min-height: calc(100vh - #{$header_height} - #{$footer_height} - #{$cmd_header_height} - 90px);
-  max-height: calc(100vh - #{$header_height} - #{$footer_height} - #{$cmd_header_height} - 90px);
+  min-height: calc(100vh - #{$header_height} - #{$footer_height} - #{$cmd_header_height} - 120px);
+  max-height: calc(100vh - #{$header_height} - #{$footer_height} - #{$cmd_header_height} - 120px);
   overflow-y: auto;
 
   .command-list {
-    .command.odd {
-      //background: rgba(249, 171, 0, 0.3);
-      background: #FFE5AB;
-    }
-    .command.even {
-      //background: rgba(249, 171, 0, 0.2);
-      background: #FFEABC;
-    }
     .hidden-command {
       display: none;
+    }
+    .command-ngfor:nth-child(odd) {
+      background: #FFE5AB;
+    }
+    .command-ngfor:nth-child(even) {
+      background: #FFEABC;
+    }
+    .command-ngfor {
+      &:hover {
+        background: rgba(249, 171, 0, 0.2) !important;
+      }
     }
     .command {
       border-bottom: 1px solid #d0be97;
       padding: 1px;
-
-      .commend-content {
+      .command-content {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
       }
-
       .left {
         display: flex;
         align-items: center;
@@ -317,38 +298,31 @@ $footer_height: 75px;
         align-items: center;
         flex-direction: row;
       }
-
       .command-details {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
         font-weight: 400;
-
         .command-timing {
           font-size: 80%;
           height: 25px;
-
           display: flex;
           align-items: center;
-
           .eta {
             font-size: 120%;
             min-width: 60px;
             margin-right: 15px;
           }
-
           .cancel-human {
             font-size: 80%;
             margin-top: 2px;
           }
-
           .comments {
             margin-left: 15px;
             display: flex;
             flex-direction: row;
             justify-content: center;
             gap: 3px;
-
             &:hover {
               cursor: pointer;
             }
@@ -362,49 +336,23 @@ $footer_height: 75px;
           }
         }
       }
-
-      &:hover {
-        background: rgba(249, 171, 0, 0.2);
-      }
-
     }
   }
 }
-
 .town-name:hover {
   cursor: pointer;
-}
-
-.command-comments {
-  margin-left: 30px;
-  margin-right: 10px;
-  min-width: 50px;
-
-  &:hover {
-    background: rgb(148 204 199 / 80%);
-    border-radius: 10px;
-    cursor: pointer;
-  }
-
-  .comments-btn {
-
-  }
-  .comments-count {
-    font-weight: 900;
-  }
 }
 .comment-panel {
   h5 {
     margin-top: 0 !important;
   }
 }
-
 .command-overview-footer {
   background: #f9ab0033;
-
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   .command_filter {
     display: flex;
     flex-direction: row;
@@ -424,7 +372,6 @@ $footer_height: 75px;
       }
     }
   }
-
   .refresh-timer {
     margin-right: 10px;
     display: flex;
@@ -432,7 +379,72 @@ $footer_height: 75px;
     gap: 10px;
   }
 }
+.command-overview-tabs {
+  width: 100%;
+  height: 35px;
+  display: flex;
+  justify-content: flex-start;
+  background: #F5F5F5;
+  overflow-x: auto;
+  &.many {
+    height: 45px;
+    font-size: 90%;
+  }
+  .command-tab {
+    height: 100%;
+    padding: 0 5px;
+    border-right: 1px solid #323f4c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:hover {
+      cursor: pointer;
+      background: #fbecd7;
+    }
+  }
+  .new-tab {
+    width: 40px !important;
+    max-width: 40px !important;
+    padding: 0 5px;
+    user-select: none;
+  }
+  .view-tab {
+    min-width: 100px;
+    max-width: 200px;
 
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+    &.active-tab {
+      background: #F6E7C8;
+      border-bottom: 0 !important;
+      font-weight: 500;
+      box-shadow: 0px 0px 10px 1px #18333330 !important;
+    }
+  }
+}
+.view-actions {
+  display: flex;
+  justify-content: space-evenly;
+}
+.view-name-editor {
+  div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .view-no-edit:hover {
+    cursor: pointer;
+  }
+  .view-edit {
+    mat-icon {
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}
 .overview_incoming.icon,
 .overview_outgoing.icon {
   background: url(../../../../assets/images/game/arrows_small.png) no-repeat;
@@ -442,129 +454,22 @@ $footer_height: 75px;
   margin: 0 2px;
   vertical-align: middle;
 }
-
 .overview_incoming.icon {
   background-position: 0 0;
 }
-
 .overview_outgoing.icon {
   background-position: -12px 0;
 }
-
 .payed_iron {
   font-weight: 700;
   margin-right: 10px;
 }
-
 .command_highlight {
   background: url(../../../../assets/images/game/row_highlight.png) repeat !important;
   background-size: 100% auto !important;
 }
 .selected-command {
   background: #18bc9b6b !important;
-}
-
-.support_filter {
-  width: 24px;
-  //height: 48px;
-  background: url(../../../../assets/images/game/filter_icons.png) no-repeat;
-  height: 24px;
-}
-.support_filter.inactive {
-  border: 2px solid #18bc9b;
-  border-radius: 7px;
-}
-
-.support_filter.abort {
-  background-position: 0 0;
-}
-
-.support_filter.abort.inactive {
-  background-position: 0 -24px;
-}
-
-.support_filter.attack_land {
-  background-position: -24px 0;
-}
-
-.support_filter.attack_land.inactive {
-  background-position: -24px -24px;
-}
-
-.support_filter.attack_sea {
-  background-position: -48px 0;
-}
-
-.support_filter.attack_sea.inactive {
-  background-position: -48px -24px;
-}
-
-.support_filter.attack_spy {
-  background-position: -72px 0;
-}
-
-.support_filter.attack_spy.inactive {
-  background-position: -72px -24px;
-}
-
-.support_filter.attack_takeover {
-  background-position: -96px 0;
-}
-
-.support_filter.attack_takeover.inactive {
-  background-position: -96px -24px;
-}
-
-.support_filter.breakthrough {
-  background-position: -120px 0;
-}
-
-.support_filter.breakthrough.inactive {
-  background-position: -120px -24px;
-}
-
-.support_filter.farm_attack {
-  background-position: -144px 0;
-}
-
-.support_filter.farm_attack.inactive {
-  background-position: -144px -24px;
-}
-
-.support_filter.portal_attack_olympus {
-  background-position: -168px 0;
-}
-
-.support_filter.portal_attack_olympus.inactive {
-  background-position: -168px -24px;
-}
-
-.support_filter.portal_support_olympus {
-  background-position: -192px 0;
-}
-
-.support_filter.portal_support_olympus.inactive {
-  background-position: -192px -24px;
-}
-
-.support_filter.revolt {
-  background-position: -216px 0;
-}
-
-.support_filter.revolt.inactive {
-  background-position: -216px -24px;
-}
-
-.support_filter.support {
-  background-position: -240px 0;
-}
-
-.support_filter.support.inactive {
-  background-position: -240px -24px;
-}
-
-.support_filter.inactive {
-  background-position-y: -24px;
 }
 
 .rotate-cont {
@@ -599,9 +504,6 @@ $footer_height: 75px;
   text-align: center;
   width: 100%;
 }
-
-// Multiselect styling
-
 ::ng-deep .multiselect-dropdown {
   .selected-item {
     background: #489384 !important;

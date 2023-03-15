@@ -1,0 +1,105 @@
+
+.unit-icon-sm {
+  margin: -3px !important;
+}
+.support_filter {
+  width: 24px;
+  background: url(../../../../assets/images/game/filter_icons.png) no-repeat;
+  height: 24px;
+}
+.support_filter.inactive {
+  border: 2px solid #18bc9b;
+  border-radius: 7px;
+}
+
+.support_filter.abort {
+  background-position: 0 0;
+}
+
+.support_filter.abort.inactive {
+  background-position: 0 -24px;
+}
+
+.support_filter.attack_land {
+  background-position: -24px 0;
+}
+
+.support_filter.attack_land.inactive {
+  background-position: -24px -24px;
+}
+
+.support_filter.attack_sea {
+  background-position: -48px 0;
+}
+
+.support_filter.attack_sea.inactive {
+  background-position: -48px -24px;
+}
+
+.support_filter.attack_spy {
+  background-position: -72px 0;
+}
+
+.support_filter.attack_spy.inactive {
+  background-position: -72px -24px;
+}
+
+.support_filter.attack_takeover {
+  background-position: -96px 0;
+}
+
+.support_filter.attack_takeover.inactive {
+  background-position: -96px -24px;
+}
+
+.support_filter.breakthrough {
+  background-position: -120px 0;
+}
+
+.support_filter.breakthrough.inactive {
+  background-position: -120px -24px;
+}
+
+.support_filter.farm_attack {
+  background-position: -144px 0;
+}
+
+.support_filter.farm_attack.inactive {
+  background-position: -144px -24px;
+}
+
+.support_filter.portal_attack_olympus {
+  background-position: -168px 0;
+}
+
+.support_filter.portal_attack_olympus.inactive {
+  background-position: -168px -24px;
+}
+
+.support_filter.portal_support_olympus {
+  background-position: -192px 0;
+}
+
+.support_filter.portal_support_olympus.inactive {
+  background-position: -192px -24px;
+}
+
+.support_filter.revolt {
+  background-position: -216px 0;
+}
+
+.support_filter.revolt.inactive {
+  background-position: -216px -24px;
+}
+
+.support_filter.support {
+  background-position: -240px 0;
+}
+
+.support_filter.support.inactive {
+  background-position: -240px -24px;
+}
+
+.support_filter.inactive {
+  background-position-y: -24px;
+}

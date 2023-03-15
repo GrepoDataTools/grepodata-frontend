@@ -125,10 +125,8 @@ export class IndexerService {
    */
 
   getCommandOverview(access_token, team, last_get_cmd = 0) {
-    let url =  '/commands/get?team='+team+'&last_get_cmd='+last_get_cmd;
-    return this.http.get(apiUrl + url, {
-      headers: new HttpHeaders().set('access_token', access_token)
-    });
+    let url =  '/commands/get?team='+team+'&last_get_cmd='+last_get_cmd+'&access_token='+access_token;
+    return this.http.get(apiUrl + url);
   }
 
   getActiveTeams(access_token) {

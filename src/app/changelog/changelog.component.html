@@ -21,8 +21,10 @@
               <i class="fa fa-github" aria-hidden="true"></i> Full history (GitHub)
             </a>
           </h4>
-          <h5><strong>Note:</strong> You do not have to update the GrepoData userscript.
-            <br/>Your browser will automatically use the latest version.</h5>
+          <app-alert type="info2" [dismissible]="false">
+            <h5><strong>Note:</strong> You do not have to update the GrepoData userscript.
+              <br/>Your browser will automatically use the latest version.</h5>
+          </app-alert>
         </div>
         <br/>
         <br/>
@@ -30,6 +32,20 @@
         <app-script-version
           [collapsable]="false"
           [new]="true"
+          [title]="'12-03-2023 - Command Sharing'"
+          [github_url]="'https://github.com/GrepoDataTools/grepodata-backend/commit/26a3f70c80bd4673a28c9f708e526a2d3140024b#diff-c99d467c47c572f6de633952fa1de8c54b36adb85d925f031b05dcad62e2d39e'">
+          <p>
+            We added a button the the command overview that allows users to share their commands with their GrepoData teams.
+            Team members can upload their commands and can browse a combined real-time command overview together with the entire team.
+          </p>
+          <br/><img style="max-width: 70%;" src="../../assets/images/share_commands.jpg"><br/><br/>
+        </app-script-version>
+
+        <hr/>
+
+        <app-script-version
+          [collapsable]="false"
+          [new]="false"
           [title]="'29-03-2022 - Importing Existing Intel'"
           [github_url]="''">
           <p>

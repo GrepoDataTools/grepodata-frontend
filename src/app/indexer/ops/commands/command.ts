@@ -6,6 +6,7 @@ export class Command {
   updated_at: number;
   eta: string;
   type: string;
+  subtype: string;
   arrival_human: string;
   cancel_human: string;
   upload_uid: any;
@@ -31,6 +32,25 @@ export class Comment {
   user: string
   time: string
   text: string
+}
+
+export class CommandView {
+  version: string
+  uuid: string
+  is_default: boolean
+  active: boolean
+  tab_name: string
+  name_changed: boolean
+  is_filtered: boolean
+  show_total_units: boolean
+  showCancelTime: boolean
+  showDeletedCommands: boolean
+  command_type_toggle: any
+  filter_order: string
+  filter_text: string
+  filter_town: any
+  filter_player: any
+  filter_uploader: any
 }
 
 // TODO: minify object

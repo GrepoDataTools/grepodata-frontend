@@ -6,7 +6,7 @@ import {OpsHelpDialog} from '../help/help.component';
 import {ContactDialog} from '../../../header/header.component';
 import {MatDialog} from '@angular/material/dialog';
 import {WorldService} from '../../../services/world.service';
-import {Command} from './command';
+import {Command, CommandView} from './command';
 import {Globals} from '../../../globals';
 import {Title} from '@angular/platform-browser';
 import {OpsIntelDialog} from '../intel-dialog/intel-dialog.component';
@@ -14,20 +14,23 @@ import {LocalCacheService} from '../../../services/local-cache.service';
 import * as jwt_decode from 'jwt-decode';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import {IndexMembersDialog} from '../../../shared/dialogs/index-members/index-members.component';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-commands',
   templateUrl: './commands.component.html',
-  styleUrls: ['./commands.component.scss'],
+  styleUrls: ['./commands.component.scss', './commands-game.scss'],
   providers: [IndexerService, WorldService, LocalCacheService]
 })
 export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('commentPusher') private commentPusher: ElementRef;
+  @ViewChild('viewNameInput') private viewNameInput: ElementRef;
 
   team
   world
   team_name
   is_admin = false;
+  showOpSettings = false;
   share_link = '';
   my_uid = 0;
 
@@ -36,6 +39,8 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
   players: any = []
   uploaders: any = []
   commands: Command[] = []
+  total_units: any = {}
+  objectKeys = Object.keys;
 
   // Data loading logic
   loading = true;
@@ -62,21 +67,19 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // Filters & order
   is_filtered = false;
-  showCancelTime = false;
-  showDeletedCommands = false;
   command_types = ['attack_land', 'support', 'attack_sea', 'attack_spy', 'farm_attack', 'abort', 'revolt', 'attack_takeover', 'breakthrough', 'portal_attack_olympus', 'portal_support_olympus'];
-  command_type_toggle: any = {};
-  filter_order = 'arrival_asc'
-  filter_text = ''
-  filter_comment = ''
-  filter_town = []
-  filter_player = []
-  filter_uploader = []
+  default_order = 'arrival_asc'
   typingTimer;
   debounceTime = 500;
   dropdownSettingsPlayers: IDropdownSettings = {};
   dropdownSettingsTowns: IDropdownSettings = {};
   dropdownSettingsUploaders: IDropdownSettings = {};
+
+  // Tabs
+  viewer_version = 'v2';
+  views: CommandView[];
+  active_view: CommandView;
+  editting_view_name = false;
 
   // Timing logic
   current_time;  // This is a unix timestamp representing the current UTC time
@@ -85,6 +88,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
   world_unix_offset = 0;  // This is given by backend: current_time + world_unix_offset = current grepolis server time
   timer_refresh_interval
 
+  env = environment;
   constructor(
     public dialog: MatDialog,
     private globals: Globals,
@@ -122,8 +126,8 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
-    clearInterval(this.timer_refresh_interval);
     clearInterval(this.command_loading_interval);
+    clearInterval(this.timer_refresh_interval);
   }
 
   initialize(params) {
@@ -134,15 +138,37 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.refreshing = false;
     this.sync_status = 'LOADING'
     this.syncMainTimer();
-    this.resetTypeFilter();
-    this.getSettingsFromCache();
+
+    // Init views
+    this.initializeCommandViews();
+
+    // Check if serialized view is in url
+    // TODO: views should be shared via backend to avoid these large URLs...
+    try {
+      if ('serialized_view' in params) {
+        let serialized = params.serialized_view;
+        let imported_view = this.deserializeView(serialized);
+        if (imported_view && 'uuid' in imported_view) {
+          let exists = this.views.filter(view => view.uuid == imported_view.uuid);
+          if (exists.length <= 0) {
+            this.views.push(imported_view);
+            this.toggleView(imported_view, false);
+          } else {
+            console.log('imported view already exists!');
+          }
+        }
+      }
+    } catch (e) {
+      console.log("Unable to load serialized view", e);
+    }
+
     this.draw();
 
     // Do the first command pull
     this.loadCommands();
 
     // Start polling for commands
-    this.restartPollingCommands(this.command_poll_frequency);
+    this.restartPollingCommands();
 
     // Get index info
     this.authService.accessToken().then(access_token => {
@@ -169,6 +195,11 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.cdr.detectChanges();
   }
 
+  toggleOpSettings(state) {
+    this.showOpSettings = state;
+    this.draw();
+  }
+
   softNotification(message, title = '', lifetime=5000) {
     this.globals.showSnackbar(
       `<h4>`+message+`</h4>`,
@@ -176,14 +207,137 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
+   * Tabs & views
+   */
+
+  newView() {
+    let new_view = this.getNewView();
+    this.views.push(new_view);
+    this.saveSettingsToCache(); // required to persist active view into views
+    this.toggleView(new_view, true); // switch to the new view
+    this.draw();
+  }
+
+  serializeActiveView() {
+    let view = this.active_view;
+    view.version = this.viewer_version;
+    let serialized = JSON.stringify(view);
+    serialized = btoa(serialized);
+    return serialized
+  }
+
+  deserializeView(serialized) {
+    try {
+      let decoded: any = atob(serialized);
+      decoded = JSON.parse(decoded);
+      if (decoded && 'version' in decoded) {
+        if (decoded.version == this.viewer_version) {
+          console.log("parsed valid serialized view: ", decoded);
+          return decoded
+        } else {
+          console.log("serialized view version mismatch");
+        }
+      }
+    } catch (e) {
+      console.log('Unable to deserialize view: ', e);
+    }
+    return false;
+  }
+
+  getNewView(): CommandView {
+    let uuid = Date.now() + '_' + Math.floor(Math.random() * 10000) // close enough
+    let view = new CommandView()
+    view.uuid = uuid;
+    view.is_default = false;
+    view.active = false;
+    view.tab_name = 'New View';
+    view.name_changed = false;
+    view.is_filtered = false;
+    view.showCancelTime = false;
+    view.showDeletedCommands = false;
+    view.command_type_toggle = this.getTypeToggleDict();
+    view.filter_order = this.default_order;
+    view.filter_text = '';
+    view.filter_town = [];
+    view.filter_player = [];
+    view.filter_uploader = [];
+    return view
+  }
+
+  getTypeToggleDict() {
+    let toggle_dict = {}
+    this.command_types.forEach(x => {toggle_dict[x] = true });
+    return toggle_dict;
+  }
+
+  toggleView(activate_view: CommandView, focus_name_input=false) {
+    this.views.map(view => {view.active = false; return view}); // deactivate all views
+    activate_view.active = true;
+    this.active_view = activate_view; // activate selected view
+    this.editting_view_name = focus_name_input;
+    this.saveSettingsToCache();
+    this.filterCommands(false, false);
+    this.sortCommands(false);
+    this.draw();
+
+    if (focus_name_input) {
+      setTimeout(_ => {
+        this.editting_view_name = true;
+        if (this.viewNameInput) {
+          this.viewNameInput.nativeElement.select();
+          this.draw();
+        }
+      }, 150);
+    }
+  }
+
+  doEditViewName() {
+    if (this.active_view.is_default) {
+      return;
+    }
+    this.editting_view_name = true;
+    this.draw();
+  }
+
+  saveViewName() {
+    this.editting_view_name = false;
+    this.draw();
+    this.saveSettingsToCache();
+  }
+
+  viewNameChange() {
+    // Register changed name to prevent automated overrides
+    this.active_view.name_changed = true;
+  }
+
+  deleteView(delete_view: CommandView) {
+    if (delete_view.is_default) {
+      console.log("Unable to delete default view!");
+      return
+    }
+    if (this.views.length <= 1) {
+      console.log("Cannot delete last view");
+      return
+    }
+    console.log(delete_view);
+    this.views = this.views.filter(view => view.uuid != delete_view.uuid);
+    this.toggleView(this.views[0], false); // Toggle back to default view
+    this.draw();
+    this.saveSettingsToCache();
+  }
+
+  /**
    * === Data loading
    */
 
-  restartPollingCommands(frequency_seconds) {
-    // TODO: change frequency depending on how many commands arrive within the next n minutes
-    console.log("changing poll frequency to", frequency_seconds);
+  restartPollingCommands() {
+    // TODO: stop polling if browser tab is inactive!
+    if (!this.command_poll_frequency || isNaN(this.command_poll_frequency) || this.command_poll_frequency < 5) {
+      this.command_poll_frequency = 15;
+    }
+    console.log("changing poll frequency to", this.command_poll_frequency);
     clearInterval(this.command_loading_interval);
-    this.command_loading_interval = setInterval(_ => {this.loadCommands()}, frequency_seconds*1000);
+    this.command_loading_interval = setInterval(_ => {this.loadCommands()}, this.command_poll_frequency*1000);
     this.command_last_poll_local = this.current_time;
   }
 
@@ -211,15 +365,22 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   parseIndexResponse(response) {
-    this.team_name = response.index_name;
-    this.is_admin = response.is_admin;
-    this.share_link = response.share_link??'';
-    this.world_unix_offset = response.unix_offset;
+    if (response && 'index_name' in response) {
+      this.team_name = response.index_name;
+      this.is_admin = response.is_admin;
+      this.share_link = response.share_link??'';
+      this.world_unix_offset = response.unix_offset;
+    } else {
+      this.team_name = this.team;
+      this.is_admin = false;
+      this.share_link = '';
+      this.world_unix_offset = 0;
+    }
     this.draw();
   }
 
   trackCommandByFn(index, command: Command) {
-    return command.cmd_id + command.arrival_at
+    return command.cmd_id + command.arrival_at;
   }
 
   parseCommandResponse(response) {
@@ -252,6 +413,8 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
       // Rate limit exceeded. ignore.
       console.log('Rate limit exceeded');
       this.sync_status = 'Rate limited';
+      this.command_poll_frequency = 15;
+      this.restartPollingCommands();
     } else if ('error_code' in response) {
       switch (response.error_code) {
         case 7101:
@@ -291,6 +454,14 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
           return command.delete_status != 'hard';
         });
 
+        // Enforce hidden status (hidden can be undefined on new commands so we need to initialize it)
+        updated_commands.map(command => {
+          if (!command.hidden) {
+            command.hidden = false;
+          }
+          return command;
+        });
+
         // Merge the 2 command sets
         this.commands = [...updated_commands, ...old_commands];
 
@@ -298,7 +469,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
         this.sortCommands(false);
 
         // reapply filter logic
-        this.filterCommands(false);
+        this.filterCommands(false, false);
 
         // Update ETA
         this.updateTimer(false);
@@ -366,7 +537,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     clearTimeout(this.typingTimer);
     let that = this;
     this.typingTimer = setTimeout(function () {
-      that.doFilter();
+      that.doFilter('text');
     }, this.debounceTime);
   }
 
@@ -377,23 +548,39 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   doSort() {
+    if (this.loading) {
+      return;
+    }
     this.sortCommands();
-    setTimeout(_ => this.saveSettingsToCache(), 300);
+    setTimeout(_ => {this.saveSettingsToCache()}, 100);
   }
 
-  doFilter() {
+  doFilter(filter_selection=null) {
+    if (this.loading) {
+      return;
+    }
+    if (!this.active_view.name_changed && this.active_view.tab_name == 'New View') {
+      if (filter_selection && Array.isArray(filter_selection) && filter_selection.length > 0 && 'id' in filter_selection[0]) {
+        // Automatically select the first name
+        this.active_view.tab_name = filter_selection[0].id
+        this.active_view.name_changed = true;
+        this.editting_view_name = false;
+      }
+    }
     this.filterCommands();
-    setTimeout(_ => this.saveSettingsToCache(), 300);
+    setTimeout(_ => {this.saveSettingsToCache()}, 100);
   }
 
   doChangeFrequency() {
-    this.restartPollingCommands(this.command_poll_frequency);
-    setTimeout(_ => this.saveSettingsToCache(), 300);
+    if (this.loading) {
+      return;
+    }
+    this.restartPollingCommands();
   }
 
   doSettings() {
     this.draw();
-    setTimeout(_ => this.saveSettingsToCache(), 300);
+    setTimeout(_ => {this.saveSettingsToCache()}, 100);
   }
 
   buildFilterOptions() {
@@ -411,49 +598,50 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
       uploader_bins[command.upload_n] ? uploader_bins[command.upload_n] += 1 : uploader_bins[command.upload_n] = 1;
     })
 
-    this.players = Object.keys(player_bins).filter(n => n != '').map(player => { return {text: player + " (" + player_bins[player] + ")", id: player}});
-    this.towns = Object.keys(town_bins).filter(n => n != '').map(town => { return {text: town + " (" + town_bins[town] + ")", id: town}});
-    this.uploaders = Object.keys(uploader_bins).map(uploader => { return {text: uploader + " (" + uploader_bins[uploader] + ")", id: uploader}});
+    this.players = Object.keys(player_bins).filter(n => n != '').map(player => { return {text: player + " (" + player_bins[player] + ")", id: player, count: player_bins[player]}});
+    this.towns = Object.keys(town_bins).filter(n => n != '').map(town => { return {text: town + " (" + town_bins[town] + ")", id: town, count: town_bins[town]}});
+    this.uploaders = Object.keys(uploader_bins).map(uploader => { return {text: uploader + " (" + uploader_bins[uploader] + ")", id: uploader, count: uploader_bins[uploader]}});
 
-    // let attackers = [...new Set(this.commands.map((command) => command.src_ply_n))];
-    // let defenders = [...new Set(this.commands.map((command) => command.trg_ply_n))];
-    // this.players = [...(new Set([...attackers, ...defenders]))].sort().filter(n => n != '')
-    //
-    // let target_towns = [...new Set(this.commands.map((command) => command.trg_twn_n))];
-    // let source_towns = [...new Set(this.commands.map((command) => command.src_twn_n))];
-    // this.towns = [...(new Set([...target_towns, ...source_towns]))].sort().filter(n => n != '')
-    //
-    // this.uploaders = [...new Set(this.commands.map((command) => command.upload_n))].sort().filter(n => n != '')
+    this.sortMultiselectFilterOptions(this.players);
+    this.sortMultiselectFilterOptions(this.towns);
+    this.sortMultiselectFilterOptions(this.uploaders);
+  }
+
+  sortMultiselectFilterOptions(options) {
+    options.sort((c1, c2) => {
+      return c1.text < c2.text ? -1 : 1;
+      // if (c1.count == c2.count) {
+      //   return c1.text < c2.text ? -1 : 1
+      // } else {
+      //   return c1.count > c2.count ? -1 : 1
+      // }
+    });
   }
 
   clearFilter(key='all', do_draw = true) {
     switch (key) {
       case 'text':
-        this.filter_text = '';
-        break;
-      case 'comment':
-        this.filter_comment = '';
+        this.active_view.filter_text = '';
         break;
       case 'town':
-        this.filter_town = [];
+        this.active_view.filter_town = [];
         break;
       case 'player':
-        this.filter_player = [];
+        this.active_view.filter_player = [];
         break;
       case 'uploader':
-        this.filter_uploader = [];
+        this.active_view.filter_uploader = [];
         break;
       case 'all':
       default:
-        this.filter_text = '';
-        this.filter_comment = '';
-        this.filter_town = [];
-        this.filter_player = [];
-        this.filter_uploader = [];
+        this.active_view.filter_text = '';
+        this.active_view.filter_town = [];
+        this.active_view.filter_player = [];
+        this.active_view.filter_uploader = [];
     }
-    this.resetTypeFilter();
+    this.active_view.command_type_toggle = this.getTypeToggleDict();
 
-    this.filterCommands();
+    this.filterCommands(do_draw, false);
 
     if (do_draw) {
       this.draw();
@@ -462,19 +650,13 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.saveSettingsToCache();
   }
 
-  resetTypeFilter () {
-    this.command_type_toggle = {}
-    this.command_types.forEach(x => {this.command_type_toggle[x] = true });
-  }
-
   isFiltered() {
     if (
-      this.filter_text != ''
-      || this.filter_comment != ''
-      || this.filter_town.length > 0
-      || this.filter_player.length > 0
-      || this.filter_uploader.length > 0
-      || Object.values(this.command_type_toggle).reduce((a: any, b: any) => a + b, 0) != this.command_types.length
+      this.active_view.filter_text != ''
+      || this.active_view.filter_town.length > 0
+      || this.active_view.filter_player.length > 0
+      || this.active_view.filter_uploader.length > 0
+      || Object.values(this.active_view.command_type_toggle).reduce((a: any, b: any) => a + b, 0) != this.command_types.length
     ) {
       return true
     }
@@ -491,7 +673,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
         sort = c1.arrival_at < c2.arrival_at ? -1 : 1
       }
 
-      if (this.filter_order == 'arrival_desc') {
+      if (this.active_view.filter_order == 'arrival_desc') {
         // Descending
         return -sort;
       } else {
@@ -506,57 +688,55 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   toggleCommandTypeFilter(command_type) {
-    this.command_type_toggle[command_type] = !this.command_type_toggle[command_type];
+    this.active_view.command_type_toggle[command_type] = !this.active_view.command_type_toggle[command_type];
     this.filterCommands();
+    setTimeout(_ => this.saveSettingsToCache(), 300);
     this.draw();
   }
 
-  filterCommands(do_draw = true) {
+  filterCommands(do_draw = true, do_save_settings = true) {
     this.is_filtered = this.isFiltered();
-    if (this.is_filtered) {
+    if (this.is_filtered || !this.active_view.showDeletedCommands) {
       console.log('applying filters');
       this.commands.map(command => {
         let hidden = false;
 
-        if (this.filter_text != '') {
+        if (this.active_view.filter_text != '') {
           let search_domain = command.src_ply_n + command.src_twn_n + command.trg_ply_n + command.trg_twn_n
           // Add comments to search domain
           if ('comments' in command) {
             search_domain += command.comments.map(comment => comment.text).join()
           }
-          if (!search_domain.toLocaleLowerCase().includes(this.filter_text)) {
+          if (!search_domain.toLocaleLowerCase().includes(this.active_view.filter_text)) {
             hidden = true;
           }
         }
-        // if (this.filter_comment != '') {
-        //   let search_domain = command.comments.map(comment => comment.text).join()
-        //   if (!search_domain.toLocaleLowerCase().includes(this.filter_comment)) {
-        //     hidden = true;
-        //   }
-        // }
-        if (this.filter_player.length > 0) {
-          let player_names = this.filter_player.map(filter => filter.id)
+        if (!hidden && this.active_view.filter_player.length > 0) {
+          let player_names = this.active_view.filter_player.map(filter => filter.id)
           if (player_names.indexOf(command.trg_ply_n) < 0 && player_names.indexOf(command.src_ply_n) < 0) {
             hidden = true;
           }
         }
-        if (this.filter_town.length > 0) {
-          let town_names = this.filter_town.map(filter => filter.id)
+        if (!hidden && this.active_view.filter_town.length > 0) {
+          let town_names = this.active_view.filter_town.map(filter => filter.id)
           if (town_names.indexOf(command.trg_twn_n) < 0 && town_names.indexOf(command.src_twn_n) < 0) {
             hidden = true;
           }
         }
-        if (this.filter_uploader.length > 0) {
-          let uploader_names = this.filter_uploader.map(filter => filter.id)
+        if (!hidden && this.active_view.filter_uploader.length > 0) {
+          let uploader_names = this.active_view.filter_uploader.map(filter => filter.id)
           if (uploader_names.indexOf(command.upload_n) < 0) {
             hidden = true;
           }
         }
-        if (this.command_types.indexOf(command.type) >= 0 && this.command_type_toggle[command.type] === false) {
+        if (!hidden && this.command_types.indexOf(command.type) >= 0 && this.active_view.command_type_toggle[command.type] === false) {
           hidden = true;
-        } else if ((command.type == 'attack') && this.command_type_toggle['attack_land'] === false) {
+        } else if (!hidden && command.type == 'attack' && this.active_view.command_type_toggle['attack_land'] === false) {
           hidden = true;
-        } else if (command.type == 'foundation' && this.command_type_toggle['attack_takeover'] === false) {
+        } else if (!hidden && command.type == 'foundation' && this.active_view.command_type_toggle['attack_takeover'] === false) {
+          hidden = true;
+        }
+        if (!hidden && !this.active_view.showDeletedCommands && command.delete_status != '') {
           hidden = true;
         }
 
@@ -571,8 +751,24 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
       });
     }
 
+    // Sum total units
+    let total_units = {};
+    this.commands.forEach(command => Object.keys(command.units).forEach(unit => {
+      if (command.hidden) return
+      if (unit in total_units) {
+        total_units[unit] += command.units[unit]
+      } else {
+        total_units[unit] = command.units[unit]
+      }
+    }));
+    this.total_units = total_units;
+
     if (do_draw) {
       this.draw();
+    }
+
+    if (do_save_settings) {
+      this.saveSettingsToCache();
     }
   }
 
@@ -581,32 +777,58 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
    */
 
   saveSettingsToCache() {
-    console.log('setting filters');
-    let filters = {
-      filter_text: this.filter_text,
-      filter_player: this.filter_player,
-      filter_town: this.filter_town,
-      filter_order: this.filter_order,
-      filter_uploader: this.filter_uploader,
-      showCancelTime: this.showCancelTime,
-      showDeletedCommands: this.showDeletedCommands,
-      command_poll_frequency: this.command_poll_frequency,
+    // override active_view into views
+    this.views.map(view => {
+      if (view.uuid == this.active_view.uuid) {
+        return this.active_view
+      }
+      return view;
+    });
+    let cache_entry = {
+      version: this.viewer_version,
+      views: this.views
     }
-    LocalCacheService.set('cmd_settings', filters);
+    console.log('saving views to cache: ', cache_entry);
+    LocalCacheService.set('cmd_views_'+this.team, cache_entry);
   }
 
-  getSettingsFromCache() {
-    let filters = LocalCacheService.get('cmd_settings', true);
-    if (filters && 'filter_text' in filters) {
-      console.log("Retrieved cmd settings from cache:", filters);
-      this.filter_text = filters.filter_text;
-      this.filter_player = filters.filter_player;
-      this.filter_town = filters.filter_town;
-      this.filter_order = filters.filter_order;
-      this.filter_uploader = filters.filter_uploader;
-      this.showCancelTime = filters.showCancelTime;
-      this.showDeletedCommands = filters.showDeletedCommands;
-      this.command_poll_frequency = filters.command_poll_frequency;
+  initializeCommandViews() {
+    let cached_views = LocalCacheService.get('cmd_views_'+this.team, true);
+    console.log('Cached views: ', cached_views);
+    let clean_view = true;
+    if (cached_views && 'version' in cached_views && 'views' in cached_views && cached_views.views.length > 0) {
+      if (cached_views.version != this.viewer_version) {
+        console.log("cached views version mismatch: ", cached_views.version, " != ", this.viewer_version);
+      } else {
+        console.log("Initializing views from cache");
+        this.views = cached_views.views;
+        let is_active = false;
+        this.views.forEach(view => {
+          if (view.active) {
+            is_active = true;
+            console.log("Found active view in cache");
+            this.active_view = view;
+          }
+        });
+        if (!is_active) {
+          console.log("Forcing active view 0");
+          this.active_view = this.views[0]
+        }
+        if (this.active_view && 'uuid' in this.active_view) {
+          clean_view = false;
+        }
+      }
+    }
+
+    if (clean_view) {
+      console.log("Creating new default view");
+      // Create new default view
+      let default_view = this.getNewView();
+      default_view.tab_name = 'Default'; //🔒
+      default_view.active = true;
+      default_view.is_default = true;
+      this.views = [default_view];
+      this.active_view = default_view;
     }
   }
 
@@ -767,7 +989,8 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     // Format game time
     let isostring = new Date(this.game_time * 1000).toISOString()
-    this.game_time_string = isostring.substring(0, 10) + ' ' + isostring.substring(11, 19);
+    // this.game_time_string = isostring.substring(0, 10) + ' ' + isostring.substring(11, 19);
+    this.game_time_string = isostring.substring(11, 19);
 
     // Refresh counter
     if (this.command_last_poll_local > 0) {
@@ -862,6 +1085,11 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  deleteOperation() {
+    alert("Sorry, this feature is not yet implemented.")
+    // TODO
+  }
+
   /**
    * Other
    */
@@ -886,12 +1114,28 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.copyToClipboard(bb);
   }
 
-  copyURL() {
-    this.copyToClipboard(window.location.href);
+  copyURL(include_filter_settings = false) {
+    let url = this.env.url + '/operations/' + this.team + '/' + this.world;
+
+    // Try to serialize view
+    if (include_filter_settings) {
+      let serialized = this.serializeActiveView();
+      if (serialized.length > 1800) {
+        console.error("Unable to share view via url");
+      } else {
+        url += '/' + serialized
+      }
+      console.log(this.deserializeView(serialized));
+    }
+
+    this.copyToClipboard(url, 'Sharing link copied to clipboard!');
   }
 
-  copyToClipboard(text) {
+  copyToClipboard(text, snackbar_msg='') {
+    if (snackbar_msg=='') {
+      snackbar_msg = text+' copied to clipboard';
+    }
     navigator.clipboard.writeText(text).then(() => {});
-    this.softNotification(text+' copied to clipboard', '', 5000);
+    this.softNotification(snackbar_msg, '', 5000);
   }
 }

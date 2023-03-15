@@ -179,6 +179,7 @@ const appRoutes: Routes = [
     { path: 'link/:uid', component: InviteComponent }, // V2 userscript authentication
     { path: 'userscript', component: UserscriptComponent },
     { path: 'operations/:team/:world', component: CommandsComponent },
+    { path: 'operations/:team/:world/:serialized_view', component: CommandsComponent },
     // { path: 'siege/:id/:key', component: SiegeComponent },
     // { path: 'siege/:uid', component: SiegeComponent },
     { path: 'player/:world/:id', component: PlayerComponent },

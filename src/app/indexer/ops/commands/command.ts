@@ -7,6 +7,7 @@ export class Command {
   eta: string;
   type: string;
   subtype: string;
+  attacking_strategy: string;
   arrival_human: string;
   cancel_human: string;
   upload_uid: any;

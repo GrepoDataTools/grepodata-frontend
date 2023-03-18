@@ -352,7 +352,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     console.log(delete_view);
     this.views = this.views.filter(view => view.uuid != delete_view.uuid);
-    this.toggleView(this.views[0], false); // Toggle back to default view
+    this.toggleView(this.views[this.views.length-1], false); // Toggle back to previous view
     this.draw();
     this.saveSettingsToCache();
   }
@@ -701,12 +701,16 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   sortCommands(do_draw = true) {
     this.commands.sort((c1, c2) => {
+      // command time defaults to arrival_at, but ongoing revolts need to be phased correctly
+      let command1_time = c1.subtype == 'ongoing_revolt' && c1.started_at > this.current_time ? c1.started_at : c1.arrival_at;
+      let command2_time = c2.subtype == 'ongoing_revolt' && c2.started_at > this.current_time ? c2.started_at : c2.arrival_at;
+
       let sort = 0;
-      if (c1.arrival_at == c2.arrival_at) {
+      if (command1_time == command2_time) {
         // If arrival is in the same second, the lower command id arrives earlier
         sort = c1.cmd_id < c2.cmd_id ? -1 : 1
       } else {
-        sort = c1.arrival_at < c2.arrival_at ? -1 : 1
+        sort = command1_time < command2_time ? -1 : 1
       }
 
       if (this.active_view.filter_order == 'arrival_desc') {
@@ -1060,8 +1064,19 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
 
       // Update command timers
       this.commands.map(command => {
-        command.eta = this.humanReadableTimeDiff(command.arrival_at - this.current_time);
+        let countdown_time = command.arrival_at; // Default: countdown to arrival
 
+        // Parse revolt phasing
+        if (command.subtype == 'ongoing_revolt') {
+          if (command.started_at > this.current_time) {
+            command.attacking_strategy = 'revolt_arising'
+            countdown_time = command.started_at; // arising revolts should countdown to phase 2 start
+          } else {
+            command.attacking_strategy = 'revolt_running'
+          }
+        }
+
+        // Parse cancel time
         if (command.cancelable == true) {
           let cancel_time = 600;
           if (command.type == 'attack_spy') {
@@ -1071,6 +1086,10 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
             command.cancelable = false;
           }
         }
+
+        // Update ETA countdown timer
+        command.eta = this.humanReadableTimeDiff(countdown_time - this.current_time);
+
         return command;
       });
     }

@@ -286,7 +286,7 @@
                     <div class="left">
 
                       <div class="command-type">
-                        <div class="attack_type32x32 {{command.type}}" [ngClass]="{'glow': command.type=='attack'}"></div>
+                        <div class="attack_type32x32 {{command.type}}" [ngClass]="{'glow': command.type=='attack', 'revolt_arising': command?.attacking_strategy=='revolt_arising', 'revolt_running': command?.attacking_strategy=='revolt_running'}"></div>
                       </div>
 
                       <div class="command-details">
@@ -309,8 +309,10 @@
                         </div>
                         <div class="command-timing">
                           <div class="eta">{{command.eta}}</div>
-                          <div class="arrival-human" *ngIf="command.subtype != 'cs_eta' && command.subtype != 'attack_takeover'">(Arrival at: {{command.arrival_human}}</div>
-                          <div class="arrival-human" *ngIf="command.subtype == 'cs_eta' || command.subtype == 'attack_takeover'">(Colonized at: {{command.arrival_human}}</div>
+                          <div class="arrival-human" *ngIf="command.subtype != 'cs_eta' && command.subtype != 'attack_takeover' && command.subtype != 'ongoing_revolt'">(Arrival at: {{command.arrival_human}}</div>
+                          <div class="arrival-human" *ngIf="command.subtype == 'cs_eta' || command.subtype == 'attack_takeover' && command.subtype != 'ongoing_revolt'">(Colonized at: {{command.arrival_human}}</div>
+                          <div class="arrival-human" *ngIf="command.subtype == 'ongoing_revolt' && command.attacking_strategy=='revolt_arising'">(Phase 2 start: {{command.cancel_human}}, Phase 2 end: {{command.arrival_human}}</div>
+                          <div class="arrival-human" *ngIf="command.subtype == 'ongoing_revolt' && command.attacking_strategy!='revolt_arising'">(Phase 2 end: {{command.arrival_human}}</div>
                           <div class="cancel-human" *ngIf="command.cancelable && active_view && active_view?.showCancelTime">, cancelable until: {{command.cancel_human}}</div>)
                           <div class="deleted-status" *ngIf="command.delete_status != ''">
                             <mat-icon>delete</mat-icon> This command is hidden. Only you can see it

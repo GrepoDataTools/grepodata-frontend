@@ -868,6 +868,19 @@ fieldset[disabled] .btn-primary.active {
   }
 }
 
+.btn-danger {
+  margin: -3px;
+  padding: 4px !important;
+  border: 3px solid #d43f3a !important;
+  background-color: #ececec !important;
+  color: #d43f3a !important;
+  font-weight: 900 !important;
+  &:hover {
+    background-color: #d43f3a !important;
+    color: #ececec !important;
+  }
+}
+
 .btn-secondary,
 .btn-secondary:focus {
   color: #365063;

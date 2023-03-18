@@ -19,7 +19,6 @@ Mobile query matches (max-width: 1400px); controlled by component ngClass
     display: flex;
     position: fixed;
     top: 58px;
-    z-index: 10000;
     justify-content: space-between;
     align-items: center;
     width: calc(100% - 40px);

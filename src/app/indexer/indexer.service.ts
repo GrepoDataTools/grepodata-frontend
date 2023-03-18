@@ -136,6 +136,18 @@ export class IndexerService {
     });
   }
 
+  updateCommandsByQuery(access_token, team, world, action, content) {
+    let data = new HttpParams()
+      .set('access_token', access_token)
+      .set('team', team)
+      .set('world', world)
+      .set('es_id', 'na')
+      .set('content', content)
+      .set('action', action);
+    return this.http.post<any>(apiUrl + '/commands/update', data,
+      {headers: new HttpHeaders({'Content-Type':'application/x-www-form-urlencoded'})})
+  }
+
   updateCommandDeleteStatus(access_token, team, world, es_id, new_delete_status) {
     let data = new HttpParams()
       .set('access_token', access_token)

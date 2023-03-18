@@ -248,6 +248,8 @@ export class InviteComponent implements OnInit {
 
   userscriptLinkedDialog() {
     const dialogRef = this.dialogRef.open(BasicDialog, {
+      minWidth: '50%',
+      minHeight: '50%',
       autoFocus: false,
       data: {
         title: '',

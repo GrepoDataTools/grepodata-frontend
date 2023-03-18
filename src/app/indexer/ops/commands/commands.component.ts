@@ -16,6 +16,7 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import {IndexMembersDialog} from '../../../shared/dialogs/index-members/index-members.component';
 import { environment } from '../../../../environments/environment';
 import {MediaMatcher} from '@angular/cdk/layout';
+import {BasicDialog} from '../../../shared/dialogs/basic/basic.component';
 
 @Component({
   selector: 'app-commands',
@@ -34,6 +35,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
   showOpSettings = false;
   share_link = '';
   my_uid = 0;
+  username = 'user';
 
   // Data
   towns: any = []
@@ -57,9 +59,17 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
   command_poll_frequency = 15 // poll every n seconds for new commands
   next_refresh = 0;  // seconds until next refresh
 
+  // Delete logic
+  deleting = false;
+  deletingSelectUser = false;
+  deletingOperation = '';
+  deletingUserOptions: any = [];
+  deletingUserSelected = null;
+  deletingUserSelectedName = null;
+
   // Selected command editing logic
   selected_command: Command = null;
-  user_can_edit_selected_command = false;
+  hidden_commands_present = false;
   comment_input = '';
   loading_delete = false;
   delete_error = '';
@@ -189,8 +199,10 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
       );
 
       let payload = jwt_decode(access_token);
+      console.log('jwt payload', payload);
       if (payload && 'uid' in payload) {
         this.my_uid = payload.uid;
+        this.username = payload.username;
       }
 
     });
@@ -460,7 +472,12 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
       if (response.count > 0) {
         // Server responds with commands that have been updated since this.command_last_load_unix
         let updated_commands: Command[] = response.items;
-        let updated_command_ids = updated_commands.map(c => c.cmd_id);
+        let updated_command_ids = updated_commands.map(c => {
+          if (this.selected_command && c?.delete_status === 'hard' && this.selected_command?.cmd_id === c?.cmd_id) {
+            this.selected_command = null;
+          }
+          return c.cmd_id
+        });
 
         // Keep old commands
         let old_commands = this.commands.filter(command => {
@@ -715,6 +732,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   filterCommands(do_draw = true, do_save_settings = true) {
     this.is_filtered = this.isFiltered();
+    let has_hidden_commands = false;
     if (this.is_filtered || !this.active_view.showDeletedCommands) {
       console.log('applying filters');
       this.commands.map(command => {
@@ -755,8 +773,11 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
         } else if (!hidden && command.type == 'foundation' && this.active_view.command_type_toggle['attack_takeover'] === false) {
           hidden = true;
         }
-        if (!hidden && !this.active_view.showDeletedCommands && command.delete_status != '') {
-          hidden = true;
+        if (command.delete_status != '') {
+          has_hidden_commands = true;
+          if (!hidden && !this.active_view.showDeletedCommands) {
+            hidden = true;
+          }
         }
 
         command.hidden = hidden;
@@ -766,9 +787,14 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.commands.map(command => {
         command.hidden = false;
+        if (command.delete_status != '') {
+          has_hidden_commands = true;
+        }
         return command;
       });
     }
+    this.hidden_commands_present = has_hidden_commands;
+    console.log('has hidden',this.hidden_commands_present);
 
     // Sum total units
     let total_units = {};
@@ -863,7 +889,6 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.mobile_comments_opened = true;
       this.selected_command = command;
-      this.user_can_edit_selected_command = this.is_admin || (this.selected_command.upload_uid == this.my_uid)
     }
     this.comment_error = '';
     this.loading_comment = false;
@@ -881,6 +906,9 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
     this.loading_delete = true;
+    if (new_delete_status == 'soft') {
+      this.hidden_commands_present = true;
+    }
     this.draw();
     this.authService.accessToken().then(access_token => {
       this.indexerService.updateCommandDeleteStatus(access_token, this.team, this.world, es_id, new_delete_status).subscribe(
@@ -926,16 +954,16 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
           // User does not have read access on this team
           error = 'Unauthorized: you do not have access to this team.';
           break;
+        case 8110:
+          // Invalid action in request
+          error = 'Bad request: invalid action specified';
+          break;
         case 8120:
           // User is not an admin
           error = 'Unauthorized: you need to be a team admin to perform this action.';
           if (action == 'delete') {
             error = 'Unauthorized: you need to be an admin to delete commands of other players.';
           }
-          break;
-        case 8110:
-          // Invalid action in request
-          error = 'Bad request: invalid action specified';
           break;
         case 8200:
           // Update failed in ES (no docs updated)
@@ -1106,9 +1134,129 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  deleteOperation() {
-    alert("Sorry, this feature is not yet implemented.")
-    // TODO
+  /**
+   * Command deleting & updates
+   */
+
+  deleteOnBehalfOf(operation) {
+    this.deletingSelectUser = true;
+    this.deletingOperation = operation;
+    let active_users = {}
+    this.commands.forEach(command => active_users[command.upload_uid] = {name: command.upload_n, uid: command.upload_uid});
+    this.deletingUserOptions = active_users;
+    this.draw();
+  }
+
+  deleteOnBehalfOfSubmit() {
+    this.deletingSelectUser = false;
+    this.deleteOperation(this.deletingOperation, 'admin');
+  }
+
+  cancelDeleteOnBehalfOf() {
+    this.deletingSelectUser = false;
+    this.deletingOperation = null;
+    this.deletingUserOptions = [];
+    this.draw();
+  }
+
+  deleteOperation(operation, verification_level) {
+    if (operation === 'delete_all_team') {
+      // show confirm dialog for delete all action
+      const dialogRef = this.dialog.open(BasicDialog, {
+        // minWidth: '40%',
+        autoFocus: false,
+        data: {
+          title: '',
+          show_close: false,
+          messageHtml: '<div class="text-center"><h3>Are you sure you want to delete all active commands in this operation?</h3><h5 style="color: red !important; font-weight: 900 !important;">The operation will be ended. This can not be undone!</h5></div>',
+          cancel_action: 'Cancel',
+          action_type: 'danger',
+          action: 'Delete All Commands',
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log(result);
+
+        if (result === true) {
+          this.authService.accessToken().then(access_token => {
+            this.indexerService.updateCommandsByQuery(access_token, this.team, this.world, operation, 'na').subscribe(
+              (response) => this.parseDeleteOperationResponse(response),
+              (error) => this.parseDeleteOperationResponse(error)
+            );
+          });
+        }
+
+      });
+      return;
+    }
+
+    let update_content = '';
+    if (verification_level == 'user') {
+      update_content = 'authenticated_user'
+    } else {
+      update_content = this.deletingUserSelected;
+    }
+
+    this.deleting = true;
+    this.draw();
+
+    this.authService.accessToken().then(access_token => {
+      this.indexerService.updateCommandsByQuery(access_token, this.team, this.world, operation, update_content).subscribe(
+        (response) => this.parseDeleteOperationResponse(response),
+        (error) => this.parseDeleteOperationResponse(error)
+      );
+    });
+  }
+
+  parseDeleteOperationResponse(response) {
+    console.log('command batch update response: ', response);
+    let error = '';
+    if (response && 'error_code' in response) {
+      switch (response.error_code) {
+        case 7504:
+          // User does not have read access on this team
+          error = 'Unauthorized: you do not have access to this team.';
+          break;
+        case 8110:
+          // Invalid action in request
+          error = 'Bad request: invalid action specified';
+          break;
+        case 8120:
+          // User is not an admin
+          error = 'Unauthorized: you need to be a team admin to perform this action.';
+          break;
+        case 8210:
+          // No commands updated; this can be a nominal failure mode (e.g. all commands already expired)
+          // error = 'Unable to update commands. Please try again later.';
+          error = '';
+          break;
+        case 8220:
+          // Bad request content
+          error = 'Bad request: invalid action content';
+          break;
+        default:
+          error = 'Unable to update commands. Please try again later. Or contact us if this error persists'
+      }
+    } else if (response && 'success_code' in response && response.success_code == 8000) {
+      error = ''
+    } else {
+      error = 'Unable to update commands. Please try again later. Or contact us if this error persists'
+    }
+    this.deleting = false;
+
+    if (error!='') {
+      alert(error);
+    } else {
+      this.showOpSettings = false;
+      this.softNotification("Your request was processed successfully.", "Request Completed Successfully", 15000);
+      setTimeout(_ => {
+        this.loadCommands();
+        this.draw();
+      }, 1000)
+    }
+
+    this.draw();
   }
 
   /**

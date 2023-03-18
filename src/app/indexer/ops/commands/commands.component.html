@@ -3,30 +3,87 @@
 </div>
 
 <div class="ops-action">
-  <button class="btn btn-secondary mr-1 hidden-xs" (click)="toggleOpSettings(!showOpSettings)" title="Only the team admin/owner can manage these settings">
-    <span *ngIf="!showOpSettings">Operation Settings <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">settings</mat-icon></span>
-    <span *ngIf="showOpSettings">Close Settings <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">close</mat-icon></span>
+  <button class="btn btn-danger mr-1 hidden-xs" (click)="toggleOpSettings(!showOpSettings)" title="Delete or hide commands">
+    <span *ngIf="!showOpSettings">Delete Commands <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">settings</mat-icon></span>
+    <span *ngIf="showOpSettings">Delete Commands <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">close</mat-icon></span>
+  </button>
+  <button [disabled]="!is_admin" class="btn btn-secondary mr-1 hidden-xs hidden-sm" (click)="openUsersDialog()" title="Only the team admin/owner can manage these settings">
+    Users <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">group</mat-icon>
   </button>
   <button class="btn btn-secondary mr-1" (click)="showHelpDialog()">
     Help <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">live_help</mat-icon>
   </button>
-  <button class="btn btn-secondary mr-1 hidden-xs hidden-sm" (click)="showContactDialog()">
+  <button class="btn btn-secondary mr-1 hidden-xs hidden-sm hidden-md" (click)="showContactDialog()">
     Feedback <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">feedback</mat-icon>
   </button>
-  <button class="btn btn-success mr-1 hidden-xs hidden-sm" (click)="copyURL()" title="Team access is required to view this page!">
+  <button class="btn btn-success mr-1 hidden-xs hidden-sm hidden-md" (click)="copyURL()" title="Team access is required to view this page!">
     Share <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">share</mat-icon>
   </button>
-  <button class="btn btn-primary hidden-xs" routerLink="/profile/ops">
+  <button class="btn btn-primary hidden-xs hidden-sm hidden-md" routerLink="/profile/ops">
     Back <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">exit_to_app</mat-icon>
   </button>
-  <div class="op-settings-container" *ngIf="showOpSettings">
-    <p *ngIf="!is_admin">You need to be a team admin/owner to change these settings</p>
-    <button [disabled]="!is_admin" class="btn btn-success mr-1" (click)="openUsersDialog()" title="Only the team admin/owner can manage these settings">
-      Manage Users <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">group</mat-icon>
+  <div class="op-settings-container" *ngIf="deleting">
+    <div class="delete-header" fxLayout="row" style="margin-right: 15px;">
+      <h4 style="width: 100%;">
+        Processing request...<br/><br/><br/>
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </h4>
+    </div>
+  </div>
+  <div class="op-settings-container" *ngIf="deletingSelectUser">
+    <div class="delete-header" fxLayout="row" style="margin-right: 15px;">
+      <div class="delete-header" fxLayout="row" style="margin-right: 15px;">
+        <h4 style="width: 80%;">
+          Select the user who's commands you want to hide<br/><br/>
+          <select [(ngModel)]="deletingUserSelected">
+            <option value="{{user.key}}" *ngFor="let user of deletingUserOptions | keyvalue">{{user.value.name}}</option>
+          </select>
+          <br/>
+          <br/>
+          <button class="btn btn-danger mr-1" (click)="deleteOnBehalfOfSubmit()" title="Del" *ngIf="deletingUserSelected">
+            <span *ngIf="deletingOperation=='hide_all_user'">Hide all commands uploaded by {{deletingUserOptions[deletingUserSelected]?.name}}</span>
+            <span *ngIf="deletingOperation=='unhide_all_user'">Unhide all commands uploaded by {{deletingUserOptions[deletingUserSelected]?.name}}</span>
+            <span *ngIf="deletingOperation=='delete_all_user'">Delete all commands uploaded by {{deletingUserOptions[deletingUserSelected]?.name}}</span>
+            <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">delete</mat-icon>
+          </button>
+        </h4>
+        <a (click)="cancelDeleteOnBehalfOf()" class="close"></a>
+      </div>
+
+    </div>
+  </div>
+  <div class="op-settings-container" *ngIf="showOpSettings && !deleting && !deletingSelectUser">
+    <div class="delete-header" fxLayout="row" style="margin-right: 15px;">
+      <p>
+        You can hide your own commands. Once your commands are hidden, <strong>only you can view them</strong>. You are signed in as <strong>{{username}}</strong> (<span *ngIf="is_admin">Admin</span><span *ngIf="!is_admin">User</span>)
+      </p>
+      <a (click)="toggleOpSettings(false)" class="close"></a>
+    </div>
+    <button class="btn btn-secondary mr-1" (click)="deleteOperation('hide_all_user', 'user')" title="Your active commands will be hidden for this team. Only you can still see them.">
+      Hide All My Commands (User) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">remove_red_eye</mat-icon>
     </button>
-    <button [disabled]="!is_admin" class="btn btn-danger mr-1" (click)="deleteOperation()" title="Only the team admin/owner can manage these settings">
-      Delete Operation <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">delete</mat-icon>
+    <button class="btn btn-secondary mr-1" (click)="deleteOperation('unhide_all_user', 'user')" title="Your hidden active commands will be shown again in this team">
+      Unhide All My Commands (User) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">remove_red_eye</mat-icon>
     </button>
+<!--    <button class="btn btn-danger mr-1" (click)="deleteOperation('delete_all_user', 'user')" title="Your active commands will be deleted from this operation">-->
+<!--      Delete All My Commands (User) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">delete</mat-icon>-->
+<!--    </button>-->
+    <hr style="margin: 5px;">
+    <p>Only team admins can edit all commands.</p>
+    <button [disabled]="!is_admin" class="btn btn-danger mr-1" (click)="deleteOnBehalfOf('hide_all_user')" title="Only the team admin/owner can delete all commands">
+      Hide All From User (Admin) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">remove_red_eye</mat-icon>
+    </button>
+<!--    <button [disabled]="!is_admin" class="btn btn-secondary mr-1" (click)="deleteOnBehalfOf('unhide_all_user')" title="Only the team admin/owner can delete all commands">-->
+<!--      Unhide All From User (Admin) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">remove_red_eye</mat-icon>-->
+<!--    </button>-->
+<!--    <button [disabled]="!is_admin" class="btn btn-danger mr-1" (click)="deleteOnBehalfOf('delete_all_user')" title="Only the team admin/owner can delete all commands">-->
+<!--      Delete All From User (Admin) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">delete</mat-icon>-->
+<!--    </button>-->
+    <button [disabled]="!is_admin" class="btn btn-danger mr-1" (click)="deleteOperation('delete_all_team', 'admin')" title="Only the team admin/owner can delete all commands" style="margin-top: 3px;">
+      Delete All Commands (Admin) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">delete</mat-icon>
+    </button>
+    <hr style="margin: 5px;">
+    <p><strong>Note: </strong>users can always unhide or reupload their commands</p>
   </div>
 </div>
 
@@ -144,8 +201,8 @@
                 <mat-checkbox [(ngModel)]="active_view.showCancelTime" (ngModelChange)="doSettings()"></mat-checkbox>
               </div>
 
-              <div class="inline-filter">
-                <p>Show hidden commands</p>
+              <div class="inline-filter" *ngIf="hidden_commands_present">
+                <p>Show my hidden commands</p>
                 <mat-checkbox [(ngModel)]="active_view.showDeletedCommands" (ngModelChange)="doFilter()"></mat-checkbox>
               </div>
             </div>
@@ -256,7 +313,7 @@
                           <div class="arrival-human" *ngIf="command.subtype == 'cs_eta' || command.subtype == 'attack_takeover'">(Colonized at: {{command.arrival_human}}</div>
                           <div class="cancel-human" *ngIf="command.cancelable && active_view && active_view?.showCancelTime">, cancelable until: {{command.cancel_human}}</div>)
                           <div class="deleted-status" *ngIf="command.delete_status != ''">
-                            <mat-icon>delete</mat-icon> This command was hidden.
+                            <mat-icon>delete</mat-icon> This command is hidden. Only you can see it
                           </div>
                           <div class="comments" *ngIf="command.delete_status == '' && command.comments && command.comments.length > 0" title="View comments">
                             <span class="">{{command.comments.length}}</span> 💬
@@ -407,16 +464,22 @@
             <div class="comment-header" *ngIf="selected_command">
               <hr style="margin: 10px;">
               <h5><strong>Admin</strong></h5>
-              <div *ngIf="!user_can_edit_selected_command">
-                <h5>Only team admins or the original uploader can hide commands</h5>
+              <div *ngIf="!is_admin && my_uid != selected_command.upload_uid">
+                <h5>Only team admins or the original uploader can hide this command.</h5>
+              </div>
+              <div *ngIf="is_admin && my_uid != selected_command.upload_uid">
+                <h5>Once you hide this command, only the original uploader can unhide it.</h5>
+              </div>
+              <div *ngIf="my_uid == selected_command.upload_uid">
+                <h5>If you hide this command, only you will be able to see it.</h5>
               </div>
             </div>
             <div class="comment-admin" *ngIf="selected_command">
-              <button *ngIf="selected_command.delete_status == ''" [disabled]="!user_can_edit_selected_command || loading_delete" style="" class="btn btn-danger" (click)="deleteCommand(selected_command.es_id, 'soft')">
+              <button *ngIf="selected_command.delete_status == ''" [disabled]="(!is_admin && my_uid != selected_command.upload_uid) || loading_delete" style="" class="btn btn-danger" (click)="deleteCommand(selected_command.es_id, 'soft')">
                 Hide command <mat-icon>delete</mat-icon>
               </button>
-              <button *ngIf="selected_command.delete_status != ''" [disabled]="!user_can_edit_selected_command || loading_delete" style="" class="btn btn-danger" (click)="deleteCommand(selected_command.es_id, 'undo')">
-                Undo hide command <mat-icon>undo</mat-icon>
+              <button *ngIf="selected_command.delete_status != ''" [disabled]="(!is_admin && my_uid != selected_command.upload_uid) || loading_delete" style="" class="btn btn-danger" (click)="deleteCommand(selected_command.es_id, 'undo')">
+                Undo hide command&nbsp;<span *ngIf="is_admin && my_uid != selected_command.upload_uid">({{next_refresh}})&nbsp;</span><mat-icon>undo</mat-icon>
               </button>
               <mat-progress-bar *ngIf="loading_delete" style="margin-top: -10px;" mode="indeterminate"></mat-progress-bar>
               <p class="error-message" *ngIf="delete_error">{{delete_error}}</p>

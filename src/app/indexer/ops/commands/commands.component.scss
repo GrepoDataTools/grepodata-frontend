@@ -363,6 +363,7 @@ $footer_height: 75px;
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
+      align-items: center;
       .support_filter {
         margin-right: 5px;
 
@@ -512,3 +513,8 @@ $footer_height: 75px;
     border: 1px solid #489384 !important;
   }
 }
+//::ng-deep .mat-checkbox-checked {
+//  .mat-checkbox-background {
+//    background: #18bc9b !important;
+//  }
+//}

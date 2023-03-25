@@ -135,7 +135,7 @@
               <div class="filter-header">
                 <h3 style="margin: 3px 0 !important;">Filters</h3>
 
-                <button *ngIf="is_filtered" class="btn btn-success" (click)="clearFilter('all')">
+                <button *ngIf="is_filtered" class="btn btn-success" (click)="clearFilter('all')" style="padding: 0 15px; margin: 5px 0;">
                   Clear all filters
                 </button>
               </div>
@@ -309,11 +309,13 @@
                         </div>
                         <div class="command-timing">
                           <div class="eta">{{command.eta}}</div>
-                          <div class="arrival-human" *ngIf="command.subtype != 'cs_eta' && command.subtype != 'attack_takeover' && command.subtype != 'ongoing_revolt'">(Arrival at: {{command.arrival_human}}</div>
-                          <div class="arrival-human" *ngIf="command.subtype == 'cs_eta' || command.subtype == 'attack_takeover' && command.subtype != 'ongoing_revolt'">(Colonized at: {{command.arrival_human}}</div>
-                          <div class="arrival-human" *ngIf="command.subtype == 'ongoing_revolt' && command.attacking_strategy=='revolt_arising'">(Phase 2 start: {{command.cancel_human}}, Phase 2 end: {{command.arrival_human}}</div>
-                          <div class="arrival-human" *ngIf="command.subtype == 'ongoing_revolt' && command.attacking_strategy!='revolt_arising'">(Phase 2 end: {{command.arrival_human}}</div>
-                          <div class="cancel-human" *ngIf="command.cancelable && active_view && active_view?.showCancelTime">, cancelable until: {{command.cancel_human}}</div>)
+                          (
+                          <div class="arrival-human" *ngIf="command.subtype != 'cs_eta' && command.subtype != 'attack_takeover' && command.subtype != 'ongoing_revolt'">Arrival at<span *ngIf="command.subtype == 'portal'"> portal</span>: {{command.arrival_human}}</div>
+                          <div class="arrival-human" *ngIf="command.subtype == 'cs_eta' || command.subtype == 'attack_takeover' && command.subtype != 'ongoing_revolt'">Colonized at: {{command.arrival_human}}</div>
+                          <div class="arrival-human" *ngIf="command.subtype == 'ongoing_revolt' && command.attacking_strategy=='revolt_arising'">Phase 2 start: {{command.cancel_human}},&nbsp;</div>
+                          <div class="arrival-human" *ngIf="command.subtype == 'ongoing_revolt'">Phase 2 end: {{command.arrival_human}}</div>
+                          <div class="cancel-human" *ngIf="command.cancelable && active_view && active_view?.showCancelTime">, cancelable until: {{command.cancel_human}}</div>
+                          )
                           <div class="deleted-status" *ngIf="command.delete_status != ''">
                             <mat-icon>delete</mat-icon> This command is hidden. Only you can see it
                           </div>
@@ -349,7 +351,7 @@
           <div class="command-overview-footer">
             <div class="command_filter">
 
-              <div class="options" *ngIf="active_view">
+              <div class="options">
 
                 <div
                   *ngFor="let type of command_types;"
@@ -358,6 +360,8 @@
                   [ngClass]="{'inactive': !active_view?.command_type_toggle[type]}"
                   title="{{type}}"
                 ></div>
+
+                <div class="filter-returns" [ngClass]="{ 'disabled': !active_view?.show_returns }" (click)="toggleShowReturns()" title="Show returning commands"></div>
 
               </div>
             </div>
@@ -506,6 +510,7 @@
   <span *ngIf="command.src_ply_id <= 0">
     <span *ngIf="command.subtype == 'quest'">(Quest)</span>
     <span *ngIf="command.subtype == 'temple'">(Temple)</span>
+    <span *ngIf="command.subtype == 'portal'">(Portal)</span>
     <span *ngIf="command.subtype == 'attack_spot'">(Attack Spot)</span>
     <span *ngIf="command.subtype == 'default'"></span>
   </span>
@@ -521,6 +526,7 @@
   <span *ngIf="command.trg_ply_id <= 0">
     <span *ngIf="command.subtype == 'quest'">(Quest)</span>
     <span *ngIf="command.subtype == 'temple'">(Temple)</span>
+    <span *ngIf="command.subtype == 'portal'">(Portal)</span>
     <span *ngIf="command.subtype == 'attack_spot'">(Attack Spot)</span>
     <span *ngIf="command.subtype == 'default'"></span>
   </span>

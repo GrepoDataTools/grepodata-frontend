@@ -44,17 +44,17 @@ export class BugReportComponent {
       return;
     }
 
-    if (this.files && this.files.length > 5) {
-      this.error = 'You can only upload 5 files';
+    if (this.files && this.files.length > 10) {
+      this.error = 'You can upload at most 10 files';
       if (this.captchaRef != undefined) { this.captchaRef.reset(); }
       return;
     }
 
-    if (this.bug_report.search('[report]') == 1 && this.bug_report.search('[/report]') != -1) {
-      this.error = 'This form is not meant to upload BB code reports. Use the userscript to index reports';
-      if (this.captchaRef != undefined) { this.captchaRef.reset(); }
-      return;
-    }
+    // if (this.bug_report.indexOf('[report]') >= 0 && this.bug_report.indexOf('[/report]') >= 0) {
+    //   this.error = 'This form is not meant to upload BB code reports. Use the userscript to index reports';
+    //   if (this.captchaRef != undefined) { this.captchaRef.reset(); }
+    //   return;
+    // }
 
     let report = this.bug_report;
     try {

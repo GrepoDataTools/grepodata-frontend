@@ -87,7 +87,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
   dropdownSettingsUploaders: IDropdownSettings = {};
 
   // Tabs
-  viewer_version = 'v2';
+  viewer_version = 'v3';
   views: CommandView[];
   active_view: CommandView;
   editting_view_name = false;
@@ -199,7 +199,6 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
       );
 
       let payload = jwt_decode(access_token);
-      console.log('jwt payload', payload);
       if (payload && 'uid' in payload) {
         this.my_uid = payload.uid;
         this.username = payload.username;
@@ -277,6 +276,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     view.tab_name = 'New View';
     view.name_changed = false;
     view.is_filtered = false;
+    view.show_returns = true;
     view.showCancelTime = false;
     view.showDeletedCommands = false;
     view.command_type_toggle = this.getTypeToggleDict();
@@ -675,6 +675,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
         this.active_view.filter_player = [];
         this.active_view.filter_uploader = [];
     }
+    this.active_view.show_returns = true;
     this.active_view.command_type_toggle = this.getTypeToggleDict();
 
     this.filterCommands(do_draw, false);
@@ -689,6 +690,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
   isFiltered() {
     if (
       this.active_view.filter_text != ''
+      || this.active_view.show_returns == false
       || this.active_view.filter_town.length > 0
       || this.active_view.filter_player.length > 0
       || this.active_view.filter_uploader.length > 0
@@ -727,6 +729,13 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  toggleShowReturns() {
+    this.active_view.show_returns = !this.active_view.show_returns;
+    this.filterCommands();
+    setTimeout(_ => this.saveSettingsToCache(), 300);
+    this.draw();
+  }
+
   toggleCommandTypeFilter(command_type) {
     this.active_view.command_type_toggle[command_type] = !this.active_view.command_type_toggle[command_type];
     this.filterCommands();
@@ -742,15 +751,21 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
       this.commands.map(command => {
         let hidden = false;
 
-        if (this.active_view.filter_text != '') {
-          let search_domain = command.src_ply_n + command.src_twn_n + command.trg_ply_n + command.trg_twn_n
-          // Add comments to search domain
-          if ('comments' in command) {
-            search_domain += command.comments.map(comment => comment.text).join()
-          }
-          if (!search_domain.toLocaleLowerCase().includes(this.active_view.filter_text)) {
+        if (this.active_view.show_returns != true && command.return == true) {
+          hidden = true;
+        }
+        if (command.delete_status != '') {
+          has_hidden_commands = true;
+          if (!hidden && !this.active_view.showDeletedCommands) {
             hidden = true;
           }
+        }
+        if (!hidden && this.command_types.indexOf(command.type) >= 0 && this.active_view.command_type_toggle[command.type] === false) {
+          hidden = true;
+        } else if (!hidden && command.type == 'attack' && this.active_view.command_type_toggle['attack_land'] === false) {
+          hidden = true;
+        } else if (!hidden && command.type == 'foundation' && this.active_view.command_type_toggle['attack_takeover'] === false) {
+          hidden = true;
         }
         if (!hidden && this.active_view.filter_player.length > 0) {
           let player_names = this.active_view.filter_player.map(filter => filter.id)
@@ -770,16 +785,13 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
             hidden = true;
           }
         }
-        if (!hidden && this.command_types.indexOf(command.type) >= 0 && this.active_view.command_type_toggle[command.type] === false) {
-          hidden = true;
-        } else if (!hidden && command.type == 'attack' && this.active_view.command_type_toggle['attack_land'] === false) {
-          hidden = true;
-        } else if (!hidden && command.type == 'foundation' && this.active_view.command_type_toggle['attack_takeover'] === false) {
-          hidden = true;
-        }
-        if (command.delete_status != '') {
-          has_hidden_commands = true;
-          if (!hidden && !this.active_view.showDeletedCommands) {
+        if (!hidden && this.active_view.filter_text != '') {
+          let search_domain = command.src_ply_n + command.src_twn_n + command.trg_ply_n + command.trg_twn_n + command.subtype
+          // Add comments to search domain
+          if ('comments' in command) {
+            search_domain += command.comments.map(comment => comment.text).join()
+          }
+          if (!search_domain.toLowerCase().includes(this.active_view.filter_text.toLowerCase())) {
             hidden = true;
           }
         }
@@ -1055,10 +1067,10 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
   updateTimer(do_draw = true) {
     /**
      * This function is called every second. It updates the countdown timers for each command.
-     * Every 5 seconds, the in-memory timer is synchronized by calling syncMainTimer()
      */
     this.syncMainTimer();
 
+    let do_sort = false;
     if (this.commands && this.commands.length > 0) {
       this.filterExpired();
 
@@ -1072,6 +1084,9 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
             command.attacking_strategy = 'revolt_arising'
             countdown_time = command.started_at; // arising revolts should countdown to phase 2 start
           } else {
+            if (command.attacking_strategy != 'revolt_running') {
+              do_sort = true; // revolt status has changed, resort needed
+            }
             command.attacking_strategy = 'revolt_running'
           }
         }
@@ -1092,6 +1107,10 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
 
         return command;
       });
+    }
+
+    if (do_sort) {
+      this.sortCommands(do_draw);
     }
 
     if (do_draw) {

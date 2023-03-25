@@ -43,6 +43,7 @@ export class CommandView {
   tab_name: string
   name_changed: boolean
   is_filtered: boolean
+  show_returns: boolean
   show_total_units: boolean
   showCancelTime: boolean
   showDeletedCommands: boolean

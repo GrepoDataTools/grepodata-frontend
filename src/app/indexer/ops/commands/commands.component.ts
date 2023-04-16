@@ -78,7 +78,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // Filters & order
   is_filtered = false;
-  command_types = ['attack_land', 'support', 'attack_sea', 'attack_spy', 'farm_attack', 'abort', 'revolt', 'attack_takeover', 'breakthrough', 'portal_attack_olympus', 'portal_support_olympus'];
+  command_types = ['attack_land', 'support', 'attack_sea', 'attack_spy', 'farm_attack', 'abort', 'revolt', 'attack_takeover', 'breakthrough'];
   default_order = 'arrival_asc'
   typingTimer;
   debounceTime = 500;
@@ -763,6 +763,10 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
         if (!hidden && this.command_types.indexOf(command.type) >= 0 && this.active_view.command_type_toggle[command.type] === false) {
           hidden = true;
         } else if (!hidden && command.type == 'attack' && this.active_view.command_type_toggle['attack_land'] === false) {
+          hidden = true;
+        } else if (!hidden && command.type == 'portal_attack_olympus' && this.active_view.command_type_toggle['attack_land'] === false) {
+          hidden = true;
+        } else if (!hidden && command.type == 'portal_support_olympus' && this.active_view.command_type_toggle['support'] === false) {
           hidden = true;
         } else if (!hidden && command.type == 'foundation' && this.active_view.command_type_toggle['attack_takeover'] === false) {
           hidden = true;

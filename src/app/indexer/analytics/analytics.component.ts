@@ -31,7 +31,17 @@ export class AnalyticsComponent implements OnInit {
       '#673AB7',
       '#F44336']
   };
-  colorScheme2 = {domain: ['#18bc9c','#334254']};
+  colorScheme2 = {domain: ['rgba(24,188,156,0.3)','#18bc9c','rgba(240,112,87,0.3)','#f07057']};
+  colorScheme3 = {
+    domain: [
+      '#18bc9c',
+      '#f07057',
+      '#334254',
+      'rgba(24,188,156,0.5)',
+      'rgba(240,112,87,0.5)',
+      'rgba(51,66,84,0.5)'
+    ]
+  };
   autoScale = true;
   // timeline = true; // broken as of ngx-charts@17.0
   timeline = false;
@@ -50,11 +60,10 @@ export class AnalyticsComponent implements OnInit {
   indexes_per_day = [];
   report_type_per_day = [];
   indexer_error_rate = [];
+  indexer_error_rate_maxy = 10;
   warning_rate = [];
   script_version = [];
-  total_indexes = [];
   total_reports = [];
-  total_shared_relative = [];
   total_users = [];
   index_world_bins = [];
   hourly_reports = [];
@@ -102,6 +111,11 @@ export class AnalyticsComponent implements OnInit {
             "name": "Unique Towns (+24hr)",
             "value": response.now.town_count,
             "extra": response.now.town_count - response.yesterday.town_count,
+          },
+          {
+            "name": "Commands Shared (+24hr)",
+            "value": response.now.commands_count,
+            "extra": response.now.commands_today,
           }
         ]
       },
@@ -162,10 +176,14 @@ export class AnalyticsComponent implements OnInit {
         let record = data.indexer_error_rate.data[i];
         let date = new Date(record.date);
         // date.setDate(date.getDate() - 1);
+        let value = (record.count / (last_count_inbox + last_count_forum)) * 100
+        // let value = record.count
         chart.push({
           'name' : date,
-          'value' : (record.count / (last_count_inbox + last_count_forum)) * 100,
+          'value' : value,
+          // 'value' : (record.count),
         });
+        this.indexer_error_rate_maxy = Math.max(value, this.indexer_error_rate_maxy)
       }
       this.indexer_error_rate = chart;
     }
@@ -219,7 +237,7 @@ export class AnalyticsComponent implements OnInit {
       let chartNumReports = [];
       let chartNumReportsShared = [];
       let chartNumReportsSharedNormalized = [];
-      let chartNumReportsSharedNormalizedRelative = [];
+      let chartNumCommands = [];
       let chartNumUsers = [];
       let newReportsPerDay = [];
       let newReportsMovingAverage = [];
@@ -230,6 +248,15 @@ export class AnalyticsComponent implements OnInit {
       let teamsPerDay = [];
       let teamsPerWeek = [];
       let teamsPerMonth = [];
+      let cmd_PerDay = [];
+      let cmd_MovingAverage = [];
+      let cmd_MovingAverageEntries = [];
+      let cmd_usersPerDay = [];
+      let cmd_usersPerWeek = [];
+      let cmd_usersPerMonth = [];
+      let cmd_teamsPerDay = [];
+      let cmd_teamsPerWeek = [];
+      let cmd_teamsPerMonth = [];
       for(let i in data.indexer_stats_agg.data) {
         let record = data.indexer_stats_agg.data[i];
         let date = new Date(record.created_at);
@@ -250,12 +277,12 @@ export class AnalyticsComponent implements OnInit {
           'name' : date,
           'value' : record.shared_count - record.reports,
         });
-
-        // Average percentage of report sharing
-        chartNumReportsSharedNormalizedRelative.unshift({
-          'name' : date,
-          'value' : (((record.shared_count - record.reports) / record.reports) * 100).toFixed(2),
-        });
+        if (record.commands_count > 0) {
+          chartNumCommands.unshift({
+            'name' : date,
+            'value' : record.commands_count,
+          });
+        }
 
         chartNumUsers.unshift({
           'name' : date,
@@ -274,6 +301,22 @@ export class AnalyticsComponent implements OnInit {
             'name' : date,
             'value' : Math.floor(moving_average),
           });
+        }
+
+        if (record.commands_today > 0) {
+          cmd_PerDay.unshift({
+            'name' : date,
+            'value' : record.commands_today,
+          });
+          cmd_MovingAverage.unshift(record.commands_today);
+          if (cmd_MovingAverage.length > 7) {
+            cmd_MovingAverage.pop();
+            let moving_average = cmd_MovingAverage.reduce( ( p, c ) => p + c, 0 ) / cmd_MovingAverage.length;
+            cmd_MovingAverageEntries.unshift({
+              'name' : date,
+              'value' : Math.floor(moving_average),
+            });
+          }
         }
 
         usersPerDay.unshift({
@@ -308,8 +351,45 @@ export class AnalyticsComponent implements OnInit {
             'value' : record.teams_month,
           });
         }
+
+        if (record.commands_users_today>0) {
+          cmd_usersPerDay.unshift({
+            'name': date,
+            'value': record.commands_users_today,
+          });
+        }
+        if (record.commands_teams_today>0) {
+          cmd_teamsPerDay.unshift({
+            'name': date,
+            'value': record.commands_teams_today,
+          });
+        }
+        if (record.commands_users_week>0) {
+          cmd_usersPerWeek.unshift({
+            'name' : date,
+            'value' : record.commands_users_week,
+          });
+        }
+        if (record.commands_users_month>0) {
+          cmd_usersPerMonth.unshift({
+            'name' : date,
+            'value' : record.commands_users_month,
+          });
+        }
+        if (record.commands_teams_week>0) {
+          cmd_teamsPerWeek.unshift({
+            'name' : date,
+            'value' : record.commands_teams_week,
+          });
+        }
+        if (record.commands_teams_month>0) {
+          cmd_teamsPerMonth.unshift({
+            'name' : date,
+            'value' : record.commands_teams_month,
+          });
+        }
       }
-      this.total_indexes.push({
+      this.total_users.push({
         'name': 'Number of teams',
         'series': chartNumIndex,
       });
@@ -318,12 +398,20 @@ export class AnalyticsComponent implements OnInit {
         'series': chartNumUsers,
       });
       this.total_per_day.push({
-        'name': 'Daily new reports',
+        'name': 'Indexed reports',
         'series': newReportsPerDay,
       });
       this.total_per_day.push({
-        'name': '7-day moving average',
+        'name': 'Indexed reports (MA7)',
         'series': newReportsMovingAverageEntries,
+      });
+      this.total_per_day.push({
+        'name': 'Shared commands',
+        'series': cmd_PerDay,
+      });
+      this.total_per_day.push({
+        'name': 'Shared commands (MA7)',
+        'series': cmd_MovingAverageEntries,
       });
       this.users_per_day.push({
         'name': 'Daily active users',
@@ -337,17 +425,41 @@ export class AnalyticsComponent implements OnInit {
         'name': 'Monthly active users',
         'series': usersPerMonth,
       });
-      this.indexes_per_day.push({
+      this.users_per_day.push({
         'name': 'Daily active teams',
         'series': teamsPerDay,
       });
-      this.indexes_per_day.push({
+      this.users_per_day.push({
         'name': 'Weekly active teams',
         'series': teamsPerWeek,
       });
-      this.indexes_per_day.push({
+      this.users_per_day.push({
         'name': 'Monthly active teams',
         'series': teamsPerMonth,
+      });
+      this.indexes_per_day.push({
+        'name': 'Daily active users (Ops)',
+        'series': cmd_usersPerDay,
+      });
+      this.indexes_per_day.push({
+        'name': 'Weekly active users (Ops)',
+        'series': cmd_usersPerWeek,
+      });
+      this.indexes_per_day.push({
+        'name': 'Monthly active users (Ops)',
+        'series': cmd_usersPerMonth,
+      });
+      this.indexes_per_day.push({
+        'name': 'Daily active teams (Ops)',
+        'series': cmd_teamsPerDay,
+      });
+      this.indexes_per_day.push({
+        'name': 'Weekly active teams (Ops)',
+        'series': cmd_teamsPerWeek,
+      });
+      this.indexes_per_day.push({
+        'name': 'Monthly active teams (Ops)',
+        'series': cmd_teamsPerMonth,
       });
       this.total_reports.push({
         'name': 'Total Unique Reports',
@@ -358,12 +470,12 @@ export class AnalyticsComponent implements OnInit {
       //   'series': chartNumReportsShared,
       // });
       this.total_reports.push({
-        'name': 'Total Shared',
+        'name': 'Total Reports Shared',
         'series': chartNumReportsSharedNormalized,
       });
-      this.total_shared_relative.push({
-        'name': 'Report Sharing Relative %',
-        'series': chartNumReportsSharedNormalizedRelative,
+      this.total_reports.push({
+        'name': 'Total Commands Shared',
+        'series': chartNumCommands,
       });
     }
 

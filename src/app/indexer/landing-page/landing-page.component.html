@@ -7,7 +7,7 @@
 					<strong class="gd-secondary">USERSCRIPT:</strong>
           ENEMY CITY INDEXER
 				</h1>
-				<h4 class="gd-tertiary hidden-xs subtitle">Easily collect and share intelligence about enemy cities with your own private team</h4>
+				<h4 class="gd-tertiary hidden-xs subtitle">Collect and share intelligence with your own private team</h4>
 			</mat-card-title>
 			<mat-card-content>
 
@@ -33,21 +33,21 @@
               <div class="text-center bs-wizard-stepnum">Step 2</div>
               <div class="progress"><div class="progress-bar"></div></div>
               <a class="bs-wizard-dot inactive"></a>
-              <div class="bs-wizard-info text-center"><strong>Install</strong> the userscript</div>
+              <div class="bs-wizard-info text-center"><strong>Join</strong> a <span class="hidden-xs hidden-sm hidden-md">GrepoData </span><strong>Team</strong></div>
             </div>
 
             <div class="col-xs-3 bs-wizard-step" matTooltip="Upload new reports while playing the game by clicking the 'Index +' button on forum and inbox reports"><!-- complete -->
               <div class="text-center bs-wizard-stepnum">Step 3</div>
               <div class="progress"><div class="progress-bar"></div></div>
               <a class="bs-wizard-dot inactive"></a>
-              <div class="bs-wizard-info text-center"><strong>Upload</strong> new reports</div>
+              <div class="bs-wizard-info text-center"><strong>Install</strong> the <a href="https://api.grepodata.com/script/indexer.user.js" target="_blank">userscript <span class="fa fa-download"></span></a></div>
             </div>
 
             <div class="col-xs-3 bs-wizard-step" matTooltip="Create a team and invite your allies to share the collected intel"><!-- complete -->
               <div class="text-center bs-wizard-stepnum">Step 4</div>
               <div class="progress"><div class="progress-bar"></div></div>
               <a class="bs-wizard-dot inactive"></a>
-              <div class="bs-wizard-info text-center"><strong>Share</strong> with a <span class="hidden-xs hidden-sm hidden-md">GrepoData </span><strong>team</strong></div>
+              <div class="bs-wizard-info text-center">Index <strong>reports</strong> or share <strong>commands</strong></div>
             </div>
 
           </div>
@@ -56,6 +56,50 @@
 				<br/>
 				<br/>
 
+
+        <div class="container" *ngIf="stats != '' && show_stats">
+          <div class="col-xs-12 text-center">
+            <h2 #databaseStats style="font-family: Montserrat !important;" class="gd-primary">
+              Usage Statistics
+              <a class="a-link" style="color:#6d6d6d" routerLink="/analytics">
+                <mat-icon style="opacity: 1; vertical-align: middle;">launch</mat-icon>
+              </a>
+            </h2>
+            <br/>
+            <div class="" *ngIf="show_stats">
+              <div class="">
+                <div class="col-xs-12" style="margin-left: -12px;">
+                  <ngx-charts-number-card
+                    [scheme]="colorScheme"
+                    [results]="stats_data"
+                    [cardColor]="cardColor"
+                    [valueFormatting]="formatStatValue"
+                    (select)="viewDetails()"
+                  >
+                  </ngx-charts-number-card>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br/>
+
+
+        <div class="container">
+          <div class="col-xs-12 text-center">
+            <br/>
+            <h2 style="font-family: Montserrat !important;" class="gd-primary">
+              City Indexer Preview
+            </h2>
+            <img class="img-thumbnail" src="../../assets/images/indexer_overview.png?v=1" alt="GrepoData City Indexer Team Overivew">
+            <img class="img-thumbnail" src="../../assets/images/indexer_operations.png?v=1" alt="GrepoData City Indexer Team Operations">
+            <img class="img-thumbnail" src="../../assets/images/indexer.png?v=1" alt="GrepoData City Indexer My Intel">
+          </div>
+        </div>
+
+        <br/>
+        <br/>
+        <br/>
 
 				<!--FaQ-->
         <div class="container">
@@ -75,53 +119,6 @@
 				</div>
 
         <br/>
-
-        <div class="container-fluid" *ngIf="stats != ''">
-          <div class="col-xs-12 text-center">
-
-            <h2 #databaseStats style="font-family: Montserrat !important;" class="gd-primary">
-              Currently in our database
-            </h2>
-
-            <br/>
-
-            <div class="container" *ngIf="show_stats">
-              <div class="row">
-                <div class="col-xs-12">
-                  <ngx-charts-number-card
-                    [scheme]="colorScheme"
-                    [results]="stats_data"
-                    [cardColor]="cardColor"
-                    [valueFormatting]="formatStatValue"
-                    (select)="viewDetails()"
-                  >
-                  </ngx-charts-number-card>
-
-<!--                  <a class="a-link" style="color:#6d6d6d" routerLink="/analytics">-->
-<!--                    View detailed report-->
-<!--                  </a>-->
-                </div>
-              </div>
-            </div>
-
-
-
-
-          </div>
-        </div>
-        <br/>
-
-				<div class="container">
-					<div class="col-xs-10 col-xs-offset-1 text-center">
-						<br/>
-            <h2 style="font-family: Montserrat !important;" class="gd-primary">
-              Preview
-            </h2>
-						<img class="img-thumbnail" src="../../assets/images/indexer.png?v=1" alt="Enemy city indexer">
-					</div>
-				</div>
-				<br/>
-				<br/>
 
 				<br/>
 				<br/>

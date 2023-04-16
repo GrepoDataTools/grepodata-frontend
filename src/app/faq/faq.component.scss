@@ -2,3 +2,14 @@
   font-size: 16px;
   font-weight: 400;
 }
+
+.img-scale {
+  transition:transform 0.25s ease;
+  transform-origin: right;
+}
+
+.img-scale:hover {
+  -webkit-transform:scale(1.6); /* or some other value */
+  transform:scale(1.6);
+  z-index: 10000;
+}

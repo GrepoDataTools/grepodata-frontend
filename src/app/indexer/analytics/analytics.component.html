@@ -55,7 +55,7 @@
             [showYAxisLabel]="true"
             [xAxisLabel]="''"
             [yAxisLabel]="'% of daily parsed reports'"
-            [yScaleMax]="100"
+            [yScaleMax]="indexer_error_rate_maxy"
             (select)="onSelect($event)">
           </ngx-charts-bar-vertical>
         </div>
@@ -108,8 +108,8 @@
 			<!--TOTAL-->
 			<div class="col-md-12 text-left chart-container" *ngIf="!loading_index && total_per_day.length > 0">
 
-				<h2 class="gd-secondary">Number of new reports indexed per day</h2>
-        <p>Duplicate report uploads are ignored, only unique new reports are counted.</p>
+				<h2 class="gd-secondary">Number of reports indexed & commands shared per day</h2>
+        <p>Duplicate uploads are ignored; only unique uploads are counted. MA7 = 7-day moving average</p>
 
 				<div class="ngx-chart-container">
 					<ngx-charts-line-chart
@@ -138,7 +138,7 @@
 
 				<div class="ngx-chart-container">
 					<ngx-charts-line-chart
-						[scheme]="colorScheme2"
+						[scheme]="colorScheme"
 						[results]="hourly_reports"
 						[gradient]="gradient"
 						[xAxis]="showXAxis"
@@ -163,12 +163,12 @@
 			<!--Users-->
 			<div class="col-md-12 text-left chart-container" *ngIf="!loading_index && users_per_day.length > 0">
 
-				<h2 class="gd-secondary">Number of active users</h2>
-        <p>A user is considered active if they indexed at least 1 new report in the last 24 hours, 7 days or 1 month respectively</p>
+				<h2 class="gd-secondary">Number of active users & teams (GrepoData City Indexer)</h2>
+        <p>A City Indexer user/team is considered active if they indexed at least 1 new report in the last 24 hours, 7 days or 1 month respectively</p>
 
 				<div class="ngx-chart-container">
 					<ngx-charts-line-chart
-						[scheme]="colorScheme"
+						[scheme]="colorScheme3"
 						[results]="users_per_day"
 						[gradient]="gradient"
 						[xAxis]="showXAxis"
@@ -188,12 +188,12 @@
 			<!--Indexes-->
 			<div class="col-md-12 text-left chart-container" *ngIf="!loading_index && indexes_per_day.length > 0">
 
-				<h2 class="gd-secondary">Number of active teams</h2>
-        <p>A team is considered active if it gained at least 1 new report in the last 24 hours, 7 days or 1 month respectively</p>
+				<h2 class="gd-secondary">Number of active users & teams (GrepoData Operations)</h2>
+        <p>An Operations user/team is considered active if they shared at least 1 command in the last 24 hours, 7 days or 1 month respectively</p>
 
 				<div class="ngx-chart-container">
 					<ngx-charts-line-chart
-						[scheme]="colorScheme"
+						[scheme]="colorScheme3"
 						[results]="indexes_per_day"
 						[gradient]="gradient"
 						[xAxis]="showXAxis"
@@ -213,8 +213,8 @@
 			<!--Reports total-->
 			<div class="col-md-12 text-left chart-container" *ngIf="!loading_index && total_reports.length > 0">
 
-				<h2 class="gd-secondary">Total number of reports indexed (accumulative)</h2>
-        <p>How many unique reports have been indexed VS. How many times has a report been shared with a team</p>
+				<h2 class="gd-secondary">Total number of reports & commands (accumulative)</h2>
+        <p>How many reports have been indexed (City Indexer) and how many commands have been uploaded (Operations)?</p>
 
 				<div class="ngx-chart-container">
 					<ngx-charts-line-chart
@@ -235,62 +235,11 @@
 				</div>
 			</div>
 
-
-			<!--Reports total-->
-			<div class="col-md-12 text-left chart-container" *ngIf="!loading_index && total_reports.length > 0">
-
-				<h2 class="gd-secondary">Relative Report Sharing Index</h2>
-        <p>What percentage of reports are being shared with a team? 100% means every report is being shared with at least 1 team (on average). Some reports are shared with nobody, while other reports may be shared with multiple teams.</p>
-
-				<div class="ngx-chart-container">
-					<ngx-charts-line-chart
-						[scheme]="colorScheme"
-						[results]="total_shared_relative"
-						[gradient]="gradient"
-						[xAxis]="showXAxis"
-						[yAxis]="showYAxis"
-						[legend]="showLegend"
-						[showXAxisLabel]="showXAxisLabel"
-						[showYAxisLabel]="showYAxisLabel"
-						[xAxisLabel]="xAxisLabel"
-						[yAxisLabel]="yAxisLabel"
-						[autoScale]="autoScale"
-						[timeline]="timeline"
-						(select)="onSelect($event)">
-					</ngx-charts-line-chart>
-				</div>
-			</div>
-
-			<!--Indexes total-->
-			<div class="col-md-12 text-left chart-container" *ngIf="!loading_index && total_indexes.length > 0">
-
-				<h2 class="gd-secondary">Total number of teams created (accumulative)</h2>
-        <p>How many teams (previously known as 'index') have been created since the service went live?</p>
-
-				<div class="ngx-chart-container">
-					<ngx-charts-line-chart
-						[scheme]="colorScheme"
-						[results]="total_indexes"
-						[gradient]="gradient"
-						[xAxis]="showXAxis"
-						[yAxis]="showYAxis"
-						[legend]="showLegend"
-						[showXAxisLabel]="showXAxisLabel"
-						[showYAxisLabel]="showYAxisLabel"
-						[xAxisLabel]="xAxisLabel"
-						[yAxisLabel]="yAxisLabel"
-						[autoScale]="autoScale"
-						[timeline]="timeline"
-						(select)="onSelect($event)">
-					</ngx-charts-line-chart>
-				</div>
-			</div>
-
 			<!--Users total-->
 			<div class="col-md-12 text-left chart-container" *ngIf="!loading_index && total_users.length > 0">
 
-				<h2 class="gd-secondary">Total number of registered users (accumulative)</h2>
-        <p>How many users have registered since April 18, 2021?</p>
+				<h2 class="gd-secondary">Total number of registered users & teams (accumulative)</h2>
+        <p>How many users have registered and how many teams have been created in total?</p>
 
 				<div class="ngx-chart-container">
 					<ngx-charts-line-chart

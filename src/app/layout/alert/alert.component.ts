@@ -57,6 +57,6 @@ export class AlertComponent implements OnInit {
   }
 
   getHiddenStatusFromCache(alert_id) {
-    return LocalCacheService.get('alert_dismiss_' + alert_id);
+    return LocalCacheService.get('alert_dismiss_' + alert_id, true);
   }
 }

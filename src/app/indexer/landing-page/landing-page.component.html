@@ -40,7 +40,7 @@
               <div class="text-center bs-wizard-stepnum">Step 3</div>
               <div class="progress"><div class="progress-bar"></div></div>
               <a class="bs-wizard-dot inactive"></a>
-              <div class="bs-wizard-info text-center"><strong>Install</strong> the <a href="https://api.grepodata.com/script/indexer.user.js" target="_blank">userscript <span class="fa fa-download"></span></a></div>
+              <div class="bs-wizard-info text-center"><strong>Install</strong> the <a routerLink="/userscript">userscript <span class="fa fa-download"></span></a></div>
             </div>
 
             <div class="col-xs-3 bs-wizard-step" matTooltip="Create a team and invite your allies to share the collected intel"><!-- complete -->
@@ -55,17 +55,14 @@
 
 				<br/>
 				<br/>
+				<br/>
 
 
         <div class="container" *ngIf="stats != '' && show_stats">
           <div class="col-xs-12 text-center">
-            <h2 #databaseStats style="font-family: Montserrat !important;" class="gd-primary">
-              Usage Statistics
-              <a class="a-link" style="color:#6d6d6d" routerLink="/analytics">
-                <mat-icon style="opacity: 1; vertical-align: middle;">launch</mat-icon>
-              </a>
+            <h2 #databaseStats style="font-family: Montserrat !important;" class="gd-secondary">
+              Usage Statistics 📈
             </h2>
-            <br/>
             <div class="" *ngIf="show_stats">
               <div class="">
                 <div class="col-xs-12" style="margin-left: -12px;">
@@ -83,31 +80,41 @@
           </div>
         </div>
         <br/>
-
+        <br/>
 
         <div class="container">
           <div class="col-xs-12 text-center">
             <br/>
-            <h2 style="font-family: Montserrat !important;" class="gd-primary">
-              City Indexer Preview
+            <h2 style="font-family: Montserrat !important;" class="gd-secondary">
+              City Indexer Preview 👀
             </h2>
             <img class="img-thumbnail" src="../../assets/images/indexer_overview.png?v=1" alt="GrepoData City Indexer Team Overivew">
             <img class="img-thumbnail" src="../../assets/images/indexer_operations.png?v=1" alt="GrepoData City Indexer Team Operations">
-            <img class="img-thumbnail" src="../../assets/images/indexer.png?v=1" alt="GrepoData City Indexer My Intel">
+<!--            <img class="img-thumbnail" src="../../assets/images/indexer.png?v=1" alt="GrepoData City Indexer My Intel">-->
           </div>
         </div>
 
-        <br/>
-        <br/>
-        <br/>
+        <div class="container hidden-xs hidden-sm">
+
+          <br/>
+          <br/>
+          <br/>
+          <div class="col-xs-12" style="margin: -12px;">
+            <app-userscript></app-userscript>
+          </div>
+        </div>
 
 				<!--FaQ-->
         <div class="container">
+
+          <br/>
+          <br/>
+          <br/>
           <div class="row">
             <div class="col-xs-12 col-sm-12">
 							<mat-card class="decorated-card">
 								<mat-card-title class='decorated-card-header-secondary decorated-title text-center' style="margin-bottom: 0px;">
-									<h3><i class="fa fa-question-circle"></i> Frequently asked questions</h3>
+									<h2>📋 Frequently asked questions</h2>
 								</mat-card-title>
 								<mat-card-content class="decorated-card-content" style="border: 1px solid #138F77;">
 									<br/>

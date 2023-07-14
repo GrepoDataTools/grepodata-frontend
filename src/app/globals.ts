@@ -18,6 +18,7 @@ export class Globals {
   private active_server:  string = '';
   private active_index:   string = '';
   private active_token:   string = '';
+  private redirect_url:   string = '';
   private active_intel:   any = null;
   private show_duplicates: any = false;
   public duplicateVisChange: EventEmitter<any> = new EventEmitter();
@@ -108,6 +109,16 @@ export class Globals {
   set_show_duplicates(show_duplicates) {
     this.show_duplicates = show_duplicates;
     this.duplicateVisChange.emit(this.show_duplicates);
+  }
+
+  /**
+   * Redirect URL
+   */
+  get_redirect_url() {
+    return this.redirect_url;
+  }
+  set_redirect_url(redirect_url) {
+    this.redirect_url = redirect_url;
   }
 
   /**

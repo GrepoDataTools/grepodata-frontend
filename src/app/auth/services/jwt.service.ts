@@ -159,10 +159,11 @@ export class JwtService {
   }
 
   private rejectToken(force_login_required) {
+    console.log('reject', force_login_required);
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     if (force_login_required) {
-      this.router.navigate(['/indexer']);
+      this.navigate();
     }
   }
 
@@ -317,8 +318,25 @@ export class JwtService {
     this.globals.delete_recent_intel();
 
     if (navigate === true) {
-      this.router.navigate(['/indexer']);
+      this.navigate();
     }
 
+  }
+
+  navigate() {
+    // store original url so we can redirect after login
+    let url = this.router.url;
+    if (url != '/indexer' && (
+      url.indexOf('/indexer/') !== -1
+      || url.indexOf('/profile/') !== -1
+      || url.indexOf('/intel/') !== -1
+      || url.indexOf('/operations/') !== -1
+    )) {
+      this.globals.set_redirect_url(url);
+      console.log('Setting redirect url: ', url);
+    }
+
+    // Navigate to login page
+    this.router.navigate(['/indexer']);
   }
 }

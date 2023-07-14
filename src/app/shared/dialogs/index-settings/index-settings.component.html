@@ -39,21 +39,21 @@
 					<h2 class="gd-secondary">Show intel about allied towns</h2>
 					<!--<p>If you enable this option, intel about allied towns will be available in this index.</p>-->
 					<!--<br/>-->
-					<h3>Team owners</h3>
-					<h5>These alliances are the owners of this team. The owners are determined based on the users that contribute to the team. If an alliance has at least a 5% contribution to the team, they are automatically added to the list of team owners. You can also manually change the team owners here.
-						<br/><strong>Town intelligence for team owners is hidden by default, but you can choose to display allied intel using the checkboxes in this table.</strong></h5>
+					<h3>Team contributors</h3>
+					<h5>These alliances are the main contributors of this team. The contributors are determined based on the users that contribute to the team. If an alliance has at least a 5% contribution to the team, they are automatically added to the list of team contributors. As an admin, you can also manually change the team contributors here.
+						<br/><strong>Town intelligence for contributing alliances is not hidden by default, but you can choose to hide allied intel using the checkboxes in this table.</strong></h5>
 
-					<app-alert type="error" title="Unable to update owners" *ngIf="owners_error">
+					<app-alert type="error" title="Unable to update contributors" *ngIf="owners_error">
 						<h5>{{owners_error}}</h5>
 					</app-alert>
 
-					<app-alert type="success" title="Team owners updated successfully" *ngIf="owners_success">
+					<app-alert type="success" title="Team contributors updated successfully" *ngIf="owners_success">
 						<h5>{{owners_success}}</h5>
 					</app-alert>
 
-					<app-alert type="info" title="No team owners available" *ngIf="owners_error=='' && !updating_owners && owners.length <= 0">
-						<h5>We have not yet been able to detect the owners of this team. When you start collecting enemy intelligence	using the userscript, we will be able to detect the index owners automatically.
-							<br/>Alternatively, you can manually add alliances to the list of team owners using the buttons in the table below.</h5>
+					<app-alert type="info" title="No team contributors available" *ngIf="owners_error=='' && !updating_owners && owners.length <= 0">
+						<h5>We have not yet been able to detect the contributors of this team. When you start collecting enemy intelligence	using the userscript, we will be able to detect the contributing alliances automatically.
+							<br/>Alternatively, you can manually add alliances to the list of team contributors using the buttons in the table below.</h5>
 					</app-alert>
 
 					<mat-progress-bar *ngIf="updating_owners" mode="indeterminate"></mat-progress-bar>
@@ -66,7 +66,7 @@
 							<th scope="col" class="text-center" matTooltip="When you check this box, all intelligence for that alliance will be hidden in this team.">
 								Hide intel <mat-icon class="mat-icon-title-inline a-link">help_outline</mat-icon>
 							</th>
-							<th scope="col" class="text-center">Remove owner</th>
+							<th scope="col" class="text-center">Remove</th>
 						</tr>
 						</thead>
 						<tbody>
@@ -89,7 +89,7 @@
 								<button (click)="removeOwner(owner)"
 								        class="btn btn-danger"
 								        [disabled]="updating_owners">
-									Remove owner
+									Remove contributor
 								</button>
 							</td>
 						</tr>
@@ -98,13 +98,13 @@
 
 					<br/>
 					<button *ngIf="!adding_alliance" mat-button class="mat-focus-indicator mat-raised-button bg-gd-1 text-white mat-button mat-button-base" (click)="openAllianceSearch()">
-						Add an alliance as team owner <mat-icon>group_add</mat-icon>
+						Add an alliance as team contributor <mat-icon>group_add</mat-icon>
 					</button>
 
 					<!--Add new alliance-->
 					<div class="alert alert-gd-2" *ngIf="adding_alliance" style=" max-width: 800px;">
 						<a (click)="adding_alliance=false; allianceInput=''; alliances=[]; searched=false;" class="close"></a>
-						<h3>Add a new alliance to the list of team owners</h3>
+						<h3>Add a new alliance to the list of team contributors</h3>
 						<h5>Search by alliance name: </h5>
 
 						<div style="min-height: 55px; height: auto !important;">
@@ -132,7 +132,7 @@
 										<div class="cell custom-cell">Alliance name</div>
 										<div class="cell hidden-sm">Rank</div>
 										<div class="cell">Members</div>
-										<div class="cell" style="min-width: 100px;">Add as owner</div>
+										<div class="cell" style="min-width: 100px;">Add as contributor</div>
 									</div>
 
 									<div *ngFor="let alliance of alliances" class="row_custom">
@@ -150,10 +150,10 @@
 										</div>
 										<div class="cell">
 											<h5 *ngIf="getExistingOwnerIds().indexOf(alliance?.id)>=0">
-												Already in owners list
+												Already in contributor list
 											</h5>
 											<button [disabled]="updating_owners" *ngIf="getExistingOwnerIds().indexOf(alliance?.id)<0" class="btn btn-success" style="overflow: hidden; text-overflow: ellipsis; margin: 5px 0;" (click)="selectAlliance(alliance)">
-												<i class="fa fa-plus" style="vertical-align: text-bottom;"></i>&nbsp;Add as owner
+												<i class="fa fa-plus" style="vertical-align: text-bottom;"></i>&nbsp;Add as contributor
 											</button>
 										</div>
 									</div>

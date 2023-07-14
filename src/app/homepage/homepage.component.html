@@ -152,7 +152,25 @@
             </a>
             <span class="price">
 						<span class="edd_price">
-              GET STARTED&nbsp;&nbsp;<i class="fa fa-university"></i>
+              START SHARING INTEL
+            </span>
+						</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <div class="productbox" routerLink="/indexer">
+          <div class="fadeshop">
+            <span class="maxproduct"><img src="../../assets/images/indexer_operations.png" alt=""></span>
+          </div>
+          <div class="product-details">
+            <a>
+              <h1>Real-Time Team Operations</h1>
+            </a>
+            <span class="price">
+						<span class="edd_price">
+              START SHARING COMMANDS
             </span>
 						</span>
           </div>
@@ -181,12 +199,33 @@
 <!--Indexer-->
 <div #indexerText class="item content">
   <div *ngIf="indexerInView && loggedOut" class="container">
+    <br/>
+    <br/>
     <div class="col-md-12 text-center" style="margin: 0 -25px;">
       <div class="container">
         <h2><span class="uppercase">CITY INDEXER</span></h2>
         <p>
-          Create an account to collect & share in-game reports to keep track of enemy intelligence
+          Create an account to collect & share enemy intelligence
         </p>
+        <hr>
+        <div class="container" *ngIf="stats != '' && show_stats">
+          <div class="col-xs-12 text-center">
+            <div class="" *ngIf="show_stats">
+              <div class="">
+                <div class="col-xs-12" style="margin-left: -24px;">
+                  <ngx-charts-number-card
+                    [scheme]="colorScheme"
+                    [results]="stats_data"
+                    [cardColor]="cardColor"
+                    [valueFormatting]="formatStatValue"
+                    (select)="viewDetails()"
+                  >
+                  </ngx-charts-number-card>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <app-login-register [require_explicit_action]="true"></app-login-register>
@@ -223,7 +262,6 @@
     </div>
   </div>
 </div>
-
 
 <!-- FOOTER =============================-->
 <div class="footer text-center">

@@ -83,7 +83,7 @@ export class IndexSettingsDialog {
     this.owners_error = '';
     this.owners_success = '';
     if (!response || !('data' in response)) {
-      this.owners_error = 'Unable to load team owners. Please try again later or contact us if this error persists.';
+      this.owners_error = 'Unable to load team contributors. Please try again later or contact us if this error persists.';
     } else {
       this.owners = response.data;
       console.log(this.owners);
@@ -104,17 +104,17 @@ export class IndexSettingsDialog {
               if ('success_code' in response && response.success_code === 1000) {
                 let removed_id = response.removed_id;
                 this.owners = this.owners.filter((e) => e.alliance_id !== removed_id);
-                this.owners_success = 'Alliance \'' + owner.alliance_name + '\' has been removed from the list of team owners.';
+                this.owners_success = 'Alliance \'' + owner.alliance_name + '\' has been removed from the list of team contributors.';
               } else {
-                this.owners_error = 'Unable to remove owner. Please try again later or contact us if this error persists.';
+                this.owners_error = 'Unable to remove contributor. Please try again later or contact us if this error persists.';
               }
             } else {
-              this.owners_error = 'Unable to remove owner. Please try again later or contact us if this error persists.';
+              this.owners_error = 'Unable to remove contributor. Please try again later or contact us if this error persists.';
             }
             this.updating_owners = false;
           },
           (error) => {
-            this.owners_error = 'Unable to remove owner. Please try again later or contact us if this error persists.';
+            this.owners_error = 'Unable to remove contributor. Please try again later or contact us if this error persists.';
             this.owners_success = '';
             this.updating_owners = false;
           }
@@ -143,15 +143,15 @@ export class IndexSettingsDialog {
                   this.owners_success += 'available to team members.'
                 }
               } else {
-                this.owners_error = 'Unable to update owners. Please try again later or contact us if this error persists.';
+                this.owners_error = 'Unable to update contributors. Please try again later or contact us if this error persists.';
               }
             } else {
-              this.owners_error = 'Unable to update owners. Please try again later or contact us if this error persists.';
+              this.owners_error = 'Unable to update contributors. Please try again later or contact us if this error persists.';
             }
             this.updating_owners = false;
           },
           (error) => {
-            this.owners_error = 'Unable to update owners. Please try again later or contact us if this error persists.';
+            this.owners_error = 'Unable to update contributors. Please try again later or contact us if this error persists.';
             this.owners_success = '';
             this.updating_owners = false;
           }
@@ -260,25 +260,25 @@ export class IndexSettingsDialog {
               if ('success_code' in response && response.success_code === 1000) {
                 let added_owner = response.data;
                 this.owners.push(added_owner);
-                this.owners_success = 'Alliance \'' + added_owner.alliance_name + '\' has been added as an owner of this team.';
+                this.owners_success = 'Alliance \'' + added_owner.alliance_name + '\' has been added as a contributor of this team.';
                 this.adding_alliance=false;
                 this.allianceInput='';
                 this.alliances=[];
                 this.searched=false;
               } else if ('error_code' in response && response.error_code === 7533) {
-                this.owners_error = 'Alliance \''+alliance.name+'\' is already an owner of this team.';
+                this.owners_error = 'Alliance \''+alliance.name+'\' is already an contributor of this team.';
               } else if ('error_code' in response && response.error_code === 2040) {
                 this.owners_error = 'Alliance \''+alliance.name+'\' no longer exists.';
               } else {
-                this.owners_error = 'Unable to add owner. Please try again later or contact us if this error persists.';
+                this.owners_error = 'Unable to add contributor. Please try again later or contact us if this error persists.';
               }
             } else {
-              this.owners_error = 'Unable to add owner. Please try again later or contact us if this error persists.';
+              this.owners_error = 'Unable to add contributor. Please try again later or contact us if this error persists.';
             }
             this.updating_owners = false;
           },
           (error) => {
-            this.owners_error = 'Unable to add owner. Please try again later or contact us if this error persists.';
+            this.owners_error = 'Unable to add contributor. Please try again later or contact us if this error persists.';
             this.owners_success = '';
             this.updating_owners = false;
           }

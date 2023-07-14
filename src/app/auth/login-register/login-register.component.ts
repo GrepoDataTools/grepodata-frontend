@@ -7,6 +7,7 @@ import {JwtService} from '../services/jwt.service';
 import {IndexAuthService} from '../services/index.service';
 import {BasicDialog} from '../../shared/dialogs/basic/basic.component';
 import {MatDialog} from '@angular/material/dialog';
+import {Globals} from '../../globals';
 
 @Component({
   selector: 'app-login-register',
@@ -47,6 +48,7 @@ export class LoginRegisterComponent implements OnInit, AfterViewInit {
 
   constructor(
     private router: Router,
+    private globals: Globals,
     private authService : JwtService,
     private formBuilder: FormBuilder,
     private indexAuthService: IndexAuthService
@@ -296,8 +298,17 @@ export class LoginRegisterComponent implements OnInit, AfterViewInit {
 
     // Login callback
     if (!this.useCallback) {
-      // No callback specified, direct to profile
-      this.router.navigate(['/profile']);
+      // No callback specified, try to use redirect url
+      let redirect_url = this.globals.get_redirect_url();
+      if (redirect_url) {
+        console.log('Redirecting to: ', redirect_url);
+        this.globals.set_redirect_url(null);
+        this.router.navigate([redirect_url]);
+      } else {
+        // No redirect needed. direct to profile
+        console.log('no redirect required.');
+        this.router.navigate(['/profile']);
+      }
     } else {
       // Execute callback event
       this.onEmbeddedCallback.emit([access_token]);

@@ -709,8 +709,14 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
 
       let sort = 0;
       if (command1_time == command2_time) {
-        // If arrival is in the same second, the lower command id arrives earlier
-        sort = c1.cmd_id < c2.cmd_id ? -1 : 1
+        // If arrival is in the same second, the command that departed first will arrive earlier
+        if (c1.started_at == c2.started_at || c1.started_at <= 0 || c2.started_at <= 0) {
+          // If both commands departed at the same time, the lower command id will arrive earlier
+          sort = c1.cmd_id < c2.cmd_id ? -1 : 1
+        } else {
+          // earlier departure means earlier arrival
+          sort = c1.started_at < c2.started_at ? -1 : 1
+        }
       } else {
         sort = command1_time < command2_time ? -1 : 1
       }
@@ -747,7 +753,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.is_filtered = this.isFiltered();
     let has_hidden_commands = false;
     if (this.is_filtered || !this.active_view.showDeletedCommands) {
-      console.log('applying filters');
+      //console.log('applying filters');
       this.commands.map(command => {
         let hidden = false;
 
@@ -819,7 +825,9 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     // Sum total units
     let total_units = {};
     this.commands.forEach(command => Object.keys(command.units).forEach(unit => {
-      if (command.hidden) return
+      if (command.hidden || command.delete_status != '') {
+        return
+      }
       if (unit in total_units) {
         total_units[unit] += command.units[unit]
       } else {

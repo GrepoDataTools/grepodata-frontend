@@ -50,6 +50,7 @@ const MENU_ITEMS: Array<Menu> = [
   { mobileOnly: false, state: 'profile/script', name: 'Userscript', type: 'link', icon: 'description' },
 
   { mobileOnly: false, state: '', name: 'Community', type: 'separator', icon: ''},
+  { mobileOnly: false, state: 'discord', name: 'Discord Server', type: 'action', icon: 'discord', action: 'discord', iconType: 'material'},
   { mobileOnly: false, state: 'donate', name: 'Donate', type: 'action', icon: '🚀', action: 'donate', iconType: 'unicode'},
   { mobileOnly: false, state: '/profile/bug', name: 'Report an issue', type: 'link', icon: '🐞', iconType: 'unicode' },
   // { mobileOnly: false, state: '/profile/ideas', name: 'Idea board', type: 'link', icon: 'tips_and_updates'},

@@ -8,6 +8,8 @@
 	<p *ngIf="context=='cmd_feedback'">If you want to upload an image, please <a routerLink="/profile/bug">submit a bug report</a> instead.</p>
 	<p>If you want us to reply, please also enter your email address.</p>
 
+  <app-server-alert></app-server-alert>
+
   <div mat-dialog-content *ngIf="submitted==false" style=" min-width: 40%;">
 
 	  <div class="contact-form" style="margin: 25px 0 0 0;">

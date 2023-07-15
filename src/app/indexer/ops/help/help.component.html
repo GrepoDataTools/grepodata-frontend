@@ -12,7 +12,9 @@
 
         <div class="col-xs-12">
 
-          <app-alert type="info2" title="Introducing GrepoData Team Operations" [dismissible]="false">
+          <app-server-alert></app-server-alert>
+
+          <app-alert type="info" title="What is GrepoData Team Operations?" [dismissible]="false">
             <div style="min-height: 73px !important;">
               <h5>This tool allows you to share a command overview with your teammates.</h5>
               <p>
@@ -28,10 +30,7 @@
 
         <div class="col-xs-12">
 
-          <app-alert type="info" title="" [dismissible]="false">
-            <h4 style="margin: 0;" class="gd-secondary">
-              Use our userscript to share your in-game command overview
-            </h4>
+          <app-alert type="info" title="Use our userscript to share your in-game command overview" [dismissible]="false">
             <p>
               If you want to start or contribute to an operation, simply upload your commands using the in-game userscript.<br/>
               To do this, <strong>you need to have the userscript installed</strong> and you need to be part of a team.<br/>

@@ -141,6 +141,7 @@ import { CommandsComponent } from './indexer/ops/commands/commands.component';
 import { OpsHelpDialog } from './indexer/ops/help/help.component';
 import { OpsIntelDialog } from './indexer/ops/intel-dialog/intel-dialog.component';
 import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
+import { ServerAlertComponent } from './discord/server-alert/server-alert.component';
 
 const appRoutes: Routes = [
     { path: 'login', component: LandingPageComponent },
@@ -293,7 +294,8 @@ export function jwtTokenGetter(): any {
         ApiComponent,
         BlogComponent,
         OperationsComponent,
-        CommandsComponent
+        CommandsComponent,
+        ServerAlertComponent
     ],
     imports: [
         FormsModule,

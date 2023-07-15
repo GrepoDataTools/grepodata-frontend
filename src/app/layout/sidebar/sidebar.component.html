@@ -41,7 +41,7 @@
         <span>{{ menuItem.name }}</span>
         <span fxFlex></span>
         <span *ngIf="menuItem.name === 'Changelog' && new_updates" class="label label-success">New!</span>
-        <span *ngIf="menuItem.name === 'Team Ops'" class="label label-success">BETA</span>
+<!--        <span *ngIf="menuItem.name === 'Team Ops'" class="label label-success">BETA</span>-->
         <span class="label label-{{ badge.type }}" *ngFor="let badge of menuItem.badge">{{ badge.value }}</span>
       </a>
 
@@ -55,6 +55,7 @@
         <span class="unicode-icon" *ngIf="menuItem.iconType === 'unicode'">{{ menuItem.icon }}</span>
         <span>{{ menuItem.name }}</span>
         <span fxFlex></span>
+        <span *ngIf="menuItem.name === 'Discord Server'" class="label label-success">New!</span>
         <span class="label label-{{ badge.type }}" *ngFor="let badge of menuItem.badge">{{ badge.value }}</span>
       </a>
 

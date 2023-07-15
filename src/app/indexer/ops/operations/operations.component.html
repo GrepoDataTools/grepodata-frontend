@@ -4,7 +4,7 @@
     <div class="ops-alerts">
       <div>
         <div style=" margin-bottom: -5px;">
-          <app-alert type="info2" title="Introducing GrepoData Operations" [dismissible]="true" [dismissPermanentId]="'ops_beta_info'">
+          <app-alert type="info2" title="GrepoData Team Operations" [dismissible]="true" [dismissPermanentId]="'ops_beta_info'">
             <div style="min-height: 73px !important;">
               <h5>This tool allows you to share a command overview with your teammates.</h5>
               <p>
@@ -15,7 +15,7 @@
           </app-alert>
         </div>
         <app-alert type="warning" [dismissible]="false" [iconOverride]="'feedback'" *ngIf="!no_teams">
-          <p><strong>This is a BETA feature.</strong> Please <a routerLink="/profile/bug" class="a-link-dialog">submit a bug report</a> if you run into any issues to help us improve the service.</p>
+          <p>Please <a routerLink="/profile/bug" class="a-link-dialog">submit a bug report</a> if you run into any issues to help us improve the service.</p>
         </app-alert>
       </div>
     </div>
@@ -28,7 +28,6 @@
         <div class="ops-header">
           <h2 class="gd-secondary" style="margin-top: -10px;">
             Team Operations
-            <span class="hide visible-lg-inline">&nbsp;<div class="label label-success">BETA</div></span>
           </h2>
         </div>
 

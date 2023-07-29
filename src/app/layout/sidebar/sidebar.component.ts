@@ -86,7 +86,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.donate();
         break;
       case 'discord':
-        window.open('https://discord.gg/d4Asapca', "_blank");
+        window.open('https://discord.gg/E95bhqR3Ns', "_blank");
         break;
       default:
         console.log(action);

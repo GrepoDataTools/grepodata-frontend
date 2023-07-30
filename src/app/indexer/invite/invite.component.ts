@@ -129,13 +129,15 @@ export class InviteComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-        if (error.error.error_code && (error.error.error_code === 3041 || error.error.error_code === 3043)) {
-          // 3041=script token does not exist
-          // 3043=invalid client address
-          this.error = '<h2>Sorry, your userscript token is <strong>invalid</strong></h2><h4>Please request a new token using the in-game script.</h4>';
+        if (error.error.error_code && error.error.error_code === 3041) {
+          // 3041 = script token does not exist
+          this.error = '<h2>Sorry, your userscript token is <strong>invalid</strong></h2><h4>Request a new token using the in-game script.</h4>';
         } else if (error.error.error_code && error.error.error_code === 3042) {
-          // expired script token
-          this.error = '<h2>Sorry, your userscript token has <strong>expired</strong></h2><h4>Please request a new token using the in-game script.</h4>';
+          // 3042 = expired script token
+          this.error = '<h2>Sorry, your userscript token has <strong>expired</strong></h2><h4>Request a new token using the in-game script.</h4>';
+        } else if (error.error.error_code && error.error.error_code === 3043) {
+          // 3043 = invalid client address
+          this.error = '<h2>Sorry, your IP address has changed. <strong>If you use a VPN, you may need to disable it for a moment while you authenticate your userscript.</strong></h2><h4>Request a new token using the in-game script.</h4>';
         } else if (error.error.error_code && error.error.error_code === 3003) {
           // access token is not valid!
           this.authService.logout(false);

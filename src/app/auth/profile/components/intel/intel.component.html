@@ -29,8 +29,8 @@
 	<div fxLayout="row wrap" style="margin: 0 15px;" *ngIf="!loadingIndexes && confirmed">
 
 		<div fxFlex.gt-md="16" fxFlex.gt-sm="32" fxFlex.gt-xs="100" fxFlex="100" class="top-index-card">
-			<a (click)="newIndex()">
-				<mat-card class="bg-primary text-white text-center top-index">
+			<a (click)="newIndex()" style="display: flex; height: 100%; flex-direction: column;">
+				<mat-card class="bg-primary text-white text-center top-index" style="flex: 1">
 					<div style="margin-top: 40px;">
 						<h3 class="m-0">
 							<i class="fa fa-plus"></i>
@@ -52,8 +52,8 @@
 		</div>
 		<ng-container *ngIf="!loadingIndexes && topIndexes.length > 0">
 			<div *ngFor="let index of topIndexes" fxFlex.gt-md="21" fxFlex.gt-sm="17" fxFlex.gt-xs="100" fxFlex="100" class="top-index-card">
-				<a routerLink="/profile/team/{{index.key}}">
-					<mat-card class="top-index-cards text-white text-center top-index">
+				<a routerLink="/profile/team/{{index.key}}" style="flex: 1; height: 100%; display: flex; flex-direction: column;">
+					<mat-card class="top-index-cards text-white text-center top-index" style="flex: 1">
 						<mat-icon class="launch-icon hidden-xs hidden-sm hidden-md" style="float: right;">launch</mat-icon>
 						<div>
 							<h3 class="m-0"><mat-icon style="vertical-align: sub;">group</mat-icon> {{index.name}}</h3>

@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {ProfileService} from '../../../services/profile.service';
-import {PageEvent} from '@angular/material/paginator';
-import {JwtService} from '../../../services/jwt.service';
-import {NewIndexDialog} from '../../../../shared/dialogs/new-index/new-index.component';
-import {MatDialog} from '@angular/material/dialog';
-import {WorldService} from '../../../../services/world.service';
-import {LocalCacheService} from '../../../../services/local-cache.service';
-import {IntelSourceDialog} from '../../../../shared/dialogs/intel-source/intel-source.component';
-import {Globals} from '../../../../globals';
+import { MatDialog } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
+import { Globals } from '../../../../globals';
+import { WorldService } from '../../../../services/world.service';
+import { IntelSourceDialog } from '../../../../shared/dialogs/intel-source/intel-source.component';
+import { NewIndexDialog } from '../../../../shared/dialogs/new-index/new-index.component';
+import { JwtService } from '../../../services/jwt.service';
+import { ProfileService } from '../../../services/profile.service';
 
 @Component({
   selector: 'app-intel',
@@ -130,6 +129,14 @@ export class IntelComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {});
+  }
+
+  public getAttackTooltipText(town) {
+    if (town.type === 'enemy_attack') {
+      return 'Enemy attack';
+    }
+
+    return 'Friendly attack'
   }
 
   paginatorEvent($event) {

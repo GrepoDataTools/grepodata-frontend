@@ -134,15 +134,15 @@
 						<div class="cell">
 							<div class="bg-flag flag-inline-middle flag-{{town?.world.substring(0, 2)}}"></div>&nbsp;<a routerLink="/points/{{town?.world}}">{{town?.world}}</a>
 						</div>
-						<div class="cell unit-cell-small" matTooltip="{{town.type}}" style="transform: scale(.55); margin-top: -8px;">
-							<img src="../../assets/images/game/towninfo/attack.png" *ngIf="town.type === 'friendly_attack'">
-							<div *ngIf="town.type === 'enemy_attack'" style="-moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); filter: FlipH; -ms-filter: ;">
-								<img src="../../assets/images/game/towninfo/attack.png">
+						<div class="cell unit-cell-small" matTooltip="{{getAttackTooltipText(town)}}" style="margin-top: -8px;">
+							<div class="friendly-attack" *ngIf="town.type === 'friendly_attack'" style="position: relative;">
 							</div>
-							<img src="../../assets/images/game/towninfo/wisdom.png" *ngIf="town.type === 'wisdom'">
-							<img src="../../assets/images/game/towninfo/support.png" *ngIf="town.type === 'support'">
-							<img src="../../assets/images/game/towninfo/conquer.png" *ngIf="town.type === 'attack_on_conquest'">
-							<img src="../../assets/images/game/towninfo/espionage_2.67.png" *ngIf="town.type === 'spy'">
+							<div class="enemy-attack" *ngIf="town.type === 'enemy_attack'" style="position: relative; -moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); filter: FlipH;">
+							</div>
+							<div class="wisdom" *ngIf="town.type === 'wisdom'"></div>
+							<div class="support" *ngIf="town.type === 'support'"></div>
+							<div class="conquest" *ngIf="town.type === 'attack_on_conquest'"></div>
+							<div class="spy" *ngIf="town.type === 'spy'"></div>
 						</div>
 						<div class="cell">
 							<a routerLink="/intel/town/{{town?.world}}/{{town?.town_id}}">{{town?.town_name}}</a>
@@ -151,7 +151,7 @@
 							<a routerLink="/intel/player/{{town?.world}}/{{town?.player_id}}">{{town?.player_name}}</a>
 						</div>
 						<div class="cell">
-							<a routerLink="/intel/alliance/{{town?.world}}/{{town?.alliance_id}}">{{town?.alliance_name}}</a>
+							<a routerLink="/intel/alliance/{{town?.world}}/{{town?.alliance_id}}" class="truncate">{{town?.alliance_name}}</a>
 						</div>
 						<div class="cell">
 							{{town.date | IndexDate}}

@@ -32,3 +32,70 @@
 .launch-icon:hover {
   color: #233140;
 }
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.enemy-attack {
+  width: 32px;
+  height: 32px;
+  background: url('/assets/images/game/towninfo/attack_land.png');
+  margin: auto;
+
+  &::before {
+    content: '';
+    background: url('/assets/images/game/towninfo/arrow_left.png');
+    position: absolute;
+    left: 33px;
+    width: 11px;
+    height: 32px;
+    transform: rotate(180deg);
+  }
+}
+
+.friendly-attack {
+  width: 32px;
+  height: 32px;
+  background: url('/assets/images/game/towninfo/attack_land.png');
+  margin: auto;
+
+  &::before {
+    content: '';
+    background: url('/assets/images/game/towninfo/arrow_right.png');
+    position: absolute;
+    left: 33px;
+    width: 11px;
+    height: 32px;
+  }
+}
+
+.conquest {
+  width: 32px;
+  height: 32px;
+  background: url('/assets/images/game/towninfo/conquest-2.png');
+  margin: auto;
+}
+
+.spy {
+  width: 32px;
+  height: 32px;
+  background: url('/assets/images/game/towninfo/spy-2.png');
+  margin: auto;
+}
+
+.support {
+  width: 32px;
+  height: 32px;
+  background: url('/assets/images/game/towninfo/support-2.png');
+  margin: auto;
+}
+
+.wisdom {
+  width: 32px;
+  height: 32px;
+  background: url('/assets/images/game/towninfo/wisdom.png');
+  margin: auto;
+}

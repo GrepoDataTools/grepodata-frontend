@@ -23,7 +23,7 @@ git log -1
 # npm install
 echo "=== Running npm install"
 source /home/vps/.nvm/nvm.sh;
-nvm use 13.8
+nvm use 14.21.3
 npm install || exit "$?"
 
 # Build
@@ -32,7 +32,7 @@ ng build --prod --configuration=acceptance --build-optimizer --base-href "/" || 
 
 # Move build files
 echo "=== Moving build to ${projectdir}/${dirname}"
-cp -r dist/* "${projectdir}/${dirname}" || exit "$?"
+cp -rT dist "${projectdir}/${dirname}" || exit "$?"
 
 echo "=== Cleaning build dir"
 cd "${projectdir}/${dirname}"
@@ -41,8 +41,7 @@ rm -rf "$builddir" || exit "$?"
 # Update active
 echo "=== Updating active syslink to: ${dirname}"
 cd "$projectdir"
-rm active || exit "$?"
-ln -s "$dirname" active || exit "$?"
+ln -sfn "$dirname" active || exit "$?"
 
 echo "=== Done!"
 exit

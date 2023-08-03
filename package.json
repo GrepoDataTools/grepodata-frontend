@@ -50,9 +50,11 @@
     "ng-recaptcha": "^8.0.0",
     "ngx-sharebuttons": "^8.0.4",
     "npm": "^6.4.1",
+    "q": "^1.5.1",
     "rxjs": "^6.5.4",
     "ts-md5": "^1.2.2",
     "tslib": "^2.0.0",
+    "util": "^0.12.5",
     "vanilla-back-to-top": "^7.2.0",
     "zone.js": "~0.11.4"
   },

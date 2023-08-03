@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { reject } from 'q';
 import { tap } from 'rxjs/operators';
-import {Router} from '@angular/router';
-import {reject} from 'q';
-import {LocalCacheService} from '../../services/local-cache.service';
-import {Globals} from '../../globals';
+import { environment } from '../../../environments/environment';
+import { Globals } from '../../globals';
+import { LocalCacheService } from '../../services/local-cache.service';
 
 const apiUrl = environment.apiUrl;
 

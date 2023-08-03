@@ -84,21 +84,25 @@
                   "with": "src/environments/environment.acc.ts"
                 }
               ]
-            }
+            },
+            "development": {}
           },
-          "defaultConfiguration": ""
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "aot": false,
-            "browserTarget": "gd-frontend:build"
+            "aot": false
           },
           "configurations": {
             "production": {
               "browserTarget": "gd-frontend:build:production"
+            },
+            "development": {
+              "browserTarget": "gd-frontend:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -156,7 +160,8 @@
           "options": {
             "protractorConfig": "./protractor.conf.js",
             "devServerTarget": "gd-frontend:serve"
-          }
+          },
+          "configurations": {}
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",

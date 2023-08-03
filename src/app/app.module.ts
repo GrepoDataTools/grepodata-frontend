@@ -105,7 +105,7 @@ import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
 import { SharedModule } from './shared/shared.module';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import 'zone.js/dist/zone';
+import 'zone.js';
 import {MailListDialog} from './alliance/alliance.service';
 import {BasicDialog} from './shared/dialogs/basic/basic.component';
 import {DonateDialog} from './shared/dialogs/donate/donate.component';

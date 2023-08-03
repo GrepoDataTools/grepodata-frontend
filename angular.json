@@ -151,7 +151,6 @@
       }
     }
   },
-  "defaultProject": "gd-frontend",
   "schematics": {
     "@schematics/angular:class": {
       "skipTests": true

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {JwtService} from '../../../services/jwt.service';
 
 @Component({
@@ -10,7 +10,7 @@ import {JwtService} from '../../../services/jwt.service';
 export class DeleteAccountComponent implements OnInit {
 
   confirmed = false;
-  passwordForm: FormGroup;
+  passwordForm: UntypedFormGroup;
 
   error = '';
   success = false;
@@ -21,7 +21,7 @@ export class DeleteAccountComponent implements OnInit {
 
   constructor(
     private authService: JwtService,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) { }
 
   ngOnInit() {

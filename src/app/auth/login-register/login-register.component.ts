@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {RecaptchaComponent} from 'ng-recaptcha';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {environment} from "../../../environments/environment";
 import {Router} from '@angular/router';
 import {JwtService} from '../services/jwt.service';
@@ -24,9 +24,9 @@ export class LoginRegisterComponent implements OnInit, AfterViewInit {
   @Output() onEmbeddedCallback: EventEmitter<any> = new EventEmitter();
 
   environment = environment;
-  resetForm: FormGroup;
-  loginForm: FormGroup;
-  registerForm: FormGroup;
+  resetForm: UntypedFormGroup;
+  loginForm: UntypedFormGroup;
+  registerForm: UntypedFormGroup;
   register_submitted = false;
   login_submitted = false;
   reset_submitted = false;
@@ -50,7 +50,7 @@ export class LoginRegisterComponent implements OnInit, AfterViewInit {
     private router: Router,
     private globals: Globals,
     private authService : JwtService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private indexAuthService: IndexAuthService
   ) {
   }

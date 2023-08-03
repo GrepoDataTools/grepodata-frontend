@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {environment} from '../../../../../environments/environment';
 import {JwtService} from '../../../services/jwt.service';
 import {RecaptchaComponent} from 'ng-recaptcha';
@@ -14,7 +14,7 @@ export class ChangePasswordComponent implements OnInit {
   recaptcha_key = environment.recaptcha;
 
   environment = environment;
-  passwordForm: FormGroup;
+  passwordForm: UntypedFormGroup;
 
   error = '';
   captcha = '';
@@ -24,7 +24,7 @@ export class ChangePasswordComponent implements OnInit {
 
   constructor(
     private authService: JwtService,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) { }
 
   ngOnInit() {

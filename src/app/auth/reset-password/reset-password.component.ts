@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {JwtService} from '../services/jwt.service';
 import {RecaptchaComponent} from 'ng-recaptcha';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
 
@@ -16,7 +16,7 @@ export class ResetPasswordComponent implements OnInit {
   @ViewChild(RecaptchaComponent, {static: false}) captchaRef:RecaptchaComponent;
 
   environment = environment;
-  loginForm: FormGroup;
+  loginForm: UntypedFormGroup;
   submitted = false;
   loading = false;
   success = false;
@@ -26,7 +26,7 @@ export class ResetPasswordComponent implements OnInit {
   recaptcha_key = environment.recaptcha;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private router: Router,
     private route: ActivatedRoute,
     private authService : JwtService) {

@@ -1,0 +1,6 @@
+<div class="unit-{{id}} s{{size}}x{{size}}" matTooltip="{{name}}">
+    <div class="battle-statistics">
+        <span class="total">{{totalCount}}</span>
+        <span *ngIf="wounded > 0" class="dead">-{{wounded}}</span>
+    </div>
+</div>

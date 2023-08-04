@@ -1,0 +1,23 @@
+.battle-statistics {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 2px 4px 0px 2px;
+    font-size: 14px;
+    line-height: 14px;
+    text-shadow: 2px 1px 3px #000;
+    filter: dropshadow(color=#000000, offX=1, offY=1);
+    letter-spacing: -1px;
+    font-weight: 700;
+
+    .total {
+        color: #fff;
+    }
+
+    .dead {
+        color: #f44;
+    }
+}

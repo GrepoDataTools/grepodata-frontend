@@ -166,11 +166,11 @@
                 <br/>
                 <div *ngIf="!loadingHistory && (allianceHistoryJson.length > 25 || selectionChanged)" fxLayout="row" fxLayoutAlign="space-evenly center">
                   <div>
-                    <mat-chip-listbox>
-                      <mat-chip-option *ngIf="allianceHistoryJson.length >= 30" [selected]="dayRange==='30'" (click)="selectDayRange('30')">last 30 days</mat-chip-option>
-                      <mat-chip-option *ngIf="allianceHistoryJson.length >= 90" [selected]="dayRange==='90'" (click)="selectDayRange('90')">last 90 days</mat-chip-option>
-                      <mat-chip-option *ngIf="allianceHistoryJson.length > 30" [selected]="dayRange==='all'" (click)="selectDayRange('all')">All time</mat-chip-option>
-                    </mat-chip-listbox>
+                    <mat-chip-list>
+                      <mat-chip *ngIf="allianceHistoryJson.length >= 30" [selected]="dayRange==='30'" (click)="selectDayRange('30')">last 30 days</mat-chip>
+                      <mat-chip *ngIf="allianceHistoryJson.length >= 90" [selected]="dayRange==='90'" (click)="selectDayRange('90')">last 90 days</mat-chip>
+                      <mat-chip *ngIf="allianceHistoryJson.length > 30" [selected]="dayRange==='all'" (click)="selectDayRange('all')">All time</mat-chip>
+                    </mat-chip-list>
                   </div>
                 </div>
               </mat-card-content>

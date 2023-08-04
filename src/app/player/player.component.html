@@ -41,7 +41,7 @@
                   <th>World</th>
                   <td style="padding-bottom: 0;">
 	                  <div class="bg-flag flag-inline flag-{{world.substr(0,2)}}"></div>&nbsp;<a style="vertical-align: text-bottom;" class="decorated" routerLink="/points" [queryParams]="{world: world}">{{worldName}}&nbsp;({{world}})</a>
-	                  <div class="hidden-xs" style="float: right; margin-top: -3px;">
+	                  <div class="d-none d-sm-block" style="float: right; margin-top: -3px;">
 		                  <mat-chip [selected]="true" (click)="searchOtherWorlds()" matTooltip="Search other worlds for this player"><i class="fa fa-search"></i></mat-chip>
 	                  </div>
                   </td>
@@ -49,15 +49,15 @@
                 <tr>
 	                <th>Alliance</th>
 	                <td>
-		                <a *ngIf="alliance_id!='0'" routerLink="/alliance" [queryParams]="{world: world, id: alliance_id}">{{alliance_name}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a>
+		                <a *ngIf="alliance_id!='0'" routerLink="/alliance" class="d-flex align-items-center" [queryParams]="{world: world, id: alliance_id}">{{alliance_name}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="d-none d-sm-block">launch</mat-icon></a>
 		                <span *ngIf="alliance_id=='0'">None</span>
 	                </td>
                 </tr>
                 <tr>
                   <th>Rank</th>
                   <td>
-	                  <a routerLink="/ranking/player/{{world}}/points/{{rank}}/{{id}}">{{rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs hidden-sm">launch</mat-icon></a>
-	                  <span class="hidden-xxs" *ngIf="playerInfoData.rank_max" style="float: right; font-style: italic; font-size: .9em;" matTooltip="{{datePipe.transform(playerInfoData.rank_date,'D MMM YYYY')}}">
+	                  <a routerLink="/ranking/player/{{world}}/points/{{rank}}/{{id}}" class="d-flex align-items-center">{{rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="d-none d-md-block">launch</mat-icon></a>
+	                  <span class="d-none d-sm-flex" *ngIf="playerInfoData.rank_max" style="float: right; font-style: italic; font-size: .9em;" matTooltip="{{datePipe.transform(playerInfoData.rank_date,'D MMM YYYY')}}">
 		                  best: {{playerInfoData.rank_max}}
 	                  </span>
                   </td>
@@ -65,8 +65,8 @@
                 <tr>
                   <th>Towns</th>
                   <td>
-	                  <a class="a-link" (click)="showTownDialog()">{{towns}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs hidden-sm">launch</mat-icon></a>
-	                  <span class="hidden-xxs" *ngIf="playerInfoData.towns_max" style="float: right; font-style: italic; font-size: .9em;" matTooltip="{{datePipe.transform(playerInfoData.towns_date,'D MMM YYYY')}}">
+	                  <a class="a-link" (click)="showTownDialog()" class="d-flex align-items-center">{{towns}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="d-none d-md-block">launch</mat-icon></a>
+	                  <span class="d-none d-sm-flex" *ngIf="playerInfoData.towns_max" style="float: right; font-style: italic; font-size: .9em;" matTooltip="{{datePipe.transform(playerInfoData.towns_date,'D MMM YYYY')}}">
 		                  best: {{playerInfoData.towns_max}}
 	                  </span>
                   </td>
@@ -81,9 +81,9 @@
                 <tr>
                   <th>Attacking</th>
                   <td *ngIf="att">
-	                  <a class="gd-primary" *ngIf="playerInfoData.att_rank" routerLink="/ranking/player/{{world}}/attack/{{playerInfoData.att_rank}}/{{id}}">#{{playerInfoData.att_rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs hidden-sm hidden-md">launch</mat-icon></a>
-	                  {{att | NumberFilter}}<span class="hidden-xs"> points</span>
-	                  <span class="hidden-xxs" *ngIf="playerInfoData.att_rank_max" style="float: right; font-style: italic; font-size: .9em;" matTooltip="{{datePipe.transform(playerInfoData.att_rank_date,'D MMM YYYY')}}">
+	                  <a class="gd-primary" *ngIf="playerInfoData.att_rank" routerLink="/ranking/player/{{world}}/attack/{{playerInfoData.att_rank}}/{{id}}">#{{playerInfoData.att_rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="d-none d-lg-inline-block">launch</mat-icon></a>
+	                  {{att | NumberFilter}}<span class="d-none d-sm-block"> points</span>
+	                  <span class="d-none d-sm-inline-block" *ngIf="playerInfoData.att_rank_max" style="float: right; font-style: italic; font-size: .9em;" matTooltip="{{datePipe.transform(playerInfoData.att_rank_date,'D MMM YYYY')}}">
 		                  best: {{playerInfoData.att_rank_max}}
 	                  </span>
                   </td>
@@ -92,20 +92,20 @@
                 <tr>
                   <th>Defending</th>
                   <td *ngIf="def">
-	                  <a class="gd-primary" *ngIf="playerInfoData.def_rank" routerLink="/ranking/player/{{world}}/defence/{{playerInfoData.def_rank}}/{{id}}">#{{playerInfoData.def_rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs hidden-sm hidden-md">launch</mat-icon></a>
-	                  {{def | NumberFilter}}<span class="hidden-xs"> points</span>
-	                  <span class="hidden-xxs" *ngIf="playerInfoData.def_rank_max" style="float: right; font-style: italic; font-size: .9em;" matTooltip="{{datePipe.transform(playerInfoData.def_rank_date,'D MMM YYYY')}}">
+	                  <a class="gd-primary" *ngIf="playerInfoData.def_rank" routerLink="/ranking/player/{{world}}/defence/{{playerInfoData.def_rank}}/{{id}}">#{{playerInfoData.def_rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="d-none d-lg-inline-block">launch</mat-icon></a>
+	                  {{def | NumberFilter}}<span class="d-none d-sm-block"> points</span>
+	                  <span class="d-none d-sm-block" *ngIf="playerInfoData.def_rank_max" style="float: right; font-style: italic; font-size: .9em;" matTooltip="{{datePipe.transform(playerInfoData.def_rank_date,'D MMM YYYY')}}">
 		                  best: {{playerInfoData.def_rank_max}}
 	                  </span>
                   </td>
 	                <td *ngIf="!def">0 points</td>
                 </tr>
-                <tr class="hidden-xs">
+                <tr>
                   <th>Fighting</th>
                   <td *ngIf="def&&att">
-	                  <a class="gd-primary" *ngIf="playerInfoData.fight_rank" routerLink="/ranking/player/{{world}}/fight/{{playerInfoData.fight_rank}}/{{id}}">#{{playerInfoData.fight_rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs hidden-sm hidden-md">launch</mat-icon></a>
-	                  {{def+att | NumberFilter}}<span class="hidden-xs"> points</span>
-	                  <span class="hidden-xxs" *ngIf="playerInfoData.fight_rank_max" style="float: right; font-style: italic; font-size: .9em;" matTooltip="{{datePipe.transform(playerInfoData.fight_rank_date,'D MMM YYYY')}}">
+	                  <a class="gd-primary" class="d-flex align-items-center" *ngIf="playerInfoData.fight_rank" routerLink="/ranking/player/{{world}}/fight/{{playerInfoData.fight_rank}}/{{id}}">#{{playerInfoData.fight_rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="d-none d-lg-inline-block">launch</mat-icon></a>
+	                  {{def+att | NumberFilter}}<span class="d-none d-sm-block"> points</span>
+	                  <span class="d-none d-sm-block" *ngIf="playerInfoData.fight_rank_max" style="float: right; font-style: italic; font-size: .9em;" matTooltip="{{datePipe.transform(playerInfoData.fight_rank_date,'D MMM YYYY')}}">
 		                  best: {{playerInfoData.fight_rank_max}}
 	                  </span>
                   </td>
@@ -117,7 +117,7 @@
             <br/>
             <div class="container-fluid">
               <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-lg-offset-2 text-center">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-lg-offset-2 text-center">
 
                   <mat-expansion-panel hideToggle="true" [expanded]="compareOpened">
                     <mat-expansion-panel-header *ngIf="!compareOpened" class="gd-btn-1" (click)="addToCompare()">
@@ -209,8 +209,8 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <mat-icon style="opacity: 1; vertical-align: bottom;">compare_arrows</mat-icon>&nbsp;
-	              <span class="hidden-xs">Alliance changes</span>
-	              <span class="hidden-md hidden-sm hidden-lg">Changes</span>
+	              <span class="d-none d-sm-block">Alliance changes</span>
+	              <span class="d-block d-sm-none">Changes</span>
               </ng-template>
               <br/>
               <mat-card-title>
@@ -218,7 +218,7 @@
                   <h4 style='font-weight: 300; color: #304357;'>
                     <mat-spinner style="margin-left: 30px;" *ngIf="loadingChanges" strokeWidth="3" [diameter]="30"></mat-spinner>
                     <a *ngIf="playerAllianceChanges.length >= 10" routerLink="/changes/player/{{world}}/{{id}}" style="color: #949494; right: 20px; position: absolute;">
-                      <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon> Show all changes
+                      <mat-icon style="opacity: 1; vertical-align: bottom;" class="d-none d-sm-block">launch</mat-icon> Show all changes
                     </a>
                   </h4>
                 </div>
@@ -242,10 +242,10 @@
                     <div class="row_custom header default">
                       <div class="cell">Date</div>
                       <div class="cell">Old alliance</div>
-                      <div class="cell hidden-sm hidden-xs"></div>
+                      <div class="cell d-none d-md-block"></div>
                       <div class="cell">New alliance</div>
-                      <div class="cell hidden-sm hidden-xs">Player rank</div>
-                      <div class="cell hidden-sm hidden-xs">Player points</div>
+                      <div class="cell d-none d-md-block">Player rank</div>
+                      <div class="cell d-none d-md-block">Player points</div>
                     </div>
 
                     <div class="row_custom" *ngFor="let c of playerAllianceChanges; let i = index;">
@@ -260,15 +260,15 @@
                           {{c.old_alliance_name}}
                         </a>
                       </div>
-                      <div class="cell hidden-sm hidden-xs"><span class="fa fa-angle-double-right fa-2x"></span></div>
+                      <div class="cell d-none d-md-block"><span class="fa fa-angle-double-right fa-2x"></span></div>
                       <div class="cell formatted-cell">
                         <a routerLink="/alliance" [queryParams]="{world: world, id: c.new_alliance_grep_id}">
                           {{c.new_alliance_name}}
                         </a>
                       </div>
 
-                      <div class="cell hidden-sm hidden-xs">{{c.player_rank}}</div>
-                      <div class="cell hidden-sm hidden-xs">{{c.player_points | NumberFilter}}</div>
+                      <div class="cell d-none d-md-block">{{c.player_rank}}</div>
+                      <div class="cell d-none d-md-block">{{c.player_points | NumberFilter}}</div>
                     </div>
                   </div>
                 </div>
@@ -277,15 +277,15 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <mat-icon style="opacity: 1; vertical-align: bottom;">account_balance</mat-icon>&nbsp;
-	              <span class="hidden-xs">Town intelligence</span>
-	              <span class="hidden-md hidden-sm hidden-lg">Intel</span>
+	              <span class="d-none d-sm-block">Town intelligence</span>
+	              <span class="d-block d-md-none">Intel</span>
               </ng-template>
               <app-index-player *ngIf="bShowIntel && hasIndex" [world]="world" [id]="id" [embedded]="true"></app-index-player>
 	            <h3 style="padding: 30px;" *ngIf="!bShowIntel && hasIndex"><a class="a-link-dialog" style="color: #334254 !important;" (click)="bShowIntel = true;">Load town intelligence..</a></h3>
               <div *ngIf="!bShowIntel || !hasIndex" style="padding: 20px;">
 	              <div class="container-fluid">
 		              <div class="row">
-			              <div class="col-xs-12 col-sm-8">
+			              <div class="col-12 col-sm-8">
 				              <div class="alert alert-gd-1 text-center">
                         <p>When you sign in with a GrepoData city indexer account, we will be able to show collected intelligence about this alliance here.</p>
                         <h3>
@@ -295,7 +295,7 @@
                         </h3>
 				              </div>
 			              </div>
-			              <div class="col-sm-4 hidden-xs">
+			              <div class="col-sm-4 d-none d-sm-block">
 				              <img class="lib-img" style="max-width: 100%; display: block;" src="../../assets/images/indexer_town_sm.png" alt="Grepolis town intel">
 				              <h5 class="gd-secondary" style="float: right;">Images copyright © InnoGames GmbH</h5>
 			              </div>
@@ -430,8 +430,8 @@
 		              <div class="cell">Points</div>
 		              <div class="cell">Attacking</div>
 		              <div class="cell">Defending</div>
-		              <div class="cell hidden-xs hidden-sm">Rank</div>
-		              <div class="cell hidden-xs hidden-sm">Towns</div>
+		              <div class="cell d-none d-md-block">Rank</div>
+		              <div class="cell d-none d-md-block">Towns</div>
 	              </div>
               </div>
               <div class="table" id="player_history_table" style="text-align: left !important;">
@@ -441,8 +441,8 @@
 		              <div class="cell">Points</div>
 		              <div class="cell">Attacking</div>
 		              <div class="cell">Defending</div>
-		              <div class="cell hidden-xs hidden-sm">Rank</div>
-		              <div class="cell hidden-xs hidden-sm">Towns</div>
+		              <div class="cell d-none d-md-block">Rank</div>
+		              <div class="cell d-none d-md-block">Towns</div>
 	              </div>
 
                 <!--History-->
@@ -471,13 +471,13 @@
                       <span [outerHTML]="h.def - playerHistoryData[i+1].def | DiffFilterNonZero"></span>
                     </a>
                   </div>
-                  <div class="cell hidden-xs hidden-sm">
+                  <div class="cell d-none d-md-block">
                     {{ h.rank | NumberFilter }}
                     <a *ngIf="i+1<playerHistoryData.length && i < 90" routerLink="/points" [queryParams]="{world: world, date: h.date}">
                       <span [outerHTML]="playerHistoryData[i+1].rank - h.rank | DiffFilterNonZero"></span>
                     </a>
                   </div>
-                  <div class="cell hidden-xs hidden-sm">
+                  <div class="cell d-none d-md-block">
                     {{ h.towns | NumberFilter }}
                     <a *ngIf="i+1<playerHistoryData.length && i < 90" routerLink="/points" [queryParams]="{world: world, date: h.date}">
                       <span [outerHTML]="h.towns - playerHistoryData[i+1].towns | DiffFilterNonZero"></span>

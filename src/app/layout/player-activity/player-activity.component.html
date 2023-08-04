@@ -1,14 +1,14 @@
 <div *ngIf="hours_inactive>=0" style="display: inline-block; vertical-align: text-top;">
   <div *ngIf="hours_inactive<24 && show_active">
-    <div *ngIf="tooltip=='material'" class="btn-success btn-xs" matTooltip="{{player_name?player_name+'\'s l':'L'}}ast activity: {{inactive_readable}}">Active</div>
-    <div *ngIf="tooltip!='material'" class="btn-success btn-xs" title="{{player_name?player_name+'\'s l':'L'}}ast activity: {{inactive_readable}}">Active</div>
+    <div *ngIf="tooltip=='material'" class="btn-success btn-sm" matTooltip="{{player_name?player_name+'\'s l':'L'}}ast activity: {{inactive_readable}}">Active</div>
+    <div *ngIf="tooltip!='material'" class="btn-success btn-sm" title="{{player_name?player_name+'\'s l':'L'}}ast activity: {{inactive_readable}}">Active</div>
   </div>
   <div *ngIf="hours_inactive>=24 && hours_inactive<72">
-    <div *ngIf="tooltip=='material'" class="btn-warning btn-xs" matTooltip="{{player_name?player_name+'\'s l':'L'}}ast activity: {{inactive_readable}}">Inactive</div>
-    <div *ngIf="tooltip!='material'" class="btn-warning btn-xs" title="{{player_name?player_name+'\'s l':'L'}}ast activity: {{inactive_readable}}">Inactive</div>
+    <div *ngIf="tooltip=='material'" class="btn-warning btn-sm" matTooltip="{{player_name?player_name+'\'s l':'L'}}ast activity: {{inactive_readable}}">Inactive</div>
+    <div *ngIf="tooltip!='material'" class="btn-warning btn-sm" title="{{player_name?player_name+'\'s l':'L'}}ast activity: {{inactive_readable}}">Inactive</div>
   </div>
   <div *ngIf="hours_inactive>=72">
-    <div *ngIf="tooltip=='material'" class="btn-danger btn-xs" matTooltip="{{player_name?player_name+'\'s l':'L'}}ast activity: {{inactive_readable}}">Inactive</div>
-    <div *ngIf="tooltip!='material'" class="btn-danger btn-xs" title="{{player_name?player_name+'\'s l':'L'}}ast activity: {{inactive_readable}}">Inactive</div>
+    <div *ngIf="tooltip=='material'" class="btn-danger btn-sm" matTooltip="{{player_name?player_name+'\'s l':'L'}}ast activity: {{inactive_readable}}">Inactive</div>
+    <div *ngIf="tooltip!='material'" class="btn-danger btn-sm" title="{{player_name?player_name+'\'s l':'L'}}ast activity: {{inactive_readable}}">Inactive</div>
   </div>
 </div>

@@ -5,17 +5,17 @@
 
 	<div class="text-center" style="width: 100%;" (click)="filtering=false">
 		<h2 mat-dialog-title>Points gained between <span class="gd-primary">±{{hourStart}}</span> and <span class="gd-primary">±{{hourEnd}}</span> on <span class="gd-primary">{{date}}</span></h2>
-    <h4 class="hidden-xs">Note: due to the Grepolis data dump delay, the attack and defend hours are not always aligned (margin: ±1 hour).</h4>
+    <h4 class="d-none d-sm-block">Note: due to the Grepolis data dump delay, the attack and defend hours are not always aligned (margin: ±1 hour).</h4>
 	</div>
 
 
   <div class="row" style="width: 100%; padding: 10px 20px 0; margin-top: -40px;">
-    <div class="col-xs-6 text-left">
+    <div class="col-6 text-left">
       <mat-chip-list class="scoreboard-control-chips" style="float: left;" [multiple]="true" [selectable]="true" [disabled]="loading">
         <mat-chip style="cursor: pointer" class="btn-chip" *ngIf="hour!=2" (click)="setHour(hour-1)"><mat-icon matChipAvatar>chevron_left</mat-icon>Previous hour</mat-chip>
       </mat-chip-list>
     </div>
-    <div class="col-xs-6 text-right">
+    <div class="col-6 text-right">
       <mat-chip-list class="scoreboard-control-chips" style="float: right;" [multiple]="true" [selectable]="true" [disabled]="loading">
         <mat-chip style="cursor: pointer" class="btn-chip" *ngIf="hour!=1" (click)="setHour(hour+1)">Next hour<mat-icon matChipRemove style="color: #fff; opacity: 1;">chevron_right</mat-icon></mat-chip>
       </mat-chip-list>
@@ -33,7 +33,7 @@
 		<div *ngIf="!error" [ngClass]="{'loading-overlay': loading}" style="margin-top: 5px;">
 			<div class="container-fluid" style="padding-right: 40px;">
 				<div class="row" style="overflow: hidden;">
-					<div #overviewLeft class="col-xs-6">
+					<div #overviewLeft class="col-6">
             <div class="hour-diff-title" style="color: #811d13; border-bottom: 2px solid #811d13;">
               <div class="filter-dropdown-btn" (click)="toggleFilter()">
                 <mat-icon [ngClass]="{'rotated': filtering}">filter_list</mat-icon>

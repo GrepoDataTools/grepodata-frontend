@@ -18,7 +18,7 @@
                 <!--Search players or alliances to compare them-->
               <!--</h2>-->
             <!--</div>-->
-            <div class="col-xs-6 search-group" *ngIf="!(mobile && searching_alliances)">
+            <div class="col-6 search-group" *ngIf="!(mobile && searching_alliances)">
               <div id="sb-search-players" class="sb-search">
                 <form>
                   <input autocomplete="off" class="sb-search-input" placeholder="Search players..." type="search" value="" name="search" id="search-players" (keyup)="searchPlayers($event)">
@@ -28,7 +28,7 @@
                 </form>
               </div>
             </div>
-            <div class="col-xs-6 search-group" *ngIf="!(mobile && searching_players)">
+            <div class="col-6 search-group" *ngIf="!(mobile && searching_players)">
               <div id="sb-search-alliances" class="sb-search">
                 <form>
                   <input autocomplete="off" class="sb-search-input" placeholder="Search alliances..." type="search" value="" name="search" id="search-alliances" (keyup)="searchAlliances($event)">
@@ -108,7 +108,7 @@
 <!--		              </div>-->
 
 		              <!--Result table-->
-		              <div class="col-xs-12">
+		              <div class="col-12">
 			              <div class="row" *ngIf="players?.length > 0" [ngClass]="(hide_results==true)?'hidden-search-control':''">
 				              <div class="col-sm-12 col-md-12 col-lg-6 text-left">
 <!--					              <h3 style="margin:3px;">-->
@@ -160,9 +160,9 @@
 						              <div class="cell custom-cell">Player name</div>
 						              <div class="cell">World</div>
 						              <div class="cell">Alliance</div>
-						              <div class="cell hidden-xs hidden-sm">Rank</div>
+						              <div class="cell d-none d-md-table-cell">Rank</div>
 						              <div class="cell">Points</div>
-						              <div class="cell hidden-xs hidden-sm">Towns</div>
+						              <div class="cell d-none d-md-table-cell">Towns</div>
 						              <div class="cell" *ngIf="compare">Action</div>
 					              </div>
 
@@ -176,13 +176,13 @@
 						              <div class="cell">
 							              <a routerLink="/alliance" [queryParams]="{world: player?.world, id: player?.alliance_id}" (click)="hide_results = true; cdr.detectChanges();">{{player?.alliance_name}}</a>
 						              </div>
-						              <div class="cell hidden-xs hidden-sm">
+						              <div class="cell d-none d-md-table-cell">
 							              {{player?.rank}}
 						              </div>
 						              <div class="cell">
 							              {{player?.points | NumberFilter}}
 						              </div>
-						              <div class="cell hidden-xs hidden-sm">
+						              <div class="cell d-none d-md-table-cell">
 							              {{player?.towns}}
 						              </div>
 						              <div class="cell" *ngIf="compare">
@@ -231,10 +231,10 @@
                 <div class="row_custom header default">
                   <div class="cell custom-cell">Alliance name</div>
                   <div class="cell">World</div>
-                  <div class="cell hidden-sm">Rank</div>
-                  <div class="cell hidden-sm">Members</div>
+                  <div class="cell d-none d-sm-table-cell">Rank</div>
+                  <div class="cell d-none d-sm-table-cell">Members</div>
                   <div class="cell">Points</div>
-                  <div class="cell hidden-sm">Towns</div>
+                  <div class="cell d-none d-sm-table-cell">Towns</div>
                   <div class="cell" *ngIf="compare">Action</div>
                 </div>
 
@@ -245,24 +245,24 @@
                   <div class="cell">
                     <a routerLink="/points" [queryParams]="{world: alliance?.world}"><div [outerHTML]="alliance?.world | WorldNamePipe"></div></a>
                   </div>
-                  <div class="cell hidden-sm">
+                  <div class="cell d-table-cell d-sm-none d-md-table-cell">
 	                  {{alliance?.rank}}
                   </div>
-                  <div class="cell hidden-sm">
+                  <div class="cell d-table-cell d-sm-none d-md-table-cell">
 	                  {{alliance?.members}}
                   </div>
                   <div class="cell">
                     {{alliance?.points | NumberFilter}}
                   </div>
-                  <div class="cell hidden-sm">
+                  <div class="cell d-table-cell d-sm-none d-md-table-cell">
                     {{alliance?.towns}}
                   </div>
                   <div class="cell" *ngIf="compare">
                     <div class="form-group row" style="margin: 0px !important;">
                       <button style="width: 48%; margin-right: 4%;"  name="add_compare" class="btn btn-success btn-xs" (click)="compareService.addAlliance(alliance?.id, alliance?.name, alliance?.world)">
-                        <i class="fa fa-plus"></i>&nbsp;<span class="hidden-xs">Compare</span><span class="hidden-sm hidden-md hidden-lg">Compare</span>
+                        <i class="fa fa-plus"></i>&nbsp;<span class="d-none d-sm-block">Compare</span><span class="d-block d-sm-none">Compare</span>
                       </button>
-                      <button style="width: 48%;"  name="add_compare" class="btn btn-info btn-xs" routerLink="/alliance" [queryParams]="{world: alliance?.world, id: alliance?.id}">
+                      <button style="width: 48%;"  name="add_compare" class="btn btn-info btn-sm" routerLink="/alliance" [queryParams]="{world: alliance?.world, id: alliance?.id}">
 	                      <i class="fa fa-arrow-circle-right"></i>&nbsp;View
                       </button>
                     </div>

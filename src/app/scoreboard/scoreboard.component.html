@@ -61,24 +61,25 @@
         <div class="container-fluid">
           <div class="row" id="timeline">
 
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 scoreboard-title-container">
-              <h2 style='font-weight: 300; color: #304357;'>
-                <i class="fa fa-trophy" aria-hidden="true"></i>&nbsp;Daily<span class="hidden-xs"> Grepolis</span> scoreboard&nbsp;<span class='world-title' style='color: #18BC9C;'>{{world}} ({{worldName}})</span>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-6 scoreboard-title-container">
+              <h2 style='font-weight: 300; color: #304357;display: flex;gap:2px;'>
+                <i class="fa fa-trophy" aria-hidden="true"></i>
+                <span>&nbsp;Daily</span><span class="d-none d-sm-block"> Grepolis</span> <span>scoreboard&nbsp;</span><span class='world-title' style='color: #18BC9C;'>{{world}} ({{worldName}})</span>
               </h2>
               <h3 style='font-weight: 300; color: #304357;'>
                 Showing points gained <span class='world-title' style='color: #18BC9C;'>{{scoreboardDateInfo}}</span>
               </h3>
-              <h4 *ngIf="nextUpdate != ''" style='font-weight: 300; color: #304357;' class="hidden-xs">
+              <h4 *ngIf="nextUpdate != ''" style='font-weight: 300; color: #304357;' class="d-none d-sm-block">
                 {{nextUpdate}}&nbsp;<i class="fa fa-history" aria-hidden="true"></i>
               </h4>
-              <h4 *ngIf="!loadingPlayers && nextUpdate == ''" style='font-weight: 300; color: #304357;' class="hidden-xs">
+              <h4 *ngIf="!loadingPlayers && nextUpdate == ''" style='font-weight: 300; color: #304357;' class="d-none d-sm-block">
                 <span class="label label-danger">You are viewing historic data</span> Go to <a class="a-link-dialog" routerLink="/points" [queryParams]="{world: world}">today</a>
               </h4>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 text-right scoreboard-controls-container">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-right scoreboard-controls-container">
 
               <div class="row">
-                <div class="col-xs-12">
+                <div class="col-12">
 	                <mat-icon class="icon-margin input-icon"><div class="bg-flag flag-{{server}}"></div></mat-icon>
                   <mat-form-field class="input-server">
                     <mat-select placeholder="Server" [ngModel]="server" (ngModelChange)="updateWorlds($event)" #select>
@@ -98,7 +99,7 @@
                     <mat-datepicker #picker></mat-datepicker>
                   </mat-form-field>
                 </div>
-                <div class="col-xs-12 noselect">
+                <div class="col-12 noselect">
                   <mat-chip-list class="scoreboard-control-chips" style="float: right;" [multiple]="true" [selectable]="true" [disabled]="loadingPlayers">
                     <mat-chip style="cursor: pointer" class="btn-chip" (click)="prevDay()"><mat-icon matChipAvatar>chevron_left</mat-icon>Previous day</mat-chip>
                     <mat-chip style="cursor: pointer" class="btn-chip" *ngIf="nextUpdate == ''" (click)="nextDay()">Next day<mat-icon matChipRemove style="color: #fff; opacity: 1;">chevron_right</mat-icon></mat-chip>
@@ -127,9 +128,9 @@
           <div *ngIf="loadingPlayers" style="position: relative; top: -40px; height: 0px;">
             <br/><mat-progress-bar mode="indeterminate"></mat-progress-bar>
           </div>
-          <h1 class="mat-title table-title hidden-xs hidden-sm">Players</h1>
+          <h1 class="mat-title table-title d-none d-md-block">Players</h1>
           <div class="row" *ngIf="noticePlayer != ''">
-            <div class="col-xs-8 col-xs-offset-2">
+            <div class="col-8 offset-2">
               <div class="alert alert-warning text-center">
                 <strong>Not found</strong> {{noticePlayer}}.
               </div>
@@ -146,7 +147,7 @@
 
 	        <div style="display: flex; place-content: center; width: 100%;" [ngClass]="{'loading-overlay':loadingPlayers}">
 	          <div style="max-width: 100%;"
-	               #overviewContainer class="row hidden-xs text-center"
+	               #overviewContainer class="row d-none d-sm-block text-center"
 	               *ngIf="!noPlayerData && playerData.overview && playerData.overview.length > 2"
 	               [ngStyle]="{'width': (150*playerData.overview.length)+'px'}">
 	            <ngx-charts-bar-vertical-stacked
@@ -169,61 +170,61 @@
 	          </div>
 	        </div>
           <div class="row" *ngIf="!noPlayerData">
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 scoreboard-table">
+            <div class="col-12 col-sm-6 col-md-6 col-lg-3 scoreboard-table">
               <!--<h3 class="mat-title table-title">Best attackers</h3>-->
 
               <h3 class="mat-title table-title" style="float: left;">
-                <button name="open_bb" style="" class="btn btn-primary btn-xs" (click)="openBBdialog('players_att')">
+                <button name="open_bb" style="" class="btn btn-primary btn-sm" (click)="openBBdialog('players_att')">
                   <i class="fa fa-code"></i>&nbsp;BB code
                 </button>&nbsp;
                 <span>Best attackers</span>
               </h3>
               <div class="table" id="table_attacking_players" style="border-collapse: collapse;">
                 <div class="row_custom header">
-                  <div class="cell hidden-xs">Rank</div>
+                  <div class="cell d-none d-sm-block">Rank</div>
                   <div class="cell">Player</div>
                   <div class="cell">Points</div>
-	                <div class="cell hidden-xs hidden-sm" *ngIf="!mobile && hasOverview"></div>
+	                <div class="cell d-none d-md-block" *ngIf="!mobile && hasOverview"></div>
                 </div>
 
                 <ng-container *ngIf="loadingPlayers">
                   <div *ngFor="let p of [].constructor((mobile?10:20)); let i = index;" class="row_custom loading_cell">
-                    <div class="cell hidden-xs"></div>
+                    <div class="cell d-none d-sm-block"></div>
                     <div class="cell"><div style="opacity: 0.1">loading ...</div></div>
                     <div class="cell"></div>
-                    <div class="cell hidden-xs hidden-sm" *ngIf="!mobile && hasOverview"></div>
+                    <div class="cell d-none d-sm-table-cell" *ngIf="!mobile && hasOverview"></div>
                   </div>
                 </ng-container>
 
                 <div *ngFor="let p of playerData.att; let i = index;" class="row_custom {{i>=(mobile?10:20) && toggleMore ? 'hidden-cell' : '' }}">
                   <!--<div class="cell hidden-xs" *ngIf="i==0"><i class="fa fa-trophy fa-2x" aria-hidden="true" style="padding: 5px; color: #233140;"></i></div>-->
-                  <div class="cell hidden-xs" *ngIf="i==0">🏆</div>
-                  <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
+                  <div class="cell d-none d-sm-table-cell" *ngIf="i==0">🏆</div>
+                  <div class="cell d-none d-sm-table-cell" *ngIf="i>0">{{i+1}}</div>
                   <div class="cell" style="
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;">
                     <a routerLink="/player" [queryParams]="{world: playerData.world, id: p.i}">{{p.n}}</a>
                   </div>
-                  <div *ngIf="hasOverview && p.s > 0" class="cell score-expand hidden-xs" (click)="openPlayerOverview(p.i, p.n)">
+                  <div *ngIf="hasOverview && p.s > 0" class="cell score-expand d-none d-sm-table-cell" (click)="openPlayerOverview(p.i, p.n)">
                     {{p.s | NumberFilter}}
                   </div>
-	                <div class="cell" [ngClass]="{'hidden-sm hidden-md hidden-lg':hasOverview && p.s > 0}">
+	                <div class="cell" [ngClass]="{'d-block d-sm-none':hasOverview && p.s > 0}">
                     {{p.s | NumberFilter}}
                   </div>
 
-	                <div *ngIf="p.s > 0 && !mobile && hasOverview" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="openPlayerOverview(p.i, p.n)">
+	                <div *ngIf="p.s > 0 && !mobile && hasOverview" class="cell d-none d-sm-table-cell score-expand expand-icon" (click)="openPlayerOverview(p.i, p.n)">
 		                <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
 	                </div>
-	                <div *ngIf="p.s <= 0 && !mobile && hasOverview" class="cell hidden-xs"></div>
+	                <div *ngIf="p.s <= 0 && !mobile && hasOverview" class="cell d-none d-sm-table-cell"></div>
                 </div>
 
 	              <div *ngFor="let p of searchResults; let i = index;" class="row_custom search_result" [ngClass]="{'search_result_top':i==0}">
-		              <div class="cell hidden-xs">{{p.att_rank_scoreboard?p.att_rank_scoreboard:'>50'}}</div>
+		              <div class="cell d-none d-sm-table-cell">{{p.att_rank_scoreboard?p.att_rank_scoreboard:'>50'}}</div>
 		              <div class="cell formatted-cell">
 			              <a routerLink="/player" [queryParams]="{world: playerData.world, id: p.id}">{{p.name}}</a>
 		              </div>
-		              <div *ngIf="hasOverview && p.att - p.att_old > 0" class="cell score-expand hidden-xs" (click)="openPlayerOverview(p.id, p.name)">
+		              <div *ngIf="hasOverview && p.att - p.att_old > 0" class="cell score-expand d-none d-sm-table-cell" (click)="openPlayerOverview(p.id, p.name)">
 			              {{p.att - p.att_old | NumberFilter}}
 		              </div>
 		              <div class="cell" [ngClass]="{'hidden-sm hidden-md hidden-lg':hasOverview && p.att - p.att_old > 0}">
@@ -266,7 +267,7 @@
                 </button>
               </div>
             </div>
-            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3 scoreboard-table">
+            <div class="col-12 col-sm-6 col-md-6 col-lg-3 scoreboard-table">
               <!--<h3 class="mat-title table-title">Best defenders</h3>-->
 
               <h3 class="mat-title table-title" style="float: left;">
@@ -277,53 +278,53 @@
               </h3>
               <div class="table" id="table_defending_players" style="border-collapse: collapse;">
                 <div class="row_custom header blue">
-                  <div class="cell hidden-xs">Rank</div>
+                  <div class="cell d-none d-sm-block">Rank</div>
                   <div class="cell">Player</div>
                   <div class="cell">Points</div>
-	                <div class="cell hidden-xs hidden-sm" *ngIf="!mobile && hasOverview"></div>
+	                <div class="cell d-none d-sm-table-cell" *ngIf="!mobile && hasOverview"></div>
                 </div>
 
                 <ng-container *ngIf="loadingPlayers">
                   <div *ngFor="let p of [].constructor((mobile?10:20)); let i = index;" class="row_custom loading_cell">
-                    <div class="cell hidden-xs"></div>
+                    <div class="cell d-none d-sm-block"></div>
                     <div class="cell"><div style="opacity: 0.1">loading ...</div></div>
                     <div class="cell"></div>
-                    <div class="cell hidden-xs hidden-sm" *ngIf="!mobile && hasOverview"></div>
+                    <div class="cell d-none d-sm-table-cell" *ngIf="!mobile && hasOverview"></div>
                   </div>
                 </ng-container>
 
                 <div *ngFor="let p of playerData.def; let i = index;" class="row_custom {{i>=(mobile?10:20) && toggleMore ? 'hidden-cell' : '' }}">
-                  <div class="cell hidden-xs" *ngIf="i==0">🏆</div>
-                  <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
+                  <div class="cell d-none d-sm-table-cell" *ngIf="i==0">🏆</div>
+                  <div class="cell d-none d-sm-table-cell" *ngIf="i>0">{{i+1}}</div>
                   <div class="cell formatted-cell">
                     <a routerLink="/player" [queryParams]="{world: playerData.world, id: p.i}">{{p.n}}</a>
                   </div>
-                  <div *ngIf="hasOverview && p.s > 0" class="cell score-expand hidden-xs" (click)="openPlayerOverview(p.i, p.n)">
+                  <div *ngIf="hasOverview && p.s > 0" class="cell score-expand d-none d-sm-table-cell" (click)="openPlayerOverview(p.i, p.n)">
                     {{p.s | NumberFilter}}
                   </div>
-                  <div class="cell" [ngClass]="{'hidden-sm hidden-md hidden-lg':hasOverview && p.s > 0}">
+                  <div class="cell" [ngClass]="{'d-block d-sm-none':hasOverview && p.s > 0}">
                     {{p.s | NumberFilter}}
                   </div>
 
-	                <div *ngIf="p.s > 0 && !mobile && hasOverview" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="openPlayerOverview(p.i, p.n)">
+	                <div *ngIf="p.s > 0 && !mobile && hasOverview" class="cell d-none d-md-block score-expand expand-icon" (click)="openPlayerOverview(p.i, p.n)">
 		                <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
 	                </div>
-	                <div *ngIf="p.s <= 0 && !mobile && hasOverview" class="cell hidden-xs"></div>
+	                <div *ngIf="p.s <= 0 && !mobile && hasOverview" class="cell d-none d-sm-table-cell"></div>
                 </div>
 
 	              <div *ngFor="let p of searchResults; let i = index;" class="row_custom search_result" [ngClass]="{'search_result_top':i==0}">
-	                <div class="cell hidden-xs">{{p.def_rank_scoreboard?p.def_rank_scoreboard:'>50'}}</div>
+	                <div class="cell d-none d-sm-table-cell">{{p.def_rank_scoreboard?p.def_rank_scoreboard:'>50'}}</div>
                   <div class="cell formatted-cell">
                     <a routerLink="/player" [queryParams]="{world: playerData.world, id: p.id}">{{p.name}}</a>
                   </div>
-		              <div *ngIf="hasOverview && p.def - p.def_old > 0" class="cell score-expand hidden-xs" (click)="openPlayerOverview(p.id, p.name)">
+		              <div *ngIf="hasOverview && p.def - p.def_old > 0" class="cell score-expand d-none d-sm-table-cell" (click)="openPlayerOverview(p.id, p.name)">
 			              {{p.def - p.def_old | NumberFilter}}
 		              </div>
-		              <div class="cell" [ngClass]="{'hidden-sm hidden-md hidden-lg':hasOverview && p.def - p.def_old > 0}">
+		              <div class="cell" [ngClass]="{'d-block d-sm-none':hasOverview && p.def - p.def_old > 0}">
 			              {{p.def - p.def_old | NumberFilter}}
 		              </div>
 
-		              <div *ngIf="!mobile && hasOverview" class="cell hidden-xs"></div>
+		              <div *ngIf="!mobile && hasOverview" class="cell d-none d-sm-table-cell"></div>
                 </div>
 
               </div>
@@ -363,8 +364,8 @@
               </div>
             </div>
 
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 scoreboard-table">
-              <div class="col-xs-12 scoreboard-table" *ngIf="!!ghostsData && ghostsData.length > 0">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-6 scoreboard-table">
+              <div class="col-12 scoreboard-table" *ngIf="!!ghostsData && ghostsData.length > 0">
 
                 <h3 class="mat-title table-title" style="float: left;">
                   <span>Ghost towns</span>
@@ -375,7 +376,7 @@
 
                     <div class="events-list">
                       <div class="event" [ngClass]="{'odd':i%2==1}" *ngFor="let ghost of ghostsData; let i = index" routerLink="/player" [queryParams]="{world: world, id: ghost.player_id}">
-                        <div class="event-date hidden-xs hidden-sm">
+                        <div class="event-date d-none d-md-block">
                           {{ghost.ghost_time | Datex : 'D MMM YYYY ~HH:00'}}
                         </div>
                         <div>
@@ -387,8 +388,8 @@
                           (<span class="event-part entity"><strong>{{ghost.num_towns}}</strong></span>
                           ghost towns).
                         </div>
-                        <div class="hidden-xs hidden-sm">
-                          <a class="btn-success btn-xs">
+                        <div class="d-none d-md-block">
+                          <a class="btn-success btn-sm">
                             View ghost towns
                           </a>
                         </div>
@@ -398,35 +399,35 @@
                 </div>
 
               </div>
-
-              <div class="col-xs-12 col-sm-6 scoreboard-table">
+<div class="row">
+              <div class="col-12 col-sm-6 scoreboard-table">
 
                 <h3 class="mat-title table-title" style="float: left;">
-                  <button name="open_bb" style="" class="btn btn-primary btn-xs" (click)="openBBdialog('players_con')">
+                  <button name="open_bb" style="" class="btn btn-primary btn-sm" (click)="openBBdialog('players_con')">
                     <i class="fa fa-code"></i>&nbsp;BB code
                   </button>&nbsp;
                   <span>Most conquests</span>
                 </h3>
                 <div class="table" id="table_conquests_players" style="">
                   <div class="row_custom header green">
-                    <div class="cell hidden-xs">Rank</div>
+                    <div class="cell d-none d-sm-block">Rank</div>
                     <div class="cell">Player</div>
                     <div class="cell">Towns</div>
-                    <div class="cell hidden-xs hidden-sm" *ngIf="!mobile"></div>
+                    <div class="cell d-none d-md-block" *ngIf="!mobile"></div>
                   </div>
 
                   <ng-container *ngIf="loadingPlayers">
                     <div *ngFor="let p of [].constructor(conquestVisibleRows); let i = index;" class="row_custom loading_cell">
-                      <div class="cell hidden-xs"></div>
+                      <div class="cell d-none d-sm-block"></div>
                       <div class="cell"><div style="opacity: 0.1">loading ...</div></div>
                       <div class="cell"></div>
-                      <div class="cell hidden-xs hidden-sm" *ngIf="!mobile"></div>
+                      <div class="cell d-none d-md-block" *ngIf="!mobile"></div>
                     </div>
                   </ng-container>
 
                   <div *ngFor="let p of playerData.con; let i = index;" class="row_custom {{i>=conquestVisibleRows && toggleMore ? 'hidden-cell' : '' }}">
-                    <div class="cell hidden-xs" *ngIf="i==0">🏆</div>
-                    <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
+                    <div class="cell d-none d-sm-block" *ngIf="i==0">🏆</div>
+                    <div class="cell d-none d-sm-block" *ngIf="i>0">{{i+1}}</div>
                     <div class="cell formatted-cell">
                       <a routerLink="/player" [queryParams]="{world: playerData.world, id: p.i}">{{p.n}}</a>
                     </div>
@@ -434,10 +435,10 @@
                       {{p.s}}
                     </div>
                     <div *ngIf="p.s <= 0 || mobile">{{p.s}}</div>
-                    <div *ngIf="p.s > 0 && !mobile" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="showConquests('player', p.i, p.n)">
+                    <div *ngIf="p.s > 0 && !mobile" class="cell d-none d-md-block score-expand expand-icon" (click)="showConquests('player', p.i, p.n)">
                       <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
                     </div>
-                    <div *ngIf="p.s <= 0 && !mobile" class="cell hidden-xs"></div>
+                    <div *ngIf="p.s <= 0 && !mobile" class="cell d-none d-sm-block"></div>
                   </div>
 
                 </div>
@@ -454,34 +455,34 @@
                 </div>
               </div>
 
-              <div class="col-xs-12 col-sm-6 scoreboard-table">
+              <div class="col-12 col-sm-6 scoreboard-table">
 
                 <h3 class="mat-title table-title" style="float: left;">
-                  <button name="open_bb" style="" class="btn btn-primary btn-xs" (click)="openBBdialog('players_los')">
+                  <button name="open_bb" style="" class="btn btn-primary btn-sm" (click)="openBBdialog('players_los')">
                     <i class="fa fa-code"></i>&nbsp;BB code
                   </button>&nbsp;
                   <span>Losing cities</span>
                 </h3>
                 <div class="table" id="table_losses_players" style="">
                   <div class="row_custom header dark">
-                    <div class="cell hidden-xs">Rank</div>
+                    <div class="cell d-none d-sm-block">Rank</div>
                     <div class="cell">Player</div>
                     <div class="cell">Towns</div>
-                    <div class="cell hidden-xs hidden-sm" *ngIf="!mobile"></div>
+                    <div class="cell d-none d-md-block" *ngIf="!mobile"></div>
                   </div>
 
                   <ng-container *ngIf="loadingPlayers">
                     <div *ngFor="let p of [].constructor(conquestVisibleRows); let i = index;" class="row_custom loading_cell">
-                      <div class="cell hidden-xs"></div>
+                      <div class="cell d-none d-sm-block"></div>
                       <div class="cell"><div style="opacity: 0.1">loading ...</div></div>
                       <div class="cell"></div>
-                      <div class="cell hidden-xs hidden-sm" *ngIf="!mobile"></div>
+                      <div class="cell d-none d-md-block" *ngIf="!mobile"></div>
                     </div>
                   </ng-container>
 
                   <div *ngFor="let p of playerData.los; let i = index;" class="row_custom {{i>=conquestVisibleRows && toggleMore ? 'hidden-cell' : '' }}">
-                    <div class="cell hidden-xs" *ngIf="i==0">🚫</div>
-                    <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
+                    <div class="cell d-none d-sm-block" *ngIf="i==0">🚫</div>
+                    <div class="cell d-none d-sm-block" *ngIf="i>0">{{i+1}}</div>
                     <div class="cell formatted-cell">
                       <a routerLink="/player" [queryParams]="{world: playerData.world, id: p.i}">{{p.n}}</a>
                     </div>
@@ -489,10 +490,10 @@
                       -{{p.s}}
                     </div>
                     <div *ngIf="p.s <= 0 || mobile">-{{p.s}}</div>
-                    <div *ngIf="p.s > 0 && !mobile" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="showConquests('player', p.i, p.n)">
+                    <div *ngIf="p.s > 0 && !mobile" class="cell d-none d-md-block score-expand expand-icon" (click)="showConquests('player', p.i, p.n)">
                       <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
                     </div>
-                    <div *ngIf="p.s <= 0 && !mobile" class="cell hidden-xs"></div>
+                    <div *ngIf="p.s <= 0 && !mobile" class="cell d-none d-sm-block"></div>
                   </div>
 
                 </div>
@@ -508,7 +509,7 @@
                   </button>
                 </div>
               </div>
-
+            </div>
             </div>
 
           </div>
@@ -526,7 +527,7 @@
             <br/><mat-progress-bar mode="indeterminate"></mat-progress-bar>
           </div>
           <div class="row" *ngIf="noticeAlliance != ''">
-            <div class="col-xs-8 col-xs-offset-2">
+            <div class="col-8 offset-2">
               <div class="alert alert-warning text-center">
                 <strong>Not found</strong> {{noticeAlliance}}.
               </div>
@@ -534,97 +535,100 @@
           </div>
           <div class="row" *ngIf="!noAllianceData">
 
-            <div class="col-xs-12 col-sm-12 {{allianceChangesData == '' && !(!loadingPlayers && showMap && !mobile) ? 'col-md-12' : 'col-md-6'}}">
-              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 scoreboard-table">
+            <div class="col-12 col-sm-12 {{allianceChangesData == '' && !(!loadingPlayers && showMap && !mobile) ? 'col-md-12' : 'col-md-6'}}">
+              <div class="row">
+              <div class="col-12 col-sm-6 col-md-6 col-lg-6 scoreboard-table">
                 <h3 class="mat-title table-title" style="float: left;">
-                  <button name="open_bb" style="" class="btn btn-primary btn-xs" (click)="openBBdialog('alliances_att')">
+                  <button name="open_bb" style="" class="btn btn-primary btn-sm" (click)="openBBdialog('alliances_att')">
                     <i class="fa fa-code"></i>&nbsp;BB code
                   </button>&nbsp;
                   <span>Best attackers</span>
                 </h3>
                 <div class="table" id="table_attacking_alliances" style="">
                   <div class="row_custom header">
-                    <div class="cell hidden-xs">Rank</div>
+                    <div class="cell d-none d-sm-table-cell">Rank</div>
                     <div class="cell">Alliance</div>
                     <div class="cell">Points</div>
-	                  <div class="cell hidden-xs hidden-sm" *ngIf="!mobile && hasOverview"></div>
+	                  <div class="cell d-none d-md-block" *ngIf="!mobile && hasOverview"></div>
                   </div>
 
                   <div class="row_custom" *ngFor="let p of allianceData.att; let i = index;">
-                    <div class="cell hidden-xs" *ngIf="i==0">🏆</div>
-                    <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
+                    <div class="cell d-none d-sm-table-cell" *ngIf="i==0">🏆</div>
+                    <div class="cell d-none d-sm-table-cell" *ngIf="i>0">{{i+1}}</div>
                     <div class="cell formatted-cell">
                       <a routerLink="/alliance" [queryParams]="{world: allianceData.world, id: p.i}">{{p.n}}</a>
                     </div>
-	                  <div *ngIf="hasOverview && p.s > 0" class="cell score-expand hidden-xs" (click)="openAllianceOverview(p.i, p.n)">
+	                  <div *ngIf="hasOverview && p.s > 0" class="cell score-expand d-none d-sm-table-cell" (click)="openAllianceOverview(p.i, p.n)">
 		                  {{p.s | NumberFilter}}
 	                  </div>
-	                  <div class="cell" [ngClass]="{'hidden-sm hidden-md hidden-lg':hasOverview && p.s > 0}">
+	                  <div class="cell" [ngClass]="{'d-block d-sm-none':hasOverview && p.s > 0}">
 		                  {{p.s | NumberFilter}}
 	                  </div>
 
-	                  <div *ngIf="p.s > 0 && !mobile && hasOverview" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="openAllianceOverview(p.i, p.n)">
+	                  <div *ngIf="p.s > 0 && !mobile && hasOverview" class="cell d-none d-md-block score-expand expand-icon" (click)="openAllianceOverview(p.i, p.n)">
 		                  <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
 	                  </div>
-	                  <div *ngIf="p.s <= 0 && !mobile && hasOverview" class="cell hidden-xs"></div>
+	                  <div *ngIf="p.s <= 0 && !mobile && hasOverview" class="cell d-none d-sm-table-cell"></div>
                   </div>
 
                 </div>
               </div>
-              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 scoreboard-table">
+              <div class="col-12 col-sm-6 col-md-6 col-lg-6 scoreboard-table">
                 <h3 class="mat-title table-title" style="float: left;">
-                  <button name="open_bb" style="" class="btn btn-primary btn-xs" (click)="openBBdialog('alliances_def')">
+                  <button name="open_bb" style="" class="btn btn-primary btn-sm" (click)="openBBdialog('alliances_def')">
                     <i class="fa fa-code"></i>&nbsp;BB code
                   </button>&nbsp;
                   <span>Best defenders</span>
                 </h3>
                 <div class="table" id="table_defending_alliances" style="">
                   <div class="row_custom header blue">
-                    <div class="cell hidden-xs">Rank</div>
+                    <div class="cell d-none d-sm-table-cell">Rank</div>
                     <div class="cell">Alliance</div>
                     <div class="cell">Points</div>
-	                  <div class="cell hidden-xs hidden-sm" *ngIf="!mobile && hasOverview"></div>
+	                  <div class="cell d-none d-md-block" *ngIf="!mobile && hasOverview"></div>
                   </div>
 
                   <div class="row_custom" *ngFor="let p of allianceData.def; let i = index;">
-                    <div class="cell hidden-xs" *ngIf="i==0">🏆</div>
-                    <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
+                    <div class="cell d-none d-sm-table-cell" *ngIf="i==0">🏆</div>
+                    <div class="cell d-none d-sm-table-cell" *ngIf="i>0">{{i+1}}</div>
                     <div class="cell formatted-cell">
                       <a routerLink="/alliance" [queryParams]="{world: allianceData.world, id: p.i}">{{p.n}}</a>
                     </div>
-	                  <div *ngIf="hasOverview && p.s > 0" class="cell score-expand hidden-xs" (click)="openAllianceOverview(p.i, p.n)">
+	                  <div *ngIf="hasOverview && p.s > 0" class="cell score-expand d-none d-sm-table-cell" (click)="openAllianceOverview(p.i, p.n)">
 		                  {{p.s | NumberFilter}}
 	                  </div>
-	                  <div class="cell" [ngClass]="{'hidden-sm hidden-md hidden-lg':hasOverview && p.s > 0}">
+	                  <div class="cell" [ngClass]="{'d-block d-sm-none':hasOverview && p.s > 0}">
 		                  {{p.s | NumberFilter}}
 	                  </div>
 
-	                  <div *ngIf="p.s > 0 && !mobile && hasOverview" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="openAllianceOverview(p.i, p.n)">
+	                  <div *ngIf="p.s > 0 && !mobile && hasOverview" class="cell d-none d-md-block score-expand expand-icon" (click)="openAllianceOverview(p.i, p.n)">
 		                  <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
 	                  </div>
-	                  <div *ngIf="p.s <= 0 && !mobile && hasOverview" class="cell hidden-xs"></div>
+	                  <div *ngIf="p.s <= 0 && !mobile && hasOverview" class="cell d-none d-sm-table-cell"></div>
                   </div>
 
                 </div>
               </div>
-              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 scoreboard-table">
+            </div>
+            <div class="row">
+              <div class="col-12 col-sm-6 col-md-6 col-lg-6 scoreboard-table">
                 <h3 class="mat-title table-title" style="float: left;">
-                  <button name="open_bb" style="" class="btn btn-primary btn-xs" (click)="openBBdialog('alliances_con')">
+                  <button name="open_bb" style="" class="btn btn-primary btn-sm" (click)="openBBdialog('alliances_con')">
                     <i class="fa fa-code"></i>&nbsp;BB code
                   </button>&nbsp;
                   <span>Most conquests</span>
                 </h3>
                 <div class="table" id="table_conquests_alliances" style="">
                   <div class="row_custom header green">
-                    <div class="cell hidden-xs">Rank</div>
+                    <div class="cell d-none d-sm-table-cell">Rank</div>
                     <div class="cell">Alliance</div>
                     <div class="cell">Towns</div>
-	                  <div class="cell hidden-xs hidden-sm" *ngIf="!mobile"></div>
+	                  <div class="cell d-none d-md-block" *ngIf="!mobile"></div>
                   </div>
 
                   <div class="row_custom" *ngFor="let p of allianceData.con; let i = index;">
-                    <div class="cell hidden-xs" *ngIf="i==0">🏆</div>
-                    <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
+                    <div class="cell d-none d-sm-table-cell" *ngIf="i==0">🏆</div>
+                    <div class="cell d-none d-sm-table-cell" *ngIf="i>0">{{i+1}}</div>
                     <div class="cell formatted-cell">
                       <a routerLink="/alliance" [queryParams]="{world: allianceData.world, id: p.i}">{{p.n}}</a>
                     </div>
@@ -632,32 +636,32 @@
 		                  {{p.s}}
 	                  </div>
 	                  <div *ngIf="p.s <= 0 || mobile">{{p.s}}</div>
-	                  <div *ngIf="p.s > 0 && !mobile" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="showConquests('alliance', p.i, p.n)">
+	                  <div *ngIf="p.s > 0 && !mobile" class="cell d-none d-md-block score-expand expand-icon" (click)="showConquests('alliance', p.i, p.n)">
 		                  <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
 	                  </div>
-	                  <div *ngIf="p.s <= 0 && !mobile" class="cell hidden-xs"></div>
+	                  <div *ngIf="p.s <= 0 && !mobile" class="cell d-none d-sm-table-cell"></div>
                   </div>
 
                 </div>
               </div>
-              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 scoreboard-table">
+              <div class="col-12 col-sm-6 col-md-6 col-lg-6 scoreboard-table">
                 <h3 class="mat-title table-title" style="float: left;">
-                  <button name="open_bb" style="" class="btn btn-primary btn-xs" (click)="openBBdialog('alliances_los')">
+                  <button name="open_bb" style="" class="btn btn-primary btn-sm" (click)="openBBdialog('alliances_los')">
                     <i class="fa fa-code"></i>&nbsp;BB code
                   </button>&nbsp;
                   <span>Losing cities</span>
                 </h3>
                 <div class="table" id="table_losses_alliances" style="">
                   <div class="row_custom header dark">
-                    <div class="cell hidden-xs">Rank</div>
+                    <div class="cell d-none d-sm-table-cell">Rank</div>
                     <div class="cell">Alliance</div>
                     <div class="cell">Towns</div>
-                    <div class="cell hidden-xs hidden-sm" *ngIf="!mobile"></div>
+                    <div class="cell d-none d-md-block" *ngIf="!mobile"></div>
                   </div>
 
                   <div class="row_custom" *ngFor="let p of allianceData.los; let i = index;">
-                    <div class="cell hidden-xs" *ngIf="i==0">🚫</div>
-                    <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
+                    <div class="cell d-none d-sm-table-cell" *ngIf="i==0">🚫</div>
+                    <div class="cell d-none d-sm-table-cell" *ngIf="i>0">{{i+1}}</div>
                     <div class="cell formatted-cell">
                       <a routerLink="/alliance" [queryParams]="{world: allianceData.world, id: p.i}">{{p.n}}</a>
                     </div>
@@ -665,19 +669,20 @@
 		                  -{{p.s}}
 	                  </div>
 	                  <div *ngIf="p.s <= 0 || mobile">-{{p.s}}</div>
-	                  <div *ngIf="p.s > 0 && !mobile" class="cell hidden-xs hidden-sm score-expand expand-icon" (click)="showConquests('alliance', p.i, p.n)">
+	                  <div *ngIf="p.s > 0 && !mobile" class="cell d-none d-md-block score-expand expand-icon" (click)="showConquests('alliance', p.i, p.n)">
 		                  <img src="../../assets/images/icons/expand.png" style="vertical-align: unset;" height="16"/>
 	                  </div>
-	                  <div *ngIf="p.s <= 0 && !mobile" class="cell hidden-xs"></div>
+	                  <div *ngIf="p.s <= 0 && !mobile" class="cell d-none d-sm-table-cell"></div>
                   </div>
 
                 </div>
               </div>
+              </div>
             </div>
-
-            <div [ngClass]="!loadingPlayers && showMap && !mobile ? 'col-xs-12 col-sm-12 col-md-6' : 'hidden-xs hidden-sm hidden-md hidden-lg'">
-              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scoreboard-table text-center">
-	              <h3 class="mat-title table-title">World map<span class="hidden-xs"> (alliance island domination)</span></h3>
+            <div class="col-6">
+            <div [ngClass]="!loadingPlayers && showMap && !mobile ? 'col-12' : 'd-none'">
+              <div class="col-12 col-sm-12 col-md-12 col-lg-12 scoreboard-table text-center">
+	              <h3 class="mat-title table-title">World map<span class="d-none d-sm-block"> (alliance island domination)</span></h3>
 	              <div class="map-container noselect">
 		              <div class="map-controls">
 			              <div class="static-controls">
@@ -709,17 +714,17 @@
               </div>
             </div>
 
-            <div [ngClass]="allianceChangesData.length > 0 ? 'col-xs-12 col-sm-12 col-md-6' : 'hidden-xs hidden-sm hidden-md hidden-lg'">
-              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scoreboard-table">
+            <div [ngClass]="allianceChangesData.length > 0 ? 'col-12' : 'd-none'">
+              <div class="col-12 col-sm-12 col-md-12 col-lg-12 scoreboard-table">
                 <h3 class="mat-title table-title">Alliance changes</h3>
 	              <div class="table-container">
 	                <div class="table" id="table_alliance_changes" style="">
 	                  <div class="row_custom header green">
 	                    <div class="cell">Player</div>
 	                    <div class="cell">Old alliance</div>
-	                    <div class="cell hidden-xs"> </div>
+	                    <div class="cell d-none d-sm-block"> </div>
 	                    <div class="cell">New alliance</div>
-	                    <div class="cell hidden-xs">Time</div>
+	                    <div class="cell d-none d-sm-block">Time</div>
 	                  </div>
 
 	                  <div class="row_custom" *ngFor="let p of allianceChangesData; let i = index;">
@@ -739,7 +744,7 @@
 	                        None
 	                      </span>
 	                    </div>
-	                    <div class="cell hidden-xs">
+	                    <div class="cell d-none d-sm-block">
 	                      <i class="fa fa-arrow-right gd-secondary" aria-hidden="true"></i>
 	                    </div>
 	                    <div class="cell formatted-cell">
@@ -752,13 +757,14 @@
 	                        None
 	                      </span>
 	                    </div>
-	                    <div class="cell hidden-xs">
+	                    <div class="cell d-none d-sm-block">
 	                      {{p.date.date | Datex : "D MMM ~HH:mm"}}
 	                    </div>
 	                  </div>
 
 	                </div>
                 </div>
+              </div>
               </div>
             </div>
           </div>

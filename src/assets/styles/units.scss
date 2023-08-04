@@ -1,0 +1,557 @@
+$units: (
+    'achilles': achilles,
+    'agamemnon': agamemnon,
+    'ajax': ajax,
+    'alexandrios': alexandrios,
+    'andromeda': andromeda,
+    'anysia': anysia,
+    'apheledes': apheledes,
+    'archer': archer,
+    'argus': argus,
+    'aristotle': aristotle,
+    'atalanta': atalanta,
+    'attack_ship': attack_ship,
+    'big_transporter': big_transporter,
+    'bireme': bireme,
+    'calydonian_boar': calydonian_boar,
+    'catapult': catapult,
+    'centaur': centaur,
+    'cerberus': cerberus,
+    'chariot': chariot,
+    'cheiron': cheiron,
+    'christopholus': christopholus,
+    'colonize_ship': colonize_ship,
+    'daidalos': daidalos,
+    'deimos': deimos,
+    'democritus': democritus,
+    'demolition_ship': demolition_ship,
+    'deryntes': deryntes,
+    'ephialtes': ephialtes,
+    'eurybia': eurybia,
+    'ferkyon': ferkyon,
+    'fury': fury,
+    'godsent': godsent,
+    'griffin': griffin,
+    'harpy': harpy,
+    'hector': hector,
+    'helen': helen,
+    'hercules': hercules,
+    'hoplite': hoplite,
+    'iason': iason,
+    'ladon': ladon,
+    'leonidas': leonidas,
+    'lysippe': lysippe,
+    'manticore': manticore,
+    'medea': medea,
+    'medusa': medusa,
+    'melousa': melousa,
+    'mihalis': mihalis,
+    'militia': militia,
+    'minotaur': minotaur,
+    'odysseus': odysseus,
+    'orpheus': orpheus,
+    'pariphaistes': pariphaistes,
+    'pegasus': pegasus,
+    'pelops': pelops,
+    'perseus': perseus,
+    'philoctetes': philoctetes,
+    'rekonos': rekonos,
+    'rider': rider,
+    'satyr': satyr,
+    'sea_monster': sea_monster,
+    'siren': siren,
+    'slinger': slinger,
+    'small_transporter': small_transporter,
+    'spartoi': spartoi,
+    'sword': sword,
+    'telemachos': telemachos,
+    'terylea': terylea,
+    'themistokles': themistokles,
+    'theseus': theseus,
+    'trireme': trireme,
+    'unknown': unknown,
+    'unknown_hero': unknown_hero,
+    'unknown_naval': unknown_naval,
+    'urephon': urephon,
+    'vedouma': vedouma,
+    'xanthos': xanthos,
+    'ylestres': ylestres,
+    'zuretha': zuretha,
+    'zyklop': zyklop,
+);
+
+@mixin unit($name, $w: 90px, $h: 90px) {
+    @if $name == achilles {
+        background: url('/assets/images/game/units/achilles.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == agamemnon {
+        background: url('/assets/images/game/units/agamemnon.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == ajax {
+        background: url('/assets/images/game/units/ajax.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == alexandrios {
+        background: url('/assets/images/game/units/alexandrios.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == andromeda {
+        background: url('/assets/images/game/units/andromeda.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == anysia {
+        background: url('/assets/images/game/units/anysia.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == apheledes {
+        background: url('/assets/images/game/units/apheledes.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == archer {
+        background: url('/assets/images/game/units/archer.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == argus {
+        background: url('/assets/images/game/units/argus.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == aristotle {
+        background: url('/assets/images/game/units/aristotle.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == atalanta {
+        background: url('/assets/images/game/units/atalanta.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == attack_ship {
+        background: url('/assets/images/game/units/attack_ship.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == big_transporter {
+        background: url('/assets/images/game/units/big_transporter.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == bireme {
+        background: url('/assets/images/game/units/bireme.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == calydonian_boar {
+        background: url('/assets/images/game/units/calydonian_boar.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == catapult {
+        background: url('/assets/images/game/units/catapult.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == centaur {
+        background: url('/assets/images/game/units/centaur.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == cerberus {
+        background: url('/assets/images/game/units/cerberus.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == chariot {
+        background: url('/assets/images/game/units/chariot.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == cheiron {
+        background: url('/assets/images/game/units/cheiron.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == christopholus {
+        background: url('/assets/images/game/units/christopholus.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == colonize_ship {
+        background: url('/assets/images/game/units/colonize_ship.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == daidalos {
+        background: url('/assets/images/game/units/daidalos.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == deimos {
+        background: url('/assets/images/game/units/deimos.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == democritus {
+        background: url('/assets/images/game/units/democritus.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == demolition_ship {
+        background: url('/assets/images/game/units/demolition_ship.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == deryntes {
+        background: url('/assets/images/game/units/deryntes.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == ephialtes {
+        background: url('/assets/images/game/units/ephialtes.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == eurybia {
+        background: url('/assets/images/game/units/eurybia.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == ferkyon {
+        background: url('/assets/images/game/units/ferkyon.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == fury {
+        background: url('/assets/images/game/units/fury.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == godsent {
+        background: url('/assets/images/game/units/godsent.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == griffin {
+        background: url('/assets/images/game/units/griffin.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == harpy {
+        background: url('/assets/images/game/units/harpy.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == hector {
+        background: url('/assets/images/game/units/hector.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == helen {
+        background: url('/assets/images/game/units/helen.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == hercules {
+        background: url('/assets/images/game/units/hercules.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == hoplite {
+        background: url('/assets/images/game/units/hoplite.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == iason {
+        background: url('/assets/images/game/units/iason.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == ladon {
+        background: url('/assets/images/game/units/ladon.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == leonidas {
+        background: url('/assets/images/game/units/leonidas.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == lysippe {
+        background: url('/assets/images/game/units/lysippe.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == manticore {
+        background: url('/assets/images/game/units/manticore.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == medea {
+        background: url('/assets/images/game/units/medea.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == medusa {
+        background: url('/assets/images/game/units/medusa.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == melousa {
+        background: url('/assets/images/game/units/melousa.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == mihalis {
+        background: url('/assets/images/game/units/mihalis.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == militia {
+        background: url('/assets/images/game/units/militia.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == minotaur {
+        background: url('/assets/images/game/units/minotaur.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == odysseus {
+        background: url('/assets/images/game/units/odysseus.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == orpheus {
+        background: url('/assets/images/game/units/orpheus.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == pariphaistes {
+        background: url('/assets/images/game/units/pariphaistes.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == pegasus {
+        background: url('/assets/images/game/units/pegasus.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == pelops {
+        background: url('/assets/images/game/units/pelops.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == perseus {
+        background: url('/assets/images/game/units/perseus.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == philoctetes {
+        background: url('/assets/images/game/units/philoctetes.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == rekonos {
+        background: url('/assets/images/game/units/rekonos.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == rider {
+        background: url('/assets/images/game/units/rider.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == satyr {
+        background: url('/assets/images/game/units/satyr.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == sea_monster {
+        background: url('/assets/images/game/units/sea_monster.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == siren {
+        background: url('/assets/images/game/units/siren.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == slinger {
+        background: url('/assets/images/game/units/slinger.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == small_transporter {
+        background: url('/assets/images/game/units/small_transporter.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == spartoi {
+        background: url('/assets/images/game/units/spartoi.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == sword {
+        background: url('/assets/images/game/units/sword.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == telemachos {
+        background: url('/assets/images/game/units/telemachos.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == terylea {
+        background: url('/assets/images/game/units/terylea.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == themistokles {
+        background: url('/assets/images/game/units/themistokles.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == theseus {
+        background: url('/assets/images/game/units/theseus.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == trireme {
+        background: url('/assets/images/game/units/trireme.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == unknown {
+        background: url('/assets/images/game/units/unknown.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == unknown_hero {
+        background: url('/assets/images/game/units/unknown_hero.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == unknown_naval {
+        background: url('/assets/images/game/units/unknown_naval.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == urephon {
+        background: url('/assets/images/game/units/urephon.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == vedouma {
+        background: url('/assets/images/game/units/vedouma.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == xanthos {
+        background: url('/assets/images/game/units/xanthos.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == ylestres {
+        background: url('/assets/images/game/units/ylestres.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == zuretha {
+        background: url('/assets/images/game/units/zuretha.png');
+        width: $w;
+        height: $h;
+    }
+
+    @if $name == zyklop {
+        background: url('/assets/images/game/units/zyklop.png');
+        width: $w;
+        height: $h;
+    }
+}

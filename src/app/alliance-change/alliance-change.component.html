@@ -25,14 +25,14 @@
           <mat-card-title>
             <div *ngIf="!loading">
               <div class="row" *ngIf="!noData">
-                <div class="col-xs-12 col-sm-4 col-md-6" style="padding-top: 20px;">
+                <div class="col-12 col-md-4 col-lg-6" style="padding-top: 20px;">
                   <h3 class="mat-title table-title" style="margin-bottom: 0px; text-align: left;">Browse alliance changes:
                     <a *ngIf="type!='town'" routerLink="/{{type}}/{{world}}/{{id}}"><span class="gd-primary">{{name}}</span></a>
                     <span *ngIf="type=='town'" class="gd-primary">{{name}}</span>
                   </h3>
                 </div>
 
-                <div class="col-xs-12 col-sm-8 col-md-6" *ngIf="!noData && data.length>=size">
+                <div class="col-12 col-md-8 col-lg-6" *ngIf="!noData && data.length>=size">
                   <mat-paginator [length]="count"
                                  [pageSize]="size"
                                  [pageIndex]="from/size"
@@ -63,9 +63,9 @@
                 <div class="row_custom header dark">
                   <div class="cell">Player</div>
                   <div class="cell">Old alliance</div>
-                  <div class="cell hidden-xs"> </div>
+                  <div class="cell d-none d-sm-block"></div>
                   <div class="cell">New alliance</div>
-                  <div class="cell hidden-xs">Time</div>
+                  <div class="cell d-none d-sm-block">Time</div>
                 </div>
 
                 <div class="row_custom" *ngFor="let p of data; let i = index;">
@@ -84,7 +84,7 @@
                       None
                     </span>
                   </div>
-                  <div class="cell hidden-xs">
+                  <div class="cell d-none d-sm-block">
                     <i class="fa fa-arrow-right" aria-hidden="true" ngClass="{{type=='alliance'&&p.old_alliance_grep_id==id?'diff-neg':'diff-pos'}}"></i>
                   </div>
                   <div class="cell formatted-cell">
@@ -97,7 +97,7 @@
                       None
                     </span>
                   </div>
-                  <div class="cell hidden-xs">
+                  <div class="cell d-none d-sm-block">
                     {{p.date.date | Datex : "D MMM ~HH:mm"}}
                   </div>
                 </div>

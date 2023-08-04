@@ -11,14 +11,14 @@
 
   <div class="row" style="width: 100%; padding: 10px 20px 0; margin-top: -40px;">
     <div class="col-xs-6 text-left">
-      <mat-chip-list class="scoreboard-control-chips" style="float: left;" [multiple]="true" [selectable]="true" [disabled]="loading">
-        <mat-chip style="cursor: pointer" class="btn-chip" *ngIf="hour!=2" (click)="setHour(hour-1)"><mat-icon matChipAvatar>chevron_left</mat-icon>Previous hour</mat-chip>
-      </mat-chip-list>
+      <mat-chip-listbox class="scoreboard-control-chips" style="float: left;" [multiple]="true" [selectable]="true" [disabled]="loading">
+        <mat-chip-option style="cursor: pointer" class="btn-chip" *ngIf="hour!=2" (click)="setHour(hour-1)"><mat-icon matChipAvatar>chevron_left</mat-icon>Previous hour</mat-chip-option>
+      </mat-chip-listbox>
     </div>
     <div class="col-xs-6 text-right">
-      <mat-chip-list class="scoreboard-control-chips" style="float: right;" [multiple]="true" [selectable]="true" [disabled]="loading">
-        <mat-chip style="cursor: pointer" class="btn-chip" *ngIf="hour!=1" (click)="setHour(hour+1)">Next hour<mat-icon matChipRemove style="color: #fff; opacity: 1;">chevron_right</mat-icon></mat-chip>
-      </mat-chip-list>
+      <mat-chip-listbox class="scoreboard-control-chips" style="float: right;" [multiple]="true" [selectable]="true" [disabled]="loading">
+        <mat-chip-option style="cursor: pointer" class="btn-chip" *ngIf="hour!=1" (click)="setHour(hour+1)">Next hour<mat-icon matChipRemove style="color: #fff; opacity: 1;">chevron_right</mat-icon></mat-chip-option>
+      </mat-chip-listbox>
     </div>
   </div>
 

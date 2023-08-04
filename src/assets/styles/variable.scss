@@ -1,7 +1,9 @@
 $bodyfont: 'Roboto', sans-serif;
 $headingfont: 'Roboto', sans-serif;
 
-@import '@angular/material/theming';
+@use '@angular/material' as mat;
+
+@include mat.core();
 
 $mat-grepodata: (
   50 : #e3f7f3,
@@ -38,21 +40,31 @@ $mat-grepodata: (
 
 /*Material Theme Colors*/
 
-$primary: mat-palette($mat-grepodata, 500);
-$accent: mat-palette($mat-indigo, 500);
-$warn: mat-palette($mat-pink, 500);
-$theme: mat-light-theme($primary, $accent, $warn);
-$background: map-get($theme, background);
-$foreground: map-get($theme, foreground);
+$primary: mat.define-palette($mat-grepodata, 500);
+$accent: mat.define-palette(mat.$indigo-palette, 500);
+$warn: mat.define-palette(mat.$pink-palette, 500);
 
-@include mat-core();
+//$theme: mat-light-theme($primary, $accent, $warn);
 
-$custom-typography: mat-typography-config(
+$custom-typography: mat.define-typography-config(
   $font-family: 'Roboto, sans-serif'
 );
 
-@include mat-core($custom-typography);
-@include angular-material-theme($theme);
+$theme: mat.define-light-theme((
+  color: (
+    primary: $primary,
+    accent: $accent,
+    warn: $warn,
+  ),
+  typography: $custom-typography,
+  density: 0,
+));
+
+$background: map-get($theme, background);
+$foreground: map-get($theme, foreground);
+
+
+@include mat.core-theme($theme);
 
 /*Theme Colors*/
 

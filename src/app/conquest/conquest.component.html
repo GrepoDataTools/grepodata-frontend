@@ -279,22 +279,22 @@
 	<!--</mat-select>-->
 
 	<div class="mobile-filter-push"></div>
-	<mat-chip-list [disabled]="loading" [ngClass]="{'disabled-div':loading}" *ngIf="type!='town'">
-		<mat-chip [selected]="toggleFriendly&&toggleInternal&&toggleEnemy"
+	<mat-chip-listbox [disabled]="loading" [ngClass]="{'disabled-div':loading}" *ngIf="type!='town'">
+		<mat-chip-option [selected]="toggleFriendly&&toggleInternal&&toggleEnemy"
 		          (click)="toggleFriendly = toggleInternal = toggleEnemy = true; cdr.detectChanges(); toggleEvent(30);">
 			All conquests
-		</mat-chip>
-		<mat-chip [selected]="toggleFriendly&&!toggleInternal&&!toggleEnemy" style="border: 1px solid #008000"
+		</mat-chip-option>
+		<mat-chip-option [selected]="toggleFriendly&&!toggleInternal&&!toggleEnemy" style="border: 1px solid #008000"
 		          (click)="toggleFriendly = true; toggleInternal = toggleEnemy = false; cdr.detectChanges(); filterClearInput();">
 			Player takeovers
-		</mat-chip>
-		<mat-chip [selected]="toggleInternal&&!toggleFriendly&&!toggleEnemy" style="border: 1px solid #ff9900"
+		</mat-chip-option>
+		<mat-chip-option [selected]="toggleInternal&&!toggleFriendly&&!toggleEnemy" style="border: 1px solid #ff9900"
 		          (click)="toggleInternal = true; toggleFriendly = toggleEnemy = false; cdr.detectChanges(); filterClearInput();">
 			Internal takeovers
-		</mat-chip>
-		<mat-chip [selected]="toggleEnemy&&!toggleFriendly&&!toggleInternal" style="border: 1px solid #ff0000"
+		</mat-chip-option>
+		<mat-chip-option [selected]="toggleEnemy&&!toggleFriendly&&!toggleInternal" style="border: 1px solid #ff0000"
 		          (click)="toggleEnemy = true; toggleInternal = toggleFriendly = false; cdr.detectChanges(); filterClearInput();">
 			Enemy takeovers
-		</mat-chip>
-	</mat-chip-list>
+		</mat-chip-option>
+	</mat-chip-listbox>
 </ng-template>

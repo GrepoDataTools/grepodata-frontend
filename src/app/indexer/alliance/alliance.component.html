@@ -113,11 +113,11 @@
 		</mat-card-title>
 
 		<div class="chip-list-wrapper">
-			<mat-chip-list>
-				<mat-chip class="gd-chip gd-chip-lg" [selected]="tabsSeaIndex===0" (click)="setSeaIndex(0)"><div class="gd-icon icon-fireship"></div> {{world.substring(0, 2)=='en'?'Light ships':'Fireships'}}</mat-chip>
-				<mat-chip class="gd-chip gd-chip-lg" [selected]="tabsSeaIndex===1" (click)="setSeaIndex(1)"><div class="gd-icon icon-bireme"></div> Biremes</mat-chip>
-				<mat-chip class="gd-chip gd-chip-lg" [selected]="tabsSeaIndex===2" (click)="setSeaIndex(2)"><div class="gd-icon icon-trireme"></div> Triremes</mat-chip>
-			</mat-chip-list>
+			<mat-chip-listbox>
+				<mat-chip-option class="gd-chip gd-chip-lg" [selected]="tabsSeaIndex===0" (click)="setSeaIndex(0)"><div class="gd-icon icon-fireship"></div> {{world.substring(0, 2)=='en'?'Light ships':'Fireships'}}</mat-chip-option>
+				<mat-chip-option class="gd-chip gd-chip-lg" [selected]="tabsSeaIndex===1" (click)="setSeaIndex(1)"><div class="gd-icon icon-bireme"></div> Biremes</mat-chip-option>
+				<mat-chip-option class="gd-chip gd-chip-lg" [selected]="tabsSeaIndex===2" (click)="setSeaIndex(2)"><div class="gd-icon icon-trireme"></div> Triremes</mat-chip-option>
+			</mat-chip-listbox>
 		</div>
 
 		<div *ngIf="tabsSeaIndex===0">
@@ -227,11 +227,11 @@
 		</mat-card-title>
 
 		<div class="chip-list-wrapper">
-			<mat-chip-list>
-				<mat-chip class="gd-chip gd-chip-lg" [selected]="tabsLandIndex===0" (click)="setLandIndex(0)"><div class="gd-icon icon-manti"></div> Mythical units</mat-chip>
-				<mat-chip class="gd-chip gd-chip-lg" [selected]="tabsLandIndex===1" (click)="setLandIndex(1)"><div class="gd-icon icon-slinger"></div> Offensive</mat-chip>
-				<mat-chip class="gd-chip gd-chip-lg" [selected]="tabsLandIndex===2" (click)="setLandIndex(2)"><div class="gd-icon icon-sword"></div> Defensive</mat-chip>
-			</mat-chip-list>
+			<mat-chip-listbox>
+				<mat-chip-option class="gd-chip gd-chip-lg" [selected]="tabsLandIndex===0" (click)="setLandIndex(0)"><div class="gd-icon icon-manti"></div> Mythical units</mat-chip-option>
+				<mat-chip-option class="gd-chip gd-chip-lg" [selected]="tabsLandIndex===1" (click)="setLandIndex(1)"><div class="gd-icon icon-slinger"></div> Offensive</mat-chip-option>
+				<mat-chip-option class="gd-chip gd-chip-lg" [selected]="tabsLandIndex===2" (click)="setLandIndex(2)"><div class="gd-icon icon-sword"></div> Defensive</mat-chip-option>
+			</mat-chip-listbox>
 		</div>
 
 		<div *ngIf="tabsLandIndex===0">

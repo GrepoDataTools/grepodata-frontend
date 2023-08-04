@@ -194,11 +194,11 @@
                 <br/>
                 <div *ngIf="!loadingHistory" fxLayout="row" fxLayoutAlign="space-evenly center">
                   <div>
-                    <mat-chip-list>
-                      <mat-chip *ngIf="playerHistoryJson.length >= 30" [selected]="dayRange==='30'" (click)="selectDayRange('30')">last 30 days</mat-chip>
-                      <mat-chip *ngIf="playerHistoryJson.length > 30" [selected]="dayRange==='90'" (click)="selectDayRange('90')">last 90 days</mat-chip>
-                      <mat-chip *ngIf="playerHistoryJson.length > 90" [selected]="dayRange==='all'" (click)="selectDayRange('all')">All time</mat-chip>
-                    </mat-chip-list>
+                    <mat-chip-listbox>
+                      <mat-chip-option *ngIf="playerHistoryJson.length >= 30" [selected]="dayRange==='30'" (click)="selectDayRange('30')">last 30 days</mat-chip-option>
+                      <mat-chip-option *ngIf="playerHistoryJson.length > 30" [selected]="dayRange==='90'" (click)="selectDayRange('90')">last 90 days</mat-chip-option>
+                      <mat-chip-option *ngIf="playerHistoryJson.length > 90" [selected]="dayRange==='all'" (click)="selectDayRange('all')">All time</mat-chip-option>
+                    </mat-chip-listbox>
                   </div>
 
                 </div>

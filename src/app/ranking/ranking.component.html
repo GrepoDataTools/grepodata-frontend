@@ -13,13 +13,13 @@
         <div class="container-fluid" id="player_ranking">
           <div class="row">
 
-	          <div class="col-xs-12 text-center">
+	          <div class="col-12 text-center">
 		          <h3 class="gd-primary" style="margin: 0;">
 			          Grepolis <span *ngIf="type!='alliance'">player</span><span *ngIf="type=='alliance'">alliance</span> ranking
 		          </h3>
 	          </div>
 
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-5 col-lg-offset-1 title-selection">
+			  <div class="col-12 col-md-12 col-lg-6 col-xl-5 offset-lg-1 title-selection">
 
 	            <div>
 		            <mat-icon class="icon-margin"><div class="bg-flag flag-{{server}}"></div></mat-icon>
@@ -44,7 +44,7 @@
 	            </div>
 
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-5 title-paginator">
+            <div class="col-12 col-md-12 col-lg-6 col-xl-5 title-paginator"></div>
               <mat-paginator class="title-paginator"
                              [length]="count"
                              [pageSize]="size"
@@ -59,7 +59,7 @@
           </div>
 
           <div class="row" *ngIf="!error">
-	          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-10 col-lg-offset-1" style="margin-top: -20px;">
+			<div class="col-12 col-md-12 col-lg-12 col-xl-10 offset-lg-1" style="margin-top: -20px;">
 		          <div class="scroll-table">
 		            <div class="table" id="player_ranking_table" style="border-collapse: collapse;">
 				          <div class="row_custom header default">
@@ -72,7 +72,7 @@
 					          <div class="cell">
 						          Alliance name
 					          </div>
-					          <div class="cell hidden-xs" (click)="sort('Points')">
+					          <div class="cell d-none d-sm-block" (click)="sort('Points')">
 						          <span class="ranking-control {{sort_field=='Points' ? 'selected' : ''}}">Points</span>
 						          <div class="sort-carets">
 							          <i class="fa fa-caret-up {{sort_field=='Points'&&sort_order=='asc' ? 'selected' : ''}}"></i>
@@ -81,8 +81,8 @@
 					          </div>
 					          <div class="cell custom-cell" (click)="sort('Rank')">
 						          <span class="ranking-control {{sort_field=='Rank' ? 'selected' : ''}}">
-							          <span class="hidden-xs hidden-sm hidden-md">General rank</span>
-							          <span class="hidden-lg">Rank</span>
+							          <span class="d-none d-lg-block">General rank</span>
+							          <span class="d-block d-lg-none">Rank</span>
 						          </span>
 						          <div class="sort-carets">
 							          <i class="fa fa-caret-up {{sort_field=='Rank'&&sort_order=='asc' ? 'selected' : ''}}"></i>
@@ -104,21 +104,21 @@
 						          </div>
 					          </div>
 					          <div class="cell" (click)="sort('Att')">
-						          <span class="ranking-control {{sort_field=='Att' ? 'selected' : ''}}">Attack<span class="hidden-xs hidden-sm hidden-md"> points</span></span>
+						          <span class="ranking-control {{sort_field=='Att' ? 'selected' : ''}}">Attack<span class="d-none d-lg-block"> points</span></span>
 						          <div class="sort-carets">
 							          <i class="fa fa-caret-up {{sort_field=='Att'&&sort_order=='asc' ? 'selected' : ''}}"></i>
 							          <i class="fa fa-caret-down {{sort_field=='Att'&&sort_order=='desc' ? 'selected' : ''}}"></i>
 						          </div>
 					          </div>
 					          <div class="cell" (click)="sort('Def')">
-						          <span class="ranking-control {{sort_field=='Def' ? 'selected' : ''}}">Defence<span class="hidden-xs hidden-sm hidden-md"> points</span></span>
+						          <span class="ranking-control {{sort_field=='Def' ? 'selected' : ''}}">Defence<span class="d-none d-lg-block"> points</span></span>
 						          <div class="sort-carets">
 							          <i class="fa fa-caret-up {{sort_field=='Def'&&sort_order=='asc' ? 'selected' : ''}}"></i>
 							          <i class="fa fa-caret-down {{sort_field=='Def'&&sort_order=='desc' ? 'selected' : ''}}"></i>
 						          </div>
 					          </div>
 					          <div class="cell" (click)="sort('AttDef')">
-						          <span class="ranking-control {{sort_field=='AttDef' ? 'selected' : ''}}">Combined<span class="hidden-xs hidden-sm hidden-md"> points</span></span>
+						          <span class="ranking-control {{sort_field=='AttDef' ? 'selected' : ''}}">Combined<span class="d-none d-lg-block"> points</span></span>
 						          <div class="sort-carets">
 							          <i class="fa fa-caret-up {{sort_field=='AttDef'&&sort_order=='asc' ? 'selected' : ''}}"></i>
 							          <i class="fa fa-caret-down {{sort_field=='AttDef'&&sort_order=='desc' ? 'selected' : ''}}"></i>
@@ -140,7 +140,7 @@
 						          <a *ngIf="type=='player'" routerLink="/alliance" [queryParams]="{world: result?.world, id: result?.alliance_id}">{{result?.alliance_name}}</a>
 						          <a *ngIf="type=='alliance'" routerLink="/alliance" [queryParams]="{world: result?.world, id: result?.id}">{{result?.name}}</a>
 					          </div>
-					          <div class="cell hidden-xs">
+					          <div class="cell d-none d-sm-block">
 						          {{result?.points | NumberFilter}}
 					          </div>
 					          <div class="cell custom-cell">
@@ -173,7 +173,7 @@
           </div>
 
 	        <div class="row">
-		        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-10 col-lg-offset-1">
+		        <div class="col-12 col-md-12 col-lg-12 col-xl-10 offset-lg-1">
 			        <mat-paginator [length]="count"
 			                       [pageSize]="size"
 			                       [pageIndex]="pageIndex"

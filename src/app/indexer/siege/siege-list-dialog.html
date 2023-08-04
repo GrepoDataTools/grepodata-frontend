@@ -6,16 +6,16 @@
 
 		<div class="row">
 
-			<div class="col-xs=12 text-center" *ngIf="loading || paging">
+			<div class="col-12 text-center" *ngIf="loading || paging">
 				<mat-progress-bar style="margin-top: -10px;" mode="indeterminate"></mat-progress-bar>
 				<strong *ngIf="loading">Loading siege list..</strong>
 			</div>
 
-			<div class="col-xs-12" *ngIf="!loading && error">
+			<div class="col-12" *ngIf="!loading && error">
 				<h2>Sorry, we can not load the siege list for this team at the moment. try again later.</h2>
 			</div>
 
-			<div class="col-xs-12" style="padding: 0 !important;" *ngIf="!loading && !error">
+			<div class="col-12" style="padding: 0 !important;" *ngIf="!loading && !error">
 				<div class="conquests-container container-fluid">
 					<div class="conquests-list row" style="margin: 0 !important;">
 

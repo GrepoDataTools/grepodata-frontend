@@ -15,41 +15,41 @@
       <div class="alert alert-warning alert-gd-2 text-center">
 
         <div class="row">
-          <div class="col-xs-2">
+          <div class="col-2">
             <mat-icon style="color: #18bc9c; font-size: 70px;" *ngIf="expired">timer_off</mat-icon>
             <mat-icon style="color: #18bc9c; font-size: 70px;" *ngIf="!expired && invalid_link">block</mat-icon>
             <mat-icon style="color: #18bc9c; font-size: 70px;" *ngIf="!expired && !invalid_link">verified_user</mat-icon>
             <!--report-->
             <!--lock_open-->
           </div>
-          <div class="col-xs-10" *ngIf="v2_scriptlink">
+          <div class="col-10" *ngIf="v2_scriptlink">
             <h2><strong>Almost there!</strong></h2>
             <h4><span class="gd-primary">Sign in</span> or <span class="gd-primary">register</span> to activate your userscript.</h4>
             <h5>You can view and share the collected intel using your GrepoData account.</h5>
           </div>
-          <div class="col-xs-10" *ngIf="!v2_scriptlink && expired">
+          <div class="col-10" *ngIf="!v2_scriptlink && expired">
             <h2><strong>Sorry,</strong> this invite link has expired</h2>
             <h4>Please ask the owner of the team for a new invite link</h4>
           </div>
-          <div class="col-xs-10" *ngIf="!v2_scriptlink && !expired && invalid_link">
+          <div class="col-10" *ngIf="!v2_scriptlink && !expired && invalid_link">
             <h2><strong>Oops, this is not a valid invite link</strong></h2>
             <h4>grepodata.com/invite/{{invite_link}} is not a valid invite link.<br/>Please ask the owner of the team for a new invite link</h4>
           </div>
-          <div class="col-xs-10" *ngIf="!v2_scriptlink && !expired && !invalid_link && v1_redirect">
+          <div class="col-10" *ngIf="!v2_scriptlink && !expired && !invalid_link && v1_redirect">
             <h2><strong>You have to be logged in to view this index</strong></h2>
             <h5>As of April 2021, you need to be signed in to collect and share enemy intelligence.</h5>
             <h5><strong>Note: if you created this index, please register using the same email address that you used to create the index.</strong></h5>
             <a class="a-link-dialog" *ngIf="!read_more" (click)="read_more=true">read more</a>
             <a class="a-link-dialog" *ngIf="read_more" (click)="read_more=false">read less</a>
           </div>
-          <div class="col-xs-10" *ngIf="!v2_scriptlink && !expired && !invalid_link && !v1_redirect">
+          <div class="col-10" *ngIf="!v2_scriptlink && !expired && !invalid_link && !v1_redirect">
             <h2><strong>You have to be logged in to accept this invitation</strong></h2>
             <h4>Sign in with an existing account or register for a new account to join this team</h4>
           </div>
         </div>
 
         <div class="row" *ngIf="!v2_scriptlink && !expired && !invalid_link && v1_redirect && read_more">
-          <div class="col-xs-12 text-center">
+          <div class="col-12 text-center">
             <br/>
             <div class="alert alert-gd-1">
               <h2 class="gd-primary">Why do I need a GrepoData account?</h2>
@@ -94,10 +94,10 @@
     <div class="row" style="padding: 4% 0 2%;">
       <div class="alert alert-warning alert-gd-2 text-center">
         <div class="row">
-          <div class="col-xs-2">
+          <div class="col-2">
             <mat-icon style="color: #18bc9c; font-size: 70px;">error_outline</mat-icon>
           </div>
-          <div class="col-xs-10">
+          <div class="col-10">
             <div [outerHTML]="error"></div>
           </div>
         </div>
@@ -108,7 +108,7 @@
   <div *ngIf="invalid_link || error">
     <div class="container">
       <div class="row">
-        <div class="col-xs-12 text-center" style="padding-top: 50px;">
+        <div class="col-12 text-center" style="padding-top: 50px;">
           <button routerLink="/indexer" class="btn btn-lg btn-success mr-1" *ngIf="!logged_in">
             <mat-icon>keyboard_arrow_left</mat-icon> Back to indexer overview
           </button>

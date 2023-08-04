@@ -6,7 +6,7 @@
 
 	  <div class=container>
 		  <div class="row">
-			  <div class="col-xs-12 text-center">
+			  <div class="col-12 text-center">
 				  <h2 class="gd-primary">Siege report</h2>
 					<ng-container *ngTemplateOutlet="report"></ng-container>
 			  </div>
@@ -21,20 +21,20 @@
 
 		<div class="row">
 
-			<div class="col-xs-12 text-center" *ngIf="!loading && error">
+			<div class="col-12 text-center" *ngIf="!loading && error">
 				<h2 class="gd-secondary">Sorry, we can not load this siege at the moment. try again later.</h2>
 			</div>
 
-			<div class="col-xs-12 text-center" *ngIf="loading && !isCard" style="padding-top: 200px;">
+			<div class="col-12 text-center" *ngIf="loading && !isCard" style="padding-top: 200px;">
 				<mat-progress-bar mode="indeterminate"></mat-progress-bar>
 				<strong>Loading siege report..</strong>
 			</div>
 
-			<div class="col-xs-12 conquests-container" style="padding: 0 !important; width: 100% !important;" *ngIf="!loading && !error">
+			<div class="col-12 conquests-container" style="padding: 0 !important; width: 100% !important;" *ngIf="!loading && !error">
 
-				<div class="conquest-item" style="max-width: 100% !important;" [ngStyle]="{'font-size': isCard?'17px':'20px'}">
+				<div class="conquest-item col-12 p-0" style="max-width: 100% !important;" [ngStyle]="{'font-size': isCard?'17px':'20px'}">
 					<div class="conquest-contents" style="max-width: 100% !important;" [ngClass]="{ 'conquest-card': isCard || !embedded }">
-						<div class="col-xs-12 text-center conquest-title">
+						<div class="col-12 text-center conquest-title">
 							<strong class="conquest-subject">
 								<a routerLink="/intel/town/{{world}}/{{conquest?.town_id}}">
 									<img src="../../assets/images/town_ico.png"/>&nbsp;{{conquest.town_name}}
@@ -51,27 +51,27 @@
 								)
 							</strong>
 						</div>
-						<div class="col-xs-12 conquest-belligerents">
+						<div class="col-12 conquest-belligerents">
 							<div class="row">
-								<div class="col-xs-12 text-center" *ngIf="mobile">
+								<div class="col-12 text-center" *ngIf="mobile">
 									<div><mat-icon style="font-weight: 900;">⚔</mat-icon>&nbsp;{{conquest.last_attack_date | Datex : "D MMM YYYY"}}</div>
 								</div>
-								<div class="col-xs-12 text-center" style="position: absolute;" *ngIf="!mobile">
+								<div class="col-12 text-center" style="position: absolute;" *ngIf="!mobile">
 									<div>{{conquest.last_attack_date | Datex : "D MMM YYYY"}}</div>
 									<mat-icon style="font-weight: 900;">⚔</mat-icon>
 									<div *ngIf="!isCard">
 										<ng-container *ngTemplateOutlet="result"></ng-container>
 									</div>
 								</div>
-								<div class="col-xs-6 text-left left att"  [ngStyle]="{'max-height': isCard?'96px':'144px'}">
-									Attackers<span class="hidden-xs hidden-sm" style="font-style: italic;">&nbsp;({{conquest.num_attacks_counted}} attack<span *ngIf="conquest.num_attacks_counted>1">s</span>)</span>
+								<div class="col-6 text-left left att"  [ngStyle]="{'max-height': isCard?'96px':'144px'}">
+									Attackers<span class="d-none d-md-block" style="font-style: italic;">&nbsp;({{conquest.num_attacks_counted}} attack<span *ngIf="conquest.num_attacks_counted>1">s</span>)</span>
 									<div *ngFor="let bell of conquest.belligerent_all" style="direction: ltr;">
 										<a routerLink="/intel/alliance/{{world}}/{{bell.alliance_id}}">
 											<img src="../../assets/images/ally_ico.png"/>&nbsp;{{bell.alliance_name}}
 										</a>
 									</div>
 								</div>
-								<div class="col-xs-6 text-right right def" style="max-height: 15vh; overflow-y: auto;">
+								<div class="col-6 text-right right def" style="max-height: 15vh; overflow-y: auto;">
 									Siege lead by
 									<div *ngIf="conquest.belligerent_player_name != ''">
 										<a routerLink="/player" [queryParams]="{world: world, id: conquest.belligerent_player_id}">
@@ -86,22 +86,22 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-xs-12 conquest-losses" *ngIf="!isCard">
+						<div class="col-12 conquest-losses" *ngIf="!isCard">
 							<div class="row">
-								<div class="col-xs-12 text-center" style="position: absolute;">
+								<div class="col-12 text-center" style="position: absolute;">
 									<strong>Battle points<span class="hidden-xs hidden-sm"> (without modifier)</span></strong>
 								</div>
-								<div class="col-xs-6 text-left">
+								<div class="col-6 text-left">
 									<span class="diff-pos">+{{conquest.total_bp_def | NumberFilter}}</span><br/>
 								</div>
-								<div class="col-xs-6 text-right">
+								<div class="col-6 text-right">
 									<span class="diff-pos">+{{conquest.total_bp_att | NumberFilter}}</span><br/>
 								</div>
 							</div>
 						</div>
-						<div class="col-xs-12 conquest-losses">
+						<div class="col-12 conquest-losses">
 							<div class="row">
-								<div class="col-xs-6 text-left left att">
+								<div class="col-6 text-left left att">
 									<strong>Attacker losses</strong><span class="diff-neg">&nbsp;(-{{conquest.total_bp_att | NumberFilter}})</span><br/>
 									<div class="unit-row">
 										<div class="unit-icon-lg" *ngFor="let unit of objectKeys(conquest.total_losses_att)">
@@ -113,7 +113,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-xs-6 text-right right def">
+								<div class="col-6 text-right right def">
 									<strong>Defender losses</strong><span class="diff-neg">&nbsp;(-{{conquest.total_bp_def | NumberFilter}})</span><br/>
 									<div class="unit-row" style="float: right;" [ngStyle]="{'min-height': isCard?'88px':'44px'}">
 						        <span *ngFor="let unit of objectKeys(conquest.total_losses_def)">
@@ -130,35 +130,35 @@
 							</div>
 						</div>
 
-						<div class="col-xs-12 conquest-result" *ngIf="isCard || mobile">
+						<div class="col-12 conquest-result" *ngIf="isCard || mobile">
               <div class="text-left" style="float: left; padding: 3px 0;">
                 <ng-container *ngTemplateOutlet="result"></ng-container>
               </div>
 						</div>
 
-            <div class="col-xs-12 conquest-footer text-left" *ngIf="isCard && !mobile">
+            <div class="col-12 conquest-footer text-left" *ngIf="isCard && !mobile">
               <button class="btn btn-secondary" (click)="loadConquestDetails()">
                 View full report&nbsp;<mat-icon style="opacity: 1; vertical-align: bottom;">launch</mat-icon>
               </button>
             </div>
 
-						<div class="col-xs-12 conquest-reports" *ngIf="!isCard">
+						<div class="col-12 conquest-reports" *ngIf="!isCard">
 
-							<div class="col-xs=12 text-center" *ngIf="loadingReports">
+							<div class="col-12 text-center" *ngIf="loadingReports">
 								<mat-progress-bar mode="indeterminate"></mat-progress-bar>
 								<strong>Loading battle reports..</strong>
 							</div>
 
-							<div class="col-xs-12 text-center" *ngIf="!loadingReports && errorReports">
+							<div class="col-12 text-center" *ngIf="!loadingReports && errorReports">
 								<h2 class="gd-secondary">Sorry, we can not load the reports for this conquest at the moment. try again later.</h2>
 							</div>
 
-							<div class="col-xs-12" *ngIf="!loadingReports && !errorReports" style="padding: 0 !important;">
+							<div class="col-12" *ngIf="!loadingReports && !errorReports" style="padding: 0 !important;">
 
 								<div style="max-height: 45vh; overflow: auto;">
 									<div class="table" id="table_players_rows">
 										<div class='row_custom' *ngFor="let report of reports">
-											<div class="cell hidden-xs hidden-sm" style="max-width: 100px; width: 100px; font-size: 16px; vertical-align: top;">
+											<div class="cell d-none d-md-block" style="max-width: 100px; width: 100px; font-size: 16px; vertical-align: top;">
 												{{report.date | Datex : "D MMM HH:mm:ss"}}
 												<div class="attack_type" style="margin: 10px;">
 													<div class="attack_type32x32 attack" [ngClass]="{ 'sea_attack': report?.attacker?.attack_type == 'sea_attack' }"></div>
@@ -272,7 +272,7 @@
 								</div>
 							</div>
 
-							<div class="col-xs-12 text-center" *ngIf="!loading && !error && conquest?.hide_details == true">
+							<div class="col-12 text-center" *ngIf="!loading && !error && conquest?.hide_details == true">
 								<h4 class="gd-secondary">This siege is too recent, defender units are still hidden (4 hour cooldown after last attack); check again later to see defender units</h4>
 							</div>
 

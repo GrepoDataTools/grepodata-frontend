@@ -33,10 +33,10 @@
 
         <div class="ops-action">
           <button class="btn btn-secondary mr-1" (click)="showHelpDialog()">
-            Help <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">live_help</mat-icon>
+            Help <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="d-none d-sm-block">live_help</mat-icon>
           </button>
           <button class="btn btn-secondary mr-1" (click)="showContactDialog()">
-            Feedback <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">feedback</mat-icon>
+            Feedback <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="d-none d-sm-block">feedback</mat-icon>
           </button>
         </div>
 
@@ -66,10 +66,10 @@
               <div [outerHTML]="team.world | WorldNamePipe"></div>
             </div>
             <div class="op-info">
-              <h2 class="gd-secondary hidden-xs hidden-sm" *ngIf="team.active" style="font-weight: 100; margin-top: -5px;">
+              <h2 class="gd-secondary d-none d-md-block" *ngIf="team.active" style="font-weight: 100; margin-top: -5px;">
                 Active Operation
               </h2>
-              <h3 class="gd-secondary hidden-xs hidden-sm" *ngIf="!team.active" style="font-weight: 100;">
+              <h3 class="gd-secondary d-none d-md-block" *ngIf="!team.active" style="font-weight: 100;">
                 No Active Operation
               </h3>
               <h3 class="gd-secondary">
@@ -83,7 +83,7 @@
                 Uploaded commands: <span class="gd-primary">{{team.commands}}</span>
               </h4>
             </div>
-            <div class="op-players hidden-xs hidden-sm" *ngIf="team.active">
+            <div class="op-players d-none d-md-block" *ngIf="team.active">
               <p><strong>Active players:</strong></p>
               <div class="op-player-list">
                 <p *ngFor="let player of team.players | keyvalue">
@@ -95,7 +95,7 @@
           </div>
           <div class="op-launch">
             <button *ngIf="team.active" class="btn btn-online" routerLink="/operations/{{team.index}}/{{team.world}}">
-              LIVE <mat-icon style="opacity: 1; vertical-align: middle; font-size: 20px;" class="hidden-xs">launch</mat-icon>
+              LIVE <mat-icon style="opacity: 1; vertical-align: middle; font-size: 20px;" class="d-none d-sm-block">launch</mat-icon>
             </button>
             <button *ngIf="!team.active" class="btn btn-offline" routerLink="/operations/{{team.index}}/{{team.world}}">
               OFFLINE

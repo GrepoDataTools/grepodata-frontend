@@ -12,17 +12,17 @@
       <div class="row" style="padding: 4% 0 2%;">
         <div class="alert alert-warning alert-gd-2 alert-gd-error text-center">
           <div class="row" style="display: flex;">
-            <div class="col-xs-2" style="display: flex;">
+            <div class="col-2" style="display: flex;">
               <mat-icon style="color: #18bc9c; font-size: 70px;">report</mat-icon>
             </div>
-            <div class="col-xs-10">
+            <div class="col-10">
               <div [outerHTML]="error"></div>
               <p>Team key: {{index_name}}</p>
             </div>
           </div>
         </div>
 
-        <div class="col-xs-12 text-center" style="padding-top: 50px;">
+        <div class="col-12 text-center" style="padding-top: 50px;">
           <button routerLink="/profile" class="btn btn-lg btn-success mr-1">
             <mat-icon>keyboard_arrow_left</mat-icon> Back to my intel
           </button>
@@ -69,13 +69,13 @@
         </div>
 
         <div class="index-options-container row" *ngIf="!committing_prev_intel">
-          <div class="col-xs-12 col-sm-6">
+          <div class="col-12 col-sm-6">
             <button style="" class="btn btn-secondary" (click)="commitPrevIntel('commit')">
               Yes, I want to share my previous intel<span class="hidden-sm hidden-md"> with this team ({{has_uncommitted_intel}} reports)</span>
               &nbsp;<mat-icon>share</mat-icon>
             </button>
           </div>
-          <div class="col-xs-12 col-sm-6">
+          <div class="col-12 col-sm-6">
             <button style="color: #334254 !important; display: flex;" class="btn btn-link" (click)="commitPrevIntel('ignore')">
               No, I don't want to share my intel. Don't show this message again
             </button>
@@ -112,8 +112,8 @@
 								<mat-tab>
 									<ng-template mat-tab-label>
 										<mat-icon style="opacity: 1; vertical-align: bottom;">group</mat-icon>&nbsp;
-										<span class="hidden-xs">Team info</span>
-										<span class="hidden-md hidden-sm hidden-lg">Info</span>
+										<span class="d-none d-sm-block">Team info</span>
+										<span class="d-block d-sm-none">Info</span>
 									</ng-template>
 									<ng-container *ngTemplateOutlet="info"></ng-container>
 								</mat-tab>
@@ -131,7 +131,7 @@
 						<div fxFlex="65" fxFlex.gt-lg="70">
 
               <!-- This is only shown if the team is small (low number of contributors and very few reports) -->
-              <div *ngIf="is_admin && contributors && contributors.length <= 1 && data.total_reports < 50" class="hidden-xs hidden-sm" fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="0" style="margin-bottom: -25px;">
+              <div *ngIf="is_admin && contributors && contributors.length <= 1 && data.total_reports < 50" class="d-none d-md-block" fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="0" style="margin-bottom: -25px;">
                 <div fxFlex="100">
                   <mat-card class="dense-card index-card-info" style="margin-bottom: 30px !important;">
                     <ng-container *ngTemplateOutlet="inviteAllies"></ng-container>
@@ -139,7 +139,7 @@
                 </div>
               </div>
 
-              <div class="hidden-xs hidden-sm" fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="0" style="margin-bottom: -25px;">
+              <div class="d-none d-md-flex" fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="0" style="margin-bottom: -25px;">
                 <div fxFlex="50">
                   <ng-container *ngTemplateOutlet="players"></ng-container>
                 </div>
@@ -149,12 +149,12 @@
               </div>
 
               <!--recent conquests-->
-              <div *ngIf="!loading && recent_conquests && recent_conquests.length > 0" class="hidden-xs hidden-sm">
+              <div *ngIf="!loading && recent_conquests && recent_conquests.length > 0" class="d-none d-md-block">
                 <ng-container *ngTemplateOutlet="sieges"></ng-container>
               </div>
 
               <!--recent latest intel-->
-              <div *ngIf="latest_intel && latest_intel.length>0" class="hidden-xs hidden-sm">
+              <div *ngIf="latest_intel && latest_intel.length>0" class="d-none d-md-flex">
                 <ng-container *ngTemplateOutlet="recentIntel"></ng-container>
               </div>
 
@@ -176,13 +176,13 @@
               </h5>
               <div class="" title="">
                 <div class="row">
-                  <div class="col-xs-12 gd-share-link-container" style="margin-left: -14px;">
+                  <div class="col-12 gd-share-link-container" style="margin-left: -14px;">
                     <br/>
                     <div class="row invite-link-container" (click)="copyLink()">
                       <input #shareLink
                              [ngClass]="{ 'copied': copied }"
                              [disabled]="true"
-                             class="col-xs-9 col-sm-8 col-md-7 col-lg-7 ur share-link-actual"
+                             class="col-9 col-sm-8 col-md-7 col-lg-7 ur share-link-actual"
                              type="url"
                              value="https://grepodata.com/invite/{{key}}{{share_link}}"
                              id="siegeShareUrl"
@@ -198,7 +198,7 @@
         </ng-template>
 
 				<ng-template #recentIntel>
-          <mat-card class="dense-card" style="margin-top: 35px !important;">
+          <mat-card class="dense-card w-100" style="margin-top: 35px !important;">
             <mat-card-title>
               <div class="form-group row" style='margin: 0px;'>
                 <h3 style='font-weight: 300; color: #304357; margin-top: 0px;'><span class='world-title' style='color: #18BC9C;'>Latest reports indexed</span></h3>
@@ -337,11 +337,11 @@
 											<a routerLink="/points" [queryParams]="{world: world}"><span [outerHTML]="world | WorldNamePipe"></span></a>
 										</td>
 									</tr>
-									<tr class="hidden-xs hidden-sm" *ngIf="data.total_reports > 0">
+									<tr class="d-none d-md-block" *ngIf="data.total_reports > 0">
 										<th>Last addition</th>
 										<td>{{data.latest_report}}</td>
 									</tr>
-									<tr class="hidden-xs hidden-sm" *ngIf="data.total_reports > 0">
+									<tr class="d-none d-md-block" *ngIf="data.total_reports > 0">
 										<th>Total reports</th>
 										<td>{{data.total_reports}}</td>
 									</tr>
@@ -371,17 +371,17 @@
 
 								<div *ngIf="is_admin">
 									<div class="index-options-container row">
-										<div class="col-xs-12 col-sm-6">
+										<div class="col-12 col-sm-6">
                       <button style="width: 100%;" class="btn btn-secondary mr-1" (click)="showMembersDialog()">
-                        <span class="hidden-md">Manage users</span>
-                        <span class="hidden-xs hidden-sm hidden-lg">Users</span>
+                        <span class="d-none d-md-block d-lg-none">Manage users</span>
+                        <span class="d-block d-md-none d-lg-block">Users</span>
                         &nbsp;<mat-icon>admin_panel_settings</mat-icon>
                       </button>
 										</div>
 										<div class="col-xs-12 col-sm-6">
 											<button style="width: 100%;" class="btn btn-success mr-1" (click)="showShareDialog()">
-                        <span class="hidden-md">Share team</span>
-                        <span class="hidden-xs hidden-sm hidden-lg">Share</span>
+                        <span class="d-none d-md-block d-lg-none">Share team</span>
+                        <span class="d-block d-md-none d-lg-block">Share</span>
                         &nbsp;<mat-icon>group_add</mat-icon></button>
 										</div>
 									</div>
@@ -463,8 +463,8 @@
 										</div>
 										<div class="cell" style="width: 30%;">
 											<a routerLink="/intel/player/{{world}}/{{player?.player_id}}">intel</a>
-											<span class="hidden-xs">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-											<br class="hidden-sm hidden-md hidden-lg"/>
+											<span class="d-none d-sm-block">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+											<br class="d-block d-sm-none"/>
 											<a routerLink="/player" [queryParams]="{world: world, id: player?.player_id}">stats</a>
 										</div>
 									</div>
@@ -512,8 +512,8 @@
 										</div>
 										<div class="cell">
 											<a routerLink="/intel/alliance/{{world}}/{{alliance?.alliance_id}}">intel</a>
-											<span class="hidden-xs">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-											<br class="hidden-sm hidden-md hidden-lg"/>
+											<span class="d-none d-sm-block">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+											<br class="d-block d-sm-none"/>
 											<a routerLink="/alliance" [queryParams]="{world: world, id: alliance?.alliance_id}">stats</a>
 										</div>
 									</div>
@@ -559,7 +559,7 @@
 									</div>
 								</div>
 
-								<div class="hidden-xs hidden-sm text-left" style="margin-top: 34px;">
+								<div class="d-none d-md-block text-left" style="margin-top: 34px;">
 									<app-userscript></app-userscript>
 								</div>
 

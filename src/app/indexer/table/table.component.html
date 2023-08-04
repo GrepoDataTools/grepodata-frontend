@@ -14,7 +14,7 @@
 			<h3>No {{tableHeader.toLowerCase()}} intel available</h3>
 			<p>Index more reports about this player</p>
 		</div>
-		<div *ngIf="iterator.length>0" class="bb-fixed" [ngClass]="{'bb-fixed-lg':hideAvailable}">
+		<div *ngIf="iterator.length>0" class="bb-fixed d-flex align-items-end" [ngClass]="{'bb-fixed-lg':hideAvailable}" style="height: 32px">
 			<div *ngIf="hideAvailable" class="togglecontainer" style="position: absolute; left: 5px; margin-top: -5px;">
 				<mat-checkbox [(ngModel)]="showNonPriority" (change)="cdr.detectChanges(); saveDuplicateVisibility();">Show duplicate intel</mat-checkbox>
 				<!--<mat-slide-toggle [(ngModel)]="showNonPriority" (change)="cdr.detectChanges(); saveDuplicateVisibility();">Show duplicate intel</mat-slide-toggle>-->
@@ -25,8 +25,8 @@
 				<!--<span class="toggle-label" style="vertical-align: middle !important;">Show duplicate intel</span>-->
 				<!--<span class="toggle-label" style="vertical-align: middle !important;">Show all<span class="hidden-xs hidden-sm"> (only show 1 record per town)</span></span>-->
 			</div>
-			<button name="open_bb" class="btn btn-success btn-xs"
-			        (click)="openBBdialog()" style="position: absolute; right: 5px; margin-top: -27px;">
+			<button name="open_bb" class="btn btn-success btn-sm"
+			        (click)="openBBdialog()" style="position: absolute; right: 5px; margin-top: -27px; margin-bottom: 5px">
 				<i class="fa fa-code"></i> BB code
 			</button>
 		</div>
@@ -55,7 +55,7 @@
 
 					</div>
 					<div class="cell" style="text-align: left;" *ngIf="isSeaUnit" title="{{tableHeader}}">
-		        <span class="unit-icon-xs hidden-xs">
+		        <span class="unit-icon-xs d-none d-sm-block">
 		          <div class="unit_icon40x40 {{typeActual}}"></div>
 		        </span>
 						<span [outerHTML]="town.units | HideNoLossPipe"></span>

@@ -2,25 +2,44 @@
   <app-indexer-breadcrumbs [data]="{world: world, team: team, team_name: team_name}" [type]="'ops'"></app-indexer-breadcrumbs>
 </div>
 
-<div class="ops-action">
-  <button class="btn btn-danger mr-1 hidden-xs" (click)="toggleOpSettings(!showOpSettings)" title="Delete or hide commands">
-    <span *ngIf="!showOpSettings">Delete Commands <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">settings</mat-icon></span>
-    <span *ngIf="showOpSettings">Delete Commands <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">close</mat-icon></span>
+<div class="ops-action d-flex">
+  <button class="btn btn-danger mr-1 d-none d-sm-block" (click)="toggleOpSettings(!showOpSettings)" title="Delete or hide commands">
+    <span *ngIf="!showOpSettings" class="d-flex">
+      <span>Delete Commands</span> <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="d-none d-sm-block">settings</mat-icon></span>
+    <span *ngIf="showOpSettings" class="d-flex"><span>Delete Commands</span>  <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="d-none d-sm-block">close</mat-icon></span>
   </button>
-  <button [disabled]="!is_admin" class="btn btn-secondary mr-1 hidden-xs hidden-sm" (click)="openUsersDialog()" title="Only the team admin/owner can manage these settings">
-    Users <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">group</mat-icon>
+  <button [disabled]="!is_admin" class="btn btn-secondary mr-1 d-none d-md-block" (click)="openUsersDialog()" title="Only the team admin/owner can manage these settings">
+    <div class="d-flex">
+      <span>Users</span>
+     <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="d-none d-sm-block">group</mat-icon>
+    </div>
   </button>
   <button class="btn btn-secondary mr-1" (click)="showHelpDialog()">
-    Help <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">live_help</mat-icon>
+    <div class="d-flex">
+      <span>Help</span>
+    <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="d-none d-sm-block">live_help</mat-icon>
+
+    </div>
   </button>
-  <button class="btn btn-secondary mr-1 hidden-xs hidden-sm hidden-md" (click)="showContactDialog()">
-    Feedback <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">feedback</mat-icon>
+  <button class="btn btn-secondary mr-1 d-none d-lg-block" (click)="showContactDialog()">
+    <div class="d-flex">
+      <span>Feedback</span>
+    <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="d-none d-sm-block">feedback</mat-icon>
+
+    </div>
   </button>
-  <button class="btn btn-success mr-1 hidden-xs hidden-sm hidden-md" (click)="copyURL()" title="Team access is required to view this page!">
-    Share <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">share</mat-icon>
+  <button class="btn btn-success mr-1 d-none d-lg-block" (click)="copyURL()" title="Team access is required to view this page!">
+    <div class="d-flex">
+<span>Share</span>
+<mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="d-none d-sm-block">share</mat-icon>
+
+    </div>
   </button>
-  <button class="btn btn-primary hidden-xs hidden-sm hidden-md" routerLink="/profile/ops">
-    Back <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">exit_to_app</mat-icon>
+  <button class="btn btn-primary d-none d-lg-block" routerLink="/profile/ops">
+    <div class="d-flex">
+      <span>Back</span>
+      <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="d-none d-sm-block">exit_to_app</mat-icon>
+    </div>
   </button>
   <div class="op-settings-container" *ngIf="deleting">
     <div class="delete-header" fxLayout="row" style="margin-right: 15px;">
@@ -44,7 +63,7 @@
             <span *ngIf="deletingOperation=='hide_all_user'">Hide all commands uploaded by {{deletingUserOptions[deletingUserSelected]?.name}}</span>
             <span *ngIf="deletingOperation=='unhide_all_user'">Unhide all commands uploaded by {{deletingUserOptions[deletingUserSelected]?.name}}</span>
             <span *ngIf="deletingOperation=='delete_all_user'">Delete all commands uploaded by {{deletingUserOptions[deletingUserSelected]?.name}}</span>
-            <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">delete</mat-icon>
+            <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="d-none d-sm-block">delete</mat-icon>
           </button>
         </h4>
         <a (click)="cancelDeleteOnBehalfOf()" class="close"></a>
@@ -60,10 +79,10 @@
       <a (click)="toggleOpSettings(false)" class="close"></a>
     </div>
     <button class="btn btn-secondary mr-1" (click)="deleteOperation('hide_all_user', 'user')" title="Your active commands will be hidden for this team. Only you can still see them.">
-      Hide All My Commands (User) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">remove_red_eye</mat-icon>
+      Hide All My Commands (User) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="d-none d-sm-block">remove_red_eye</mat-icon>
     </button>
     <button class="btn btn-secondary mr-1" (click)="deleteOperation('unhide_all_user', 'user')" title="Your hidden active commands will be shown again in this team">
-      Unhide All My Commands (User) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">remove_red_eye</mat-icon>
+      Unhide All My Commands (User) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="d-none d-sm-block">remove_red_eye</mat-icon>
     </button>
 <!--    <button class="btn btn-danger mr-1" (click)="deleteOperation('delete_all_user', 'user')" title="Your active commands will be deleted from this operation">-->
 <!--      Delete All My Commands (User) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">delete</mat-icon>-->
@@ -71,7 +90,7 @@
     <hr style="margin: 5px;">
     <p>Only team admins can edit all commands.</p>
     <button [disabled]="!is_admin" class="btn btn-danger mr-1" (click)="deleteOnBehalfOf('hide_all_user')" title="Only the team admin/owner can delete all commands">
-      Hide All From User (Admin) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">remove_red_eye</mat-icon>
+      Hide All From User (Admin) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="d-none d-sm-block">remove_red_eye</mat-icon>
     </button>
 <!--    <button [disabled]="!is_admin" class="btn btn-secondary mr-1" (click)="deleteOnBehalfOf('unhide_all_user')" title="Only the team admin/owner can delete all commands">-->
 <!--      Unhide All From User (Admin) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">remove_red_eye</mat-icon>-->
@@ -80,7 +99,7 @@
 <!--      Delete All From User (Admin) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">delete</mat-icon>-->
 <!--    </button>-->
     <button [disabled]="!is_admin" class="btn btn-danger mr-1" (click)="deleteOperation('delete_all_team', 'admin')" title="Only the team admin/owner can delete all commands" style="margin-top: 3px;">
-      Delete All Commands (Admin) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">delete</mat-icon>
+      Delete All Commands (Admin) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="d-none d-sm-block">delete</mat-icon>
     </button>
     <hr style="margin: 5px;">
     <p><strong>Note: </strong>users can always unhide or reupload their commands</p>
@@ -95,7 +114,7 @@
       <span *ngIf="mobile_filters_opened==true">Close filter panel</span>
       <span *ngIf="mobile_filters_opened!=true">Show filter panel</span>
     </div>
-    <div class="mobile-toggle hidden-xs">
+    <div class="mobile-toggle d-none d-sm-block">
       Select a command to view details
     </div>
   </div>
@@ -114,7 +133,7 @@
                 </h3>
                 <mat-icon class="edit-owner" style="vertical-align: sub;" *ngIf="!active_view.is_default">create</mat-icon>
               </div>
-              <div class="view-edit" [ngClass]="{'hidden': !editting_view_name}">
+              <div class="view-edit" [ngClass]="{'d-none': !editting_view_name}">
                 <h3 style="margin: 3px 0 !important;">
                   View:
                 </h3>
@@ -269,7 +288,7 @@
             <div *ngIf="error" style="margin-top: 70px;">
               <h3>
                 <div class="row">
-                  <div class="col-xs-6 col-xs-offset-3">
+                  <div class="col-6 offset-3">
                     <app-alert type="error" [dismissible]="false">
                       <h5>{{error}}</h5>
                     </app-alert>
@@ -400,11 +419,11 @@
                   {{selected_command.trg_twn_n}}
                 </span>
                 <div>
-                  <button class="btn btn-default btn-xs mr-1"
+                  <button class="btn btn-secondary btn-xs mr-1"
                           (click)="copyBB(selected_command.trg_twn_id, 'town')">
                     BB code
                   </button>
-                  <button class="btn btn-default btn-xs"
+                  <button class="btn btn-secondary btn-xs"
                           (click)="openIntelDialog(selected_command.trg_twn_id)">
                     Intel
                   </button>
@@ -416,11 +435,11 @@
                   {{selected_command.src_twn_n}}
                 </span>
                 <div>
-                  <button class="btn btn-default btn-xs mr-1"
+                  <button class="btn btn-secondary btn-xs mr-1"
                           (click)="copyBB(selected_command.src_twn_id, 'town')">
                     BB code
                   </button>
-                  <button class="btn btn-default btn-xs"
+                  <button class="btn btn-secondary btn-xs"
                           (click)="openIntelDialog(selected_command.src_twn_id)">
                     Intel
                   </button>

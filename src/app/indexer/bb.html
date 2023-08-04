@@ -5,7 +5,7 @@
     <div mat-dialog-content>
 
         <div *ngIf="type!='alliances_indexed' && type!='players_indexed' && type!='island'" class="row">
-	        <div *ngIf="hideAvailable && (24 + dataBB.data.length * (type=='player_fire'||type=='player_bir'?8:6)) <= 500" class="col-xs-12 togglecontainer">
+	        <div *ngIf="hideAvailable && (24 + dataBB.data.length * (type=='player_fire'||type=='player_bir'?8:6)) <= 500" class="col-12 togglecontainer">
 		        <label class="switch">
 			        <input type="checkbox" [(ngModel)]="showNonPriority">
 			        <span class="slider round"></span>

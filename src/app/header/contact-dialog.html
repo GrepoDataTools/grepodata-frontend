@@ -24,10 +24,10 @@
 	      </mat-form-field>
 
 		    <div class="row" *ngIf="contact_mail != ''">
-			    <div class="col-xs-1">
+			    <div class="col-1">
 				    <mat-checkbox [disabled]="loading" [(ngModel)]="privacy_agreed"></mat-checkbox>
 			    </div>
-			    <div class="col-xs-11" style="text-align: left;">
+			    <div class="col-11" style="text-align: left;">
 				    <p>By submitting this form you agree to our <a routerLink="/privacy" (click)="dialogRef.close()">Privacy Policy</a></p>
 			    </div>
 		    </div>

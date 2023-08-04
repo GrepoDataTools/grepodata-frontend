@@ -16,7 +16,7 @@
     <li class="breadcrumb-item active" *ngIf="data.teams && data.teams.length > 0 && !data.hide_teams" (mouseover)="toggleTeams(true)" (mouseleave)="toggleTeams(false)">
       <mat-icon style="vertical-align: text-bottom;">group</mat-icon>
       <a routerLink="/profile/team/{{data.teams[0].index_key}}"> {{data.teams[0].index_name}}</a>
-      <mat-icon style="vertical-align: bottom;" class="hidden-xs hidden-sm">arrow_drop_down</mat-icon>
+      <mat-icon style="vertical-align: bottom;" class="d-none d-md-inline-block">arrow_drop_down</mat-icon>
       <div *ngIf="expandedTeams" class="expand-options">
         <div *ngFor="let team of data.teams">
           <mat-icon class="directory">subdirectory_arrow_right</mat-icon>
@@ -48,7 +48,7 @@
       <span *ngIf="!data.alliance.name">
         &nbsp;no alliance
       </span>
-      <mat-icon style="vertical-align: bottom;" class="hidden-xs hidden-sm" *ngIf="data.alliance.id">arrow_drop_down</mat-icon>
+      <mat-icon style="vertical-align: bottom;" class="d-none d-md-inline-block" *ngIf="data.alliance.id">arrow_drop_down</mat-icon>
       <div *ngIf="expandedAlliance && data.alliance.id" class="expand-options">
         <div style="margin-bottom: 10px;" *ngIf="!data.alliance.active">
           <mat-icon class="directory">subdirectory_arrow_right</mat-icon>
@@ -76,7 +76,7 @@
       <span *ngIf="data.player.active===true">
         {{data.player.name}}
       </span>
-      <mat-icon style="vertical-align: bottom;" class="hidden-xs hidden-sm">arrow_drop_down</mat-icon>
+      <mat-icon style="vertical-align: bottom;" class="d-none d-md-inline-block">arrow_drop_down</mat-icon>
       <div *ngIf="expandedPlayer" class="expand-options">
         <div style="margin-bottom: 10px;" *ngIf="!data.player.active">
           <mat-icon class="directory">subdirectory_arrow_right</mat-icon>
@@ -114,16 +114,16 @@
     <li class="breadcrumb-item">
       <a class="gd-secondary hover-scale" routerLink="/profile/ops">
         <mat-icon style="vertical-align: bottom;">keyboard_backspace</mat-icon>&nbsp;
-        <span class="ops-gd-header hidden-xs hidden-sm">
+        <span class="ops-gd-header d-none d-md-inline-block">
           <span style="color: rgb(103, 103, 103)">GREPO</span>
           <span style="color: rgb(24, 188, 156)">DATA</span>
         </span>
-        <span style="color: #334254 !important;" class="hidden-xxs">&nbsp;Team Ops</span>
+        <span style="color: #334254 !important;" class="d-none d-md-inline-block">&nbsp;Team Ops</span>
       </a>
     </li>
 
     <!-- World -->
-    <li class="breadcrumb-item active hidden-xs" *ngIf="data.world">
+    <li class="breadcrumb-item active d-none d-sm-block" *ngIf="data.world">
       <div [outerHTML]="data.world | WorldNamePipe"></div>
     </li>
 

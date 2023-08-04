@@ -29,6 +29,11 @@ pre {
   min-width: 60vw !important;
 }
 
+.mdc-evolution-chip__graphic {
+  //Hide checkmark on all chip lists!
+  display: none !important;
+}
+
 .gd-scrollbar::-webkit-scrollbar {
   width: 12px;
 }
@@ -418,6 +423,12 @@ mat-paginator {
 .gd-chip {
   border-radius: 0 !important;
   padding-left: 0 !important;
+  .mdc-evolution-chip__text-label {
+    padding-left: 0 !important;
+    display: flex;
+    align-items: center;
+    font-weight: 500 !important;
+  }
 }
 .gd-chip:hover {
   cursor: pointer !important;
@@ -577,9 +588,18 @@ tspan {
   display: none !important;
 }
 
+
+.mdc-evolution-chip__text-label {
+  padding-left: 12px !important;
+}
+
 .btn-chip {
   background-color: #009688 !important;
-  color: white !important;
+  .mdc-evolution-chip__text-label {
+    color: white !important;
+    display: flex;
+    align-items: center;
+  }
 }
 
 
@@ -1025,6 +1045,7 @@ fieldset[disabled] .btn-success.active {
   width: 32px;
   height: 32px;
   opacity: 0.3;
+  z-index: 1000;
 }
 .close:hover {
   opacity: 1;

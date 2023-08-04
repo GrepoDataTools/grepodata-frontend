@@ -3,8 +3,6 @@ $headingfont: 'Roboto', sans-serif;
 
 @use '@angular/material' as mat;
 
-@include mat.core();
-
 $mat-grepodata: (
   50 : #e3f7f3,
   100 : #baebe1,

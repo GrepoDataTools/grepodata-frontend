@@ -2,13 +2,13 @@
   <div class="footer-below" [ngClass]="sidebar == true ? 'sidebarred':''">
     <div [ngClass]="sidebar == true ? 'container-fluid':'container'">
       <div class="row">
-	      <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 disclaimer">
+	      <div class="col-12 col-sm-12 col-md-8 col-lg-8 disclaimer">
 		      <!--<strong>Copyright notices: </strong>&nbsp;-->
 		      Grepolis is a browser game by InnoGames GmbH. This is an unofficial 3rd party site
 		      <br/>
 		      Gameplay images related to Grepolis are copyright of InnoGames GmbH.
 	      </div>
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 disclaimer">
+        <div class="col-12 col-sm-12 col-md-4 col-lg-4 disclaimer">
           Copyright &copy; Grepodata {{date| date:'yyyy'}}
           <br/>
           <a class="a-link-dialog" (click)="showDisclaimerDialog()">Disclaimer</a>
@@ -27,12 +27,12 @@
   <div class="footer-below">
     <div class="container">
       <div class="row">
-	      <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" *ngIf="copyright" style="padding: 12px;">
+	      <div class="col-12 col-sm-12 col-md-8 col-lg-8" *ngIf="copyright" style="padding: 12px;">
 		      <strong>Copyright notices: </strong>
 		      &nbsp;Gameplay images related to Grepolis are copyright of InnoGames GmbH.
 	      </div>
 
-        <div [ngClass]="copyright == true ? 'col-xs-12 col-sm-12 col-md-4 col-lg-4':'col-xs-12'">
+        <div [ngClass]="copyright == true ? 'col-12 col-sm-12 col-md-4 col-lg-4':'col-12'">
           Copyright &copy; Grepodata {{date| date:'yyyy'}}
           <br/>
           <a class="a-link-dialog" (click)="showDisclaimerDialog()">Disclaimer</a>

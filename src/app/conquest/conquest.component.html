@@ -57,7 +57,7 @@
 					</h3>
 				</div>
 
-				<div class="{{embedded?(minimal?'col-xs-12':'col-xs-10'):'col-sm-12 col-md-6'}}" *ngIf="!noData" [ngClass]="{'disabled-div':loading}">
+				<div class="{{embedded?(minimal?'col-12':'col-10'):'col-sm-12 col-md-6'}}" *ngIf="!noData" [ngClass]="{'disabled-div':loading}">
 					<div style="max-height: 40px; margin-top: -12px;" (mousemove)="cdr.detectChanges();" *ngIf="count > 10">
 						<mat-paginator [length]="count"
 						               [pageSize]="size"
@@ -104,14 +104,14 @@
 		<div class="table-container" *ngIf="(!noData && data.length>0) || filtering" [ngClass]="{'loading-overlay': loading && !loadingFiltered}">
 			<div class="table" id="player_conquests_table" style="">
 				<div class="row_custom header default">
-					<div class="cell hidden-xs" *ngIf="!embedded">Date</div>
+					<div class="cell d-none d-sm-block" *ngIf="!embedded">Date</div>
 					<div class="cell" *ngIf="embedded && !mobile">Date</div>
 					<div class="cell" *ngIf="type != 'town'">City</div>
 					<div class="cell">Old owner</div>
-					<div class="cell hidden-xs" *ngIf="!embedded">Old alliance</div>
+					<div class="cell d-none d-sm-block" *ngIf="!embedded">Old alliance</div>
 					<div class="cell">New owner</div>
-					<div class="cell hidden-xs" *ngIf="!embedded">New alliance</div>
-					<div class="cell hidden-xs" *ngIf="!embedded">Points</div>
+					<div class="cell d-none d-sm-block" *ngIf="!embedded">New alliance</div>
+					<div class="cell d-none d-sm-block" *ngIf="!embedded">Points</div>
 					<div class="cell" *ngIf="embedded && mobile">Date</div>
 				</div>
 
@@ -147,7 +147,7 @@
 
 				<div class="row_custom" *ngFor="let c of data; let i = index;" [ngClass]="{'loading-overlay': loadingFiltered}">
 
-					<div class="cell hidden-xs" *ngIf="!embedded">
+					<div class="cell d-none d-sm-block" *ngIf="!embedded">
 						{{c.time | Datex : "D MMM YYYY HH:mm"}}
 					</div>
 					<div class="cell" *ngIf="embedded && !mobile">
@@ -192,7 +192,7 @@
 						</div>
 					</div>
 
-					<div class="cell hidden-xs formatted-cell" *ngIf="!embedded">
+					<div class="cell d-none d-sm-block formatted-cell" *ngIf="!embedded">
 						<a *ngIf="c.o_a_name != null && c.o_a_name != ''" routerLink="/alliance" [queryParams]="{world: world, id: c.o_a_id}">{{c.o_a_name}}</a>
 					</div>
 
@@ -207,11 +207,11 @@
 						</div>
 					</div>
 
-					<div class="cell hidden-xs formatted-cell" *ngIf="!embedded">
+					<div class="cell d-none d-sm-block formatted-cell" *ngIf="!embedded">
 						<a *ngIf="c.n_a_name != null && c.n_a_name != ''" routerLink="/alliance" [queryParams]="{world: world, id: c.n_a_id}">{{c.n_a_name}}</a>
 					</div>
 
-					<div class="cell hidden-xs" *ngIf="!embedded">
+					<div class="cell d-none d-sm-block" *ngIf="!embedded">
 						{{ c.points | NumberFilter }}
 					</div>
 

@@ -37,7 +37,7 @@
     "@types/bootstrap": "^4.1.2",
     "ajv": "^6.5.5",
     "ajv-keywords": "^3.2.0",
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^4.0.0",
     "bootstrap-3-typeahead": "^4.0.2",
     "cookieconsent": "^3.0.4",
     "core-js": "^2.5.7",

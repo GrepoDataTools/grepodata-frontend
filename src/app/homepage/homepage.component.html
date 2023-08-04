@@ -12,8 +12,8 @@
             </div>
             <div class="subtext-image">
               <div *ngIf="headerInView" [@enterBot]>
-                <span class="skills hidden-xs">Advanced tools and statistics for the MMOG Grepolis</span>
-                <span class="skills hidden-sm hidden-md hidden-lg">Tools and statistics for Grepolis</span>
+                <span class="skills d-none d-sm-block">Advanced tools and statistics for the MMOG Grepolis</span>
+                <span class="skills d-sm-none d-block">Tools and statistics for Grepolis</span>
               </div>
             </div>
           </div>
@@ -30,7 +30,7 @@
       <div class="col-md-12" style="margin-top: -30px; padding: 0 !important;">
         <app-search [homepage]="true"></app-search>
       </div>
-      <div class="col-md-4 hidden-xs hidden-sm" style="padding-bottom: 20px;">
+      <div class="col-md-4 d-none d-md-block" style="padding-bottom: 20px;">
         <div class="col editContent">
           <span class="numberstep"><i class="fa fa-bar-chart"></i></span>
           <h3 class="numbertext">Game statistics</h3>
@@ -39,7 +39,7 @@
           </p>
         </div>
       </div>
-      <div class="col-md-4 editContent hidden-xs hidden-sm">
+      <div class="col-md-4 editContent d-none d-md-block">
         <div class="col">
           <span class="numberstep"><i class="fa fa-github"></i></span>
           <h3 class="numbertext">Open source</h3>
@@ -50,7 +50,7 @@
           </p>
         </div>
       </div>
-      <div class="col-md-4 editContent hidden-xs hidden-sm">
+      <div class="col-md-4 editContent d-none d-md-block">
         <div class="col">
           <span class="numberstep"><i class="fa fa-wrench"></i></span>
           <h3 class="numbertext">Tools</h3>
@@ -267,13 +267,13 @@
 <div class="footer text-center">
   <div class="container">
     <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 disclaimer">
+      <div class="col-12 col-sm-12 col-md-8 col-lg-8 disclaimer">
         <!--<strong>Copyright notices: </strong>&nbsp;-->
         Grepolis is a browser game by InnoGames GmbH. This is an unofficial 3rd party site
         <br/>
         Gameplay images related to Grepolis are copyright of InnoGames GmbH.
       </div>
-      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 disclaimer">
+      <div class="col-12 col-sm-12 col-md-4 col-lg-4 disclaimer">
         Copyright &copy; GrepoData {{date| date:'yyyy'}}
         <br/>
         <a class="a-link-dialog" (click)="showDisclaimerDialog()">Disclaimer</a>

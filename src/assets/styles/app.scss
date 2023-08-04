@@ -42,6 +42,11 @@
 Global Styles
 *******************/
 
+// OVERRIDE BT5
+.table>:not(caption)>*>* {
+  background-color: transparent;
+}
+
 * {
   outline: none;
   box-sizing: border-box;

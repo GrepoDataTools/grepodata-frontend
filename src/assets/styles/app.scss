@@ -149,7 +149,7 @@ h4,
 h5,
 h6 {
   font-family: $headingfont;
-  //font-weight: 400;
+  margin-bottom: 0;
 }
 
 h1 {
@@ -175,13 +175,13 @@ h4 {
 h5 {
   line-height: 18px;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 h6 {
   line-height: 16px;
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 500;
 }
 html,
 body {

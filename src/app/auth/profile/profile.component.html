@@ -37,9 +37,13 @@
 <!--        </p>-->
 <!--      </app-alert>-->
 
-      <mat-card *ngIf="account_confirmed && ['intel', 'player', 'alliance', 'town', 'team'].indexOf(active_tab)>=0" class="search-card">
-        <app-index-search></app-index-search>
-      </mat-card>
+<div class="container-fluid">
+      <gd-card *ngIf="account_confirmed && ['intel', 'player', 'alliance', 'town', 'team'].indexOf(active_tab)>=0" class="search-card">
+        <gd-card-body>
+          <app-index-search></app-index-search>
+        </gd-card-body>
+      </gd-card>
+      </div>
 
       <div *ngIf="active_tab === 'bug'">
         <app-bug-report></app-bug-report>

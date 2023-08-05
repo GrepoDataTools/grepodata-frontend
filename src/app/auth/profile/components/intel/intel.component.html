@@ -18,7 +18,8 @@
     </mat-card-content>
 </mat-card>
 
-<mat-card class="index-card index-card-sm" *ngIf="confirmed">
+<gd-card *ngIf="confirmed">
+	<gd-card-header>
     <h2 class="gd-secondary">
         Your top teams
         <a
@@ -38,7 +39,8 @@
             View all my teams <mat-icon style="opacity: 1; vertical-align: sub">launch</mat-icon>
         </a>
     </h2>
-
+</gd-card-header>
+<gd-card-body>
     <div *ngIf="loadingIndexes" style="padding: 30px">
         <mat-progress-bar style="margin-top: -10px" mode="indeterminate"></mat-progress-bar>
     </div>
@@ -109,7 +111,8 @@
             </div>
         </ng-container>
     </div>
-</mat-card>
+</gd-card-body>
+</gd-card>
 
 <div *ngIf="!loading && num_results <= 0">
     <app-userscript></app-userscript>
@@ -237,134 +240,3 @@
         </tr>
     </tfoot>
 </gd-table>
-
-<mat-card class="index-card index-card-sm" *ngIf="num_results > 0">
-    <h2 class="gd-secondary">Your recently indexed reports</h2>
-
-    <mat-card-content style="padding: 0 30px 15px">
-        <div *ngIf="loading || paging">
-            <mat-progress-bar style="margin-top: -3px; margin-bottom: -7px" mode="indeterminate"></mat-progress-bar>
-        </div>
-
-        <!--    <div *ngIf="!loading && num_results <= 0">-->
-        <!--      <app-alert type="info" title="You have not yet indexed any reports" [dismissible]="false">-->
-        <!--        <div style="min-height: 73px !important;">-->
-        <!--          <h4>Install our userscript to start collecting intel.</h4>-->
-        <!--          <button class="btn btn-primary" routerLink="/profile/script">Install the city indexer userscript</button>-->
-        <!--        </div>-->
-        <!--      </app-alert>-->
-        <!--    </div>-->
-
-        <div *ngIf="!loading && num_results > 0">
-            <mat-paginator
-                *ngIf="from > 0 || num_results > 20"
-                [length]="num_results"
-                [pageSize]="size"
-                [pageIndex]="from / size"
-                [pageSizeOptions]="[20, 50, 100]"
-                (page)="paginatorEvent($event)"
-                [disabled]="paging"
-                style="display: flex; justify-content: left"
-            >
-            </mat-paginator>
-
-            <div [ngClass]="{ 'loading-overlay': paging }">
-                <div class="table intel-table" id="table_all">
-                    <div class="row_custom header bg-gd-2">
-                        <div class="cell">World</div>
-                        <div class="cell">Type</div>
-                        <div class="cell">Town</div>
-                        <div class="cell">Player</div>
-                        <div class="cell">Alliance</div>
-                        <div class="cell">Date</div>
-                        <div class="cell" style="width: 50%">Units</div>
-                        <div class="cell"></div>
-                    </div>
-
-                    <div class="row_custom" *ngFor="let town of intel" style="height: 60px">
-                        <div class="cell">
-                            <div class="bg-flag flag-inline-middle flag-{{ town?.world.substring(0, 2) }}"></div>
-                            &nbsp;<a routerLink="/points/{{ town?.world }}">{{ town?.world }}</a>
-                        </div>
-                        <div
-                            class="cell unit-cell-small"
-                            matTooltip="{{ getAttackTooltipText(town) }}"
-                            style="margin-top: -8px"
-                        >
-                            <div
-                                class="friendly-attack"
-                                *ngIf="town.type === 'friendly_attack'"
-                                style="position: relative"
-                            ></div>
-                            <div
-                                class="enemy-attack"
-                                *ngIf="town.type === 'enemy_attack'"
-                                style="
-                                    position: relative;
-                                    -moz-transform: scaleX(-1);
-                                    -o-transform: scaleX(-1);
-                                    -webkit-transform: scaleX(-1);
-                                    transform: scaleX(-1);
-                                    filter: FlipH;
-                                "
-                            ></div>
-                            <div class="wisdom" *ngIf="town.type === 'wisdom'"></div>
-                            <div class="support" *ngIf="town.type === 'support'"></div>
-                            <div class="conquest" *ngIf="town.type === 'attack_on_conquest'"></div>
-                            <div class="spy" *ngIf="town.type === 'spy'"></div>
-                        </div>
-                        <div class="cell">
-                            <a routerLink="/intel/town/{{ town?.world }}/{{ town?.town_id }}">{{ town?.town_name }}</a>
-                        </div>
-                        <div class="cell">
-                            <a routerLink="/intel/player/{{ town?.world }}/{{ town?.player_id }}">{{
-                                town?.player_name
-                            }}</a>
-                        </div>
-                        <div class="cell">
-                            <a
-                                routerLink="/intel/alliance/{{ town?.world }}/{{ town?.alliance_id }}"
-                                class="truncate"
-                                >{{ town?.alliance_name }}</a
-                            >
-                        </div>
-                        <div class="cell">
-                            {{ town.date | IndexDate }}
-                        </div>
-                        <div class="cell">
-                            <div *ngIf="town?.parsed_err == true">
-                                <span class="gd-error"
-                                    >Sorry, we were unable to parse this report. Reason: {{ town?.parsed_msg }}.
-                                    Developers have been notified.</span
-                                >
-                            </div>
-                            <div *ngIf="town?.parsed_err != true && town?.parsed != true">
-                                <span class="gd-error">This report is invalid. Reason: {{ town?.parsed_msg }}.</span>
-                            </div>
-                            <div style="display: flex; gap: 4px" *ngIf="town?.parsed == true">
-                                <span *ngFor="let unit of town.units | ValuesPipe; let i = index">
-                                    <unit
-                                        [id]="unit.name"
-                                        [size]="50"
-                                        [totalCount]="unit.count"
-                                        [wounded]="unit.killed"
-                                    ></unit>
-                                </span>
-                            </div>
-                        </div>
-
-                        <div
-                            *ngIf="town.shared_via_indexes"
-                            class="cell gd-primary a-link-dialog"
-                            matTooltip="Click here to see who this intel was shared with"
-                            (click)="openShareInfoDialog(town)"
-                        >
-                            <mat-icon>supervised_user_circle</mat-icon>
-                        </div>
-                        <div *ngIf="!town.shared_via_indexes" class="cell"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </mat-card-content>
-</mat-card>

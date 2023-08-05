@@ -142,6 +142,17 @@ export class IntelComponent implements OnInit {
     return 'Friendly attack'
   }
 
+  public getCountryFromWorld(world: string) {
+    const market = world.substring(0, 2);
+
+    switch (market) {
+      case 'en':
+        return 'gb';
+      default:
+        return market;
+    }
+  }
+
   paginatorEvent($event) {
     this.pageEvent = $event;
     if (typeof this.pageEvent != 'undefined') {

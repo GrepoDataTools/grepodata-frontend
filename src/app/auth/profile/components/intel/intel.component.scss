@@ -1,3 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+.card {
+    font-family: 'Inter', sans-serif !important;
+    margin: 0 20px;
+    border-radius: 0.375rem;
+    border: 0 solid rgba(0, 0, 0, 0.125);
+    box-shadow: 0 7px 14px 0 rgba(65, 69, 88, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.07);
+}
+
+.c-header {
+    padding: 1rem 1.25rem;
+    margin-bottom: 0;
+    background-color: transparent;
+    border-bottom: 0px solid rgba(0, 0, 0, 0.125);
+    
+    & h5 {
+      font-weight: 500 !important;
+    }
+}
+
+thead {
+    background: rgb(238 238 238)!important;
+}
+
+tfoot {
+    background: rgb(238 238 238)!important;
+}
+
+th {
+    font-weight: 420;
+    font-size: 14px;
+}
+
+td {
+    color: rgba(77, 89, 105, 1);
+    font-weight: 420;
+    font-size: 14px;
+}
+
+
 .top-index-cards {
   background: #f3f3f3 !important;
   color: #334254 !important;

@@ -1,185 +1,370 @@
 <!--Get started card-->
 <mat-card class="index-card index-card-sm" *ngIf="!hasIntel && !hasIndexes">
-  <h2 class="gd-secondary">Getting started</h2>
-  <mat-card-content style="margin: 0 30px;">
-    <app-alert type="info" title="Welcome to your personal enemy intelligence overview" [dismissible]="false">
-      <div style="min-height: 73px !important;">
-        <h4>You can start collecting intel after installing our userscript. The intel you collect will show up here.</h4>
-        <p>Once you confirm your email address, you can also create or join a team. A team allows you to share your intel with other people. For example, you can create a new team together with your alliance members and work together to collect enemy intelligence!</p>
-      </div>
-    </app-alert>
-  </mat-card-content>
+    <h2 class="gd-secondary">Getting started</h2>
+    <mat-card-content style="margin: 0 30px">
+        <app-alert type="info" title="Welcome to your personal enemy intelligence overview" [dismissible]="false">
+            <div style="min-height: 73px !important">
+                <h4>
+                    You can start collecting intel after installing our userscript. The intel you collect will show up
+                    here.
+                </h4>
+                <p>
+                    Once you confirm your email address, you can also create or join a team. A team allows you to share
+                    your intel with other people. For example, you can create a new team together with your alliance
+                    members and work together to collect enemy intelligence!
+                </p>
+            </div>
+        </app-alert>
+    </mat-card-content>
 </mat-card>
 
 <mat-card class="index-card index-card-sm" *ngIf="confirmed">
-	<h2 class="gd-secondary">
-		Your top teams
-		<a class="top-index-card hidden-xs hidden-sm" *ngIf="topIndexes.length > 0" routerLink="/profile/teams" style="color: #949494; font-weight: 700; font-size: 21px; right: 70px; position: absolute;">
-			View all my teams <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon>
-		</a>
-    <a class="top-index-card hidden-md hidden-lg" *ngIf="topIndexes.length > 0" routerLink="/profile/teams" style="color: #949494; font-weight: 700; font-size: 18px; margin-left: 30px;">
-      View all my teams <mat-icon style="opacity: 1; vertical-align: sub;">launch</mat-icon>
-    </a>
-	</h2>
+    <h2 class="gd-secondary">
+        Your top teams
+        <a
+            class="top-index-card hidden-xs hidden-sm"
+            *ngIf="topIndexes.length > 0"
+            routerLink="/profile/teams"
+            style="color: #949494; font-weight: 700; font-size: 21px; right: 70px; position: absolute"
+        >
+            View all my teams <mat-icon style="opacity: 1; vertical-align: sub" class="hidden-xs">launch</mat-icon>
+        </a>
+        <a
+            class="top-index-card hidden-md hidden-lg"
+            *ngIf="topIndexes.length > 0"
+            routerLink="/profile/teams"
+            style="color: #949494; font-weight: 700; font-size: 18px; margin-left: 30px"
+        >
+            View all my teams <mat-icon style="opacity: 1; vertical-align: sub">launch</mat-icon>
+        </a>
+    </h2>
 
-	<div *ngIf="loadingIndexes" style="padding: 30px;">
-		<mat-progress-bar style="margin-top: -10px;" mode="indeterminate"></mat-progress-bar>
-	</div>
+    <div *ngIf="loadingIndexes" style="padding: 30px">
+        <mat-progress-bar style="margin-top: -10px" mode="indeterminate"></mat-progress-bar>
+    </div>
 
-	<div fxLayout="row wrap" style="margin: 0 15px;" *ngIf="!loadingIndexes && confirmed">
-
-		<div fxFlex.gt-md="16" fxFlex.gt-sm="32" fxFlex.gt-xs="100" fxFlex="100" class="top-index-card">
-			<a (click)="newIndex()" style="display: flex; height: 100%; flex-direction: column;">
-				<mat-card class="bg-primary text-white text-center top-index" style="flex: 1">
-					<div style="margin-top: 40px;">
-						<h3 class="m-0">
-							<i class="fa fa-plus"></i>
-							<br/>
-							<span class="hidden-md hidden-lg">New team</span>
-							<span class="hidden-sm hidden-xs">Create a new team</span>
-						</h3>
-					</div>
-				</mat-card>
-			</a>
-		</div>
-		<div *ngIf="!loadingIndexes && topIndexes.length <= 0" fxFlex.gt-md="84" fxFlex.gt-sm="67" fxFlex.gt-xs="100" fxFlex="100" style="padding: 10px;">
-			<app-alert type="warning" title="You have not yet created or joined any teams" [dismissible]="false">
-				<div style="min-height: 73px !important;">
-					<h4>You can create your own team and invite your allies or you can join an existing team by asking your allies to invite you.</h4>
-					<p>You can still collect intelligence if you are not part of a team, but you will only be able to share this intel by adding it to a team.</p>
-				</div>
-			</app-alert>
-		</div>
-		<ng-container *ngIf="!loadingIndexes && topIndexes.length > 0">
-			<div *ngFor="let index of topIndexes" fxFlex.gt-md="21" fxFlex.gt-sm="17" fxFlex.gt-xs="100" fxFlex="100" class="top-index-card">
-				<a routerLink="/profile/team/{{index.key}}" style="flex: 1; height: 100%; display: flex; flex-direction: column;">
-					<mat-card class="top-index-cards text-white text-center top-index" style="flex: 1">
-						<mat-icon class="launch-icon hidden-xs hidden-sm hidden-md" style="float: right;">launch</mat-icon>
-						<div>
-							<h3 class="m-0"><mat-icon style="vertical-align: sub;">group</mat-icon> {{index.name}}</h3>
-							<div [outerHTML]="index.world | WorldNamePipe"></div>
-							<div *ngFor="let owner of index.stats.owners;">
-								<img src="../../assets/images/ally_ico.png"/> {{owner.alliance_name}}
-							</div>
-              <div class="hidden-xs hidden-sm">{{index.stats.total_reports}} reports indexed</div>
-						</div>
-					</mat-card>
-				</a>
-			</div>
-		</ng-container>
-	</div>
+    <div fxLayout="row wrap" style="margin: 0 15px" *ngIf="!loadingIndexes && confirmed">
+        <div fxFlex.gt-md="16" fxFlex.gt-sm="32" fxFlex.gt-xs="100" fxFlex="100" class="top-index-card">
+            <a (click)="newIndex()" style="display: flex; height: 100%; flex-direction: column">
+                <mat-card class="bg-primary text-white text-center top-index" style="flex: 1">
+                    <div style="margin-top: 40px">
+                        <h3 class="m-0">
+                            <i class="fa fa-plus"></i>
+                            <br />
+                            <span class="hidden-md hidden-lg">New team</span>
+                            <span class="hidden-sm hidden-xs">Create a new team</span>
+                        </h3>
+                    </div>
+                </mat-card>
+            </a>
+        </div>
+        <div
+            *ngIf="!loadingIndexes && topIndexes.length <= 0"
+            fxFlex.gt-md="84"
+            fxFlex.gt-sm="67"
+            fxFlex.gt-xs="100"
+            fxFlex="100"
+            style="padding: 10px"
+        >
+            <app-alert type="warning" title="You have not yet created or joined any teams" [dismissible]="false">
+                <div style="min-height: 73px !important">
+                    <h4>
+                        You can create your own team and invite your allies or you can join an existing team by asking
+                        your allies to invite you.
+                    </h4>
+                    <p>
+                        You can still collect intelligence if you are not part of a team, but you will only be able to
+                        share this intel by adding it to a team.
+                    </p>
+                </div>
+            </app-alert>
+        </div>
+        <ng-container *ngIf="!loadingIndexes && topIndexes.length > 0">
+            <div
+                *ngFor="let index of topIndexes"
+                fxFlex.gt-md="21"
+                fxFlex.gt-sm="17"
+                fxFlex.gt-xs="100"
+                fxFlex="100"
+                class="top-index-card"
+            >
+                <a
+                    routerLink="/profile/team/{{ index.key }}"
+                    style="flex: 1; height: 100%; display: flex; flex-direction: column"
+                >
+                    <mat-card class="top-index-cards text-white text-center top-index" style="flex: 1">
+                        <mat-icon class="launch-icon hidden-xs hidden-sm hidden-md" style="float: right"
+                            >launch</mat-icon
+                        >
+                        <div>
+                            <h3 class="m-0"><mat-icon style="vertical-align: sub">group</mat-icon> {{ index.name }}</h3>
+                            <div [outerHTML]="index.world | WorldNamePipe"></div>
+                            <div *ngFor="let owner of index.stats.owners">
+                                <img src="../../assets/images/ally_ico.png" /> {{ owner.alliance_name }}
+                            </div>
+                            <div class="hidden-xs hidden-sm">{{ index.stats.total_reports }} reports indexed</div>
+                        </div>
+                    </mat-card>
+                </a>
+            </div>
+        </ng-container>
+    </div>
 </mat-card>
 
 <div *ngIf="!loading && num_results <= 0">
-  <app-userscript></app-userscript>
+    <app-userscript></app-userscript>
 </div>
 
+<ng-template #title>
+    <h5 class="gd-secondary">Your recently indexed reports</h5>
+</ng-template>
+
+<gd-table [title]="title">
+    <thead gd-table-header>
+		<tr class="text-900" style="height: 42px">
+
+        <th width="5%">World</th>
+        <th width="10%">Type</th>
+        <th width="10%">Town</th>
+        <th width="25%">Player</th>
+        <th width="10%">Date</th>
+        <th width="40%" style="min-width: 300px;">Units</th>
+		</tr>
+    </thead>
+    <tbody gd-table-body>
+        <tr class="border-bottom border-200" *ngFor="let town of intel">
+            <td align="center">
+                <div class="avatar avatar-xl" style="width: 25px; height: 25px">
+                    <div class="avatar-name rounded-circle h-100 w-100 bg-primary-subtle text-dark">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 512 512">
+                            <mask id="a"><circle cx="256" cy="256" r="256" fill="#fff" /></mask>
+                            <g mask="url(#a)">
+                                <path
+                                    fill="#eee"
+                                    d="m0 0 8 22-8 23v23l32 54-32 54v32l32 48-32 48v32l32 54-32 54v68l22-8 23 8h23l54-32 54 32h32l48-32 48 32h32l54-32 54 32h68l-8-22 8-23v-23l-32-54 32-54v-32l-32-48 32-48v-32l-32-54 32-54V0l-22 8-23-8h-23l-54 32-54-32h-32l-48 32-48-32h-32l-54 32L68 0H0z"
+                                />
+                                <path
+                                    fill="#0052b4"
+                                    d="M336 0v108L444 0Zm176 68L404 176h108zM0 176h108L0 68ZM68 0l108 108V0Zm108 512V404L68 512ZM0 444l108-108H0Zm512-108H404l108 108Zm-68 176L336 404v108z"
+                                />
+                                <path
+                                    fill="#d80027"
+                                    d="M0 0v45l131 131h45L0 0zm208 0v208H0v96h208v208h96V304h208v-96H304V0h-96zm259 0L336 131v45L512 0h-45zM176 336 0 512h45l131-131v-45zm160 0 176 176v-45L381 336h-45z"
+                                />
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+                <span>en153</span>
+            </td>
+            <td align="center">
+                <div
+                    class="cell unit-cell-small"
+                    matTooltip="{{ getAttackTooltipText(town) }}"
+                    style="margin-top: -8px"
+                >
+                    <div
+                        class="friendly-attack"
+                        *ngIf="town.type === 'friendly_attack'"
+                        style="position: relative"
+                    ></div>
+                    <div
+                        class="enemy-attack"
+                        *ngIf="town.type === 'enemy_attack'"
+                        style="
+                            position: relative;
+                            -moz-transform: scaleX(-1);
+                            -o-transform: scaleX(-1);
+                            -webkit-transform: scaleX(-1);
+                            transform: scaleX(-1);
+                            filter: FlipH;
+                        "
+                    ></div>
+                    <div class="wisdom" *ngIf="town.type === 'wisdom'"></div>
+                    <div class="support" *ngIf="town.type === 'support'"></div>
+                    <div class="conquest" *ngIf="town.type === 'attack_on_conquest'"></div>
+                    <div class="spy" *ngIf="town.type === 'spy'"></div>
+                </div>
+            </td>
+            <td align="center">
+                <a routerLink="/intel/town/{{ town?.world }}/{{ town?.town_id }}">{{ town?.town_name }}</a>
+            </td>
+            <td align="center">
+				<a routerLink="/intel/player/{{ town?.world }}/{{ town?.player_id }}">{{ town?.player_name }}</a> 
+				<br />
+				<a
+					*ngIf="town?.alliance_name"
+                    routerLink="/intel/alliance/{{ town?.world }}/{{ town?.alliance_id }}"
+                    class="truncate"
+                    >({{ town?.alliance_name }})</a
+                >
+            </td>
+            <td align="center">{{ town.date | IndexDate }}</td>
+            <td>
+                <div class="d-flex row" style="gap: 4px; width: 100%">
+                    <span *ngFor="let unit of town.units | ValuesPipe; let i = index" style="width: 50px">
+                        <unit [id]="unit.name" [size]="50" [totalCount]="unit.count" [wounded]="unit.killed"></unit>
+                    </span>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot gd-table-footer>
+        <tr>
+            <td colspan="6" align="right">
+                <a class="btn btn-sm btn-link px-0 fw-medium d-flex justify-content-end text-decoration-none">
+                    <span>View all</span>
+                    <div style="width: 10px; height: 10px">
+                        <svg
+                            class="svg-inline--fa fa-chevron-right fa-w-10 ms-1 fs--2"
+                            aria-hidden="true"
+                            focusable="false"
+                            data-prefix="fas"
+                            data-icon="chevron-right"
+                            role="img"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 320 512"
+                            data-fa-i2svg=""
+                        >
+                            <path
+                                fill="currentColor"
+                                d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"
+                            ></path>
+                        </svg>
+                    </div>
+                </a>
+            </td>
+        </tr>
+    </tfoot>
+</gd-table>
+
 <mat-card class="index-card index-card-sm" *ngIf="num_results > 0">
-	<h2 class="gd-secondary">Your recently indexed reports</h2>
+    <h2 class="gd-secondary">Your recently indexed reports</h2>
 
-	<mat-card-content style="padding: 0 30px 15px;">
+    <mat-card-content style="padding: 0 30px 15px">
+        <div *ngIf="loading || paging">
+            <mat-progress-bar style="margin-top: -3px; margin-bottom: -7px" mode="indeterminate"></mat-progress-bar>
+        </div>
 
-		<div *ngIf="loading || paging">
-			<mat-progress-bar style="margin-top: -3px; margin-bottom: -7px;" mode="indeterminate"></mat-progress-bar>
-		</div>
+        <!--    <div *ngIf="!loading && num_results <= 0">-->
+        <!--      <app-alert type="info" title="You have not yet indexed any reports" [dismissible]="false">-->
+        <!--        <div style="min-height: 73px !important;">-->
+        <!--          <h4>Install our userscript to start collecting intel.</h4>-->
+        <!--          <button class="btn btn-primary" routerLink="/profile/script">Install the city indexer userscript</button>-->
+        <!--        </div>-->
+        <!--      </app-alert>-->
+        <!--    </div>-->
 
-<!--    <div *ngIf="!loading && num_results <= 0">-->
-<!--      <app-alert type="info" title="You have not yet indexed any reports" [dismissible]="false">-->
-<!--        <div style="min-height: 73px !important;">-->
-<!--          <h4>Install our userscript to start collecting intel.</h4>-->
-<!--          <button class="btn btn-primary" routerLink="/profile/script">Install the city indexer userscript</button>-->
-<!--        </div>-->
-<!--      </app-alert>-->
-<!--    </div>-->
+        <div *ngIf="!loading && num_results > 0">
+            <mat-paginator
+                *ngIf="from > 0 || num_results > 20"
+                [length]="num_results"
+                [pageSize]="size"
+                [pageIndex]="from / size"
+                [pageSizeOptions]="[20, 50, 100]"
+                (page)="paginatorEvent($event)"
+                [disabled]="paging"
+                style="display: flex; justify-content: left"
+            >
+            </mat-paginator>
 
-		<div *ngIf="!loading && num_results > 0">
+            <div [ngClass]="{ 'loading-overlay': paging }">
+                <div class="table intel-table" id="table_all">
+                    <div class="row_custom header bg-gd-2">
+                        <div class="cell">World</div>
+                        <div class="cell">Type</div>
+                        <div class="cell">Town</div>
+                        <div class="cell">Player</div>
+                        <div class="cell">Alliance</div>
+                        <div class="cell">Date</div>
+                        <div class="cell" style="width: 50%">Units</div>
+                        <div class="cell"></div>
+                    </div>
 
-			<mat-paginator *ngIf="from > 0 || num_results > 20" [length]="num_results"
-			               [pageSize]="size"
-                     [pageIndex]="from/size"
-			               [pageSizeOptions]="[20, 50, 100]"
-			               (page)="paginatorEvent($event)"
-			               [disabled]="paging"
-			               style="display: flex; justify-content: left;">
-			</mat-paginator>
+                    <div class="row_custom" *ngFor="let town of intel" style="height: 60px">
+                        <div class="cell">
+                            <div class="bg-flag flag-inline-middle flag-{{ town?.world.substring(0, 2) }}"></div>
+                            &nbsp;<a routerLink="/points/{{ town?.world }}">{{ town?.world }}</a>
+                        </div>
+                        <div
+                            class="cell unit-cell-small"
+                            matTooltip="{{ getAttackTooltipText(town) }}"
+                            style="margin-top: -8px"
+                        >
+                            <div
+                                class="friendly-attack"
+                                *ngIf="town.type === 'friendly_attack'"
+                                style="position: relative"
+                            ></div>
+                            <div
+                                class="enemy-attack"
+                                *ngIf="town.type === 'enemy_attack'"
+                                style="
+                                    position: relative;
+                                    -moz-transform: scaleX(-1);
+                                    -o-transform: scaleX(-1);
+                                    -webkit-transform: scaleX(-1);
+                                    transform: scaleX(-1);
+                                    filter: FlipH;
+                                "
+                            ></div>
+                            <div class="wisdom" *ngIf="town.type === 'wisdom'"></div>
+                            <div class="support" *ngIf="town.type === 'support'"></div>
+                            <div class="conquest" *ngIf="town.type === 'attack_on_conquest'"></div>
+                            <div class="spy" *ngIf="town.type === 'spy'"></div>
+                        </div>
+                        <div class="cell">
+                            <a routerLink="/intel/town/{{ town?.world }}/{{ town?.town_id }}">{{ town?.town_name }}</a>
+                        </div>
+                        <div class="cell">
+                            <a routerLink="/intel/player/{{ town?.world }}/{{ town?.player_id }}">{{
+                                town?.player_name
+                            }}</a>
+                        </div>
+                        <div class="cell">
+                            <a
+                                routerLink="/intel/alliance/{{ town?.world }}/{{ town?.alliance_id }}"
+                                class="truncate"
+                                >{{ town?.alliance_name }}</a
+                            >
+                        </div>
+                        <div class="cell">
+                            {{ town.date | IndexDate }}
+                        </div>
+                        <div class="cell">
+                            <div *ngIf="town?.parsed_err == true">
+                                <span class="gd-error"
+                                    >Sorry, we were unable to parse this report. Reason: {{ town?.parsed_msg }}.
+                                    Developers have been notified.</span
+                                >
+                            </div>
+                            <div *ngIf="town?.parsed_err != true && town?.parsed != true">
+                                <span class="gd-error">This report is invalid. Reason: {{ town?.parsed_msg }}.</span>
+                            </div>
+                            <div style="display: flex; gap: 4px" *ngIf="town?.parsed == true">
+                                <span *ngFor="let unit of town.units | ValuesPipe; let i = index">
+                                    <unit
+                                        [id]="unit.name"
+                                        [size]="50"
+                                        [totalCount]="unit.count"
+                                        [wounded]="unit.killed"
+                                    ></unit>
+                                </span>
+                            </div>
+                        </div>
 
-			<div  [ngClass]="{'loading-overlay': paging}">
-				<div class="table intel-table" id="table_all">
-					<div class="row_custom header bg-gd-2" >
-						<div class="cell">
-							World
-						</div>
-						<div class="cell">
-							Type
-						</div>
-						<div class="cell">
-							Town
-						</div>
-						<div class="cell">
-							Player
-						</div>
-						<div class="cell">
-							Alliance
-						</div>
-						<div class="cell">
-							Date
-						</div>
-						<div class="cell" style="width: 50%;">
-							Units
-						</div>
-						<div class="cell"></div>
-					</div>
-
-					<div class='row_custom' *ngFor="let town of intel" style="height: 60px;">
-						<div class="cell">
-							<div class="bg-flag flag-inline-middle flag-{{town?.world.substring(0, 2)}}"></div>&nbsp;<a routerLink="/points/{{town?.world}}">{{town?.world}}</a>
-						</div>
-						<div class="cell unit-cell-small" matTooltip="{{getAttackTooltipText(town)}}" style="margin-top: -8px;">
-							<div class="friendly-attack" *ngIf="town.type === 'friendly_attack'" style="position: relative;">
-							</div>
-							<div class="enemy-attack" *ngIf="town.type === 'enemy_attack'" style="position: relative; -moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); filter: FlipH;">
-							</div>
-							<div class="wisdom" *ngIf="town.type === 'wisdom'"></div>
-							<div class="support" *ngIf="town.type === 'support'"></div>
-							<div class="conquest" *ngIf="town.type === 'attack_on_conquest'"></div>
-							<div class="spy" *ngIf="town.type === 'spy'"></div>
-						</div>
-						<div class="cell">
-							<a routerLink="/intel/town/{{town?.world}}/{{town?.town_id}}">{{town?.town_name}}</a>
-						</div>
-						<div class="cell">
-							<a routerLink="/intel/player/{{town?.world}}/{{town?.player_id}}">{{town?.player_name}}</a>
-						</div>
-						<div class="cell">
-							<a routerLink="/intel/alliance/{{town?.world}}/{{town?.alliance_id}}" class="truncate">{{town?.alliance_name}}</a>
-						</div>
-						<div class="cell">
-							{{town.date | IndexDate}}
-						</div>
-						<div class="cell">
-							<div *ngIf="town?.parsed_err == true">
-								<span class="gd-error">Sorry, we were unable to parse this report. Reason: {{town?.parsed_msg}}. Developers have been notified.</span>
-							</div>
-							<div *ngIf="town?.parsed_err != true && town?.parsed != true">
-								<span class="gd-error">This report is invalid. Reason: {{town?.parsed_msg}}.</span>
-							</div>
-							<div style="display: flex; gap: 4px;" *ngIf="town?.parsed == true">
-                <span *ngFor="let unit of town.units | ValuesPipe; let i = index;">
-				  <unit [id]="unit.name" [size]="50" [totalCount]="unit.count" [wounded]="unit.killed"></unit>
-                </span>
-							</div>
-						</div>
-
-            <div *ngIf="town.shared_via_indexes" class="cell gd-primary a-link-dialog" matTooltip="Click here to see who this intel was shared with" (click)="openShareInfoDialog(town)">
-              <mat-icon>supervised_user_circle</mat-icon>
+                        <div
+                            *ngIf="town.shared_via_indexes"
+                            class="cell gd-primary a-link-dialog"
+                            matTooltip="Click here to see who this intel was shared with"
+                            (click)="openShareInfoDialog(town)"
+                        >
+                            <mat-icon>supervised_user_circle</mat-icon>
+                        </div>
+                        <div *ngIf="!town.shared_via_indexes" class="cell"></div>
+                    </div>
+                </div>
             </div>
-            <div *ngIf="!town.shared_via_indexes" class="cell"></div>
-
-					</div>
-				</div>
-			</div>
-
-		</div>
-	</mat-card-content>
-
+        </div>
+    </mat-card-content>
 </mat-card>

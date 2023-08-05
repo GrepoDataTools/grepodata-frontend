@@ -32,6 +32,45 @@ export class IntelComponent implements OnInit {
   hasIndexes = true;
   hasIntel = true;
 
+  recentReportColumns = [
+    {
+      property: 'world',
+      name: 'World',
+    },
+    {
+      property: 'type',
+      name: 'Type',
+    },
+    {
+      property: 'player',
+      name: 'Player',
+    },
+    {
+      property: 'alliance',
+      name: 'Alliance',
+    },
+    {
+      property: 'date',
+      name: 'Date',
+    },
+    {
+      property: 'units',
+      name: 'Units',
+      colspan: 3
+    },
+  ]
+
+  recentReportData = [
+    {
+      world: 'World 1',
+      type: 'Attack',
+      player: 'Player 1',
+      alliance: 'Alliance 1',
+      date: '2020-01-01',
+      units: '1000',
+    }
+  ]
+
   constructor(
     private globals: Globals,
     private authService: JwtService,

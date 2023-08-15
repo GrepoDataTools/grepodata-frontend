@@ -134,6 +134,11 @@ import { PlayerActivityComponent } from './layout/player-activity/player-activit
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { SidenavService } from './layout/sidebar/sidenav-service';
 import { PrivacyComponent } from './privacy/privacy.component';
+import { AllianceChangesTableComponent } from './scoreboard/components/alliance-changes-table/alliance-changes-table.component';
+import { AllianceCitiesTableComponent } from './scoreboard/components/alliance-cities-table/alliance-cities-table.component';
+import { AllianceFighterTableComponent } from './scoreboard/components/alliance-fighter-table/alliance-fighter-table.component';
+import { PlayerCitiesTableComponent } from './scoreboard/components/player-cities-table/player-cities-table.component';
+import { PlayerFighterTableComponent } from './scoreboard/components/player-fighter-table';
 import { BasicDialog } from './shared/dialogs/basic/basic.component';
 import { DonateDialog } from './shared/dialogs/donate/donate.component';
 import { IndexMembersDialog } from './shared/dialogs/index-members/index-members.component';
@@ -205,6 +210,13 @@ export function jwtTokenGetter(): any {
 
 @NgModule({
     declarations: [
+        // New components, TODO: Rewrite
+        PlayerFighterTableComponent,
+        PlayerCitiesTableComponent,
+        AllianceFighterTableComponent,
+        AllianceCitiesTableComponent,
+        AllianceChangesTableComponent,
+        // Components
         AppComponent,
         HeaderComponent,
         SearchComponent,

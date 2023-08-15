@@ -7,19 +7,18 @@ import {
     Inject,
     OnInit,
     Renderer2,
-    TemplateRef,
-    ViewChild,
+    ViewChild
 } from '@angular/core';
-import { ScoreboardService } from './scoreboard.service';
-import { LocalCacheService } from '../services/local-cache.service';
-import { WorldService } from '../services/world.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { GoogleAnalyticsEventsService } from '../services/google-analytics-events.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from '../../environments/environment';
+import { ConquestService } from '../conquest/conquest.service';
 import { Globals } from '../globals';
 import { SearchService } from '../search/search.service';
-import { ConquestService } from '../conquest/conquest.service';
-import { environment } from '../../environments/environment';
+import { GoogleAnalyticsEventsService } from '../services/google-analytics-events.service';
+import { LocalCacheService } from '../services/local-cache.service';
+import { WorldService } from '../services/world.service';
+import { ScoreboardService } from './scoreboard.service';
 
 @Component({
     selector: 'app-scoreboard',

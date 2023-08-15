@@ -1,0 +1,67 @@
+<div class="col-6 m-auto scoreboard-table">
+    <div class="d-flex justify-content-center pb-3 align-items-center mx-4 gap-2">
+        <h3>Alliance changes</h3>
+    </div>
+    <gd-table [isCentered]="true">
+        <thead gd-table-header [backgroundColor]="'#497949'">
+            <th width="10%">Player</th>
+            <th>Old alliance</th>
+            <th>New alliance</th>
+            <th>Time</th>
+        </thead>
+        <tbody gd-table-body>
+            <tr *ngFor="let change of changeStatistics; index as i">
+                <td class="rank">
+                    <a routerLink="/player" [queryParams]="{ world: change.world, id: change.player_grep_id }">{{
+                        change.player_name
+                    }}</a>
+                </td>
+                <td>
+                    <span>
+                        <a
+                            routerLink="/alliance"
+                            [queryParams]="{ world: change.world, id: change.old_alliance_grep_id }"
+                            >{{ change.old_alliance_name }}</a
+                        >
+                        <br />
+                        rank {{ change.old_alliance_rank }}
+                    </span>
+                </td>
+                <td>
+                    <span>
+                        <a
+                            routerLink="/alliance"
+                            [queryParams]="{ world: change.world, id: change.new_alliance_grep_id }"
+                            >{{ change.new_alliance_name }}</a
+                        >
+                        <br />
+                        rank {{ change.new_alliance_rank }}
+                    </span>
+                </td>
+                <td>
+                    {{ change.date.date | Datex : 'D MMM ~HH:mm' }}
+                </td>
+            </tr>
+        </tbody>
+        <tfoot gd-table-footer>
+            <td colspan="4" class="text-right">
+                <div class="d-flex justify-content-end gap-2">
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        style="--bs-btn-padding-y: 0.3rem; --bs-btn-padding-x: 0.4rem; --bs-btn-font-size: 0.65rem"
+                    >
+                        <i class="bi bi-search"></i>
+                    </button>
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        style="--bs-btn-padding-y: 0.15rem; --bs-btn-padding-x: 0.25rem; --bs-btn-font-size: 0.65rem"
+                    >
+                        BB Codes
+                    </button>
+                </div>
+            </td>
+        </tfoot>
+    </gd-table>
+</div>

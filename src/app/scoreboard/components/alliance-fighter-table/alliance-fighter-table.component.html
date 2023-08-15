@@ -1,0 +1,98 @@
+<div class="col-12 col-sm-6 col-md-6 col-lg-6 scoreboard-table">
+    <div class="d-flex justify-content-center pb-3 align-items-center mx-4 gap-2">
+        <img src="https://cdn.discordapp.com/emojis/1124806756216877116.webp?size=80&quality=lossless" height="40px">
+        <h3>Attackers</h3>
+    </div>
+    <gd-table [isCentered]="true">
+        <thead gd-table-header [backgroundColor]="'#ea6153'">
+            <th width="10%">Rank</th>
+            <th>Player</th>
+            <th width="10%">Points</th>
+            <th width="10%"></th>
+        </thead>
+        <tbody gd-table-body>
+            <tr *ngFor="let attacker of attackerStatistics; index as i">
+                <td class="rank">{{ i + 1 }}</td>
+                <td>
+                    <a routerLink="/player" [queryParams]="{ world, id: attacker.i }">{{ attacker.n }}</a>
+                </td>
+                <td>
+                    {{ formatScore(attacker.s) }}
+                </td>
+                <td>
+                    <a routerLink="/player" [queryParams]="{ world, id: attacker.i }">
+                        <i class="bi bi-graph-up"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot gd-table-footer>
+            <td colspan="4" class="text-right">
+                <div class="d-flex justify-content-end gap-2">
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        style="--bs-btn-padding-y: 0.3rem; --bs-btn-padding-x: 0.4rem; --bs-btn-font-size: 0.65rem"
+                    >
+                        <i class="bi bi-search"></i>
+                    </button>
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        style="--bs-btn-padding-y: 0.15rem; --bs-btn-padding-x: 0.25rem; --bs-btn-font-size: 0.65rem"
+                    >
+                        BB Codes
+                    </button>
+                </div>
+            </td>
+        </tfoot>
+    </gd-table>
+</div>
+<div class="col-12 col-sm-6 col-md-6 col-lg-6 scoreboard-table">
+    <div class="d-flex justify-content-center pb-3 align-items-center mx-4 gap-2">
+        <img src="https://cdn.discordapp.com/attachments/625745231089893386/1138173774047498321/shield_1.png" height="40px">
+        <h3>Defenders</h3>
+    </div>
+    <gd-table [isCentered]="true">
+        <thead gd-table-header [backgroundColor]="'#2980b9'">
+            <th>Rank</th>
+            <th>Player</th>
+            <th>Points</th>
+            <th></th>
+        </thead>
+        <tbody gd-table-body>
+            <tr *ngFor="let defender of defenderStatistics; index as i">
+                <td class="rank">{{ i + 1 }}</td>
+                <td>
+                    <a routerLink="/player" [queryParams]="{ world, id: defender.i }">{{ defender.n }}</a>
+                </td>
+                <td>{{ formatScore(defender.s) }}</td>
+                <td>
+                    <a routerLink="/player" [queryParams]="{ world, id: defender.i }">
+                        <i class="bi bi-graph-up"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot gd-table-footer>
+            <td colspan="4" class="text-right">
+                <div class="d-flex justify-content-end gap-2">
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        style="--bs-btn-padding-y: 0.3rem; --bs-btn-padding-x: 0.4rem; --bs-btn-font-size: 0.65rem"
+                    >
+                        <i class="bi bi-search"></i>
+                    </button>
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        style="--bs-btn-padding-y: 0.15rem; --bs-btn-padding-x: 0.25rem; --bs-btn-font-size: 0.65rem"
+                    >
+                        BB Codes
+                    </button>
+                </div>
+            </td>
+        </tfoot>
+    </gd-table>
+</div>

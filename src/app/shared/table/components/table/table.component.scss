@@ -15,17 +15,19 @@
     }
 }
 
-thead {
-    background: rgba(249, 250, 253, 1);
-}
+.gd-table {
+    &.center {
+        text-align: center;
+    }
 
-th {
-    font-weight: 420;
-    font-size: 14px;
-}
-
-td {
-    color: rgba(77, 89, 105, 1);
-    font-weight: 420;
-    font-size: 14px;
+    th {
+        font-weight: 420;
+        font-size: 14px;
+    }
+    
+    td {
+        color: rgba(77, 89, 105, 1);
+        font-weight: 420;
+        font-size: 14px;
+    }
 }

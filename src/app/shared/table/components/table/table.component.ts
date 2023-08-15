@@ -7,4 +7,6 @@ import { Component, Input, TemplateRef } from "@angular/core";
 })
 export class TableComponent {
     @Input() title?: string | TemplateRef<Element>
+
+    @Input() isCentered: boolean = false
 }

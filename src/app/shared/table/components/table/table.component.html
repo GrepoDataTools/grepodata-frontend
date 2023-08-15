@@ -1,12 +1,12 @@
 <div class="gd-card h-lg-100 overflow-hidden">
-    <div class="gd-card_title">
+    <div class="gd-card_title" *ngIf="title">
 		<ng-template [ngTemplateOutlet]="title"></ng-template>
     </div>
     <div class="card-body p-0">
         <div class="table-responsive">
-            <table class="table mb-0 table-borderless border-200 align-middle">
+            <div class="table gd-table mb-0 table-borderless border-200 align-middle {{ isCentered && 'center' }}">
                 <ng-content></ng-content>
-            </table>
+            </div>
         </div>
     </div>
 </div>

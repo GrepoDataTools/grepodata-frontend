@@ -23,13 +23,15 @@
 
 .table {
   margin: 0 0 0px 0;
-  text-align: center !important;
-  font-size: 19px;
-  font-weight: 400 !important;
   display: table;
 
   a {
     color: #5e7a92;
+    font-weight: 420;
+  }
+
+  th {
+    color: white;
   }
 
   p {
@@ -236,55 +238,4 @@
     }
   }
 
-}
-
-
-
-/*Bootstrap small*/
-@media screen and (min-width: 576px) {
-  .table {
-    font-size: 12px;
-  }
-}
-
-/*Bootstrap medium*/
-@media screen and (min-width: 768px) {
-  .table {
-    font-size: 14px;
-  }
-}
-
-/*Bootstrap large*/
-@media screen and (min-width: 992px) {
-  .table {
-    font-size: 14px;
-  }
-}
-
-/*Bootstrap extra large*/
-@media screen and (min-width: 1200px) {
-  .table {
-    font-size: 14px;
-  }
-}
-
-/*Bootstrap extra large*/
-@media screen and (min-width: 1400px) {
-  .table {
-    font-size: 16px;
-  }
-}
-
-/*Bootstrap extra large*/
-@media screen and (min-width: 1600px) {
-  .table {
-    font-size: 18px;
-  }
-}
-
-/*Bootstrap extra large*/
-@media screen and (min-width: 1800px) {
-  .table {
-    font-size: 20px;
-  }
 }

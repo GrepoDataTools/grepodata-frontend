@@ -27,6 +27,7 @@ export class SiegeComponent implements AfterViewInit, OnChanges {
   copied: any = false;
 
   reports: any  = [];
+  average_luck = null;
   objectKeys = Object.keys;
   allianceNames = {};
 
@@ -54,6 +55,10 @@ export class SiegeComponent implements AfterViewInit, OnChanges {
     } else {
       // render conquest only
       this.loading = false;
+
+      if ('average_luck' in this.conquest && this.conquest.average_luck != null) {
+        this.average_luck = this.conquest.average_luck
+      }
     }
   }
 
@@ -92,6 +97,13 @@ export class SiegeComponent implements AfterViewInit, OnChanges {
       this.error = this.conquest == null || this.conquest.conquest_id == null;
       this.errorReports = true;
     }
+
+    if ('average_luck' in this.conquest && this.conquest.average_luck != null) {
+      this.average_luck = this.conquest.average_luck
+    } else if (this.reports.length > 0) {
+      this.average_luck = this.reports.reduce((sum, report) => sum + report?.attacker?.luck, 0) / this.reports.length
+    }
+
     this.loading = false;
     this.loadingReports = false;
   }

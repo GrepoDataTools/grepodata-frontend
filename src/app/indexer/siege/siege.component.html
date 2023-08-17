@@ -111,13 +111,13 @@
 												</span>
 											</div>
 										</div>
-                    <div class="unit-icon-lg" *ngIf="conquest.average_luck!=null" matTooltip="Average Attacker Luck: {{conquest.average_luck | number : '1.1-1'}}%">
+                    <div class="unit-icon-lg" *ngIf="average_luck!=null" matTooltip="Average Attacker Luck: {{average_luck | number : '1.1-1'}}%">
                       <div class="average-luck">
                         <div class="luck-icon">
                           <img src="../../assets/images/game/luck.png"/>
                         </div>
                         <div class="luck-value">
-                          {{conquest.average_luck | number : '1.1-1'}}%
+                          {{average_luck | number : '1.1-1'}}%
                         </div>
                       </div>
                     </div>
@@ -196,6 +196,9 @@
 													<span *ngIf="report?.attacker?.friendly==true">
 														&nbsp;&nbsp;Town hidden: attacker is team owner
 													</span>
+                          <span matTooltip="Attacker Luck: {{report?.attacker?.luck}}%" *ngIf="report?.attacker?.luck!=null">
+                            &nbsp;&nbsp;<img src="../../assets/images/game/luck.png" style="margin-top: 1px;"/>&nbsp;{{report?.attacker?.luck}}%
+                          </span>
 												</div>
 
 												<div class="conquest-report-content">

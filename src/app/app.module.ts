@@ -101,7 +101,6 @@ import { AlertComponent } from './layout/alert/alert.component';
 import { PaperComponent } from './layout/paper/paper.component';
 import { BadgeComponent } from './layout/badge/badge.component';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
-import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
 import { SharedModule } from './shared/shared.module';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -334,7 +333,6 @@ export function jwtTokenGetter(): any {
         HttpClientModule,
         HttpClientJsonpModule,
         UnitModule,
-        ShareButtonsModule,
         SharedModule,
         MatMenuModule,
         MatSidenavModule,

@@ -111,6 +111,16 @@
 												</span>
 											</div>
 										</div>
+                    <div class="unit-icon-lg" *ngIf="conquest.average_luck!=null" matTooltip="Average Attacker Luck: {{conquest.average_luck | number : '1.1-1'}}%">
+                      <div class="average-luck">
+                        <div class="luck-icon">
+                          <img src="../../assets/images/game/luck.png"/>
+                        </div>
+                        <div class="luck-value">
+                          {{conquest.average_luck | number : '1.1-1'}}%
+                        </div>
+                      </div>
+                    </div>
 									</div>
 								</div>
 								<div class="col-xs-6 text-right right def">

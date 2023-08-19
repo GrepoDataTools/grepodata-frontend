@@ -87,7 +87,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
   dropdownSettingsUploaders: IDropdownSettings = {};
 
   // Tabs
-  viewer_version = 'v3';
+  viewer_version = 'v4';
   views: CommandView[];
   active_view: CommandView;
   editting_view_name = false;
@@ -279,6 +279,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     view.show_returns = true;
     view.showCancelTime = false;
     view.showDeletedCommands = false;
+    view.hide_planned_commands = false;
     view.command_type_toggle = this.getTypeToggleDict();
     view.filter_order = this.default_order;
     view.filter_text = '';
@@ -579,7 +580,19 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   filterExpired() {
     this.commands = this.commands.filter(command => {
-      return command.arrival_at >= this.current_time;
+      // Parse planned commands with elapsed departures
+      let valid_departure = true
+      if (command?.is_planned == true && command.started_at <= this.current_time) {
+        valid_departure = false;
+      }
+
+      // Parse elapsed arrival times
+      let valid_arrival = true
+      if (command.arrival_at <= this.current_time) {
+        valid_arrival = false;
+      }
+
+      return valid_departure && valid_arrival;
     });
   }
 
@@ -676,6 +689,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
         this.active_view.filter_uploader = [];
     }
     this.active_view.show_returns = true;
+    this.active_view.hide_planned_commands = false;
     this.active_view.command_type_toggle = this.getTypeToggleDict();
 
     this.filterCommands(do_draw, false);
@@ -691,6 +705,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     if (
       this.active_view.filter_text != ''
       || this.active_view.show_returns == false
+      || this.active_view.hide_planned_commands == true
       || this.active_view.filter_town.length > 0
       || this.active_view.filter_player.length > 0
       || this.active_view.filter_uploader.length > 0
@@ -759,6 +774,11 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
 
         if (this.active_view.show_returns != true && command.return == true) {
           hidden = true;
+        }
+        if ('is_planned' in command && command.is_planned == true) {
+          if (this.active_view.hide_planned_commands == true) {
+            hidden = true;
+          }
         }
         if (command.delete_status != '') {
           has_hidden_commands = true;

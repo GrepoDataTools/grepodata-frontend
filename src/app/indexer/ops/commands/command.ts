@@ -26,6 +26,7 @@ export class Command {
   show_comments: boolean;
   cancelable: boolean;
   hidden: boolean;
+  is_planned: boolean;
   delete_status: string;
 }
 
@@ -47,6 +48,7 @@ export class CommandView {
   show_total_units: boolean
   showCancelTime: boolean
   showDeletedCommands: boolean
+  hide_planned_commands: boolean
   command_type_toggle: any
   filter_order: string
   filter_text: string

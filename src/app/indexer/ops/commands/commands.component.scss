@@ -258,7 +258,6 @@ $footer_height: 75px;
 .command-overview-content {
   background: url(~assets/images/game/gpwindow_bg.jpg) 0 0 repeat;
   //background: #FFE19A;
-  border: 2px solid #d0be97;
   min-height: calc(100vh - #{$header_height} - #{$footer_height} - #{$cmd_header_height} - 90px);
   max-height: calc(100vh - #{$header_height} - #{$footer_height} - #{$cmd_header_height} - 90px);
   overflow-y: auto;
@@ -266,6 +265,9 @@ $footer_height: 75px;
   .command-list {
     .hidden-command {
       display: none;
+    }
+    .planned-command {
+      opacity: .8;
     }
     .command-ngfor:nth-child(odd) {
       background: url(~assets/images/game/bg_odd.png) 0 0 repeat;
@@ -354,6 +356,7 @@ $footer_height: 75px;
 }
 .command-overview-footer {
   background: #f9ab0033;
+  border-top: 2px solid #d0be97;
   display: flex;
   flex-direction: row;
   justify-content: space-between;

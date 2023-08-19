@@ -233,112 +233,115 @@
               {{view.tab_name}}
             </div>
           </div>
-          <div class="command-overview-title">
-            <div class="server-time" title="Server Time">
-              {{game_time_string}}
-            </div>
-            <div class="title">
-              <p style="margin: 0; font-weight: 500;">Combined Command Overview <span class="cmd-total-commands" *ngIf="commands && commands.length > 5">&nbsp;({{commands.length}} active commands)</span></p>
-            </div>
-            <div class="sync-status">
+          <div class="game-border">
+            <div class="command-overview-title">
+              <div class="server-time" title="Server Time">
+                {{game_time_string}}
+              </div>
+              <div class="title">
+                <p style="margin: 0; font-weight: 500;">Combined Command Overview <span class="cmd-total-commands" *ngIf="commands && commands.length > 5">&nbsp;({{commands.length}} active commands)</span></p>
+              </div>
+              <div class="sync-status">
               <span class="sync-label" [ngClass]="{ 'sync-ok': sync_status=='LIVE' || sync_status=='LOADING' }">
                 <span class="rotate-cont"><mat-icon class="rotate-loader" [ngClass]="{ 'rotate-anim': animate_refresh }">refresh</mat-icon></span>
                 {{sync_status}}
               </span>
-            </div>
-          </div>
-
-          <div class="command-overview-content">
-
-            <mat-progress-bar style="" *ngIf="loading" mode="indeterminate"></mat-progress-bar>
-
-            <div *ngIf="loading || !commands" class="text-center" style="margin-top: 70px;">
-              <h2 *ngIf="!error">Loading commands ...</h2>
-            </div>
-
-            <div class="command-list text-center" *ngIf="!loading && commands && commands.length <= 0">
-              <div *ngIf="is_filtered">
-                <br><h3>No active commands for these filters</h3><br>
-                <a class="a-link-dialog gd-primary" (click)="clearFilter('all')">Clear filters</a>
-              </div>
-              <div *ngIf="!is_filtered">
-                <br><h3>No active commands</h3><br>
               </div>
             </div>
 
-            <div *ngIf="error" style="margin-top: 70px;">
-              <h3>
-                <div class="row">
-                  <div class="col-xs-6 col-xs-offset-3">
-                    <app-alert type="error" [dismissible]="false">
-                      <h5>{{error}}</h5>
-                    </app-alert>
-                  </div>
+            <div class="command-overview-content">
+
+              <mat-progress-bar style="" *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
+              <div *ngIf="loading || !commands" class="text-center" style="margin-top: 70px;">
+                <h2 *ngIf="!error">Loading commands ...</h2>
+              </div>
+
+              <div class="command-list text-center" *ngIf="!loading && commands && commands.length <= 0">
+                <div *ngIf="is_filtered">
+                  <br><h3>No active commands for these filters</h3><br>
+                  <a class="a-link-dialog gd-primary" (click)="clearFilter('all')">Clear filters</a>
                 </div>
-              </h3>
-            </div>
+                <div *ngIf="!is_filtered">
+                  <br><h3>No active commands</h3><br>
+                </div>
+              </div>
 
-            <div class="command-list" *ngIf="!loading && commands && commands.length > 0">
-              <div class="command-ngfor" *ngFor="let command of commands; let i = index; trackBy: trackCommandByFn" [ngClass]="{'hidden-command': command?.hidden===true, 'selected-command': command?.cmd_id == selected_command?.cmd_id, 'command_highlight': command?.type=='attack'}">
-                <div class="command" (click)="selectCommand(command)">
-
-                  <div class="command-content">
-                    <div class="left">
-
-                      <div class="command-type">
-                        <div class="attack_type32x32 {{command.type}}" [ngClass]="{'glow': command.type=='attack', 'revolt_arising': command?.attacking_strategy=='revolt_arising', 'revolt_running': command?.attacking_strategy=='revolt_running'}"></div>
-                      </div>
-
-                      <div class="command-details">
-                        <div class="command-targets">
-
-                          <div *ngIf="!command.return">
-                            <ng-container *ngTemplateOutlet="origin; context: {command : command}"></ng-container>
-                            <span class="overview_outgoing icon"></span>
-                            <div class="mobile-newline"></div>
-                            <ng-container *ngTemplateOutlet="destination; context: {command : command}"></ng-container>
-                          </div>
-
-                          <div *ngIf="command.return">
-                            <ng-container *ngTemplateOutlet="destination; context: {command : command}"></ng-container>
-                            <span class="overview_incoming icon"></span>
-                            <div class="mobile-newline"></div>
-                            <ng-container *ngTemplateOutlet="origin; context: {command : command}"></ng-container>
-                          </div>
-
-                        </div>
-                        <div class="command-timing">
-                          <div class="eta">{{command.eta}}</div>
-                          (
-                          <div class="arrival-human" *ngIf="command.subtype != 'cs_eta' && command.subtype != 'attack_takeover' && command.subtype != 'ongoing_revolt'">Arrival at<span *ngIf="command.subtype == 'portal'"> portal</span>: {{command.arrival_human}}</div>
-                          <div class="arrival-human" *ngIf="command.subtype == 'cs_eta' || command.subtype == 'attack_takeover' && command.subtype != 'ongoing_revolt'">Colonized at: {{command.arrival_human}}</div>
-                          <div class="arrival-human" *ngIf="command.subtype == 'ongoing_revolt' && command.attacking_strategy=='revolt_arising'">Phase 2 start: {{command.cancel_human}},&nbsp;</div>
-                          <div class="arrival-human" *ngIf="command.subtype == 'ongoing_revolt'">Phase 2 end: {{command.arrival_human}}</div>
-                          <div class="cancel-human" *ngIf="command.cancelable && active_view && active_view?.showCancelTime">, cancelable until: {{command.cancel_human}}</div>
-                          )
-                          <div class="deleted-status" *ngIf="command.delete_status != ''">
-                            <mat-icon>delete</mat-icon> This command is hidden. Only you can see it
-                          </div>
-                          <div class="comments" *ngIf="command.delete_status == '' && command.comments && command.comments.length > 0" title="View comments">
-                            <span class="">{{command.comments.length}}</span> 💬
-                            <div class="comment-sneakpeek">{{command.comments.slice(-1)[0].text}}</div>
-                          </div>
-                        </div>
-                      </div>
-
-                    </div>
-
-                    <div class="right">
-                      <div class="unit-row" *ngIf="command.type == 'attack_spy'">
-                        <span class="payed_iron">{{command.units}}</span>
-                      </div>
-                      <div class="unit-row" *ngIf="command.type != 'attack_spy'">
-                        <div class="unit-icon-sm" *ngFor="let unit of command.units | keyvalue" title="{{unit.key}}">
-                          <div class="unit_icon40x40 {{unit.key}}"><span class="unit-val">{{unit.value}}</span></div>
-                        </div>
-                      </div>
+              <div *ngIf="error" style="margin-top: 70px;">
+                <h3>
+                  <div class="row">
+                    <div class="col-xs-6 col-xs-offset-3">
+                      <app-alert type="error" [dismissible]="false">
+                        <h5>{{error}}</h5>
+                      </app-alert>
                     </div>
                   </div>
+                </h3>
+              </div>
+
+              <div class="command-list" *ngIf="!loading && commands && commands.length > 0">
+                <div class="command-ngfor" *ngFor="let command of commands; let i = index; trackBy: trackCommandByFn" [ngClass]="{'hidden-command': command?.hidden===true, 'selected-command': command?.cmd_id == selected_command?.cmd_id, 'command_highlight': command?.type=='attack'}">
+                  <div class="command" (click)="selectCommand(command)">
+
+                    <div class="command-content">
+                      <div class="left">
+
+                        <div class="command-type">
+                          <div class="attack_type32x32 {{command.type}}" [ngClass]="{'glow': command.type=='attack', 'revolt_arising': command?.attacking_strategy=='revolt_arising', 'revolt_running': command?.attacking_strategy=='revolt_running'}"></div>
+                        </div>
+
+                        <div class="command-details">
+                          <div class="command-targets">
+
+                            <div *ngIf="!command.return">
+                              <ng-container *ngTemplateOutlet="origin; context: {command : command}"></ng-container>
+                              <span class="overview_outgoing icon"></span>
+                              <div class="mobile-newline"></div>
+                              <ng-container *ngTemplateOutlet="destination; context: {command : command}"></ng-container>
+                            </div>
+
+                            <div *ngIf="command.return">
+                              <ng-container *ngTemplateOutlet="destination; context: {command : command}"></ng-container>
+                              <span class="overview_incoming icon"></span>
+                              <div class="mobile-newline"></div>
+                              <ng-container *ngTemplateOutlet="origin; context: {command : command}"></ng-container>
+                            </div>
+
+                          </div>
+                          <div class="command-timing">
+                            <div class="eta">{{command.eta}}</div>
+                            (
+                            <div class="arrival-human" *ngIf="command.subtype != 'cs_eta' && command.subtype != 'attack_takeover' && command.subtype != 'ongoing_revolt'">Arrival at<span *ngIf="command.subtype == 'portal'"> portal</span>: {{command.arrival_human}}</div>
+                            <div class="arrival-human" *ngIf="command.subtype == 'cs_eta' || command.subtype == 'attack_takeover' && command.subtype != 'ongoing_revolt'">Colonized at: {{command.arrival_human}}</div>
+                            <div class="arrival-human" *ngIf="command.subtype == 'ongoing_revolt' && command.attacking_strategy=='revolt_arising'">Phase 2 start: {{command.cancel_human}},&nbsp;</div>
+                            <div class="arrival-human" *ngIf="command.subtype == 'ongoing_revolt'">Phase 2 end: {{command.arrival_human}}</div>
+                            <div class="cancel-human" *ngIf="command.cancelable && active_view && active_view?.showCancelTime">, cancelable until: {{command.cancel_human}}</div>
+                            )
+                            <div class="deleted-status" *ngIf="command.delete_status != ''">
+                              <mat-icon>delete</mat-icon> This command is hidden. Only you can see it
+                            </div>
+                            <div class="comments" *ngIf="command.delete_status == '' && command.comments && command.comments.length > 0" title="View comments">
+                              <span class="">{{command.comments.length}}</span> 💬
+                              <div class="comment-sneakpeek">{{command.comments.slice(-1)[0].text}}</div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+
+                      <div class="right">
+                        <div class="unit-row" *ngIf="command.type == 'attack_spy'">
+                          <span class="payed_iron">{{command.units}}</span>
+                        </div>
+                        <div class="unit-row" *ngIf="command.type != 'attack_spy'">
+                          <div class="unit-icon-sm" *ngFor="let unit of command.units | keyvalue" title="{{unit.key}}">
+                            <div class="unit_icon40x40 {{unit.key}}"><span class="unit-val">{{unit.value}}</span></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
 
                 </div>
 
@@ -346,35 +349,34 @@
 
             </div>
 
-          </div>
+            <div class="command-overview-footer">
+              <div class="command_filter">
 
-          <div class="command-overview-footer">
-            <div class="command_filter">
+                <div class="options">
 
-              <div class="options">
+                  <div
+                    *ngFor="let type of command_types;"
+                    class="support_filter {{type}}"
+                    (click)="toggleCommandTypeFilter(type)"
+                    [ngClass]="{'inactive': !active_view?.command_type_toggle[type]}"
+                    title="{{type}}"
+                  ></div>
 
-                <div
-                  *ngFor="let type of command_types;"
-                  class="support_filter {{type}}"
-                  (click)="toggleCommandTypeFilter(type)"
-                  [ngClass]="{'inactive': !active_view?.command_type_toggle[type]}"
-                  title="{{type}}"
-                ></div>
+                  <div class="filter-returns" [ngClass]="{ 'disabled': !active_view?.show_returns }" (click)="toggleShowReturns()" title="Show returning commands"></div>
 
-                <div class="filter-returns" [ngClass]="{ 'disabled': !active_view?.show_returns }" (click)="toggleShowReturns()" title="Show returning commands"></div>
-
+                </div>
               </div>
-            </div>
 
-            <div class="refresh-timer" *ngIf="!active_view.show_total_units">
-              <h5>Next refresh: <div class="ops-next-refresh">{{next_refresh}}</div></h5>
-            </div>
+              <div class="refresh-timer" *ngIf="!active_view.show_total_units">
+                <h5>Next refresh: <div class="ops-next-refresh">{{next_refresh}}</div></h5>
+              </div>
 
-            <div class="total-units" *ngIf="active_view.show_total_units">
-              <h5 *ngIf="total_units && objectKeys(total_units).length < 14">Total units<span *ngIf="is_filtered"> (filtered)</span>:</h5>
-              <div class="unit-row" *ngIf="total_units">
-                <div class="unit-icon-lg" *ngFor="let unit of total_units | keyvalue" title="{{unit.value}} {{unit.key}}" style="margin: 5px 2px !important;">
-                  <div class="unit_icon40x40 {{unit.key}}"><span class="unit-val" [ngClass]="{ 'smaller-text': unit.value>9999 }">{{unit.value}}</span></div>
+              <div class="total-units" *ngIf="active_view.show_total_units">
+                <h5 *ngIf="total_units && objectKeys(total_units).length < 14">Total units<span *ngIf="is_filtered"> (filtered)</span>:</h5>
+                <div class="unit-row" *ngIf="total_units">
+                  <div class="unit-icon-lg" *ngFor="let unit of total_units | keyvalue" title="{{unit.value}} {{unit.key}}" style="margin: 5px 2px !important;">
+                    <div class="unit_icon40x40 {{unit.key}}"><span class="unit-val" [ngClass]="{ 'smaller-text': unit.value>9999 }">{{unit.value}}</span></div>
+                  </div>
                 </div>
               </div>
             </div>

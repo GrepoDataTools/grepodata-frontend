@@ -439,7 +439,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
       this.sync_status = 'Service Unavailable';
       this.commands = [];
       this.selected_command = null;
-      stopPolling = true;
+      // stopPolling = true;
     } else if (response.status === 429) {
       // Rate limit exceeded. ignore.
       console.log('Rate limit exceeded');

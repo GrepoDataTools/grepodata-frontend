@@ -114,7 +114,7 @@ $footer_height: 75px;
 .command-overview-container {
   width: 60%;
   font-size: 18px;
-  border: 1px solid #334254;
+  //border: 1px solid #334254;
   box-shadow: 0px 0px 10px 1px #18333314 !important;
 }
 .command-comments-container {
@@ -190,7 +190,9 @@ $footer_height: 75px;
   }
 }
 .command-overview-title {
-  background: rgb(249 171 0 / 20%);
+  background-image: url(~assets/images/game/header.png);
+  //background: rgb(249 171 0 / 20%);
+  color: #fff;
   padding: 3px;
   display: flex;
   flex-direction: row;
@@ -254,7 +256,8 @@ $footer_height: 75px;
   }
 }
 .command-overview-content {
-  background: #FFE19A;
+  background: url(~assets/images/game/gpwindow_bg.jpg) 0 0 repeat;
+  //background: #FFE19A;
   border: 2px solid #d0be97;
   min-height: calc(100vh - #{$header_height} - #{$footer_height} - #{$cmd_header_height} - 90px);
   max-height: calc(100vh - #{$header_height} - #{$footer_height} - #{$cmd_header_height} - 90px);
@@ -265,10 +268,12 @@ $footer_height: 75px;
       display: none;
     }
     .command-ngfor:nth-child(odd) {
-      background: #FFE5AB;
+      background: url(~assets/images/game/bg_odd.png) 0 0 repeat;
+      //background: #FFE5AB;
     }
     .command-ngfor:nth-child(even) {
-      background: #FFEABC;
+      background: url(~assets/images/game/bg_even.png) 0 0 repeat;
+      //background: #FFEABC;
     }
     .command-ngfor {
       &:hover {
@@ -384,8 +389,11 @@ $footer_height: 75px;
   width: 100%;
   height: 35px;
   display: flex;
+  //border: 1px solid #323f4c;
+  //border-bottom: none;
+  box-shadow: inset 0px 0px 5px 0px #18333330 !important;
   justify-content: flex-start;
-  background: #F5F5F5;
+  background: #fff;
   overflow-x: auto;
   &.many {
     height: 45px;
@@ -413,7 +421,6 @@ $footer_height: 75px;
   .view-tab {
     min-width: 100px;
     max-width: 200px;
-    //border-left: 1px solid #323f4c;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;

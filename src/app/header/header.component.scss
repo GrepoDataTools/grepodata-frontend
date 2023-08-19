@@ -32,6 +32,8 @@ body {
 }
 
 nav {
+  display: flex;
+  justify-content: space-between;
   width: 100%;
   background:     #304357;
   border-bottom:  2px solid #18BC9C;
@@ -51,7 +53,8 @@ nav #brand {
 }
 
 nav #menu {
-  float: right;
+  right: 0;
+  //float: right;
   //float: left;
   //left: 15%;
   font-size: 16px;
@@ -273,7 +276,7 @@ nav #menu li:hover {
   }
 }
 
-@media (max-width:800px) {
+@media (max-width:900px) {
   #toggle {
     visibility: visible;
     opacity: 1;
@@ -283,7 +286,7 @@ nav #menu li:hover {
   }
 }
 
-@media (min-width:800px) {
+@media (min-width:900px) {
   #resize {
     visibility: hidden !important;
   }
@@ -298,14 +301,14 @@ nav #menu li:hover {
   }
 }
 
-@media (min-width:1400px) {
-  #brand {
-    padding-left: 200px !important;
-  }
-  #menu {
-    padding-right: 200px !important;
-  }
-}
+//@media (min-width:1400px) {
+//  #brand {
+//    padding-left: 200px !important;
+//  }
+//  #menu {
+//    padding-right: 200px !important;
+//  }
+//}
 
 .hidden-div {
   display: none;

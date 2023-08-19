@@ -35,7 +35,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher
   ) {
-    this.mobileQuery = media.matchMedia('(min-width: 768px)');
+    this.mobileQuery = media.matchMedia('(min-width: 900px)');
     this._mediaQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addEventListener('change', () => this._mediaQueryListener());
 

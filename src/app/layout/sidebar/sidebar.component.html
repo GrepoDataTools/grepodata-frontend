@@ -55,7 +55,7 @@
         <span class="unicode-icon" *ngIf="menuItem.iconType === 'unicode'">{{ menuItem.icon }}</span>
         <span>{{ menuItem.name }}</span>
         <span fxFlex></span>
-        <span *ngIf="menuItem.name === 'Discord Server'" class="label label-success">New!</span>
+<!--        <span *ngIf="menuItem.name === 'Discord Server'" class="label label-success">New!</span>-->
         <span class="label label-{{ badge.type }}" *ngFor="let badge of menuItem.badge">{{ badge.value }}</span>
       </a>
 

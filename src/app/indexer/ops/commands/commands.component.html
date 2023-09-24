@@ -237,6 +237,7 @@
                  *ngFor="let view of views" >
               {{view.tab_name}}
             </div>
+
           </div>
           <div class="game-border">
             <div class="command-overview-title">
@@ -318,7 +319,7 @@
 
                           </div>
                           <div class="command-timing">
-                            <div *ngIf="!command?.is_planned">
+                            <ng-container *ngIf="!command?.is_planned">
                               <div class="eta">{{command.eta}}</div>
                               (
                               <div class="arrival-human" *ngIf="command.subtype != 'cs_eta' && command.subtype != 'attack_takeover' && command.subtype != 'ongoing_revolt'">Arrival at<span *ngIf="command.subtype == 'portal'"> portal</span>: {{command.arrival_human}}</div>
@@ -327,13 +328,13 @@
                               <div class="arrival-human" *ngIf="command.subtype == 'ongoing_revolt'">Phase 2 end: {{command.arrival_human}}</div>
                               <div class="cancel-human" *ngIf="command.cancelable && active_view && active_view?.showCancelTime">, cancelable until: {{command.cancel_human}}</div>
                               )
-                            </div>
-                            <div *ngIf="command?.is_planned == true">
+                            </ng-container>
+                            <ng-container *ngIf="command?.is_planned == true">
                               <div class="cancel-human">
-                                Departure: {{command.cancel_human}} -
+                                Planned departure: {{command.cancel_human}} -
                                 Targeted arrival: {{command.arrival_human}} ({{command.eta}})
                               </div>
-                            </div>
+                            </ng-container>
                             <div class="deleted-status" *ngIf="command.delete_status != ''">
                               <mat-icon>delete</mat-icon> This command is hidden. Only you can see it
                             </div>
@@ -450,12 +451,12 @@
 
               <div *ngIf="selected_command?.is_planned==true">
                 <app-alert [dismissible]="false" type="warning" [showIcon]="false">
-                  This is a planned command. It has yet to be sent by
+                  <strong>This is a planned command.</strong><br/>It has yet to be sent by
                   <img style="height: 18px; margin-top: -5px;" src="../../assets/images/player_ico.png"/>&nbsp;
                   <span class="gd-brown">{{selected_command.src_ply_n}}</span>
                   <br/><br/>
                   <div style="font-size: 80%;">
-                    Expected departure: {{selected_command.cancel_human}}
+                    Expected departure: {{selected_command.cancel_human}}<br/>
                     Expected arrival: {{selected_command.arrival_human}}
                   </div>
                 </app-alert>

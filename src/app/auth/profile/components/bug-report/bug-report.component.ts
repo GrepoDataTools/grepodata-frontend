@@ -50,11 +50,11 @@ export class BugReportComponent {
       return;
     }
 
-    // if (this.bug_report.indexOf('[report]') >= 0 && this.bug_report.indexOf('[/report]') >= 0) {
-    //   this.error = 'This form is not meant to upload BB code reports. Use the userscript to index reports';
-    //   if (this.captchaRef != undefined) { this.captchaRef.reset(); }
-    //   return;
-    // }
+    if (this.bug_report.indexOf('[report]') === 0 || this.bug_report.indexOf('/report hash') === 0) {
+      this.error = 'This form is not meant to upload reports. Use the \'index +\' button (GrepoData userscript required) to index reports';
+      if (this.captchaRef != undefined) { this.captchaRef.reset(); }
+      return;
+    }
 
     let report = this.bug_report;
     try {

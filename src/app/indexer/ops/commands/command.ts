@@ -16,11 +16,15 @@ export class Command {
   src_twn_id: string;
   src_ply_n: string;
   src_ply_id: string;
+  src_all_n: string;
+  src_all_id: string;
   return: boolean;
   trg_twn_n: string;
   trg_twn_id: string;
   trg_ply_n: string;
   trg_ply_id: string;
+  trg_all_n: string;
+  trg_all_id: string;
   units: any;
   comments: Comment[];
   show_comments: boolean;
@@ -49,12 +53,16 @@ export class CommandView {
   showCancelTime: boolean
   showDeletedCommands: boolean
   hide_planned_commands: boolean
+  hide_spam_commands: number
   command_type_toggle: any
   filter_order: string
   filter_text: string
   filter_town: any
   filter_player: any
   filter_uploader: any
+  filter_town_type: string
+  filter_player_type: string
+  filter_uploader_type: string
 }
 
 // TODO: minify object

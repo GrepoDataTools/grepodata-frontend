@@ -17,11 +17,12 @@ import {IndexMembersDialog} from '../../../shared/dialogs/index-members/index-me
 import { environment } from '../../../../environments/environment';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {BasicDialog} from '../../../shared/dialogs/basic/basic.component';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-commands',
   templateUrl: './commands.component.html',
-  styleUrls: ['./commands.component.scss', './commands-game.scss', './commands-mobile.scss'],
+  styleUrls: ['./commands.component.scss', './commands-game.scss', './commands-mobile.scss', './commands-darkmode.scss'],
   providers: [IndexerService, WorldService, LocalCacheService]
 })
 export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
@@ -33,6 +34,8 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
   team_name
   is_admin = false;
   showOpSettings = false;
+  dark_mode = true;
+  show_menu = false;
   share_link = '';
   my_uid = 0;
   username = 'user';
@@ -43,6 +46,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
   uploaders: any = []
   commands: Command[] = []
   total_units: any = {}
+  spam_towns: any = []
   objectKeys = Object.keys;
 
   // Data loading logic
@@ -80,6 +84,8 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
   is_filtered = false;
   command_types = ['attack_land', 'support', 'attack_sea', 'attack_spy', 'farm_attack', 'abort', 'revolt', 'attack_takeover', 'breakthrough'];
   default_order = 'arrival_asc'
+  filter_targets_text = '';
+  targets_sort = 'movements_desc';
   typingTimer;
   debounceTime = 500;
   dropdownSettingsPlayers: IDropdownSettings = {};
@@ -87,7 +93,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
   dropdownSettingsUploaders: IDropdownSettings = {};
 
   // Tabs
-  viewer_version = 'v4';
+  viewer_version = 'v6';
   views: CommandView[];
   active_view: CommandView;
   editting_view_name = false;
@@ -280,12 +286,16 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     view.showCancelTime = false;
     view.showDeletedCommands = false;
     view.hide_planned_commands = false;
+    view.hide_spam_commands = 0;
     view.command_type_toggle = this.getTypeToggleDict();
     view.filter_order = this.default_order;
     view.filter_text = '';
     view.filter_town = [];
     view.filter_player = [];
     view.filter_uploader = [];
+    view.filter_town_type = 'incl';
+    view.filter_player_type = 'incl';
+    view.filter_uploader_type = 'incl';
     return view
   }
 
@@ -342,7 +352,10 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.active_view.name_changed = true;
   }
 
-  deleteView(delete_view: CommandView) {
+  deleteView(delete_view: CommandView, confirm = false) {
+    if (confirm && window.confirm("Are you sure you want to delete view '"+delete_view.tab_name+"'?")!=true) {
+      return
+    }
     if (delete_view.is_default) {
       console.log("Unable to delete default view!");
       return
@@ -505,11 +518,14 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
         // Sort the commands
         this.sortCommands(false);
 
-        // reapply filter logic
-        this.filterCommands(false, false);
-
         // Update ETA
         this.updateTimer(false);
+
+        // build command graph
+        this.buildGraph(false);
+
+        // reapply filter logic
+        this.filterCommands(false, false);
 
         // Update selected command
         if (this.selected_command) {
@@ -530,6 +546,11 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
       // No new commands
       console.log("No new commands");
       this.sync_status = 'LIVE';
+
+      if (this.graph_requires_rebuild == true) {
+        this.graph_requires_rebuild = false
+        this.buildGraph(false);
+      }
     } else {
       this.sync_status = 'Out of Sync';
     }
@@ -578,7 +599,43 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     }, this.debounceTime);
   }
 
+  targetMatchesFilter(target) {
+    if (target.label.toLowerCase().includes(this.filter_targets_text.toLowerCase())) {
+      return true;
+    }
+    if (target.ply_n.toLowerCase().includes(this.filter_targets_text.toLowerCase())) {
+      return true;
+    }
+    if (target.all_n.toLowerCase().includes(this.filter_targets_text.toLowerCase())) {
+      return true;
+    }
+    return false;
+  }
+
+  selectTarget(target) {
+    // Set active view to default view
+    this.toggleView(this.views[0])
+
+    let is_selected = this.isSelectedTarget(target)
+
+    // Reset all filters
+    this.clearFilter('all', false)
+
+    if (!is_selected) {
+      this.active_view.filter_town = [{id: target.label, text: `${target.label} (${target.hits})`}]
+    }
+    this.doFilter(this.active_view.filter_town)
+
+    // Draw updates
+    this.draw()
+  }
+
+  isSelectedTarget(target) {
+    return this.active_view.filter_town.some(town_filter => town_filter.id === target.label)
+  }
+
   filterExpired() {
+    let count_old = this.commands.length
     this.commands = this.commands.filter(command => {
       // Parse planned commands with elapsed departures
       let valid_departure = true
@@ -594,6 +651,11 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
 
       return valid_departure && valid_arrival;
     });
+    let has_expired_commands = this.commands.length != count_old
+    if (has_expired_commands) {
+      // Rebuild target graph if commands have expired
+      this.graph_requires_rebuild = true
+    }
   }
 
   doSort() {
@@ -674,12 +736,15 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
         break;
       case 'town':
         this.active_view.filter_town = [];
+        this.active_view.filter_town_type = 'incl';
         break;
       case 'player':
         this.active_view.filter_player = [];
+        this.active_view.filter_player_type = 'incl';
         break;
       case 'uploader':
         this.active_view.filter_uploader = [];
+        this.active_view.filter_uploader_type = 'incl';
         break;
       case 'all':
       default:
@@ -687,6 +752,9 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
         this.active_view.filter_town = [];
         this.active_view.filter_player = [];
         this.active_view.filter_uploader = [];
+        this.active_view.filter_town_type = 'incl';
+        this.active_view.filter_player_type = 'incl';
+        this.active_view.filter_uploader_type = 'incl';
     }
     this.active_view.show_returns = true;
     this.active_view.hide_planned_commands = false;
@@ -767,8 +835,19 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
   filterCommands(do_draw = true, do_save_settings = true) {
     this.is_filtered = this.isFiltered();
     let has_hidden_commands = false;
-    if (this.is_filtered || !this.active_view.showDeletedCommands) {
-      //console.log('applying filters');
+    if (this.is_filtered || !this.active_view.showDeletedCommands || this.active_view.hide_spam_commands>0) {
+      // console.log('applying filters');
+
+      let spam_town_ids = [];
+      if (this.active_view.hide_spam_commands > 0) {
+        // Get a list of all town ids that exceed the outgoing spam threshold
+        console.log(this.graph_nodes);
+        let spam_towns = this.graph_nodes.filter(town => town.outgoing >= this.active_view.hide_spam_commands && town.id > 0)
+        spam_town_ids = spam_towns.map(town => town.id)
+        this.spam_towns = spam_towns.map(town => town.label)
+        console.log('spam towns: ', spam_town_ids)
+      }
+
       this.commands.map(command => {
         let hidden = false;
 
@@ -797,24 +876,54 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
         } else if (!hidden && command.type == 'foundation' && this.active_view.command_type_toggle['attack_takeover'] === false) {
           hidden = true;
         }
+
         if (!hidden && this.active_view.filter_player.length > 0) {
           let player_names = this.active_view.filter_player.map(filter => filter.id)
-          if (player_names.indexOf(command.trg_ply_n) < 0 && player_names.indexOf(command.src_ply_n) < 0) {
-            hidden = true;
+
+          if (this.active_view.filter_player_type == 'incl') {
+            // Inclusive
+            if (player_names.indexOf(command.trg_ply_n) < 0 && player_names.indexOf(command.src_ply_n) < 0) {
+              hidden = true;
+            }
+          } else {
+            // Exclusive
+            if (player_names.indexOf(command.trg_ply_n) >= 0 || player_names.indexOf(command.src_ply_n) >= 0) {
+              hidden = true;
+            }
           }
         }
+
         if (!hidden && this.active_view.filter_town.length > 0) {
           let town_names = this.active_view.filter_town.map(filter => filter.id)
-          if (town_names.indexOf(command.trg_twn_n) < 0 && town_names.indexOf(command.src_twn_n) < 0) {
-            hidden = true;
+          if (this.active_view.filter_town_type == 'incl') {
+            // Inclusive
+            if (town_names.indexOf(command.trg_twn_n) < 0 && town_names.indexOf(command.src_twn_n) < 0) {
+              hidden = true;
+            }
+          } else {
+            // Exclusive
+            if (town_names.indexOf(command.trg_twn_n) >= 0 || town_names.indexOf(command.src_twn_n) >= 0) {
+              hidden = true;
+            }
           }
         }
+
         if (!hidden && this.active_view.filter_uploader.length > 0) {
           let uploader_names = this.active_view.filter_uploader.map(filter => filter.id)
-          if (uploader_names.indexOf(command.upload_n) < 0) {
-            hidden = true;
+
+          if (this.active_view.filter_uploader_type == 'incl') {
+            // Inclusive
+            if (uploader_names.indexOf(command.upload_n) < 0) {
+              hidden = true;
+            }
+          } else {
+            // Exclusive
+            if (uploader_names.indexOf(command.upload_n) >= 0) {
+              hidden = true;
+            }
           }
         }
+
         if (!hidden && this.active_view.filter_text != '') {
           let search_domain = command.src_ply_n + command.src_twn_n + command.trg_ply_n + command.trg_twn_n + command.subtype
           // Add comments to search domain
@@ -822,6 +931,11 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
             search_domain += command.comments.map(comment => comment.text).join()
           }
           if (!search_domain.toLowerCase().includes(this.active_view.filter_text.toLowerCase())) {
+            hidden = true;
+          }
+        }
+        if (!hidden && this.active_view.hide_spam_commands > 0) {
+          if (spam_town_ids.indexOf(command.src_twn_id) >= 0) {
             hidden = true;
           }
         }
@@ -879,7 +993,8 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     let cache_entry = {
       version: this.viewer_version,
-      views: this.views
+      views: this.views,
+      dark_mode: this.dark_mode
     }
     console.log('saving views to cache: ', cache_entry);
     LocalCacheService.set('cmd_views_'+this.team, cache_entry);
@@ -910,6 +1025,10 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
         if (this.active_view && 'uuid' in this.active_view) {
           clean_view = false;
         }
+
+        if ('dark_mode' in cached_views) {
+          this.dark_mode = cached_views.dark_mode
+        }
       }
     }
 
@@ -932,8 +1051,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
   selectCommand(command: Command) {
     if (this.selected_command && 'cmd_id' in this.selected_command && command.cmd_id == this.selected_command.cmd_id) {
       // unselect!
-      this.mobile_comments_opened = false;
-      this.selected_command = null;
+      this.unselectCommand()
     } else {
       this.mobile_comments_opened = true;
       this.selected_command = command;
@@ -947,6 +1065,11 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
       this.commentPusher.nativeElement.scrollIntoView(false)
       this.draw();
     } catch (e) { }
+  }
+
+  unselectCommand() {
+    this.mobile_comments_opened = false;
+    this.selected_command = null;
   }
 
   deleteCommand(es_id, new_delete_status) {
@@ -1106,6 +1229,11 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.commands && this.commands.length > 0) {
       this.filterExpired();
 
+      // Update target timers
+      this.targets.map(target => {
+        target.eta = this.humanReadableTimeDiff(target.avg_arrival - this.current_time);
+      })
+
       // Update command timers
       this.commands.map(command => {
         let countdown_time = command.arrival_at; // Default: countdown to arrival
@@ -1155,6 +1283,124 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     let minutes = Math.floor((seconds % 3600) / 60);
     let ss = Math.floor(seconds % 60);
     return hours + ':' + (minutes<10?'0':'') + minutes + ':' + (ss<10?'0':'') + ss;
+  }
+
+  /**
+   * Graph logic
+   */
+
+  graph_links = []
+  graph_nodes = []
+  targets = []
+  zoomToFit$: Subject<boolean> = new Subject();
+  graph_requires_rebuild = false;
+
+  buildGraph(do_draw=false) {
+    let nodes : any = {}
+    let links = []
+    let i=0
+    this.commands.forEach(command => {
+      // if (['revolt'].includes(command.type)) {
+      //   return
+      // }
+
+      i += 1
+
+      // Add a new link between source and target
+      links.push({
+        id: i,
+        source: command.src_twn_id,
+        target: command.trg_twn_id,
+        type: command.type
+      })
+
+      // Create source town node if it does not exist
+      if (!(command.src_twn_id in nodes)) {
+        nodes[command.src_twn_id] = {
+          id: Number(command.src_twn_id),
+          hits: 0,
+          outgoing: 0,
+          size: 12,
+          label: command.src_twn_n,
+          ply_id: command.src_ply_id,
+          ply_n: command.src_ply_n,
+          all_id: command.src_all_id,
+          all_n: command.src_all_n,
+          arrivals: []
+        }
+      }
+
+      // Create target town node if it does not exist
+      if (!(command.trg_twn_id in nodes)) {
+        nodes[command.trg_twn_id] = {
+          id: Number(command.trg_twn_id),
+          hits: 0,
+          outgoing: 0,
+          size: 12,
+          label: command.trg_twn_n,
+          ply_id: command.trg_ply_id,
+          ply_n: command.trg_ply_n,
+          all_id: command.trg_all_id,
+          all_n: command.trg_all_n,
+          arrivals: []
+        }
+      }
+
+      // Increment counters
+      nodes[command.src_twn_id].outgoing += 1
+      nodes[command.trg_twn_id].hits += 1
+      nodes[command.trg_twn_id].arrivals.push(command.arrival_at)
+    });
+
+    const median = arr => (arr.sort((a, b) => a - b)[Math.floor(arr.length / 2)] + arr[Math.ceil(arr.length / 2)]) / 2;
+
+    // Aggregate targets: perform aggregated calculation to determine targeted towns
+    let nodes_actual: any = Object.values(nodes)
+    let targets = nodes_actual.filter(node => node.hits > 0);
+    targets = targets.map(item => {
+      item.size = 12 + Math.round(1 * Math.exp(0.1 * item.hits))
+      if (item.arrivals.length > 0) {
+        let sum = item.arrivals.reduce((a: number, b: number): number => a + b)
+        item.min_arrival = Math.min(item.arrivals)
+        item.max_arrival =  Math.max(item.arrivals)
+        item.avg_arrival = sum / item.arrivals.length
+        item.eta = this.humanReadableTimeDiff(item.avg_arrival - this.current_time)
+      }
+      return item
+    })
+
+    // Persist data updates
+    this.graph_links = links;
+    this.graph_nodes = nodes_actual;
+    this.targets = targets;
+    setTimeout((_) => this.zoomToFit$.next(true), 1000)
+
+    this.sort_targets()
+
+    // console.log('links', this.graph_links);
+    // console.log('nodes', this.graph_nodes);
+    // console.log('targets', this.targets);
+  }
+
+  sort_targets(draw=false) {
+    this.targets.sort((t1, t2) => {
+      if (t1.hits == t2.hits || this.targets_sort === 'arrival_asc') {
+        return t1.avg_arrival > t2.avg_arrival ? 1 : -1
+      } else {
+        // default: incoming movements DESC
+        return t1.hits < t2.hits ? 1 : -1
+      }
+    });
+    if (draw) {
+      this.draw()
+    }
+  }
+
+  select_node(node) {
+    console.log(node);
+    this.active_view.filter_town = [{id: node.label, text: `${node.label} (${node.hits})`}]
+    this.doFilter(this.active_view.filter_town)
+    this.draw()
   }
 
   /**
@@ -1340,6 +1586,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   toggleCommentsTab(show) {
     this.mobile_comments_opened = show;
+    this.unselectCommand();
     this.draw();
   }
 
@@ -1388,3 +1635,15 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.softNotification(snackbar_msg, '', 5000);
   }
 }
+
+
+/**
+ * TODO:
+ * - hide spam commands
+ * - toggle filters inclusive/exclusive
+ * - target list
+ * - map view
+ * - right click context menu
+ * - comments
+ *
+ */

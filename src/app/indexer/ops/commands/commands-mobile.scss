@@ -2,9 +2,7 @@
 Default state (no mobile query match)
  */
 .close-mobile-tab {
-  display: none;
-}
-.mobile-controls {
+  top: 20px;
   display: none;
 }
 .mobile-newline {
@@ -15,14 +13,6 @@ Default state (no mobile query match)
 Mobile query matches (max-width: 1400px); controlled by component ngClass
  */
 .cmd-mobile {
-  .mobile-controls {
-    display: flex;
-    position: fixed;
-    top: 58px;
-    justify-content: space-between;
-    align-items: center;
-    width: calc(100% - 40px);
-  }
   .mobile-toggle {
     display: flex;
     padding: 8px;
@@ -54,9 +44,6 @@ Mobile query matches (max-width: 1400px); controlled by component ngClass
       min-height: 80vh;
       &.opened {
         right: 0;
-      }
-      .comment-title {
-        justify-content: flex-end;
       }
     }
   }

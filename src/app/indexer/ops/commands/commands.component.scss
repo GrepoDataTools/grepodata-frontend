@@ -1,4 +1,5 @@
 $header_height: 58px;
+$panel_header_height: 80px;
 $cmd_header_height: 40px;
 $footer_height: 75px;
 
@@ -20,6 +21,10 @@ $footer_height: 75px;
   flex-direction: column;
   box-shadow: 0px 0px 10px 1px #18333340 !important;
   gap: 10px;
+
+  position: fixed;
+  top: 50px;
+  right: 0;
 }
 
 .ops-next-refresh {
@@ -32,10 +37,18 @@ $footer_height: 75px;
   top: 10px;
   right: 10px;
   z-index: 1001;
+
+  display: flex;
+  align-items: center;
+
+  .ops-action-buttons {
+    margin-top: -19px;
+  }
 }
 
 .commands-container {
-  padding: 0 20px;
+  padding: 0 !important;
+  //padding: 0 20px;
 }
 
 .ops-commands-list-container {
@@ -51,22 +64,56 @@ $footer_height: 75px;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin: 0 40px 20px;
-  box-shadow: 0px 0px 10px 1px #18333320 !important;
-  border-radius: 20px;
+  //margin: 0 40px 20px;
+  margin: 0 !important;
+  box-shadow: none !important;
+  //box-shadow: 0px 0px 10px 1px #18333320 !important;
+  //border-radius: 20px;
 }
 
 .command-sidepanel {
   width: 20%;
   background: #fff;
-  padding: 20px;
+  //padding: 20px;
+  box-shadow: inset 0px 0px 5px 0px #18333330 !important;
+
+  height: calc(100vh - #{$header_height});
+  max-height: calc(100vh - #{$header_height});
+  min-height: calc(100vh - #{$header_height});
+  overflow-y: auto;
+
+  .panel-header {
+    padding: 20px;
+    height: $panel_header_height;
+    max-height: $panel_header_height;
+  }
+
+  .panel-content {
+    max-height: calc(100vh - #{$header_height} - #{$panel_header_height});
+    min-height: calc(100vh - #{$header_height} - #{$panel_header_height});
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 20px;
+
+    &.filter-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    &.comments-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+  }
 }
 
 .command-filters {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-radius: 10px 0 0 10px;
+  //border-radius: 10px 0 0 10px;
 
   .filter-header {
     display: flex;
@@ -97,6 +144,17 @@ $footer_height: 75px;
       height: 30px;
     }
   }
+  .multiselect-input {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    ng-multiselect-dropdown {
+      width: 100%;
+    }
+    select {
+      height: 34.5px;
+    }
+  }
 
   .filter-title {
     display: flex;
@@ -118,7 +176,7 @@ $footer_height: 75px;
   box-shadow: 0px 0px 10px 1px #18333314 !important;
 }
 .command-comments-container {
-  border-radius: 0 10px 10px 0;
+  //border-radius: 0 10px 10px 0;
 
   display: flex;
   flex-direction: column;
@@ -126,6 +184,7 @@ $footer_height: 75px;
 
   .comment-title {
     display: flex;
+    justify-content: space-between;
   }
   .command-info {
     margin-bottom: 60px;
@@ -255,11 +314,66 @@ $footer_height: 75px;
     font-size: 13px !important;
   }
 }
+.filter-targets {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+  input, select {
+    height: 32px;
+  }
+}
+.hidden-towns {
+  color: #c15555;
+  .mat-icon {
+    margin-top: -2px;
+    vertical-align: middle;
+  }
+  &:hover {
+    cursor: help;
+  }
+}
+.town_tooltip {
+  background: url(~assets/images/game/gpwindow_bg.jpg) 0 0 repeat;
+  padding: 10px;
+  .town_infos {
+    background: url(~assets/images/game/bg_even.png) 0 0 repeat;
+    padding: 5px;
+    border: 1px solid #d0be97;
+    font-size: 18px;
+  }
+  img {
+    height: 22px;
+  }
+  .target-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+.command-target {
+  margin-bottom: 10px;
+  h4 {
+    margin: 0 5px;
+  }
+  &.active-target, &:hover {
+    cursor: pointer;
+    border: 3px solid #18bc9b;
+    margin: -3px;
+    margin-bottom: 7px;
+  }
+  &:hover {
+    border: 3px solid #326d61;
+  }
+}
+
 .command-overview-content {
   background: url(~assets/images/game/gpwindow_bg.jpg) 0 0 repeat;
   //background: #FFE19A;
-  min-height: calc(100vh - #{$header_height} - #{$footer_height} - #{$cmd_header_height} - 90px);
-  max-height: calc(100vh - #{$header_height} - #{$footer_height} - #{$cmd_header_height} - 90px);
+  //min-height: calc(100vh - #{$header_height} - #{$footer_height} - #{$cmd_header_height} - 90px);
+  //max-height: calc(100vh - #{$header_height} - #{$footer_height} - #{$cmd_header_height} - 90px);
+  min-height: calc(100vh - #{$header_height} - #{$footer_height} - #{$cmd_header_height} - 7px);
+  max-height: calc(100vh - #{$header_height} - #{$footer_height} - #{$cmd_header_height} - 7px);
   overflow-y: auto;
 
   .command-list {
@@ -279,6 +393,7 @@ $footer_height: 75px;
     }
     .command-ngfor {
       &:hover {
+        cursor: pointer;
         background: rgba(249, 171, 0, 0.2) !important;
       }
     }
@@ -405,7 +520,8 @@ $footer_height: 75px;
   .command-tab {
     height: 100%;
     padding: 0 5px;
-    border-right: 1px solid rgba(50, 63, 76, 0.3);
+    border: 2px solid #bdbdbd !important;
+    //border-right: 1px solid rgba(50, 63, 76, 0.3);
     border-radius: 10px 10px 0 0;
     display: flex;
     justify-content: center;
@@ -414,6 +530,12 @@ $footer_height: 75px;
       cursor: pointer;
       background: #fbecd7;
     }
+  }
+  .filter-tab {
+    width: 90px !important;
+    max-width: 90px !important;
+    padding: 0 5px;
+    user-select: none;
   }
   .new-tab {
     width: 40px !important;
@@ -430,10 +552,17 @@ $footer_height: 75px;
 
     &.active-tab {
       background: #F6E7C8;
-      border: 0 !important;
+      border: 0;
       margin-left: -1px;
       font-weight: 500;
       box-shadow: 0px 0px 10px 1px #18333330 !important;
+    }
+  }
+  .delete-view {
+    opacity: .2;
+    &:hover {
+      opacity: 1 !important;
+      color: red !important;
     }
   }
 }
@@ -484,7 +613,6 @@ $footer_height: 75px;
 .selected-command {
   background: #18bc9b6b !important;
 }
-
 .rotate-cont {
   min-width: 24px;
   display: inline-block;
@@ -517,10 +645,21 @@ $footer_height: 75px;
   text-align: center;
   width: 100%;
 }
+select {
+  border: 1px solid #adadad;
+}
 ::ng-deep .multiselect-dropdown {
   .selected-item {
     background: #489384 !important;
     border: 1px solid #489384 !important;
+  }
+}
+::ng-deep {
+  .dropdown-btn {
+    border-radius: 0 !important;
+  }
+  .breadcrumb {
+    height: $header_height;
   }
 }
 //::ng-deep .mat-checkbox-checked {

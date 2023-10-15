@@ -107,9 +107,11 @@ export class WorldService {
     let localWorlds = WorldService.getLocalWorlds();
     if (!localWorlds) return false;
     for (let i of (<any>localWorlds)) {
-      for (let w of (<any>i).worlds) {
-        if (w.id == id)  {
-          return w;
+      if ('worlds' in i && i.worlds && i.worlds.length > 0) {
+        for (let w of (<any>i).worlds) {
+          if ('id' in w && w.id == id)  {
+            return w;
+          }
         }
       }
     }

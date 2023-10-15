@@ -170,10 +170,8 @@
                   </div>
                   <div class="multiselect-input">
                     <ng-multiselect-dropdown [data]="towns" [settings]="dropdownSettingsTowns" (click)="draw()" [(ngModel)]="active_view.filter_town" (ngModelChange)="doFilter(active_view.filter_town)" placeholder="Select Towns"></ng-multiselect-dropdown>
-                    <select [(ngModel)]="active_view.filter_town_type" (ngModelChange)="doFilter()" title="Do you want to include or exclude these towns?">
-                      <option value="incl" selected style="color:green;">☑ Include</option>
-                      <option value="excl" style="color:red;">☒ Exclude</option>
-                    </select>
+                    <input class="filter-incl" *ngIf="active_view.filter_town_type=='incl'" type="reset" value="☑ Included" (click)="active_view.filter_town_type='excl'; doFilter()" title="Only these towns are included in the overview">
+                    <input class="filter-excl" *ngIf="active_view.filter_town_type=='excl'" type="reset" value="☒ Excluded" (click)="active_view.filter_town_type='incl'; doFilter()" title="These towns are excluded from the overview">
                   </div>
 
                   <!-- Filter by player -->
@@ -183,10 +181,8 @@
                   </div>
                   <div class="multiselect-input">
                     <ng-multiselect-dropdown [data]="players" [settings]="dropdownSettingsPlayers" (click)="draw()" [(ngModel)]="active_view.filter_player" (ngModelChange)="doFilter(active_view.filter_player)" placeholder="Select Players"></ng-multiselect-dropdown>
-                    <select [(ngModel)]="active_view.filter_player_type" (ngModelChange)="doFilter()" title="Do you want to include or exclude these players?">
-                      <option value="incl" selected style="color:green;">☑ Include</option>
-                      <option value="excl" style="color:red;">☒ Exclude</option>
-                    </select>
+                    <input class="filter-incl" *ngIf="active_view.filter_player_type=='incl'" type="reset" value="☑ Included" (click)="active_view.filter_player_type='excl'; doFilter()" title="Only these players are included in the overview">
+                    <input class="filter-excl" *ngIf="active_view.filter_player_type=='excl'" type="reset" value="☒ Excluded" (click)="active_view.filter_player_type='incl'; doFilter()" title="These players are excluded from the overview">
                   </div>
 
                   <!-- Filter by uploader -->
@@ -196,10 +192,8 @@
                   </div>
                   <div class="multiselect-input">
                     <ng-multiselect-dropdown [data]="uploaders" [settings]="dropdownSettingsUploaders" (click)="draw()" [(ngModel)]="active_view.filter_uploader" (ngModelChange)="doFilter(active_view.filter_uploader)" placeholder="Command uploaded by"></ng-multiselect-dropdown>
-                    <select [(ngModel)]="active_view.filter_uploader_type" (ngModelChange)="doFilter()" title="Do you want to include or exclude these uploaders?">
-                      <option value="incl" selected style="color:green;">☑ Include</option>
-                      <option value="excl" style="color:red;">☒ Exclude</option>
-                    </select>
+                    <input class="filter-incl" *ngIf="active_view.filter_uploader_type=='incl'" type="reset" value="☑ Included" (click)="active_view.filter_uploader_type='excl'; doFilter()" title="Only these uploaders are included in the overview">
+                    <input class="filter-excl" *ngIf="active_view.filter_uploader_type=='excl'" type="reset" value="☒ Excluded" (click)="active_view.filter_uploader_type='incl'; doFilter()" title="These uploaders are excluded from the overview">
                   </div>
 
                   <hr style="margin-bottom: 10px;">
@@ -242,11 +236,11 @@
                   <div class="inline-filter" title="Hides all commands from town X if the town has N or more outgoing commands">
                     <p>
                       Hide spam commands
-                      <span class="hidden-towns" *ngIf="active_view.hide_spam_commands>0" title="{{spam_towns.join(', ')}}">
-                        <br/>&nbsp;<mat-icon *ngIf="spam_towns.length > 0">info_outline</mat-icon> ({{spam_towns.length}} spam towns)
+                      <span class="hidden-towns" *ngIf="active_view.hide_spam_commands>0 && spam_towns.length > 0" title="{{spam_towns.join(', ')}}">
+                        <br/>&nbsp;<mat-icon>info_outline</mat-icon> ({{spam_towns.length}} spam towns)
                       </span>
                     </p>
-                    <select class="frequency-select" [(ngModel)]="active_view.hide_spam_commands" (ngModelChange)="doFilter()">
+                    <select class="frequency-select" [(ngModel)]="active_view.hide_spam_commands" (ngModelChange)="doFilter()" [ngClass]="{'filtered': active_view.hide_spam_commands>0 && spam_towns.length > 0}">
                       <option value="0">Do not hide spam</option>
                       <option value="2">if 2+ from same town</option>
                       <option value="3">if 3+ from same town</option>

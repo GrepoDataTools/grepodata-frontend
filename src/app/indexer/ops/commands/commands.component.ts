@@ -286,7 +286,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     view.showCancelTime = false;
     view.showDeletedCommands = false;
     view.hide_planned_commands = false;
-    view.hide_spam_commands = 0;
+    view.hide_spam_commands = 10;
     view.command_type_toggle = this.getTypeToggleDict();
     view.filter_order = this.default_order;
     view.filter_text = '';

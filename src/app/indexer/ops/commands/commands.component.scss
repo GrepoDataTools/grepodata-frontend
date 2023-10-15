@@ -154,6 +154,12 @@ $footer_height: 75px;
     select {
       height: 34.5px;
     }
+    .filter-incl {
+      color: green;
+    }
+    .filter-excl {
+      color: red;
+    }
   }
 
   .filter-title {
@@ -655,6 +661,15 @@ select {
   }
 }
 ::ng-deep {
+  input, select, textarea, .dropdown-btn {
+    &:hover {
+      cursor: pointer;
+      background: #f7f7f7;
+    }
+  }
+  .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+    background-color: #009688 !important;
+  }
   .dropdown-btn {
     border-radius: 0 !important;
   }

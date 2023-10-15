@@ -47,6 +47,12 @@ $dm-border: 1px solid #4b4b4b;
     background: unset !important;
   }
 
+  .filter-incl {
+    color: #18BC9C !important;
+  }
+  .filter-excl {
+    color: red !important;
+  }
 
   .btn-primary, .btn-secondary, .btn-default {
     color: $dm-font-primary !important;
@@ -152,6 +158,9 @@ $dm-border: 1px solid #4b4b4b;
       color: $dm-font-primary !important;
       background: $dm-background-secondary !important;
       border: $dm-border !important;
+      &:hover {
+        background: $dm-background-primary !important;
+      }
     }
 
     .breadcrumb {
@@ -179,6 +188,10 @@ $dm-border: 1px solid #4b4b4b;
       border-color: rgb(163 163 163 / 70%);
     }
 
+  }
+
+  .filtered {
+    border: 3px solid #18bc9b !important;
   }
 }
 

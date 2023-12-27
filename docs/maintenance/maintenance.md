@@ -1,6 +1,3 @@
-bypass the maintenance page by setting a `x-dev-test` request header with a value of `tF0BOCkzxs8HgG2Kw`.
-[ModHeader](https://chrome.google.com/webstore/detail/modheader/idgpnmonknjnojddfkpgkljpfnnfcklj)
-
 ### Maintenance page
 Place maintenance page in active frontend directory
 
@@ -41,3 +38,7 @@ return json_encode(array('offline'=>'Sorry, we are offline for maintenance! Chec
 //$oRouter->Handle();
 
 ```
+
+### Testing bypass
+bypass the maintenance page by setting a `x-dev-test` request header with a value of `tF0BOCkzxs8HgG2Kw`.
+[ModHeader](https://chrome.google.com/webstore/detail/modheader/idgpnmonknjnojddfkpgkljpfnnfcklj)

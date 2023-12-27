@@ -7,14 +7,13 @@
           <h4 (click)="scroll(Introduction)">Introduction</h4>
           <h4 (click)="scroll(Overview)">Overview</h4>
           <h4 (click)="scroll(Clients)">Client Services</h4>
-            <h5 (click)="scroll(Frontend)">Angular Frontend</h5>
-              <h6 (click)="scroll(AuthFront)">Authentication</h6>
-            <h5 (click)="scroll(Discord)">Discord Bot</h5>
+            <h5 (click)="scroll(Frontend)">Frontend</h5>
             <h5 (click)="scroll(Userscript)">Userscript</h5>
-              <h6 (click)="scroll(Authenticate)">Authentication</h6>
+            <h5 (click)="scroll(Websocket)">WebSocket</h5>
+            <h5 (click)="scroll(Discord)">Discord Bot</h5>
             <h5 (click)="scroll(api)">Indexer API</h5>
           <h4 (click)="scroll(Data)">Data Processing</h4>
-            <h5 (click)="scroll(GameData)">Grepolis Game Data</h5>
+            <h5 (click)="scroll(GameData)">Game Data</h5>
             <h5 (click)="scroll(InternalData)">Internal Data</h5>
           <h4 (click)="scroll(Databases)">Databases</h4>
             <h5 (click)="scroll(MySQL)">MySQL</h5>
@@ -24,54 +23,49 @@
       </div>
       <div class="col-md-12 col-lg-8 text-center">
         <br/>
-        <h1>Blog: GrepoData Architecture</h1><br/>
-        <h6 class="gd-primary">September 2021 by Camiel Kerkhofs</h6>
+        <h1>GrepoData Architecture</h1><br/>
+        <h6 class="gd-primary">By Camiel Kerkhofs</h6>
 
         <h4 #Introduction style="text-align: left;">Introduction</h4>
-        <h5 align="justify">Since the new indexer version went live in April, we received some questions about how our website works, specifically in regards to authentication.
-          For the sake of transparency and to answer these questions we wrote this blogpost to discuss some of the architecture choices we made.
-          In terms of compute, we are currently running all of this on a single VM with 4 vCPU's and 8 GB RAM.
+        <h5 align="justify">After we released the new indexer version, we received many questions about how our website works, with a particular focus on authentication and privacy.
+          In the spirit of transparency and to address these questions, we wrote this blog to explain the architectural decisions guiding our platform.
+          Currently, our stack operates on a single virtual machine with only 4 vCPUs and 8 GB RAM. We implemented many optimizations to be able to handle the computational demands of our dynamic user base exceeding 20,000 unique users monthly.
         </h5>
 
         <br/>
+        <hr>
         <h4 #Overview style="text-align: left">Architecture Overview</h4>
         <h5 align="justify">
-          Below is an overview of the complete GrepoData architecture. We serve 3 client services. The in-game userscript and the Angular frontend both communicate with our PHP backend. The Discord bot requires a dedicated bot service that runs 24/7.
-          We use a MySQL database for our relational data, an Elasticsearch node to enable our search functionality and a Redis in-memory cache to reduce database load for heavy queries.
-          In the rest of this blog we will explain how we use each of these tools to deliver GrepoData to our 20.000 unique monthly users.
+          Below is an overview of the complete GrepoData architecture. We serve 4 client services. The in-game userscript and the Angular frontend both communicate with our PHP REST API.
+          Both our WebSocket server and the Discord bot require a dedicated backend service.
+          We use a MySQL database for our relational data, an Elasticsearch node to enable our search functionality and a Redis instance as a cache and pub/sub communication backbone.
         </h5>
 
         <div class="">
           <img style="max-width: 100%; margin: auto;" src="assets/images/architecture.png">
         </div>
 
-        <h4 #Clients style="text-align: left">Client Services</h4>
+        <br/>
+        <br/>
+        <h4 #Clients style="text-align: left">Client Services & Authentication</h4>
         <h5 align="justify">
 
         </h5>
 
-
-        <br/>
-        <h5 #Frontend class="subtitle" style="text-align: left">Angular Frontend</h5>
+        <hr>
+        <h5 #Frontend class="subtitle" style="text-align: left">Angular Frontend <a class="source-link" href="https://github.com/GrepoDataTools/grepodata-frontend" target="_blank">(View Source)</a></h5>
         <h5 align="justify">
           The frontend being served at https://grepodata.com is an Angular 11 application. Angular provides us with a modular architecture, two-way data binding, dependency injection, improved performance, and cross-platform development capabilities.
           There are still some big items that we would like to add to our Angular app such as internationalisation and lazy loading to improve the speed of our application but unfortunately that would require a rewrite of a large part of the frontend code.
         </h5>
-        <h6 #AuthFront class="subtitle" style="text-align: left">Authentication</h6>
+        <h6 #AuthFront class="subtitle" style="text-align: left">Frontend Authentication</h6>
         <h5 align="justify">
           The GrepoData indexer tool is protected by a user sign in. Anybody is free to create an account. We use a JSON Web Tokens (JWT) for authentication. JWT is an open standard (RFC 7519) that defines a compact and self-contained way for securely transmitting information between parties as a JSON object. This information can be verified and trusted because it is digitally signed.
           Our JWTs are signed by the GrepoData backend using a secret. All sensitive user data such as the password is stored using industry best practices. We never store such data as plain text.
         </h5>
-        <br/>
-        <h5 #Discord class="subtitle" style="text-align: left">Discord Bot</h5>
-        <h5 align="justify">
-          The Discord bot is a bot service that users can add to their Discord servers. We wrote the bot using the popular discord.js library. Currently our bot is serving in 3000 Discord servers with a total of over 50.000 users.
-          This is challenge because if your bot is in more than 2500 servers, the server side client needs to be sharded.
-          We are currently using the discord.js <a href="https://discordjs.guide/sharding/#how-does-sharding-work" target="_blank">ShardingManager</a> to run multiple shards on the same machine.
-          A list of available commands can be found here: <a href="https://grepodata.com/discord" target="_blank">grepodata.com/discord</a>.
-        </h5>
 
         <br/>
+        <hr>
         <h5 #Userscript class="subtitle" style="text-align: left">In-Game Userscript <a class="source-link" href="https://github.com/GrepoDataTools/grepodata-backend/tree/master/Software/Application/Indexer" target="_blank">(View Source)</a></h5>
         <h5 align="justify">
           The userscript itself is only used as an injection trigger. Whenever the user loads the game, the userscript will be triggered due to the matching url (*.grepolis.com). The only task of the Userscript is then to inject a .js and .css file that contain the code to run the in-game functionality of our City Indexer tool.
@@ -82,6 +76,8 @@
             <li><strong>Browsing Intel:</strong> Users can browse town intel and notes for each town by doing a GET request to our backend.</li>
             <li><strong>Adding Notes:</strong> Notes can be added via a POST request to the backend.</li>
             <li><strong>Forum Reactions:</strong> Users can react to forum posts and see the reactions of teammates.</li>
+            <li><strong>Sharing Commands:</strong> Users can share their command overview and attack planner with their teammates.</li>
+            <li><strong>Push Notifications:</strong> Users are notified when their teammates share commands.</li>
           </ul>
         </h5>
 
@@ -112,14 +108,57 @@
         <br/>
         <br/>
 
+        <br/>
+        <hr>
+
+        <h5 #Websocket class="subtitle" style="text-align: left">WebSocket <a class="source-link" href="https://github.com/GrepoDataTools/grepodata-websocket" target="_blank">(View Source)</a></h5>
+        <h5 align="justify">
+          The GrepoData WSS service allows us to communicate in real-time with our connected clients.
+          Under normal conditions, our WSS service has between 1000 and 2000 concurrent connections.
+          The connection with the WSS server is managed by the GrepoData in-game userscript.
+          When a message is published via the Redis backbone, the WSS server will push the message to the respective clients.
+        </h5>
+        <h6 #AuthWSS class="subtitle" style="text-align: left">WebSocket Authentication Flow</h6>
+        <h5 align="justify">
+          Each new client connection must first be authenticated before we can subscribe the connection to the correct user/team topics.
+          The authentication flow is as follows:
+          <ul>
+            <li><strong>(1):</strong> If an authenticated user opens the game, the userscript will retrieve a <i>websocket_token</i> from our backend. This token is stored in Redis and is linked to the current user and client.</li>
+            <li><strong>(2):</strong> The userscript will then attempt to connect to the WSS server available at <i>wss://grepodata.com:8443</i>.</li>
+            <li><strong>(3):</strong> Once the connection is established, the userscript will send the <i>websocket_token</i> from step 1.</li>
+            <li><strong>(4):</strong> The WSS server receives the <i>websocket_token</i> and checks it validity against the token stored in Redis in step 1.</li>
+            <li><strong>(5):</strong> If the token was valid, the connection is subscribed to the user and team topics as identified via Redis. If the token is not valid, the connection is closed.</li>
+            <li><strong>(6):</strong> We use a hashmap to store connection subscriptions. If a message is received for team X, it is propagated to all connections that subscribed to team X</li>
+          </ul>
+        </h5>
+
+        <div class="">
+          <img style="max-width: 100%; margin: auto;" src="assets/images/wss_auth.png">
+        </div>
+
+        <br/>
+        <hr>
+        <h5 #Discord class="subtitle" style="text-align: left">Discord Bot <a class="source-link" href="https://github.com/GrepoDataTools/grepodata-discord" target="_blank">(View Source)</a></h5>
+        <h5 align="justify">
+          The Discord bot is a bot service that users can add to their Discord servers. We wrote the bot using the popular discord.js library. Currently our bot is serving in 3000 Discord servers with a total of over 50.000 users.
+          This is challenge because if your bot is in more than 2500 servers, the server side client needs to be sharded.
+          We are currently using the discord.js <a href="https://discordjs.guide/sharding/#how-does-sharding-work" target="_blank">ShardingManager</a> to run multiple shards on the same machine.
+          A list of available commands can be found here: <a href="https://grepodata.com/discord" target="_blank">grepodata.com/discord</a>.
+          Our Discord Bot only serves public data and therefore does not require authentication.
+        </h5>
+
+        <br/>
+        <hr>
         <h5 #api class="subtitle" style="text-align: left">GrepoData Indexer API</h5>
         <h5 align="justify">
-          The public GrepoData API provides programmatic access to intel collected by the authenticated user. We also provide authentication endpoints.
-          Advanced users can retrieve intel for towns, players or alliances. Our authentication service ensures that users can only retrieve intel that was collected by themselces or their teammates.
+          The GrepoData Indexer API provides programmatic access to intel collected by the authenticated user. We also provide authentication endpoints.
+          Advanced users can retrieve intel for towns, players or alliances. Our authentication service ensures that users can only retrieve intel that was collected by themselves or their teammates.
           <br/>The API documentation is available here (account required): <a href="https://grepodata.com/profile/api" target="_blank">grepodata.com/profile/api</a>
         </h5>
         <br/>
 
+        <br/>
+        <hr>
         <h4 #Data style="text-align: left">Scheduled Data Processing</h4>
         <h5 align="justify">
           In total, we use 20 data processing jobs written in PHP. Each job is on a custom cron schedule. We differentiate between jobs that sync game data and jobs that clean/process our internal data.
@@ -158,22 +197,30 @@
         <br/>
         <br/>
         <h4 #Databases style="text-align: left">Databases</h4>
+        <hr>
         <h5 #MySQL class="subtitle" style="text-align: left">MySQL</h5>
         <h5 align="justify">
           MySQL is used to store most of our data. Due to the large amount of lookup queries, we make sure to add indexes wherever required. In order to limit the number of inserts, we only update/create records if their values have changed. This also allows our scheduled data processing jobs to be much more efficient. To achieve this, we simply keep a local copy of the game data in csv format. When new data is pulled, we first compare it against the previous data dump, and only persist records to the database if there has been a change.
         </h5>
         <br/>
+        <hr>
         <h5 #Elasticsearch class="subtitle" style="text-align: left">Elasticsearch</h5>
         <h5 align="justify">
           Elasticsearch is a search engine based on Lucene. GrepoData uses Elasticsearch to index player and alliance names. This allows us to query half a million names within milliseconds. We use the fuzzy matching algorithm to return results even when the user makes a spelling mistake. The aggregation feature also comes in handy to allow the user to filter based on country and server. A custom scoring function was created to promote results that are on the same game server as the user.
           <br/>We also use our Elasticsearch node to host the attack & defend diffs. Whenever a player gains an attack or defend point, we store this event as a 'diff'. We use the powerful aggregation features of Elasticsearch to quickly aggregate millions of diffs to render the diffs shown on our daily scoreboard.
         </h5>
         <br/>
+        <hr>
         <h5 #Redis class="subtitle" style="text-align: left">Redis</h5>
         <h5 align="justify">
-          Redis is an in-memory key-value store. We monitor our SQL database for heavy queries and if their functionality allows for cached responses then we will use Redis to store the results of a query for a limited time.
-          Mostly we use this approach for requests related to our city indexer where we have some larger queries that aggregate user intel. For example, we cache the alliance and player intelligence pages for 5 minutes. Changes to the underlying data are infrequent and of little consequence while these queries may sometimes take 5 to 10 seconds if the user has collected a lot of intelligence.
-          In addition to being used as a cache, we also use Redis to implement our rate limiter. The PHP backend tracks rate limited resources using Redis. If the rate limit is exceeded, our service can respond appropriately.
+          Redis is an in-memory key-value store. We use a Redis instance to support 3 key backend functionalities:
+          <ul>
+            <li>We monitor our SQL database for heavy queries and if their functionality allows for <strong>cached responses</strong> then we will use Redis to store the results of a query for a limited time.
+              Mostly we use this approach for requests related to our city indexer where we have some larger queries that aggregate user intel. For example, we cache the alliance and player intelligence pages for 5 minutes. Changes to the underlying data are infrequent and of little consequence while these queries may sometimes take 5 to 10 seconds if the user has collected a lot of intelligence.</li>
+            <li>In addition to being used as a cache, we also use Redis to implement our <strong>rate limiter</strong>. The PHP backend tracks rate limited resources using Redis. If the rate limit is exceeded, our service can respond appropriately.</li>
+            <li>Finally, we also use Redis <strong>pub/sub</strong> topics as a backbone communication channel. This allows our PHP backend to communicate in real-time with our Ratchet WSS server.</li>
+          </ul>
+
         </h5>
         <br/>
 

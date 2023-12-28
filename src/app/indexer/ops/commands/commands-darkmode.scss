@@ -147,6 +147,11 @@ $dm-border: 1px solid #4b4b4b;
       color: $dm-font-secondary !important;
     }
 
+    .gd-brown {
+      //color: $dm-font-tertiary !important;
+      color: #d8832e !important;
+    }
+
     .close {
       opacity: .7 !important;
       &:after, &:before {
@@ -193,6 +198,11 @@ $dm-border: 1px solid #4b4b4b;
   .filtered {
     border: 3px solid #18bc9b !important;
   }
+
+  .context-item:hover {
+    background: $dm-background-secondary !important;
+  }
+
 }
 
 /**

@@ -125,9 +125,17 @@ export class IndexTownComponent implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
-  public copyBB () {
-    navigator.clipboard.writeText(`[town]${this.id}[/town]`).then(() => {});
+  softNotification(message, title = '', lifetime=5000) {
+    this.globals.showSnackbar(
+      `<h4>`+message+`</h4>`,
+      'success', title, true,lifetime);
+  }
+
+  copyBB() {
     this.copied = true;
+    let text = `[town]${this.id}[/town]`;
+    navigator.clipboard.writeText(text).then(() => {});
+    this.softNotification(text+' copied to clipboard', '', 5000);
     window.setTimeout(()=>{this.copied = false;}, 5000);
   }
 

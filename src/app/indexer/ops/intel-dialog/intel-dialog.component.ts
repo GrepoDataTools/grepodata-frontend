@@ -10,6 +10,7 @@ export class OpsIntelDialog {
 
   world: any
   id: any
+  type: any
   team: any
 
   constructor(
@@ -18,6 +19,7 @@ export class OpsIntelDialog {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.id = data.id;
+    this.type = data.type;
     this.world = data.world;
     this.team = data.team;
   }

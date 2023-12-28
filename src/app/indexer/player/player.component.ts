@@ -9,6 +9,7 @@ import {WorldService} from "../../services/world.service";
 import {LocalCacheService} from "../../services/local-cache.service";
 import {JwtService} from '../../auth/services/jwt.service';
 import {Subscription} from 'rxjs';
+import {Globals} from '../../globals';
 
 @Component({
   selector: 'app-index-player',
@@ -32,6 +33,7 @@ export class IndexPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   loading = true;
   noIntel = false;
   playerFound = false;
+  copied = false;
   err = '';
   worldName = '';
   allCities: any = [];
@@ -52,6 +54,7 @@ export class IndexPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
 
   constructor(
     public dialog: MatDialog,
+    private globals: Globals,
     private cdr: ChangeDetectorRef,
     private worldService: WorldService,
     private authService: JwtService,
@@ -144,6 +147,26 @@ export class IndexPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     this.allianceName = data.alliance_name;
     this.buildBreadcrumbData();
     this.cdr.detectChanges();
+  }
+
+  softNotification(message, title = '', lifetime=5000) {
+    this.globals.showSnackbar(
+      `<h4>`+message+`</h4>`,
+      'success', title, true,lifetime);
+  }
+
+  copyBB() {
+    this.copied = true;
+    let text = `[player]${this.id}[/player]`;
+    navigator.clipboard.writeText(text).then(() => {});
+    this.softNotification(text+' copied to clipboard', '', 5000);
+
+    this.copied = true;
+    this.cdr.detectChanges();
+    window.setTimeout(()=>{
+      this.copied = false;
+      this.cdr.detectChanges();
+    }, 5000);
   }
 
   private buildBreadcrumbData() {

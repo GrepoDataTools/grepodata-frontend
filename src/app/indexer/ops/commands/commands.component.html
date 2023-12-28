@@ -358,7 +358,7 @@
 
                 <div class="command-list" *ngIf="!loading && commands && commands.length > 0">
                   <div class="command-ngfor" *ngFor="let command of commands; let i = index; trackBy: trackCommandByFn" [ngClass]="{'hidden-command': command?.hidden===true, 'planned-command': command?.is_planned===true, 'selected-command': command?.cmd_id == selected_command?.cmd_id, 'command_highlight': command?.type=='attack' && !command?.is_planned}">
-                    <div class="command" (click)="selectCommand(command)">
+                    <div class="command" (click)="selectCommand(command)" [contextMenu]="basicMenu" [contextMenuSubject]="command">
 
                       <div class="command-content">
                         <div class="left">
@@ -575,37 +575,25 @@
                 </div>
                 <div *ngIf="selected_command">
 
-                  <div class="town-name-bb" style="margin-bottom: 5px;" *ngIf="selected_command.trg_twn_id > 0">
-                    <span class="gd-brown town-name" (click)="copyBB(selected_command.trg_twn_id, 'town')">
-                      <img style="height: 18px; margin-top: -5px;" src="../../assets/images/town_ico.png"/>&nbsp;
-                      {{selected_command.trg_twn_n}}
-                    </span>
-                    <div>
-                      <button class="btn btn-default btn-xs mr-1"
-                              (click)="copyBB(selected_command.trg_twn_id, 'town')">
-                        BB code
-                      </button>
-                      <button class="btn btn-default btn-xs"
-                              (click)="openIntelDialog(selected_command.trg_twn_id)">
-                        Intel
-                      </button>
-                    </div>
+                  <h5 style="text-align: center;">
+                    <div class="attack_type32x32 {{selected_command.type}}" [ngClass]="{'glow': selected_command.type=='attack' && !selected_command?.is_planned, 'revolt_arising': selected_command?.attacking_strategy=='revolt_arising', 'revolt_running': selected_command?.attacking_strategy=='revolt_running'}"></div>
+                    &nbsp;&nbsp;{{selected_command.arrival_human}} ({{selected_command.eta}})
+                  </h5>
+
+                  <div *ngIf="selected_command.src_twn_id > 0">
+                    <h5><strong>Departure</strong></h5>
+                    <ng-container *ngTemplateOutlet="contextItem; context: {id: selected_command.src_twn_id, name: selected_command.src_twn_n, type: 'town', mode: 'minimal'}"></ng-container>
+                    <ng-container *ngTemplateOutlet="contextItem; context: {id: selected_command.src_ply_id, name: selected_command.src_ply_n, type: 'player', mode: 'minimal'}"></ng-container>
+                    <ng-container *ngTemplateOutlet="contextItem; context: {id: selected_command.src_all_id, name: selected_command.src_all_n, type: 'ally', mode: 'minimal'}"></ng-container>
+                    <br/>
                   </div>
-                  <div class="town-name-bb" *ngIf="selected_command.src_twn_id > 0">
-                    <span class="gd-brown town-name">
-                      <img style="height: 18px; margin-top: -5px;" src="../../assets/images/town_ico.png"/>&nbsp;
-                      {{selected_command.src_twn_n}}
-                    </span>
-                    <div>
-                      <button class="btn btn-default btn-xs mr-1"
-                              (click)="copyBB(selected_command.src_twn_id, 'town')">
-                        BB code
-                      </button>
-                      <button class="btn btn-default btn-xs"
-                              (click)="openIntelDialog(selected_command.src_twn_id)">
-                        Intel
-                      </button>
-                    </div>
+
+                  <div *ngIf="selected_command.trg_twn_id > 0">
+                    <h5><strong>Destination</strong></h5>
+                    <ng-container *ngTemplateOutlet="contextItem; context: {id: selected_command.trg_twn_id, name: selected_command.trg_twn_n, type: 'town', mode: 'minimal'}"></ng-container>
+                    <ng-container *ngTemplateOutlet="contextItem; context: {id: selected_command.trg_ply_id, name: selected_command.trg_ply_n, type: 'player', mode: 'minimal'}"></ng-container>
+                    <ng-container *ngTemplateOutlet="contextItem; context: {id: selected_command.trg_all_id, name: selected_command.trg_all_n, type: 'ally', mode: 'minimal'}"></ng-container>
+                    <br/>
                   </div>
 
                   <hr style="margin: 10px;">
@@ -685,29 +673,19 @@
                     <p class="error-message" *ngIf="delete_error">{{delete_error}}</p>
                   </div>
                 </div>
-
               </div>
-
             </div>
-
           </div>
-
-
-
-
         </div>
       </div>
     </div>
-
-
-
   </div>
 
 
   <ng-template #origin let-command="command">
   <span *ngIf="command.src_twn_id > 0">
     <img style="height: 18px; margin-top: -5px;" src="../../assets/images/town_ico.png"/>&nbsp;
-    <span class="gd-brown town-name" (click)="openIntelDialog(command.src_twn_id)">{{command.src_twn_n}}</span>&nbsp;
+    <span class="gd-brown town-name" (click)="openIntelDialog($event, command.src_twn_id)">{{command.src_twn_n}}</span>&nbsp;
   </span>
     <span *ngIf="command.src_ply_id <= 0">
     <span *ngIf="command.subtype == 'quest'">(Quest)</span>
@@ -716,7 +694,7 @@
     <span *ngIf="command.subtype == 'attack_spot'">(Attack Spot)</span>
     <span *ngIf="command.subtype == 'default'"></span>
   </span>
-    <span *ngIf="command.src_ply_id > 0" (click)="copyBB(command.src_ply_id, 'player')">
+    <span *ngIf="command.src_ply_id > 0" (click)="openIntelDialog($event, command.src_ply_id, 'player')">
     (<img style="height: 18px; margin-top: -5px;" src="../../assets/images/player_ico.png"/>&nbsp;
     <span class="gd-brown">{{command.src_ply_n}}</span>)
   </span>
@@ -724,7 +702,7 @@
 
   <ng-template #destination let-command="command">
     <img style="height: 18px; margin-top: -5px;" src="../../assets/images/town_ico.png"/>&nbsp;
-    <span class="gd-brown town-name" (click)="openIntelDialog(command.trg_twn_id)">{{command.trg_twn_n}}</span>&nbsp;
+    <span class="gd-brown town-name" (click)="openIntelDialog($event, command.trg_twn_id)">{{command.trg_twn_n}}</span>&nbsp;
     <span *ngIf="command.trg_ply_id <= 0">
     <span *ngIf="command.subtype == 'quest'">(Quest)</span>
     <span *ngIf="command.subtype == 'temple'">(Temple)</span>
@@ -732,10 +710,129 @@
     <span *ngIf="command.subtype == 'attack_spot'">(Attack Spot)</span>
     <span *ngIf="command.subtype == 'default'"></span>
   </span>
-    <span *ngIf="command.trg_ply_id > 0" (click)="copyBB(command.trg_ply_id, 'player')">
+    <span *ngIf="command.trg_ply_id > 0" (click)="openIntelDialog($event, command.trg_ply_id, 'player')">
     (<img style="height: 18px; margin-top: -5px;" src="../../assets/images/player_ico.png"/>&nbsp;
     <span class="gd-brown">{{command.trg_ply_n}}</span>)
   </span>
   </ng-template>
 
 </div>
+
+<context-menu>
+  <ng-template contextMenuItem let-item passive="true">
+    <ng-container *ngTemplateOutlet="contextItem; context: {id: item.src_twn_id, name: item.src_twn_n, type: 'town', mode: 'full'}"></ng-container>
+  </ng-template>
+  <ng-template contextMenuItem let-item passive="true">
+    <ng-container *ngTemplateOutlet="contextItem; context: {id: item.trg_twn_id, name: item.trg_twn_n, type: 'town', mode: 'full'}"></ng-container>
+  </ng-template>
+  <ng-template contextMenuItem let-item passive="true">
+    <ng-container *ngTemplateOutlet="contextItem; context: {id: item.src_ply_id, name: item.src_ply_n, type: 'player', mode: 'full'}"></ng-container>
+  </ng-template>
+  <ng-template contextMenuItem let-item passive="true">
+    <ng-container *ngTemplateOutlet="contextItem; context: {id: item.trg_ply_id, name: item.trg_ply_n, type: 'player', mode: 'full'}"></ng-container>
+  </ng-template>
+
+  <ng-template contextMenuItem divider="true"></ng-template>
+
+  <ng-template contextMenuItem let-item (execute)="selectCommand($event.item)">
+    Open Command Details Panel <i class="fa fa-caret-square-o-right"></i>
+  </ng-template>
+
+</context-menu>
+
+
+<ng-template #contextItem let-id="id" let-name="name" let-type="type" let-mode="mode">
+  <div *ngIf="id > 0" class="context-item">
+    <div>
+      <img style="height: 18px; margin-top: -5px;" src="../../assets/images/{{type}}_ico.png"/>&nbsp;
+      <span class="gd-brown">{{name}}</span>&nbsp;
+    </div>
+    <div class="context-actions" *ngIf="type!='ally'">
+      <button class="btn btn-default btn-xs mr-1" (click)="drillDown(name, type)" *ngIf="mode=='full'">
+        <i class="fa fa-filter"></i> Filter
+      </button>
+      <button class="btn btn-default btn-xs mr-1" (click)="copyBB(id, name, type)">
+        <i class="fa fa-code"></i> BB code
+      </button>
+      <button class="btn btn-default btn-xs" (click)="openIntelDialog($event, id, type)">
+        <i class="fa fa-university"></i> Intel
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+
+<!--  Made using "@swimlane/ngx-graph": "^7.2.0"; but doesnt work very well -->
+<!--  <div class="graph-map" style="z-index: 1000000;-->
+<!--    position: fixed;-->
+<!--    margin-left: 800px;">-->
+
+<!--  <ngx-graph-->
+<!--    [view]="[800, 800]"-->
+<!--    [showMiniMap]="true"-->
+<!--    [animate]="false"-->
+<!--    [animations]="false"-->
+<!--    [panningEnabled]="false"-->
+<!--    [draggingEnabled]="false"-->
+<!--    layout="d3ForceDirected"-->
+<!--    [links]="graph_links"-->
+<!--    [nodes]="graph_nodes"-->
+<!--    [autoZoom]="false"-->
+<!--    [autoCenter]="false"-->
+<!--    [zoomToFit$]="zoomToFit$"-->
+<!--    [center$]="zoomToFit$"-->
+<!--    [update$]="zoomToFit$"-->
+<!--  >-->
+
+
+<!--&lt;!&ndash;    <ng-template #linkTemplate let-link>&ndash;&gt;-->
+<!--&lt;!&ndash;      <svg:g class="edge">&ndash;&gt;-->
+<!--&lt;!&ndash;        <svg:path&ndash;&gt;-->
+<!--&lt;!&ndash;          class="line"&ndash;&gt;-->
+<!--&lt;!&ndash;          stroke-width="2"&ndash;&gt;-->
+<!--&lt;!&ndash;          marker-end="url(#arrow)" >&ndash;&gt;-->
+<!--&lt;!&ndash;        </svg:path>&ndash;&gt;-->
+<!--&lt;!&ndash;                <svg:text&ndash;&gt;-->
+<!--&lt;!&ndash;                  class="edge-label"&ndash;&gt;-->
+<!--&lt;!&ndash;                  text-anchor="middle">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <textPath&ndash;&gt;-->
+<!--&lt;!&ndash;                    style="fill: #666;"&ndash;&gt;-->
+<!--&lt;!&ndash;                    [attr.href]="'#' + link.id"&ndash;&gt;-->
+<!--&lt;!&ndash;                    startOffset="60%">&ndash;&gt;-->
+<!--&lt;!&ndash;                    {{link.label}}&ndash;&gt;-->
+<!--&lt;!&ndash;                  </textPath>&ndash;&gt;-->
+<!--&lt;!&ndash;                </svg:text>&ndash;&gt;-->
+<!--&lt;!&ndash;      </svg:g>&ndash;&gt;-->
+<!--&lt;!&ndash;    </ng-template>&ndash;&gt;-->
+
+
+<!--&lt;!&ndash;    <ng-template #linkTemplate let-link>&ndash;&gt;-->
+<!--&lt;!&ndash;      <svg:g class="edge">&ndash;&gt;-->
+<!--&lt;!&ndash;        <svg:path class="line" stroke-width="2" marker-end="url(#arrow)"></svg:path>&ndash;&gt;-->
+<!--&lt;!&ndash;      </svg:g>&ndash;&gt;-->
+<!--&lt;!&ndash;    </ng-template>&ndash;&gt;-->
+
+<!--    <ng-template #nodeTemplate let-node>-->
+<!--      <svg:g class="node"-->
+<!--             ngx-tooltip-->
+<!--             [tooltipPlacement]="'top'"-->
+<!--             [tooltipType]="'tooltip'"-->
+<!--             [tooltipTitle]="node.label"-->
+<!--             (click)="select_node(node)"-->
+<!--      >-->
+<!--        <svg:image href="../../assets/images/town_ico.png" [attr.width]="node.size" [attr.height]="node.size" [attr.x]="10" [attr.y]="10"/>-->
+<!--        <ng-container *ngIf="node.hits > 2">-->
+<!--&lt;!&ndash;            <svg:text [attr.x]="node.label.length * 5" [attr.y]="-10">{{node.label}}</svg:text>&ndash;&gt;-->
+<!--        </ng-container>-->
+<!--      </svg:g>-->
+
+
+<!--&lt;!&ndash;      <svg:image href="../../assets/images/game/attack_type_sm.png" [attr.width]="node.size" [attr.height]="node.size" [attr.x]="10" [attr.y]="10"/>&ndash;&gt;-->
+
+<!--&lt;!&ndash;      <svg:g [class]="'attack_type32x32 attack'"></svg:g>&ndash;&gt;-->
+<!--    </ng-template>-->
+
+
+<!--  </ngx-graph>-->
+
+<!--  </div>-->

@@ -9,7 +9,7 @@ $footer_height: 75px;
   height: $header_height;
   width: 100vw;
   z-index: 1000;
-  box-shadow: 0px 0px 10px 1px #18333310 !important;
+  box-shadow: 0px 0px 10px 1px #18333335 !important;
 }
 
 .op-settings-container {
@@ -75,7 +75,7 @@ $footer_height: 75px;
   width: 20%;
   background: #fff;
   //padding: 20px;
-  box-shadow: inset 0px 0px 5px 0px #18333330 !important;
+  //box-shadow: inset 0px 0px 5px 0px #18333330 !important;
 
   height: calc(100vh - #{$header_height});
   max-height: calc(100vh - #{$header_height});
@@ -179,7 +179,7 @@ $footer_height: 75px;
   width: 60%;
   font-size: 18px;
   //border: 1px solid #334254;
-  box-shadow: 0px 0px 10px 1px #18333314 !important;
+  //box-shadow: 0px 0px 10px 1px #18333314 !important;
 }
 .command-comments-container {
   //border-radius: 0 10px 10px 0;
@@ -373,6 +373,33 @@ $footer_height: 75px;
   }
 }
 
+.context-comment-item {
+  max-width: 450px;
+  text-wrap: pretty;
+}
+.context-comment-input {
+  .comment-input {
+    min-width: 250px;
+  }
+}
+.context-actions {
+  float: right;
+}
+.context-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3px;
+}
+.context-item:hover {
+  background: #f1f1f1;
+}
+::ng-deep .ngx-contextmenu {
+  .dropdown-menu {
+    padding-bottom: 12px;
+  }
+}
+
 .command-overview-content {
   background: url(~assets/images/game/gpwindow_bg.jpg) 0 0 repeat;
   //background: #FFE19A;
@@ -515,7 +542,7 @@ $footer_height: 75px;
   display: flex;
   //border: 1px solid #323f4c;
   //border-bottom: none;
-  box-shadow: inset 0px 0px 5px 0px #18333330 !important;
+  //box-shadow: inset 0px 0px 5px 0px #18333330 !important;
   justify-content: flex-start;
   background: #fff;
   overflow-x: auto;
@@ -524,6 +551,7 @@ $footer_height: 75px;
     font-size: 90%;
   }
   .command-tab {
+    z-index: 10000;
     height: 100%;
     padding: 0 5px;
     border: 2px solid #bdbdbd !important;

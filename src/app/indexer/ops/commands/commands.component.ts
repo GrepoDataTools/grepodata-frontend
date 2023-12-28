@@ -18,12 +18,13 @@ import { environment } from '../../../../environments/environment';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {BasicDialog} from '../../../shared/dialogs/basic/basic.component';
 import {Subject} from 'rxjs';
+import {ContextMenuComponent, ContextMenuService} from 'ngx-contextmenu';
 
 @Component({
   selector: 'app-commands',
   templateUrl: './commands.component.html',
   styleUrls: ['./commands.component.scss', './commands-game.scss', './commands-mobile.scss', './commands-darkmode.scss'],
-  providers: [IndexerService, WorldService, LocalCacheService]
+  providers: [IndexerService, WorldService, LocalCacheService, ContextMenuService]
 })
 export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('commentPusher') private commentPusher: ElementRef;
@@ -121,6 +122,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     private media: MediaMatcher,
     private indexerService: IndexerService,
     private titleService: Title,
+    private contextMenuService: ContextMenuService
   ) {
     this.mobileQuery = media.matchMedia('(min-width: 1400px)');
     this._mediaQueryListener = () => cdr.detectChanges();
@@ -599,6 +601,25 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     }, this.debounceTime);
   }
 
+  drillDown(name, type='town') {
+    // Add name to filter list for type
+    if (type == 'town') {
+      let filter_town = [...this.active_view.filter_town]  // we need to use a temporary copy otherwise change detection won't be triggered
+      filter_town = filter_town.filter(town => town.id !== name)  // remove the town from the filter list if it is already in there (this ensures existing inclusions are removed)
+      filter_town.push({id: name, text: `${name}`})
+      this.active_view.filter_town = filter_town
+      this.doFilter(this.active_view.filter_town);
+    }
+    else if (type == 'player') {
+      let filter_player = [...this.active_view.filter_player]  // we need to use a temporary copy otherwise change detection won't be triggered
+      filter_player = filter_player.filter(town => town.id !== name)  // remove the player from the filter list if it is already in there (this ensures existing inclusions are removed)
+      filter_player.push({id: name, text: `${name}`})
+      this.active_view.filter_player = filter_player
+      this.doFilter(this.active_view.filter_player);
+    }
+    this.draw();
+  }
+
   targetMatchesFilter(target) {
     if (target.label.toLowerCase().includes(this.filter_targets_text.toLowerCase())) {
       return true;
@@ -667,6 +688,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   doFilter(filter_selection=null) {
+    // filter_selection is optional and is only used to automatically select a name for the new view
     if (this.loading) {
       return;
     }
@@ -841,11 +863,9 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
       let spam_town_ids = [];
       if (this.active_view.hide_spam_commands > 0) {
         // Get a list of all town ids that exceed the outgoing spam threshold
-        console.log(this.graph_nodes);
         let spam_towns = this.graph_nodes.filter(town => town.outgoing >= this.active_view.hide_spam_commands && town.id > 0)
         spam_town_ids = spam_towns.map(town => town.id)
         this.spam_towns = spam_towns.map(town => town.label)
-        console.log('spam towns: ', spam_town_ids)
       }
 
       this.commands.map(command => {
@@ -1049,6 +1069,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
    */
 
   selectCommand(command: Command) {
+    console.log('selected: ', command);
     if (this.selected_command && 'cmd_id' in this.selected_command && command.cmd_id == this.selected_command.cmd_id) {
       // unselect!
       this.unselectCommand()
@@ -1065,6 +1086,17 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
       this.commentPusher.nativeElement.scrollIntoView(false)
       this.draw();
     } catch (e) { }
+
+    // try {
+    //   this.contextMenuService.show.next({
+    //     contextMenu: this.basicMenu,
+    //     event: $event,
+    //     item: command,
+    //   });
+    //   $event.preventDefault();
+    //   $event.stopPropagation();
+    //   this.draw();
+    // } catch (e) { }
   }
 
   unselectCommand() {
@@ -1100,7 +1132,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
       this.draw();
       return;
     } else if (comment.length > 500) {
-      this.comment_error = 'Comment is too big.'
+      this.comment_error = `Comment is too big (${comment.length}/500 characters).`
       this.draw();
       return;
     } else {
@@ -1396,12 +1428,12 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  select_node(node) {
-    console.log(node);
-    this.active_view.filter_town = [{id: node.label, text: `${node.label} (${node.hits})`}]
-    this.doFilter(this.active_view.filter_town)
-    this.draw()
-  }
+  // select_node(node) {
+  //   console.log(node);
+  //   this.active_view.filter_town = [{id: node.label, text: `${node.label} (${node.hits})`}]
+  //   this.doFilter(this.active_view.filter_town)
+  //   this.draw()
+  // }
 
   /**
    * Dialogs
@@ -1415,17 +1447,20 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.dialog.open(ContactDialog, {autoFocus: false, data: {custom_title: 'Feedback', context: 'cmd_feedback'}});
   }
 
-  public openIntelDialog(town_id): void {
-    if (town_id <= 0) {
+  public openIntelDialog($event: MouseEvent, id, type='town'): void {
+    if (id <= 0) {
       return
     }
+    $event.preventDefault();
+    $event.stopPropagation();
     let dialogRef = this.dialog.open(OpsIntelDialog, {
       width: '70%',
       height: '80%',
       panelClass: ['tight-dialog-container'],
       autoFocus: false,
       data: {
-        id: town_id,
+        id: id,
+        type: type,
         world: this.world,
         team: this.team
       }
@@ -1448,6 +1483,15 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
     });
+  }
+
+  /**
+   * Context menu
+   */
+
+  @ViewChild(ContextMenuComponent) public basicMenu: ContextMenuComponent;
+  contextClick(a) {
+    console.log(a);
   }
 
   /**
@@ -1595,14 +1639,14 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.draw();
   }
 
-  copyBB(id, type='town') {
+  copyBB(id, name, type='town') {
     let bb = '';
     switch (type) {
       case 'town':
         bb = `[town]`+id+`[/town]`
         break;
       case 'player':
-        bb = `[player]`+id+`[/player]`
+        bb = `[player]`+name+`[/player]`
         break;
       default:
         return;
@@ -1639,11 +1683,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
 
 /**
  * TODO:
- * - hide spam commands
- * - toggle filters inclusive/exclusive
- * - target list
  * - map view
  * - right click context menu
- * - comments
  *
  */

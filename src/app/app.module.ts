@@ -141,6 +141,7 @@ import { OpsHelpDialog } from './indexer/ops/help/help.component';
 import { OpsIntelDialog } from './indexer/ops/intel-dialog/intel-dialog.component';
 import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
 import { ServerAlertComponent } from './discord/server-alert/server-alert.component';
+import {ContextMenuModule} from 'ngx-contextmenu';
 
 const appRoutes: Routes = [
     { path: 'login', component: LandingPageComponent },
@@ -336,6 +337,7 @@ export function jwtTokenGetter(): any {
         SharedModule,
         MatMenuModule,
         MatSidenavModule,
+        ContextMenuModule
     ],
     providers: [GoogleAnalyticsEventsService, Globals, SidenavService],
     bootstrap: [AppComponent],

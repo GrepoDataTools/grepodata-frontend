@@ -1,17 +1,20 @@
 <div style="overflow-x: hidden; min-height: 100%;">
 
-	<mat-card [ngClass]="embedded?'embedded-intel-card':'index-card'" class="index-intel-card" style="margin-top: 0 !important;">
+	<mat-card [ngClass]="embedded?'embedded-intel-card':'index-card'" class="index-intel-card">
 		<div [ngClass]="{'embedded-padding': embedded}">
-			<div class="card-header bg-gd-1 text-center text-white" style="margin-bottom: 0; padding: 20px 0 0 !important;" *ngIf="!embedded">
+			<div class="card-header bg-gd-1 text-center text-white" style="margin-bottom: 0; padding: 20px 0 0 !important;" [ngClass]="{ 'embedded-intel': embedded }">
 
-				<h2 style="cursor: pointer; margin: 0;">
+				<h2 style="cursor: pointer; margin: 0;" *ngIf="!embedded">
           <span class="hidden-xs hidden-sm">Showing your combined intel for:&nbsp;</span>
 					<div class="name-circle" (click)="copyBB()">
 						<img style="height: 25px; margin-top: -5px;" src="../../assets/images/player_ico.png"/>&nbsp;
 						<span class="gd-brown">{{playerName}}</span>
 					</div>
+          &nbsp;<button name="open_bb" class="btn btn-secondary" (click)="copyBB()" style="vertical-align: text-top;">
+            <i class="fa fa-clipboard"></i>&nbsp;<span *ngIf="!copied">Copy BB</span><span *ngIf="copied">Copied!&nbsp;</span>
+          </button>
 				</h2>
-        <br/>
+        <br *ngIf="!embedded" />
         <app-indexer-breadcrumbs [data]="breadcrumb_data"></app-indexer-breadcrumbs>
 
 			</div>
@@ -60,7 +63,7 @@
 			      </div>
 		      </div>
 
-	        <div *ngIf="!noIntel && !loading" >
+	        <div *ngIf="!noIntel && !loading" [ngClass]="{ 'embedded-container': embedded }">
 
 		        <div *ngIf="mobile">
 			        <mat-tab-group mat-stretch-tabs (click)="cdr.detectChanges();">
@@ -86,6 +89,13 @@
 			        <div fxFlex="50">
 				        <ng-container *ngTemplateOutlet="landunits"></ng-container>
 			        </div>
+
+<!--              <div *ngIf="embedded" class="embedded-bb-copy">-->
+<!--                &nbsp;<button name="open_bb" class="btn btn-secondary" (click)="copyBB()" style="vertical-align: text-top;">-->
+<!--                  <i class="fa fa-clipboard"></i>&nbsp;<span *ngIf="!copied">Copy BB</span><span *ngIf="copied">Copied!&nbsp;</span>-->
+<!--                </button>-->
+<!--              </div>-->
+
 		        </div>
 
 	        </div>

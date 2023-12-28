@@ -14,3 +14,31 @@
   margin: 0 !important;
   padding: 5px !important;
 }
+
+.embedded-intel {
+  margin-bottom: 0 !important;
+  &.card-header {
+    padding: 0 !important;
+  }
+}
+
+.embedded-container {
+  margin-top: -15px !important;
+  min-height: 70vh !important;
+  max-height: 70vh !important;
+  overflow-y: auto !important;
+}
+
+.embedded-bb-copy {
+  position: absolute;
+  top: 30px;
+  left: 8px;
+}
+
+.embedded-intel-card {
+  margin-top: 10px !important;
+}
+
+.index-card {
+  margin-top: 0 !important;
+}

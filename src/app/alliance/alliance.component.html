@@ -69,19 +69,19 @@
 	                <td>{{points | NumberFilter}}</td>
 	              </tr>
 	              <tr>
-	                <th>Attack points</th>
+	                <th>Attack Points</th>
 	                <td *ngIf="att">{{att | NumberFilter}}</td>
 	                <td *ngIf="!att">0</td>
 	              </tr>
 	              <tr>
-	                <th>Defence points</th>
+	                <th>Defence Points</th>
 	                <td *ngIf="def">{{def | NumberFilter}}</td>
 		              <td *ngIf="!def">0</td>
 	              </tr>
 	              <tr *ngIf="hasIndex">
-	                  <th>Town intelligence</th>
+	                  <th>Town Intelligence</th>
 	                  <td>
-	                      <a (click)="openIntelTab()" class="a-link gd-primary">Browse intel <i class="fa fa-arrow-circle-right"></i></a>
+	                      <a (click)="openIntelTab()" class="a-link gd-primary">Browse Intel <i class="fa fa-arrow-circle-right"></i></a>
 	                  </td>
 	              </tr>
               </tbody>
@@ -178,7 +178,7 @@
             <mat-tab style="overflow: hidden;">
               <ng-template mat-tab-label>
 	              <mat-icon style="opacity: 1; vertical-align: bottom;">compare_arrows</mat-icon>&nbsp;
-	              <span class="hidden-xs">Alliance changes</span>
+	              <span class="hidden-xs">Alliance Changes</span>
 	              <span class="hidden-md hidden-sm hidden-lg">Changes</span>
               </ng-template>
               <br/>
@@ -200,11 +200,11 @@
                     <div class="row_custom header default">
                       <div class="cell">Date</div>
                       <div class="cell">Player</div>
-                      <div class="cell">Old alliance</div>
+                      <div class="cell">Old Alliance</div>
                       <div class="cell hidden-sm hidden-xs"></div>
-                      <div class="cell">New alliance</div>
-                      <div class="cell hidden-sm hidden-xs">Player rank</div>
-                      <div class="cell hidden-md hidden-sm hidden-xs">Player points</div>
+                      <div class="cell">New Alliance</div>
+                      <div class="cell hidden-sm hidden-xs">Player Rank</div>
+                      <div class="cell hidden-md hidden-sm hidden-xs">Player Points</div>
                     </div>
 
                     <div class="row_custom" *ngFor="let c of playerAllianceChanges; let i = index;">
@@ -252,7 +252,7 @@
             <mat-tab>
               <ng-template mat-tab-label>
                   <mat-icon style="opacity: 1; vertical-align: bottom;">account_balance</mat-icon>&nbsp;
-	              <span class="hidden-xs">Town intelligence</span>
+	              <span class="hidden-xs">Town Intelligence</span>
 	              <span class="hidden-md hidden-sm hidden-lg">Intel</span>
               </ng-template>
               <app-index-alliance *ngIf="bShowIntel && hasIndex" [world]="world" [id]="id" [embedded]="true"></app-index-alliance>
@@ -288,7 +288,7 @@
 		    <mat-card class="dense-card" style="padding-bottom: 25px !important; padding-top: 10px !important;">
 			    <mat-card-title>
 				    <div fxLayout="row">
-					    <h3 style='font-weight: 700; color: #304357;'><span class='world-title' style='color: #18BC9C;'>Alliance wars (conquests)</span></h3>
+					    <h3 style='font-weight: 700; color: #304357;'><span class='world-title' style='color: #18BC9C;'>Alliance Wars (Conquests)</span></h3>
 				    </div>
 			    </mat-card-title>
 			    <mat-card-content>
@@ -312,10 +312,6 @@
 		    </mat-card>
 	    </div>
 
-	    <!--<div style="margin: -5px 17px" *ngIf="!loadingInfo && (members > 20 || rank < 50)">-->
-		    <!--<app-advertorial></app-advertorial>-->
-	    <!--</div>-->
-
       <div class="alliance-cards" fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="5px">
 
         <mat-card class="dense-card" fxFlex="100" fxFlex.gt-md="60">
@@ -336,7 +332,7 @@
               <mat-tab>
                   <ng-template mat-tab-label>
                       <mat-icon style="opacity: 1; vertical-align: bottom;">timeline</mat-icon>&nbsp;
-	                  <span class="hidden-xs">Player points</span>
+	                  <span class="hidden-xs">Player Points</span>
 	                  <span class="hidden-md hidden-sm hidden-lg">Points</span>
                   </ng-template>
                 <br/>
@@ -375,7 +371,7 @@
               <mat-tab>
                   <ng-template mat-tab-label>
                       <mat-icon style="margin-top: -8px; font-weight: 900;">⚔</mat-icon>&nbsp;
-	                  <span class="hidden-xs">Attack points</span>
+	                  <span class="hidden-xs">Attack Points</span>
 	                  <span class="hidden-md hidden-sm hidden-lg">Attacking</span>
                   </ng-template>
                 <br/>
@@ -383,9 +379,9 @@
 	                <div class="table" id="alliance_members_table_att" style="">
 	                  <div class="row_custom header">
 		                  <div class="cell hidden-xs">#</div>
-		                  <div class="cell"><span class="hidden-xs hidden-sm">Attack rank</span><span class="hidden-md hidden-lg">Rank</span></div>
+		                  <div class="cell"><span class="hidden-xs hidden-sm">Attack Rank</span><span class="hidden-md hidden-lg">Rank</span></div>
 	                    <div class="cell sticky-cell">Player</div>
-	                    <div class="cell">Attack points</div>
+	                    <div class="cell">Attack Points</div>
 	                    <div *ngFor="let date of allianceMembersData.dates; let i = index;" class="cell{{i<2 ? ' hidden-cell' : ''}}">
 	                      {{date | Datex : "D MMM"}}
 	                    </div>
@@ -410,7 +406,7 @@
               <mat-tab>
                   <ng-template mat-tab-label>
                       <mat-icon style="margin-top: -8px; font-weight: 900;">🛡</mat-icon>&nbsp;
-	                  <span class="hidden-xs">Defence points</span>
+	                  <span class="hidden-xs">Defence Points</span>
 	                  <span class="hidden-md hidden-sm hidden-lg">Defending</span>
                   </ng-template>
                 <br/>
@@ -420,7 +416,7 @@
 		                  <div class="cell hidden-xs">#</div>
 		                  <div class="cell"><span class="hidden-xs hidden-sm">Defence rank</span><span class="hidden-md hidden-lg">Rank</span></div>
 	                    <div class="cell sticky-cell">Player</div>
-	                    <div class="cell">Defence points</div>
+	                    <div class="cell">Defence Points</div>
 	                    <div *ngFor="let date of allianceMembersData.dates; let i = index;" class="cell{{i<2 ? ' hidden-cell' : ''}}">
 	                      {{date | Datex : "D MMM"}}
 	                    </div>
@@ -445,7 +441,7 @@
               <mat-tab>
                   <ng-template mat-tab-label>
                       <mat-icon style="opacity: 1; vertical-align: bottom;">account_balance</mat-icon>&nbsp;
-	                  <span class="hidden-xs">Towns gained</span>
+	                  <span class="hidden-xs">Towns Gained</span>
 	                  <span class="hidden-md hidden-sm hidden-lg">Towns</span>
                   </ng-template>
                 <br/>
@@ -492,7 +488,11 @@
 
       </div>
 
-	    <br/>
+      <div style="margin: -5px 17px" *ngIf="!loadingInfo && (members > 10 || rank < 100)">
+        <app-alert type="info text-center" [dismissible]="false">
+          <h5><strong>The GrepoData hosting costs are currently €70/month.</strong> If you like what we do, please consider <a class="a-link-dialog" (click)="donate()">donating</a>. Thank you! 🤗</h5>
+        </app-alert>
+      </div>
 
     </mat-card-content>
   </div>

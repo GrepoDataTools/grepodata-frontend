@@ -3,7 +3,7 @@
 			<div class="row">
 				<div class="col-xs-12">
           <h2 style="margin-top: 0;">
-            My teams
+            My Teams
 
             <button *ngIf="confirmed && indexes && !loading && (indexes.length - stopped_world_count) > 5" (click)="newIndex()" class="btn btn-success mr-1" style="margin-left: 3%;">
               <span class="hidden-sm hidden-xs">Create a new team</span>
@@ -203,3 +203,11 @@
     </div>
   </div>
 </mat-card>
+
+<div *ngIf="indexes.length > 1" style="margin: 0 20px;">
+  <app-alert type="info text-center" [dismissible]="false">
+    <h5><strong>The GrepoData hosting costs are currently €70/month.</strong> If you like what we do, please consider <a class="a-link-dialog" (click)="donate()">donating</a>. Thank you! 🤗</h5>
+  </app-alert>
+</div>
+
+<br/>

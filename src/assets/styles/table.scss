@@ -98,6 +98,21 @@
     color: #ffffff;
     background: #ea6153;
     height: 25px;
+    .cell {
+      //border-radius: 4px;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      border-top: 5px solid #ffffff61;
+      padding: 3px 0;
+      &:first-child {
+        border-left: 5px solid #ffffff61;
+        border-top-left-radius: 5px;
+      }
+      &:last-child {
+        border-right: 5px solid #ffffff61;
+        border-top-right-radius: 5px;
+      }
+    }
   }
   .row_custom.green {
     background: #497949;

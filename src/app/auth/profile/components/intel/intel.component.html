@@ -13,7 +13,7 @@
 
 <mat-card class="index-card index-card-sm" *ngIf="confirmed">
 	<h2 class="gd-secondary">
-		Your top teams
+		Your Top Teams
 		<a class="top-index-card hidden-xs hidden-sm" *ngIf="topIndexes.length > 0" routerLink="/profile/teams" style="color: #949494; font-weight: 700; font-size: 21px; right: 70px; position: absolute;">
 			View all my teams <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon>
 		</a>
@@ -75,7 +75,7 @@
 </div>
 
 <mat-card class="index-card index-card-sm" *ngIf="num_results > 0">
-	<h2 class="gd-secondary">Your recently indexed reports</h2>
+	<h2 class="gd-secondary">Your Recently Indexed Reports</h2>
 
 	<mat-card-content style="padding: 0 30px 15px;">
 
@@ -188,3 +188,11 @@
 	</mat-card-content>
 
 </mat-card>
+
+<div *ngIf="!loading && num_results > 10 && topIndexes.length > 1" style="margin: 0 20px;">
+  <app-alert type="info text-center" [dismissible]="false">
+    <h5><strong>The GrepoData hosting costs are currently €70/month.</strong> If you like what we do, please consider <a class="a-link-dialog" (click)="donate()">donating</a>. Thank you! 🤗</h5>
+  </app-alert>
+</div>
+
+<br/>

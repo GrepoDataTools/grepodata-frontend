@@ -12,6 +12,7 @@ export class AlertComponent implements OnInit {
   @Input() title: string;
   @Input() dismissible: boolean = true;
   @Input() dismissPermanentId: string = '';
+  @Input() dismissTemporaryId: string = '';
   @Input() showIcon: boolean = true;
   @Input() iconOverride: string = '';
 
@@ -20,12 +21,16 @@ export class AlertComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    let local_status = 0;
     if (this.dismissPermanentId != '') {
-      let local_status = this.getHiddenStatusFromCache(this.dismissPermanentId);
-      if (local_status == 1) {
-        // alert was previously dismissed. do not show
-        this.alertHidden = true;
-      }
+      local_status = this.getHiddenStatusFromCache(this.dismissPermanentId, true);
+    } else if (this.dismissTemporaryId != '') {
+      local_status = this.getHiddenStatusFromCache(this.dismissTemporaryId, false);
+    }
+
+    if (local_status == 1) {
+      // alert was previously dismissed. do not show
+      this.alertHidden = true;
     }
   }
 
@@ -47,8 +52,9 @@ export class AlertComponent implements OnInit {
   hideAlert() {
     this.alertHidden = true;
 
-    if (this.dismissPermanentId != '') {
-      this.saveHiddenStatusToCache(this.dismissPermanentId);
+    if (this.dismissPermanentId != '' || this.dismissTemporaryId != '') {
+      let id = this.dismissPermanentId != '' ? this.dismissPermanentId : this.dismissTemporaryId;
+      this.saveHiddenStatusToCache(id);
     }
   }
 
@@ -56,7 +62,7 @@ export class AlertComponent implements OnInit {
     LocalCacheService.set('alert_dismiss_' + alert_id, 1, 60 * 24 * 7);
   }
 
-  getHiddenStatusFromCache(alert_id) {
-    return LocalCacheService.get('alert_dismiss_' + alert_id, true);
+  getHiddenStatusFromCache(alert_id, ignore_expiration=true) {
+    return LocalCacheService.get('alert_dismiss_' + alert_id, ignore_expiration);
   }
 }

@@ -1,4 +1,4 @@
-<div style="width: 100% !important; min-height: 0px; padding: 5px; text-align: center;" *ngIf="!mobile && !blocking">
+<div style="width: 100% !important; min-height: 0px; padding: 5px; text-align: center;" *ngIf="!mobile && !blocking && environment.production==true">
 	<ad-unit></ad-unit>
 </div>
 
@@ -17,4 +17,8 @@
       </div>
     </div>
   </div>
+</div>
+
+<div *ngIf="environment.production != true" class="dev-placeholder">
+  <img src="assets/dev/ad_placeholder.png">
 </div>

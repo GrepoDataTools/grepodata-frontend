@@ -30,7 +30,7 @@ export class FooterComponent implements OnInit {
         if (path.indexOf('/compare') !== -1) {
           this.sidebar = true;
         } else if (path.indexOf('/points') !== -1) {
-          this.height_adjust = true;
+          // this.height_adjust = true;
         } else if (path.indexOf('/indexer') !== -1) {
           this.simplified = true;
         } else if (path.indexOf('/operations') !== -1) {

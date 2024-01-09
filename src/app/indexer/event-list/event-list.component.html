@@ -5,8 +5,8 @@
 <!--  <div *ngIf="error">{{error}}</div>-->
   <div *ngIf="!error && !loading && (events.length > 1 || event_type == 'user')" class="text-left">
     <div class="event-header">
-      <h3 *ngIf="event_type=='team'">Team events</h3>
-      <h3 *ngIf="event_type=='user'">Your GrepoData team events</h3>
+      <h3 *ngIf="event_type=='team'">Team Events</h3>
+      <h3 *ngIf="event_type=='user'">Your GrepoData Team Events</h3>
 
       <mat-paginator *ngIf="total_events > size"
                      [length]="total_events"
@@ -35,6 +35,7 @@
             <span class="event-part entity" *ngIf="part.type == 'user'"><mat-icon>perm_identity</mat-icon> {{part.text}}</span>
             <span class="event-part entity" *ngIf="part.type == 'alliance'"><img style="height: 18px; margin-top: 0;" src="../../assets/images/ally_ico.png"/> {{part.text}}</span>
             <span class="event-part entity" *ngIf="part.type == 'player'"><img style="height: 18px; margin-top: 0;" src="../../assets/images/player_ico.png"/> {{part.text}}</span>
+            <span class="event-part entity" *ngIf="part.type == 'town'"><img style="height: 18px; margin-top: 0;" src="../../assets/images/town_ico.png"/> {{part.text}}</span>
             <span class="event-part entity" *ngIf="part.type == 'team'"><mat-icon>group</mat-icon> {{part.text}}</span>
           </ng-container>
         </div>

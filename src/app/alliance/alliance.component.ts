@@ -9,6 +9,7 @@ import { Globals } from '../globals';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import {MatDialog} from '@angular/material/dialog';
 import {JwtService} from '../auth/services/jwt.service';
+import {DonateDialog} from '../shared/dialogs/donate/donate.component';
 
 @Component({
     selector: 'app-alliance',
@@ -495,5 +496,11 @@ export class AllianceComponent implements AfterViewInit {
     private renderAllianceChanges(json) {
         this.playerAllianceChanges = json.items;
         this.cdr.detectChanges();
+    }
+
+    donate() {
+      const dialogRef = this.dialog.open(DonateDialog, {
+        autoFocus: false,
+      });
     }
 }

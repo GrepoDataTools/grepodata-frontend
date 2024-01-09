@@ -15,6 +15,7 @@ export function getCookie(name: string) {
 }
 
 import {Component, OnInit} from '@angular/core';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-advertorial',
@@ -23,6 +24,7 @@ import {Component, OnInit} from '@angular/core';
 })
 export class AdvertorialComponent implements OnInit {
 
+  environment = environment;
   public mobile: boolean = true;
   public blocking: boolean = false;
   public hideBlockingMsg: boolean = false;

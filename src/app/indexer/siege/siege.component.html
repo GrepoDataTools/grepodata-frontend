@@ -17,7 +17,7 @@
 </span>
 
 <ng-template #report>
-	<div class="report-container container-fluid">
+	<div class="report-container container-fluid" [ngClass]="{ 'conquest-published': isPublished }">
 
 		<div class="row">
 
@@ -36,34 +36,42 @@
 					<div class="conquest-contents" style="max-width: 100% !important;" [ngClass]="{ 'conquest-card': isCard || !embedded }">
 						<div class="col-xs-12 text-center conquest-title">
 							<strong class="conquest-subject">
-								<a routerLink="/intel/town/{{world}}/{{conquest?.town_id}}">
+								<a class="gd-brown" routerLink="/intel/town/{{world}}/{{conquest?.town_id}}">
 									<img src="../../assets/images/town_ico.png"/>&nbsp;{{conquest.town_name}}
 								</a>
 								(
-								<span *ngIf="conquest.player_name!=''&&conquest.player_id!=0"><a routerLink="/intel/player/{{world}}/{{conquest?.player_id}}">
-											        <img src="../../assets/images/player_ico.png"/>&nbsp;{{conquest.player_name}}
-										        </a></span>
-								<span *ngIf="conquest.player_id==0||conquest.player_name==''">Ghost town</span>
-								<span *ngIf="conquest.alliance_name!=''&&conquest.alliance_id!=0"><span *ngIf="conquest.player_name!=''">, </span>
-											        <a routerLink="/intel/alliance/{{world}}/{{conquest?.alliance_id}}">
-											        <img src="../../assets/images/ally_ico.png"/>&nbsp;{{conquest.alliance_name}}
-										        </a></span>
+								<span *ngIf="conquest.player_name!=''&&conquest.player_id!=0">
+                  <a class="gd-brown" routerLink="/intel/player/{{world}}/{{conquest?.player_id}}">
+                    <img src="../../assets/images/player_ico.png"/>&nbsp;{{conquest.player_name}}
+                  </a>
+                </span>
+								<span *ngIf="(conquest.player_id==0||conquest.player_name=='') && conquest.player_name!='Temple'">Ghost Town</span>
+								<span *ngIf="conquest.player_name=='Temple'">Temple</span>
+								<span *ngIf="conquest.alliance_name!=''&&conquest.alliance_id!=0">
+                  <span *ngIf="conquest.player_name!=''">, </span>
+                  <a class="gd-brown" routerLink="/intel/alliance/{{world}}/{{conquest?.alliance_id}}">
+                    <img src="../../assets/images/ally_ico.png"/>&nbsp;{{conquest.alliance_name}}
+                  </a>
+                </span>
 								)
 							</strong>
 						</div>
 						<div class="col-xs-12 conquest-belligerents">
 							<div class="row">
 								<div class="col-xs-12 text-center" *ngIf="mobile">
-									<div><mat-icon style="font-weight: 900;">⚔</mat-icon>&nbsp;{{conquest.last_attack_date | Datex : "D MMM YYYY"}}</div>
+									<div>
+                    <div class="attack_type32x32 conqueror"></div>&nbsp;
+                    {{conquest.last_attack_date | Datex : "D MMM YYYY"}}
+                  </div>
 								</div>
 								<div class="col-xs-12 text-center" style="position: absolute;" *ngIf="!mobile">
 									<div>{{conquest.last_attack_date | Datex : "D MMM YYYY"}}</div>
-									<mat-icon style="font-weight: 900;">⚔</mat-icon>
+                  <div class="attack_type32x32 conqueror"></div>
 									<div *ngIf="!isCard">
 										<ng-container *ngTemplateOutlet="result"></ng-container>
 									</div>
 								</div>
-								<div class="col-xs-6 text-left left att"  [ngStyle]="{'max-height': isCard?'96px':'144px'}">
+								<div class="col-xs-6 text-left left att gd-scrollbar-trans"  [ngStyle]="{'max-height': isCard?'96px':'144px'}">
 									Attackers<span class="hidden-xs hidden-sm" style="font-style: italic;">&nbsp;({{conquest.num_attacks_counted}} attack<span *ngIf="conquest.num_attacks_counted>1">s</span>)</span>
 									<div *ngFor="let bell of conquest.belligerent_all" style="direction: ltr;">
 										<a routerLink="/intel/alliance/{{world}}/{{bell.alliance_id}}">
@@ -71,7 +79,7 @@
 										</a>
 									</div>
 								</div>
-								<div class="col-xs-6 text-right right def" style="max-height: 15vh; overflow-y: auto;">
+								<div class="col-xs-6 text-right right def gd-scrollbar-trans" style="max-height: 15vh; overflow-y: auto;">
 									Siege lead by
 									<div *ngIf="conquest.belligerent_player_name != ''">
 										<a routerLink="/player" [queryParams]="{world: world, id: conquest.belligerent_player_id}">
@@ -146,9 +154,21 @@
               </div>
 						</div>
 
-            <div class="col-xs-12 conquest-footer text-left" *ngIf="isCard && !mobile">
-              <button class="btn btn-secondary" (click)="loadConquestDetails()">
+            <div class="col-xs-12 conquest-footer text-left" *ngIf="isReader && isCard && !mobile">
+              <button class="btn btn-secondary mr-1" (click)="loadConquestDetails()">
                 View full report&nbsp;<mat-icon style="opacity: 1; vertical-align: bottom;">launch</mat-icon>
+              </button>
+              <button class="btn btn-primary btn-publish" (click)="publishConquest()" *ngIf="isAdmin && !isPublished && !publishing" matTooltip="You can publish this siege to show it on the daily scoreboard to all GrepoData users.">
+                Publish&nbsp;<mat-icon style="opacity: 1; vertical-align: bottom;">publish</mat-icon>
+              </button>
+              <button class="btn btn-danger btn-unpublish" (click)="unpublishConquest()" *ngIf="isAdmin && isPublished && !publishing" matTooltip="This siege was published by one of your team admins. Unpublish it to hide it from the public daily scoreboard.">
+                Unpublish&nbsp;<mat-icon style="opacity: 1; vertical-align: bottom;">delete_forever</mat-icon>
+              </button>
+              <button class="btn btn-info btn-publish" *ngIf="!isAdmin && isPublished && !publishing" [disabled]="true" matTooltip="This siege was published by one of your team admins. Only a team admin or owner can publish/unpublish siege overviews.">
+                Published
+              </button>
+              <button class="btn btn-info btn-publish" *ngIf="publishing">
+                updating..
               </button>
             </div>
 
@@ -160,7 +180,11 @@
 							</div>
 
 							<div class="col-xs-12 text-center" *ngIf="!loadingReports && errorReports">
-								<h2 class="gd-secondary">Sorry, we can not load the reports for this conquest at the moment. try again later.</h2>
+                <app-alert type="info2" [dismissible]="false" title="Sorry, this siege report is not available to you.">
+                  <h5 class="gd-secondary">
+                    The individual siege attacks are only available to members of the GrepoData Team that indexed this siege.
+                  </h5>
+                </app-alert>
 							</div>
 
 							<div class="col-xs-12" *ngIf="!loadingReports && !errorReports" style="padding: 0 !important;">

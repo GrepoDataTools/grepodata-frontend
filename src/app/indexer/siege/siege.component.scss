@@ -2,6 +2,32 @@
   padding-right: 10px;
   padding-left: 10px;
 }
+img {
+  margin-top: 2px;
+}
+
+.btn-publish {
+  float: right;
+  background: #c7e1f2 !important;
+  color: #323f4c !important;
+  &:hover {
+    color: #c7e1f2 !important;
+    background: #323f4c !important;
+  }
+}
+.btn-unpublish {
+  float: right;
+}
+
+.conquest-published {
+  .conquest-title {
+    background: #c7e1f2 !important;
+  }
+  .conquest-contents {
+    background: #e9f2f8 !important;
+  }
+}
+
 .conquests-container {
   width: 100%;
   font-size: 17px;
@@ -29,6 +55,7 @@
     box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
   }
   .conquest-contents {
+    border-radius: 7px;
     .conquest-date {
       position: absolute;
       z-index: 30;
@@ -47,6 +74,8 @@
       overflow: hidden;
       color: #304356;
       border-bottom: 2px solid #18BC9C;
+      border-top-left-radius: 7px;
+      border-top-right-radius: 7px;
 
       .conquest-subject {
         display: inline-block;

@@ -25,10 +25,13 @@ export class SiegeService {
     });
   }
 
-  getConquestDetailsByUid(uid) {
-    alert('TODO')
-    // let url =  '/indexer/conquest?uid='+uid;
-    // return this.http.get(apiUrl + url);
+  updateConquestDetailsByUid(access_token, conquest_uid, action) {
+    let data = new HttpParams()
+      .set('conquest_uid', conquest_uid)
+      .set('action', action);
+    return this.http.post<any>(apiUrl + '/indexer/v2/updateconquest', data, {
+      headers: new HttpHeaders({'access_token': access_token})
+    });
   }
 
   getSiegeList(access_token, index_key, from = 0, size = 20) {

@@ -7,6 +7,7 @@ import { IntelSourceDialog } from '../../../../shared/dialogs/intel-source/intel
 import { NewIndexDialog } from '../../../../shared/dialogs/new-index/new-index.component';
 import { JwtService } from '../../../services/jwt.service';
 import { ProfileService } from '../../../services/profile.service';
+import {DonateDialog} from '../../../../shared/dialogs/donate/donate.component';
 
 @Component({
   selector: 'app-intel',
@@ -181,5 +182,11 @@ export class IntelComponent implements OnInit {
 
   getIntelListFromCache() {
     return this.globals.get_recent_intel()
+  }
+
+  donate() {
+    const dialogRef = this.dialog.open(DonateDialog, {
+      autoFocus: false,
+    });
   }
 }

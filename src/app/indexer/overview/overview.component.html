@@ -278,7 +278,9 @@
                     [conquest]="conquest"
                     [conquestId]="conquest?.conquest_id"
                     [world]="world"
-                    [key] = "key">
+                    [key] = "key"
+                    [isAdmin] = "is_admin"
+                  >
                   </app-siege>
                 </div>
               </div>
@@ -392,7 +394,7 @@
                 </div>
 
                 <div class="index-contributors" *ngIf="contributors && contributors.length > 0">
-                  <h3>Team contributors</h3>
+                  <h3>Team Contributors</h3>
                   <div>
                     <div class="table intel-table" id="table_contributors">
                       <div class="row_custom header bg-gd-2" >

@@ -94,4 +94,16 @@ export class ScoreboardService {
 
     return this.http.get(apiUrl + url);
   }
+
+  loadSieges(world: string, date: string, server: string) {
+    var url =  '/indexer/v2/siegestoday?';
+    if (typeof world != 'undefined' && world != '') {
+      url += 'world=' + world + '&';
+    } else if (typeof server != 'undefined' && server != ''){
+      url += 'server=' + server + '&';
+    }
+    if (typeof date != 'undefined') url += 'date=' + date + '&';
+
+    return this.http.get(apiUrl + url);
+  }
 }

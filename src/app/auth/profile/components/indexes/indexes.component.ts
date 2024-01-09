@@ -18,6 +18,7 @@ import {BasicDialog} from '../../../../shared/dialogs/basic/basic.component';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {Sort} from '@angular/material/sort';
 import {HttpClient} from '@angular/common/http';
+import {DonateDialog} from '../../../../shared/dialogs/donate/donate.component';
 
 const apiUrl = environment.apiUrl;
 
@@ -380,5 +381,11 @@ export class IndexesComponent implements OnInit, OnDestroy {
 
   uniqueWorlds() {
     return [...new Set(this.indexes.map(item => item.world))];
+  }
+
+  donate() {
+    const dialogRef = this.dialog.open(DonateDialog, {
+      autoFocus: false,
+    });
   }
 }

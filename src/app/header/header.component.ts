@@ -39,29 +39,36 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this._mediaQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addEventListener('change', () => this._mediaQueryListener());
 
+    // Watch for path changes
     router.events.subscribe((params) => {
       let val: any = params;
       if ('url' in val) {
-        let path = val.url;
-        this.isScoreboard = false;
-        this.isRanking = false;
-        this.isIndexer = false;
-        this.isCompare = false;
-        this.hideHeader = false;
-        if (path.includes('/points')) {
-          this.isScoreboard = true;
-        } else if (path.includes('/compare')) {
-          this.isCompare = true;
-        } else if (path.includes('/ranking')) {
-          this.isRanking = true;
-        } else if (path.includes('/indexer') || path.includes('/profile') || path.includes('/login')) {
-          this.isIndexer = true;
-        } else if (path.includes('/operations')) {
-          this.hideHeader = true;
-        }
-        this.isProfile = path.includes('/profile') || path.includes('/indexer') || path.includes('/intel');
+        this.parsePath(val.url)
       }
     });
+
+    // Check ingnitial path
+    this.parsePath(this.router.url)
+  }
+
+  parsePath(path) {
+    this.isScoreboard = false;
+    this.isRanking = false;
+    this.isIndexer = false;
+    this.isCompare = false;
+    this.hideHeader = false;
+    if (path.includes('/points')) {
+      this.isScoreboard = true;
+    } else if (path.includes('/compare')) {
+      this.isCompare = true;
+    } else if (path.includes('/ranking')) {
+      this.isRanking = true;
+    } else if (path.includes('/indexer') || path.includes('/profile') || path.includes('/login')) {
+      this.isIndexer = true;
+    } else if (path.includes('/operations')) {
+      this.hideHeader = true;
+    }
+    this.isProfile = path.includes('/profile') || path.includes('/indexer') || path.includes('/intel');
   }
 
   ngOnDestroy() {

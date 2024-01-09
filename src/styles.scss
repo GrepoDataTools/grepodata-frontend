@@ -51,6 +51,17 @@ pre {
   border-radius: 20px;
   border: 3px solid rgba(255, 255, 255, 0);
 }
+.gd-scrollbar-sm::-webkit-scrollbar {
+  width: 6px;
+}
+.gd-scrollbar-sm::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0);
+}
+.gd-scrollbar-sm::-webkit-scrollbar-thumb {
+  background-color: rgba(48, 67, 87, 0.19);
+  border-radius: 20px;
+  border: 3px solid white;
+}
 
 .pre-no-css {
   max-height: unset !important;
@@ -143,7 +154,8 @@ pre {
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
     padding: 20px 30px 5px !important;
-
+    border: 6px solid #ffffff61;
+    border-bottom: none;
     h1 {
       margin: 0 !important;
     }
@@ -240,7 +252,7 @@ mat-paginator {
   }
 }
 
-.gd-brown {color: #804000 !important; font-weight: 700 !important;}
+.gd-brown {color: #804000 !important; font-weight: 700 !important; font-family: Verdana, Arial, Helvetica, sans-serif;}
 .gd-primary {color: #18BC9C !important;}
 .gd-secondary {color: #334254 !important;}
 .gd-tertiary {color: #e7fef3 !important;}
@@ -1005,6 +1017,15 @@ fieldset[disabled] .btn-success.active {
   }
 }
 
+.gd-btn-lg {
+  padding: 8px 22px;
+  font-size: 125%;
+  border-radius: 20px;
+  .mat-icon {
+    vertical-align: text-bottom !important;
+  }
+}
+
 .gd-txt-icon-container {
   text-align: center;
   font-weight: 800;
@@ -1336,6 +1357,9 @@ mat-paginator {
 }
 .flag-us {
   background: url('assets/images/flags.png') -32px -128px;
+}
+.flag-zz {
+  background: url('assets/images/flags.png') -64px -128px;
 }
 
 .gd-share-link-container {

@@ -68,8 +68,8 @@ $duration: 130s;
 
 @-webkit-keyframes ticker {
     0% {
-        -webkit-transform: translate3d(0, 0, 0);
-        transform: translate3d(0, 0, 0);
+        -webkit-transform: translate3d(-5%, 0, 0);
+        transform: translate3d(-5%, 0, 0);
         visibility: visible;
     }
 
@@ -81,8 +81,8 @@ $duration: 130s;
 
 @keyframes ticker {
     0% {
-        -webkit-transform: translate3d(0, 0, 0);
-        transform: translate3d(0, 0, 0);
+        -webkit-transform: translate3d(-5%, 0, 0);
+        transform: translate3d(-5%, 0, 0);
         visibility: visible;
     }
 
@@ -719,5 +719,16 @@ $duration: 130s;
 @media (max-width: 768px) {
   .scoreboard-section {
     margin: 10px !important;
+  }
+  .scoreboard-header {
+    background-color: hsl(0deg 0% 100% / 74%) !important;
+    justify-content: center !important;
+  }
+  .header-inputs {
+    transform: scale(1.2) !important;
+  }
+  .percentage-bar {
+    height: 15px;
+    margin-top: -15px;
   }
 }

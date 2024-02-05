@@ -79,13 +79,14 @@
         <img src="../../assets/images/game/award_att.png"/>
       </div>
       Player Attack Points
+      <mat-progress-bar class="loading-bar" *ngIf="loadingPlayers" mode="indeterminate"></mat-progress-bar>
     </div>
     <div class="content">
 
       <div class="table" id="table_attacking_players" style="border-collapse: collapse;">
 
         <ng-container *ngIf="loadingPlayers && !playerData">
-          <div *ngFor="let p of [].constructor((mobile?10:(sieges&&sieges.length>0&&ghostsData.length>0?20:15))); let i = index;" class="row_custom loading_cell">
+          <div *ngFor="let p of [].constructor(mobile?10:20); let i = index;" class="row_custom loading_cell">
             <div class="cell hidden-xs"></div>
             <div class="cell"><div style="opacity: 0.1">loading ...</div></div>
             <div class="cell"></div>
@@ -184,13 +185,14 @@
         <img src="../../assets/images/game/award_sup.png"/>
       </div>
       Player Defence Points
+      <mat-progress-bar class="loading-bar" *ngIf="loadingPlayers" mode="indeterminate"></mat-progress-bar>
     </div>
     <div class="content">
 
       <div class="table" id="table_defending_players" style="border-collapse: collapse;">
 
         <ng-container *ngIf="loadingPlayers && !playerData">
-          <div *ngFor="let p of [].constructor((mobile?10:(sieges&&sieges.length>0&&ghostsData.length>0?20:15))); let i = index;" class="row_custom loading_cell">
+          <div *ngFor="let p of [].constructor(mobile?10:20); let i = index;" class="row_custom loading_cell">
             <div class="cell hidden-xs"></div>
             <div class="cell"><div style="opacity: 0.1">loading ...</div></div>
             <div class="cell"></div>
@@ -284,13 +286,14 @@
         <img src="../../assets/images/game/award_con.png"/>
       </div>
       Player Conquests
+      <mat-progress-bar class="loading-bar" *ngIf="loadingPlayers" mode="indeterminate"></mat-progress-bar>
     </div>
     <div class="content">
 
       <div class="table" id="table_conquests_players" style="">
 
         <ng-container *ngIf="loadingPlayers && !playerData">
-          <div *ngFor="let p of [].constructor(conquestVisibleRows); let i = index;" class="row_custom loading_cell">
+          <div *ngFor="let p of [].constructor(mobile?10:20); let i = index;" class="row_custom loading_cell">
             <div class="cell hidden-xs"></div>
             <div class="cell"><div style="opacity: 0.1">loading ...</div></div>
             <div class="cell"></div>
@@ -343,13 +346,14 @@
         <img src="../../assets/images/game/award_los.png"/>
       </div>
       Player Lost Cities
+      <mat-progress-bar class="loading-bar" *ngIf="loadingPlayers" mode="indeterminate"></mat-progress-bar>
     </div>
     <div class="content">
 
       <div class="table" id="table_losses_players" style="">
 
         <ng-container *ngIf="loadingPlayers && !playerData">
-          <div *ngFor="let p of [].constructor(conquestVisibleRows); let i = index;" class="row_custom loading_cell">
+          <div *ngFor="let p of [].constructor(mobile?10:20); let i = index;" class="row_custom loading_cell">
             <div class="cell hidden-xs"></div>
             <div class="cell"><div style="opacity: 0.1">loading ...</div></div>
             <div class="cell"></div>
@@ -405,6 +409,7 @@
       <div class="info">
         <i class="fa fa-info-circle" matTooltip="Total number of attack (red) and defence (blue) points gained per hour. Click on a bar to view a detailed breakdown."></i>
       </div>
+      <mat-progress-bar class="loading-bar" *ngIf="loadingPlayers" mode="indeterminate"></mat-progress-bar>
     </div>
     <div class="content">
       <div style="display: flex; place-content: center; width: 100%;" [ngClass]="{'loading-overlay':loadingPlayers}">
@@ -704,6 +709,7 @@
       <div class="info">
         <i class="fa fa-info-circle" matTooltip="These players have recently reset their account. Their towns have become ghost towns."></i>
       </div>
+      <mat-progress-bar class="loading-bar" *ngIf="loadingPlayers" mode="indeterminate"></mat-progress-bar>
     </div>
     <div class="content">
 
@@ -811,6 +817,7 @@
       <div class="info">
         <i class="fa fa-info-circle" matTooltip="These sieges were published by a GrepoData City Indexer Team on this game world."></i>
       </div>
+      <mat-progress-bar class="loading-bar" *ngIf="loadingPlayers" mode="indeterminate"></mat-progress-bar>
     </div>
     <div class="content published-sieges">
       <div class="siege-towns-list gd-scrollbar">
@@ -834,7 +841,7 @@
         </div>
         <div class="siege-town hint" routerLink="/profile/teams" *ngIf="sieges.length <= 2">
           <div>
-            Publish your team's sieges to show them here
+            Publish your teams' sieges to show them here
           </div>
           <mat-icon>launch</mat-icon>
         </div>
@@ -991,7 +998,7 @@
     <div class="scoreboard-section" *ngIf="!noPlayerData || !noAllianceData">
       <div class="row">
         <div class="col-xs-12 scoreboard-table">
-          <div class="sb-table" [ngClass]="{'loading-overlay':loadingPlayers}">
+          <div class="sb-table">
             <div class="title txt-sm default">
               FaQ - About this Scoreboard
             </div>

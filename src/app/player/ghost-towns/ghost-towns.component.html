@@ -34,7 +34,7 @@
                 {{ town.points }}
               </div>
               <div class="cell">
-                {{ math.floor(town.island_x/100) }}{{ math.floor(town.island_y/100 )}}
+                {{ town.ocean }}
               </div>
               <div class="cell" *ngIf="has_ghost_details">
                 <span *ngIf="town.n_p_id>0">
@@ -75,7 +75,7 @@
             <pre id="bb_code" style="min-width: unset !important; height: unset !important;">[quote]
   [table]
     [**]#[||]Town[||]Points[||]Ocean[||]New Owner[/**]<span *ngFor="let town of ghost_town_data; let i = index;">
-    [*]{{ i+1 }}[|][town]{{ town.town_id }}[/town][|]{{ town.points }}[|]{{ math.floor(town.island_x/100) }}{{ math.floor(town.island_y/100) }}[|]<span *ngIf="town.n_p_id>0">[player]{{ town.n_p_name }}[/player]<span *ngIf="town.n_a_id>0"> ([ally]{{ town.n_a_name }}[/ally])</span></span>[/*]</span>
+    [*]{{ i+1 }}[|][town]{{ town.town_id }}[/town][|]{{ town.points }}[|]{{ town.ocean }}[|]<span *ngIf="town.n_p_id>0">[player]{{ town.n_p_name }}[/player]<span *ngIf="town.n_a_id>0"> ([ally]{{ town.n_a_name }}[/ally])</span></span>[/*]</span>
   [/table]
   [i]
     This table was generated on [b]{{ generated_at }}[/b].

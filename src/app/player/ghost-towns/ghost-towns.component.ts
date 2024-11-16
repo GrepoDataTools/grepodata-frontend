@@ -23,7 +23,6 @@ export class GhostTownsComponent implements OnInit {
   ghost_alliance: string;
   has_ghost_details = false;
   loading_ghost_towns = true;
-  math = Math;
 
   constructor(
     private globals: Globals,
@@ -56,6 +55,7 @@ export class GhostTownsComponent implements OnInit {
       .subscribe((response : any) => {
         if ('items' in response) {
           this.ghost_town_data = response?.items ?? [];
+          this.ghost_town_data.forEach(town => town.ocean = `${Math.floor(town.island_x / 100)}${Math.floor(town.island_y / 100)}`);
           this.ghost_town_data = this.ghost_town_data.sort((a, b) => (a.town_name > b.town_name ? 1 : -1));
 
           if ('has_ghost_details' in response && response.has_ghost_details === true) {

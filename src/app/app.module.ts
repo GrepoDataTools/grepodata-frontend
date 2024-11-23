@@ -53,6 +53,7 @@ import {
     PlayerOverviewDialog,
     AllianceOverviewDialog,
 } from './scoreboard/scoreboard.component';
+import { GhostTownsComponent } from './player/ghost-towns/ghost-towns.component';
 import { PlayerComponent, TownDialog } from './player/player.component';
 import { AllianceComponent } from './alliance/alliance.component';
 import { AdvertorialComponent } from './advertorial/advertorial.component';
@@ -205,6 +206,7 @@ export function jwtTokenGetter(): any {
 @NgModule({
     declarations: [
         AppComponent,
+        GhostTownsComponent,
         HeaderComponent,
         SearchComponent,
         ScoreboardComponent,

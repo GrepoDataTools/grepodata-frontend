@@ -32,10 +32,15 @@ require('./../../../config.php');
 require('./../config.api.php');
 
 // Handle router requests
-header('Content-Type: application/json', true, 200);
-return json_encode(array('offline'=>'Sorry, we are offline for maintenance! Check back later'), JSON_PRETTY_PRINT);
-//$oRouter = \Grepodata\Library\Router\Service::GetInstance();
-//$oRouter->Handle();
+if ($_SERVER['REQUEST_METHOD'] !== 'GET' && $_SERVER['REQUEST_METHOD'] !== 'OPTIONS') {
+    header('Content-Type: application/json', true, 200);
+    header('Access-Control-Allow-Origin: *');
+    die(json_encode(array('offline'=>'Sorry, we are offline for maintenance! Check back later'), JSON_PRETTY_PRINT));
+} else {
+    $oRouter = \Grepodata\Library\Router\Service::GetInstance();
+    $oRouter->Handle();
+
+}
 
 ```
 

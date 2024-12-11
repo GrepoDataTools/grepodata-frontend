@@ -38,7 +38,9 @@ export class GhostTownsComponent implements OnInit {
   ngOnInit(): void {
     this.bbConfiguration = new FormBuilder().group({
       sortBy: ['alphabetically'],
+      keepConqueredTowns: [true],
     });
+    this.bbConfiguration.controls['keepConqueredTowns'].valueChanges.subscribe(_ => this.applyBBConfiguration());
     this.loadGhostTowns();
   }
 
@@ -57,6 +59,15 @@ export class GhostTownsComponent implements OnInit {
       'success', '', true, 5000);
   }
 
+  private applyBBConfiguration() {
+    this.ghost_town_bb_data = this.ghost_town_data.slice();
+    if (!this.bbConfiguration.controls['keepConqueredTowns'].value) {
+      this.ghost_town_bb_data = this.ghost_town_bb_data.filter(town => town.n_p_id < 1);
+    }
+
+    this.sortBBTowns();
+  }
+
   private loadGhostTowns(): void {
     this.playerService.loadGhostTowns(this.world, this.id)
       .subscribe((response : any) => {
@@ -64,8 +75,8 @@ export class GhostTownsComponent implements OnInit {
           this.ghost_town_data = response?.items ?? [];
           this.ghost_town_data.forEach(town => town.ocean = `${Math.floor(town.island_x / 100)}${Math.floor(town.island_y / 100)}`);
           this.ghost_town_data = this.ghost_town_data.sort((a, b) => (a.town_name > b.town_name ? 1 : -1));
-          this.ghost_town_bb_data = this.ghost_town_data.map(t => t);
           this.sortBBTowns();
+          this.applyBBConfiguration();
 
           if ('has_ghost_details' in response && response.has_ghost_details === true) {
             this.has_ghost_details = true;

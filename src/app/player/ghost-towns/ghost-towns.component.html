@@ -64,6 +64,29 @@
         </ng-template>
         <br/>
 
+        <mat-accordion>
+          <mat-expansion-panel (closed)="bbConfigurationVisible = false" (opened)="bbConfigurationVisible = true">
+            <mat-expansion-panel-header>
+              <mat-panel-title *ngIf="bbConfigurationVisible">
+                Close configuration section
+              </mat-panel-title>
+              <mat-panel-title *ngIf="!bbConfigurationVisible">
+                Open BB code configuration
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div [formGroup]="bbConfiguration">
+              <mat-form-field>
+                <mat-select placeholder="Sort towns" formControlName="sortBy" (ngModelChange)="sortBBTowns($event)">
+                  <mat-option value="alphabetically">Alphabetically</mat-option>
+                  <mat-option value="ocean">Ocean</mat-option>
+                  <mat-option value="points">Points</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+
         <div style="font-size: 18px;">
           <div>
             <div class="container-fluid" style="padding: 0px;">
@@ -74,7 +97,7 @@
 
             <pre id="bb_code" style="min-width: unset !important; height: unset !important;">[quote]
   [table]
-    [**]#[||]Town[||]Points[||]Ocean[||]New Owner[/**]<span *ngFor="let town of ghost_town_data; let i = index;">
+    [**]#[||]Town[||]Points[||]Ocean[||]New Owner[/**]<span *ngFor="let town of ghost_town_bb_data; let i = index;">
     [*]{{ i+1 }}[|][town]{{ town.town_id }}[/town][|]{{ town.points }}[|]{{ town.ocean }}[|]<span *ngIf="town.n_p_id>0">[player]{{ town.n_p_name }}[/player]<span *ngIf="town.n_a_id>0"> ([ally]{{ town.n_a_name }}[/ally])</span></span>[/*]</span>
   [/table]
   [i]

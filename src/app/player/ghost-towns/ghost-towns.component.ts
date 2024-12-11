@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Globals } from '../../globals';
 import { PlayerService } from '../player.service';
 
@@ -16,9 +17,12 @@ export class GhostTownsComponent implements OnInit {
   @Input()
   world: string;
 
+  bbConfiguration: FormGroup;
+  bbConfigurationVisible = false;
   copied = false;
   generated_at : string;
   ghost_town_data: any[] = [];
+  ghost_town_bb_data: any[] = [];
   ghost_time = null;
   ghost_alliance: string;
   has_ghost_details = false;
@@ -32,6 +36,9 @@ export class GhostTownsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.bbConfiguration = new FormBuilder().group({
+      sortBy: ['alphabetically'],
+    });
     this.loadGhostTowns();
   }
 
@@ -57,6 +64,8 @@ export class GhostTownsComponent implements OnInit {
           this.ghost_town_data = response?.items ?? [];
           this.ghost_town_data.forEach(town => town.ocean = `${Math.floor(town.island_x / 100)}${Math.floor(town.island_y / 100)}`);
           this.ghost_town_data = this.ghost_town_data.sort((a, b) => (a.town_name > b.town_name ? 1 : -1));
+          this.ghost_town_bb_data = this.ghost_town_data.map(t => t);
+          this.sortBBTowns();
 
           if ('has_ghost_details' in response && response.has_ghost_details === true) {
             this.has_ghost_details = true;
@@ -78,8 +87,41 @@ export class GhostTownsComponent implements OnInit {
       },
       (error) => {
         this.ghost_town_data = [];
+        this.ghost_town_bb_data = [];
         this.loading_ghost_towns = false;
       });
+  }
+
+  private sortBBTowns() {
+    let compareFn = (a: any, b: any) => a.town_name.localeCompare(b.town_name);
+    const sortBy = this.bbConfiguration.get('sortBy').value;
+    if (sortBy == 'ocean') {
+      compareFn = (a: any, b: any) => {
+        if (a.ocean - b.ocean != 0) {
+          return a.ocean - b.ocean;
+        }
+
+        if (a.points - b.points != 0) {
+          return b.points - a.points;
+        }
+
+        return a.town_name.localeCompare(b.town_name);
+      };
+    } else if (sortBy == 'points') {
+      compareFn = (a: any, b: any) => {
+        if (a.points - b.points != 0) {
+          return b.points - a.points;
+        }
+
+        if (a.ocean - b.ocean != 0) {
+          return a.ocean - b.ocean;
+        }
+
+        return a.town_name.localeCompare(b.town_name);
+      };
+    }
+
+    this.ghost_town_bb_data.sort(compareFn);
   }
 
 }

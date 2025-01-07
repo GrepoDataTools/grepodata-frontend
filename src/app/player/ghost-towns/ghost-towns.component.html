@@ -84,9 +84,18 @@
                 </mat-select>
               </mat-form-field>
 
-              <mat-slide-toggle formControlName="keepConqueredTowns" class="m-l-40">
+              <mat-slide-toggle formControlName="keepConqueredTowns" (change)="onKeepConqueredTownsChange()" class="m-l-40">
                 Keep already conquered towns
               </mat-slide-toggle>
+
+              <mat-form-field class="m-l-40">
+                <mat-label>Visible oceans</mat-label>
+                <mat-select formControlName="oceans" (selectionChange)="applyBBConfiguration()" multiple>
+                  <mat-option *ngFor="let ocean of ghostTownOceans" [value]="ocean">
+                    {{ ocean }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
             </div>
           </mat-expansion-panel>
         </mat-accordion>

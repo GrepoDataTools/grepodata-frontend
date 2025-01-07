@@ -23,6 +23,7 @@ export class GhostTownsComponent implements OnInit {
   generated_at : string;
   ghost_town_data: any[] = [];
   ghost_town_bb_data: any[] = [];
+  ghostTownOceans = [];
   ghost_time = null;
   ghost_alliance: string;
   has_ghost_details = false;
@@ -39,8 +40,8 @@ export class GhostTownsComponent implements OnInit {
     this.bbConfiguration = new FormBuilder().group({
       sortBy: ['alphabetically'],
       keepConqueredTowns: [true],
+      oceans: [],
     });
-    this.bbConfiguration.controls['keepConqueredTowns'].valueChanges.subscribe(_ => this.applyBBConfiguration());
     this.loadGhostTowns();
   }
 
@@ -59,12 +60,23 @@ export class GhostTownsComponent implements OnInit {
       'success', '', true, 5000);
   }
 
+  public onKeepConqueredTownsChange(): void {
+    this.ghostTownOceans = this.ghost_town_data.filter(town => this.showConqueredTown(town))
+      .map(town => town.ocean);
+    this.ghostTownOceans = Array.from(new Set(this.ghostTownOceans))
+      .sort((o1, o2) => o1 - o2);
+    this.bbConfiguration.get('oceans').setValue(this.ghostTownOceans);
+    this.applyBBConfiguration();
+  }
+
   private applyBBConfiguration() {
     this.ghost_town_bb_data = this.ghost_town_data.slice();
     if (!this.bbConfiguration.controls['keepConqueredTowns'].value) {
-      this.ghost_town_bb_data = this.ghost_town_bb_data.filter(town => town.n_p_id < 1);
+      this.ghost_town_bb_data = this.ghost_town_bb_data.filter(town => this.showConqueredTown(town));
     }
 
+    const activeOceans = this.bbConfiguration.get('oceans').value;
+    this.ghost_town_bb_data = this.ghost_town_bb_data.filter(town => activeOceans.includes(town.ocean));
     this.sortBBTowns();
   }
 
@@ -75,8 +87,7 @@ export class GhostTownsComponent implements OnInit {
           this.ghost_town_data = response?.items ?? [];
           this.ghost_town_data.forEach(town => town.ocean = `${Math.floor(town.island_x / 100)}${Math.floor(town.island_y / 100)}`);
           this.ghost_town_data = this.ghost_town_data.sort((a, b) => (a.town_name > b.town_name ? 1 : -1));
-          this.sortBBTowns();
-          this.applyBBConfiguration();
+          this.onKeepConqueredTownsChange();
 
           if ('has_ghost_details' in response && response.has_ghost_details === true) {
             this.has_ghost_details = true;
@@ -101,6 +112,10 @@ export class GhostTownsComponent implements OnInit {
         this.ghost_town_bb_data = [];
         this.loading_ghost_towns = false;
       });
+  }
+
+  private showConqueredTown(town: any) {
+    return this.bbConfiguration.get('keepConqueredTowns').value || town.n_p_id < 1;
   }
 
   private sortBBTowns() {

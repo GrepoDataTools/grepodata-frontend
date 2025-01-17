@@ -68,10 +68,10 @@
           <mat-expansion-panel (closed)="bbConfigurationVisible = false" (opened)="bbConfigurationVisible = true">
             <mat-expansion-panel-header>
               <mat-panel-title *ngIf="bbConfigurationVisible">
-                Close configuration section
+                <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">settings</mat-icon> Close configuration section
               </mat-panel-title>
               <mat-panel-title *ngIf="!bbConfigurationVisible">
-                Open BB code configuration
+                <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">settings</mat-icon> Open BB code configuration
               </mat-panel-title>
             </mat-expansion-panel-header>
 
@@ -103,7 +103,7 @@
         <div style="font-size: 18px;">
           <div>
             <div class="container-fluid" style="padding: 0px;">
-              <button class="btn btn-success" style="margin-bottom: 5px; width: 100%;" (click)="copyBB()">
+              <button class="btn btn-success" style="margin-bottom: 5px; width: 100%; margin-top: 5px;" (click)="copyBB()">
                 <i class="fa fa-clipboard" aria-hidden="true"></i>&nbsp;<span *ngIf="!copied">copy to clipboard</span><span *ngIf="copied">Copied to clipboard!</span>
               </button>
             </div>

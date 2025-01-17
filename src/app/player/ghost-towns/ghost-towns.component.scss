@@ -1,0 +1,36 @@
+p {
+  color: #1a242f;
+  font-size: 18px;
+}
+
+@media screen and (min-width: 1800px) {
+  .table {
+    font-size: 18px !important;
+  }
+}
+
+.ghost-towns-table {
+  .cell {
+    max-width: unset !important;
+  }
+}
+
+td {
+  text-align: center !important;
+}
+
+.cell {
+  padding-left: 5px !important;
+}
+
+.ghost-won {
+  background: #00961050 !important;
+}
+
+.ghost-lost {
+  background: #CF443550 !important;
+}
+
+mat-card-title {
+  margin-bottom: 0px !important;
+}

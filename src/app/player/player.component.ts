@@ -65,14 +65,7 @@ export class PlayerComponent implements OnInit {
   bShowHeatmapChart = false;
   bShowIntel = false;
 
-  // ghost params
   bIsGhost = false;
-  loading_ghost_towns = false;
-  has_ghost_details = false;
-  ghost_time = null;
-  ghost_alliance = null;
-  copied = false;
-  math = Math;
 
   onSelect(event) {
     console.log(event);
@@ -146,11 +139,9 @@ export class PlayerComponent implements OnInit {
   selectionChanged = false;
   historyError = false;
   hasIndex = false;
-  generated_at : any;
 
   constructor(
     public dialog: MatDialog,
-    private globals: Globals,
     private playerService: PlayerService,
     private worldService: WorldService,
     private router: Router,
@@ -187,8 +178,6 @@ export class PlayerComponent implements OnInit {
         }
       }
     });
-
-    this.generated_at = new Date().toLocaleString();
   }
 
   private load(params) {
@@ -300,40 +289,6 @@ export class PlayerComponent implements OnInit {
     if ('is_ghost' in json && json.is_ghost === true) {
       this.bIsGhost = true;
       this.setActiveTab('ghost');
-      this.loading_ghost_towns = true;
-
-      // load ghost towns
-      this.playerService.loadGhostTowns(this.world, this.id)
-        .subscribe(
-          (response : any) => {
-            if ('items' in response) {
-              this.ghost_town_data = response?.items ?? [];
-              this.ghost_town_data = this.ghost_town_data.sort((a, b) => (a.town_name > b.town_name ? 1 : -1));
-
-              if ('has_ghost_details' in response && response.has_ghost_details === true) {
-                this.has_ghost_details = true;
-                if ('ghost_alliance' in response) {
-                  this.ghost_alliance = response.ghost_alliance;
-                }
-                if ('ghost_time' in response) {
-                  this.ghost_time = response.ghost_time;
-                }
-              } else {
-                this.has_ghost_details = false;
-                this.ghost_alliance = null;
-                this.ghost_time = null;
-              }
-            } else {
-              this.ghost_town_data = [];
-            }
-            console.log(this.ghost_town_data);
-            this.loading_ghost_towns = false;
-          },
-          (error) => {
-            this.ghost_town_data = [];
-            this.loading_ghost_towns = false;
-          }
-        )
     }
 
     // Load history
@@ -484,21 +439,6 @@ export class PlayerComponent implements OnInit {
   }
 
   ngOnInit() {
-  }
-
-  copyBB() {
-    let selection = window.getSelection();
-    let txt = document.getElementById('bb_code');
-    let range = document.createRange();
-    range.selectNodeContents(txt);
-    selection.removeAllRanges();
-    selection.addRange(range);
-    document.execCommand("copy");
-    selection.removeAllRanges();
-    this.copied = true;
-    this.globals.showSnackbar(
-      `<h4>BB code table copied to clipboard!</h4>`,
-      'success', '', true,5000);
   }
 
 }

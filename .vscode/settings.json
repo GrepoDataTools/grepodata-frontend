@@ -1,0 +1,9 @@
+{
+    "terminal.integrated.profiles.windows": {
+        "Remote Server": {
+            "path": "ssh",
+            "args": ["vps@136.144.185.89"]
+        }
+    },
+    "terminal.integrated.defaultProfile.windows": "Remote Server"
+}

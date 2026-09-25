@@ -14,12 +14,13 @@ import {IndexMembersDialog} from '../../shared/dialogs/index-members/index-membe
 import {SiegeListDialog} from '../siege/siege.service';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {Subscription} from 'rxjs';
+import {IndexerOverviewService, IntelMovementKeys} from './overview.service';
 
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss'],
-  providers: [IndexerService, LocalCacheService, WorldService],
+  providers: [IndexerService, LocalCacheService, WorldService, IndexerOverviewService],
 })
 export class OverviewComponent implements OnInit, OnDestroy, OnInit {
   paramsSubscription : Subscription;
@@ -69,7 +70,8 @@ export class OverviewComponent implements OnInit, OnDestroy, OnInit {
     private authService: JwtService,
     public dialog: MatDialog,
     changeDetectorRef: ChangeDetectorRef,
-    media: MediaMatcher
+    media: MediaMatcher,
+    private IndexerOverviewService: IndexerOverviewService
   ) {
     this.paramsSubscription = this.route.params.subscribe( params => {
       if ('activetab' in params && params.activetab == 'team') {
@@ -367,6 +369,10 @@ export class OverviewComponent implements OnInit, OnDestroy, OnInit {
       // this.load({key: this.key});
       this.update = new Date();
     });
+  }
+
+  getIntelTypeTranslation(type: IntelMovementKeys) {
+    return this.IndexerOverviewService.INTEL_MOVEMENT_TYPES[type]
   }
 
 }

@@ -223,7 +223,7 @@
                   </div>
 
                   <div class='row_custom' *ngFor="let town of latest_intel" style="height: 40px;">
-                    <div class="cell unit-cell-small" matTooltip="{{town.type}}">
+                    <div class="cell unit-cell-small" matTooltip="{{getIntelTypeTranslation(town.type)}}">
                       <img src="../../assets/images/game/towninfo/attack.png" *ngIf="town.type === 'friendly_attack'">
                       <div *ngIf="town.type === 'enemy_attack'" style="-moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); filter: FlipH; -ms-filter: ;">
                         <img src="../../assets/images/game/towninfo/attack.png">

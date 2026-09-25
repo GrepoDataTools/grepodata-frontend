@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-export type IntelMovementKeys = "enemy_attack" | "friendly_attack" | "attack_on_conquest" | "support" | "spy"
+export type IntelMovementKeys = "enemy_attack" | "friendly_attack" | "attack_on_conquest" | "support" | "spy" | "wisdom"
 
 @Injectable()
 export class IndexerOverviewService {
@@ -9,6 +9,7 @@ export class IndexerOverviewService {
     "friendly_attack": "Friendly attack",
     "attack_on_conquest": "Conquest attack",
     "support": "Support",
-    "spy": "Spy"
+    "spy": "Spy",
+    "wisdom": "Wisdom"
   } as const
 }

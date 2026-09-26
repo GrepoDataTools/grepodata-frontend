@@ -250,9 +250,11 @@ export class IndexesComponent implements OnInit, OnDestroy {
       // minWidth: '40%',
       autoFocus: false,
       data: {
-        title: '',
+        title: 'Leave team?',
         show_close: false,
-        messageHtml: '<div class="text-center"><h3>Are you sure you want to leave team <span class="gd-primary">' + index.name + '</span>?</h3><p>You will have to be invited to join the team again.</p></div>',
+        icon: 'arrow-right-start-on-rectangle',
+        messageHtml: '<p class="m-0">Are you sure you want to leave team <strong class="font-semibold text-slate-900">' + index.name + '</strong>?</p>' +
+          '<p class="mt-1 text-slate-500">You will have to be invited to join the team again.</p>',
         cancel_action: 'Cancel',
         action_type: 'danger',
         action: 'Leave team',

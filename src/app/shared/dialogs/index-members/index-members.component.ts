@@ -140,9 +140,11 @@ export class IndexMembersDialog {
       // minWidth: '40%',
       autoFocus: false,
       data: {
-        title: '',
+        title: 'Remove user?',
         show_close: false,
-        messageHtml: '<div class="text-center"><h3>Are you sure you want to remove user <span class="gd-primary">' + user.username + '</span> from team <span class="gd-primary">' + this.index.name + '</span>?</h3></div>',
+        icon: 'user-minus',
+        messageHtml: '<p class="m-0">Are you sure you want to remove user <strong class="font-semibold text-slate-900">' + user.username + '</strong> from team <strong class="font-semibold text-slate-900">' + this.index.name + '</strong>?</p>' +
+          '<p class="mt-1 text-slate-500">They will no longer be able to read the intel in this team.</p>',
         cancel_action: 'Cancel',
         action_type: 'danger',
         action: 'Remove user',

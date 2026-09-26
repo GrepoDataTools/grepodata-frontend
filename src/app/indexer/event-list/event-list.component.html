@@ -20,8 +20,8 @@
       <mat-spinner [diameter]="50"></mat-spinner>
     </div>
 
-    <div class="pl-5" [ngClass]="{'opacity-40': paging}">
-      <div *ngFor="let event of events" class="flex items-start gap-4 border-0 border-b border-solid border-slate-100 py-3 pr-5 text-sm last:border-b-0">
+    <div class="pl-5 [container-type:inline-size]" [ngClass]="{'opacity-40': paging}">
+      <div *ngFor="let event of events" class="grid grid-cols-[96px_minmax(0,1fr)] items-start gap-x-4 gap-y-1 border-0 border-b border-solid border-slate-100 py-3 pr-5 text-sm last:border-b-0 [@container(min-width:600px)]:flex [@container(min-width:600px)]:gap-4">
         <div class="w-24 flex-none tabular-nums">
           <div class="text-slate-700">{{event.local_time | Datex : 'D MMM YYYY'}}</div>
           <div class="text-xs text-slate-500">{{event.local_time | Datex : 'HH:mm'}}</div>
@@ -37,7 +37,7 @@
             <span *ngIf="part.type == 'team'" class="font-medium text-brand-700"><svg appIcon="user-group" class="inline-block size-4 align-middle"></svg> {{part.text}}</span>
           </ng-container>
         </div>
-        <div *ngIf="event_type=='user'" class="flex-none">
+        <div *ngIf="event_type=='user'" class="col-start-2 flex-none">
           <button type="button" routerLink="/profile/team/{{event.index_key}}" class="inline-flex items-center gap-1 border-0 bg-transparent p-0 text-sm font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
             Team: {{event.index_key | IndexNamePipe}}
             <svg appIcon="arrow-top-right-on-square" class="size-4 flex-none"></svg>

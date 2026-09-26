@@ -682,29 +682,6 @@ $footer_height: 75px;
 select {
   border: 1px solid #adadad;
 }
-::ng-deep .multiselect-dropdown {
-  .selected-item {
-    background: #489384 !important;
-    border: 1px solid #489384 !important;
-  }
-}
-::ng-deep {
-  input, select, textarea, .dropdown-btn {
-    &:hover {
-      cursor: pointer;
-      background: #f7f7f7;
-    }
-  }
-  .mat-checkbox-checked.mat-accent .mat-checkbox-background {
-    background-color: #009688 !important;
-  }
-  .dropdown-btn {
-    border-radius: 0 !important;
-  }
-  .breadcrumb {
-    height: $header_height;
-  }
-}
 //::ng-deep .mat-checkbox-checked {
 //  .mat-checkbox-background {
 //    background: #18bc9b !important;

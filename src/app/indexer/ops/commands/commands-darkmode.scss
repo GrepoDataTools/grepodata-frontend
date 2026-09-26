@@ -8,7 +8,6 @@ $dm-font-tertiary: #eeeeee;
 $dm-border: 1px solid #4b4b4b;
 
 .dark-mode {
-  height: calc(100vh - 58px);
   background: $dm-background-primary !important;
 
   .dm-hidden {
@@ -140,13 +139,6 @@ $dm-border: 1px solid #4b4b4b;
 
   ::ng-deep {
 
-    .dmf1 {
-      color: $dm-font-primary !important;
-    }
-    .dmf2 {
-      color: $dm-font-secondary !important;
-    }
-
     .gd-brown {
       //color: $dm-font-tertiary !important;
       color: #d8832e !important;
@@ -159,45 +151,8 @@ $dm-border: 1px solid #4b4b4b;
       }
     }
 
-    input, select, textarea, .dropdown-btn {
-      color: $dm-font-primary !important;
-      background: $dm-background-secondary !important;
-      border: $dm-border !important;
-      &:hover {
-        background: $dm-background-primary !important;
-      }
-    }
-
-    .breadcrumb {
-      background: $dm-gd-dark !important;
-      > .active {
-        color: $dm-font-secondary !important;
-      }
-    }
-
-    .multiselect-dropdown {
-      .dropdown-list {
-        background: $dm-background-primary !important;
-      }
-      .multiselect-item-checkbox {
-        div {
-          color: $dm-font-primary !important;
-        }
-        &:hover {
-          background: $dm-background-secondary !important;
-        }
-      }
-    }
-
-    .mat-checkbox-frame {
-      border-color: rgb(163 163 163 / 70%);
-    }
-
   }
 
-  .filtered {
-    border: 3px solid #18bc9b !important;
-  }
 
   .context-item:hover {
     background: $dm-background-secondary !important;

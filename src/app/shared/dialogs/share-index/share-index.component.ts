@@ -20,6 +20,7 @@ export class ShareIndexDialog {
     public dialogRef: MatDialogRef<ShareIndexDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    dialogRef.addPanelClass('team-dialog');
     console.log(data.index);
     this.index = data.index;
   }

@@ -12,7 +12,7 @@
                 <span class="relative h-5 w-9 flex-none rounded-full bg-slate-200 transition-colors after:absolute after:left-0.5 after:top-0.5 after:size-4 after:rounded-full after:bg-white after:shadow-sm after:transition-transform after:content-[''] peer-checked:bg-brand-700 peer-checked:after:translate-x-4 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand-700"></span>
                 Show finished worlds ({{stopped_world_count}})
               </label>
-              <button *ngIf="confirmed && !loading" type="button" (click)="newIndex()" class="inline-flex items-center gap-1.5 rounded-md border-0 bg-brand-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+              <button *ngIf="confirmed && !loading && indexes.length > 0" type="button" (click)="newIndex()" class="inline-flex items-center gap-1.5 rounded-md border-0 bg-brand-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
                 <svg appIcon="plus" variant="mini" class="size-5 flex-none"></svg>
                 <span class="max-sm:hidden">Create a new team</span>
                 <span class="sm:hidden">New team</span>
@@ -20,8 +20,8 @@
             </div>
           </div>
 
-					<div *ngIf="!confirmed">
-            <h4 class="gd-error">Please confirm your email address to start sharing intel</h4>
+					<div *ngIf="!confirmed" class="space-y-3">
+            <h4 class="my-0 text-base font-medium text-rose-700">Please confirm your email address to start sharing intel</h4>
 						<app-confirm></app-confirm>
 					</div>
 
@@ -50,24 +50,20 @@
 						<button *ngIf="created_index.key" class="btn btn-secondary mr-1" routerLink="/profile/team/{{created_index.key}}">Go to team overview <mat-icon>launch</mat-icon></button>
 					</app-alert>
 
-					<app-alert class="block" type="info" title="What is a team?" *ngIf="confirmed && !error && !leave_error && !created_index && !contribute_success && indexes.length <= 3" [dismissible]="false">
-						<p>
-							A team allows you to share a collection of enemy intelligence with other users.
-							You can create and share your own team, or you can contribute to an existing team.
-							<br/>For example, you and your alliance members can create a team and work together to collect enemy intel.
-						</p>
-					</app-alert>
-
 					<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
 
-					<div *ngIf="confirmed && !loading && indexes.length <= 0">
-						<app-alert type="warning" title="You have not yet created or joined any indexes" [dismissible]="false">
-							<div style="min-height: 73px !important;">
-								<h4>You can create your own team and share it with your allies or you can join an existing team by asking your allies to invite you.</h4>
-								<p>You can still collect intelligence if you are not part of a team, but you will only be able to share this intel by joining a team.</p>
-							</div>
-						</app-alert>
-					</div>
+          <section *ngIf="confirmed && !loading && indexes.length <= 0" class="flex flex-col items-center rounded-xl bg-white px-6 py-12 text-center shadow-sm ring-1 ring-slate-900/[.08]">
+            <span class="flex size-14 items-center justify-center rounded-full bg-brand-50 text-brand-700">
+              <svg appIcon="user-group" class="size-7"></svg>
+            </span>
+            <h2 class="mb-0 mt-4 text-lg font-semibold text-slate-900">You have not yet created or joined any teams</h2>
+            <p class="mb-0 mt-2 max-w-[600px] text-sm text-slate-600">You can create your own team and share it with your allies or you can join an existing team by asking your allies to invite you.</p>
+            <p class="mb-0 mt-2 max-w-[600px] text-sm text-slate-500">You can still collect intelligence if you are not part of a team, but you will only be able to share this intel by joining a team.</p>
+            <button type="button" (click)="newIndex()" class="mt-6 inline-flex items-center gap-1.5 rounded-md border-0 bg-brand-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+              <svg appIcon="plus" variant="mini" class="size-5 flex-none"></svg>
+              Create a new team
+            </button>
+          </section>
 
           <div *ngIf="indexes.length - stopped_world_count > 12" class="flex flex-wrap items-center gap-3 rounded-xl bg-white p-3 shadow-sm ring-1 ring-slate-900/[.08]">
             <label class="relative m-0 w-full font-normal sm:w-56">
@@ -154,6 +150,18 @@
               </ng-container>
             </div>
           </section>
+
+          <aside *ngIf="confirmed && !error && !leave_error && !created_index && !contribute_success && indexes.length <= 3" class="flex gap-3 rounded-xl bg-sky-50 px-5 py-4 ring-1 ring-inset ring-sky-200">
+            <svg appIcon="information-circle" class="mt-0.5 size-5 flex-none text-sky-700"></svg>
+            <div class="min-w-0 text-sm text-sky-800">
+              <h3 class="my-0 text-sm font-semibold">What is a team?</h3>
+              <p class="mb-0 mt-1">
+                A team allows you to share a collection of enemy intelligence with other users.
+                You can create and share your own team, or you can contribute to an existing team.
+                <br/>For example, you and your alliance members can create a team and work together to collect enemy intel.
+              </p>
+            </div>
+          </aside>
 
 </div>
 

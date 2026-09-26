@@ -7,7 +7,6 @@ import {SearchService} from '../../../search/search.service';
 @Component({
   selector: 'app-index-settings',
   templateUrl: './index-settings.component.html',
-  styleUrls: ['./index-settings.component.scss'],
   providers: [IndexAuthService, SearchService]
 })
 export class IndexSettingsDialog {

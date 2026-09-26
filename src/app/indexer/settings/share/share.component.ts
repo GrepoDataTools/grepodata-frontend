@@ -26,7 +26,6 @@ import {MatDialog} from '@angular/material/dialog';
     ]),
   ],
   templateUrl: './share.component.html',
-  styleUrls: ['./share.component.scss'],
   providers: [IndexerService, SearchService, IndexAuthService]
 })
 export class ShareComponent implements OnInit {

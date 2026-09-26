@@ -7,7 +7,6 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 @Component({
   selector: 'app-index-settings',
   templateUrl: './share-index.component.html',
-  styleUrls: ['./share-index.component.scss'],
   providers: [IndexerService]
 })
 export class ShareIndexDialog {

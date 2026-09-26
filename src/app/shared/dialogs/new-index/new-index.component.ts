@@ -14,7 +14,6 @@ import {ShareIndexDialog} from '../share-index/share-index.component';
 @Component({
   selector: 'new-index',
   templateUrl: './new-index.component.html',
-  styleUrls: ['./new-index.component.scss'],
   providers: [WorldService, IndexerService, CaptchaService, RecaptchaComponent, LocalCacheService, JwtService]
 })
 export class NewIndexDialog {

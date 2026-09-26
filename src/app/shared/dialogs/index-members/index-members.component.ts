@@ -11,7 +11,6 @@ import {ShareIndexDialog} from '../share-index/share-index.component';
 @Component({
   selector: 'app-index-members',
   templateUrl: './index-members.component.html',
-  styleUrls: ['./index-members.component.scss'],
   providers: [IndexAuthService]
 })
 export class IndexMembersDialog {

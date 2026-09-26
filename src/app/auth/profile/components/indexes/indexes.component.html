@@ -1,40 +1,47 @@
-<mat-card class="index-card">
-	<div class="container-fluid">
-			<div class="row">
-				<div class="col-xs-12">
-          <h2 style="margin-top: 0;">
-            My Teams
-
-            <button *ngIf="confirmed && indexes && !loading && (indexes.length - stopped_world_count) > 5" (click)="newIndex()" class="btn btn-success mr-1" style="margin-left: 3%;">
-              <span class="hidden-sm hidden-xs">Create a new team</span>
-              <span class="hidden-md hidden-lg">New team</span>
-              &nbsp;<mat-icon>library_add</mat-icon>
-            </button>
-
-          </h2>
+<div class="m-[22px] space-y-6 max-[1000px]:m-3">
+          <div class="flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
+            <div class="min-w-0">
+              <h1 class="my-0 text-2xl font-bold tracking-tight text-slate-900">My Teams</h1>
+              <p *ngIf="indexes.length > 0" class="mb-0 mt-1 text-sm text-slate-500">
+                {{indexes.length - stopped_world_count}} active {{indexes.length - stopped_world_count === 1 ? 'team' : 'teams'}}<span *ngIf="stopped_world_count > 0"> · {{stopped_world_count}} on {{stopped_world_count === 1 ? 'a finished world' : 'finished worlds'}}</span>
+              </p>
+            </div>
+            <div class="flex flex-wrap items-center gap-x-6 gap-y-3">
+              <label *ngIf="stopped_world_count > 0" class="m-0 inline-flex cursor-pointer items-center gap-2.5 whitespace-nowrap text-sm font-normal text-slate-700">
+                <input type="checkbox" role="switch" class="peer sr-only" [(ngModel)]="show_stopped_worlds">
+                <span class="relative h-5 w-9 flex-none rounded-full bg-slate-200 transition-colors after:absolute after:left-0.5 after:top-0.5 after:size-4 after:rounded-full after:bg-white after:shadow-sm after:transition-transform after:content-[''] peer-checked:bg-brand-700 peer-checked:after:translate-x-4 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand-700"></span>
+                Show finished worlds ({{stopped_world_count}})
+              </label>
+              <button *ngIf="confirmed && !loading" type="button" (click)="newIndex()" class="inline-flex items-center gap-1.5 rounded-md border-0 bg-brand-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+                <svg appIcon="plus" variant="mini" class="size-5 flex-none"></svg>
+                <span class="max-sm:hidden">Create a new team</span>
+                <span class="sm:hidden">New team</span>
+              </button>
+            </div>
+          </div>
 
 					<div *ngIf="!confirmed">
             <h4 class="gd-error">Please confirm your email address to start sharing intel</h4>
 						<app-confirm></app-confirm>
 					</div>
 
-					<app-alert type="error" *ngIf="error">
+					<app-alert class="block" type="error" *ngIf="error">
 						<h5>{{error}}</h5>
 					</app-alert>
 
-					<app-alert type="error" title="Unable to leave team" *ngIf="leave_error">
+					<app-alert class="block" type="error" title="Unable to leave team" *ngIf="leave_error">
             <span [outerHTML]="leave_error"></span>
 					</app-alert>
 
-					<app-alert type="success" title="Team contribution settings updated" *ngIf="contribute_success">
+					<app-alert class="block" type="success" title="Team contribution settings updated" *ngIf="contribute_success">
 						<div [outerHTML]="contribute_success"></div>
 					</app-alert>
 
-					<app-alert type="success" title="Team left successfully" *ngIf="leave_success">
+					<app-alert class="block" type="success" title="Team left successfully" *ngIf="leave_success">
 						<div [outerHTML]="leave_success"></div>
 					</app-alert>
 
-					<app-alert type="success" title="New team created successfully!" *ngIf="created_index">
+					<app-alert class="block" type="success" title="New team created successfully!" *ngIf="created_index">
 						<h5>
 							<span *ngIf="created_index.name"><strong>Team name: </strong>{{created_index.name}}<br/></span>
 							<span *ngIf="created_index.world"><strong>World: </strong><span [outerHTML]="created_index.world | WorldNamePipe"></span><br/></span>
@@ -43,7 +50,7 @@
 						<button *ngIf="created_index.key" class="btn btn-secondary mr-1" routerLink="/profile/team/{{created_index.key}}">Go to team overview <mat-icon>launch</mat-icon></button>
 					</app-alert>
 
-					<app-alert type="info" title="What is a team?" *ngIf="confirmed && !error && !leave_error && !created_index && !contribute_success && indexes.length <= 3" [dismissible]="false">
+					<app-alert class="block" type="info" title="What is a team?" *ngIf="confirmed && !error && !leave_error && !created_index && !contribute_success && indexes.length <= 3" [dismissible]="false">
 						<p>
 							A team allows you to share a collection of enemy intelligence with other users.
 							You can create and share your own team, or you can contribute to an existing team.
@@ -51,7 +58,7 @@
 						</p>
 					</app-alert>
 
-					<mat-progress-bar style="margin-top: -10px;" *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+					<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
 
 					<div *ngIf="confirmed && !loading && indexes.length <= 0">
 						<app-alert type="warning" title="You have not yet created or joined any indexes" [dismissible]="false">
@@ -62,7 +69,7 @@
 						</app-alert>
 					</div>
 
-					<div *ngIf="indexes.length > 0">
+					<div *ngIf="indexes.length > 0" class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
 
 						<div class="indexes-table">
 							<table matSort (matSortChange)="sortData($event)" class="table">
@@ -177,22 +184,7 @@
 
 					</div>
 
-          <div class="index-new" *ngIf="confirmed && !loading">
-
-            <button (click)="newIndex()" class="btn btn-success mr-1" style="margin-right: 10px;">
-              Create a new team <mat-icon>library_add</mat-icon>
-            </button>
-            <mat-slide-toggle *ngIf="stopped_world_count > 0" [(ngModel)]="show_stopped_worlds" style="margin: 0 30px;">
-              Show finished worlds ({{stopped_world_count}})
-            </mat-slide-toggle>
-
-          </div>
-
-				</div>
-			</div>
-
-		</div>
-</mat-card>
+</div>
 
 <div class="m-[22px]" *ngIf="indexes.length > 0">
   <app-event-list [update]="true"></app-event-list>

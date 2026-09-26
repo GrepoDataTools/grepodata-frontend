@@ -1,111 +1,74 @@
 <nav aria-label="breadcrumb">
 
-  <ol class="breadcrumb" *ngIf="type == 'default'">
-
-    <!-- Back navigation -->
-    <li class="breadcrumb-item" *ngIf="!data.hide_backlink">
-      <a routerLink="/profile"><mat-icon style="vertical-align: bottom;">arrow_back</mat-icon> My intel</a>
+  <ol *ngIf="type == 'default'" class="m-0 flex list-none flex-wrap items-center gap-x-1.5 gap-y-1 p-0 text-sm font-normal leading-5 text-slate-600 [&>li+li]:before:text-slate-300 [&>li+li]:before:content-['/']">
+    <li *ngIf="!data.hide_backlink" class="flex items-center">
+      <a routerLink="/profile" class="inline-flex items-center gap-1 text-slate-600 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+        <svg appIcon="arrow-left" variant="mini" class="size-4 flex-none"></svg>
+        My intel
+      </a>
     </li>
-
-    <!-- World -->
-    <li class="breadcrumb-item active" *ngIf="data.world && !data.hide_world">
-      <div [outerHTML]="data.world | WorldNamePipe"></div>
+    <li *ngIf="data.world && !data.hide_world" class="flex min-w-0 items-center gap-1.5 [&_.bg-flag]:[zoom:0.625]">
+      <span [outerHTML]="data.world | WorldNamePipe"></span>
     </li>
-
-    <!-- Teams -->
-    <li class="breadcrumb-item active" *ngIf="data.teams && data.teams.length > 0 && !data.hide_teams" (mouseover)="toggleTeams(true)" (mouseleave)="toggleTeams(false)">
-      <mat-icon style="vertical-align: text-bottom;">group</mat-icon>
-      <a routerLink="/profile/team/{{data.teams[0].index_key}}"> {{data.teams[0].index_name}}</a>
-      <mat-icon style="vertical-align: bottom;" class="hidden-xs hidden-sm">arrow_drop_down</mat-icon>
-      <div *ngIf="expandedTeams" class="expand-options">
-        <div *ngFor="let team of data.teams">
-          <mat-icon class="directory">subdirectory_arrow_right</mat-icon>
-          Team:
-          <a routerLink="/profile/team/{{team.index_key}}">
-            {{team.index_name}}
-            <mat-icon>launch</mat-icon>
+    <li *ngIf="data.teams && data.teams.length > 0 && !data.hide_teams" (mouseover)="toggleTeams(true)" (mouseleave)="toggleTeams(false)" class="relative flex min-w-0 items-center gap-1.5">
+      <svg appIcon="user-group" variant="mini" class="size-4 flex-none text-slate-400"></svg>
+      <a routerLink="/profile/team/{{data.teams[0].index_key}}" class="min-w-0 truncate text-slate-600 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{data.teams[0].index_name}}</a>
+      <svg appIcon="chevron-down" variant="micro" class="size-4 flex-none text-slate-400 max-[991px]:hidden"></svg>
+      <div *ngIf="expandedTeams" class="absolute left-0 top-full z-[1000000] pt-1">
+        <div class="min-w-[220px] rounded-lg bg-white p-1.5 text-left shadow-lg ring-1 ring-slate-900/5">
+          <a *ngFor="let team of data.teams" routerLink="/profile/team/{{team.index_key}}" class="flex items-center justify-between gap-3 whitespace-nowrap rounded-md px-2.5 py-1.5 text-sm font-normal text-slate-700 hover:bg-slate-50 hover:text-brand-800 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-700">
+            <span class="min-w-0 truncate"><span class="text-slate-500">Team:</span> {{team.index_name}}</span>
+            <svg appIcon="arrow-top-right-on-square" variant="micro" class="size-3.5 flex-none text-slate-400"></svg>
           </a>
-        </div>
-        <div>
-          <mat-icon class="directory">subdirectory_arrow_right</mat-icon>
-          <a routerLink="/profile/teams">
+          <a routerLink="/profile/teams" class="flex items-center justify-between gap-3 whitespace-nowrap rounded-md px-2.5 py-1.5 text-sm font-normal text-slate-700 hover:bg-slate-50 hover:text-brand-800 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-700">
             All my teams
-            <mat-icon>launch</mat-icon>
+            <svg appIcon="arrow-top-right-on-square" variant="micro" class="size-3.5 flex-none text-slate-400"></svg>
           </a>
         </div>
       </div>
     </li>
-
-    <!-- Alliance -->
-    <li class="breadcrumb-item active" *ngIf="data.alliance" (mouseover)="toggleAlliance(true)" (mouseleave)="toggleAlliance(false)" [ngClass]="{'active': data.alliance.active===true || !data.alliance.name}">
-      <img src="../../../assets/images/ally_ico.png" style="height: 20px; margin-top: -1px;"/>
-      <a *ngIf="data.alliance.name && !data.alliance.active" routerLink="/intel/alliance/{{data.world}}/{{data.alliance.id}}">
-        &nbsp;{{data.alliance.name}}
-      </a>
-      <span *ngIf="data.alliance.name && data.alliance.active===true">
-        &nbsp;{{data.alliance.name}}
-      </span>
-      <span *ngIf="!data.alliance.name">
-        &nbsp;no alliance
-      </span>
-      <mat-icon style="vertical-align: bottom;" class="hidden-xs hidden-sm" *ngIf="data.alliance.id">arrow_drop_down</mat-icon>
-      <div *ngIf="expandedAlliance && data.alliance.id" class="expand-options">
-        <div style="margin-bottom: 10px;" *ngIf="!data.alliance.active">
-          <mat-icon class="directory">subdirectory_arrow_right</mat-icon>
-          <a routerLink="/intel/alliance/{{data.world}}/{{data.alliance.id}}">
+    <li *ngIf="data.alliance" (mouseover)="toggleAlliance(true)" (mouseleave)="toggleAlliance(false)" class="relative flex min-w-0 items-center gap-1.5" [ngClass]="{'font-medium text-slate-900': data.alliance.active===true}">
+      <svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+      <a *ngIf="data.alliance.name && !data.alliance.active" routerLink="/intel/alliance/{{data.world}}/{{data.alliance.id}}" class="min-w-0 truncate text-slate-600 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{data.alliance.name}}</a>
+      <span *ngIf="data.alliance.name && data.alliance.active===true" class="min-w-0 truncate">{{data.alliance.name}}</span>
+      <span *ngIf="!data.alliance.name" class="text-slate-500">no alliance</span>
+      <svg appIcon="chevron-down" variant="micro" class="size-4 flex-none text-slate-400 max-[991px]:hidden" *ngIf="data.alliance.id"></svg>
+      <div *ngIf="expandedAlliance && data.alliance.id" class="absolute left-0 top-full z-[1000000] pt-1">
+        <div class="min-w-[220px] rounded-lg bg-white p-1.5 text-left shadow-lg ring-1 ring-slate-900/5">
+          <a *ngIf="!data.alliance.active" routerLink="/intel/alliance/{{data.world}}/{{data.alliance.id}}" class="flex items-center justify-between gap-3 whitespace-nowrap rounded-md px-2.5 py-1.5 text-sm font-normal text-slate-700 hover:bg-slate-50 hover:text-brand-800 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-700">
             View alliance intel
-            <mat-icon>launch</mat-icon>
+            <svg appIcon="arrow-top-right-on-square" variant="micro" class="size-3.5 flex-none text-slate-400"></svg>
           </a>
-        </div>
-        <div>
-          <mat-icon class="directory">subdirectory_arrow_right</mat-icon>
-          <a routerLink="/alliance" [queryParams]="{world: data.world, id: data.alliance.id}">
+          <a routerLink="/alliance" [queryParams]="{world: data.world, id: data.alliance.id}" class="flex items-center justify-between gap-3 whitespace-nowrap rounded-md px-2.5 py-1.5 text-sm font-normal text-slate-700 hover:bg-slate-50 hover:text-brand-800 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-700">
             View alliance statistics
-            <mat-icon>launch</mat-icon>
+            <svg appIcon="arrow-top-right-on-square" variant="micro" class="size-3.5 flex-none text-slate-400"></svg>
           </a>
         </div>
       </div>
     </li>
-
-    <!-- Player -->
-    <li class="breadcrumb-item" *ngIf="data.player" (mouseover)="togglePlayer(true)" (mouseleave)="togglePlayer(false)" [ngClass]="{'active': data.player.active===true}">
-      <img src="../../../assets/images/player_ico.png" style="height: 20px; margin-top: -1px;"/>
-      <a *ngIf="data.player.name && !data.player.active" routerLink="/intel/player/{{data.world}}/{{data.player.id}}">
-        &nbsp;{{data.player.name}}
-      </a>
-      <span *ngIf="data.player.active===true">
-        {{data.player.name}}
-      </span>
-      <mat-icon style="vertical-align: bottom;" class="hidden-xs hidden-sm">arrow_drop_down</mat-icon>
-      <div *ngIf="expandedPlayer" class="expand-options">
-        <div style="margin-bottom: 10px;" *ngIf="!data.player.active">
-          <mat-icon class="directory">subdirectory_arrow_right</mat-icon>
-          <a routerLink="/intel/player/{{data.world}}/{{data.player.id}}">
+    <li *ngIf="data.player" (mouseover)="togglePlayer(true)" (mouseleave)="togglePlayer(false)" class="relative flex min-w-0 items-center gap-1.5" [ngClass]="{'font-medium text-slate-900': data.player.active===true}">
+      <svg appIcon="player_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+      <a *ngIf="data.player.name && !data.player.active" routerLink="/intel/player/{{data.world}}/{{data.player.id}}" class="min-w-0 truncate text-slate-600 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{data.player.name}}</a>
+      <span *ngIf="data.player.active===true" class="min-w-0 truncate">{{data.player.name}}</span>
+      <svg appIcon="chevron-down" variant="micro" class="size-4 flex-none text-slate-400 max-[991px]:hidden"></svg>
+      <div *ngIf="expandedPlayer" class="absolute left-0 top-full z-[1000000] pt-1">
+        <div class="min-w-[220px] rounded-lg bg-white p-1.5 text-left shadow-lg ring-1 ring-slate-900/5">
+          <a *ngIf="!data.player.active" routerLink="/intel/player/{{data.world}}/{{data.player.id}}" class="flex items-center justify-between gap-3 whitespace-nowrap rounded-md px-2.5 py-1.5 text-sm font-normal text-slate-700 hover:bg-slate-50 hover:text-brand-800 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-700">
             View player intel
-            <mat-icon>launch</mat-icon>
+            <svg appIcon="arrow-top-right-on-square" variant="micro" class="size-3.5 flex-none text-slate-400"></svg>
           </a>
-        </div>
-        <div>
-          <mat-icon class="directory">subdirectory_arrow_right</mat-icon>
-          <a routerLink="/player" [queryParams]="{world: data.world, id: data.player.id}">
+          <a routerLink="/player" [queryParams]="{world: data.world, id: data.player.id}" class="flex items-center justify-between gap-3 whitespace-nowrap rounded-md px-2.5 py-1.5 text-sm font-normal text-slate-700 hover:bg-slate-50 hover:text-brand-800 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-700">
             View player statistics
-            <mat-icon>launch</mat-icon>
+            <svg appIcon="arrow-top-right-on-square" variant="micro" class="size-3.5 flex-none text-slate-400"></svg>
           </a>
         </div>
       </div>
     </li>
-
-    <!-- Town -->
-    <li class="breadcrumb-item" aria-current="page" *ngIf="data.town" [ngClass]="{'active': data.town.active===true}">
-      <img src="../../../assets/images/town_ico.png" style="height: 20px; margin-top: -1px;"/>
-      <a *ngIf="data.town.name && !data.town.active" routerLink="/intel/town/{{data.world}}/{{data.town.id}}">
-        &nbsp;{{data.town.name}}
-      </a>
-      <span *ngIf="data.town.active===true">
-        &nbsp;{{data.town.name}}
-      </span>
+    <li *ngIf="data.town" aria-current="page" class="flex min-w-0 items-center gap-1.5" [ngClass]="{'font-medium text-slate-900': data.town.active===true}">
+      <svg appIcon="town_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+      <a *ngIf="data.town.name && !data.town.active" routerLink="/intel/town/{{data.world}}/{{data.town.id}}" class="min-w-0 truncate text-slate-600 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{data.town.name}}</a>
+      <span *ngIf="data.town.active===true" class="min-w-0 truncate">{{data.town.name}}</span>
     </li>
-
   </ol>
 
   <ol class="breadcrumb" *ngIf="type == 'ops'">

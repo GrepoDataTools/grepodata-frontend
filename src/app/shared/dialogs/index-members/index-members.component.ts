@@ -33,6 +33,12 @@ export class IndexMembersDialog {
   readonly ROLE_OWNER = environment.ROLE_OWNER;
   readonly ROLE_READ = environment.ROLE_READ;
   readonly ROLE_WRITE = environment.ROLE_WRITE;
+  readonly roleOptions = [
+    {role: this.ROLE_READ, label: 'Read only', description: 'Can browse the intel in this team. Users with read access can also contribute to operations.'},
+    {role: this.ROLE_WRITE, label: 'Member', description: 'Default role for new members: can index new reports and add town notes.'},
+    {role: this.ROLE_ADMIN, label: 'Admin', description: 'Can change the team settings, share the team with new users and remove users from the team.'},
+    {role: this.ROLE_OWNER, label: 'Owner', description: 'Full control over the team and its settings.'},
+  ];
 
   constructor(
     public dialogRef: MatDialogRef<IndexMembersDialog>,
@@ -115,6 +121,19 @@ export class IndexMembersDialog {
           }
         );
     });
+  }
+
+  isRoleLocked(user): boolean {
+    return user.user_id === this.my_id || ((user.role == this.ROLE_ADMIN || user.role == this.ROLE_OWNER) && this.my_role != '' && this.my_role != this.ROLE_OWNER);
+  }
+
+  setUserRole(user, role) {
+    const roles = [this.ROLE_READ, this.ROLE_WRITE, this.ROLE_ADMIN, this.ROLE_OWNER];
+    const current = roles.indexOf(user.role);
+    const target = roles.indexOf(role);
+    if (target !== current) {
+      this.toggleUserRole(user, target > current ? role : roles[target + 1]);
+    }
   }
 
   public showConfirmDialog(user): void {

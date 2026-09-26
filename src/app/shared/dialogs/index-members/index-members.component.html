@@ -52,10 +52,7 @@
               </span>
             </span>
           </th>
-          <th scope="col" class="px-3 py-2.5 text-left text-xs font-semibold text-slate-700 text-center" matTooltip="Remove a user to deny their read access to this team. Users with read access can also contribute to operations.">Can read</th>
-          <th scope="col" class="px-3 py-2.5 text-left text-xs font-semibold text-slate-700 text-center" matTooltip="Default role for new members: these users can index new reports and add town notes">Can contribute</th>
-          <th scope="col" class="px-3 py-2.5 text-left text-xs font-semibold text-slate-700 text-center" matTooltip="Team admins can change the index settings. They can also share the team with new users or remove users from the team.">Can manage team settings</th>
-          <th scope="col" class="px-3 py-2.5 text-left text-xs font-semibold text-slate-700 text-center" matTooltip="Team owners have full control over the team and its settings.">Is team owner</th>
+          <th scope="col" class="px-3 py-2.5 text-left text-xs font-semibold text-slate-700">Role</th>
           <th scope="col" class="px-3 py-2.5 text-left text-xs font-semibold text-slate-700"><span class="sr-only">Remove user</span></th>
         </tr>
         </thead>
@@ -86,34 +83,12 @@
             </ng-container>
             <span *ngIf="!user.contributions" class="text-sm text-slate-400">No contributions</span>
           </td>
-          <td class="border-0 border-t border-solid border-slate-100 px-3 py-2.5 align-middle text-center" matTooltip="Read only: remove a user to deny their read access on this team">
-									<mat-checkbox [checked]="true" disabled="true"></mat-checkbox>
-								</td>
-          <td class="border-0 border-t border-solid border-slate-100 px-3 py-2.5 align-middle text-center" matTooltip="Member: these users can index new reports and add town notes"
-								>
-									<mat-checkbox
-										[checked]="[ROLE_OWNER, ROLE_ADMIN, ROLE_WRITE].includes(user.role)"
-										(click)="toggleUserRole(user, ROLE_WRITE)"
-										[disabled]="updating_roles || user.user_id === my_id || ((user.role == ROLE_ADMIN || user.role == ROLE_OWNER) && my_role != '' && my_role != ROLE_OWNER)">
-									</mat-checkbox>
-								</td>
-          <td class="border-0 border-t border-solid border-slate-100 px-3 py-2.5 align-middle text-center" matTooltip="Admin: team admins can manage other users and delete intel. They can also share the team with new users."
-								>
-									<mat-checkbox
-										[checked]="[ROLE_OWNER, ROLE_ADMIN].includes(user.role)"
-										(click)="toggleUserRole(user, ROLE_ADMIN)"
-										[disabled]="updating_roles || user.user_id === my_id || (my_role != '' && my_role != ROLE_OWNER)">
-									</mat-checkbox>
-								</td>
-          <td class="border-0 border-t border-solid border-slate-100 px-3 py-2.5 align-middle text-center"
-									matTooltip="Owner: team owners have full control over the team and its settings."
-								>
-									<mat-checkbox
-										[checked]="[ROLE_OWNER].includes(user.role)"
-										(click)="toggleUserRole(user, ROLE_OWNER)"
-										[disabled]="updating_roles || user.user_id === my_id || (my_role != '' && my_role != ROLE_OWNER)">
-									</mat-checkbox>
-								</td>
+          <td class="border-0 border-t border-solid border-slate-100 px-3 py-2.5 align-middle">
+            <button type="button" [matMenuTriggerFor]="roleMenu" [matMenuTriggerData]="{user: user}" [disabled]="updating_roles || isRoleLocked(user)" class="inline-flex h-8 w-[140px] items-center justify-between gap-2 rounded-md border-0 bg-white pl-2.5 pr-2 text-sm text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none disabled:ring-slate-200">
+              {{user.role.replace('read', 'Read only').replace('write', 'Member').replace('owner', 'Owner').replace('admin', 'Admin')}}
+              <svg [appIcon]="isRoleLocked(user) ? 'lock-closed' : 'chevron-up-down'" variant="mini" class="size-4 flex-none text-slate-400"></svg>
+            </button>
+          </td>
           <td class="border-0 border-t border-solid border-slate-100 px-3 py-2.5 align-middle pl-1 text-right" matTooltip="When you remove a user, they will no longer be able to read the intel in this team">
             <button type="button" (click)="removeUser(user)"
                     [disabled]="updating_roles || user.user_id === my_id || ((user.role == ROLE_ADMIN || user.role == ROLE_OWNER) && my_role != '' && my_role != ROLE_OWNER)"
@@ -138,3 +113,15 @@
     </div>
   </div>
 </div>
+
+<mat-menu #roleMenu="matMenu" xPosition="before" class="!min-w-[300px] !max-w-[320px] !rounded-lg">
+  <ng-template matMenuContent let-user="user">
+    <button mat-menu-item *ngFor="let option of roleOptions" type="button" (click)="setUserRole(user, option.role)" [disabled]="(option.role == ROLE_ADMIN || option.role == ROLE_OWNER) && my_role != '' && my_role != ROLE_OWNER" class="!flex !h-auto !items-start !gap-2.5 !whitespace-normal !px-3 !py-2 !leading-5 disabled:!cursor-not-allowed disabled:opacity-50" [ngClass]="{'!bg-brand-50': user.role == option.role}">
+      <svg appIcon="check" variant="mini" class="mt-0.5 size-4 flex-none text-brand-700" [ngClass]="{'invisible': user.role != option.role}"></svg>
+      <span class="min-w-0">
+        <span class="block text-sm font-medium text-slate-900">{{option.label}}</span>
+        <span class="block text-xs font-normal text-slate-500">{{option.description}}</span>
+      </span>
+    </button>
+  </ng-template>
+</mat-menu>

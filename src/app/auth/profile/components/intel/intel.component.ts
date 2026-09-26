@@ -170,6 +170,10 @@ export class IntelComponent implements OnInit {
     }
   }
 
+  sharedCount(town): number {
+    return town.shared_via_indexes.split(', ').length;
+  }
+
   saveIndexListToCache(data) {
     this.globals.set_top_indexes(data, 60 * 24 * 14)
   }

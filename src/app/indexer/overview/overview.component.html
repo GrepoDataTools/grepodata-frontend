@@ -380,42 +380,30 @@
 						</button>
 					</div>
 
-							<div class="px-5 pb-5">
-
-                <div class="index-events">
-                  <app-event-list [key]="key" [update]="update"></app-event-list>
-                </div>
-
-                <div class="index-contributors" *ngIf="contributors && contributors.length > 0">
-                  <h3>Team Contributors</h3>
-                  <div>
-                    <div class="table intel-table" id="table_contributors">
-                      <div class="row_custom header bg-gd-2" >
-                        <div class="cell">
-                          User
-                        </div>
-                        <div class="cell">
-                          Contributions
-                        </div>
-                      </div>
-
-                      <div class='row_custom' *ngFor="let user of contributors">
-                        <div class="cell contributor-user">
-                          <span class="user"><mat-icon>perm_identity</mat-icon>&nbsp;{{user.username}}</span>
-                          <br/>
-                          <span class="player"><img src="../../assets/images/player_ico.png"/>&nbsp;{{user.player_name}}</span>
-                        </div>
-                        <div class="cell contributor-count">
-                          Total: {{user.contributions}}
-                          <br/>
-                          <span class="last-contribution">Last: {{user.last_contribution | Datex : "D MMM YYYY"}}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
+					<div class="index-events px-5">
+						<app-event-list [key]="key" [update]="update"></app-event-list>
+					</div>
+					<div *ngIf="contributors && contributors.length > 0" class="mt-4 border-0 border-t border-solid border-slate-200">
+						<h3 class="m-0 px-5 pb-1 pt-4 text-base font-medium text-slate-900">Team Contributors</h3>
+						<div id="table_contributors" class="pl-5 text-sm font-normal">
+							<div *ngFor="let user of contributors" class="flex items-center gap-4 border-0 border-b border-solid border-slate-100 py-3 pr-5 last:border-b-0">
+								<div class="min-w-0">
+									<div class="flex min-w-0 items-center gap-1.5 font-medium text-slate-900">
+										<svg appIcon="user" class="size-4 flex-none text-brand-700"></svg>
+										<span class="truncate">{{user.username}}</span>
+									</div>
+									<div class="mt-0.5 flex min-w-0 items-center gap-1.5 text-xs text-slate-500">
+										<img src="../../assets/images/player_ico.png" class="size-4 flex-none"/>
+										<span class="truncate">{{user.player_name}}</span>
+									</div>
+								</div>
+								<div class="ml-auto flex-none text-right">
+									<div class="font-medium tabular-nums text-slate-900">Total: {{user.contributions}}</div>
+									<div class="mt-0.5 text-xs text-slate-500">Last: {{user.last_contribution | Datex : "D MMM YYYY"}}</div>
+								</div>
 							</div>
+						</div>
+					</div>
 				</ng-template>
 
 				<ng-template #players>

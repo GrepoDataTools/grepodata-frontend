@@ -95,13 +95,22 @@
             </button>
           </div>
 
-          <div *ngIf="indexes.length > 0" matSort (matSortChange)="sortData($event)" class="flex flex-wrap items-center gap-1">
-            <span class="mr-2 text-sm text-slate-500 max-sm:hidden">Sort by</span>
-            <div *ngFor="let column of sortColumns" [mat-sort-header]="column.id" class="group rounded-md text-sm font-medium text-slate-600 hover:bg-white hover:text-slate-900 aria-[sort=ascending]:bg-white aria-[sort=ascending]:text-slate-900 aria-[sort=ascending]:shadow-sm aria-[sort=ascending]:ring-1 aria-[sort=ascending]:ring-slate-900/[.08] aria-[sort=descending]:bg-white aria-[sort=descending]:text-slate-900 aria-[sort=descending]:shadow-sm aria-[sort=descending]:ring-1 aria-[sort=descending]:ring-slate-900/[.08] [&_.mat-sort-header-arrow]:!hidden [&_.mat-sort-header-container]:rounded-md [&_.mat-sort-header-container]:px-2.5 [&_.mat-sort-header-container]:py-1.5 [&_.mat-sort-header-content]:gap-1 [&_.mat-sort-header-container:focus-visible]:outline [&_.mat-sort-header-container:focus-visible]:outline-2 [&_.mat-sort-header-container:focus-visible]:outline-offset-2 [&_.mat-sort-header-container:focus-visible]:outline-brand-700">
-              {{column.label}}
-              <svg appIcon="chevron-up-down" variant="micro" class="size-4 flex-none text-slate-400 group-aria-[sort=ascending]:[display:none] group-aria-[sort=descending]:[display:none]"></svg>
-              <svg appIcon="arrow-up" variant="micro" class="size-4 flex-none text-slate-700 [display:none] group-aria-[sort=ascending]:[display:block]"></svg>
-              <svg appIcon="arrow-down" variant="micro" class="size-4 flex-none text-slate-700 [display:none] group-aria-[sort=descending]:[display:block]"></svg>
+          <div *ngIf="indexes.length > 0" class="flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
+            <div matSort (matSortChange)="sortData($event)" class="flex flex-wrap items-center gap-1">
+              <span class="mr-2 text-sm text-slate-500 max-sm:hidden">Sort by</span>
+              <div *ngFor="let column of sortColumns" [mat-sort-header]="column.id" class="group rounded-md text-sm font-medium text-slate-600 hover:bg-white hover:text-slate-900 aria-[sort=ascending]:bg-white aria-[sort=ascending]:text-slate-900 aria-[sort=ascending]:shadow-sm aria-[sort=ascending]:ring-1 aria-[sort=ascending]:ring-slate-900/[.08] aria-[sort=descending]:bg-white aria-[sort=descending]:text-slate-900 aria-[sort=descending]:shadow-sm aria-[sort=descending]:ring-1 aria-[sort=descending]:ring-slate-900/[.08] [&_.mat-sort-header-arrow]:!hidden [&_.mat-sort-header-container]:rounded-md [&_.mat-sort-header-container]:px-2.5 [&_.mat-sort-header-container]:py-1.5 [&_.mat-sort-header-content]:gap-1 [&_.mat-sort-header-container:focus-visible]:outline [&_.mat-sort-header-container:focus-visible]:outline-2 [&_.mat-sort-header-container:focus-visible]:outline-offset-2 [&_.mat-sort-header-container:focus-visible]:outline-brand-700">
+                {{column.label}}
+                <svg appIcon="chevron-up-down" variant="micro" class="size-4 flex-none text-slate-400 group-aria-[sort=ascending]:[display:none] group-aria-[sort=descending]:[display:none]"></svg>
+                <svg appIcon="arrow-up" variant="micro" class="size-4 flex-none text-slate-700 [display:none] group-aria-[sort=ascending]:[display:block]"></svg>
+                <svg appIcon="arrow-down" variant="micro" class="size-4 flex-none text-slate-700 [display:none] group-aria-[sort=descending]:[display:block]"></svg>
+              </div>
+            </div>
+            <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-slate-600">
+              <span class="text-slate-500 max-sm:hidden">Total reports split:</span>
+              <span class="inline-flex flex-none items-center gap-1.5 whitespace-nowrap"><span class="size-2.5 flex-none rounded-[3px] bg-report-friendly"></span>Our attacks</span>
+              <span class="inline-flex flex-none items-center gap-1.5 whitespace-nowrap"><span class="size-2.5 flex-none rounded-[3px] bg-report-enemy"></span>Attacks on us</span>
+              <span class="inline-flex flex-none items-center gap-1.5 whitespace-nowrap"><span class="size-2.5 flex-none rounded-[3px] bg-report-spy"></span>Spy reports</span>
+              <span class="inline-flex flex-none items-center gap-1.5 whitespace-nowrap"><span class="size-2.5 flex-none rounded-[3px] bg-report-other"></span>Other</span>
             </div>
           </div>
 
@@ -171,7 +180,22 @@
       <div class="flex min-h-11 items-center justify-between gap-4 py-2.5 pr-5">
         <dt class="flex-none font-normal text-slate-500">Total reports</dt>
         <dd class="m-0 flex min-w-0 items-center gap-2.5 font-medium tabular-nums" [ngClass]="index.world_stopped ? 'text-slate-500' : 'text-slate-900'">
+          <span *ngIf="index.stats?.total_reports > 0" role="img" [attr.aria-label]="reportSplit(index.stats)" title="{{reportSplit(index.stats)}}" class="flex h-1.5 w-16 flex-none gap-0.5 overflow-hidden rounded-full" [ngClass]="{'opacity-50': index.world_stopped}">
+            <span *ngIf="index.stats.friendly_attacks > 0" class="basis-0 bg-report-friendly" [style.flex-grow]="index.stats.friendly_attacks"></span>
+            <span *ngIf="index.stats.enemy_attacks > 0" class="basis-0 bg-report-enemy" [style.flex-grow]="index.stats.enemy_attacks"></span>
+            <span *ngIf="index.stats.spy_reports > 0" class="basis-0 bg-report-spy" [style.flex-grow]="index.stats.spy_reports"></span>
+            <span *ngIf="otherReports(index.stats) > 0" class="basis-0 bg-report-other" [style.flex-grow]="otherReports(index.stats)"></span>
+          </span>
           <span *ngIf="index.stats && index.stats.total_reports>=0">{{index.stats.total_reports | NumberFilter}}</span>
+        </dd>
+      </div>
+      <div class="flex min-h-11 items-center justify-between gap-4 border-0 border-t border-solid border-slate-100 py-2.5 pr-5">
+        <dt class="flex-none font-normal text-slate-500">Last report</dt>
+        <dd class="m-0 min-w-0">
+          <span *ngIf="index.stats?.latest_report" title="Last report {{index.stats.latest_report}}" class="inline-flex items-center gap-1.5 whitespace-nowrap tabular-nums" [ngClass]="isStale(index) ? 'font-medium text-amber-700' : (index.world_stopped ? 'text-slate-500' : 'text-slate-700')">
+            <svg appIcon="clock" class="size-4 flex-none" [ngClass]="isStale(index) ? 'text-amber-500' : 'text-slate-400'"></svg>
+            {{index.world_stopped ? (index.stats.latest_report | Datex : 'D MMM YYYY') : reportAge(index)}}
+          </span>
         </dd>
       </div>
       <div class="flex min-h-11 items-center justify-between gap-4 border-0 border-t border-solid border-slate-100 py-2.5 pr-5">

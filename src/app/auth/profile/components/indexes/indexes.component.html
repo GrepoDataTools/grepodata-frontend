@@ -105,97 +105,117 @@
             </div>
           </div>
 
-					<div *ngIf="indexes.length > 0" class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
-
-						<div class="indexes-table">
-							<table class="table">
-								<thead>
-								<tr>
-									<th scope="col">Team name</th>
-									<!--<th scope="col">Key (old)</th>-->
-									<th scope="col" class="hidden-xs hidden-sm hidden-md">World</th>
-									<th scope="col" class="hidden-xs hidden-sm hidden-md">Total reports</th>
-									<th scope="col" class="hidden-xs hidden-sm">Contributors</th>
-									<th style="text-align: center !important;" scope="col" class="hidden-xs hidden-sm">
-										Contribute <mat-icon class="mat-icon-title-inline a-link" matTooltip="If you enable this toggle, your collected intell will be shared with this team. If you disable this option, you can still read the intel collected by the other team members but your own collected intel will not be shared with the other players in this team.">help_outline</mat-icon>
-									</th>
-									<th scope="col" class="hidden-xs hidden-sm hidden-md">
-										Your role <mat-icon class="mat-icon-title-inline a-link" matTooltip="Only the owners or admins of an team can change the team settings. Members can add new intel. And read only access means you can not add new intel but you can still browse the intel in this team.">help_outline</mat-icon>
-									</th>
-									<th scope="col" class="text-right btn-column-th settings">Settings</th>
-									<th scope="col" class="text-right btn-column-th actions hidden-xs">Actions</th>
-								</tr>
-								</thead>
-								<tbody>
-								<tr *ngFor="let index of indexes; let i = index;" class="index-row" [ngClass]="{'inactive-index-row': index.world_stopped}">
-                  <ng-container *ngIf="
-                    (!filter_index_name || index.name.includes(filter_index_name)) &&
-                    (!filter_index_owners || hasOwnerFilter(index)) &&
-                    (!filter_world || index.world == filter_world) &&
-                    (!filter_role || index.role == filter_role) &&
-                    (!index.world_stopped || show_stopped_worlds)
-                  ">
-									<td style="text-align: left !important;" (click)="routing('/profile/team/' + index.key)">
-										<a><mat-icon style="opacity: 1; vertical-align: sub;">group</mat-icon> {{index.name || index.key}}</a>
-                    <div class="hidden-lg">
-                      <div [outerHTML]="index.world | WorldNamePipe"></div>
-                    </div>
-                    <div class="hidden-md hidden-lg">
-                      <div *ngFor="let owner of index.stats.owners; let i = index;">
-                        <img src="../../assets/images/ally_ico.png"/> {{owner.alliance_name}}
-                      </div>
-                    </div>
-									</td>
-									<td (click)="routing('/profile/team/' + index.key)" class="hidden-xs hidden-sm hidden-md">
-										<div *ngIf="!index.world_stopped" [outerHTML]="index.world | WorldNamePipe"></div>
-                    <span *ngIf="index.world_stopped">{{index.world}}&nbsp;<strong>(FINISHED)</strong></span>
-                  </td>
-									<td (click)="routing('/profile/team/' + index.key)" class="hidden-xs hidden-sm hidden-md">
-                    <div *ngIf="index.stats && index.stats.total_reports>=0">{{index.stats.total_reports}}</div>
-									</td>
-									<td style="padding: 0 !important; font-size: 14px; vertical-align: middle;" (click)="routing('/profile/team/' + index.key)" class="hidden-xs hidden-sm">
-										<div *ngFor="let owner of index.stats.owners; let i = index;">
-											<img src="../../assets/images/ally_ico.png"/> {{owner.alliance_name}}
-										</div>
-									</td>
-									<td style="text-align: center !important;" class="hidden-xs hidden-sm">
-										<!--<mat-slide-toggle [ngModel]="index.contribute" (ngModelChange)="enableContributions(index)">Share my intel with this index</mat-slide-toggle>-->
-										<mat-checkbox *ngIf="index.role!='read' && !index.world_stopped" [checked]="index.contribute" (click)="enableContributions(index)"></mat-checkbox>
-                    <span *ngIf="index.role=='read' && !index.world_stopped"><mat-checkbox [checked]="false" disabled="true"></mat-checkbox></span>
-									</td>
-									<td (click)="routing('/profile/team/' + index.key)" class="hidden-xs hidden-sm hidden-md">
-										{{index.role
-										.replace('read', 'Read only')
-										.replace('write', 'Member')
-										.replace('owner', 'Owner')
-										.replace('admin', 'Admin')
-										}}
-									</td>
-									<td style="text-align: right !important;">
-                    <div class="index-actions hidden-sm hidden-md hidden-lg">
-                      <button routerLink="/profile/team/{{index.key}}" class="btn btn-success mr-1 index-btn-browse">Browse <mat-icon>launch</mat-icon></button>
-                    </div>
-										<div class="index-actions" *ngIf="(index.role === ROLE_ADMIN || index.role === ROLE_OWNER) && !index.world_stopped">
-											<button class="btn btn-secondary mr-1 index-btn-users" (click)="openIndexMembers(index)">Users <mat-icon>admin_panel_settings</mat-icon></button>
-											<button class="btn btn-secondary mr-1 index-btn-settings" (click)="openIndexSettings(index)">Settings <mat-icon>settings</mat-icon></button>
-                      <button class="btn btn-primary mr-1 index-btn-share" (click)="openShareIndexDialog(index)">Share <mat-icon>group_add</mat-icon></button>
-										</div>
-                  </td>
-									<td style="text-align: right !important;" class="hidden-xs">
-										<div class="index-actions">
-											<button routerLink="/profile/team/{{index.key}}" class="btn btn-success mr-1 index-btn-browse">Browse <mat-icon>launch</mat-icon></button>
-											<button (click)="leaveIndex(index)" class="btn btn-danger mr-1 index-btn-leave">Leave <mat-icon>delete_forever</mat-icon></button>
-										</div>
-									</td>
-                  </ng-container>
-								</tr>
-								</tbody>
-							</table>
-						</div>
-
-					</div>
+          <div *ngIf="indexes.length > 0" class="grid grid-cols-[repeat(auto-fill,minmax(min(100%,320px),1fr))] gap-6 max-sm:gap-4">
+            <ng-container *ngFor="let index of indexes">
+              <ng-container *ngIf="
+                (!filter_index_name || index.name.includes(filter_index_name)) &&
+                (!filter_index_owners || hasOwnerFilter(index)) &&
+                (!filter_world || index.world == filter_world) &&
+                (!filter_role || index.role == filter_role) &&
+                (!index.world_stopped || show_stopped_worlds)
+              ">
+                <ng-container *ngTemplateOutlet="teamCard; context: {$implicit: index}"></ng-container>
+              </ng-container>
+            </ng-container>
+            <button *ngIf="confirmed && !loading" type="button" (click)="newIndex()" class="flex min-h-[200px] flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed border-slate-300 bg-transparent p-6 text-center hover:border-brand-600 hover:bg-brand-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+              <span class="flex size-12 items-center justify-center rounded-full bg-brand-50 text-brand-700">
+                <svg appIcon="plus" class="size-6"></svg>
+              </span>
+              <span class="text-sm font-semibold text-slate-900">Create a new team</span>
+              <span class="max-w-[240px] text-sm font-normal text-slate-500">Share a collection of enemy intel with your alliance, or ask your allies for an invite to theirs.</span>
+            </button>
+          </div>
 
 </div>
+
+<ng-template #teamCard let-index>
+  <article class="flex flex-col overflow-hidden rounded-xl" [ngClass]="index.world_stopped ? 'bg-slate-50 ring-1 ring-inset ring-slate-200' : 'bg-white shadow-sm ring-1 ring-slate-900/[.08]'">
+    <div class="flex items-start gap-3 border-0 border-b border-solid border-slate-100 py-4 pl-5 pr-4">
+      <span class="flex size-10 flex-none items-center justify-center rounded-lg" [ngClass]="index.world_stopped ? 'bg-slate-100 text-slate-400' : 'bg-navy-800 text-brand-500'">
+        <svg appIcon="user-group" class="size-6"></svg>
+      </span>
+      <div class="min-w-0 flex-1">
+        <a routerLink="/profile/team/{{index.key}}" class="block truncate text-base font-semibold hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="index.world_stopped ? 'text-slate-500 hover:text-slate-700' : 'text-slate-900 hover:text-brand-800'">{{index.name || index.key}}</a>
+        <div *ngIf="!index.world_stopped" class="mt-0.5 truncate text-sm text-slate-600 [&_.bg-flag]:[zoom:0.625]"><span [outerHTML]="index.world | WorldNamePipe"></span></div>
+        <div *ngIf="index.world_stopped" class="mt-0.5 text-sm text-slate-500">{{index.world}}</div>
+      </div>
+      <span *ngIf="!index.world_stopped" matTooltip="Only the owners or admins of an team can change the team settings. Members can add new intel. And read only access means you can not add new intel but you can still browse the intel in this team." class="mt-0.5 inline-flex flex-none items-center rounded-md px-2 py-0.5 text-xs font-medium ring-1 ring-inset" [ngClass]="{'bg-brand-50 text-brand-700 ring-brand-700/20': index.role == 'owner', 'bg-sky-50 text-sky-800 ring-sky-700/20': index.role == 'admin', 'bg-slate-100 text-slate-700 ring-slate-600/[.16]': index.role == 'write', 'bg-amber-50 text-amber-800 ring-amber-600/25': index.role == 'read'}">
+        {{index.role.replace('read', 'Read only').replace('write', 'Member').replace('owner', 'Owner').replace('admin', 'Admin')}}
+      </span>
+      <span *ngIf="index.world_stopped" class="mt-0.5 inline-flex flex-none items-center gap-1 rounded-md bg-slate-100 px-1.5 py-0.5 text-xs font-medium text-slate-600 ring-1 ring-inset ring-slate-600/[.12]">
+        <svg appIcon="archive-box" variant="micro" class="size-3 flex-none"></svg>
+        Finished
+      </span>
+    </div>
+    <dl class="m-0 pl-5 text-sm">
+      <div class="flex min-h-11 items-center justify-between gap-4 py-2.5 pr-5">
+        <dt class="flex-none font-normal text-slate-500">Total reports</dt>
+        <dd class="m-0 flex min-w-0 items-center gap-2.5 font-medium tabular-nums" [ngClass]="index.world_stopped ? 'text-slate-500' : 'text-slate-900'">
+          <span *ngIf="index.stats && index.stats.total_reports>=0">{{index.stats.total_reports | NumberFilter}}</span>
+        </dd>
+      </div>
+      <div class="flex min-h-11 items-center justify-between gap-4 border-0 border-t border-solid border-slate-100 py-2.5 pr-5">
+        <dt class="flex-none font-normal text-slate-500">Contributors</dt>
+        <dd class="m-0 flex min-w-0 items-center gap-1.5" [ngClass]="index.world_stopped ? 'text-slate-500' : 'text-slate-700'">
+          <ng-container *ngIf="index.stats?.owners?.length > 0">
+            <svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+            <span class="truncate">{{index.stats.owners[0].alliance_name}}</span>
+            <span *ngIf="index.stats.owners.length > 1" [matTooltip]="otherOwners(index)" class="flex-none rounded-full bg-slate-100 px-1.5 text-xs font-medium leading-[18px] text-slate-600">+{{index.stats.owners.length - 1}}</span>
+          </ng-container>
+        </dd>
+      </div>
+      <div *ngIf="!index.world_stopped" class="flex min-h-11 items-center justify-between gap-4 border-0 border-t border-solid border-slate-100 py-2.5 pr-5">
+        <dt class="flex flex-none items-center gap-1 font-normal text-slate-500">
+          Contribute
+          <span class="inline-flex text-slate-400" matTooltip="If you enable this toggle, your collected intell will be shared with this team. If you disable this option, you can still read the intel collected by the other team members but your own collected intel will not be shared with the other players in this team.">
+            <svg appIcon="question-mark-circle" class="size-4"></svg>
+          </span>
+        </dt>
+        <dd class="m-0 flex">
+          <label *ngIf="index.role!='read'" class="relative m-0 inline-flex cursor-pointer">
+            <input type="checkbox" role="switch" class="peer sr-only" [attr.aria-label]="'Contribute to ' + index.name" [checked]="index.contribute" (click)="enableContributions(index)">
+            <span class="relative h-5 w-9 flex-none rounded-full bg-slate-200 transition-colors after:absolute after:left-0.5 after:top-0.5 after:size-4 after:rounded-full after:bg-white after:shadow-sm after:transition-transform after:content-[''] peer-checked:bg-brand-700 peer-checked:after:translate-x-4 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand-700"></span>
+          </label>
+          <label *ngIf="index.role=='read'" class="relative m-0 inline-flex cursor-not-allowed">
+            <input type="checkbox" role="switch" class="peer sr-only" [attr.aria-label]="'Contribute to ' + index.name" [checked]="false" disabled="true">
+            <span class="relative h-5 w-9 flex-none rounded-full bg-slate-100 after:absolute after:left-0.5 after:top-0.5 after:size-4 after:rounded-full after:bg-white after:shadow-sm after:content-['']"></span>
+          </label>
+        </dd>
+      </div>
+      <div *ngIf="index.world_stopped" class="flex min-h-11 items-center justify-between gap-4 border-0 border-t border-solid border-slate-100 py-2.5 pr-5">
+        <dt class="flex-none font-normal text-slate-500">Your role</dt>
+        <dd class="m-0">
+          <span class="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-500 ring-1 ring-inset ring-slate-600/[.12]">
+            {{index.role.replace('read', 'Read only').replace('write', 'Member').replace('owner', 'Owner').replace('admin', 'Admin')}}
+          </span>
+        </dd>
+      </div>
+    </dl>
+    <div class="mt-auto flex items-center gap-2 border-0 border-t border-solid border-slate-200 py-3 pl-5 pr-3">
+      <a routerLink="/profile/team/{{index.key}}" class="inline-flex items-center gap-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 hover:text-slate-900 hover:no-underline focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+        Browse
+        <svg appIcon="arrow-right" variant="mini" class="size-4 flex-none text-slate-400"></svg>
+      </a>
+      <div class="ml-auto flex items-center gap-0.5">
+        <ng-container *ngIf="(index.role === ROLE_ADMIN || index.role === ROLE_OWNER) && !index.world_stopped">
+          <button type="button" (click)="openIndexMembers(index)" matTooltip="Users" aria-label="Users" class="inline-flex size-8 items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+            <svg appIcon="shield-check" class="size-5"></svg>
+          </button>
+          <button type="button" (click)="openIndexSettings(index)" matTooltip="Settings" aria-label="Settings" class="inline-flex size-8 items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+            <svg appIcon="cog-6-tooth" class="size-5"></svg>
+          </button>
+          <button type="button" (click)="openShareIndexDialog(index)" matTooltip="Share" aria-label="Share" class="inline-flex size-8 items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+            <svg appIcon="user-plus" class="size-5"></svg>
+          </button>
+          <span class="mx-1 h-5 w-px bg-slate-200"></span>
+        </ng-container>
+        <button type="button" (click)="leaveIndex(index)" matTooltip="Leave" aria-label="Leave" class="inline-flex size-8 items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-rose-50 hover:text-rose-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+          <svg appIcon="arrow-right-start-on-rectangle" class="size-5"></svg>
+        </button>
+      </div>
+    </div>
+  </article>
+</ng-template>
 
 <div class="m-[22px]" *ngIf="indexes.length > 0">
   <app-event-list [update]="true"></app-event-list>

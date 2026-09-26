@@ -388,6 +388,10 @@ export class IndexesComponent implements OnInit, OnDestroy {
     return [...new Set(this.indexes.map(item => item.world))];
   }
 
+  otherOwners(index): string {
+    return index.stats.owners.slice(1).map(owner => owner.alliance_name).join(', ');
+  }
+
   donate() {
     const dialogRef = this.dialog.open(DonateDialog, {
       autoFocus: false,

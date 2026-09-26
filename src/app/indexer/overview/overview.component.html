@@ -197,7 +197,7 @@
           <div class="flex min-h-[61px] items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 px-5 py-4">
             <h3 class="m-0 text-base font-medium text-slate-900">Latest reports indexed</h3>
           </div>
-          <table id="table_all" class="w-full table-fixed border-separate border-spacing-0 font-normal">
+          <table id="table_all" class="w-full table-fixed border-separate border-spacing-0 text-left font-normal">
             <colgroup>
               <col class="w-16">
               <col class="w-[34%]">
@@ -366,7 +366,7 @@
 						</button>
 					</div>
 
-					<div class="index-events px-5">
+					<div class="mt-2.5 px-5">
 						<app-event-list [key]="key" [update]="update"></app-event-list>
 					</div>
 					<div *ngIf="contributors && contributors.length > 0" class="mt-4 border-0 border-t border-solid border-slate-200">
@@ -401,7 +401,7 @@
 						</button>
 					</div>
 					<div class="gd-scrollbar overflow-y-auto lg:max-h-[312px]">
-						<table id="table_players" class="w-full table-fixed border-separate border-spacing-0 font-normal">
+						<table id="table_players" class="w-full table-fixed border-separate border-spacing-0 text-left font-normal">
 							<colgroup>
 								<col>
 								<col class="w-24">
@@ -445,7 +445,7 @@
 						</button>
 					</div>
 					<div class="gd-scrollbar overflow-y-auto lg:max-h-[312px]">
-						<table id="table_alliances" class="w-full table-fixed border-separate border-spacing-0 font-normal">
+						<table id="table_alliances" class="w-full table-fixed border-separate border-spacing-0 text-left font-normal">
 							<colgroup>
 								<col>
 								<col class="w-24">

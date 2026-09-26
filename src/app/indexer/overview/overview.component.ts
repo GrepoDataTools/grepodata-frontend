@@ -19,7 +19,6 @@ import {IndexerOverviewService, IntelMovementKeys} from './overview.service';
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
-  styleUrls: ['./overview.component.scss'],
   providers: [IndexerService, LocalCacheService, WorldService, IndexerOverviewService],
 })
 export class OverviewComponent implements OnInit, OnDestroy, OnInit {

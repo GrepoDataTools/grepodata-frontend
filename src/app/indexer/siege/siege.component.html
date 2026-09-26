@@ -381,25 +381,29 @@
 			</ng-container>
 		</div>
 
-		<div class="grid grid-cols-2 gap-4 px-4 pb-4 pt-3">
-			<div class="min-w-0">
-				<p class="m-0 text-xs font-medium text-slate-500">Attacker losses</p>
-				<p class="mb-2 mt-0.5 text-sm font-medium tabular-nums text-emerald-700">+{{conquest.total_bp_att | NumberFilter}} BP</p>
-				<div class="flex flex-wrap gap-x-1 gap-y-2">
+		<div class="px-4 pb-4 pt-3">
+			<div class="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3">
+				<div class="min-w-0">
+					<p class="m-0 text-xs font-medium text-slate-500">Attacker losses</p>
+					<p class="mb-0 mt-0.5 text-sm font-medium tabular-nums text-emerald-700">+{{conquest.total_bp_att | NumberFilter}} BP</p>
+				</div>
+				<div *ngIf="average_luck!=null" matTooltip="Average Attacker Luck: {{average_luck | number : '1.1-1'}}%" class="flex h-8 flex-none flex-col items-center justify-center rounded-md bg-slate-100 px-1.5 ring-1 ring-inset ring-slate-200">
+					<span class="text-[10px] leading-3 text-slate-500">Luck</span>
+					<span class="whitespace-nowrap text-[10px] font-medium leading-3 tabular-nums text-slate-700">{{average_luck | number : '1.1-1'}}%</span>
+				</div>
+				<div class="col-start-3 min-w-0 text-right">
+					<p class="m-0 text-xs font-medium text-slate-500">Defender losses</p>
+					<p class="mb-0 mt-0.5 text-sm font-medium tabular-nums text-emerald-700">+{{conquest.total_bp_def | NumberFilter}} BP</p>
+				</div>
+			</div>
+			<div class="mt-2 grid grid-cols-2 gap-4">
+				<div class="flex min-w-0 flex-wrap gap-x-1 gap-y-2">
 					<div *ngFor="let unit of objectKeys(conquest.total_losses_att)" class="relative size-8 flex-none">
 						<div class="unit_icon40x40 {{unit}} origin-top-left scale-[.8] rounded-md border-0"></div>
 						<span class="absolute -bottom-px left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-slate-900/[.72] px-1 text-[10px] font-medium leading-[13px] tabular-nums text-white">{{conquest.total_losses_att[unit]}}</span>
 					</div>
-					<div *ngIf="average_luck!=null" matTooltip="Average Attacker Luck: {{average_luck | number : '1.1-1'}}%" class="flex h-8 flex-none flex-col items-center justify-center rounded-md bg-slate-100 px-1.5 ring-1 ring-inset ring-slate-200">
-						<span class="text-[10px] leading-3 text-slate-500">Luck</span>
-						<span class="whitespace-nowrap text-[10px] font-medium leading-3 tabular-nums text-slate-700">{{average_luck | number : '1.1-1'}}%</span>
-					</div>
 				</div>
-			</div>
-			<div class="min-w-0 text-right">
-				<p class="m-0 text-xs font-medium text-slate-500">Defender losses</p>
-				<p class="mb-2 mt-0.5 text-sm font-medium tabular-nums text-emerald-700">+{{conquest.total_bp_def | NumberFilter}} BP</p>
-				<div class="flex flex-wrap justify-end gap-x-1 gap-y-2">
+				<div class="flex min-w-0 flex-wrap justify-end gap-x-1 gap-y-2">
 					<ng-container *ngFor="let unit of objectKeys(conquest.total_losses_def)">
 						<div *ngIf="conquest.total_losses_def[unit] > 20 || objectKeys(conquest.total_losses_def).length <= 5 || unit=='colonize_ship'" class="relative size-8 flex-none">
 							<div class="unit_icon40x40 {{unit}} origin-top-left scale-[.8] rounded-md border-0"></div>

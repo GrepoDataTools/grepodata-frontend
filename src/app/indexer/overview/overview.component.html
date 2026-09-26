@@ -462,14 +462,19 @@
 								<tr *ngFor="let player of data.players_indexed; let i = index" class="hover:bg-slate-50">
 									<td class="border-0 border-b border-solid border-slate-100 py-2.5 align-middle pl-5 pr-2 text-right text-xs font-medium tabular-nums" [ngClass]="i < 3 ? 'text-slate-900' : 'text-slate-400'">{{i + 1}}</td>
 									<td class="border-0 border-b border-solid border-slate-100 py-2.5 align-middle max-w-0 px-3">
-										<a routerLink="/intel/player/{{world}}/{{player?.player_id}}" title="{{player?.player_name}}" class="block truncate text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{player?.player_name}}</a>
-										<span *ngIf="player.alliance_name" class="flex min-w-0 items-center gap-1 text-xs text-slate-500">
+										<ng-container *ngIf="player.player_id == 0">
+											<a routerLink="/intel/player/{{world}}/{{player?.player_id}}" title="Towns without an owner" class="block truncate text-sm font-medium italic text-slate-600 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Ghost towns</a>
+											<span class="block text-xs text-slate-500">No owner</span>
+										</ng-container>
+										<a *ngIf="player.player_id != 0" routerLink="/intel/player/{{world}}/{{player?.player_id}}" title="{{player?.player_name}}" class="block truncate text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{player?.player_name}}</a>
+										<span *ngIf="player.player_id != 0 && player.alliance_name" class="flex min-w-0 items-center gap-1 text-xs text-slate-500">
 											<img src="../../assets/images/ally_ico.png" class="size-4 flex-none"/>
 											<span class="truncate">{{player.alliance_name}}</span>
 										</span>
 									</td>
 									<td class="border-0 border-b border-solid border-slate-100 py-2.5 align-middle px-3">
-										<div *ngIf="player.towns" class="flex items-center gap-2.5" title="{{player.towns_indexed}} of {{player.towns}} towns have at least one report">
+										<span *ngIf="player.player_id == 0" class="text-xs text-slate-400">—</span>
+										<div *ngIf="player.player_id != 0 && player.towns" class="flex items-center gap-2.5" title="{{player.towns_indexed}} of {{player.towns}} towns have at least one report">
 											<div class="h-1.5 w-[72px] flex-none overflow-hidden rounded-full bg-slate-100">
 												<div class="h-1.5 rounded-full bg-brand-600" [style.width.%]="share(player.towns_indexed, player.towns)"></div>
 											</div>
@@ -492,7 +497,7 @@
 										</span>
 									</td>
 									<td class="border-0 border-b border-solid border-slate-100 py-2.5 align-middle whitespace-nowrap py-1.5 pl-1 pr-4 text-right">
-										<a routerLink="/player" [queryParams]="{world: world, id: player?.player_id}" title="Stats" class="inline-flex size-7 items-center justify-center rounded-md align-middle text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+										<a *ngIf="player.player_id != 0" routerLink="/player" [queryParams]="{world: world, id: player?.player_id}" title="Stats" class="inline-flex size-7 items-center justify-center rounded-md align-middle text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
 											<svg appIcon="chart-bar" class="size-[18px] flex-none"></svg>
 											<span class="sr-only">stats</span>
 										</a>

@@ -394,9 +394,8 @@
 							</div>
 						</div>
 					</div>
-					<div *ngIf="data.total_reports > 0 && !is_admin" class="border-0 border-t border-solid border-slate-100 px-5 py-3 text-center text-sm text-brand-700">
+					<div *ngIf="data.total_reports > 0 && !is_admin && (role=='read' || (role=='write' && contribute===false))" class="border-0 border-t border-solid border-slate-100 px-5 py-3 text-center text-sm text-brand-700">
 						<strong *ngIf="role=='read'" class="font-medium">You are not allowed to contribute to this team.</strong>
-						<strong *ngIf="role=='write' && contribute===true" class="font-medium">You are currently contributing to this team.</strong>
 						<strong *ngIf="role=='write' && contribute===false" class="font-medium">You have disabled contributions to this team. The intel you collect will not be added to this team.</strong>
 					</div>
 					<div class="mt-auto grid grid-cols-1 gap-3 border-0 border-t border-solid border-slate-200 px-5 py-4 md:grid-cols-2">

@@ -102,6 +102,13 @@
 											Players
 										</span>
 									</ng-template>
+									<div class="flex items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 px-5 py-3">
+										<p class="m-0 text-sm text-slate-500">Most indexed players</p>
+										<button type="button" name="open_bb" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" (click)="openBBdialog('players_indexed')">
+											<svg appIcon="code-bracket" class="size-4 flex-none text-slate-400"></svg>
+											BB code
+										</button>
+									</div>
 									<ng-container *ngTemplateOutlet="players"></ng-container>
 								</mat-tab>
 								<mat-tab>
@@ -111,6 +118,13 @@
 											Alliances
 										</span>
 									</ng-template>
+									<div class="flex items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 px-5 py-3">
+										<p class="m-0 text-sm text-slate-500">Most indexed alliances</p>
+										<button type="button" name="open_bb" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" (click)="openBBdialog('alliances_indexed')">
+											<svg appIcon="code-bracket" class="size-4 flex-none text-slate-400"></svg>
+											BB code
+										</button>
+									</div>
 									<ng-container *ngTemplateOutlet="allys"></ng-container>
 								</mat-tab>
 								<mat-tab>
@@ -141,11 +155,32 @@
                 <div class="text-left overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
                   <ng-container *ngTemplateOutlet="info"></ng-container>
                 </div>
-                <div class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
-                  <ng-container *ngTemplateOutlet="players"></ng-container>
-                </div>
-                <div class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
-                  <ng-container *ngTemplateOutlet="allys"></ng-container>
+                <div class="col-span-2 flex flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+                  <div class="flex min-h-[61px] flex-wrap items-center gap-x-4 gap-y-2 border-0 border-b border-solid border-slate-200 px-5 py-2.5">
+                    <h3 class="m-0 text-base font-medium text-slate-900">Most indexed</h3>
+                    <div role="group" aria-label="Most indexed list" class="inline-grid grid-cols-2 gap-1 rounded-lg bg-slate-100 p-1">
+                      <button type="button" [attr.aria-pressed]="targetsTab === 'players'" (click)="targetsTab = 'players'" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 px-3 py-1.5 text-sm font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="targetsTab === 'players' ? 'bg-white text-slate-900 shadow-sm ring-1 ring-slate-900/[.08]' : 'bg-transparent text-slate-600 hover:text-slate-900'">
+                        <img src="../../assets/images/player_ico.png" class="size-4 flex-none"/>
+                        Players
+                        <span class="text-xs tabular-nums text-slate-500">{{data.players_indexed?.length}}</span>
+                      </button>
+                      <button type="button" [attr.aria-pressed]="targetsTab === 'alliances'" (click)="targetsTab = 'alliances'" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 px-3 py-1.5 text-sm font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="targetsTab === 'alliances' ? 'bg-white text-slate-900 shadow-sm ring-1 ring-slate-900/[.08]' : 'bg-transparent text-slate-600 hover:text-slate-900'">
+                        <img src="../../assets/images/ally_ico.png" class="size-4 flex-none"/>
+                        Alliances
+                        <span class="text-xs tabular-nums text-slate-500">{{data.alliances_indexed?.length}}</span>
+                      </button>
+                    </div>
+                    <button type="button" name="open_bb" class="ml-auto inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" (click)="openBBdialog(targetsTab === 'players' ? 'players_indexed' : 'alliances_indexed')">
+                      <svg appIcon="code-bracket" class="size-4 flex-none text-slate-400"></svg>
+                      BB code
+                    </button>
+                  </div>
+                  <ng-container *ngIf="targetsTab === 'players'">
+                    <ng-container *ngTemplateOutlet="players"></ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="targetsTab === 'alliances'">
+                    <ng-container *ngTemplateOutlet="allys"></ng-container>
+                  </ng-container>
                 </div>
               </div>
 
@@ -403,13 +438,6 @@
 				</ng-template>
 
 				<ng-template #players>
-					<div class="flex min-h-[61px] items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 px-5 py-4">
-						<h3 class="m-0 text-base font-medium text-slate-900">Top Players</h3>
-						<button type="button" name="open_bb" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" (click)="openBBdialog('players_indexed')">
-							<svg appIcon="code-bracket" class="size-4 flex-none text-slate-400"></svg>
-							BB code
-						</button>
-					</div>
 					<div class="gd-scrollbar overflow-y-auto lg:max-h-[312px]">
 						<table id="table_players" class="w-full table-fixed border-separate border-spacing-0 text-left font-normal">
 							<colgroup>
@@ -447,13 +475,6 @@
 				</ng-template>
 
 				<ng-template #allys>
-					<div class="flex min-h-[61px] items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 px-5 py-4">
-						<h3 class="m-0 text-base font-medium text-slate-900">Top Alliances</h3>
-						<button type="button" name="open_bb" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" (click)="openBBdialog('alliances_indexed')">
-							<svg appIcon="code-bracket" class="size-4 flex-none text-slate-400"></svg>
-							BB code
-						</button>
-					</div>
 					<div class="gd-scrollbar overflow-y-auto lg:max-h-[312px]">
 						<table id="table_alliances" class="w-full table-fixed border-separate border-spacing-0 text-left font-normal">
 							<colgroup>

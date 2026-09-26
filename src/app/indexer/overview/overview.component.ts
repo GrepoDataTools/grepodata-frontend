@@ -57,6 +57,7 @@ export class OverviewComponent implements OnInit, OnDestroy, OnInit {
   recent_conquests: any = [];
   events: any = [];
   update: any = '';
+  targetsTab = 'players';
 
   mobileQuery: MediaQueryList;
   private readonly _mediaQueryListener: () => void;

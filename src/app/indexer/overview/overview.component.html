@@ -141,10 +141,14 @@
 
               <div class="hidden-xs hidden-sm" fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="0" style="margin-bottom: -25px;">
                 <div fxFlex="50">
-                  <ng-container *ngTemplateOutlet="players"></ng-container>
+                  <div class="m-3 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+                    <ng-container *ngTemplateOutlet="players"></ng-container>
+                  </div>
                 </div>
                 <div fxFlex="50">
-                  <ng-container *ngTemplateOutlet="allys"></ng-container>
+                  <div class="m-3 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+                    <ng-container *ngTemplateOutlet="allys"></ng-container>
+                  </div>
                 </div>
               </div>
 
@@ -429,100 +433,91 @@
 				</ng-template>
 
 				<ng-template #players>
-					<mat-card class="dense-card index-card-info">
-						<mat-card-title>
-							<div class="form-group row" style='margin: 0px;'>
-								<h3 class="gd-secondary" style='font-weight: 500; margin-top: 0 !important;'>
-                  Top Players
-									<button name="open_bb" style="float: right;" class="btn btn-secondary" (click)="openBBdialog('players_indexed')">
-										<i class="fa fa-code"></i> BB code
-									</button>
-								</h3>
-							</div>
-						</mat-card-title>
-						<mat-card-content>
-							<div class="table" id="table_players" style='margin: auto; margin-bottom: 0px;'>
-								<div class="row_custom header" >
-									<div class="cell" style="width: 39%;">
-										Player
-									</div>
-									<div class="cell" style="width: 22%;">
-										Intel count
-									</div>
-									<div class="cell" style="width: 30%;">
-										View
-									</div>
-								</div>
-							</div>
-							<div class="players-intel-table gd-scrollbar" style="max-height: 275px; overflow-y: auto;">
-								<div class="table" id="table_players_rows" style='margin: auto; margin-bottom: 0px;'>
-									<div class='row_custom' *ngFor="let player of data.players_indexed">
-										<div class="cell" style="width: 45%;">
-											<a routerLink="/intel/player/{{world}}/{{player?.player_id}}">{{player?.player_name}}</a>
-										</div>
-										<div class="cell" style="width: 25%;">
-											{{player.count}}
-										</div>
-										<div class="cell" style="width: 30%;">
-											<a routerLink="/intel/player/{{world}}/{{player?.player_id}}">intel</a>
-											<span class="hidden-xs">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-											<br class="hidden-sm hidden-md hidden-lg"/>
-											<a routerLink="/player" [queryParams]="{world: world, id: player?.player_id}">stats</a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</mat-card-content>
-					</mat-card>
+					<div class="flex min-h-[61px] items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 px-5 py-4">
+						<h3 class="m-0 text-base font-medium text-slate-900">Top Players</h3>
+						<button type="button" name="open_bb" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" (click)="openBBdialog('players_indexed')">
+							<svg appIcon="code-bracket" class="size-4 flex-none text-slate-400"></svg>
+							BB code
+						</button>
+					</div>
+					<div class="gd-scrollbar overflow-y-auto lg:max-h-[312px]">
+						<table id="table_players" class="w-full table-fixed border-separate border-spacing-0 font-normal">
+							<colgroup>
+								<col>
+								<col class="w-24">
+								<col class="w-20">
+							</colgroup>
+							<thead>
+								<tr>
+									<th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 pl-5 pr-3 text-left text-xs font-medium text-slate-700">Player</th>
+									<th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2.5 text-right text-xs font-medium text-slate-700">Intel count</th>
+									<th scope="col" class="sticky top-0 z-10 border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 pl-3 pr-5"><span class="sr-only">View</span></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let player of data.players_indexed" class="hover:bg-slate-50">
+									<td class="max-w-0 truncate border-0 border-b border-solid border-slate-100 py-2 pl-5 pr-3">
+										<a routerLink="/intel/player/{{world}}/{{player?.player_id}}" title="{{player?.player_name}}" class="text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{player?.player_name}}</a>
+									</td>
+									<td class="border-0 border-b border-solid border-slate-100 px-3 py-2 text-right text-sm tabular-nums text-slate-700">{{player.count}}</td>
+									<td class="whitespace-nowrap border-0 border-b border-solid border-slate-100 py-1 pl-2 pr-3.5 text-right">
+										<a routerLink="/intel/player/{{world}}/{{player?.player_id}}" title="Intel" class="inline-flex size-7 items-center justify-center rounded-md align-middle text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+											<svg appIcon="document-magnifying-glass" class="size-[18px] flex-none"></svg>
+											<span class="sr-only">intel</span>
+										</a>
+										<a routerLink="/player" [queryParams]="{world: world, id: player?.player_id}" title="Stats" class="ml-0.5 inline-flex size-7 items-center justify-center rounded-md align-middle text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+											<svg appIcon="chart-bar" class="size-[18px] flex-none"></svg>
+											<span class="sr-only">stats</span>
+										</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</ng-template>
 
 				<ng-template #allys>
-					<mat-card class="dense-card index-card-info">
-						<mat-card-title>
-							<div class="form-group row" style='margin: 0px;'>
-								<h3 class="gd-secondary" style='font-weight: 500; margin-top: 0 !important;'>
-                  Top Alliances
-									<button name="open_bb" style="float: right;" class="btn btn-secondary" (click)="openBBdialog('alliances_indexed')">
-										<i class="fa fa-code"></i> BB code
-									</button>
-								</h3>
-							</div>
-						</mat-card-title>
-						<mat-card-content>
-							<div class="table" id="table_players" style='margin: auto; margin-bottom: 0px;'>
-								<div class="row_custom header" >
-									<div class="cell" style="width: 39%;">
-										Alliance
-									</div>
-									<div class="cell" style="width: 22%;">
-										Intel count
-									</div>
-									<div class="cell" style="width: 30%;">
-										View
-									</div>
-								</div>
-							</div>
-							<div class="players-intel-table gd-scrollbar" style="max-height: 275px; overflow-y: auto;">
-								<div class="table" id="table_alliances" style='margin: auto; margin-bottom: 0px;'>
-
-									<div class='row_custom' *ngFor="let alliance of data.alliances_indexed">
-										<div class="cell">
-											<a routerLink="/intel/alliance/{{world}}/{{alliance?.alliance_id}}">{{alliance?.alliance_name}}</a>
-										</div>
-										<div class="cell">
-											{{alliance.count}}
-										</div>
-										<div class="cell">
-											<a routerLink="/intel/alliance/{{world}}/{{alliance?.alliance_id}}">intel</a>
-											<span class="hidden-xs">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-											<br class="hidden-sm hidden-md hidden-lg"/>
-											<a routerLink="/alliance" [queryParams]="{world: world, id: alliance?.alliance_id}">stats</a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</mat-card-content>
-					</mat-card>
+					<div class="flex min-h-[61px] items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 px-5 py-4">
+						<h3 class="m-0 text-base font-medium text-slate-900">Top Alliances</h3>
+						<button type="button" name="open_bb" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" (click)="openBBdialog('alliances_indexed')">
+							<svg appIcon="code-bracket" class="size-4 flex-none text-slate-400"></svg>
+							BB code
+						</button>
+					</div>
+					<div class="gd-scrollbar overflow-y-auto lg:max-h-[312px]">
+						<table id="table_alliances" class="w-full table-fixed border-separate border-spacing-0 font-normal">
+							<colgroup>
+								<col>
+								<col class="w-24">
+								<col class="w-20">
+							</colgroup>
+							<thead>
+								<tr>
+									<th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 pl-5 pr-3 text-left text-xs font-medium text-slate-700">Alliance</th>
+									<th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2.5 text-right text-xs font-medium text-slate-700">Intel count</th>
+									<th scope="col" class="sticky top-0 z-10 border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 pl-3 pr-5"><span class="sr-only">View</span></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let alliance of data.alliances_indexed" class="hover:bg-slate-50">
+									<td class="max-w-0 truncate border-0 border-b border-solid border-slate-100 py-2 pl-5 pr-3">
+										<a routerLink="/intel/alliance/{{world}}/{{alliance?.alliance_id}}" title="{{alliance?.alliance_name}}" class="text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{alliance?.alliance_name}}</a>
+									</td>
+									<td class="border-0 border-b border-solid border-slate-100 px-3 py-2 text-right text-sm tabular-nums text-slate-700">{{alliance.count}}</td>
+									<td class="whitespace-nowrap border-0 border-b border-solid border-slate-100 py-1 pl-2 pr-3.5 text-right">
+										<a routerLink="/intel/alliance/{{world}}/{{alliance?.alliance_id}}" title="Intel" class="inline-flex size-7 items-center justify-center rounded-md align-middle text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+											<svg appIcon="document-magnifying-glass" class="size-[18px] flex-none"></svg>
+											<span class="sr-only">intel</span>
+										</a>
+										<a routerLink="/alliance" [queryParams]="{world: world, id: alliance?.alliance_id}" title="Stats" class="ml-0.5 inline-flex size-7 items-center justify-center rounded-md align-middle text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+											<svg appIcon="chart-bar" class="size-[18px] flex-none"></svg>
+											<span class="sr-only">stats</span>
+										</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</ng-template>
 
 				<div *ngIf="data.total_reports == 0">

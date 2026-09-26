@@ -9,64 +9,65 @@
   </div>
 </section>
 
-<mat-card class="index-card index-card-sm" *ngIf="confirmed">
-	<h2 class="gd-secondary">
-		Your Top Teams
-		<a class="top-index-card hidden-xs hidden-sm" *ngIf="topIndexes.length > 0" routerLink="/profile/teams" style="color: #949494; font-weight: 700; font-size: 21px; right: 70px; position: absolute;">
-			View all my teams <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon>
-		</a>
-    <a class="top-index-card hidden-md hidden-lg" *ngIf="topIndexes.length > 0" routerLink="/profile/teams" style="color: #949494; font-weight: 700; font-size: 18px; margin-left: 30px;">
-      View all my teams <mat-icon style="opacity: 1; vertical-align: sub;">launch</mat-icon>
+<section *ngIf="confirmed" class="m-[22px] space-y-3 [container-type:inline-size] max-[1000px]:m-3">
+  <div class="flex items-center justify-between gap-4">
+    <h2 class="my-0 text-base font-semibold text-slate-900">Your top teams</h2>
+    <a *ngIf="topIndexes.length > 0" routerLink="/profile/teams" class="inline-flex items-center gap-1 text-sm font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+      View all my teams
+      <svg appIcon="arrow-right" variant="mini" class="size-4 flex-none"></svg>
     </a>
-	</h2>
+  </div>
 
-	<div *ngIf="loadingIndexes" style="padding: 30px;">
-		<mat-progress-bar style="margin-top: -10px;" mode="indeterminate"></mat-progress-bar>
-	</div>
+  <mat-progress-bar *ngIf="loadingIndexes" mode="indeterminate"></mat-progress-bar>
 
-	<div fxLayout="row wrap" style="margin: 0 15px;" *ngIf="!loadingIndexes && confirmed">
+  <div *ngIf="!loadingIndexes && confirmed && topIndexes.length <= 0" class="grid gap-4 sm:grid-cols-[220px_minmax(0,1fr)]">
+    <ng-container *ngTemplateOutlet="createTile"></ng-container>
+    <div class="flex gap-3 rounded-xl bg-white px-5 py-4 shadow-sm ring-1 ring-slate-900/[.08]">
+      <svg appIcon="user-group" class="size-5 flex-none text-slate-400"></svg>
+      <div class="min-w-0">
+        <p class="my-0 text-sm font-semibold text-slate-900">You have not yet created or joined any teams</p>
+        <p class="mb-0 mt-1 text-sm text-slate-600">You can create your own team and invite your allies or you can join an existing team by asking your allies to invite you.</p>
+        <p class="mb-0 mt-1 text-sm text-slate-500">You can still collect intelligence if you are not part of a team, but you will only be able to share this intel by adding it to a team.</p>
+      </div>
+    </div>
+  </div>
 
-		<div fxFlex.gt-md="16" fxFlex.gt-sm="32" fxFlex.gt-xs="100" fxFlex="100" class="top-index-card">
-			<a (click)="newIndex()" style="display: flex; height: 100%; flex-direction: column;">
-				<mat-card class="bg-primary text-white text-center top-index" style="flex: 1">
-					<div style="margin-top: 40px;">
-						<h3 class="m-0">
-							<i class="fa fa-plus"></i>
-							<br/>
-							<span class="hidden-md hidden-lg">New team</span>
-							<span class="hidden-sm hidden-xs">Create a new team</span>
-						</h3>
-					</div>
-				</mat-card>
-			</a>
-		</div>
-		<div *ngIf="!loadingIndexes && topIndexes.length <= 0" fxFlex.gt-md="84" fxFlex.gt-sm="67" fxFlex.gt-xs="100" fxFlex="100" style="padding: 10px;">
-			<app-alert type="warning" title="You have not yet created or joined any teams" [dismissible]="false">
-				<div style="min-height: 73px !important;">
-					<h4>You can create your own team and invite your allies or you can join an existing team by asking your allies to invite you.</h4>
-					<p>You can still collect intelligence if you are not part of a team, but you will only be able to share this intel by adding it to a team.</p>
-				</div>
-			</app-alert>
-		</div>
-		<ng-container *ngIf="!loadingIndexes && topIndexes.length > 0">
-			<div *ngFor="let index of topIndexes" fxFlex.gt-md="21" fxFlex.gt-sm="17" fxFlex.gt-xs="100" fxFlex="100" class="top-index-card">
-				<a routerLink="/profile/team/{{index.key}}" style="flex: 1; height: 100%; display: flex; flex-direction: column;">
-					<mat-card class="top-index-cards text-white text-center top-index" style="flex: 1">
-						<mat-icon class="launch-icon hidden-xs hidden-sm hidden-md" style="float: right;">launch</mat-icon>
-						<div>
-							<h3 class="m-0"><mat-icon style="vertical-align: sub;">group</mat-icon> {{index.name}}</h3>
-							<div [outerHTML]="index.world | WorldNamePipe"></div>
-							<div *ngFor="let owner of index.stats.owners;">
-								<img src="../../assets/images/ally_ico.png"/> {{owner.alliance_name}}
-							</div>
-              <div class="hidden-xs hidden-sm">{{index.stats.total_reports}} reports indexed</div>
-						</div>
-					</mat-card>
-				</a>
-			</div>
-		</ng-container>
-	</div>
-</mat-card>
+  <div *ngIf="!loadingIndexes && confirmed && topIndexes.length > 0" class="grid grid-cols-2 gap-4 max-sm:gap-3 [@container(min-width:640px)_and_(max-width:879px)]:grid-cols-3 [@container(min-width:880px)_and_(max-width:1099px)]:grid-cols-4 [@container(min-width:1100px)]:grid-cols-5">
+    <a *ngFor="let index of topIndexes" routerLink="/profile/team/{{index.key}}" class="group flex min-w-0 flex-col gap-3 rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-900/[.08] hover:no-underline hover:shadow-md hover:ring-slate-900/[.12] focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 max-sm:p-3">
+      <div class="flex min-w-0 items-start gap-2.5">
+        <span class="flex size-8 flex-none items-center justify-center rounded-lg bg-navy-800 text-brand-500">
+          <svg appIcon="user-group" class="size-5"></svg>
+        </span>
+        <div class="min-w-0">
+          <div class="truncate text-sm font-semibold text-slate-900 group-hover:text-brand-800 group-hover:underline">{{index.name}}</div>
+          <div class="truncate text-xs text-slate-500 [&_.bg-flag]:[zoom:0.5]"><span [outerHTML]="index.world | WorldNamePipe"></span></div>
+        </div>
+      </div>
+      <div *ngIf="index.stats?.owners?.length > 0" class="flex min-w-0 items-center gap-1.5 text-xs text-slate-600">
+        <svg appIcon="ally_ico" variant="game" class="size-3.5 flex-none text-slate-400"></svg>
+        <span class="truncate">{{index.stats.owners[0].alliance_name}}</span>
+        <span *ngIf="index.stats.owners.length > 1" [matTooltip]="otherOwners(index)" class="flex-none rounded-full bg-slate-100 px-1.5 font-medium leading-[18px] text-slate-600">+{{index.stats.owners.length - 1}}</span>
+      </div>
+      <div class="mt-auto flex flex-wrap items-center justify-between gap-x-2 gap-y-1 border-0 border-t border-solid border-slate-100 pt-2.5 text-xs text-slate-500">
+        <span><strong class="text-sm font-semibold tabular-nums text-slate-900">{{index.stats.total_reports | NumberFilter}}</strong> reports</span>
+        <span *ngIf="index.stats?.latest_report" title="Last report {{index.stats.latest_report}}" class="inline-flex items-center gap-1 whitespace-nowrap tabular-nums" [ngClass]="isStale(index) ? 'font-semibold text-amber-700' : 'text-slate-500'">
+          <svg appIcon="clock" class="size-3.5 flex-none" [ngClass]="isStale(index) ? 'text-amber-500' : 'text-slate-400'"></svg>
+          {{reportAge(index)}}
+        </span>
+      </div>
+    </a>
+    <ng-container *ngTemplateOutlet="createTile"></ng-container>
+  </div>
+</section>
+
+<ng-template #createTile>
+  <button type="button" (click)="newIndex()" class="flex min-h-[132px] flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-slate-300 bg-transparent p-4 text-center hover:border-brand-600 hover:bg-brand-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+    <span class="flex size-10 items-center justify-center rounded-full bg-brand-50 text-brand-700">
+      <svg appIcon="plus" class="size-5"></svg>
+    </span>
+    <span class="text-sm font-semibold text-slate-900">Create a new team</span>
+  </button>
+</ng-template>
 
 <div *ngIf="!loading && num_results <= 0">
   <app-userscript></app-userscript>

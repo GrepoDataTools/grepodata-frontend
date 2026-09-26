@@ -33,6 +33,8 @@ export class IntelComponent implements OnInit {
   hasIndexes = true;
   hasIntel = true;
 
+  private timezones: {[server: string]: string} = null;
+
   constructor(
     private globals: Globals,
     private authService: JwtService,
@@ -182,6 +184,40 @@ export class IntelComponent implements OnInit {
 
   getIntelListFromCache() {
     return this.globals.get_recent_intel()
+  }
+
+  otherOwners(index): string {
+    return index.stats.owners.slice(1).map(owner => owner.alliance_name).join(', ');
+  }
+
+  reportAge(index): string {
+    const minutes = this.minutesSinceLastReport(index);
+    if (minutes < 60) {
+      return minutes + 'm ago';
+    }
+    const hours = Math.floor(minutes / 60);
+    return hours < 24 ? hours + 'h ago' : Math.floor(hours / 24) + 'd ago';
+  }
+
+  isStale(index): boolean {
+    return !index.world_stopped && this.minutesSinceLastReport(index) > 1440;
+  }
+
+  private minutesSinceLastReport(index): number {
+    const latest = new Date(index.stats.latest_report.replace(' ', 'T'));
+    return Math.max(0, Math.floor((this.serverTime(index.world).getTime() - latest.getTime()) / 60000));
+  }
+
+  private serverTime(world: string): Date {
+    if (!this.timezones) {
+      const servers: any = WorldService.getLocalWorlds();
+      if (servers) {
+        this.timezones = {};
+        servers.forEach(server => this.timezones[server.server] = server.timezone);
+      }
+    }
+    const timezone = this.timezones && this.timezones[world.substring(0, 2)];
+    return timezone ? new Date(new Date().toLocaleString('sv-SE', {timeZone: timezone}).replace(' ', 'T')) : new Date();
   }
 
   donate() {

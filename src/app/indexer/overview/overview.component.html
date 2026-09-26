@@ -135,9 +135,9 @@
               <!-- This is only shown if the team is small (low number of contributors and very few reports) -->
               <div *ngIf="is_admin && contributors && contributors.length <= 1 && data.total_reports < 50" class="hidden-xs hidden-sm" fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="0" style="margin-bottom: -25px;">
                 <div fxFlex="100">
-                  <mat-card class="dense-card index-card-info" style="margin-bottom: 30px !important;">
+                  <div class="m-3 mb-9 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
                     <ng-container *ngTemplateOutlet="inviteAllies"></ng-container>
-                  </mat-card>
+                  </div>
                 </div>
               </div>
 
@@ -175,36 +175,33 @@
 				</div>
 
 				<ng-template #inviteAllies>
-          <h2 class="gd-secondary text-left" style="margin-top: 0px">
-            🤗 Invite your allies
-          </h2>
-          <app-alert class="" type="success" title="" [dismissible]="false" [showIcon]="false">
-            <div class="text-left">
-              <h5>
-                This team allows you to share collected intelligence with other users.
-                <br/>Send the following link to your allies to give them access to this team:
-              </h5>
-              <div class="" title="">
-                <div class="row">
-                  <div class="col-xs-12 gd-share-link-container" style="margin-left: -14px;">
-                    <br/>
-                    <div class="row invite-link-container" (click)="copyLink()">
-                      <input #shareLink
-                             [ngClass]="{ 'copied': copied }"
-                             [disabled]="true"
-                             class="col-xs-9 col-sm-8 col-md-7 col-lg-7 ur share-link-actual"
-                             type="url"
-                             value="https://grepodata.com/invite/{{key}}{{share_link}}"
-                             id="siegeShareUrl"
-                             aria-describedby="inputGroup-sizing-default"
-                             style="height: 40px; font-size: 20px !important; color: #009688; font-weight: 900;">
-                      <button class="cpy" (click)="copyLink()"><i class="fa fa-clone"></i> Copy</button><span class="message" *ngIf="copied"> Link copied!</span>
-                    </div>
-                  </div>
-                </div>
+          <div class="px-5 py-4 text-left">
+            <h3 class="m-0 text-base font-medium text-slate-900">🤗 Invite your allies</h3>
+            <p class="mb-0 mt-1 text-sm font-normal text-slate-600">
+              This team allows you to share collected intelligence with other users.
+              <br/>Send the following link to your allies to give them access to this team:
+            </p>
+            <div class="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2">
+              <div class="flex w-full max-w-xl cursor-pointer items-stretch" (click)="copyLink()">
+                <input #shareLink
+                       [ngClass]="copied ? 'ring-2 ring-brand-500' : 'ring-1 ring-slate-300'"
+                       [disabled]="true"
+                       class="min-w-0 flex-1 cursor-pointer rounded-l-md border-0 bg-slate-50 px-3 py-2 text-sm font-medium text-brand-700 ring-inset"
+                       type="url"
+                       value="https://grepodata.com/invite/{{key}}{{share_link}}"
+                       id="siegeShareUrl"
+                       aria-describedby="inputGroup-sizing-default">
+                <button type="button" class="inline-flex flex-none items-center gap-1.5 rounded-r-md border-0 bg-navy-800 px-3 py-2 text-sm font-medium text-white hover:bg-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" (click)="copyLink()">
+                  <svg appIcon="document-duplicate" class="size-4 flex-none"></svg>
+                  Copy
+                </button>
               </div>
+              <span *ngIf="copied" class="inline-flex items-center gap-1 text-sm font-medium text-brand-700">
+                <svg appIcon="check-circle" class="size-4 flex-none"></svg>
+                Link copied!
+              </span>
             </div>
-          </app-alert>
+          </div>
         </ng-template>
 
 				<ng-template #recentIntel>

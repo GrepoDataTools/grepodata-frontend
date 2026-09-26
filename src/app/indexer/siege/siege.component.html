@@ -359,16 +359,17 @@
 		<div class="mx-4 flex border-0 border-y border-solid border-slate-200">
 			<div class="flex min-w-0 flex-col items-center gap-0.5 px-1.5 py-2.5 text-center flex-[0.8_1_0]">
 				<span class="whitespace-nowrap text-xs text-slate-500">Attacks</span>
-				<span class="max-w-full truncate text-base font-medium tabular-nums text-slate-900">{{conquest.num_attacks_counted}}</span>
+				<span class="max-w-full truncate text-base font-semibold tabular-nums text-slate-900">{{conquest.num_attacks_counted}}</span>
+				<span *ngIf="conquest.belligerent_all?.length" class="max-w-full truncate text-xs text-slate-500">{{conquest.belligerent_all.length}} {{conquest.belligerent_all.length === 1 ? 'alliance' : 'alliances'}}</span>
 			</div>
 			<div class="flex min-w-0 flex-col items-center gap-0.5 px-1.5 py-2.5 text-center flex-[1.5_1_0] border-0 border-l border-solid border-slate-200">
 				<span class="whitespace-nowrap text-xs text-slate-500">Siege lead by</span>
-				<a *ngIf="conquest.belligerent_player_name != ''" routerLink="/player" [queryParams]="{world: world, id: conquest.belligerent_player_id}" class="max-w-full truncate text-base font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{conquest.belligerent_player_name}}</a>
+				<a *ngIf="conquest.belligerent_player_name != ''" routerLink="/player" [queryParams]="{world: world, id: conquest.belligerent_player_id}" class="max-w-full truncate text-base font-semibold text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{conquest.belligerent_player_name}}</a>
 				<a *ngIf="conquest.belligerent_alliance_name != ''" routerLink="/alliance" [queryParams]="{world: world, id: conquest.belligerent_alliance_id}" class="max-w-full truncate text-xs text-slate-500 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{conquest.belligerent_alliance_name}}</a>
 			</div>
 			<div class="flex min-w-0 flex-col items-center gap-0.5 px-1.5 py-2.5 text-center flex-[0.9_1_0] border-0 border-l border-solid border-slate-200">
 				<span class="whitespace-nowrap text-xs text-slate-500">Last attack</span>
-				<span class="max-w-full truncate text-base font-medium text-slate-900">{{conquest.last_attack_date | Datex : "D MMM"}}</span>
+				<span class="max-w-full truncate text-base font-semibold text-slate-900">{{conquest.last_attack_date | Datex : "D MMM"}}</span>
 				<span class="max-w-full truncate text-xs text-slate-500">{{conquest.last_attack_date | Datex : "YYYY"}}</span>
 			</div>
 		</div>

@@ -35,53 +35,61 @@
 	<div *ngIf="key != '' && !loading && !error">
 
     <!-- FINISHED WORLD -->
-    <app-alert *ngIf="world_stopped" title="This game world is no longer active" type="error" [dismissible]="false">
-      Game world <strong>{{world}}</strong> is finished and all detailed data related to this world has been deleted from our database. This team overview is still available but the underlying intel has been removed.
-    </app-alert>
+    <div *ngIf="world_stopped" class="m-3 flex gap-3 rounded-lg bg-rose-50 p-4 text-sm font-normal text-rose-700 ring-1 ring-inset ring-rose-600/20">
+      <svg appIcon="exclamation-circle" variant="mini" class="size-5 flex-none text-rose-500"></svg>
+      <div class="min-w-0">
+        <h3 class="m-0 text-sm font-medium text-rose-800">This game world is no longer active</h3>
+        <p class="mb-0 mt-1">Game world <strong class="font-medium">{{world}}</strong> is finished and all detailed data related to this world has been deleted from our database. This team overview is still available but the underlying intel has been removed.</p>
+      </div>
+    </div>
 
     <!-- MISSING OWNER -->
-    <app-alert *ngIf="missing_v1_owner" title="This team does not have a registered owner" type="error" [dismissible]="false">
-      This team was imported from an old index (created before April 2021). This team does not currently have an active registered owner. If you created this index, you have to register for a GrepoData account using the same email address that you used to create the index. This is the only way to become the owner of this team.
-      If this is not possible for you, please <a class="a-link-dialog" (click)="showContactDialog()">contact us</a>.
-    </app-alert>
+    <div *ngIf="missing_v1_owner" class="m-3 flex gap-3 rounded-lg bg-rose-50 p-4 text-sm font-normal text-rose-700 ring-1 ring-inset ring-rose-600/20">
+      <svg appIcon="exclamation-circle" variant="mini" class="size-5 flex-none text-rose-500"></svg>
+      <div class="min-w-0">
+        <h3 class="m-0 text-sm font-medium text-rose-800">This team does not have a registered owner</h3>
+        <p class="mb-0 mt-1">
+          This team was imported from an old index (created before April 2021). This team does not currently have an active registered owner. If you created this index, you have to register for a GrepoData account using the same email address that you used to create the index. This is the only way to become the owner of this team.
+          If this is not possible for you, please <a class="cursor-pointer font-medium text-rose-800 underline hover:text-rose-900" (click)="showContactDialog()">contact us</a>.
+        </p>
+      </div>
+    </div>
 
     <!-- UNCOMMITTED INTEL -->
-    <div *ngIf="mobileQuery.matches && contribute && commit_complete" style="padding: 8px 12px 8px;">
-      <app-alert title="Previous intel import completed" type="info" [dismissible]="false">
-        <h4><strong>Import complete.</strong> We have successfully imported your existing intel to this team.</h4>
-        <button style="!important; display: flex;" class="btn btn-secondary" (click)="commitPrevIntel('ignore')">
+    <div *ngIf="mobileQuery.matches && contribute && commit_complete" class="m-3 flex gap-3 rounded-lg bg-sky-50 p-4 text-sm font-normal text-sky-700 ring-1 ring-inset ring-sky-600/20">
+      <svg appIcon="information-circle" variant="mini" class="size-5 flex-none text-sky-500"></svg>
+      <div class="min-w-0">
+        <h3 class="m-0 text-sm font-medium text-sky-800">Previous intel import completed</h3>
+        <p class="mb-0 mt-1"><strong class="font-medium">Import complete.</strong> We have successfully imported your existing intel to this team.</p>
+        <button type="button" class="mt-3 inline-flex items-center rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" (click)="commitPrevIntel('ignore')">
           Hide this message
         </button>
-      </app-alert>
+      </div>
     </div>
-    <div *ngIf="mobileQuery.matches && has_uncommitted_intel > 5 && contribute && !commit_complete" style="padding: 8px 12px 8px;">
-      <app-alert title="You have previous intel available that can be shared with this team" type="info" [dismissible]="false">
-        <h5 *ngIf="!committing_prev_intel">Before you joined this team, you had already indexed <strong>{{has_uncommitted_intel}} reports</strong> that have not yet been shared with this team.
-          <br/>Use the button below to <strong>import your intel and share it with this team</strong>. This can not be undone.</h5>
+    <div *ngIf="mobileQuery.matches && has_uncommitted_intel > 5 && contribute && !commit_complete" class="m-3 flex gap-3 rounded-lg bg-sky-50 p-4 text-sm font-normal text-sky-700 ring-1 ring-inset ring-sky-600/20">
+      <svg appIcon="information-circle" variant="mini" class="size-5 flex-none text-sky-500"></svg>
+      <div class="min-w-0 flex-1">
+        <h3 class="m-0 text-sm font-medium text-sky-800">You have previous intel available that can be shared with this team</h3>
+        <p *ngIf="!committing_prev_intel" class="mb-0 mt-1">Before you joined this team, you had already indexed <strong class="font-medium">{{has_uncommitted_intel}} reports</strong> that have not yet been shared with this team.
+          <br/>Use the button below to <strong class="font-medium">import your intel and share it with this team</strong>. This can not be undone.</p>
 
-        <div *ngIf="committing_prev_intel">
-          <h4>We are processing your request, this may take a while.. Please contact us if this takes longer than an hour. You can safely close this page.</h4>
-          <mat-progress-bar style="opacity: .3;" mode="indeterminate"></mat-progress-bar>
+        <div *ngIf="committing_prev_intel" class="mt-1">
+          <p class="mb-2 mt-0">We are processing your request, this may take a while.. Please contact us if this takes longer than an hour. You can safely close this page.</p>
+          <mat-progress-bar class="opacity-30" mode="indeterminate"></mat-progress-bar>
         </div>
 
-        <div *ngIf="committing_error">
-          <h3 style="color: #f07057;">{{committing_error}}</h3>
-        </div>
+        <p *ngIf="committing_error" class="mb-0 mt-2 font-medium text-rose-700">{{committing_error}}</p>
 
-        <div class="index-options-container row" *ngIf="!committing_prev_intel">
-          <div class="col-xs-12 col-sm-6">
-            <button style="" class="btn btn-secondary" (click)="commitPrevIntel('commit')">
-              Yes, I want to share my previous intel<span class="hidden-sm hidden-md"> with this team ({{has_uncommitted_intel}} reports)</span>
-              &nbsp;<mat-icon>share</mat-icon>
-            </button>
-          </div>
-          <div class="col-xs-12 col-sm-6">
-            <button style="color: #334254 !important; display: flex;" class="btn btn-link" (click)="commitPrevIntel('ignore')">
-              No, I don't want to share my intel. Don't show this message again
-            </button>
-          </div>
+        <div *ngIf="!committing_prev_intel" class="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
+          <button type="button" class="inline-flex items-center gap-1.5 rounded-md border-0 bg-brand-700 px-3 py-2 text-sm font-medium text-white shadow-sm hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" (click)="commitPrevIntel('commit')">
+            Yes, I want to share my previous intel with this team ({{has_uncommitted_intel}} reports)
+            <svg appIcon="share" class="size-4 flex-none"></svg>
+          </button>
+          <button type="button" class="border-0 bg-transparent p-0 text-sm font-medium text-slate-700 hover:text-slate-900 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" (click)="commitPrevIntel('ignore')">
+            No, I don't want to share my intel. Don't show this message again
+          </button>
         </div>
-      </app-alert>
+      </div>
     </div>
 
     <!-- OVERVIEW -->

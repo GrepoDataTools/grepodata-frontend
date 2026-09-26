@@ -447,127 +447,98 @@
         </div>
       </aside>
 
-      <div *ngIf="selected_command" class="command-sidepanel command-comments-container" [ngClass]="{'opened': mobile_comments_opened}">
-        <div class="comment-panel">
-          <div class="panel-header">
-            <div class="comment-header comment-title">
-              <h3>Command Details</h3>
-              <!--                <button class="btn btn-primary" title="Close Command Details" (click)="unselectCommand()">-->
-              <!--                  <span class="hidden-xs">Close </span><mat-icon>close</mat-icon>-->
-              <!--                </button>-->
-              <a (click)="toggleCommentsTab(false)" class="close right" title="Close Command Details"></a>
+      <aside *ngIf="selected_command" class="flex w-[336px] flex-none flex-col border-0 border-l border-solid border-slate-200 bg-white font-normal dark:border-slate-800 dark:bg-slate-900 max-lg:hidden" [ngClass]="{'max-lg:!flex max-lg:fixed max-lg:bottom-0 max-lg:right-0 max-lg:top-[58px] max-lg:z-[1001] max-lg:w-[min(360px,100vw)] max-lg:shadow-xl': mobile_comments_opened}">
+        <div class="flex flex-none items-center justify-between gap-2 px-4 pb-3 pt-4">
+          <h2 class="m-0 text-base font-semibold text-slate-900 dark:text-slate-100">Command details</h2>
+          <button type="button" (click)="toggleCommentsTab(false)" title="Close Command Details" aria-label="Close Command Details" class="-mr-1.5 inline-flex size-8 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+            <svg appIcon="x-mark" variant="mini" class="size-5"></svg>
+          </button>
+        </div>
+
+        <div class="min-h-0 flex-1 overflow-y-auto px-4 pb-4">
+          <p *ngIf="!selected_command" class="m-0 py-12 text-center text-sm text-slate-500 dark:text-slate-400">Select a command to view comments and BB code</p>
+          <div *ngIf="selected_command" class="flex flex-col gap-4">
+            <div class="flex items-center gap-3 rounded-lg px-3 py-2.5 ring-1 ring-inset" [ngClass]="selected_command.type=='attack' && !selected_command?.is_planned ? 'bg-rose-50/70 ring-rose-200 dark:bg-rose-500/[.07] dark:ring-rose-400/30' : 'bg-slate-50 ring-slate-200 dark:bg-slate-800/60 dark:ring-slate-700'">
+              <div class="attack_type32x32 {{selected_command.type}} block flex-none rounded-md" [ngClass]="{'ring-2 ring-rose-500 ring-offset-2 ring-offset-white dark:ring-offset-slate-900': selected_command.type=='attack' && !selected_command?.is_planned, 'revolt_arising': selected_command?.attacking_strategy=='revolt_arising', 'revolt_running': selected_command?.attacking_strategy=='revolt_running'}"></div>
+              <div class="min-w-0 flex-1 tabular-nums">
+                <div class="text-sm font-semibold text-slate-900 dark:text-slate-100">{{selected_command.arrival_human}}</div>
+                <div class="text-xs text-slate-500 dark:text-slate-400">Arrival</div>
+              </div>
+              <span class="font-mono text-[15px] font-semibold tabular-nums" [ngClass]="etaClass(selected_command)">{{selected_command.eta}}</span>
             </div>
-            <hr style="margin-bottom: 10px;">
-          </div>
 
+            <section *ngIf="selected_command.src_twn_id > 0" class="flex flex-col gap-1">
+              <h3 class="m-0 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Departure</h3>
+              <ng-container *ngTemplateOutlet="contextItem; context: {id: selected_command.src_twn_id, name: selected_command.src_twn_n, type: 'town', mode: 'minimal'}"></ng-container>
+              <ng-container *ngTemplateOutlet="contextItem; context: {id: selected_command.src_ply_id, name: selected_command.src_ply_n, type: 'player', mode: 'minimal'}"></ng-container>
+              <ng-container *ngTemplateOutlet="contextItem; context: {id: selected_command.src_all_id, name: selected_command.src_all_n, type: 'ally', mode: 'minimal'}"></ng-container>
+            </section>
 
-          <div class="panel-content comments-content">
-            <div *ngIf="!selected_command">
-              <h5 style="text-align: center;"><br/><br/><br/>Select a command to view <span class="gd-primary">comments</span> and <span class="gd-primary">BB code</span></h5>
+            <section *ngIf="selected_command.trg_twn_id > 0" class="flex flex-col gap-1">
+              <h3 class="m-0 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Destination</h3>
+              <ng-container *ngTemplateOutlet="contextItem; context: {id: selected_command.trg_twn_id, name: selected_command.trg_twn_n, type: 'town', mode: 'minimal'}"></ng-container>
+              <ng-container *ngTemplateOutlet="contextItem; context: {id: selected_command.trg_ply_id, name: selected_command.trg_ply_n, type: 'player', mode: 'minimal'}"></ng-container>
+              <ng-container *ngTemplateOutlet="contextItem; context: {id: selected_command.trg_all_id, name: selected_command.trg_all_n, type: 'ally', mode: 'minimal'}"></ng-container>
+            </section>
+
+            <div *ngIf="selected_command?.is_planned==true" class="rounded-lg bg-amber-50 px-3 py-2.5 text-sm text-amber-800 ring-1 ring-inset ring-amber-200 dark:bg-amber-500/10 dark:text-amber-200 dark:ring-amber-400/30">
+              <p class="m-0">
+                <strong class="font-semibold">This is a planned command.</strong> It has yet to be sent by
+                <svg appIcon="player_ico" variant="game" class="inline size-3.5 align-[-2px]"></svg>
+                <span class="font-semibold">{{selected_command.src_ply_n}}</span>
+              </p>
+              <p class="mb-0 mt-1.5 text-xs tabular-nums">
+                Expected departure: {{selected_command.cancel_human}}<br/>
+                Expected arrival: {{selected_command.arrival_human}}
+              </p>
             </div>
-            <div *ngIf="selected_command">
 
-              <h5 style="text-align: center;">
-                <div class="attack_type32x32 {{selected_command.type}}" [ngClass]="{'glow': selected_command.type=='attack' && !selected_command?.is_planned, 'revolt_arising': selected_command?.attacking_strategy=='revolt_arising', 'revolt_running': selected_command?.attacking_strategy=='revolt_running'}"></div>
-                &nbsp;&nbsp;{{selected_command.arrival_human}} ({{selected_command.eta}})
-              </h5>
-
-              <div *ngIf="selected_command.src_twn_id > 0">
-                <h5><strong>Departure</strong></h5>
-                <ng-container *ngTemplateOutlet="contextItem; context: {id: selected_command.src_twn_id, name: selected_command.src_twn_n, type: 'town', mode: 'minimal'}"></ng-container>
-                <ng-container *ngTemplateOutlet="contextItem; context: {id: selected_command.src_ply_id, name: selected_command.src_ply_n, type: 'player', mode: 'minimal'}"></ng-container>
-                <ng-container *ngTemplateOutlet="contextItem; context: {id: selected_command.src_all_id, name: selected_command.src_all_n, type: 'ally', mode: 'minimal'}"></ng-container>
-                <br/>
-              </div>
-
-              <div *ngIf="selected_command.trg_twn_id > 0">
-                <h5><strong>Destination</strong></h5>
-                <ng-container *ngTemplateOutlet="contextItem; context: {id: selected_command.trg_twn_id, name: selected_command.trg_twn_n, type: 'town', mode: 'minimal'}"></ng-container>
-                <ng-container *ngTemplateOutlet="contextItem; context: {id: selected_command.trg_ply_id, name: selected_command.trg_ply_n, type: 'player', mode: 'minimal'}"></ng-container>
-                <ng-container *ngTemplateOutlet="contextItem; context: {id: selected_command.trg_all_id, name: selected_command.trg_all_n, type: 'ally', mode: 'minimal'}"></ng-container>
-                <br/>
-              </div>
-
-              <hr style="margin: 10px;">
-
-              <div *ngIf="selected_command?.is_planned==true">
-                <app-alert [dismissible]="false" type="warning" [showIcon]="false">
-                  <strong>This is a planned command.</strong><br/>It has yet to be sent by
-                  <img style="height: 18px; margin-top: -5px;" src="../../assets/images/player_ico.png"/>&nbsp;
-                  <span class="gd-brown">{{selected_command.src_ply_n}}</span>
-                  <br/><br/>
-                  <div style="font-size: 80%;">
-                    Expected departure: {{selected_command.cancel_human}}<br/>
-                    Expected arrival: {{selected_command.arrival_human}}
+            <section class="flex flex-col gap-2 border-0 border-t border-solid border-slate-200 pt-4 dark:border-slate-800">
+              <h3 class="m-0 text-sm font-semibold text-slate-900 dark:text-slate-100">Comments</h3>
+              <div class="flex max-h-[max(35vh,300px)] flex-col gap-1.5 overflow-y-auto">
+                <p *ngIf="!selected_command.comments || selected_command.comments.length <= 0" class="m-0 text-sm text-slate-500 dark:text-slate-400">No comments yet. Be the first!</p>
+                <div *ngFor="let comment of selected_command.comments" class="flex flex-col gap-0.5 rounded-lg bg-slate-50 px-3 py-2 ring-1 ring-inset ring-slate-200 dark:bg-slate-800/60 dark:ring-slate-700">
+                  <div class="flex items-baseline justify-between gap-2">
+                    <span class="min-w-0 truncate text-[13px] font-semibold text-slate-900 dark:text-slate-100">{{comment.user}}</span>
+                    <span class="flex-none text-xs tabular-nums text-slate-400 dark:text-slate-500">{{comment.time}}</span>
                   </div>
-                </app-alert>
-                <hr style="margin: 10px;">
-              </div>
-
-              <h5><strong>Comments</strong></h5>
-              <div class="comments-content">
-
-                <div class="comments-list gd-scrollbar-trans">
-                  <div *ngIf="!selected_command.comments || selected_command.comments.length <= 0" class="">
-                    <p>No comments yet. Be the first!</p>
-                  </div>
-                  <div class="ops-comment" *ngFor="let comment of selected_command.comments">
-                    <div class="comment-info">
-                      <div class="user">
-                        {{comment.user}}
-                      </div>
-                      <div class="time">
-                        {{comment.time}}
-                      </div>
-                    </div>
-                    <div class="content">
-                      {{comment.text}}
-                    </div>
-                  </div>
-                  <div #commentPusher></div>
+                  <div class="text-[13px] text-slate-700 [overflow-wrap:anywhere] dark:text-slate-300">{{comment.text}}</div>
                 </div>
+                <div #commentPusher></div>
+              </div>
 
-                <div class="comment-input">
-                  <!--<p>Tip: mention your teammates by typing @</p>-->
-                  <textarea type="text" placeholder="Add a comment" [(ngModel)]="comment_input" (keyup.enter)="submitComment(selected_command.es_id)"></textarea>
-                  <button [disabled]="loading_comment" name="add_comment" style="" class="btn btn-primary" (click)="submitComment(selected_command.es_id)">
-                    Submit comment <mat-icon style="float: right;">send</mat-icon>
+              <div class="flex flex-col gap-2">
+                <textarea placeholder="Add a comment" [(ngModel)]="comment_input" (keyup.enter)="submitComment(selected_command.es_id)" class="h-16 w-full resize-none rounded-md border-0 bg-white px-2.5 py-2 text-[13px] font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700 dark:bg-slate-950 dark:text-slate-100 dark:ring-slate-700 dark:placeholder:text-slate-500"></textarea>
+                <div class="flex justify-end">
+                  <button type="button" [disabled]="loading_comment" name="add_comment" (click)="submitComment(selected_command.es_id)" class="inline-flex items-center gap-1.5 rounded-md border-0 bg-brand-700 px-3 py-1.5 text-[13px] font-semibold text-white shadow-sm hover:bg-brand-800 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+                    <svg appIcon="paper-airplane" variant="mini" class="size-4 flex-none"></svg>
+                    Submit comment
                   </button>
-                  <mat-progress-bar *ngIf="loading_comment" style="margin-top: -10px;" mode="indeterminate"></mat-progress-bar>
-                  <p class="error-message" *ngIf="comment_error">{{comment_error}}</p>
                 </div>
-
+                <mat-progress-bar *ngIf="loading_comment" mode="indeterminate"></mat-progress-bar>
+                <p class="m-0 text-xs text-rose-600 dark:text-rose-400" *ngIf="comment_error">{{comment_error}}</p>
               </div>
-            </div>
-
-            <div class="admin-panel">
-              <div class="comment-header" *ngIf="selected_command">
-                <hr style="margin: 10px;">
-                <h5><strong>Admin</strong></h5>
-                <div *ngIf="!is_admin && my_uid != selected_command.upload_uid">
-                  <h5>Only team admins or the original uploader can hide this command.</h5>
-                </div>
-                <div *ngIf="is_admin && my_uid != selected_command.upload_uid">
-                  <h5>Once you hide this command, only the original uploader can unhide it.</h5>
-                </div>
-                <div *ngIf="my_uid == selected_command.upload_uid">
-                  <h5>If you hide this command, only you will be able to see it.</h5>
-                </div>
-              </div>
-              <div class="comment-admin" *ngIf="selected_command">
-                <button *ngIf="selected_command.delete_status == ''" [disabled]="(!is_admin && my_uid != selected_command.upload_uid) || loading_delete" style="" class="btn btn-danger" (click)="deleteCommand(selected_command.es_id, 'soft')">
-                  Hide command <mat-icon>delete</mat-icon>
-                </button>
-                <button *ngIf="selected_command.delete_status != ''" [disabled]="(!is_admin && my_uid != selected_command.upload_uid) || loading_delete" style="" class="btn btn-danger" (click)="deleteCommand(selected_command.es_id, 'undo')">
-                  Undo hide command&nbsp;<span *ngIf="is_admin && my_uid != selected_command.upload_uid">({{next_refresh}})&nbsp;</span><mat-icon>undo</mat-icon>
-                </button>
-                <mat-progress-bar *ngIf="loading_delete" style="margin-top: -10px;" mode="indeterminate"></mat-progress-bar>
-                <p class="error-message" *ngIf="delete_error">{{delete_error}}</p>
-              </div>
-            </div>
+            </section>
           </div>
         </div>
-      </div>
+
+        <div *ngIf="selected_command" class="flex flex-none flex-col gap-2 border-0 border-t border-solid border-slate-200 px-4 py-3 dark:border-slate-800">
+          <h3 class="m-0 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Admin</h3>
+          <p *ngIf="!is_admin && my_uid != selected_command.upload_uid" class="m-0 text-xs text-slate-500 dark:text-slate-400">Only team admins or the original uploader can hide this command.</p>
+          <p *ngIf="is_admin && my_uid != selected_command.upload_uid" class="m-0 text-xs text-slate-500 dark:text-slate-400">Once you hide this command, only the original uploader can unhide it.</p>
+          <p *ngIf="my_uid == selected_command.upload_uid" class="m-0 text-xs text-slate-500 dark:text-slate-400">If you hide this command, only you will be able to see it.</p>
+          <button type="button" *ngIf="selected_command.delete_status == ''" [disabled]="(!is_admin && my_uid != selected_command.upload_uid) || loading_delete" (click)="deleteCommand(selected_command.es_id, 'soft')" class="inline-flex w-full items-center justify-center gap-1.5 rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-rose-700 shadow-sm ring-1 ring-inset ring-rose-300 hover:bg-rose-50 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-900 dark:text-rose-300 dark:ring-rose-500/40 dark:hover:bg-rose-500/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+            <svg appIcon="eye-slash" variant="mini" class="size-4 flex-none"></svg>
+            Hide command
+          </button>
+          <button type="button" *ngIf="selected_command.delete_status != ''" [disabled]="(!is_admin && my_uid != selected_command.upload_uid) || loading_delete" (click)="deleteCommand(selected_command.es_id, 'undo')" class="inline-flex w-full items-center justify-center gap-1.5 rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-rose-700 shadow-sm ring-1 ring-inset ring-rose-300 hover:bg-rose-50 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-900 dark:text-rose-300 dark:ring-rose-500/40 dark:hover:bg-rose-500/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+            <svg appIcon="arrow-uturn-left" variant="mini" class="size-4 flex-none"></svg>
+            Undo hide command<span *ngIf="is_admin && my_uid != selected_command.upload_uid" class="tabular-nums">&nbsp;({{next_refresh}})</span>
+          </button>
+          <mat-progress-bar *ngIf="loading_delete" mode="indeterminate"></mat-progress-bar>
+          <p class="m-0 text-xs text-rose-600 dark:text-rose-400" *ngIf="delete_error">{{delete_error}}</p>
+        </div>
+      </aside>
     </div>
   </div>
    </div>
@@ -640,20 +611,23 @@
 
 
 <ng-template #contextItem let-id="id" let-name="name" let-type="type" let-mode="mode">
-  <div *ngIf="id > 0" class="context-item">
-    <div>
-      <img style="height: 18px; margin-top: -5px;" src="../../assets/images/{{type}}_ico.png"/>&nbsp;
-      <span class="gd-brown">{{name}}</span>&nbsp;
+  <div *ngIf="id > 0" class="flex min-h-7 items-center justify-between gap-2 rounded-md px-1.5 py-0.5 hover:bg-slate-50 dark:hover:bg-slate-800/60">
+    <div class="flex min-w-0 items-center gap-1.5 text-[13px] font-medium text-slate-900 dark:text-slate-100">
+      <svg [appIcon]="type + '_ico'" variant="game" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
+      <span class="truncate">{{name}}</span>
     </div>
-    <div class="context-actions" *ngIf="type!='ally'">
-      <button class="btn btn-default btn-xs mr-1" (click)="drillDown(name, type)" *ngIf="mode=='full'">
-        <i class="fa fa-filter"></i> Filter
+    <div class="flex flex-none items-center gap-0.5" *ngIf="type!='ally'">
+      <button type="button" class="inline-flex items-center gap-1 whitespace-nowrap rounded border-0 bg-transparent px-1.5 py-0.5 text-xs font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" (click)="drillDown(name, type)" *ngIf="mode=='full'">
+        <svg appIcon="funnel" variant="micro" class="size-3.5 flex-none"></svg>
+        Filter
       </button>
-      <button class="btn btn-default btn-xs mr-1" (click)="copyBB(id, name, type)">
-        <i class="fa fa-code"></i> BB code
+      <button type="button" class="inline-flex items-center gap-1 whitespace-nowrap rounded border-0 bg-transparent px-1.5 py-0.5 text-xs font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" (click)="copyBB(id, name, type)">
+        <svg appIcon="code-bracket" variant="micro" class="size-3.5 flex-none"></svg>
+        BB code
       </button>
-      <button class="btn btn-default btn-xs" (click)="openIntelDialog($event, id, type)">
-        <i class="fa fa-university"></i> Intel
+      <button type="button" class="inline-flex items-center gap-1 whitespace-nowrap rounded border-0 bg-transparent px-1.5 py-0.5 text-xs font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" (click)="openIntelDialog($event, id, type)">
+        <svg appIcon="building-library" variant="micro" class="size-3.5 flex-none"></svg>
+        Intel
       </button>
     </div>
   </div>

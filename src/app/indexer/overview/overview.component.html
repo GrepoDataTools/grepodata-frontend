@@ -1,4 +1,4 @@
-<div id="pagehead" style="height: 100%; margin: -12px 10px 0 !important;">
+<div id="pagehead" class="-mt-3 mx-2.5 h-full">
 
 	<div *ngIf="loading" class="relative top-[250px] mx-auto w-1/2 text-center">
 		<h3 class="m-0 mb-3 text-base font-medium text-brand-700">Loading team...</h3>
@@ -85,7 +85,7 @@
     <!-- OVERVIEW -->
 		<div class="index-overview">
 
-			<div class="">
+			<div class="pb-5">
 
 				<div *ngIf="data.total_reports != 0">
 
@@ -481,7 +481,7 @@
 				</ng-template>
 
 				<div *ngIf="data.total_reports == 0">
-					<div id="help_by_contributing" style="display: none;"></div>
+					<div id="help_by_contributing" class="hidden"></div>
 
 					<div class="space-y-6 p-3">
 						<div class="flex flex-col gap-6 xl:flex-row xl:items-start">
@@ -508,8 +508,6 @@
 					</div>
 
 				</div>
-
-				<br/>
 
 			</div>
 		</div>

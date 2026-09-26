@@ -13,6 +13,7 @@ import {JwtService} from '../../auth/services/jwt.service';
 })
 export class SiegeComponent implements AfterViewInit, OnChanges {
   @Input() isCard: boolean;
+  @Input() newDesign: boolean = false;
   @Input() isAdmin: boolean;
   @Input() isReader: boolean = true;
   @Input() embedded: boolean;

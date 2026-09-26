@@ -1,4 +1,7 @@
-<span *ngIf="embedded==true">
+<ng-container *ngIf="embedded==true && isCard && newDesign">
+	<ng-container *ngTemplateOutlet="card"></ng-container>
+</ng-container>
+<span *ngIf="embedded==true && !(isCard && newDesign)">
 	<ng-container *ngTemplateOutlet="report"></ng-container>
 </span>
 <span *ngIf="embedded==false">
@@ -325,6 +328,108 @@
 		</div>
 
 	</div>
+</ng-template>
+
+<ng-template #card>
+	<div *ngIf="!loading && error" class="rounded-xl bg-white p-6 text-center text-sm font-normal text-slate-600 shadow-sm ring-1 ring-slate-900/[.08]">
+		Sorry, we can not load this siege at the moment. try again later.
+	</div>
+
+	<article *ngIf="!loading && !error" class="flex h-full min-w-0 flex-col rounded-xl text-left font-normal shadow-sm ring-1" [ngClass]="isPublished ? 'bg-sky-50 ring-sky-200' : 'bg-white ring-slate-900/[.08]'">
+		<div class="flex items-center gap-3 px-4 pb-3 pt-4">
+			<img src="../../assets/images/game/towninfo/conquer.png" class="size-10 flex-none rounded-lg ring-1 ring-slate-900/10"/>
+			<div class="min-w-0 flex-1">
+				<a routerLink="/intel/town/{{world}}/{{conquest?.town_id}}" title="{{conquest.town_name}}" class="block truncate text-base font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{conquest.town_name}}</a>
+				<div class="truncate text-xs text-slate-500">
+					<a *ngIf="conquest.player_name!=''&&conquest.player_id!=0" routerLink="/intel/player/{{world}}/{{conquest?.player_id}}" class="text-slate-600 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{conquest.player_name}}</a>
+					<span *ngIf="(conquest.player_id==0||conquest.player_name=='') && conquest.player_name!='Temple'">Ghost Town</span>
+					<span *ngIf="conquest.player_name=='Temple'">Temple</span>
+					<ng-container *ngIf="conquest.alliance_name!=''&&conquest.alliance_id!=0">
+						<span *ngIf="conquest.player_name!=''"> · </span>
+						<a routerLink="/intel/alliance/{{world}}/{{conquest?.alliance_id}}" class="text-slate-600 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{conquest.alliance_name}}</a>
+					</ng-container>
+				</div>
+			</div>
+			<span *ngIf="conquest.cs_killed || (conquest.new_owner_player_id && conquest.new_owner_player_id == conquest.player_id)" title="siege broken by attackers" class="flex-none rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset bg-rose-50 text-rose-700 ring-rose-600/20">Siege broken</span>
+			<span *ngIf="!conquest.cs_killed && !conquest.new_owner_player_id" title="unresolved" class="flex-none rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset bg-slate-100 text-slate-600 ring-slate-500/20">Unresolved</span>
+			<span *ngIf="!conquest.cs_killed && conquest.new_owner_player_id && conquest.new_owner_player_id != conquest.belligerent_player_id && conquest.new_owner_player_id != conquest.player_id" title="successful conquest" class="flex-none rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset bg-emerald-50 text-emerald-700 ring-emerald-600/20">Conquered</span>
+			<span *ngIf="!conquest.cs_killed && conquest.new_owner_player_id && conquest.new_owner_player_id == conquest.belligerent_player_id" title="successful conquest{{conquest.belligerent_player_name!='' ? ' by ' + conquest.belligerent_player_name : ''}}" class="flex-none rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset bg-emerald-50 text-emerald-700 ring-emerald-600/20">Conquered</span>
+		</div>
+
+		<div class="mx-4 flex border-0 border-y border-solid border-slate-200">
+			<div class="flex min-w-0 flex-col items-center gap-0.5 px-1.5 py-2.5 text-center flex-[0.8_1_0]">
+				<span class="whitespace-nowrap text-xs text-slate-500">Attacks</span>
+				<span class="max-w-full truncate text-base font-medium tabular-nums text-slate-900">{{conquest.num_attacks_counted}}</span>
+			</div>
+			<div class="flex min-w-0 flex-col items-center gap-0.5 px-1.5 py-2.5 text-center flex-[1.5_1_0] border-0 border-l border-solid border-slate-200">
+				<span class="whitespace-nowrap text-xs text-slate-500">Siege lead by</span>
+				<a *ngIf="conquest.belligerent_player_name != ''" routerLink="/player" [queryParams]="{world: world, id: conquest.belligerent_player_id}" class="max-w-full truncate text-base font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{conquest.belligerent_player_name}}</a>
+				<a *ngIf="conquest.belligerent_alliance_name != ''" routerLink="/alliance" [queryParams]="{world: world, id: conquest.belligerent_alliance_id}" class="max-w-full truncate text-xs text-slate-500 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{conquest.belligerent_alliance_name}}</a>
+			</div>
+			<div class="flex min-w-0 flex-col items-center gap-0.5 px-1.5 py-2.5 text-center flex-[0.9_1_0] border-0 border-l border-solid border-slate-200">
+				<span class="whitespace-nowrap text-xs text-slate-500">Last attack</span>
+				<span class="max-w-full truncate text-base font-medium text-slate-900">{{conquest.last_attack_date | Datex : "D MMM"}}</span>
+				<span class="max-w-full truncate text-xs text-slate-500">{{conquest.last_attack_date | Datex : "YYYY"}}</span>
+			</div>
+		</div>
+
+		<div class="gd-scrollbar-sm max-h-12 overflow-y-auto px-4 pt-2.5 text-xs text-slate-500">
+			Attackers:
+			<ng-container *ngFor="let bell of conquest.belligerent_all; let last = last">
+				<a routerLink="/intel/alliance/{{world}}/{{bell.alliance_id}}" class="text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{bell.alliance_name}}</a><span *ngIf="!last">, </span>
+			</ng-container>
+		</div>
+
+		<div class="grid grid-cols-2 gap-4 px-4 pb-4 pt-3">
+			<div class="min-w-0">
+				<p class="m-0 text-xs font-medium text-slate-500">Attacker losses</p>
+				<p class="mb-2 mt-0.5 text-sm font-medium tabular-nums text-rose-700">-{{conquest.total_bp_att | NumberFilter}} BP</p>
+				<div class="flex flex-wrap gap-x-1 gap-y-2">
+					<div *ngFor="let unit of objectKeys(conquest.total_losses_att)" class="relative size-8 flex-none">
+						<div class="unit_icon40x40 {{unit}} origin-top-left scale-[.8] rounded-md border-0"></div>
+						<span class="absolute -bottom-px left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-slate-900/[.72] px-1 text-[10px] font-medium leading-[13px] tabular-nums text-white">{{conquest.total_losses_att[unit]}}</span>
+					</div>
+					<div *ngIf="average_luck!=null" matTooltip="Average Attacker Luck: {{average_luck | number : '1.1-1'}}%" class="flex h-8 flex-none flex-col items-center justify-center rounded-md bg-slate-100 px-1.5 ring-1 ring-inset ring-slate-200">
+						<span class="text-[10px] leading-3 text-slate-500">Luck</span>
+						<span class="whitespace-nowrap text-[10px] font-medium leading-3 tabular-nums text-slate-700">{{average_luck | number : '1.1-1'}}%</span>
+					</div>
+				</div>
+			</div>
+			<div class="min-w-0 text-right">
+				<p class="m-0 text-xs font-medium text-slate-500">Defender losses</p>
+				<p class="mb-2 mt-0.5 text-sm font-medium tabular-nums text-rose-700">-{{conquest.total_bp_def | NumberFilter}} BP</p>
+				<div class="flex flex-wrap justify-end gap-x-1 gap-y-2">
+					<ng-container *ngFor="let unit of objectKeys(conquest.total_losses_def)">
+						<div *ngIf="conquest.total_losses_def[unit] > 20 || objectKeys(conquest.total_losses_def).length <= 5 || unit=='colonize_ship'" class="relative size-8 flex-none">
+							<div class="unit_icon40x40 {{unit}} origin-top-left scale-[.8] rounded-md border-0"></div>
+							<span class="absolute -bottom-px left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-slate-900/[.72] px-1 text-[10px] font-medium leading-[13px] tabular-nums text-white">{{conquest.total_losses_def[unit]}}</span>
+						</div>
+					</ng-container>
+				</div>
+			</div>
+		</div>
+
+		<div *ngIf="isReader && !mobile" class="mt-auto flex items-center justify-between gap-2 border-0 border-t border-solid border-slate-100 px-4 py-3">
+			<button type="button" (click)="loadConquestDetails()" class="inline-flex items-center gap-1 border-0 bg-transparent p-0 text-sm font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+				View full report
+				<svg appIcon="arrow-up-right" class="size-4 flex-none"></svg>
+			</button>
+			<button type="button" (click)="publishConquest()" *ngIf="isAdmin && !isPublished && !publishing" matTooltip="You can publish this siege to show it on the daily scoreboard to all GrepoData users." class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-medium shadow-sm ring-1 ring-inset hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 text-slate-900 ring-slate-300">
+				<svg appIcon="arrow-up-tray" class="size-4 flex-none text-slate-400"></svg>
+				Publish
+			</button>
+			<button type="button" (click)="unpublishConquest()" *ngIf="isAdmin && isPublished && !publishing" matTooltip="This siege was published by one of your team admins. Unpublish it to hide it from the public daily scoreboard." class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-medium shadow-sm ring-1 ring-inset hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 text-rose-700 ring-rose-200">
+				<svg appIcon="trash" class="size-4 flex-none"></svg>
+				Unpublish
+			</button>
+			<button type="button" *ngIf="!isAdmin && isPublished && !publishing" [disabled]="true" matTooltip="This siege was published by one of your team admins. Only a team admin or owner can publish/unpublish siege overviews." class="inline-flex items-center rounded-md border-0 bg-sky-100 px-2.5 py-1.5 text-xs font-medium text-sky-800">
+				Published
+			</button>
+			<button type="button" *ngIf="publishing" class="inline-flex items-center rounded-md border-0 bg-sky-100 px-2.5 py-1.5 text-xs font-medium text-sky-800">
+				updating..
+			</button>
+		</div>
+	</article>
 </ng-template>
 
 <ng-template #result>

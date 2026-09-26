@@ -150,7 +150,7 @@
               </div>
 
               <!--recent conquests-->
-              <div *ngIf="!loading && recent_conquests && recent_conquests.length > 0" class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+              <div *ngIf="!loading && recent_conquests && recent_conquests.length > 0">
                 <ng-container *ngTemplateOutlet="sieges"></ng-container>
               </div>
 
@@ -258,19 +258,21 @@
         </ng-template>
 
 				<ng-template #sieges>
-          <div class="flex min-h-[61px] items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 px-5 py-4">
+          <div class="mb-3 flex items-center justify-between gap-3">
             <h3 class="m-0 text-base font-medium text-slate-900">Recent Sieges</h3>
             <button type="button" name="open_bb" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" (click)="loadSiegeListDialog()">
               Show all sieges
               <svg appIcon="arrow-top-right-on-square" class="size-4 flex-none text-slate-400"></svg>
             </button>
           </div>
-          <div class="gd-scrollbar flex items-start gap-4 overflow-x-auto p-5">
-            <div class="w-[550px] flex-none" *ngFor="let conquest of recent_conquests">
+          <div class="gd-scrollbar -mx-3 flex gap-6 overflow-x-auto px-3 pb-3 pt-1">
+            <div class="w-[calc((100%-48px)/3)] flex-none" *ngFor="let conquest of recent_conquests">
               <app-siege
                 *ngIf="conquest.conquest_id"
+                class="block h-full"
                 [embedded]="true"
                 [isCard]="true"
+                [newDesign]="true"
                 [conquest]="conquest"
                 [conquestId]="conquest?.conquest_id"
                 [world]="world"

@@ -31,9 +31,9 @@
             <span *ngIf="part.type == 'text'">{{part.text}}</span>
             <span *ngIf="part.type == 'bold'"><strong class="font-medium text-slate-900">{{part.text}}</strong></span>
             <span *ngIf="part.type == 'user'" class="font-medium text-brand-700"><svg appIcon="user" class="inline-block size-4 align-middle"></svg> {{part.text}}</span>
-            <span *ngIf="part.type == 'alliance'" class="font-medium text-brand-700"><img src="../../assets/images/ally_ico.png" class="inline-block size-4 align-middle"/> {{part.text}}</span>
-            <span *ngIf="part.type == 'player'" class="font-medium text-brand-700"><img src="../../assets/images/player_ico.png" class="inline-block size-4 align-middle"/> {{part.text}}</span>
-            <span *ngIf="part.type == 'town'" class="font-medium text-brand-700"><img src="../../assets/images/town_ico.png" class="inline-block size-4 align-middle"/> {{part.text}}</span>
+            <span *ngIf="part.type == 'alliance'" class="font-medium text-brand-700"><svg appIcon="ally_ico" variant="game" class="inline-block size-4 align-middle"></svg> {{part.text}}</span>
+            <span *ngIf="part.type == 'player'" class="font-medium text-brand-700"><svg appIcon="player_ico" variant="game" class="inline-block size-4 align-middle"></svg> {{part.text}}</span>
+            <span *ngIf="part.type == 'town'" class="font-medium text-brand-700"><svg appIcon="town_ico" variant="game" class="inline-block size-4 align-middle"></svg> {{part.text}}</span>
             <span *ngIf="part.type == 'team'" class="font-medium text-brand-700"><svg appIcon="user-group" class="inline-block size-4 align-middle"></svg> {{part.text}}</span>
           </ng-container>
         </div>

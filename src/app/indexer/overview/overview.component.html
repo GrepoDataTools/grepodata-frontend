@@ -154,7 +154,9 @@
 
               <!--recent conquests-->
               <div *ngIf="!loading && recent_conquests && recent_conquests.length > 0" class="hidden-xs hidden-sm">
-                <ng-container *ngTemplateOutlet="sieges"></ng-container>
+                <div class="m-3 mt-9 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+                  <ng-container *ngTemplateOutlet="sieges"></ng-container>
+                </div>
               </div>
 
               <!--recent latest intel-->
@@ -263,35 +265,28 @@
         </ng-template>
 
 				<ng-template #sieges>
-          <mat-card class="dense-card conquests-card" style="margin-top: 35px !important; margin-bottom: -10px !important;">
-            <mat-card-title>
-              <div class="form-group row" style='margin: 0px;'>
-                <h3 class="gd-secondary" style='font-weight: 500; margin-top: 0 !important;'>
-                  Recent Sieges
-                  <button name="open_bb" style="float: right;" class="btn btn-secondary" (click)="loadSiegeListDialog()">
-                    Show all sieges&nbsp;<mat-icon style="vertical-align: inherit; font-size: 20px;">launch</mat-icon>
-                  </button>
-                </h3>
-              </div>
-            </mat-card-title>
-            <mat-card-content>
-              <div class="conquests-list-vertical gd-scrollbar">
-                <div class="conquest-item" *ngFor="let conquest of recent_conquests">
-                  <app-siege
-                    *ngIf="conquest.conquest_id"
-                    [embedded]="true"
-                    [isCard]="true"
-                    [conquest]="conquest"
-                    [conquestId]="conquest?.conquest_id"
-                    [world]="world"
-                    [key] = "key"
-                    [isAdmin] = "is_admin"
-                  >
-                  </app-siege>
-                </div>
-              </div>
-            </mat-card-content>
-          </mat-card>
+          <div class="flex min-h-[61px] items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 px-5 py-4">
+            <h3 class="m-0 text-base font-medium text-slate-900">Recent Sieges</h3>
+            <button type="button" name="open_bb" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" (click)="loadSiegeListDialog()">
+              Show all sieges
+              <svg appIcon="arrow-top-right-on-square" class="size-4 flex-none text-slate-400"></svg>
+            </button>
+          </div>
+          <div class="gd-scrollbar flex items-start gap-4 overflow-x-auto p-5">
+            <div class="w-[550px] flex-none" *ngFor="let conquest of recent_conquests">
+              <app-siege
+                *ngIf="conquest.conquest_id"
+                [embedded]="true"
+                [isCard]="true"
+                [conquest]="conquest"
+                [conquestId]="conquest?.conquest_id"
+                [world]="world"
+                [key] = "key"
+                [isAdmin] = "is_admin"
+              >
+              </app-siege>
+            </div>
+          </div>
         </ng-template>
 
 				<ng-template #info>

@@ -41,72 +41,59 @@
     </div>
   </div>
 
-  <div class="ops-action">
+  <div class="fixed right-4 top-[66px] z-[1001] flex w-[360px] max-w-[calc(100vw-32px)] flex-col gap-3 rounded-xl bg-white p-4 text-sm font-normal text-slate-700 shadow-lg ring-1 ring-slate-900/5 dark:bg-slate-800 dark:text-slate-300 dark:ring-slate-700" *ngIf="deleting">
+    <p class="m-0 font-medium text-slate-900 dark:text-slate-100">Processing request...</p>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
 
-    <div class="op-settings-container" *ngIf="deleting">
-      <div class="delete-header" fxLayout="row" style="margin-right: 15px;">
-        <h4 style="width: 100%;">
-          Processing request...<br/><br/><br/>
-          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-        </h4>
-      </div>
+  <div class="fixed right-4 top-[66px] z-[1001] flex w-[360px] max-w-[calc(100vw-32px)] flex-col gap-3 rounded-xl bg-white p-4 text-sm font-normal text-slate-700 shadow-lg ring-1 ring-slate-900/5 dark:bg-slate-800 dark:text-slate-300 dark:ring-slate-700" *ngIf="deletingSelectUser">
+    <div class="flex items-start justify-between gap-3">
+      <p class="m-0 font-medium text-slate-900 dark:text-slate-100">Select the user who's commands you want to hide</p>
+      <button type="button" (click)="cancelDeleteOnBehalfOf()" aria-label="Close" class="-mr-1.5 -mt-1 inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-700 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-100">
+        <svg appIcon="x-mark" variant="mini" class="size-5"></svg>
+      </button>
     </div>
+    <select [(ngModel)]="deletingUserSelected" class="h-9 w-full rounded-md border border-solid border-slate-300 bg-white px-2.5 text-sm text-slate-900 shadow-sm focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100">
+      <option value="{{user.key}}" *ngFor="let user of deletingUserOptions | keyvalue">{{user.value.name}}</option>
+    </select>
+    <button type="button" class="inline-flex w-full items-center justify-center gap-1.5 rounded-md border-0 px-3 py-2 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed disabled:opacity-50 bg-rose-600 text-white hover:bg-rose-700" (click)="deleteOnBehalfOfSubmit()" title="Del" *ngIf="deletingUserSelected">
+      <svg appIcon="trash" variant="mini" class="size-4 flex-none"></svg>
+      <span *ngIf="deletingOperation=='hide_all_user'">Hide all commands uploaded by {{deletingUserOptions[deletingUserSelected]?.name}}</span>
+      <span *ngIf="deletingOperation=='unhide_all_user'">Unhide all commands uploaded by {{deletingUserOptions[deletingUserSelected]?.name}}</span>
+      <span *ngIf="deletingOperation=='delete_all_user'">Delete all commands uploaded by {{deletingUserOptions[deletingUserSelected]?.name}}</span>
+    </button>
+  </div>
 
-    <div class="op-settings-container" *ngIf="deletingSelectUser">
-      <div class="delete-header" fxLayout="row" style="margin-right: 15px;">
-        <div class="delete-header" fxLayout="row" style="margin-right: 15px;">
-          <h4 style="width: 80%;">
-            Select the user who's commands you want to hide<br/><br/>
-            <select [(ngModel)]="deletingUserSelected">
-              <option value="{{user.key}}" *ngFor="let user of deletingUserOptions | keyvalue">{{user.value.name}}</option>
-            </select>
-            <br/>
-            <br/>
-            <button class="btn btn-danger mr-1" (click)="deleteOnBehalfOfSubmit()" title="Del" *ngIf="deletingUserSelected">
-              <span *ngIf="deletingOperation=='hide_all_user'">Hide all commands uploaded by {{deletingUserOptions[deletingUserSelected]?.name}}</span>
-              <span *ngIf="deletingOperation=='unhide_all_user'">Unhide all commands uploaded by {{deletingUserOptions[deletingUserSelected]?.name}}</span>
-              <span *ngIf="deletingOperation=='delete_all_user'">Delete all commands uploaded by {{deletingUserOptions[deletingUserSelected]?.name}}</span>
-              <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">delete</mat-icon>
-            </button>
-          </h4>
-          <a (click)="cancelDeleteOnBehalfOf()" class="close"></a>
-        </div>
-
-      </div>
+  <div class="fixed right-4 top-[66px] z-[1001] flex w-[360px] max-w-[calc(100vw-32px)] flex-col gap-3 rounded-xl bg-white p-4 text-sm font-normal text-slate-700 shadow-lg ring-1 ring-slate-900/5 dark:bg-slate-800 dark:text-slate-300 dark:ring-slate-700" *ngIf="showOpSettings && !deleting && !deletingSelectUser && show_menu">
+    <div class="flex items-start justify-between gap-3">
+      <p class="m-0">
+        You can hide your own commands. Once your commands are hidden, <strong class="font-semibold text-slate-900 dark:text-slate-100">only you can view them</strong>.
+        You are signed in as <strong class="font-semibold text-slate-900 dark:text-slate-100">{{username}}</strong> (<span *ngIf="is_admin">Admin</span><span *ngIf="!is_admin">User</span>)
+      </p>
+      <button type="button" (click)="toggleOpSettings(false)" aria-label="Close" class="-mr-1.5 -mt-1 inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-700 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-100">
+        <svg appIcon="x-mark" variant="mini" class="size-5"></svg>
+      </button>
     </div>
-    <div class="op-settings-container" *ngIf="showOpSettings && !deleting && !deletingSelectUser && show_menu">
-      <div class="delete-header" fxLayout="row" style="margin-right: 15px;">
-        <p>
-          You can hide your own commands. Once your commands are hidden, <strong>only you can view them</strong>. You are signed in as <strong>{{username}}</strong> (<span *ngIf="is_admin">Admin</span><span *ngIf="!is_admin">User</span>)
-        </p>
-        <a (click)="toggleOpSettings(false)" class="close"></a>
-      </div>
-      <button class="btn btn-secondary mr-1" (click)="deleteOperation('hide_all_user', 'user')" title="Your active commands will be hidden for this team. Only you can still see them.">
-        Hide All My Commands (User) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">remove_red_eye</mat-icon>
-      </button>
-      <button class="btn btn-secondary mr-1" (click)="deleteOperation('unhide_all_user', 'user')" title="Your hidden active commands will be shown again in this team">
-        Unhide All My Commands (User) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">remove_red_eye</mat-icon>
-      </button>
-      <!--    <button class="btn btn-danger mr-1" (click)="deleteOperation('delete_all_user', 'user')" title="Your active commands will be deleted from this operation">-->
-      <!--      Delete All My Commands (User) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">delete</mat-icon>-->
-      <!--    </button>-->
-      <hr style="margin: 5px;">
-      <p>Only team admins can edit all commands.</p>
-      <button [disabled]="!is_admin" class="btn btn-danger mr-1" (click)="deleteOnBehalfOf('hide_all_user')" title="Only the team admin/owner can delete all commands">
-        Hide All From User (Admin) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">remove_red_eye</mat-icon>
-      </button>
-      <!--    <button [disabled]="!is_admin" class="btn btn-secondary mr-1" (click)="deleteOnBehalfOf('unhide_all_user')" title="Only the team admin/owner can delete all commands">-->
-      <!--      Unhide All From User (Admin) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">remove_red_eye</mat-icon>-->
-      <!--    </button>-->
-      <!--    <button [disabled]="!is_admin" class="btn btn-danger mr-1" (click)="deleteOnBehalfOf('delete_all_user')" title="Only the team admin/owner can delete all commands">-->
-      <!--      Delete All From User (Admin) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">delete</mat-icon>-->
-      <!--    </button>-->
-      <button [disabled]="!is_admin" class="btn btn-danger mr-1" (click)="deleteOperation('delete_all_team', 'admin')" title="Only the team admin/owner can delete all commands" style="margin-top: 3px;">
-        Delete All Commands (Admin) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">delete</mat-icon>
-      </button>
-      <hr style="margin: 5px;">
-      <p><strong>Note: </strong>users can always unhide or reupload their commands</p>
-    </div>
+    <button type="button" class="inline-flex w-full items-center justify-center gap-1.5 rounded-md border-0 px-3 py-2 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed disabled:opacity-50 bg-white text-slate-900 ring-1 ring-inset ring-slate-300 hover:bg-slate-50 dark:bg-slate-900 dark:text-slate-100 dark:ring-slate-600 dark:hover:bg-slate-700" (click)="deleteOperation('hide_all_user', 'user')" title="Your active commands will be hidden for this team. Only you can still see them.">
+      <svg appIcon="eye-slash" variant="mini" class="size-4 flex-none text-slate-400"></svg>
+      Hide all my commands (User)
+    </button>
+    <button type="button" class="inline-flex w-full items-center justify-center gap-1.5 rounded-md border-0 px-3 py-2 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed disabled:opacity-50 bg-white text-slate-900 ring-1 ring-inset ring-slate-300 hover:bg-slate-50 dark:bg-slate-900 dark:text-slate-100 dark:ring-slate-600 dark:hover:bg-slate-700" (click)="deleteOperation('unhide_all_user', 'user')" title="Your hidden active commands will be shown again in this team">
+      <svg appIcon="eye" variant="mini" class="size-4 flex-none text-slate-400"></svg>
+      Unhide all my commands (User)
+    </button>
+    <hr class="my-1 h-px border-0 bg-slate-200 dark:bg-slate-700">
+    <p class="m-0">Only team admins can edit all commands.</p>
+    <button type="button" [disabled]="!is_admin" class="inline-flex w-full items-center justify-center gap-1.5 rounded-md border-0 px-3 py-2 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed disabled:opacity-50 bg-white text-rose-700 ring-1 ring-inset ring-rose-300 hover:bg-rose-50 dark:bg-slate-900 dark:text-rose-300 dark:ring-rose-500/40 dark:hover:bg-rose-500/10" (click)="deleteOnBehalfOf('hide_all_user')" title="Only the team admin/owner can delete all commands">
+      <svg appIcon="eye-slash" variant="mini" class="size-4 flex-none"></svg>
+      Hide all from user (Admin)
+    </button>
+    <button type="button" [disabled]="!is_admin" class="inline-flex w-full items-center justify-center gap-1.5 rounded-md border-0 px-3 py-2 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed disabled:opacity-50 bg-rose-600 text-white hover:bg-rose-700" (click)="deleteOperation('delete_all_team', 'admin')" title="Only the team admin/owner can delete all commands">
+      <svg appIcon="trash" variant="mini" class="size-4 flex-none"></svg>
+      Delete all commands (Admin)
+    </button>
+    <hr class="my-1 h-px border-0 bg-slate-200 dark:bg-slate-700">
+    <p class="m-0 text-xs text-slate-500 dark:text-slate-400"><strong class="font-semibold">Note: </strong>users can always unhide or reupload their commands</p>
   </div>
 
   <div class="commands-container" [ngClass]="{'cmd-mobile': !mobileQuery.matches}">

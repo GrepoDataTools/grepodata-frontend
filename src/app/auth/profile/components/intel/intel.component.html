@@ -170,10 +170,7 @@
   </div>
 </section>
 
-<div *ngIf="!loading && num_results > 10 && topIndexes.length > 1" style="margin: 0 20px;">
-  <app-alert type="info text-center" [dismissible]="false">
-    <h5><strong>The GrepoData hosting costs are currently €70/month.</strong> If you like what we do, please consider <a class="a-link-dialog" (click)="donate()">donating</a>. Thank you! 🤗</h5>
-  </app-alert>
-</div>
-
-<br/>
+<section *ngIf="!loading && num_results > 10 && topIndexes.length > 1" class="m-[22px] flex flex-col items-center justify-center gap-2 rounded-xl bg-white px-5 py-4 text-center shadow-sm ring-1 ring-slate-900/[.08] max-[1000px]:m-3 sm:flex-row sm:gap-3">
+  <svg appIcon="heart" class="size-5 flex-none text-rose-500"></svg>
+  <p class="my-0 text-sm text-slate-600"><strong class="font-semibold text-slate-900">The GrepoData hosting costs are currently €70/month.</strong> If you like what we do, please consider <button type="button" (click)="donate()" class="border-0 bg-transparent p-0 font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">donating</button>. Thank you! 🤗</p>
+</section>

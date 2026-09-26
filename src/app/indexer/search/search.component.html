@@ -38,128 +38,109 @@
     </div>
   </div>
 
-    <div *ngIf="!hide_results" class="row text-center search-results-container" [ngClass]="searching_towns?'town':searching_players?'player':'alliance'">
+    <div *ngIf="!hide_results" class="absolute top-full z-[10000] mt-2 w-[620px] max-w-[calc(100vw-24px)] overflow-hidden rounded-xl bg-white text-left font-normal shadow-lg ring-1 ring-slate-900/10 max-[1100px]:left-1/2 max-[1100px]:right-auto max-[1100px]:-translate-x-1/2" [ngClass]="searching_towns ? 'right-0' : searching_players ? 'left-0' : 'left-1/3'">
 
       <!--Player results-->
-      <div *ngIf="searching_players" class="">
-        <div *ngIf="players?.length < 1 && !loading" class="text-center">
-          <div class="alert alert-gd-1">
-            <h3>No player found for '<span class="gd-secondary">{{playerInput}}</span>'</h3>
-          </div>
+      <div *ngIf="searching_players">
+        <p *ngIf="players?.length < 1 && !loading" class="m-0 px-5 py-4 text-sm text-slate-600">No player found for '<span class="font-medium text-slate-900">{{playerInput}}</span>'</p>
+        <div *ngIf="num_results > 0 && !loading" id="search_output" class="gd-scrollbar max-h-[calc(100vh-240px)] overflow-y-auto max-[1100px]:max-h-none">
+          <table class="w-full border-separate border-spacing-0">
+            <thead>
+              <tr>
+                <th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 text-left text-xs font-medium text-slate-700 pl-5 pr-3">Player name</th>
+                <th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 text-left text-xs font-medium text-slate-700 pl-3 pr-5">World</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let player of players" class="hover:bg-slate-50">
+                <td class="border-0 border-b border-solid border-slate-100 py-2 align-middle pl-5 pr-3">
+                  <a routerLink="/intel/player/{{player?.world}}/{{player?.id}}" class="inline-flex max-w-full items-center gap-2 text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+                    <svg appIcon="player_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+                    <span class="truncate">{{player?.name}}</span>
+                  </a>
+                </td>
+                <td class="border-0 border-b border-solid border-slate-100 py-2 align-middle whitespace-nowrap pl-3 pr-5 text-sm text-slate-600 [&_.bg-flag]:[zoom:0.625]">
+                  <span [outerHTML]="player?.world | WorldNamePipe"></span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div *ngIf="num_results > 0 && !loading" id="search_output">
-          <div class="table">
-            <div class="row_custom header default">
-              <div class="cell custom-cell">Player name</div>
-              <div class="cell">world</div>
-            </div>
-
-            <div *ngFor="let player of players" class="row_custom">
-              <div class="cell custom-cell" style="width: 70%;">
-                <a routerLink="/intel/player/{{player?.world}}/{{player?.id}}">
-                  <img src="../../assets/images/player_ico.png"/>
-                  {{player?.name}}
-                </a>
-              </div>
-              <div class="cell world-cell" style="width: 30%;">
-	                    <span [outerHTML]="player?.world | WorldNamePipe"></span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
       </div>
 
       <!--Alliance results-->
-      <div *ngIf="searching_alliances" class="">
-        <div *ngIf="alliances?.length < 1 && !loading" class="text-center">
-          <div class="alert alert-gd-1">
-            <h3>No alliance found for '<span class="gd-secondary">{{allianceInput}}</span>'</h3>
-          </div>
-        </div>
-        <div *ngIf="!hide_results && num_results > 0 && !loading" id="search_output_alliances">
-          <div class="table">
-            <div class="row_custom header default">
-              <div class="cell custom-cell name-cell">Alliance name</div>
-              <div class="cell hidden-xs">Rank</div>
-              <!--<div class="cell hidden-xs hidden-sm">Members</div>-->
-              <div class="cell hidden-xs">World</div>
-              <div class="cell hidden-xs hidden-sm hidden-md">Points</div>
-              <!--<div class="cell hidden-xs">Towns</div>-->
-            </div>
-
-            <div *ngFor="let alliance of alliances" class="row_custom">
-              <div class="cell custom-cell name-cell">
-                <a routerLink="/intel/alliance/{{alliance?.world}}/{{alliance?.id}}">
-                  <img src="../../assets/images/ally_ico.png"/>
-                  {{alliance?.name}}
-                </a>
-              </div>
-              <div class="cell hidden-xs" style="width: 10%;">
-                {{alliance?.rank}}
-              </div>
-              <!--<div class="cell hidden-xs hidden-sm">-->
-                <!--{{alliance?.members}}-->
-              <!--</div>-->
-	                  <div class="cell hidden-xs world-cell" style="width: 25%;">
-		                  <span [outerHTML]="alliance?.world | WorldNamePipe"></span>
-	                  </div>
-              <div class="cell hidden-xs hidden-sm hidden-md" style="width: 25%;">
-                {{alliance?.points | NumberFilter}}
-              </div>
-              <!--<div class="cell hidden-xs">-->
-                <!--{{alliance?.towns}}-->
-              <!--</div>-->
-            </div>
-          </div>
-
+      <div *ngIf="searching_alliances">
+        <p *ngIf="alliances?.length < 1 && !loading" class="m-0 px-5 py-4 text-sm text-slate-600">No alliance found for '<span class="font-medium text-slate-900">{{allianceInput}}</span>'</p>
+        <div *ngIf="!hide_results && num_results > 0 && !loading" id="search_output_alliances" class="gd-scrollbar max-h-[calc(100vh-240px)] overflow-y-auto max-[1100px]:max-h-none">
+          <table class="w-full border-separate border-spacing-0">
+            <thead>
+              <tr>
+                <th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 text-left text-xs font-medium text-slate-700 pl-5 pr-3">Alliance name</th>
+                <th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 text-left text-xs font-medium text-slate-700 px-3 text-right max-[767px]:hidden">Rank</th>
+                <th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 text-left text-xs font-medium text-slate-700 px-3 max-[767px]:hidden">World</th>
+                <th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 text-left text-xs font-medium text-slate-700 pl-3 pr-5 text-right max-[1199px]:hidden">Points</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let alliance of alliances" class="hover:bg-slate-50">
+                <td class="border-0 border-b border-solid border-slate-100 py-2 align-middle pl-5 pr-3">
+                  <a routerLink="/intel/alliance/{{alliance?.world}}/{{alliance?.id}}" class="inline-flex max-w-full items-center gap-2 text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+                    <svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+                    <span class="truncate">{{alliance?.name}}</span>
+                  </a>
+                </td>
+                <td class="border-0 border-b border-solid border-slate-100 py-2 align-middle px-3 text-right text-sm tabular-nums text-slate-600 max-[767px]:hidden">{{alliance?.rank}}</td>
+                <td class="border-0 border-b border-solid border-slate-100 py-2 align-middle whitespace-nowrap px-3 text-sm text-slate-600 max-[767px]:hidden [&_.bg-flag]:[zoom:0.625]">
+                  <span [outerHTML]="alliance?.world | WorldNamePipe"></span>
+                </td>
+                <td class="border-0 border-b border-solid border-slate-100 py-2 align-middle pl-3 pr-5 text-right text-sm tabular-nums text-slate-600 max-[1199px]:hidden">{{alliance?.points | NumberFilter}}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
       <!--Town results-->
-      <div *ngIf="searching_towns" class="">
-        <div *ngIf="towns?.length < 1 && !loading" class="text-center">
-          <div class="alert alert-gd-1" style="margin-bottom: 0 !important; border-radius: 0 !important;">
-            <h3 style="margin:0;">No towns found matching '<span class="gd-secondary">{{townInput}}</span>'</h3>
-          </div>
-        </div>
-        <div *ngIf="!hide_results && num_results > 0 && !loading" id="search_output_towns">
-          <div class="table">
-            <div class="row_custom header default">
-            <div class="cell custom-cell">Town name</div>
-            <div class="cell hidden-xs">Player</div>
-            <div class="cell hidden-xs hidden-sm">world</div>
-          </div>
-
-            <div *ngFor="let town of towns" class="row_custom">
-              <div class="cell custom-cell name-cell">
-                <a routerLink="/intel/town/{{town?.world}}/{{town?.id}}">
-                  <img src="../../assets/images/town_ico.png"/>
-                  {{town?.name}}
-                </a>
-              </div>
-              <div class="cell hidden-xs" style="width: 30%;">
-                <a routerLink="/intel/player/{{town?.world}}/{{town?.player_id}}" *ngIf="town?.player_id>0">
-                  <img src="../../assets/images/player_ico.png"/>
-                  {{town?.player_name}}
-                </a>
-                <span *ngIf="town?.player_id<=0">Ghost</span>
-              </div>
-	                  <div class="cell world-cell hidden-xs hidden-sm" style="width: 30%;">
-		                  <span [outerHTML]="town?.world | WorldNamePipe"></span>
-	                  </div>
-            </div>
-          </div>
-
+      <div *ngIf="searching_towns">
+        <p *ngIf="towns?.length < 1 && !loading" class="m-0 px-5 py-4 text-sm text-slate-600">No towns found matching '<span class="font-medium text-slate-900">{{townInput}}</span>'</p>
+        <div *ngIf="!hide_results && num_results > 0 && !loading" id="search_output_towns" class="gd-scrollbar max-h-[calc(100vh-240px)] overflow-y-auto max-[1100px]:max-h-none">
+          <table class="w-full border-separate border-spacing-0">
+            <thead>
+              <tr>
+                <th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 text-left text-xs font-medium text-slate-700 pl-5 pr-3">Town name</th>
+                <th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 text-left text-xs font-medium text-slate-700 px-3 max-[767px]:hidden">Player</th>
+                <th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 text-left text-xs font-medium text-slate-700 pl-3 pr-5 max-[991px]:hidden">World</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let town of towns" class="hover:bg-slate-50">
+                <td class="border-0 border-b border-solid border-slate-100 py-2 align-middle pl-5 pr-3">
+                  <a routerLink="/intel/town/{{town?.world}}/{{town?.id}}" class="inline-flex max-w-full items-center gap-2 text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+                    <svg appIcon="town_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+                    <span class="truncate">{{town?.name}}</span>
+                  </a>
+                </td>
+                <td class="border-0 border-b border-solid border-slate-100 py-2 align-middle px-3 text-sm max-[767px]:hidden">
+                  <a routerLink="/intel/player/{{town?.world}}/{{town?.player_id}}" *ngIf="town?.player_id>0" class="inline-flex max-w-full items-center gap-2 text-sm text-slate-600 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+                    <svg appIcon="player_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+                    <span class="truncate">{{town?.player_name}}</span>
+                  </a>
+                  <span *ngIf="town?.player_id<=0" class="italic text-slate-500">Ghost</span>
+                </td>
+                <td class="border-0 border-b border-solid border-slate-100 py-2 align-middle whitespace-nowrap pl-3 pr-5 text-sm text-slate-600 max-[991px]:hidden [&_.bg-flag]:[zoom:0.625]">
+                  <span [outerHTML]="town?.world | WorldNamePipe"></span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
-      <div *ngIf="!loading" fxLayout="row" fxLayoutAlign="center center">
-        <a class="close-results" (click)="hide_results = true; cdr.detectChanges();">
-          Close search results <i class="fa fa-close"></i>
-        </a>
-
+      <div *ngIf="!loading" class="flex justify-center border-0 border-t border-solid border-slate-200 px-5 py-2.5">
+        <button type="button" (click)="hide_results = true; cdr.detectChanges();" class="inline-flex items-center gap-1.5 border-0 bg-transparent p-0 text-sm font-medium text-slate-600 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+          Close search results
+          <svg appIcon="x-mark" class="size-4 flex-none"></svg>
+        </button>
       </div>
 
     </div>

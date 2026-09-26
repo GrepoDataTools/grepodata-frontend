@@ -11,7 +11,6 @@ import {WorldService} from '../../services/world.service';
 @Component({
   selector: 'app-index-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss'],
   providers: [SearchService, WorldService]
 })
 export class IndexSearchComponent implements AfterViewInit {

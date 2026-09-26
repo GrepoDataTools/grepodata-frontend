@@ -45,6 +45,11 @@ export class IndexesComponent implements OnInit, OnDestroy {
 
   readonly ROLE_ADMIN = environment.ROLE_ADMIN;
   readonly ROLE_OWNER = environment.ROLE_OWNER;
+  readonly sortColumns = [
+    {id: 'name', label: 'Team name'},
+    {id: 'world', label: 'World'},
+    {id: 'reports', label: 'Total reports'},
+  ];
 
   mobileQuery: MediaQueryList;
   private readonly _mediaQueryListener: () => void;

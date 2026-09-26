@@ -93,30 +93,38 @@
 					<!--[version]="data.latest_version" [message]="data.update_message" [key]="key"></app-index-version>-->
 
 					<div *ngIf="!mobileQuery.matches">
-						<mat-card class="dense-card">
+						<div class="m-3 overflow-hidden rounded-xl bg-white text-left shadow-sm ring-1 ring-slate-900/[.08]">
 							<mat-tab-group mat-stretch-tabs>
 								<mat-tab>
 									<ng-template mat-tab-label>
-										<img style="height: 20px; margin-top: 0;" src="../../assets/images/player_ico.png"/>&nbsp;Players
+										<span class="inline-flex items-center gap-2 text-sm font-medium">
+											<img src="../../assets/images/player_ico.png" class="size-5 flex-none"/>
+											Players
+										</span>
 									</ng-template>
 									<ng-container *ngTemplateOutlet="players"></ng-container>
 								</mat-tab>
 								<mat-tab>
 									<ng-template mat-tab-label>
-										<img style="height: 20px; margin-top: 0;" src="../../assets/images/ally_ico.png"/>&nbsp;Alliances
+										<span class="inline-flex items-center gap-2 text-sm font-medium">
+											<img src="../../assets/images/ally_ico.png" class="size-5 flex-none"/>
+											Alliances
+										</span>
 									</ng-template>
 									<ng-container *ngTemplateOutlet="allys"></ng-container>
 								</mat-tab>
 								<mat-tab>
 									<ng-template mat-tab-label>
-										<mat-icon style="opacity: 1; vertical-align: bottom;">group</mat-icon>&nbsp;
-										<span class="hidden-xs">Team info</span>
-										<span class="hidden-md hidden-sm hidden-lg">Info</span>
+										<span class="inline-flex items-center gap-2 text-sm font-medium">
+											<svg appIcon="user-group" class="size-5 flex-none"></svg>
+											<span class="max-[767px]:hidden">Team info</span>
+											<span class="hidden max-[767px]:inline">Info</span>
+										</span>
 									</ng-template>
 									<ng-container *ngTemplateOutlet="info"></ng-container>
 								</mat-tab>
 							</mat-tab-group>
-						</mat-card>
+						</div>
 					</div>
 
 					<div *ngIf="mobileQuery.matches" fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="0" style="margin-bottom: -25px;">

@@ -11,7 +11,6 @@ import {LocalCacheService} from '../../../services/local-cache.service';
 @Component({
   selector: 'app-operations',
   templateUrl: './operations.component.html',
-  styleUrls: ['./operations.component.scss'],
   providers: [IndexerService, WorldService]
 })
 export class OperationsComponent implements OnInit, OnDestroy {

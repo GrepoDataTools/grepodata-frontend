@@ -98,7 +98,7 @@
 								<mat-tab>
 									<ng-template mat-tab-label>
 										<span class="inline-flex items-center gap-2 text-sm font-medium">
-											<img src="../../assets/images/player_ico.png" class="size-5 flex-none"/>
+											<svg appIcon="player_ico" variant="game" class="size-5 flex-none"></svg>
 											Players
 										</span>
 									</ng-template>
@@ -114,7 +114,7 @@
 								<mat-tab>
 									<ng-template mat-tab-label>
 										<span class="inline-flex items-center gap-2 text-sm font-medium">
-											<img src="../../assets/images/ally_ico.png" class="size-5 flex-none"/>
+											<svg appIcon="ally_ico" variant="game" class="size-5 flex-none"></svg>
 											Alliances
 										</span>
 									</ng-template>
@@ -160,12 +160,12 @@
                     <h3 class="m-0 text-base font-medium text-slate-900">Most indexed</h3>
                     <div role="group" aria-label="Most indexed list" class="inline-grid grid-cols-2 gap-1 rounded-lg bg-slate-100 p-1">
                       <button type="button" [attr.aria-pressed]="targetsTab === 'players'" (click)="targetsTab = 'players'" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 px-3 py-1.5 text-sm font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="targetsTab === 'players' ? 'bg-white text-slate-900 shadow-sm ring-1 ring-slate-900/[.08]' : 'bg-transparent text-slate-600 hover:text-slate-900'">
-                        <img src="../../assets/images/player_ico.png" class="size-4 flex-none"/>
+                        <svg appIcon="player_ico" variant="game" class="size-4 flex-none"></svg>
                         Players
                         <span class="text-xs tabular-nums text-slate-500">{{data.players_indexed?.length}}</span>
                       </button>
                       <button type="button" [attr.aria-pressed]="targetsTab === 'alliances'" (click)="targetsTab = 'alliances'" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 px-3 py-1.5 text-sm font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="targetsTab === 'alliances' ? 'bg-white text-slate-900 shadow-sm ring-1 ring-slate-900/[.08]' : 'bg-transparent text-slate-600 hover:text-slate-900'">
-                        <img src="../../assets/images/ally_ico.png" class="size-4 flex-none"/>
+                        <svg appIcon="ally_ico" variant="game" class="size-4 flex-none"></svg>
                         Alliances
                         <span class="text-xs tabular-nums text-slate-500">{{data.alliances_indexed?.length}}</span>
                       </button>
@@ -264,14 +264,14 @@
                 </td>
                 <td class="border-0 border-b border-solid border-slate-100 p-3 align-middle">
                   <div class="flex min-w-0 items-center gap-1">
-                    <img src="../../assets/images/town_ico.png" class="size-4 flex-none"/>
+                    <svg appIcon="town_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
                     <a routerLink="/intel/town/{{world}}/{{town?.town_id}}" title="{{town?.town_name}}" class="min-w-0 truncate text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{town?.town_name}}</a>
                   </div>
                   <div class="mt-0.5 flex min-w-0 items-center text-xs text-slate-500">
-                    <img src="../../assets/images/player_ico.png" class="size-4 flex-none"/>
+                    <svg appIcon="player_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
                     <a routerLink="/intel/player/{{world}}/{{town?.player_id}}" title="{{town?.player_name}}" class="ml-1 min-w-0 truncate text-slate-600 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{town?.player_name}}</a>
                     <span class="ml-1 flex-none">(</span>
-                    <img src="../../assets/images/ally_ico.png" class="size-4 flex-none"/>
+                    <svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
                     <a routerLink="/intel/alliance/{{world}}/{{town?.alliance_id}}" title="{{town?.alliance_name}}" class="ml-1 min-w-0 truncate text-slate-600 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{town?.alliance_name}}</a>
                     <span class="flex-none">)</span>
                   </div>
@@ -384,7 +384,7 @@
 							<div class="ml-auto flex min-w-0 items-start gap-2">
 								<div class="flex min-w-0 flex-col items-end gap-1">
 									<div *ngFor="let owner of data.owners" matTooltip="These alliances are the main contributors to this team. The team admin can choose to hide all intel about the towns of these alliances." class="flex min-w-0 max-w-full items-center gap-1 font-medium">
-										<img src="../../assets/images/ally_ico.png" class="size-4 flex-none"/>
+										<svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
 										<span class="truncate">{{owner.alliance_name}}</span>
 									</div>
 								</div>
@@ -429,7 +429,7 @@
 										<span class="truncate">{{user.username}}</span>
 									</div>
 									<div class="mt-0.5 flex min-w-0 items-center gap-1.5 text-xs text-slate-500">
-										<img src="../../assets/images/player_ico.png" class="size-4 flex-none"/>
+										<svg appIcon="player_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
 										<span class="truncate">{{user.player_name}}</span>
 									</div>
 								</div>
@@ -473,7 +473,7 @@
 										</ng-container>
 										<a *ngIf="player.player_id != 0" routerLink="/intel/player/{{world}}/{{player?.player_id}}" title="{{player?.player_name}}" class="block truncate text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{player?.player_name}}</a>
 										<span *ngIf="player.player_id != 0 && player.alliance_name" class="flex min-w-0 items-center gap-1 text-xs text-slate-500">
-											<img src="../../assets/images/ally_ico.png" class="size-4 flex-none"/>
+											<svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
 											<span class="truncate">{{player.alliance_name}}</span>
 										</span>
 									</td>

@@ -28,7 +28,8 @@
               "node_modules/font-awesome/css/font-awesome.css",
               "src/styles.scss",
               "src/gd-theme.scss",
-              "src/assets/styles/style.scss"
+              "src/assets/styles/style.scss",
+              "src/tailwind.generated.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
@@ -117,7 +118,8 @@
               "node_modules/font-awesome/css/font-awesome.css",
               "src/styles.scss",
               "src/gd-theme.scss",
-              "src/assets/styles/icons.scss"
+              "src/assets/styles/icons.scss",
+              "src/tailwind.generated.css"
             ],
             "assets": [
               "src/assets",

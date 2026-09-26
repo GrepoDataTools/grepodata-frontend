@@ -12,7 +12,6 @@ import {DonateDialog} from '../../../../shared/dialogs/donate/donate.component';
 @Component({
   selector: 'app-intel',
   templateUrl: './intel.component.html',
-  styleUrls: ['./intel.component.scss'],
   providers: [ProfileService, WorldService]
 })
 export class IntelComponent implements OnInit {

@@ -25,7 +25,6 @@ const apiUrl = environment.apiUrl;
 @Component({
   selector: 'app-indexes',
   templateUrl: './indexes.component.html',
-  styleUrls: ['./indexes.component.scss'],
   providers: [IndexerService, WorldService, CaptchaService, IndexAuthService],
   encapsulation: ViewEncapsulation.None
 })

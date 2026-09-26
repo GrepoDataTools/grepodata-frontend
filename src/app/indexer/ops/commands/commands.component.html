@@ -267,116 +267,98 @@
             </span>
           </div>
 
-          <div class="command-overview-content gd-dm-scrollbar !max-h-none !min-h-0 flex-1">
+          <div class="min-h-0 flex-1 overflow-y-auto">
+            <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
 
-            <mat-progress-bar style="" *ngIf="loading" mode="indeterminate"></mat-progress-bar>
-
-            <div *ngIf="loading || !commands" class="text-center" style="margin-top: 70px;">
-              <h2 *ngIf="!error">Loading commands ...</h2>
+            <div *ngIf="loading || !commands" class="px-4 py-16 text-center">
+              <p *ngIf="!error" class="m-0 text-sm font-medium text-slate-500 dark:text-slate-400">Loading commands ...</p>
             </div>
 
-            <div class="command-list text-center" *ngIf="!loading && commands && commands.length <= 0">
-              <div *ngIf="is_filtered">
-                <br><h3>No active commands for these filters</h3><br>
-                <a class="a-link-dialog gd-primary" (click)="clearFilter('all')">Clear filters</a>
+            <div *ngIf="!loading && commands && commands.length <= 0" class="px-4 py-16 text-center">
+              <div *ngIf="is_filtered" class="flex flex-col items-center gap-2">
+                <p class="m-0 text-base font-semibold text-slate-900 dark:text-slate-100">No active commands for these filters</p>
+                <button type="button" (click)="clearFilter('all')" class="border-0 bg-transparent p-0 text-sm font-semibold text-brand-700 hover:text-brand-800 hover:underline dark:text-brand-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Clear filters</button>
               </div>
               <div *ngIf="!is_filtered">
-                <br><h3>No active commands</h3><br>
+                <p class="m-0 text-base font-semibold text-slate-900 dark:text-slate-100">No active commands</p>
               </div>
             </div>
 
-            <div *ngIf="error" style="margin-top: 70px;">
-              <h3>
-                <div class="row">
-                  <div class="col-xs-6 col-xs-offset-3">
-                    <app-alert type="error" [dismissible]="false">
-                      <h5>{{error}}</h5>
-                    </app-alert>
-                  </div>
-                </div>
-              </h3>
+            <div *ngIf="error" role="alert" class="mx-auto my-16 flex max-w-lg gap-3 rounded-lg bg-rose-50 px-4 py-3 text-sm text-rose-700 ring-1 ring-inset ring-rose-200 dark:bg-rose-500/10 dark:text-rose-300 dark:ring-rose-400/30">
+              <svg appIcon="exclamation-circle" class="size-5 flex-none text-rose-600 dark:text-rose-400"></svg>
+              <p class="m-0">{{error}}</p>
             </div>
 
-            <div class="command-list" *ngIf="!loading && commands && commands.length > 0">
-              <div class="command-ngfor" *ngFor="let command of commands; let i = index; trackBy: trackCommandByFn" [ngClass]="{'hidden-command': command?.hidden===true, 'planned-command': command?.is_planned===true, 'selected-command': command?.cmd_id == selected_command?.cmd_id, 'command_highlight': command?.type=='attack' && !command?.is_planned}">
-                <div class="command" (click)="selectCommand(command)" [contextMenu]="basicMenu" [contextMenuSubject]="command">
-
-                  <div class="command-content">
-                    <div class="left">
-
-                      <div class="command-type" *ngIf="command?.is_planned==true" title="This is a planned command. It has yet to depart">
-                        <img src="../../assets/images/game/planned.png" style="">
-                      </div>
-
-                      <div class="command-type">
-                        <div class="attack_type32x32 {{command.type}}" [ngClass]="{'glow': command.type=='attack' && !command?.is_planned, 'revolt_arising': command?.attacking_strategy=='revolt_arising', 'revolt_running': command?.attacking_strategy=='revolt_running'}"></div>
-                      </div>
-
-                      <div class="command-details">
-                        <div class="command-targets">
-
-                          <div *ngIf="!command.return">
-                            <ng-container *ngTemplateOutlet="origin; context: {command : command}"></ng-container>
-                            <span class="overview_outgoing icon"></span>
-                            <div class="mobile-newline"></div>
-                            <ng-container *ngTemplateOutlet="destination; context: {command : command}"></ng-container>
-                          </div>
-
-                          <div *ngIf="command.return">
-                            <ng-container *ngTemplateOutlet="destination; context: {command : command}"></ng-container>
-                            <span class="overview_incoming icon"></span>
-                            <div class="mobile-newline"></div>
-                            <ng-container *ngTemplateOutlet="origin; context: {command : command}"></ng-container>
-                          </div>
-
-                        </div>
-                        <div class="command-timing">
-                          <ng-container *ngIf="!command?.is_planned">
-                            <div class="eta">{{command.eta}}</div>
-                            (
-                            <div class="arrival-human" *ngIf="command.subtype != 'cs_eta' && command.subtype != 'attack_takeover' && command.subtype != 'ongoing_revolt'">Arrival at<span *ngIf="command.subtype == 'portal'"> portal</span>: {{command.arrival_human}}</div>
-                            <div class="arrival-human" *ngIf="command.subtype == 'cs_eta' || command.subtype == 'attack_takeover' && command.subtype != 'ongoing_revolt'">Colonized at: {{command.arrival_human}}</div>
-                            <div class="arrival-human" *ngIf="command.subtype == 'ongoing_revolt' && command.attacking_strategy=='revolt_arising'">Phase 2 start: {{command.cancel_human}},&nbsp;</div>
-                            <div class="arrival-human" *ngIf="command.subtype == 'ongoing_revolt'">Phase 2 end: {{command.arrival_human}}</div>
-                            <div class="cancel-human" *ngIf="command.cancelable && active_view && active_view?.showCancelTime">, cancelable until: {{command.cancel_human}}</div>
-                            )
-                          </ng-container>
-                          <ng-container *ngIf="command?.is_planned == true">
-                            <div class="cancel-human">
-                              Planned departure: {{command.cancel_human}} -
-                              Targeted arrival: {{command.arrival_human}} ({{command.eta}})
-                            </div>
-                          </ng-container>
-                          <div class="deleted-status" *ngIf="command.delete_status != ''">
-                            <mat-icon>delete</mat-icon> This command is hidden. Only you can see it
-                          </div>
-                          <div class="comments" *ngIf="command.delete_status == '' && command.comments && command.comments.length > 0" title="View comments">
-                            <span class="">{{command.comments.length}}</span> 💬
-                            <div class="comment-sneakpeek">{{command.comments.slice(-1)[0].text}}</div>
-                          </div>
-                        </div>
-                      </div>
-
-                    </div>
-
-                    <div class="right">
-                      <div class="unit-row" *ngIf="command.type == 'attack_spy'">
-                        <span class="payed_iron">{{command.units}}</span>
-                      </div>
-                      <div class="unit-row" *ngIf="command.type != 'attack_spy'">
-                        <div class="unit-icon-md" *ngFor="let unit of command.units | keyvalue" title="{{unit.key}}">
-                          <div class="unit_icon40x40 {{unit.key}}"><span class="unit-val">{{unit.value}}</span></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-
+            <div *ngIf="!loading && commands && commands.length > 0">
+              <div class="sticky top-0 z-[1] grid gap-x-2.5 border-0 border-b border-solid border-slate-200 bg-slate-50 px-4 py-1.5 text-[11px] font-semibold uppercase leading-4 tracking-wide text-slate-500 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400 max-md:hidden md:grid-cols-[36px_minmax(0,1fr)_16px_minmax(0,1fr)_164px_136px_56px]">
+                <span>Type</span>
+                <span>From</span>
+                <span></span>
+                <span>To</span>
+                <span class="text-right">Time left</span>
+                <span>Units</span>
+                <span class="flex justify-end" title="Comments"><svg appIcon="chat-bubble-oval-left" variant="micro" class="size-3.5"></svg></span>
               </div>
 
-            </div>
+              <div *ngFor="let command of commands; let i = index; trackBy: trackCommandByFn" [ngClass]="{'hidden': command?.hidden===true, 'opacity-80': command?.is_planned===true}">
+                <div (click)="selectCommand(command)" [contextMenu]="basicMenu" [contextMenuSubject]="command" class="grid cursor-pointer grid-cols-[32px_minmax(0,1fr)_auto] items-center gap-x-2.5 gap-y-1.5 border-0 border-b border-solid border-slate-100 px-3 py-2 hover:bg-slate-50 dark:border-slate-800/70 dark:hover:bg-slate-800/40 md:px-4 md:grid-cols-[36px_minmax(0,1fr)_16px_minmax(0,1fr)_164px_136px_56px]" [ngClass]="{'!bg-brand-50 shadow-[inset_3px_0_0_#14A589] dark:!bg-brand-500/10': command?.cmd_id == selected_command?.cmd_id, 'bg-rose-50/70 dark:bg-rose-500/[.07]': command?.type=='attack' && !command?.is_planned}">
+                  <div class="relative row-span-2 self-start md:row-span-1 md:self-center">
+                    <div class="attack_type32x32 {{command.type}} block rounded-md" [ngClass]="{'ring-2 ring-rose-500 ring-offset-2 ring-offset-white dark:ring-offset-[#111A2E]': command.type=='attack' && !command?.is_planned, 'revolt_arising': command?.attacking_strategy=='revolt_arising', 'revolt_running': command?.attacking_strategy=='revolt_running'}"></div>
+                    <img *ngIf="command?.is_planned==true" src="../../assets/images/game/planned.png" title="This is a planned command. It has yet to depart" class="absolute -bottom-1.5 -right-1.5 block size-4 rounded-sm ring-2 ring-white dark:ring-[#111A2E]">
+                  </div>
 
+                  <div class="flex min-w-0 flex-col gap-0.5 md:contents">
+                    <ng-container *ngIf="!command.return">
+                      <ng-container *ngTemplateOutlet="origin; context: {command : command}"></ng-container>
+                      <span class="flex text-slate-300 dark:text-slate-600 max-md:hidden"><svg appIcon="arrow-long-right" variant="mini" class="size-4"></svg></span>
+                      <ng-container *ngTemplateOutlet="destination; context: {command : command}"></ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="command.return">
+                      <ng-container *ngTemplateOutlet="destination; context: {command : command}"></ng-container>
+                      <span class="flex text-slate-400 dark:text-slate-500 max-md:hidden" title="Returning"><svg appIcon="arrow-uturn-left" variant="mini" class="size-4"></svg></span>
+                      <ng-container *ngTemplateOutlet="origin; context: {command : command}"></ng-container>
+                    </ng-container>
+                  </div>
+
+                  <div class="min-w-0 text-right">
+                    <ng-container *ngIf="!command?.is_planned">
+                      <div class="font-mono text-[15px] font-semibold leading-5 tabular-nums" [ngClass]="etaClass(command)">{{command.eta}}</div>
+                      <div class="text-xs leading-4 text-slate-500 dark:text-slate-400">
+                        <span *ngIf="command.subtype != 'cs_eta' && command.subtype != 'attack_takeover' && command.subtype != 'ongoing_revolt'">Arrival at<span *ngIf="command.subtype == 'portal'"> portal</span>: {{command.arrival_human}}</span>
+                        <span *ngIf="command.subtype == 'cs_eta' || command.subtype == 'attack_takeover' && command.subtype != 'ongoing_revolt'">Colonized at: {{command.arrival_human}}</span>
+                        <span *ngIf="command.subtype == 'ongoing_revolt' && command.attacking_strategy=='revolt_arising'">Phase 2 start: {{command.cancel_human}}, </span>
+                        <span *ngIf="command.subtype == 'ongoing_revolt'">Phase 2 end: {{command.arrival_human}}</span>
+                      </div>
+                      <div class="text-[11px] leading-4 text-slate-400 dark:text-slate-500" *ngIf="command.cancelable && active_view && active_view?.showCancelTime">cancelable until: {{command.cancel_human}}</div>
+                    </ng-container>
+                    <ng-container *ngIf="command?.is_planned == true">
+                      <div class="font-mono text-[15px] font-semibold leading-5 tabular-nums text-amber-700 dark:text-amber-300">{{command.eta}}</div>
+                      <div class="text-xs leading-4 text-slate-500 dark:text-slate-400">Planned departure: {{command.cancel_human}}</div>
+                      <div class="text-[11px] leading-4 text-slate-400 dark:text-slate-500">Targeted arrival: {{command.arrival_human}}</div>
+                    </ng-container>
+                  </div>
+
+                  <div class="col-span-2 col-start-2 flex min-w-0 items-center justify-between gap-2 md:contents">
+                    <div class="min-w-0">
+                      <span *ngIf="command.type == 'attack_spy'" title="Silver" class="inline-flex items-center gap-1.5 text-[13px] font-semibold tabular-nums text-slate-700 dark:text-slate-300">
+                        <span class="size-3.5 flex-none rounded-full bg-gradient-to-br from-slate-200 to-slate-400 ring-1 ring-inset ring-slate-900/25"></span>
+                        {{command.units}}
+                      </span>
+                      <ul *ngIf="command.type != 'attack_spy'" class="m-0 flex list-none flex-wrap gap-x-1.5 gap-y-2 p-0">
+                        <li *ngFor="let unit of command.units | keyvalue" title="{{unit.key}}" class="relative size-7 flex-none">
+                          <span class="block size-7 overflow-hidden rounded-md ring-1 ring-inset ring-slate-900/[.18] dark:ring-white/[.14]"><span class="unit_icon40x40 {{unit.key}} block origin-top-left scale-[.7] border-0"></span></span>
+                          <span class="absolute -bottom-[3px] -right-0.5 rounded-[3px] bg-slate-900/[.85] px-[3px] text-[10px] font-semibold leading-[13px] tabular-nums text-white">{{unit.value}}</span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="flex flex-none items-center justify-end gap-1.5">
+                      <span *ngIf="command.delete_status != ''" title="This command is hidden. Only you can see it" class="inline-flex text-rose-600 dark:text-rose-400"><svg appIcon="eye-slash" variant="micro" class="size-4"></svg></span>
+                      <span *ngIf="command.delete_status == '' && command.comments && command.comments.length > 0" title="{{command.comments.slice(-1)[0].text}}" class="inline-flex items-center gap-0.5 text-xs font-semibold tabular-nums text-slate-600 dark:text-slate-300"><svg appIcon="chat-bubble-oval-left" variant="micro" class="size-4 text-slate-400 dark:text-slate-500"></svg>{{command.comments.length}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="flex flex-none flex-col gap-2.5 border-0 border-t border-solid border-slate-200 bg-slate-50 px-4 py-2.5 dark:border-slate-800 dark:bg-slate-900/60">
@@ -610,37 +592,45 @@
    </div>
 
   <ng-template #origin let-command="command">
-  <span *ngIf="command.src_twn_id > 0">
-    <img style="height: 18px; margin-top: -5px;" src="../../assets/images/town_ico.png"/>&nbsp;
-    <span class="gd-brown town-name" (click)="openIntelDialog($event, command.src_twn_id)">{{command.src_twn_n}}</span>&nbsp;
-  </span>
-    <span *ngIf="command.src_ply_id <= 0">
-    <span *ngIf="command.subtype == 'quest'">(Quest)</span>
-    <span *ngIf="command.subtype == 'temple'">(Temple)</span>
-    <span *ngIf="command.subtype == 'portal'">(Portal)</span>
-    <span *ngIf="command.subtype == 'attack_spot'">(Attack Spot)</span>
-    <span *ngIf="command.subtype == 'default'"></span>
-  </span>
-    <span *ngIf="command.src_ply_id > 0" (click)="openIntelDialog($event, command.src_ply_id, 'player')">
-    (<img style="height: 18px; margin-top: -5px;" src="../../assets/images/player_ico.png"/>&nbsp;
-    <span class="gd-brown">{{command.src_ply_n}}</span>)
-  </span>
+    <div class="min-w-0">
+      <div class="flex min-w-0 items-center gap-1 text-[13px] leading-5">
+        <ng-container *ngIf="command.src_twn_id > 0">
+          <svg appIcon="town_ico" variant="game" class="size-3.5 flex-none text-slate-400 dark:text-slate-500"></svg>
+          <span class="min-w-0 cursor-pointer truncate font-semibold text-slate-900 hover:text-brand-800 hover:underline dark:text-slate-100 dark:hover:text-brand-500" (click)="openIntelDialog($event, command.src_twn_id)">{{command.src_twn_n}}</span>
+        </ng-container>
+        <span *ngIf="command.src_ply_id <= 0" class="flex-none text-xs text-slate-500 dark:text-slate-400">
+          <span *ngIf="command.subtype == 'quest'">(Quest)</span>
+          <span *ngIf="command.subtype == 'temple'">(Temple)</span>
+          <span *ngIf="command.subtype == 'portal'">(Portal)</span>
+          <span *ngIf="command.subtype == 'attack_spot'">(Attack Spot)</span>
+          <span *ngIf="command.subtype == 'default'"></span>
+        </span>
+      </div>
+      <div *ngIf="command.src_ply_id > 0" (click)="openIntelDialog($event, command.src_ply_id, 'player')" class="flex min-w-0 cursor-pointer items-center gap-1 text-xs leading-4 text-slate-500 hover:text-brand-800 dark:text-slate-400 dark:hover:text-brand-500">
+        <svg appIcon="player_ico" variant="game" class="size-3 flex-none text-slate-400 dark:text-slate-500"></svg>
+        <span class="truncate">{{command.src_ply_n}}</span>
+      </div>
+    </div>
   </ng-template>
 
   <ng-template #destination let-command="command">
-    <img style="height: 18px; margin-top: -5px;" src="../../assets/images/town_ico.png"/>&nbsp;
-    <span class="gd-brown town-name" (click)="openIntelDialog($event, command.trg_twn_id)">{{command.trg_twn_n}}</span>&nbsp;
-    <span *ngIf="command.trg_ply_id <= 0">
-    <span *ngIf="command.subtype == 'quest'">(Quest)</span>
-    <span *ngIf="command.subtype == 'temple'">(Temple)</span>
-    <span *ngIf="command.subtype == 'portal'">(Portal)</span>
-    <span *ngIf="command.subtype == 'attack_spot'">(Attack Spot)</span>
-    <span *ngIf="command.subtype == 'default'"></span>
-  </span>
-    <span *ngIf="command.trg_ply_id > 0" (click)="openIntelDialog($event, command.trg_ply_id, 'player')">
-    (<img style="height: 18px; margin-top: -5px;" src="../../assets/images/player_ico.png"/>&nbsp;
-    <span class="gd-brown">{{command.trg_ply_n}}</span>)
-  </span>
+    <div class="min-w-0">
+      <div class="flex min-w-0 items-center gap-1 text-[13px] leading-5">
+        <svg appIcon="town_ico" variant="game" class="size-3.5 flex-none text-slate-400 dark:text-slate-500"></svg>
+        <span class="min-w-0 cursor-pointer truncate font-semibold text-slate-900 hover:text-brand-800 hover:underline dark:text-slate-100 dark:hover:text-brand-500" (click)="openIntelDialog($event, command.trg_twn_id)">{{command.trg_twn_n}}</span>
+        <span *ngIf="command.trg_ply_id <= 0" class="flex-none text-xs text-slate-500 dark:text-slate-400">
+          <span *ngIf="command.subtype == 'quest'">(Quest)</span>
+          <span *ngIf="command.subtype == 'temple'">(Temple)</span>
+          <span *ngIf="command.subtype == 'portal'">(Portal)</span>
+          <span *ngIf="command.subtype == 'attack_spot'">(Attack Spot)</span>
+          <span *ngIf="command.subtype == 'default'"></span>
+        </span>
+      </div>
+      <div *ngIf="command.trg_ply_id > 0" (click)="openIntelDialog($event, command.trg_ply_id, 'player')" class="flex min-w-0 cursor-pointer items-center gap-1 text-xs leading-4 text-slate-500 hover:text-brand-800 dark:text-slate-400 dark:hover:text-brand-500">
+        <svg appIcon="player_ico" variant="game" class="size-3 flex-none text-slate-400 dark:text-slate-500"></svg>
+        <span class="truncate">{{command.trg_ply_n}}</span>
+      </div>
+    </div>
   </ng-template>
 
 </div>

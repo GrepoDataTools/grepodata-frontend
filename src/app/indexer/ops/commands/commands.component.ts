@@ -1623,6 +1623,15 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
    * Other
    */
 
+  etaClass(command): string {
+    const parts = (command.eta || '').split(':').map(Number);
+    const seconds = parts.length === 3 ? parts[0] * 3600 + parts[1] * 60 + parts[2] : Infinity;
+    if (seconds < 300) {
+      return 'text-rose-700 dark:text-rose-300';
+    }
+    return seconds < 900 ? 'text-amber-700 dark:text-amber-300' : 'text-slate-900 dark:text-slate-100';
+  }
+
   toggleFilterTab(show) {
     this.mobile_filters_opened = show;
     this.draw();

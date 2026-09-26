@@ -31,129 +31,141 @@
     </button>
   </aside>
 
-  <app-alert class="block" type="warning" [dismissible]="false" [iconOverride]="'feedback'" *ngIf="!no_teams">
-    <p>Please <a routerLink="/profile/bug" class="a-link-dialog">submit a bug report</a> if you run into any issues to help us improve the service.</p>
-  </app-alert>
+  <mat-progress-bar *ngIf="loading_teams" mode="indeterminate"></mat-progress-bar>
 
-      <div class="ops-teams-list-container">
-
-        <mat-progress-bar style="margin-top: -10px;" *ngIf="loading_teams" mode="indeterminate"></mat-progress-bar>
-
-        <div *ngIf="no_operations" style="margin-bottom: 15px;">
-          <app-alert type="info" title="No active operations 💤" [dismissible]="false">
-            <h3 style="margin: 0;" class="gd-secondary">
-              Share your in-game command overview to start an operation
-            </h3>
-            <p>
-              1. Install the userscript<br/>
-              2. Click the <strong>'Share with team'</strong> button on your in-game command overview <br/>
-            </p>
-            <a class="a-link-dialog" (click)="showHelpDialog()">More info</a>
-          </app-alert>
-        </div>
-
-        <section *ngIf="teams && teams.length > 0" class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
-          <div class="flex min-h-[61px] items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 px-5 py-3 max-sm:px-4">
-            <div class="min-w-0">
-              <h2 class="my-0 text-base font-semibold text-slate-900">Your teams</h2>
-              <p class="mb-0 mt-0.5 text-xs tabular-nums text-slate-500">{{activeCount()}} live {{activeCount() === 1 ? 'operation' : 'operations'}} · {{teams.length}} {{teams.length === 1 ? 'team' : 'teams'}}</p>
-            </div>
-          </div>
-          <table class="w-full table-fixed border-separate border-spacing-0 text-left font-normal">
-            <thead>
-              <tr>
-                <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-left text-xs font-medium text-slate-700 pl-5 pr-3 max-sm:pl-4 lg:w-[28%]">Team</th>
-                <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-left text-xs font-medium text-slate-700 w-40 px-3 max-md:hidden">World</th>
-                <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-left text-xs font-medium text-slate-700 w-24 px-3 max-md:hidden">Status</th>
-                <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-left text-xs font-medium text-slate-700 w-28 px-3 !text-right max-sm:hidden">Commands</th>
-                <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-left text-xs font-medium text-slate-700 px-3 max-lg:hidden">Active players</th>
-                <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-left text-xs font-medium text-slate-700 w-32 pl-3 pr-5 max-sm:w-28 max-sm:pr-4"><span class="sr-only">Open</span></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let team of teams; let i = index;" routerLink="/operations/{{team.index}}/{{team.world}}" class="cursor-pointer hover:bg-slate-50">
-                <td class="border-0 border-b border-solid border-slate-100 align-middle py-3 pl-5 pr-3 max-sm:pl-4">
-                  <div class="flex min-w-0 items-center gap-3">
-                    <span class="flex size-8 flex-none items-center justify-center rounded-lg" [ngClass]="team.active ? 'bg-navy-800 text-brand-500' : 'bg-slate-100 text-slate-400'">
-                      <svg appIcon="user-group" class="size-5"></svg>
-                    </span>
-                    <div class="min-w-0">
-                      <div class="truncate text-sm font-semibold text-slate-900">{{team.team}}</div>
-                      <div class="mt-1 flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-xs text-slate-500 md:hidden">
-                        <span class="truncate [&_.bg-flag]:[zoom:0.5]"><span [outerHTML]="team.world | WorldNamePipe"></span></span>
-                        <span *ngIf="team.active" class="font-semibold text-emerald-700">Live · {{team.commands}} commands</span>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td class="border-0 border-b border-solid border-slate-100 align-middle px-3 py-3 text-sm text-slate-700 max-md:hidden">
-                  <div class="truncate [&_.bg-flag]:[zoom:0.625]"><span [outerHTML]="team.world | WorldNamePipe"></span></div>
-                </td>
-                <td class="border-0 border-b border-solid border-slate-100 align-middle px-3 py-3 max-md:hidden">
-                  <ng-container *ngIf="team.active">
-                <span class="inline-flex flex-none items-center gap-1.5 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-700 ring-1 ring-inset ring-emerald-600/25">
-                  <span class="relative flex size-2 flex-none">
-                    <span class="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
-                    <span class="relative inline-flex size-2 rounded-full bg-emerald-500"></span>
-                  </span>
-                  Live
-                </span>
-                  </ng-container>
-                  <ng-container *ngIf="!team.active">
-                <span class="inline-flex flex-none items-center gap-1.5 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600 ring-1 ring-inset ring-slate-600/[.12]">
-                  <span class="size-2 flex-none rounded-full bg-slate-300"></span>
-                  Offline
-                </span>
-                  </ng-container>
-                </td>
-                <td class="border-0 border-b border-solid border-slate-100 align-middle px-3 py-3 text-right text-sm tabular-nums max-sm:hidden">
-                  <span *ngIf="team.active" class="font-semibold text-slate-900">{{team.commands}}</span>
-                  <span *ngIf="!team.active" class="text-slate-300">—</span>
-                </td>
-                <td class="border-0 border-b border-solid border-slate-100 align-middle px-3 py-3 text-sm text-slate-700 max-lg:hidden">
-                  <div *ngIf="team.active" class="flex min-w-0 items-center gap-1.5">
-                    <svg appIcon="player_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
-                    <span class="min-w-0 truncate"><ng-container *ngFor="let player of team.players | keyvalue; let p = index"><ng-container *ngIf="p < 3">{{p > 0 ? ', ' : ''}}{{player.key}} <span class="text-slate-500">({{player.value}})</span></ng-container></ng-container></span>
-                    <span *ngIf="(team.players | keyvalue).length > 3" [matTooltip]="otherPlayers(team)" class="flex-none rounded-full bg-slate-100 px-1.5 text-xs font-medium leading-[18px] text-slate-600">+{{(team.players | keyvalue).length - 3}}</span>
-                  </div>
-                  <span *ngIf="!team.active" class="text-slate-300">—</span>
-                </td>
-                <td class="border-0 border-b border-solid border-slate-100 align-middle py-3 pl-3 pr-5 text-right max-sm:pr-4">
-                  <a *ngIf="team.active" routerLink="/operations/{{team.index}}/{{team.world}}" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md bg-brand-700 px-2.5 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-brand-800 hover:text-white hover:no-underline focus:text-white focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
-                    Open live
-                    <svg appIcon="arrow-right" variant="micro" class="size-3.5 flex-none"></svg>
-                  </a>
-                  <a *ngIf="!team.active" routerLink="/operations/{{team.index}}/{{team.world}}" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 hover:text-slate-900 hover:no-underline focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
-                    Open
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </section>
-
-        <div class="text-center" *ngIf="error!='' && !loading_teams">
-          <app-alert type="error" title="Unable to load your active operations" [dismissible]="false">
-            <h3>{{error}}</h3>
-            <button class="btn btn-default mr-1" (click)="getActiveTeams()">
-              Retry
-            </button>
-          </app-alert>
-        </div>
-
-        <div *ngIf="no_teams">
-          <app-alert type="warning" title="😕 No active teams" [dismissible]="false">
-            <h3 style="margin: 0;" class="gd-secondary">
-              You are not part of any teams
-            </h3>
-            <p>
-              Create or join a team to start sharing your command overview<br/><br/>
-            </p>
-            <button class="btn btn-success mr-1" (click)="newIndexDialog()">
-              Create a team
-            </button>
-          </app-alert>
-        </div>
-
+  <section *ngIf="no_operations" class="grid items-center gap-8 rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-900/[.08] max-sm:p-4 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
+    <div class="space-y-4">
+      <span class="flex size-12 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+        <svg appIcon="signal-slash" class="size-6"></svg>
+      </span>
+      <div>
+        <h2 class="my-0 text-lg font-semibold text-slate-900">No active operations</h2>
+        <p class="mb-0 mt-1 text-sm text-slate-600">Share your in-game command overview to start an operation</p>
       </div>
+      <ol class="m-0 list-none space-y-3 p-0">
+        <li class="flex gap-3">
+          <span class="flex size-7 flex-none items-center justify-center rounded-full bg-brand-50 text-[13px] font-bold text-brand-700">1</span>
+          <span class="pt-1 text-sm text-slate-700">Install the userscript</span>
+        </li>
+        <li class="flex gap-3">
+          <span class="flex size-7 flex-none items-center justify-center rounded-full bg-brand-50 text-[13px] font-bold text-brand-700">2</span>
+          <span class="pt-1 text-sm text-slate-700">Click the <strong class="font-semibold text-slate-900">'Share with team'</strong> button on your in-game command overview</span>
+        </li>
+      </ol>
+      <button type="button" (click)="showHelpDialog()" class="inline-flex items-center gap-1 border-0 bg-transparent p-0 text-sm font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+        More info
+        <svg appIcon="arrow-right" variant="micro" class="size-4 flex-none"></svg>
+      </button>
+    </div>
+    <img src="../../assets/images/share_commands.jpg?v=1" alt="The Share with team button on the in-game command overview" class="block h-auto w-full rounded-lg ring-1 ring-slate-900/10">
+  </section>
+
+  <section *ngIf="teams && teams.length > 0" class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+    <div class="flex min-h-[61px] items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 px-5 py-3 max-sm:px-4">
+      <div class="min-w-0">
+        <h2 class="my-0 text-base font-semibold text-slate-900">Your teams</h2>
+        <p class="mb-0 mt-0.5 text-xs tabular-nums text-slate-500">{{activeCount()}} live {{activeCount() === 1 ? 'operation' : 'operations'}} · {{teams.length}} {{teams.length === 1 ? 'team' : 'teams'}}</p>
+      </div>
+    </div>
+    <table class="w-full table-fixed border-separate border-spacing-0 text-left font-normal">
+      <thead>
+        <tr>
+          <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-left text-xs font-medium text-slate-700 pl-5 pr-3 max-sm:pl-4 lg:w-[28%]">Team</th>
+          <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-left text-xs font-medium text-slate-700 w-40 px-3 max-md:hidden">World</th>
+          <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-left text-xs font-medium text-slate-700 w-24 px-3 max-md:hidden">Status</th>
+          <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-left text-xs font-medium text-slate-700 w-28 px-3 !text-right max-sm:hidden">Commands</th>
+          <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-left text-xs font-medium text-slate-700 px-3 max-lg:hidden">Active players</th>
+          <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-left text-xs font-medium text-slate-700 w-32 pl-3 pr-5 max-sm:w-28 max-sm:pr-4"><span class="sr-only">Open</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let team of teams; let i = index;" routerLink="/operations/{{team.index}}/{{team.world}}" class="cursor-pointer hover:bg-slate-50">
+          <td class="border-0 border-b border-solid border-slate-100 align-middle py-3 pl-5 pr-3 max-sm:pl-4">
+            <div class="flex min-w-0 items-center gap-3">
+              <span class="flex size-8 flex-none items-center justify-center rounded-lg" [ngClass]="team.active ? 'bg-navy-800 text-brand-500' : 'bg-slate-100 text-slate-400'">
+                <svg appIcon="user-group" class="size-5"></svg>
+              </span>
+              <div class="min-w-0">
+                <div class="truncate text-sm font-semibold text-slate-900">{{team.team}}</div>
+                <div class="mt-1 flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-xs text-slate-500 md:hidden">
+                  <span class="truncate [&_.bg-flag]:[zoom:0.5]"><span [outerHTML]="team.world | WorldNamePipe"></span></span>
+                  <span *ngIf="team.active" class="font-semibold text-emerald-700">Live · {{team.commands}} commands</span>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="border-0 border-b border-solid border-slate-100 align-middle px-3 py-3 text-sm text-slate-700 max-md:hidden">
+            <div class="truncate [&_.bg-flag]:[zoom:0.625]"><span [outerHTML]="team.world | WorldNamePipe"></span></div>
+          </td>
+          <td class="border-0 border-b border-solid border-slate-100 align-middle px-3 py-3 max-md:hidden">
+            <ng-container *ngIf="team.active">
+          <span class="inline-flex flex-none items-center gap-1.5 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-700 ring-1 ring-inset ring-emerald-600/25">
+            <span class="relative flex size-2 flex-none">
+              <span class="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex size-2 rounded-full bg-emerald-500"></span>
+            </span>
+            Live
+          </span>
+            </ng-container>
+            <ng-container *ngIf="!team.active">
+          <span class="inline-flex flex-none items-center gap-1.5 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600 ring-1 ring-inset ring-slate-600/[.12]">
+            <span class="size-2 flex-none rounded-full bg-slate-300"></span>
+            Offline
+          </span>
+            </ng-container>
+          </td>
+          <td class="border-0 border-b border-solid border-slate-100 align-middle px-3 py-3 text-right text-sm tabular-nums max-sm:hidden">
+            <span *ngIf="team.active" class="font-semibold text-slate-900">{{team.commands}}</span>
+            <span *ngIf="!team.active" class="text-slate-300">—</span>
+          </td>
+          <td class="border-0 border-b border-solid border-slate-100 align-middle px-3 py-3 text-sm text-slate-700 max-lg:hidden">
+            <div *ngIf="team.active" class="flex min-w-0 items-center gap-1.5">
+              <svg appIcon="player_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+              <span class="min-w-0 truncate"><ng-container *ngFor="let player of team.players | keyvalue; let p = index"><ng-container *ngIf="p < 3">{{p > 0 ? ', ' : ''}}{{player.key}} <span class="text-slate-500">({{player.value}})</span></ng-container></ng-container></span>
+              <span *ngIf="(team.players | keyvalue).length > 3" [matTooltip]="otherPlayers(team)" class="flex-none rounded-full bg-slate-100 px-1.5 text-xs font-medium leading-[18px] text-slate-600">+{{(team.players | keyvalue).length - 3}}</span>
+            </div>
+            <span *ngIf="!team.active" class="text-slate-300">—</span>
+          </td>
+          <td class="border-0 border-b border-solid border-slate-100 align-middle py-3 pl-3 pr-5 text-right max-sm:pr-4">
+            <a *ngIf="team.active" routerLink="/operations/{{team.index}}/{{team.world}}" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md bg-brand-700 px-2.5 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-brand-800 hover:text-white hover:no-underline focus:text-white focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+              Open live
+              <svg appIcon="arrow-right" variant="micro" class="size-3.5 flex-none"></svg>
+            </a>
+            <a *ngIf="!team.active" routerLink="/operations/{{team.index}}/{{team.world}}" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 hover:text-slate-900 hover:no-underline focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+              Open
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <div *ngIf="error!='' && !loading_teams" role="alert" class="flex gap-3 rounded-xl bg-rose-50 px-5 py-4 ring-1 ring-inset ring-rose-200">
+    <svg appIcon="exclamation-circle" class="mt-0.5 size-5 flex-none text-rose-600"></svg>
+    <div class="min-w-0 flex-1 text-sm text-rose-700">
+      <h2 class="my-0 text-sm font-semibold">Unable to load your active operations</h2>
+      <p class="mb-0 mt-1">{{error}}</p>
+    </div>
+    <button type="button" (click)="getActiveTeams()" class="inline-flex flex-none items-center gap-1.5 self-center rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+      <svg appIcon="arrow-path" variant="micro" class="size-3.5 flex-none text-slate-400"></svg>
+      Retry
+    </button>
+  </div>
+
+  <section *ngIf="no_teams" class="flex flex-col items-center rounded-xl bg-white px-6 py-12 text-center shadow-sm ring-1 ring-slate-900/[.08]">
+    <span class="flex size-14 items-center justify-center rounded-full bg-brand-50 text-brand-700">
+      <svg appIcon="user-group" class="size-7"></svg>
+    </span>
+    <h2 class="mb-0 mt-4 text-lg font-semibold text-slate-900">You are not part of any teams</h2>
+    <p class="mb-0 mt-2 max-w-[480px] text-sm text-slate-600">Create or join a team to start sharing your command overview</p>
+    <button type="button" (click)="newIndexDialog()" class="mt-6 inline-flex items-center gap-1.5 rounded-md border-0 bg-brand-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+      <svg appIcon="plus" variant="mini" class="size-5 flex-none"></svg>
+      Create a team
+    </button>
+  </section>
+
+  <p *ngIf="!no_teams" class="my-0 flex items-center justify-center gap-2 text-center text-sm text-slate-500">
+    <svg appIcon="bug-ant" class="size-[18px] flex-none text-slate-400"></svg>
+    <span>Please <a routerLink="/profile/bug" class="font-medium text-brand-700 hover:text-brand-800 hover:underline">submit a bug report</a> if you run into any issues to help us improve the service.</span>
+  </p>
 </div>

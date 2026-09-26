@@ -629,10 +629,10 @@
 									<span class="attack_type32x32 attack" [ngClass]="{ 'sea_attack': report?.attacker?.attack_type == 'sea_attack' }"></span>
 								</span>
 								<article class="min-w-0 flex-1 rounded-[10px] bg-white shadow-sm ring-1 ring-slate-900/[.08]">
-									<div class="flex items-center gap-3 border-0 border-b border-solid border-slate-100 px-3.5 py-2.5">
+									<div class="flex flex-wrap items-center gap-x-3 gap-y-1 border-0 border-b border-solid border-slate-100 px-3.5 py-2.5">
 										<span class="flex-none text-sm font-semibold tabular-nums text-slate-900">{{report.date | Datex : 'HH:mm:ss'}}</span>
-										<span class="h-4 w-px flex-none bg-slate-200"></span>
-										<div class="flex min-w-0 flex-1 flex-wrap items-center gap-x-3 gap-y-1 text-sm">
+										<span class="h-4 w-px flex-none bg-slate-200 max-md:hidden"></span>
+										<div class="order-last flex w-full min-w-0 flex-wrap items-center gap-x-3 gap-y-1 text-sm md:order-none md:w-auto md:flex-1">
 											<a *ngIf="report?.attacker?.friendly==false && report?.attacker?.town_id > 0" routerLink="/intel/town/{{world}}/{{report?.attacker?.town_id}}" class="inline-flex min-w-0 items-center gap-1 font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
 												<svg appIcon="town_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
 												<span class="truncate">{{report?.attacker?.town_name}}</span>
@@ -659,7 +659,7 @@
 											</ng-container>
 											<span *ngIf="report?.attacker?.friendly==true" class="text-slate-500">Town hidden: attacker is team owner</span>
 										</div>
-										<span *ngIf="report?.attacker?.luck!=null" matTooltip="Attacker Luck: {{report?.attacker?.luck}}%" class="inline-flex flex-none items-center gap-1 rounded-md bg-slate-100 px-2 py-0.5 text-xs text-slate-500 ring-1 ring-inset ring-slate-200">
+										<span *ngIf="report?.attacker?.luck!=null" matTooltip="Attacker Luck: {{report?.attacker?.luck}}%" class="ml-auto inline-flex flex-none items-center gap-1 rounded-md bg-slate-100 px-2 py-0.5 text-xs text-slate-500 ring-1 ring-inset ring-slate-200 md:ml-0">
 											Luck
 											<span class="font-semibold tabular-nums text-slate-700">{{report?.attacker?.luck}}%</span>
 										</span>

@@ -1072,6 +1072,15 @@ fieldset[disabled] .btn-success.active {
   overflow: hidden !important;
   border-radius: 12px;
 }
+.team-dialog.cdk-overlay-pane {
+  min-width: 0 !important;
+  max-width: calc(100vw - 32px) !important;
+}
+.team-dialog .mat-dialog-container {
+  padding: 0 !important;
+  overflow: hidden !important;
+  border-radius: 12px;
+}
 
 mat-progress-bar {
   height: 10px !important;

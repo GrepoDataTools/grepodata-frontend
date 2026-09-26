@@ -54,6 +54,7 @@ export class NewIndexDialog {
       this.server = worldService.getDefaultServer();
 
     }
+    dialogRef.addPanelClass('team-dialog');
     indexerService.getWorlds().subscribe((response) => this.loadWorlds(response));
 
     try {

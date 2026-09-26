@@ -1,90 +1,83 @@
-<div style="font-size: 18px; width: auto; max-width: 800px; min-width: 50vw;">
-	<a (click)="close()" class="close" *ngIf="building==false"></a>
-	<h1 class="mat-primary gd-secondary" style="color: #18BC9C; margin-top: 0px;" mat-dialog-title>
-		<span *ngIf="submitted==false && building!=true">Create a new team</span>
-		<span *ngIf="submitted==false && building==true">Creating team..</span>
-		<span *ngIf="submitted==true && building!=true">Team created successfully!</span>
-	</h1>
+<div class="flex max-h-[95vh] w-[560px] max-w-full flex-col text-left font-normal text-slate-900">
+  <div class="flex flex-none items-start gap-4 border-0 border-b border-solid border-slate-200 px-6 py-5">
+    <span *ngIf="submitted==false" class="flex size-10 flex-none items-center justify-center rounded-lg bg-brand-50 text-brand-700">
+      <svg appIcon="plus" class="size-6"></svg>
+    </span>
+    <span *ngIf="submitted==true" class="flex size-10 flex-none items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
+      <svg appIcon="check" class="size-6"></svg>
+    </span>
+    <div class="min-w-0 flex-1">
+      <h2 mat-dialog-title class="m-0 text-xl font-semibold text-slate-900">
+        <span *ngIf="submitted==false && building!=true">Create a new team</span>
+        <span *ngIf="submitted==false && building==true">Creating team..</span>
+        <span *ngIf="submitted==true && building!=true">Team created successfully!</span>
+      </h2>
+      <p *ngIf="submitted==false" class="mb-0 mt-0.5 text-sm text-slate-600">Submit this form to create a new city indexer team.</p>
+    </div>
+    <button *ngIf="building==false" type="button" (click)="close()" aria-label="Close" class="-mr-2 -mt-1 inline-flex size-8 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+      <svg appIcon="x-mark" class="size-5"></svg>
+    </button>
+  </div>
 
-  <hr>
+  <div *ngIf="submitted==false" class="min-h-0 flex-1 space-y-5 overflow-y-auto px-6 py-5">
+    <div class="grid gap-4 sm:grid-cols-[148px_minmax(0,1fr)]">
+      <div>
+        <label class="mb-1.5 block text-sm font-medium text-slate-900">Server</label>
+        <div class="relative">
+          <mat-select aria-label="Server" placeholder="Server" [ngModel]="server" (ngModelChange)="updateWorlds($event)" [disabled]="building" #select class="flex h-10 w-full items-center rounded-md border border-solid border-slate-300 bg-white pl-3 pr-9 text-sm shadow-sm focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700 [&.mat-select-disabled]:bg-slate-50 [&_.mat-select-arrow-wrapper]:hidden [&_.mat-select-trigger]:w-full">
+            <mat-select-trigger>
+              <span class="inline-flex items-center gap-2 [&_.bg-flag]:[zoom:0.625]"><span class="bg-flag flag-inline-middle flag-{{server}}"></span>{{server}}</span>
+            </mat-select-trigger>
+            <mat-option *ngFor="let s of servers" value="{{s}}">
+              <div class="bg-flag flag-inline flag-{{s}}"></div>&nbsp;{{s}}
+            </mat-option>
+          </mat-select>
+          <svg appIcon="chevron-up-down" variant="mini" class="pointer-events-none absolute right-3 top-3 size-4 text-slate-400"></svg>
+        </div>
+      </div>
+      <div>
+        <label class="mb-1.5 block text-sm font-medium text-slate-900">World</label>
+        <div class="relative">
+          <mat-select aria-label="World" placeholder="Select a world" [ngModel]="world" required (ngModelChange)="world = $event" [disabled]="building" class="flex h-10 w-full items-center rounded-md border border-solid border-slate-300 bg-white pl-3 pr-9 text-sm shadow-sm focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700 [&.mat-select-disabled]:bg-slate-50 [&_.mat-select-arrow-wrapper]:hidden [&_.mat-select-trigger]:w-full">
+            <mat-option *ngFor="let w of worlds" value="{{w.id}}">{{w.id}} ({{w.name}})</mat-option>
+          </mat-select>
+          <svg appIcon="chevron-up-down" variant="mini" class="pointer-events-none absolute right-3 top-3 size-4 text-slate-400"></svg>
+        </div>
+      </div>
+    </div>
 
-	<!--<div mat-dialog-content *ngIf="login_required" style="width: 100%;">-->
-	<!--<app-login [embedded]="true" [embeddedCallback]="login_callback"></app-login>-->
-	<!--</div>-->
-	<!--<div mat-dialog-content *ngIf="!login_required && submitted==false && building==false" style="width: 100%;">-->
+    <div>
+      <div class="flex items-baseline justify-between gap-3">
+        <label for="new-team-name" class="mb-1.5 block text-sm font-medium text-slate-900">Team name</label>
+        <span class="text-xs tabular-nums" [ngClass]="index_name.length > 24 ? 'font-medium text-rose-600' : 'text-slate-500'">{{index_name.length}}/24</span>
+      </div>
+      <input id="new-team-name" autocomplete="off" [ngModel]="index_name" (ngModelChange)="index_name=$event" [disabled]="building" required placeholder="Enter a name for your team (e.g. your alliance name)" class="h-10 w-full rounded-md border border-solid border-slate-300 bg-white px-3 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700 disabled:bg-slate-50 disabled:text-slate-400">
+    </div>
 
-	<div mat-dialog-content *ngIf="submitted==false && building==false" style="width: 100%;">
-		<p>Submit this form to create a new city indexer team.</p>
-		<p class="gd-primary"><strong>After creating a team, you can invite your allies to join.</strong></p>
-		<br/>
+    <div *ngIf="error!=''" role="alert" class="flex gap-3 rounded-lg bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700 ring-1 ring-inset ring-rose-200">
+      <svg appIcon="exclamation-circle" class="size-5 flex-none text-rose-600"></svg>
+      <p class="m-0">{{error}}</p>
+    </div>
 
-		<div class="alert alert-gd-1 text-center" style="margin: 0 0 15px 0;">
+    <div class="flex items-center gap-2.5 rounded-lg bg-brand-50 px-4 py-3 text-sm font-medium text-brand-800">
+      <svg appIcon="user-plus" class="size-5 flex-none text-brand-700"></svg>
+      After creating a team, you can invite your allies to join.
+    </div>
+  </div>
 
-			<div class="container-fluid">
+  <div *ngIf="submitted==false" class="flex flex-none items-center gap-3 border-0 border-t border-solid border-slate-200 bg-slate-50 px-6 py-4">
+    <span *ngIf="building==true" class="text-sm text-slate-500">This may take a few seconds</span>
+    <div class="ml-auto flex gap-3">
+      <button *ngIf="building==false" type="button" (click)="close()" class="inline-flex items-center justify-center gap-1.5 rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Cancel</button>
+      <button *ngIf="building==false" type="button" (click)="captchaRef.execute()" class="inline-flex items-center justify-center gap-1.5 rounded-md border-0 bg-brand-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Create team</button>
+      <button *ngIf="building==true" type="button" disabled class="inline-flex items-center justify-center gap-1.5 rounded-md border-0 bg-brand-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 cursor-progress opacity-75">
+        <span class="size-4 animate-spin rounded-full border-2 border-solid border-white/35 border-t-white"></span>
+        Creating team…
+      </button>
+    </div>
+  </div>
 
-				<div class="row">
-					<div class="col-xs-12 col-sm-4">
-						<mat-form-field style="margin-right: 15px; width: 70% !important;">
-							<mat-select placeholder="Server" [ngModel]="server" (ngModelChange)="updateWorlds($event)" #select>
-								<mat-option *ngFor="let s of servers" value="{{s}}">
-									<div class="bg-flag flag-inline flag-{{s}}"></div>&nbsp;{{s}}
-								</mat-option>
-							</mat-select>
-						</mat-form-field>
-						<mat-icon class="icon-margin" *ngIf="server" style="display: contents; width: calc(30% - 15px) !important;">
-							<div class="bg-flag flag-inline flag-{{server}}" style="vertical-align: middle;"></div>
-						</mat-icon>
-					</div>
-
-					<div class="col-xs-12 col-sm-8">
-						<mat-form-field style="margin-right: 10px; width: 100% !important;">
-							<mat-select placeholder="Select a world" [ngModel]="world" required (ngModelChange)="world = $event">
-								<mat-option *ngFor="let w of worlds" value="{{w.id}}">{{w.id}} ({{w.name}})</mat-option>
-							</mat-select>
-						</mat-form-field>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-xs-12">
-						<mat-form-field style="width: 100% !important;">
-							<input autocomplete="off" style="width: 320px !important;" [ngModel]="index_name" (ngModelChange)="index_name=$event" required matInput placeholder="Enter a name for your team (e.g. your alliance name)">
-						</mat-form-field>
-					</div>
-				</div>
-
-				<br/>
-
-				<div class="row">
-					<div *ngIf="error!=''" class="alert alert-danger">
-						<strong>{{error}}</strong>
-					</div>
-				</div>
-			</div>
-
-			<div fxLayout="column" fxLayoutAlign="center" style="width: 100% !important;">
-				<button *ngIf="submitted==false && building==false" style="font-size: 22px; padding: 8px; width: 100%;" mat-button class="mat-raised-button mat-primary" (click)="captchaRef.execute()">
-					Create team
-				</button>
-			</div>
-
-		</div>
-
-	</div>
-
-	<div class="alert alert-gd-1" *ngIf="building==true">
-		<br/>
-		<br/>
-		<p class="text-center">This may take a few seconds</p>
-		<div class="gd-spinner">
-			<div class="blob top"></div>
-			<div class="blob bottom"></div>
-			<div class="blob left"></div>
-
-			<div class="blob move-blob"></div>
-		</div>
-	</div>
-
+  <div *ngIf="submitted==true" class="min-h-0 flex-1 overflow-y-auto px-6 py-5">
 	<div *ngIf="submitted==true && createError == ''">
 		<app-alert type="success" title="Your new team has been created." [dismissible]="false">
 			<h5>
@@ -123,15 +116,14 @@
 			<h5>{{createError}}	</h5>
 		</app-alert>
 	</div>
+  </div>
 
-	<div class="row text-center" style="text-align: -webkit-center;" *ngIf="building!=true">
-		<re-captcha
-			size="invisible"
-			#captchaRef="reCaptcha"
-			siteKey="{{recaptcha_key}}"
-			(resolved)="$event && createNewIndex($event)">
-		</re-captcha>
-	</div>
-
-
+  <div *ngIf="building!=true">
+    <re-captcha
+      size="invisible"
+      #captchaRef="reCaptcha"
+      siteKey="{{recaptcha_key}}"
+      (resolved)="$event && createNewIndex($event)">
+    </re-captcha>
+  </div>
 </div>

@@ -547,6 +547,140 @@
 					</div>
 				</div>
 			</section>
+			<section class="border-0 border-t border-solid border-slate-200">
+				<div class="flex flex-wrap items-center justify-between gap-3 px-6 pb-3 pt-4">
+					<div class="flex items-center gap-2">
+						<h3 class="m-0 text-base font-semibold text-slate-900">Battle reports</h3>
+						<span class="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium tabular-nums text-slate-600">{{conquest.num_attacks_counted}}</span>
+					</div>
+					<div *ngIf="!loadingReports && !errorReports" class="flex items-center gap-4 text-xs text-slate-500">
+						<span class="inline-flex items-center gap-1.5">
+							<span class="rounded-full bg-slate-900/[.72] px-1.5 text-[11px] font-medium leading-[14px] tabular-nums text-white">120</span>
+							Units in battle
+						</span>
+						<span class="inline-flex items-center gap-1.5">
+							<span class="text-[11px] font-semibold leading-[14px] tabular-nums text-rose-700">−40</span>
+							Lost
+						</span>
+					</div>
+				</div>
+				<div *ngIf="!loadingReports && !errorReports" class="relative px-6 pb-6 pt-1">
+					<span class="absolute bottom-10 left-[39px] top-4 w-0.5 bg-slate-200"></span>
+					<ol class="relative m-0 flex list-none flex-col gap-3 p-0">
+						<ng-container *ngFor="let report of reports; let i = index">
+							<li *ngIf="i == 0 || (report.date | Datex : 'YYYY-MM-DD') != (reports[i - 1].date | Datex : 'YYYY-MM-DD')" class="flex items-center gap-3.5">
+								<span class="flex h-5 w-8 flex-none items-center justify-center">
+									<span class="size-2.5 rounded-full bg-white shadow-[0_0_0_3px_#fff] ring-2 ring-inset ring-slate-400"></span>
+								</span>
+								<h4 class="m-0 text-[13px] font-semibold leading-5 text-slate-700">{{report.date | Datex : 'dddd D MMMM'}}</h4>
+							</li>
+							<li class="flex items-start gap-3.5">
+								<span class="relative mt-1.5 flex flex-none rounded-md bg-white shadow-[0_0_0_4px_#fff]">
+									<span class="attack_type32x32 attack" [ngClass]="{ 'sea_attack': report?.attacker?.attack_type == 'sea_attack' }"></span>
+								</span>
+								<article class="min-w-0 flex-1 rounded-[10px] bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+									<div class="flex items-center gap-3 border-0 border-b border-solid border-slate-100 px-3.5 py-2.5">
+										<span class="flex-none text-sm font-semibold tabular-nums text-slate-900">{{report.date | Datex : 'HH:mm:ss'}}</span>
+										<span class="h-4 w-px flex-none bg-slate-200"></span>
+										<div class="flex min-w-0 flex-1 flex-wrap items-center gap-x-3 gap-y-1 text-sm">
+											<a *ngIf="report?.attacker?.friendly==false && report?.attacker?.town_id > 0" routerLink="/intel/town/{{world}}/{{report?.attacker?.town_id}}" class="inline-flex min-w-0 items-center gap-1 font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+												<svg appIcon="town_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+												<span class="truncate">{{report?.attacker?.town_name}}</span>
+											</a>
+											<ng-container *ngIf="report?.attacker?.player_name!=''">
+												<a *ngIf="report?.attacker?.friendly!=true" routerLink="/intel/player/{{world}}/{{report?.attacker?.player_id}}" class="inline-flex min-w-0 items-center gap-1 text-slate-600 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+													<svg appIcon="player_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+													<span class="truncate">{{report?.attacker?.player_name}}</span>
+												</a>
+												<a *ngIf="report?.attacker?.friendly==true" routerLink="/player" [queryParams]="{world: world, id: report?.attacker?.player_id}" class="inline-flex min-w-0 items-center gap-1 text-slate-600 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+													<svg appIcon="player_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+													<span class="truncate">{{report?.attacker?.player_name}}</span>
+												</a>
+											</ng-container>
+											<ng-container *ngIf="report?.attacker?.alliance_id!=0 && allianceNames[report?.attacker?.alliance_id]">
+												<a *ngIf="report?.attacker?.friendly!=true" routerLink="/intel/alliance/{{world}}/{{report?.attacker?.alliance_id}}" class="inline-flex min-w-0 items-center gap-1 text-slate-600 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+													<svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+													<span class="truncate">{{allianceNames[report?.attacker?.alliance_id]}}</span>
+												</a>
+												<a *ngIf="report?.attacker?.friendly==true" routerLink="/alliance" [queryParams]="{world: world, id: report?.attacker?.alliance_id}" class="inline-flex min-w-0 items-center gap-1 text-slate-600 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+													<svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+													<span class="truncate">{{allianceNames[report?.attacker?.alliance_id]}}</span>
+												</a>
+											</ng-container>
+											<span *ngIf="report?.attacker?.friendly==true" class="text-slate-500">Town hidden: attacker is team owner</span>
+										</div>
+										<span *ngIf="report?.attacker?.luck!=null" matTooltip="Attacker Luck: {{report?.attacker?.luck}}%" class="inline-flex flex-none items-center gap-1 rounded-md bg-slate-100 px-2 py-0.5 text-xs text-slate-500 ring-1 ring-inset ring-slate-200">
+											Luck
+											<span class="font-semibold tabular-nums text-slate-700">{{report?.attacker?.luck}}%</span>
+										</span>
+									</div>
+									<div class="grid md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
+										<div class="min-w-0 px-3.5 pb-3 pt-2.5">
+											<p class="mb-1.5 mt-0 text-[11px] font-medium leading-4 text-slate-500">Attacking</p>
+											<div class="flex flex-wrap gap-x-1.5 gap-y-1">
+												<div *ngFor="let unit of report?.attacker?.units" class="flex w-10 flex-none flex-col items-center gap-0.5">
+													<div class="relative flex size-10">
+														<div class="unit_icon40x40 {{unit.name}} rounded-md border-0"></div>
+														<span class="absolute -bottom-px left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-slate-900/[.72] px-1.5 text-[11px] font-medium leading-[14px] tabular-nums text-white">{{unit.count}}</span>
+													</div>
+													<span class="h-3.5 whitespace-nowrap text-[11px] font-semibold leading-[14px] tabular-nums text-rose-700"><ng-container *ngIf="unit.killed_new!=0">−{{unit.killed_new}}</ng-container></span>
+												</div>
+											</div>
+										</div>
+										<div class="min-w-0 border-0 border-t border-solid border-slate-100 px-3.5 pb-3 pt-2.5 md:border-l md:border-t-0">
+											<p class="mb-1.5 mt-0 text-[11px] font-medium leading-4 text-slate-500">Defending</p>
+											<div *ngIf="conquest?.hide_details == true" matTooltip="Remaining defenders are still hidden (4hr cooldown)" class="flex flex-wrap gap-x-1.5 gap-y-1">
+												<div class="flex w-10 flex-none flex-col items-center gap-0.5">
+													<div class="unit_icon40x40 unknown rounded-md border-0"></div>
+													<span class="h-3.5"></span>
+												</div>
+												<div class="flex w-10 flex-none flex-col items-center gap-0.5">
+													<div class="unit_icon40x40 unknown_naval rounded-md border-0"></div>
+													<span class="h-3.5"></span>
+												</div>
+												<div class="flex w-10 flex-none flex-col items-center gap-0.5">
+													<div class="relative flex size-10">
+														<div class="building_icon40x40 wall rounded-md border-0"></div>
+														<span class="absolute -bottom-px left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-slate-900/[.72] px-1.5 text-[11px] font-medium leading-[14px] tabular-nums text-white">{{wallLevel(report?.defender?.wall)}}</span>
+													</div>
+													<span class="h-3.5 whitespace-nowrap text-[11px] font-semibold leading-[14px] tabular-nums text-rose-700">{{wallLoss(report?.defender?.wall)}}</span>
+												</div>
+											</div>
+											<div *ngIf="conquest?.hide_details == false" class="flex flex-wrap gap-x-1.5 gap-y-1">
+												<ng-container *ngFor="let unit of report?.defender?.units?.land">
+													<div *ngIf="!mobile || unit.count > 20 || unit.killed_new!=0" class="flex w-10 flex-none flex-col items-center gap-0.5">
+														<div class="relative flex size-10">
+															<div class="unit_icon40x40 {{unit.name}} rounded-md border-0"></div>
+															<span class="absolute -bottom-px left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-slate-900/[.72] px-1.5 text-[11px] font-medium leading-[14px] tabular-nums text-white">{{unit.count}}</span>
+														</div>
+														<span class="h-3.5 whitespace-nowrap text-[11px] font-semibold leading-[14px] tabular-nums text-rose-700"><ng-container *ngIf="unit.killed_new!=0">−{{unit.killed_new}}</ng-container></span>
+													</div>
+												</ng-container>
+												<ng-container *ngFor="let unit of report?.defender?.units?.sea">
+													<div *ngIf="!mobile || unit.count > 30 || unit.killed_new!=0 || unit.name == 'colonize_ship'" class="flex w-10 flex-none flex-col items-center gap-0.5">
+														<div class="relative flex size-10">
+															<div class="unit_icon40x40 {{unit.name}} rounded-md border-0"></div>
+															<span class="absolute -bottom-px left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-slate-900/[.72] px-1.5 text-[11px] font-medium leading-[14px] tabular-nums text-white">{{unit.count}}</span>
+														</div>
+														<span class="h-3.5 whitespace-nowrap text-[11px] font-semibold leading-[14px] tabular-nums text-rose-700"><ng-container *ngIf="unit.killed_new!=0">−{{unit.killed_new}}</ng-container></span>
+													</div>
+												</ng-container>
+												<div class="flex w-10 flex-none flex-col items-center gap-0.5">
+													<div class="relative flex size-10">
+														<div class="building_icon40x40 wall rounded-md border-0"></div>
+														<span class="absolute -bottom-px left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-slate-900/[.72] px-1.5 text-[11px] font-medium leading-[14px] tabular-nums text-white">{{wallLevel(report?.defender?.wall)}}</span>
+													</div>
+													<span class="h-3.5 whitespace-nowrap text-[11px] font-semibold leading-[14px] tabular-nums text-rose-700">{{wallLoss(report?.defender?.wall)}}</span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</article>
+							</li>
+						</ng-container>
+					</ol>
+				</div>
+			</section>
 		</div>
 	</div>
 </ng-template>

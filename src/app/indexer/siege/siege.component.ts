@@ -129,6 +129,15 @@ export class SiegeComponent implements AfterViewInit, OnChanges {
     });
   }
 
+  public wallLevel(wall): string {
+    return wall == null ? '' : String(wall).split('(')[0].trim();
+  }
+
+  public wallLoss(wall): string {
+    const loss = wall == null ? '' : String(wall).replace('(-0)', '').split('(')[1];
+    return loss ? loss.split(')')[0].replace('-', '−').trim() : '';
+  }
+
   public publishConquest(): void {
     if (this.conquest.num_attacks_counted <= 3 || this.conquest.total_bp_att + this.conquest.total_bp_def <= 5000) {
       window.alert("Sorry, this siege is too small to be published. Total losses must be at least 5000 and there must be at least 4 attacks before you can publish a siege.");

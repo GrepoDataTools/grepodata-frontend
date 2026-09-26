@@ -194,15 +194,9 @@
 		</div>
 </mat-card>
 
-<mat-card class="index-card" *ngIf="indexes.length > 0">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-xs-12" style="margin-top: -25px;">
-        <app-event-list [update]="true"></app-event-list>
-      </div>
-    </div>
-  </div>
-</mat-card>
+<div class="m-[22px]" *ngIf="indexes.length > 0">
+  <app-event-list [update]="true"></app-event-list>
+</div>
 
 <div *ngIf="indexes.length > 1" style="margin: 0 20px;">
   <app-alert type="info text-center" [dismissible]="false">

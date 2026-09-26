@@ -7,7 +7,6 @@ import {JwtService} from '../../auth/services/jwt.service';
 @Component({
   selector: 'app-event-list',
   templateUrl: './event-list.component.html',
-  styleUrls: ['./event-list.component.scss'],
   providers: [IndexerService, JwtService]
 })
 export class EventListComponent implements OnChanges {

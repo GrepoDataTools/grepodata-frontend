@@ -15,7 +15,7 @@ const remToPx = (value) => {
 
 module.exports = {
   content: ['./src/**/*.{html,ts}'],
-  darkMode: ['selector', '.dark-mode'],
+  darkMode: ['variant', '&:is(.dark-mode, .dark-mode *)'],
   corePlugins: {
     preflight: false,
     container: false,

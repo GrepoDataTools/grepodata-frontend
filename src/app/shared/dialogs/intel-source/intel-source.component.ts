@@ -9,7 +9,6 @@ import {LocalCacheService} from '../../../services/local-cache.service';
 @Component({
   selector: 'app-index-settings',
   templateUrl: './intel-source.component.html',
-  styleUrls: ['./intel-source.component.scss'],
   providers: [IndexerService, WorldService, LocalCacheService]
 })
 export class IntelSourceDialog {

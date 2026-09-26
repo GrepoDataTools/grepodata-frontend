@@ -320,14 +320,16 @@
         </ng-template>
 
 				<ng-template #info>
-					<div class="flex items-center justify-between gap-3 bg-navy-800 px-5 py-4" [ngClass]="{'max-[1400px]:hidden': data.total_reports > 0}">
+					<div class="flex items-center justify-between gap-3 bg-navy-800 px-5 py-4">
 						<h1 class="m-0 flex min-w-0 items-center gap-2.5 text-xl font-medium text-white">
 							<svg appIcon="user-group" class="size-6 flex-none text-brand-500"></svg>
 							<span class="truncate">{{index_name}}</span>
 						</h1>
-						<button type="button" *ngIf="is_admin" matTooltip="Index settings" (click)="showSettingsDialog()" class="inline-flex size-9 flex-none items-center justify-center rounded-md border-0 bg-white/[.08] text-slate-200 hover:bg-white/[.14] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
-							<svg appIcon="cog-6-tooth" class="size-5 flex-none"></svg>
-						</button>
+						<span class="inline-flex flex-none" [matTooltip]="is_admin ? 'Index settings' : 'Only team admins can change the team settings'">
+							<button type="button" [disabled]="!is_admin" (click)="showSettingsDialog()" aria-label="Index settings" class="inline-flex size-9 flex-none items-center justify-center rounded-md border-0 bg-white/[.08] text-slate-200 hover:bg-white/[.14] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-white/[.08]">
+								<svg appIcon="cog-6-tooth" class="size-5 flex-none"></svg>
+							</button>
+						</span>
 					</div>
 					<div class="pl-5 text-sm font-normal text-slate-900">
 						<div class="flex items-start gap-4 py-3 pr-5">
@@ -397,15 +399,19 @@
 						<strong *ngIf="role=='write' && contribute===true" class="font-medium">You are currently contributing to this team.</strong>
 						<strong *ngIf="role=='write' && contribute===false" class="font-medium">You have disabled contributions to this team. The intel you collect will not be added to this team.</strong>
 					</div>
-					<div *ngIf="is_admin" class="mt-auto grid grid-cols-1 gap-3 border-0 border-t border-solid border-slate-200 px-5 py-4 md:grid-cols-2">
-						<button type="button" (click)="showMembersDialog()" class="flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-3 py-2 text-sm font-medium text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
-							Manage users
-							<svg appIcon="shield-check" class="size-5 flex-none text-slate-400"></svg>
-						</button>
-						<button type="button" (click)="showShareDialog()" class="flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-brand-700 px-3 py-2 text-sm font-medium text-white shadow-sm hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
-							Share team
-							<svg appIcon="user-plus" class="size-5 flex-none text-white"></svg>
-						</button>
+					<div class="mt-auto grid grid-cols-1 gap-3 border-0 border-t border-solid border-slate-200 px-5 py-4 md:grid-cols-2">
+						<span class="block" [matTooltip]="is_admin ? '' : 'Only team admins can manage users'">
+							<button type="button" [disabled]="!is_admin" (click)="showMembersDialog()" class="flex w-full items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-3 py-2 text-sm font-medium text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-white">
+								Manage users
+								<svg appIcon="shield-check" class="size-5 flex-none text-slate-400"></svg>
+							</button>
+						</span>
+						<span class="block" [matTooltip]="is_admin ? '' : 'Only team admins can share the team'">
+							<button type="button" [disabled]="!is_admin" (click)="showShareDialog()" class="flex w-full items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-brand-700 px-3 py-2 text-sm font-medium text-white shadow-sm hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-brand-700">
+								Share team
+								<svg appIcon="user-plus" class="size-5 flex-none text-white"></svg>
+							</button>
+						</span>
 					</div>
 
 				</ng-template>

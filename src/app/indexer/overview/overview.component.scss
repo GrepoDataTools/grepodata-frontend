@@ -49,19 +49,6 @@
   font-size: 16px;
 }
 
-.intel-info-table {
-  td, th {
-    padding: 2px 0 0;
-    border: none;
-  }
-  th {
-    text-align: right;
-    padding-right: 10px;
-  }
-  p {
-    margin: 0;
-  }
-}
 .no-index-container {
   height: 100%;
 }
@@ -126,15 +113,6 @@ mat-form-field {
   }
 }
 
-@media (max-width:1600px) {
-  .title-city-indexer {
-    font-size: 24px !important;
-  }
-  .title-team-name {
-    margin: 0 0 5px;
-  }
-}
-
 @media (max-width:1400px) {
   .index-card-info {
     box-shadow: none !important;
@@ -144,9 +122,6 @@ mat-form-field {
     .card-header {
       margin: -10px -10px 20px !important;
     }
-  }
-  .index-team-title {
-    display: none;
   }
 }
 
@@ -308,8 +283,4 @@ tr {
   //position: absolute;
   //bottom: 20px;
   //width: calc(100% - 60px);
-}
-
-.edit-owner {
-  cursor: pointer;
 }

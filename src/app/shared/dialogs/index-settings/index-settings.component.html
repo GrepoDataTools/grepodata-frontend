@@ -57,13 +57,13 @@
 
       <mat-progress-bar *ngIf="updating_owners" mode="indeterminate"></mat-progress-bar>
 
-      <div *ngIf="owners.length > 0" class="overflow-hidden rounded-lg border border-solid border-slate-200">
+      <div *ngIf="owners.length > 0" class="overflow-x-auto rounded-lg border border-solid border-slate-200">
         <table class="w-full border-separate border-spacing-0">
           <thead>
           <tr>
-            <th scope="col" class="px-3 py-2.5 text-left text-xs font-semibold text-slate-700 pl-4">Alliance name</th>
-            <th scope="col" class="px-3 py-2.5 text-left text-xs font-semibold text-slate-700 w-[170px]">Contributions</th>
-            <th scope="col" class="px-3 py-2.5 text-left text-xs font-semibold text-slate-700 w-[120px]">
+            <th scope="col" class="px-2 py-2.5 text-left text-xs font-semibold text-slate-700 sm:px-3 pl-3 sm:pl-4">Alliance name</th>
+            <th scope="col" class="px-2 py-2.5 text-left text-xs font-semibold text-slate-700 sm:px-3 sm:w-[170px]">Contributions</th>
+            <th scope="col" class="px-2 py-2.5 text-left text-xs font-semibold text-slate-700 sm:px-3 sm:w-[120px]">
               <span class="inline-flex items-center gap-1">
                 Hide intel
                 <span class="inline-flex text-slate-400" matTooltip="When you turn this on, all intelligence for that alliance will be hidden in this team.">
@@ -71,34 +71,34 @@
                 </span>
               </span>
             </th>
-            <th scope="col" class="px-3 py-2.5 text-left text-xs font-semibold text-slate-700 w-[104px]"><span class="sr-only">Remove</span></th>
+            <th scope="col" class="px-2 py-2.5 text-left text-xs font-semibold text-slate-700 sm:px-3 sm:w-[104px]"><span class="sr-only">Remove</span></th>
           </tr>
           </thead>
           <tbody>
           <tr *ngFor="let owner of owners;">
-            <td class="border-0 border-t border-solid border-slate-100 px-3 py-2.5 align-middle pl-4">
+            <td class="border-0 border-t border-solid border-slate-100 px-2 py-2.5 align-middle sm:px-3 pl-3 sm:pl-4">
               <a routerLink="/alliance" [queryParams]="{world: index.world, id: owner.alliance_id}" class="inline-flex items-center gap-1.5 text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
                 <svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
                 {{owner.alliance_name}}
               </a>
             </td>
-            <td class="border-0 border-t border-solid border-slate-100 px-3 py-2.5 align-middle">
+            <td class="border-0 border-t border-solid border-slate-100 px-2 py-2.5 align-middle sm:px-3">
               <div class="flex items-center gap-2.5">
-                <div class="h-1.5 w-[72px] flex-none overflow-hidden rounded-full bg-slate-100">
+                <div class="h-1.5 w-[72px] flex-none overflow-hidden rounded-full bg-slate-100 max-sm:hidden">
                   <div class="h-1.5 rounded-full bg-brand-600" [style.width.%]="owner.share > 0 ? owner.share : 0"></div>
                 </div>
                 <span *ngIf="owner.share>0" class="text-sm font-medium tabular-nums text-slate-900">{{owner.share}}%</span>
                 <span *ngIf="owner.share<=0" class="text-sm font-medium tabular-nums text-slate-900">0</span>
               </div>
             </td>
-            <td class="border-0 border-t border-solid border-slate-100 px-3 py-2.5 align-middle" matTooltip="When you turn this on, all intelligence for {{owner.alliance_name}} will be hidden in this team.">
+            <td class="border-0 border-t border-solid border-slate-100 px-2 py-2.5 align-middle sm:px-3" matTooltip="When you turn this on, all intelligence for {{owner.alliance_name}} will be hidden in this team.">
               <label class="relative m-0 inline-flex cursor-pointer">
                 <input type="checkbox" role="switch" class="peer sr-only" [attr.aria-label]="'Hide intel about ' + owner.alliance_name" [disabled]="updating_owners" [checked]="owner.hide_intel" (click)="toggleIntelDisplay(owner)">
                 <span class="relative h-5 w-9 flex-none rounded-full bg-slate-200 transition-colors after:absolute after:left-0.5 after:top-0.5 after:size-4 after:rounded-full after:bg-white after:shadow-sm after:transition-transform after:content-[''] peer-checked:bg-brand-700 peer-checked:after:translate-x-4 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand-700 peer-disabled:opacity-50"></span>
               </label>
             </td>
-            <td class="border-0 border-t border-solid border-slate-100 px-3 py-2.5 align-middle pl-1 text-right">
-              <button type="button" (click)="removeOwner(owner)" [disabled]="updating_owners" class="inline-flex items-center rounded-md border-0 bg-transparent px-2 py-1.5 text-sm font-medium text-rose-700 hover:bg-rose-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-default disabled:text-slate-300 disabled:hover:bg-transparent">Remove</button>
+            <td class="border-0 border-t border-solid border-slate-100 px-2 py-2.5 align-middle sm:px-3 pl-1 text-right sm:pl-1">
+              <button type="button" (click)="removeOwner(owner)" [disabled]="updating_owners" class="inline-flex items-center rounded-md border-0 bg-transparent px-1.5 py-1.5 text-sm font-medium text-rose-700 sm:px-2 hover:bg-rose-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-default disabled:text-slate-300 disabled:hover:bg-transparent"><svg appIcon="trash" class="size-4 flex-none sm:hidden"></svg><span class="max-sm:sr-only">Remove</span></button>
             </td>
           </tr>
           </tbody>
@@ -132,14 +132,14 @@
         <div *ngIf="searched" class="mt-3">
           <p *ngIf="alliances?.length < 1 && !searching" class="m-0 py-4 text-center text-sm text-slate-600">No alliances found for your search <span class="font-medium text-slate-900">'{{allianceInput}}'</span></p>
           <ul *ngIf="!searching && alliances?.length > 0" id="search_output_alliances" class="m-0 list-none rounded-md bg-white p-0 ring-1 ring-inset ring-slate-200">
-            <li *ngFor="let alliance of alliances" class="flex items-center gap-3 border-0 border-t border-solid border-slate-100 px-3 py-2 first:border-t-0">
-              <a target="_blank" routerLink="/alliance" [queryParams]="{world: alliance?.world, id: alliance?.id}" class="inline-flex min-w-0 flex-1 items-center gap-1.5 text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+            <li *ngFor="let alliance of alliances" class="flex flex-wrap items-center gap-x-3 gap-y-1 border-0 border-t border-solid border-slate-100 px-3 py-2 first:border-t-0">
+              <a target="_blank" routerLink="/alliance" [queryParams]="{world: alliance?.world, id: alliance?.id}" class="inline-flex min-w-0 flex-1 basis-full items-center gap-1.5 text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 sm:basis-0">
                 <svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
                 <span class="truncate">{{alliance?.name}}</span>
               </a>
               <span class="w-[72px] flex-none text-xs tabular-nums text-slate-500 max-sm:hidden">Rank {{alliance?.rank}}</span>
               <span class="w-[84px] flex-none text-xs tabular-nums text-slate-500">{{alliance?.members}} members</span>
-              <span class="flex w-[170px] flex-none justify-end">
+              <span class="ml-auto flex flex-none justify-end sm:w-[170px]">
                 <span *ngIf="getExistingOwnerIds().indexOf(alliance?.id)>=0" class="inline-flex items-center gap-1 text-xs text-slate-500">
                   <svg appIcon="check" variant="micro" class="size-3.5 flex-none text-slate-400"></svg>
                   Already in contributor list
@@ -159,11 +159,13 @@
       <div class="min-w-0 flex-1">
         <h3 class="m-0 text-base font-semibold text-slate-900">Allow users to join this team with the old index key</h3>
         <p class="mb-0 mt-1 text-sm text-slate-600">If this option is enabled, anyone with the old index url (<strong class="font-semibold text-slate-900">grepodata.com/indexer/{{index.key}}</strong>) will be able to join this team.</p>
-        <p *ngIf="v1join_error==''" class="mb-0 mt-2 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs" [ngClass]="allow_join_v1_key ? 'text-slate-600' : 'text-amber-700'">
+        <p *ngIf="v1join_error==''" class="mb-0 mt-2 flex items-start gap-1.5 text-xs" [ngClass]="allow_join_v1_key ? 'text-slate-600' : 'text-amber-700'">
           <svg [appIcon]="allow_join_v1_key ? 'check-circle' : 'exclamation-triangle'" class="size-4 flex-none" [ngClass]="allow_join_v1_key ? 'text-emerald-600' : 'text-amber-500'"></svg>
-          <span *ngIf="!allow_join_v1_key">The old index url will no longer give users access to the intel in this team.</span>
-          <span *ngIf="allow_join_v1_key">Users will be able to join your team if they have the old index key/url</span>
-          <span *ngIf="updating_v1join_success" class="font-semibold text-emerald-700">Settings saved ✓</span>
+          <span class="min-w-0 pt-px">
+            <span *ngIf="!allow_join_v1_key">The old index url will no longer give users access to the intel in this team.</span>
+            <span *ngIf="allow_join_v1_key">Users will be able to join your team if they have the old index key/url</span>
+            <span *ngIf="updating_v1join_success" class="ml-1.5 font-semibold text-emerald-700">Settings saved ✓</span>
+          </span>
         </p>
         <div *ngIf="v1join_error!=''" role="alert" class="mt-3 flex gap-3 rounded-lg bg-rose-50 px-4 py-3 text-sm text-rose-700 ring-1 ring-inset ring-rose-200">
           <svg appIcon="exclamation-circle" class="size-5 flex-none text-rose-600"></svg>

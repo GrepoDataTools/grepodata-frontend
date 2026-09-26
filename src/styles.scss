@@ -81,14 +81,6 @@ pre {
   }
 }
 
-.search-card {
-  border-radius: 1rem !important;
-  padding: 10px 0 5px !important;
-  box-shadow: 0px 0px 10px 1px #18333314 !important;
-  margin: 22px !important;
-  border: 0;
-}
-
 .embedded-intel-card {
   box-shadow: none !important;
   padding: 0 !important;
@@ -510,11 +502,6 @@ mat-paginator {
     &.index-intel-card {
       padding: 5px !important;
     }
-  }
-  .search-card {
-    margin: 0 !important;
-    padding: 0 !important;
-    margin-bottom: 25px !important;
   }
   .dense-card {
     padding: 10px !important;

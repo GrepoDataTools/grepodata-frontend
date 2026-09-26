@@ -41,9 +41,9 @@
         <span class="gd-secondary">GrepoData will be offline for maintenance on <strong>December 1, 2024 from 11:00 UTC until 13:00 UTC.</strong><br/></span>
       </app-alert> -->
 
-      <mat-card *ngIf="account_confirmed && ['intel', 'player', 'alliance', 'town', 'team'].indexOf(active_tab)>=0" class="search-card">
+      <div *ngIf="account_confirmed && ['intel', 'player', 'alliance', 'town', 'team'].indexOf(active_tab)>=0" class="m-[22px] rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-900/[.08] max-[1000px]:m-0 max-[1000px]:mb-[25px] max-[1000px]:p-3">
         <app-index-search></app-index-search>
-      </mat-card>
+      </div>
 
       <div *ngIf="active_tab === 'bug'">
         <app-bug-report></app-bug-report>

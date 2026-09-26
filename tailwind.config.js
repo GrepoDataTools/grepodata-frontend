@@ -1,3 +1,18 @@
+const defaultTheme = require('tailwindcss/defaultTheme');
+
+const remToPx = (value) => {
+  if (typeof value === 'string') {
+    return value.replace(/(-?\d*\.?\d+)rem/g, (match, rem) => `${parseFloat(rem) * 16}px`);
+  }
+  if (Array.isArray(value)) {
+    return value.map(remToPx);
+  }
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(Object.entries(value).map(([key, entry]) => [key, remToPx(entry)]));
+  }
+  return value;
+};
+
 module.exports = {
   content: ['./src/**/*.{html,ts}'],
   corePlugins: {
@@ -6,6 +21,12 @@ module.exports = {
   },
   blocklist: ['collapse', 'contents'],
   theme: {
+    spacing: remToPx(defaultTheme.spacing),
+    fontSize: remToPx(defaultTheme.fontSize),
+    lineHeight: remToPx(defaultTheme.lineHeight),
+    borderRadius: remToPx(defaultTheme.borderRadius),
+    columns: remToPx(defaultTheme.columns),
+    maxWidth: (utils) => remToPx(defaultTheme.maxWidth(utils)),
     extend: {
       colors: {
         brand: {

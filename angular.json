@@ -21,7 +21,12 @@
               "src/assets",
               "src/.htaccess",
               "src/favicon.ico",
-              "src/ads.txt"
+              "src/ads.txt",
+              {
+                "glob": "**/*.svg",
+                "input": "node_modules/heroicons",
+                "output": "assets/heroicons"
+              }
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -125,7 +130,12 @@
               "src/assets",
               "src/.htaccess",
               "src/favicon.ico",
-              "src/ads.txt"
+              "src/ads.txt",
+              {
+                "glob": "**/*.svg",
+                "input": "node_modules/heroicons",
+                "output": "assets/heroicons"
+              }
             ]
           }
         },

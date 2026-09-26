@@ -482,7 +482,15 @@
 											{{reportAge(player.last_report)}}
 										</span>
 									</td>
-									<td class="border-0 border-b border-solid border-slate-100 py-2.5 align-middle px-3 text-right text-sm font-medium tabular-nums text-slate-900">{{player.count}}</td>
+									<td class="border-0 border-b border-solid border-slate-100 py-2.5 align-middle px-3 text-right">
+										<span class="block text-sm font-medium tabular-nums text-slate-900">{{player.count}}</span>
+										<span *ngIf="player.report_types" role="img" [attr.aria-label]="reportSplit(player.report_types)" title="{{reportSplit(player.report_types)}}" class="ml-auto mt-1.5 flex h-1.5 w-[72px] gap-0.5 overflow-hidden rounded-full">
+											<span *ngIf="player.report_types.friendly_attack" class="basis-0 bg-report-friendly" [style.flex-grow]="player.report_types.friendly_attack"></span>
+											<span *ngIf="player.report_types.enemy_attack" class="basis-0 bg-report-enemy" [style.flex-grow]="player.report_types.enemy_attack"></span>
+											<span *ngIf="player.report_types.spy" class="basis-0 bg-report-spy" [style.flex-grow]="player.report_types.spy"></span>
+											<span *ngIf="player.report_types.other" class="basis-0 bg-report-other" [style.flex-grow]="player.report_types.other"></span>
+										</span>
+									</td>
 									<td class="border-0 border-b border-solid border-slate-100 py-2.5 align-middle whitespace-nowrap py-1.5 pl-1 pr-4 text-right">
 										<a routerLink="/player" [queryParams]="{world: world, id: player?.player_id}" title="Stats" class="inline-flex size-7 items-center justify-center rounded-md align-middle text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
 											<svg appIcon="chart-bar" class="size-[18px] flex-none"></svg>
@@ -492,6 +500,13 @@
 								</tr>
 							</tbody>
 						</table>
+					</div>
+					<div class="mt-auto flex min-h-[41px] flex-wrap items-center gap-x-4 gap-y-1 border-0 border-t border-solid border-slate-200 px-5 py-2.5 text-xs text-slate-600">
+						<span class="inline-flex flex-none items-center gap-1.5 whitespace-nowrap"><span class="size-2.5 flex-none rounded-[3px] bg-report-friendly"></span>Our attacks</span>
+						<span class="inline-flex flex-none items-center gap-1.5 whitespace-nowrap"><span class="size-2.5 flex-none rounded-[3px] bg-report-enemy"></span>Attacks on us</span>
+						<span class="inline-flex flex-none items-center gap-1.5 whitespace-nowrap"><span class="size-2.5 flex-none rounded-[3px] bg-report-spy"></span>Spy reports</span>
+						<span class="inline-flex flex-none items-center gap-1.5 whitespace-nowrap"><span class="size-2.5 flex-none rounded-[3px] bg-report-other"></span>Other</span>
+						<span class="ml-auto text-slate-500">Coverage = towns with a report ÷ the player's towns</span>
 					</div>
 				</ng-template>
 
@@ -537,7 +552,15 @@
 											{{reportAge(alliance.last_report)}}
 										</span>
 									</td>
-									<td class="border-0 border-b border-solid border-slate-100 py-2.5 align-middle px-3 text-right text-sm font-medium tabular-nums text-slate-900">{{alliance.count}}</td>
+									<td class="border-0 border-b border-solid border-slate-100 py-2.5 align-middle px-3 text-right">
+										<span class="block text-sm font-medium tabular-nums text-slate-900">{{alliance.count}}</span>
+										<span *ngIf="alliance.report_types" role="img" [attr.aria-label]="reportSplit(alliance.report_types)" title="{{reportSplit(alliance.report_types)}}" class="ml-auto mt-1.5 flex h-1.5 w-[72px] gap-0.5 overflow-hidden rounded-full">
+											<span *ngIf="alliance.report_types.friendly_attack" class="basis-0 bg-report-friendly" [style.flex-grow]="alliance.report_types.friendly_attack"></span>
+											<span *ngIf="alliance.report_types.enemy_attack" class="basis-0 bg-report-enemy" [style.flex-grow]="alliance.report_types.enemy_attack"></span>
+											<span *ngIf="alliance.report_types.spy" class="basis-0 bg-report-spy" [style.flex-grow]="alliance.report_types.spy"></span>
+											<span *ngIf="alliance.report_types.other" class="basis-0 bg-report-other" [style.flex-grow]="alliance.report_types.other"></span>
+										</span>
+									</td>
 									<td class="border-0 border-b border-solid border-slate-100 py-2.5 align-middle whitespace-nowrap py-1.5 pl-1 pr-4 text-right">
 										<a routerLink="/alliance" [queryParams]="{world: world, id: alliance?.alliance_id}" title="Stats" class="inline-flex size-7 items-center justify-center rounded-md align-middle text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
 											<svg appIcon="chart-bar" class="size-[18px] flex-none"></svg>
@@ -547,6 +570,13 @@
 								</tr>
 							</tbody>
 						</table>
+					</div>
+					<div class="mt-auto flex min-h-[41px] flex-wrap items-center gap-x-4 gap-y-1 border-0 border-t border-solid border-slate-200 px-5 py-2.5 text-xs text-slate-600">
+						<span class="inline-flex flex-none items-center gap-1.5 whitespace-nowrap"><span class="size-2.5 flex-none rounded-[3px] bg-report-friendly"></span>Our attacks</span>
+						<span class="inline-flex flex-none items-center gap-1.5 whitespace-nowrap"><span class="size-2.5 flex-none rounded-[3px] bg-report-enemy"></span>Attacks on us</span>
+						<span class="inline-flex flex-none items-center gap-1.5 whitespace-nowrap"><span class="size-2.5 flex-none rounded-[3px] bg-report-spy"></span>Spy reports</span>
+						<span class="inline-flex flex-none items-center gap-1.5 whitespace-nowrap"><span class="size-2.5 flex-none rounded-[3px] bg-report-other"></span>Other</span>
+						<span class="ml-auto text-slate-500">Coverage = members with a report ÷ all members</span>
 					</div>
 				</ng-template>
 

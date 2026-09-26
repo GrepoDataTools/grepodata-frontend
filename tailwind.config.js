@@ -39,6 +39,12 @@ module.exports = {
         navy: {
           800: '#2C3E50',
         },
+        report: {
+          friendly: '#2A78D6',
+          enemy: '#EB6834',
+          spy: '#1BAF7A',
+          other: '#94A3B8',
+        },
       },
     },
   },

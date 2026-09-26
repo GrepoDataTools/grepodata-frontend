@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Subscription } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 
-export type IconVariant = 'outline' | 'solid' | 'mini' | 'micro';
+export type IconVariant = 'outline' | 'solid' | 'mini' | 'micro' | 'game';
 
 const VARIANTS: { [variant in IconVariant]: { path: string; size: number } } = {
-    outline: { path: '24/outline', size: 24 },
-    solid: { path: '24/solid', size: 24 },
-    mini: { path: '20/solid', size: 20 },
-    micro: { path: '16/solid', size: 16 },
+    outline: { path: 'assets/heroicons/24/outline', size: 24 },
+    solid: { path: 'assets/heroicons/24/solid', size: 24 },
+    mini: { path: 'assets/heroicons/20/solid', size: 20 },
+    micro: { path: 'assets/heroicons/16/solid', size: 16 },
+    game: { path: 'assets/images', size: 16 },
 };
 
 const COPIED_ATTRIBUTES = ['viewBox', 'fill', 'stroke', 'stroke-width'];
@@ -30,7 +31,7 @@ export class IconDirective implements OnChanges, OnDestroy {
     ngOnChanges(): void {
         const variant = VARIANTS[this.variant] || VARIANTS.outline;
         const svg = this.host.nativeElement;
-        const url = `assets/heroicons/${variant.path}/${this.appIcon}.svg`;
+        const url = `${variant.path}/${this.appIcon}.svg`;
 
         this.renderer.setAttribute(svg, 'width', String(variant.size));
         this.renderer.setAttribute(svg, 'height', String(variant.size));

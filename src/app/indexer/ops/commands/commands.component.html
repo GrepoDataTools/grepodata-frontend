@@ -386,85 +386,66 @@
         </section>
       </div>
 
-      <div *ngIf="!selected_command" class="command-sidepanel command-comments-container" [ngClass]="{'opened': mobile_comments_opened}">
-        <div class="panel-header">
-          <div class="comment-header comment-title">
-            <h3 title="These are currently the most targeted towns. Click on a city to filter the command overview.">
-              Operation Targets
-              <span *ngIf="targets.length>4">&nbsp;({{targets.length}})</span>
-            </h3>
-            <!--                <button class="btn btn-success" *ngIf="!show_menu" (click)="show_menu=true" title="Map View">-->
-            <!--                  Map View <mat-icon>map</mat-icon>-->
-            <!--                </button>-->
+      <aside *ngIf="!selected_command" class="flex w-[304px] flex-none flex-col border-0 border-l border-solid border-slate-200 bg-white font-normal dark:border-slate-800 dark:bg-slate-900 max-lg:hidden" [ngClass]="{'max-lg:!flex max-lg:fixed max-lg:bottom-0 max-lg:right-0 max-lg:top-[58px] max-lg:z-[1001] max-lg:w-[min(360px,100vw)] max-lg:shadow-xl': mobile_comments_opened}">
+        <div class="flex flex-none flex-col gap-3 border-0 border-b border-solid border-slate-200 p-4 dark:border-slate-800">
+          <h2 title="These are currently the most targeted towns. Click on a city to filter the command overview." class="m-0 flex items-center gap-2 text-base font-semibold text-slate-900 dark:text-slate-100">
+            Operation targets
+            <span *ngIf="targets.length>4" class="rounded-full bg-slate-100 px-2 text-xs font-semibold leading-5 tabular-nums text-slate-600 ring-1 ring-inset ring-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:ring-slate-700">{{targets.length}}</span>
+          </h2>
+          <div *ngIf="targets && targets.length > 4" class="flex gap-2">
+            <label class="relative m-0 min-w-0 flex-1 font-normal">
+              <svg appIcon="magnifying-glass" variant="mini" class="pointer-events-none absolute left-2.5 top-2.5 size-4 text-slate-400"></svg>
+              <input type="search" placeholder="Filter targets" [(ngModel)]="filter_targets_text" (ngModelChange)="draw()" class="h-9 w-full rounded-md border-0 bg-white pl-8 pr-8 text-sm font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700 dark:bg-slate-950 dark:text-slate-100 dark:ring-slate-700 dark:placeholder:text-slate-500">
+              <button type="button" *ngIf="filter_targets_text.length>0" (click)="filter_targets_text=''; draw()" aria-label="Clear target filter" class="absolute right-1.5 top-1.5 inline-flex size-6 items-center justify-center rounded border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200">
+                <svg appIcon="x-mark" variant="micro" class="size-4"></svg>
+              </button>
+            </label>
+            <button type="button" class="inline-flex h-9 flex-none items-center gap-1 whitespace-nowrap rounded-md border-0 bg-white px-2.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-100 dark:ring-slate-700 dark:hover:bg-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" *ngIf="targets_sort=='movements_desc'" (click)="targets_sort='arrival_asc'; sort_targets(true)" title="Sort Targets">
+              <svg appIcon="bars-arrow-down" variant="micro" class="size-4 flex-none text-slate-400"></svg>
+              Incoming
+            </button>
+            <button type="button" class="inline-flex h-9 flex-none items-center gap-1 whitespace-nowrap rounded-md border-0 bg-white px-2.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-100 dark:ring-slate-700 dark:hover:bg-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" *ngIf="targets_sort=='arrival_asc'" (click)="targets_sort='movements_desc'; sort_targets(true)" title="Sort Targets">
+              <svg appIcon="clock" variant="micro" class="size-4 flex-none text-slate-400"></svg>
+              ETA
+            </button>
           </div>
-          <hr style="margin-bottom: 10px;">
         </div>
 
-        <div class="panel-content gd-dm-scrollbar">
-          <div *ngIf="!targets || targets.length <= 0">
-            <h5 style="text-align: center;"><br/><br/><br/>No active targets</h5>
-          </div>
-          <div *ngIf="targets && targets.length > 0">
-
-            <div *ngIf="targets.length > 4" class="filter-targets">
-              <input type="search" placeholder="Type here to filter targets" [(ngModel)]="filter_targets_text" (ngModelChange)="draw()" style="width: 100%;"/>
-              <input *ngIf="filter_targets_text.length>0" type="reset" value="X" (click)="filter_targets_text=''; draw()">
-
-              <input *ngIf="targets_sort=='movements_desc'" type="reset" value="⚔️ Incoming ↓" (click)="targets_sort='arrival_asc'; sort_targets(true)" title="Sort Targets">
-              <input *ngIf="targets_sort=='arrival_asc'" type="reset" value="⏱️ ETA ↑" (click)="targets_sort='movements_desc'; sort_targets(true)" title="Sort Targets">
-<!--                  <select [(ngModel)]="targets_sort" (ngModelChange)="sort_targets(true)" title="Sort Targets">-->
-<!--                    <option value="movements_desc" selected>⚔️Incoming</option>-->
-<!--                    <option value="arrival_asc">⏱️ETA</option>-->
-<!--                  </select>-->
-            </div>
-
+        <div class="min-h-0 flex-1 overflow-y-auto p-3">
+          <p *ngIf="!targets || targets.length <= 0" class="m-0 px-2 py-12 text-center text-sm text-slate-500 dark:text-slate-400">No active targets</p>
+          <div *ngIf="targets && targets.length > 0" class="flex flex-col gap-2">
             <ng-container *ngFor="let target of targets">
-              <div *ngIf="filter_targets_text.length <= 0 || targetMatchesFilter(target)" class="command-target" (click)="selectTarget(target)" [ngClass]="{'active-target': isSelectedTarget(target)}">
-                <div class="town_tooltip game-border">
-                  <div class="target-header">
-                    <h4 class="gd-brown">
-                      <img style="margin-top: -5px;" src="../../assets/images/town_ico.png">
-                      {{target.label}}
-                    </h4>
-                    <h3>
-                      ⚔️{{target.hits}}
-                    </h3>
-  <!--                      <h3>-->
-  <!--                        ⏱️{{target.eta}}-->
-  <!--                      </h3>-->
-                  </div>
-                  <div class="town_infos">
-                    <table class="popup_table_inside town_tooltip_table">
-                      <tbody>
-                        <tr *ngIf="target.ply_n">
-                          <td><img src="../../assets/images/player_ico.png"></td>
-                          <td class="gd-brown">{{target.ply_n}}</td>
-                        </tr>
-                        <tr *ngIf="target.all_n">
-                          <td><img src="../../assets/images/ally_ico.png"></td>
-                          <td class="gd-brown">{{target.all_n}}</td>
-                        </tr>
-                        <tr>
-                          <td>⚔️
-                          <td>{{target.hits}} incoming commands</td>
-                        </tr>
-                        <tr title="This is the average arrival time of all incoming commands">
-                          <td>⏱️
-                          <td>{{target.eta}} average arrival</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-              </div>
-
+              <button type="button" *ngIf="filter_targets_text.length <= 0 || targetMatchesFilter(target)" (click)="selectTarget(target)" class="flex w-full flex-col gap-1.5 rounded-lg border-0 p-3 text-left font-normal ring-inset focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="isSelectedTarget(target) ? 'bg-brand-50 ring-2 ring-brand-600 dark:bg-brand-500/10 dark:ring-brand-500' : 'bg-white ring-1 ring-slate-200 hover:ring-slate-300 dark:bg-slate-800/60 dark:ring-slate-700 dark:hover:ring-slate-600'">
+                <span class="flex w-full items-center justify-between gap-2">
+                  <span class="flex min-w-0 items-center gap-1 text-sm font-semibold text-slate-900 dark:text-slate-100">
+                    <svg appIcon="town_ico" variant="game" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
+                    <span class="truncate">{{target.label}}</span>
+                  </span>
+                  <span title="{{target.hits}} incoming commands" class="inline-flex flex-none items-center gap-1 rounded-full bg-rose-50 px-2 text-xs font-bold leading-[18px] tabular-nums text-rose-700 ring-1 ring-inset ring-rose-200 dark:bg-rose-500/10 dark:text-rose-300 dark:ring-rose-400/30">
+                    <svg appIcon="arrow-down-left" variant="micro" class="size-3 flex-none"></svg>
+                    {{target.hits}}
+                  </span>
+                </span>
+                <span *ngIf="target.ply_n || target.all_n" class="flex min-w-0 flex-wrap items-center gap-x-2.5 gap-y-0.5 text-xs text-slate-500 dark:text-slate-400">
+                  <span *ngIf="target.ply_n" class="inline-flex min-w-0 items-center gap-1">
+                    <svg appIcon="player_ico" variant="game" class="size-3 flex-none text-slate-400 dark:text-slate-500"></svg>
+                    <span class="truncate">{{target.ply_n}}</span>
+                  </span>
+                  <span *ngIf="target.all_n" class="inline-flex min-w-0 items-center gap-1">
+                    <svg appIcon="ally_ico" variant="game" class="size-3 flex-none text-slate-400 dark:text-slate-500"></svg>
+                    <span class="truncate">{{target.all_n}}</span>
+                  </span>
+                </span>
+                <span class="text-xs text-slate-500 dark:text-slate-400">{{target.hits}} incoming commands</span>
+                <span title="This is the average arrival time of all incoming commands" class="inline-flex items-center gap-1 text-xs text-slate-600 dark:text-slate-300">
+                  <svg appIcon="clock" variant="micro" class="size-3.5 flex-none text-slate-400 dark:text-slate-500"></svg>
+                  <span class="font-mono font-semibold tabular-nums">{{target.eta}}</span> average arrival
+                </span>
+              </button>
             </ng-container>
-
           </div>
         </div>
-
-      </div>
+      </aside>
 
       <div *ngIf="selected_command" class="command-sidepanel command-comments-container" [ngClass]="{'opened': mobile_comments_opened}">
         <div class="comment-panel">

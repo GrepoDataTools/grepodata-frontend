@@ -1,34 +1,24 @@
 <div id="pagehead" style="height: 100%; margin: -12px 10px 0 !important;">
 
-	<div *ngIf="loading" class="text-center">
-		<div class="align-middle" style="position: relative; top: 250px; left: 25%; width: 50%;">
-			<h3 class="gd-primary"><strong>Loading team...</strong></h3>
-			<mat-progress-bar mode="indeterminate"></mat-progress-bar>
-		</div>
+	<div *ngIf="loading" class="relative top-[250px] mx-auto w-1/2 text-center">
+		<h3 class="m-0 mb-3 text-base font-medium text-brand-700">Loading team...</h3>
+		<mat-progress-bar mode="indeterminate"></mat-progress-bar>
 	</div>
 
-  <div *ngIf="key != '' && !loading && error">
-    <div class="container" style="max-width: 100%;">
-      <div class="row" style="padding: 4% 0 2%;">
-        <div class="alert alert-warning alert-gd-2 alert-gd-error text-center">
-          <div class="row" style="display: flex;">
-            <div class="col-xs-2" style="display: flex;">
-              <mat-icon style="color: #18bc9c; font-size: 70px;">report</mat-icon>
-            </div>
-            <div class="col-xs-10">
-              <div [outerHTML]="error"></div>
-              <p>Team key: {{index_name}}</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-xs-12 text-center" style="padding-top: 50px;">
-          <button routerLink="/profile" class="btn btn-lg btn-success mr-1">
-            <mat-icon>keyboard_arrow_left</mat-icon> Back to my intel
-          </button>
-        </div>
-
+  <div *ngIf="key != '' && !loading && error" class="px-3 pb-8 pt-10">
+    <div class="mx-auto flex max-w-3xl items-start gap-4 rounded-xl bg-white p-6 text-left shadow-sm ring-1 ring-slate-900/[.08]">
+      <svg appIcon="exclamation-triangle" class="size-10 flex-none text-rose-500"></svg>
+      <div class="min-w-0 text-sm font-normal text-slate-600 [&_h2]:m-0 [&_h2]:text-lg [&_h2]:font-medium [&_h2]:leading-7 [&_h2]:text-rose-700 [&_h4]:mb-0 [&_h4]:mt-2 [&_h4]:text-sm [&_h4]:font-normal [&_h4]:leading-6 [&_h4]:text-slate-600">
+        <div [outerHTML]="error"></div>
+        <p class="mb-0 mt-3 text-slate-500">Team key: {{index_name}}</p>
       </div>
+    </div>
+
+    <div class="mt-12 text-center">
+      <button type="button" routerLink="/profile" class="inline-flex items-center gap-1.5 rounded-md border-0 bg-brand-700 px-4 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+        <svg appIcon="chevron-left" class="size-4 flex-none"></svg>
+        Back to my intel
+      </button>
     </div>
   </div>
 

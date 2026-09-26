@@ -49,6 +49,7 @@ export class IndexSettingsDialog {
     private searchService: SearchService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    dialogRef.addPanelClass('team-dialog');
     console.log(data.index);
     this.index = data.index;
 

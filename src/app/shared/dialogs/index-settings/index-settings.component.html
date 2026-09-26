@@ -1,102 +1,110 @@
-<div mat-dialog-content style="min-width: 90%; min-height: 70%;">
-  <a (click)="dialogRef.close()" class="close"></a>
-  <h2 class="gd-secondary" style="margin-top: 0px;" mat-dialog-title>Settings for team <span class="gd-primary"><mat-icon style="opacity: 1; vertical-align: sub; font-size: 40px; margin-right: 10px;">group</mat-icon>&nbsp;{{index.name}}</span></h2>
-  <hr>
+<div class="flex max-h-[95vh] w-[760px] max-w-full flex-col text-left font-normal text-slate-900">
+  <div class="flex flex-none items-start gap-4 border-0 border-b border-solid border-slate-200 px-6 py-5">
+    <span class="flex size-10 flex-none items-center justify-center rounded-lg bg-navy-800 text-brand-500">
+      <svg appIcon="user-group" class="size-6"></svg>
+    </span>
+    <div class="min-w-0 flex-1">
+      <h2 mat-dialog-title class="m-0 text-xl font-semibold text-slate-900">Team settings</h2>
+      <p class="mb-0 mt-0.5 flex min-w-0 items-center gap-1.5 text-sm text-slate-600">
+        <span class="truncate font-medium text-slate-700">{{index.name}}</span>
+        <ng-container *ngIf="index.world">
+          <span class="text-slate-300">·</span>
+          <span class="truncate [&_.bg-flag]:[zoom:0.625]"><span [outerHTML]="index.world | WorldNamePipe"></span></span>
+        </ng-container>
+      </p>
+    </div>
+    <button type="button" (click)="dialogRef.close()" aria-label="Close" class="-mr-2 -mt-1 inline-flex size-8 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+      <svg appIcon="x-mark" class="size-5"></svg>
+    </button>
+  </div>
 
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-xs-12">
+  <div class="min-h-0 flex-1 space-y-5 overflow-y-auto px-6 py-5">
+    <section class="space-y-4">
+      <div>
+        <p class="mb-0.5 mt-0 text-xs font-semibold text-brand-700">Show intel about allied towns</p>
+        <h3 class="m-0 text-base font-semibold text-slate-900">Team contributors</h3>
+        <p class="mb-0 mt-1 text-sm text-slate-600">These alliances are the main contributors of this team. The contributors are determined based on the users that contribute to the team. If an alliance has at least a 5% contribution to the team, they are automatically added to the list of team contributors. As an admin, you can also manually change the team contributors here.</p>
+      </div>
 
-<!--				<div class="alert alert-gd-1">-->
-<!--					<h2 class="gd-secondary">Automatically delete old intel</h2>-->
-<!--					<h5>If you enable this option, old intel will be deleted after a number of days, and only if there is newer intel for that specific town.-->
-<!--						<br/>Old intel will not be removed if it is the only known intelligence for that town.-->
-<!--					</h5>-->
-<!--					<h3>Number of days to keep old intel (0 = never delete old intel):</h3>-->
-<!--					<h4>-->
-<!--						<mat-slider [disabled]="updating_days" [(ngModel)]="num_days" [min]="0" [max]="365" (ngModelChange)="setIndexDeleteDays()"></mat-slider>&nbsp;&nbsp;-->
-<!--						<span *ngIf="num_days>0">{{num_days}} days</span>-->
-<!--						<span *ngIf="num_days<=0">Indefinite</span>-->
-<!--						<span *ngIf="updating_days_success" style="color: #17bc9b; font-weight: 900; font-size: 22px;">&nbsp;&nbsp;Settings saved ✓</span>-->
-<!--            <mat-spinner *ngIf="updating_days" style="display: inline-block; margin-left: 10px;" mode="indeterminate" strokeWidth="2" [diameter]="20"></mat-spinner>-->
-<!--					</h4>-->
+      <div class="flex gap-3 rounded-lg bg-slate-50 px-4 py-3 text-sm text-slate-600 ring-1 ring-inset ring-slate-200">
+        <svg appIcon="eye-slash" class="size-5 flex-none text-slate-400"></svg>
+        <p class="m-0"><strong class="font-semibold text-slate-900">Town intelligence for contributing alliances is not hidden by default</strong>, but you can choose to hide allied intel using the switches in this table.</p>
+      </div>
 
-<!--					<app-alert *ngIf="days_error==''" type="{{num_days<=0?'success':'warning'}}" [dismissible]="false">-->
-<!--						<h5 *ngIf="num_days>0">Town intel will be deleted after {{num_days}} days, but only if there is newer intel available for that specific town.</h5>-->
-<!--						<h5 *ngIf="num_days<=0">Town intel will never be deleted</h5>-->
-<!--					</app-alert>-->
+      <div *ngIf="owners_error" role="alert" class="flex gap-3 rounded-lg bg-rose-50 px-4 py-3 text-sm text-rose-700 ring-1 ring-inset ring-rose-200">
+        <svg appIcon="exclamation-circle" class="size-5 flex-none text-rose-600"></svg>
+        <div class="min-w-0">
+          <p class="m-0 font-semibold">Unable to update contributors</p>
+          <p class="mb-0 mt-0.5">{{owners_error}}</p>
+        </div>
+      </div>
 
-<!--					<app-alert *ngIf="days_error!=''" type="error" [dismissible]="false">-->
-<!--						<h5>{{days_error}}</h5>-->
-<!--					</app-alert>-->
+      <div *ngIf="owners_success" role="status" class="flex gap-3 rounded-lg bg-emerald-50 px-4 py-3 text-sm text-emerald-700 ring-1 ring-inset ring-emerald-200">
+        <svg appIcon="check-circle" class="size-5 flex-none text-emerald-600"></svg>
+        <div class="min-w-0">
+          <p class="m-0 font-semibold">Team contributors updated successfully</p>
+          <p class="mb-0 mt-0.5">{{owners_success}}</p>
+        </div>
+      </div>
 
-<!--				</div>-->
+      <div *ngIf="owners_error=='' && !updating_owners && owners.length <= 0" class="flex gap-3 rounded-lg bg-sky-50 px-4 py-3 text-sm text-sky-800 ring-1 ring-inset ring-sky-200">
+        <svg appIcon="information-circle" class="size-5 flex-none text-sky-700"></svg>
+        <div class="min-w-0">
+          <p class="m-0 font-semibold">No team contributors available</p>
+          <p class="mb-0 mt-0.5">We have not yet been able to detect the contributors of this team. When you start collecting enemy intelligence using the userscript, we will be able to detect the contributing alliances automatically. Alternatively, you can manually add alliances to the list of team contributors using the buttons below.</p>
+        </div>
+      </div>
 
+      <mat-progress-bar *ngIf="updating_owners" mode="indeterminate"></mat-progress-bar>
 
-			</div>
-			<div class="col-xs-12">
-				<div class="alert alert-gd-1">
-					<h2 class="gd-secondary">Show intel about allied towns</h2>
-					<!--<p>If you enable this option, intel about allied towns will be available in this index.</p>-->
-					<!--<br/>-->
-					<h3>Team contributors</h3>
-					<h5>These alliances are the main contributors of this team. The contributors are determined based on the users that contribute to the team. If an alliance has at least a 5% contribution to the team, they are automatically added to the list of team contributors. As an admin, you can also manually change the team contributors here.
-						<br/><strong>Town intelligence for contributing alliances is not hidden by default, but you can choose to hide allied intel using the checkboxes in this table.</strong></h5>
+      <div *ngIf="owners.length > 0" class="overflow-hidden rounded-lg border border-solid border-slate-200">
+        <table class="w-full border-separate border-spacing-0">
+          <thead>
+          <tr>
+            <th scope="col" class="px-3 py-2.5 text-left text-xs font-semibold text-slate-700 pl-4">Alliance name</th>
+            <th scope="col" class="px-3 py-2.5 text-left text-xs font-semibold text-slate-700 w-[170px]">Contributions</th>
+            <th scope="col" class="px-3 py-2.5 text-left text-xs font-semibold text-slate-700 w-[120px]">
+              <span class="inline-flex items-center gap-1">
+                Hide intel
+                <span class="inline-flex text-slate-400" matTooltip="When you turn this on, all intelligence for that alliance will be hidden in this team.">
+                  <svg appIcon="question-mark-circle" class="size-4"></svg>
+                </span>
+              </span>
+            </th>
+            <th scope="col" class="px-3 py-2.5 text-left text-xs font-semibold text-slate-700 w-[104px]"><span class="sr-only">Remove</span></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let owner of owners;">
+            <td class="border-0 border-t border-solid border-slate-100 px-3 py-2.5 align-middle pl-4">
+              <a routerLink="/alliance" [queryParams]="{world: index.world, id: owner.alliance_id}" class="inline-flex items-center gap-1.5 text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+                <svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+                {{owner.alliance_name}}
+              </a>
+            </td>
+            <td class="border-0 border-t border-solid border-slate-100 px-3 py-2.5 align-middle">
+              <div class="flex items-center gap-2.5">
+                <div class="h-1.5 w-[72px] flex-none overflow-hidden rounded-full bg-slate-100">
+                  <div class="h-1.5 rounded-full bg-brand-600" [style.width.%]="owner.share > 0 ? owner.share : 0"></div>
+                </div>
+                <span *ngIf="owner.share>0" class="text-sm font-medium tabular-nums text-slate-900">{{owner.share}}%</span>
+                <span *ngIf="owner.share<=0" class="text-sm font-medium tabular-nums text-slate-900">0</span>
+              </div>
+            </td>
+            <td class="border-0 border-t border-solid border-slate-100 px-3 py-2.5 align-middle" matTooltip="When you turn this on, all intelligence for {{owner.alliance_name}} will be hidden in this team.">
+              <label class="relative m-0 inline-flex cursor-pointer">
+                <input type="checkbox" role="switch" class="peer sr-only" [attr.aria-label]="'Hide intel about ' + owner.alliance_name" [disabled]="updating_owners" [checked]="owner.hide_intel" (click)="toggleIntelDisplay(owner)">
+                <span class="relative h-5 w-9 flex-none rounded-full bg-slate-200 transition-colors after:absolute after:left-0.5 after:top-0.5 after:size-4 after:rounded-full after:bg-white after:shadow-sm after:transition-transform after:content-[''] peer-checked:bg-brand-700 peer-checked:after:translate-x-4 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand-700 peer-disabled:opacity-50"></span>
+              </label>
+            </td>
+            <td class="border-0 border-t border-solid border-slate-100 px-3 py-2.5 align-middle pl-1 text-right">
+              <button type="button" (click)="removeOwner(owner)" [disabled]="updating_owners" class="inline-flex items-center rounded-md border-0 bg-transparent px-2 py-1.5 text-sm font-medium text-rose-700 hover:bg-rose-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-default disabled:text-slate-300 disabled:hover:bg-transparent">Remove</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
 
-					<app-alert type="error" title="Unable to update contributors" *ngIf="owners_error">
-						<h5>{{owners_error}}</h5>
-					</app-alert>
-
-					<app-alert type="success" title="Team contributors updated successfully" *ngIf="owners_success">
-						<h5>{{owners_success}}</h5>
-					</app-alert>
-
-					<app-alert type="info" title="No team contributors available" *ngIf="owners_error=='' && !updating_owners && owners.length <= 0">
-						<h5>We have not yet been able to detect the contributors of this team. When you start collecting enemy intelligence	using the userscript, we will be able to detect the contributing alliances automatically.
-							<br/>Alternatively, you can manually add alliances to the list of team contributors using the buttons in the table below.</h5>
-					</app-alert>
-
-					<mat-progress-bar *ngIf="updating_owners" mode="indeterminate"></mat-progress-bar>
-
-					<table class="table" style="max-width: 700px;" *ngIf="owners.length > 0">
-						<thead>
-						<tr>
-							<th scope="col" class="text-center">Alliance name</th>
-							<th scope="col" class="text-center">Contributions</th>
-							<th scope="col" class="text-center" matTooltip="When you check this box, all intelligence for that alliance will be hidden in this team.">
-								Hide intel <mat-icon class="mat-icon-title-inline a-link">help_outline</mat-icon>
-							</th>
-							<th scope="col" class="text-center">Remove</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr *ngFor="let owner of owners;">
-							<td>
-								<a class="gd-primary" routerLink="/alliance" [queryParams]="{world: index.world, id: owner.alliance_id}">
-									<img src="../../assets/images/ally_ico.png" style="vertical-align: unset;"/>&nbsp;{{owner.alliance_name}}
-								</a>
-							</td>
-							<td *ngIf="owner.share>0">
-								{{owner.share}}%
-							</td>
-							<td *ngIf="owner.share<=0">
-								0
-							</td>
-							<td matTooltip="When you check this box, all intelligence for {{owner.alliance_name}} will be hidden in this team.">
-								<mat-checkbox [disabled]="updating_owners" [checked]="owner.hide_intel" (click)="toggleIntelDisplay(owner)"></mat-checkbox>
-							</td>
-							<td>
-								<button (click)="removeOwner(owner)"
-								        class="btn btn-danger"
-								        [disabled]="updating_owners">
-									Remove contributor
-								</button>
-							</td>
-						</tr>
-						</tbody>
-					</table>
-
-					<br/>
 					<button *ngIf="!adding_alliance" mat-button class="mat-focus-indicator mat-raised-button bg-gd-1 text-white mat-button mat-button-base" (click)="openAllianceSearch()">
 						Add an alliance as team contributor <mat-icon>group_add</mat-icon>
 					</button>
@@ -164,13 +172,7 @@
 						</div>
 
 					</div>
-
-				</div>
-			</div>
-
-
-      <div class="col-xs-12">
-
+    </section>
 
         <div class="alert alert-gd-1" *ngIf="index.index_version == '1'">
           <h2 class="gd-secondary">Allow users to join this team with the old index key</h2>
@@ -195,18 +197,9 @@
           </app-alert>
 
         </div>
-      </div>
-		</div>
-	</div>
-</div>
+  </div>
 
-<div mat-dialog-actions class="dialog-action">
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-xs-12">
-				<!--<button mat-button class="mat-focus-indicator mat-raised-button bg-gd-2 gd-white mat-button mat-button-base" (click)="close()">Cancel</button>-->
-				<button mat-button class="mat-focus-indicator mat-raised-button bg-gd-1 text-white mat-button mat-button-base" (click)="close()" style="float: right;">Close</button>
-			</div>
-		</div>
-	</div>
+  <div class="flex flex-none items-center justify-end gap-3 border-0 border-t border-solid border-slate-200 bg-slate-50 px-6 py-4">
+    <button type="button" (click)="close()" class="inline-flex items-center justify-center gap-1.5 rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Close</button>
+  </div>
 </div>

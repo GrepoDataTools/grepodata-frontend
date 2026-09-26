@@ -122,14 +122,20 @@
 										</span>
 									</ng-template>
 									<ng-container *ngTemplateOutlet="info"></ng-container>
+									<div class="space-y-6 p-5">
+										<ng-container *ngTemplateOutlet="activity"></ng-container>
+									</div>
 								</mat-tab>
 							</mat-tab-group>
 						</div>
 					</div>
 
 					<div *ngIf="mobileQuery.matches" class="flex items-start gap-6 p-3">
-						<div class="w-[35%] flex-none text-left overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] min-[1920px]:w-[30%]">
-							<ng-container *ngTemplateOutlet="info"></ng-container>
+						<div class="w-[35%] flex-none space-y-6 min-[1920px]:w-[30%]">
+							<div class="overflow-hidden rounded-xl bg-white text-left shadow-sm ring-1 ring-slate-900/[.08]">
+								<ng-container *ngTemplateOutlet="info"></ng-container>
+							</div>
+							<ng-container *ngTemplateOutlet="activity"></ng-container>
 						</div>
 						<div class="min-w-0 flex-1 space-y-6">
 
@@ -366,11 +372,14 @@
 						</button>
 					</div>
 
-					<div class="mt-2.5 px-5">
-						<app-event-list [key]="key" [update]="update"></app-event-list>
-					</div>
-					<div *ngIf="contributors && contributors.length > 0" class="mt-4 border-0 border-t border-solid border-slate-200">
-						<h3 class="m-0 px-5 pb-1 pt-4 text-base font-medium text-slate-900">Team Contributors</h3>
+				</ng-template>
+
+				<ng-template #activity>
+					<app-event-list [key]="key" [update]="update" class="block empty:hidden"></app-event-list>
+					<div *ngIf="contributors && contributors.length > 0" class="overflow-hidden rounded-xl bg-white text-left shadow-sm ring-1 ring-slate-900/[.08]">
+						<div class="flex min-h-[61px] items-center border-0 border-b border-solid border-slate-200 px-5 py-4">
+							<h3 class="m-0 text-base font-medium text-slate-900">Team Contributors</h3>
+						</div>
 						<div id="table_contributors" class="pl-5 text-sm font-normal">
 							<div *ngFor="let user of contributors" class="flex items-center gap-4 border-0 border-b border-solid border-slate-100 py-3 pr-5 last:border-b-0">
 								<div class="min-w-0">
@@ -485,8 +494,11 @@
 
 					<div class="space-y-6 p-3">
 						<div class="flex flex-col gap-6 xl:flex-row xl:items-start">
-							<div class="overflow-hidden rounded-xl bg-white text-left shadow-sm ring-1 ring-slate-900/[.08] xl:w-[35%] xl:flex-none">
-								<ng-container *ngTemplateOutlet="info"></ng-container>
+							<div class="space-y-6 xl:w-[35%] xl:flex-none">
+								<div class="overflow-hidden rounded-xl bg-white text-left shadow-sm ring-1 ring-slate-900/[.08]">
+									<ng-container *ngTemplateOutlet="info"></ng-container>
+								</div>
+								<ng-container *ngTemplateOutlet="activity"></ng-container>
 							</div>
 							<div class="overflow-hidden rounded-xl bg-white text-left shadow-sm ring-1 ring-slate-900/[.08] xl:min-w-0 xl:flex-1">
 								<div *ngIf="is_admin && share_link && share_link!='Unauthorized'">

@@ -44,7 +44,7 @@
       <label title="Toggle Dark Mode" class="m-0 inline-flex size-9 flex-none cursor-pointer items-center justify-center rounded-md text-slate-500 hover:bg-slate-100 hover:text-slate-900 has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-brand-700 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100">
         <input type="checkbox" class="sr-only" id="Switch" [(ngModel)]="dark_mode" (ngModelChange)="saveSettingsToCache(); draw()">
         <svg appIcon="moon" class="size-5 dark:hidden"></svg>
-        <svg appIcon="sun" class="hidden size-5 dark:block"></svg>
+        <svg appIcon="sun" class="size-5 [display:none] dark:[display:block]"></svg>
         <span class="sr-only">Dark mode</span>
       </label>
     </div>

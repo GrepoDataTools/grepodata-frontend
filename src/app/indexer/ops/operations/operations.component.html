@@ -1,47 +1,39 @@
-<div class="ops-container">
-
-  <div class="ops-card">
-    <div class="ops-alerts">
-      <div>
-        <div style=" margin-bottom: -5px;">
-          <app-alert type="info2" title="GrepoData Team Operations" [dismissible]="true" [dismissPermanentId]="'ops_beta_info'">
-            <div style="min-height: 73px !important;">
-              <h5>This tool allows you to share a command overview with your teammates.</h5>
-              <p>
-                You can <strong>share commands</strong> from your in-game command overview (Curator Advisor required).<br/>
-                On this page, you and your teammates will see a <strong>real-time combined command overview</strong>.
-              </p>
-            </div>
-          </app-alert>
-        </div>
-        <app-alert type="warning" [dismissible]="false" [iconOverride]="'feedback'" *ngIf="!no_teams">
-          <p>Please <a routerLink="/profile/bug" class="a-link-dialog">submit a bug report</a> if you run into any issues to help us improve the service.</p>
-        </app-alert>
-      </div>
+<div class="m-[22px] space-y-6 max-[1000px]:m-3">
+  <div class="flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
+    <div class="min-w-0">
+      <h1 class="my-0 text-2xl font-bold tracking-tight text-slate-900">Team operations</h1>
+      <p class="mb-0 mt-1 text-sm text-slate-500">A real-time combined command overview for each of your teams.</p>
     </div>
+    <div class="flex items-center gap-2">
+      <button type="button" (click)="showHelpDialog()" class="inline-flex items-center gap-1.5 rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+        <svg appIcon="question-mark-circle" variant="mini" class="size-5 flex-none text-slate-400"></svg>
+        Help
+      </button>
+      <button type="button" (click)="showContactDialog()" class="inline-flex items-center gap-1.5 rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+        <svg appIcon="chat-bubble-left-ellipsis" variant="mini" class="size-5 flex-none text-slate-400"></svg>
+        Feedback
+      </button>
+    </div>
+  </div>
 
-    <div class="ops-content">
+  <aside *ngIf="!infoHidden" class="flex gap-3 rounded-xl bg-sky-50 px-5 py-4 ring-1 ring-inset ring-sky-200">
+    <svg appIcon="information-circle" class="mt-0.5 size-5 flex-none text-sky-700"></svg>
+    <div class="min-w-0 flex-1 text-sm text-sky-800">
+      <h2 class="my-0 text-sm font-semibold">GrepoData Team Operations</h2>
+      <p class="mb-0 mt-1">This tool allows you to share a command overview with your teammates.</p>
+      <p class="mb-0 mt-1">
+        You can <strong class="font-semibold">share commands</strong> from your in-game command overview (Curator Advisor required).
+        On this page, you and your teammates will see a <strong class="font-semibold">real-time combined command overview</strong>.
+      </p>
+    </div>
+    <button type="button" (click)="hideInfo()" aria-label="Dismiss" class="-mr-2 -mt-1 inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-sky-700 hover:bg-sky-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-700">
+      <svg appIcon="x-mark" variant="mini" class="size-5"></svg>
+    </button>
+  </aside>
 
-      <br *ngIf="no_teams"/>
-
-      <div class="ops-title">
-        <div class="ops-header">
-          <h2 class="gd-secondary" style="margin-top: -10px;">
-            Team Operations
-          </h2>
-        </div>
-
-        <div class="ops-action">
-          <button class="btn btn-secondary mr-1" (click)="showHelpDialog()">
-            Help <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">live_help</mat-icon>
-          </button>
-          <button class="btn btn-secondary mr-1" (click)="showContactDialog()">
-            Feedback <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">feedback</mat-icon>
-          </button>
-        </div>
-
-
-      </div>
+  <app-alert class="block" type="warning" [dismissible]="false" [iconOverride]="'feedback'" *ngIf="!no_teams">
+    <p>Please <a routerLink="/profile/bug" class="a-link-dialog">submit a bug report</a> if you run into any issues to help us improve the service.</p>
+  </app-alert>
 
       <div class="ops-teams-list-container">
 
@@ -127,11 +119,4 @@
         </div>
 
       </div>
-
-    </div>
-
-
-  </div>
-
 </div>
-

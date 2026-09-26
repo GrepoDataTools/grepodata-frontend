@@ -127,51 +127,34 @@
 						</div>
 					</div>
 
-					<div *ngIf="mobileQuery.matches" fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="0" style="margin-bottom: -25px;">
-
-
-						<div fxFlex="35" fxFlex.gt-lg="30" fxLayout="column" fxLayoutGap="5px">
-							<div class="m-3 overflow-hidden rounded-xl bg-white text-left shadow-sm ring-1 ring-slate-900/[.08]">
-								<ng-container *ngTemplateOutlet="info"></ng-container>
-							</div>
-							<br/>
+					<div *ngIf="mobileQuery.matches" class="flex items-start gap-6 p-3">
+						<div class="w-[35%] flex-none text-left overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] min-[1920px]:w-[30%]">
+							<ng-container *ngTemplateOutlet="info"></ng-container>
 						</div>
-						<div fxFlex="65" fxFlex.gt-lg="70">
+						<div class="min-w-0 flex-1 space-y-6">
 
               <!-- This is only shown if the team is small (low number of contributors and very few reports) -->
-              <div *ngIf="is_admin && contributors && contributors.length <= 1 && data.total_reports < 50" class="hidden-xs hidden-sm" fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="0" style="margin-bottom: -25px;">
-                <div fxFlex="100">
-                  <div class="m-3 mb-9 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
-                    <ng-container *ngTemplateOutlet="inviteAllies"></ng-container>
-                  </div>
-                </div>
+              <div *ngIf="is_admin && contributors && contributors.length <= 1 && data.total_reports < 50" class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+                <ng-container *ngTemplateOutlet="inviteAllies"></ng-container>
               </div>
 
-              <div class="hidden-xs hidden-sm" fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="0" style="margin-bottom: -25px;">
-                <div fxFlex="50">
-                  <div class="m-3 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
-                    <ng-container *ngTemplateOutlet="players"></ng-container>
-                  </div>
+              <div class="grid grid-cols-2 gap-6">
+                <div class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+                  <ng-container *ngTemplateOutlet="players"></ng-container>
                 </div>
-                <div fxFlex="50">
-                  <div class="m-3 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
-                    <ng-container *ngTemplateOutlet="allys"></ng-container>
-                  </div>
+                <div class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+                  <ng-container *ngTemplateOutlet="allys"></ng-container>
                 </div>
               </div>
 
               <!--recent conquests-->
-              <div *ngIf="!loading && recent_conquests && recent_conquests.length > 0" class="hidden-xs hidden-sm">
-                <div class="m-3 mt-9 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
-                  <ng-container *ngTemplateOutlet="sieges"></ng-container>
-                </div>
+              <div *ngIf="!loading && recent_conquests && recent_conquests.length > 0" class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+                <ng-container *ngTemplateOutlet="sieges"></ng-container>
               </div>
 
               <!--recent latest intel-->
-              <div *ngIf="latest_intel && latest_intel.length>0" class="hidden-xs hidden-sm">
-                <div class="m-3 mt-9 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
-                  <ng-container *ngTemplateOutlet="recentIntel"></ng-container>
-                </div>
+              <div *ngIf="latest_intel && latest_intel.length>0" class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+                <ng-container *ngTemplateOutlet="recentIntel"></ng-container>
               </div>
 
 						</div>

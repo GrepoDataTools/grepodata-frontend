@@ -106,8 +106,7 @@
   </div>
 
   <div class="flex h-screen flex-col pt-[58px] font-normal">
-   <div class="flex min-h-0 flex-1 flex-col" [ngClass]="{'cmd-mobile': !mobileQuery.matches}">
-    <div class="command-viewer flex min-h-0 flex-1">
+    <div class="flex min-h-0 flex-1">
       <div class="flex min-w-0 flex-1 flex-col gap-3 bg-slate-50 p-4 dark:bg-[#0B1220] max-sm:p-2">
       <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
         <div role="tablist" aria-label="Views" class="flex min-w-0 flex-wrap items-center gap-1">
@@ -541,7 +540,6 @@
       </aside>
     </div>
   </div>
-   </div>
 
   <ng-template #origin let-command="command">
     <div class="min-w-0">

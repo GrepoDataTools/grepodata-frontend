@@ -23,7 +23,7 @@ import {ContextMenuComponent, ContextMenuService} from 'ngx-contextmenu';
 @Component({
   selector: 'app-commands',
   templateUrl: './commands.component.html',
-  styleUrls: ['./commands.component.scss', './commands-game.scss', './commands-mobile.scss', './commands-darkmode.scss'],
+  styleUrls: ['./commands-game.scss'],
   providers: [IndexerService, WorldService, LocalCacheService, ContextMenuService]
 })
 export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {

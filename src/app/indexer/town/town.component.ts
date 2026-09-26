@@ -246,7 +246,7 @@ export class IndexTownComponent implements AfterViewInit, OnDestroy, OnInit {
 
   public loadConquestDetails(conquest_id): void {
     let dialogRef = this.dialog.open(ConquestReportDialog, {
-      panelClass: ['tight-dialog-container'],
+      panelClass: ['siege-report-dialog'],
       autoFocus: false,
       data: {
         key: this.key,

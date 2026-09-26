@@ -1067,6 +1067,11 @@ fieldset[disabled] .btn-success.active {
   padding: 0 !important;
   overflow: hidden !important;
 }
+.siege-report-dialog .mat-dialog-container {
+  padding: 0 !important;
+  overflow: hidden !important;
+  border-radius: 12px;
+}
 
 mat-progress-bar {
   height: 10px !important;

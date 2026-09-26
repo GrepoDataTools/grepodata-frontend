@@ -118,7 +118,7 @@ export class SiegeComponent implements AfterViewInit, OnChanges {
 
   public loadConquestDetails(): void {
     let dialogRef = this.dialog.open(ConquestReportDialog, {
-      panelClass: ['tight-dialog-container'],
+      panelClass: ['siege-report-dialog'],
       autoFocus: false,
       data: {
         key: this.key,

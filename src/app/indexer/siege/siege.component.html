@@ -1,7 +1,10 @@
 <ng-container *ngIf="embedded==true && isCard && newDesign">
 	<ng-container *ngTemplateOutlet="card"></ng-container>
 </ng-container>
-<span *ngIf="embedded==true && !(isCard && newDesign)">
+<ng-container *ngIf="embedded==true && !isCard && newDesign">
+	<ng-container *ngTemplateOutlet="details"></ng-container>
+</ng-container>
+<span *ngIf="embedded==true && !newDesign">
 	<ng-container *ngTemplateOutlet="report"></ng-container>
 </span>
 <span *ngIf="embedded==false">
@@ -448,4 +451,45 @@
 			{{conquest.belligerent_player_name}}
 		</a>
 	</span>
+</ng-template>
+
+<ng-template #details>
+	<div class="flex min-h-0 flex-1 flex-col text-left font-normal">
+		<div class="flex flex-none items-start gap-4 border-0 border-b border-solid border-slate-200 px-6 py-5">
+			<ng-container *ngIf="!loading && !error">
+				<img src="../../assets/images/game/towninfo/conquer.png" class="size-12 flex-none rounded-lg ring-1 ring-slate-900/10"/>
+				<div class="min-w-0 flex-1">
+					<div class="flex min-w-0 items-center gap-3">
+						<h2 class="m-0 min-w-0 truncate text-xl font-semibold text-slate-900">
+							<a routerLink="/intel/town/{{world}}/{{conquest?.town_id}}" title="{{conquest.town_name}}" class="text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{conquest.town_name}}</a>
+						</h2>
+						<span *ngIf="conquest.cs_killed || (conquest.new_owner_player_id && conquest.new_owner_player_id == conquest.player_id)" title="siege broken by attackers" class="flex-none rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset bg-rose-50 text-rose-700 ring-rose-600/20">Siege broken</span>
+						<span *ngIf="!conquest.cs_killed && !conquest.new_owner_player_id" title="unresolved" class="flex-none rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset bg-slate-100 text-slate-600 ring-slate-500/20">Unresolved</span>
+						<span *ngIf="!conquest.cs_killed && conquest.new_owner_player_id && conquest.new_owner_player_id != conquest.belligerent_player_id && conquest.new_owner_player_id != conquest.player_id" title="successful conquest" class="flex-none rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset bg-emerald-50 text-emerald-700 ring-emerald-600/20">Conquered</span>
+						<span *ngIf="!conquest.cs_killed && conquest.new_owner_player_id && conquest.new_owner_player_id == conquest.belligerent_player_id" title="successful conquest{{conquest.belligerent_player_name!='' ? ' by ' + conquest.belligerent_player_name : ''}}" class="flex-none rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset bg-emerald-50 text-emerald-700 ring-emerald-600/20">Conquered</span>
+						<span *ngIf="isPublished" class="flex-none rounded-full bg-sky-100 px-2.5 py-0.5 text-xs font-medium text-sky-800">Published</span>
+					</div>
+					<div class="mt-1 flex min-w-0 flex-wrap items-center gap-x-1.5 gap-y-1 text-sm text-slate-600">
+						<a *ngIf="conquest.player_name!=''&&conquest.player_id!=0" routerLink="/intel/player/{{world}}/{{conquest?.player_id}}" class="inline-flex min-w-0 items-center gap-1 text-slate-600 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+							<svg appIcon="player_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+							<span class="truncate">{{conquest.player_name}}</span>
+						</a>
+						<span *ngIf="(conquest.player_id==0||conquest.player_name=='') && conquest.player_name!='Temple'">Ghost Town</span>
+						<span *ngIf="conquest.player_name=='Temple'">Temple</span>
+						<ng-container *ngIf="conquest.alliance_name!=''&&conquest.alliance_id!=0">
+							<span *ngIf="conquest.player_name!=''" class="text-slate-300">·</span>
+							<a routerLink="/intel/alliance/{{world}}/{{conquest?.alliance_id}}" class="inline-flex min-w-0 items-center gap-1 text-slate-600 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+								<svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+								<span class="truncate">{{conquest.alliance_name}}</span>
+							</a>
+						</ng-container>
+						<span class="text-slate-300">·</span>
+						<span class="whitespace-nowrap">Last attack {{conquest.last_attack_date | Datex : "D MMM YYYY"}}</span>
+					</div>
+				</div>
+			</ng-container>
+			<h2 *ngIf="loading || error" class="m-0 min-w-0 flex-1 text-xl font-semibold text-slate-900">Siege report</h2>
+			<ng-content select="[siege-report-close]"></ng-content>
+		</div>
+	</div>
 </ng-template>

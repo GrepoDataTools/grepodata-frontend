@@ -163,6 +163,7 @@
             </div>
           </aside>
 
+          <app-event-list *ngIf="indexes.length > 0" class="block" [update]="true"></app-event-list>
 </div>
 
 <ng-template #teamCard let-index>
@@ -268,10 +269,6 @@
     </div>
   </article>
 </ng-template>
-
-<div class="m-[22px]" *ngIf="indexes.length > 0">
-  <app-event-list [update]="true"></app-event-list>
-</div>
 
 <div *ngIf="indexes.length > 1" style="margin: 0 20px;">
   <app-alert type="info text-center" [dismissible]="false">

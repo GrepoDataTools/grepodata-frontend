@@ -483,37 +483,27 @@
 				<div *ngIf="data.total_reports == 0">
 					<div id="help_by_contributing" style="display: none;"></div>
 
-					<div class="container-fluid">
-						<div class="row">
-							<div class="col-12 text-center">
-
-								<div fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="0" style="margin-bottom: -25px;">
-									<div fxFlex="35" fxLayout="column" fxLayoutGap="5px">
-										<div class="m-3 overflow-hidden rounded-xl bg-white text-left shadow-sm ring-1 ring-slate-900/[.08]">
-											<ng-container *ngTemplateOutlet="info"></ng-container>
-										</div>
-									</div>
-									<div fxFlex="65" fxLayout="column" fxLayoutGap="5px">
-										<div class="m-3 overflow-hidden rounded-xl bg-white text-left shadow-sm ring-1 ring-slate-900/[.08]">
-											<div *ngIf="is_admin && share_link && share_link!='Unauthorized'">
-												<ng-container *ngTemplateOutlet="inviteAllies"></ng-container>
-												<h3 class="m-0 border-0 border-t border-solid border-slate-200 px-5 pt-4 text-base font-medium text-slate-900">🕵 Start collecting intel</h3>
-											</div>
-											<div class="px-5 py-4">
-												<div class="flex items-start gap-3 rounded-lg bg-amber-50 p-4 text-sm font-normal text-amber-800 ring-1 ring-inset ring-amber-600/20">
-													<svg appIcon="exclamation-triangle" variant="mini" class="size-5 flex-none text-amber-500"></svg>
-													<div><strong class="font-medium">There are no reports in this team.</strong> See the instructions below to get started collecting enemy intelligence</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class="hidden-xs hidden-sm text-left" style="margin-top: 34px;">
-									<app-userscript></app-userscript>
-								</div>
-
+					<div class="space-y-6 p-3">
+						<div class="flex flex-col gap-6 xl:flex-row xl:items-start">
+							<div class="overflow-hidden rounded-xl bg-white text-left shadow-sm ring-1 ring-slate-900/[.08] xl:w-[35%] xl:flex-none">
+								<ng-container *ngTemplateOutlet="info"></ng-container>
 							</div>
+							<div class="overflow-hidden rounded-xl bg-white text-left shadow-sm ring-1 ring-slate-900/[.08] xl:min-w-0 xl:flex-1">
+								<div *ngIf="is_admin && share_link && share_link!='Unauthorized'">
+									<ng-container *ngTemplateOutlet="inviteAllies"></ng-container>
+									<h3 class="m-0 border-0 border-t border-solid border-slate-200 px-5 pt-4 text-base font-medium text-slate-900">🕵 Start collecting intel</h3>
+								</div>
+								<div class="px-5 py-4">
+									<div class="flex items-start gap-3 rounded-lg bg-amber-50 p-4 text-sm font-normal text-amber-800 ring-1 ring-inset ring-amber-600/20">
+										<svg appIcon="exclamation-triangle" variant="mini" class="size-5 flex-none text-amber-500"></svg>
+										<div><strong class="font-medium">There are no reports in this team.</strong> See the instructions below to get started collecting enemy intelligence</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="text-left max-[991px]:hidden">
+							<app-userscript></app-userscript>
 						</div>
 					</div>
 

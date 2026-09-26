@@ -1,6 +1,6 @@
 <div #searchContainer class="search-container relative">
   <div class="grid grid-cols-1 gap-3 md:grid-cols-3 md:gap-6 xl:gap-14">
-    <div [ngClass]="{'max-[767px]:hidden': !searching_players && num_results > 0}">
+    <div class="relative" [ngClass]="{'max-[767px]:hidden': !searching_players && num_results > 0}">
       <form class="relative m-0 flex h-9 overflow-hidden rounded-md border border-solid border-slate-300 bg-white shadow-sm focus-within:border-brand-700 focus-within:ring-1 focus-within:ring-brand-700">
         <label class="m-0 flex min-w-0 flex-1 items-center gap-2 px-3">
           <svg appIcon="player_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
@@ -11,8 +11,28 @@
         </button>
         <mat-progress-bar *ngIf="searching_players && loading" class="!absolute inset-x-0 bottom-0 z-10" mode="indeterminate"></mat-progress-bar>
       </form>
+
+      <!--Player results-->
+      <div *ngIf="!hide_results && searching_players && !loading" class="absolute top-full z-[10000] mt-1 w-full min-w-[300px] max-w-[calc(100vw-24px)] overflow-hidden rounded-lg bg-white text-left font-normal shadow-lg ring-1 ring-slate-900/10 left-0">
+        <p *ngIf="players?.length < 1" class="m-0 px-4 py-3 text-sm text-slate-600">No player found for '<span class="font-medium text-slate-900">{{playerInput}}</span>'</p>
+        <ul *ngIf="num_results > 0" id="search_output" class="gd-scrollbar m-0 max-h-[calc(100vh-240px)] list-none overflow-y-auto p-0 max-[1100px]:max-h-none">
+          <li *ngFor="let player of players" class="flex items-start gap-3 border-0 border-b border-solid border-slate-100 px-4 py-2.5 last:border-b-0 hover:bg-slate-50">
+            <svg appIcon="player_ico" variant="game" class="mt-0.5 size-4 flex-none text-slate-400"></svg>
+            <div class="min-w-0 flex-1">
+              <a routerLink="/intel/player/{{player?.world}}/{{player?.id}}" class="block truncate text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{player?.name}}</a>
+              <div class="mt-0.5 flex flex-wrap items-center gap-x-1.5 text-xs text-slate-500 [&_.bg-flag]:[zoom:0.5]"><span [outerHTML]="player?.world | WorldNamePipe"></span></div>
+            </div>
+          </li>
+        </ul>
+        <div class="flex justify-center border-0 border-t border-solid border-slate-200 px-4 py-2">
+          <button type="button" (click)="hide_results = true; cdr.detectChanges();" class="inline-flex items-center gap-1.5 border-0 bg-transparent p-0 text-sm font-medium text-slate-600 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+            Close search results
+            <svg appIcon="x-mark" class="size-4 flex-none"></svg>
+          </button>
+        </div>
+      </div>
     </div>
-    <div [ngClass]="{'max-[767px]:hidden': !searching_alliances && num_results > 0}">
+    <div class="relative" [ngClass]="{'max-[767px]:hidden': !searching_alliances && num_results > 0}">
       <form class="relative m-0 flex h-9 overflow-hidden rounded-md border border-solid border-slate-300 bg-white shadow-sm focus-within:border-brand-700 focus-within:ring-1 focus-within:ring-brand-700">
         <label class="m-0 flex min-w-0 flex-1 items-center gap-2 px-3">
           <svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
@@ -23,8 +43,34 @@
         </button>
         <mat-progress-bar *ngIf="searching_alliances && loading" class="!absolute inset-x-0 bottom-0 z-10" mode="indeterminate"></mat-progress-bar>
       </form>
+
+      <!--Alliance results-->
+      <div *ngIf="!hide_results && searching_alliances && !loading" class="absolute top-full z-[10000] mt-1 w-full min-w-[300px] max-w-[calc(100vw-24px)] overflow-hidden rounded-lg bg-white text-left font-normal shadow-lg ring-1 ring-slate-900/10 left-0">
+        <p *ngIf="alliances?.length < 1" class="m-0 px-4 py-3 text-sm text-slate-600">No alliance found for '<span class="font-medium text-slate-900">{{allianceInput}}</span>'</p>
+        <ul *ngIf="num_results > 0" id="search_output_alliances" class="gd-scrollbar m-0 max-h-[calc(100vh-240px)] list-none overflow-y-auto p-0 max-[1100px]:max-h-none">
+          <li *ngFor="let alliance of alliances" class="flex items-start gap-3 border-0 border-b border-solid border-slate-100 px-4 py-2.5 last:border-b-0 hover:bg-slate-50">
+            <svg appIcon="ally_ico" variant="game" class="mt-0.5 size-4 flex-none text-slate-400"></svg>
+            <div class="min-w-0 flex-1">
+              <a routerLink="/intel/alliance/{{alliance?.world}}/{{alliance?.id}}" class="block truncate text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{alliance?.name}}</a>
+              <div class="mt-0.5 flex flex-wrap items-center gap-x-1.5 text-xs text-slate-500 [&_.bg-flag]:[zoom:0.5]">
+                <span class="tabular-nums">Rank {{alliance?.rank}}</span>
+                <span aria-hidden="true">·</span>
+                <span class="tabular-nums">{{alliance?.points | NumberFilter}} points</span>
+                <span aria-hidden="true">·</span>
+                <span [outerHTML]="alliance?.world | WorldNamePipe"></span>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <div class="flex justify-center border-0 border-t border-solid border-slate-200 px-4 py-2">
+          <button type="button" (click)="hide_results = true; cdr.detectChanges();" class="inline-flex items-center gap-1.5 border-0 bg-transparent p-0 text-sm font-medium text-slate-600 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+            Close search results
+            <svg appIcon="x-mark" class="size-4 flex-none"></svg>
+          </button>
+        </div>
+      </div>
     </div>
-    <div [ngClass]="{'max-[767px]:hidden': !searching_towns && num_results > 0}">
+    <div class="relative" [ngClass]="{'max-[767px]:hidden': !searching_towns && num_results > 0}">
       <form class="relative m-0 flex h-9 overflow-hidden rounded-md border border-solid border-slate-300 bg-white shadow-sm focus-within:border-brand-700 focus-within:ring-1 focus-within:ring-brand-700">
         <label class="m-0 flex min-w-0 flex-1 items-center gap-2 px-3">
           <svg appIcon="town_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
@@ -35,114 +81,34 @@
         </button>
         <mat-progress-bar *ngIf="searching_towns && loading" class="!absolute inset-x-0 bottom-0 z-10" mode="indeterminate"></mat-progress-bar>
       </form>
-    </div>
-  </div>
-
-    <div *ngIf="!hide_results" class="absolute top-full z-[10000] mt-2 w-[620px] max-w-[calc(100vw-24px)] overflow-hidden rounded-xl bg-white text-left font-normal shadow-lg ring-1 ring-slate-900/10 max-[1100px]:left-1/2 max-[1100px]:right-auto max-[1100px]:-translate-x-1/2" [ngClass]="searching_towns ? 'right-0' : searching_players ? 'left-0' : 'left-1/3'">
-
-      <!--Player results-->
-      <div *ngIf="searching_players">
-        <p *ngIf="players?.length < 1 && !loading" class="m-0 px-5 py-4 text-sm text-slate-600">No player found for '<span class="font-medium text-slate-900">{{playerInput}}</span>'</p>
-        <div *ngIf="num_results > 0 && !loading" id="search_output" class="gd-scrollbar max-h-[calc(100vh-240px)] overflow-y-auto max-[1100px]:max-h-none">
-          <table class="w-full border-separate border-spacing-0">
-            <thead>
-              <tr>
-                <th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 text-left text-xs font-medium text-slate-700 pl-5 pr-3">Player name</th>
-                <th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 text-left text-xs font-medium text-slate-700 pl-3 pr-5">World</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let player of players" class="hover:bg-slate-50">
-                <td class="border-0 border-b border-solid border-slate-100 py-2 align-middle pl-5 pr-3">
-                  <a routerLink="/intel/player/{{player?.world}}/{{player?.id}}" class="inline-flex max-w-full items-center gap-2 text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
-                    <svg appIcon="player_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
-                    <span class="truncate">{{player?.name}}</span>
-                  </a>
-                </td>
-                <td class="border-0 border-b border-solid border-slate-100 py-2 align-middle whitespace-nowrap pl-3 pr-5 text-sm text-slate-600 [&_.bg-flag]:[zoom:0.625]">
-                  <span [outerHTML]="player?.world | WorldNamePipe"></span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!--Alliance results-->
-      <div *ngIf="searching_alliances">
-        <p *ngIf="alliances?.length < 1 && !loading" class="m-0 px-5 py-4 text-sm text-slate-600">No alliance found for '<span class="font-medium text-slate-900">{{allianceInput}}</span>'</p>
-        <div *ngIf="!hide_results && num_results > 0 && !loading" id="search_output_alliances" class="gd-scrollbar max-h-[calc(100vh-240px)] overflow-y-auto max-[1100px]:max-h-none">
-          <table class="w-full border-separate border-spacing-0">
-            <thead>
-              <tr>
-                <th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 text-left text-xs font-medium text-slate-700 pl-5 pr-3">Alliance name</th>
-                <th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 text-left text-xs font-medium text-slate-700 px-3 text-right max-[767px]:hidden">Rank</th>
-                <th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 text-left text-xs font-medium text-slate-700 px-3 max-[767px]:hidden">World</th>
-                <th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 text-left text-xs font-medium text-slate-700 pl-3 pr-5 text-right max-[1199px]:hidden">Points</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let alliance of alliances" class="hover:bg-slate-50">
-                <td class="border-0 border-b border-solid border-slate-100 py-2 align-middle pl-5 pr-3">
-                  <a routerLink="/intel/alliance/{{alliance?.world}}/{{alliance?.id}}" class="inline-flex max-w-full items-center gap-2 text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
-                    <svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
-                    <span class="truncate">{{alliance?.name}}</span>
-                  </a>
-                </td>
-                <td class="border-0 border-b border-solid border-slate-100 py-2 align-middle px-3 text-right text-sm tabular-nums text-slate-600 max-[767px]:hidden">{{alliance?.rank}}</td>
-                <td class="border-0 border-b border-solid border-slate-100 py-2 align-middle whitespace-nowrap px-3 text-sm text-slate-600 max-[767px]:hidden [&_.bg-flag]:[zoom:0.625]">
-                  <span [outerHTML]="alliance?.world | WorldNamePipe"></span>
-                </td>
-                <td class="border-0 border-b border-solid border-slate-100 py-2 align-middle pl-3 pr-5 text-right text-sm tabular-nums text-slate-600 max-[1199px]:hidden">{{alliance?.points | NumberFilter}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
 
       <!--Town results-->
-      <div *ngIf="searching_towns">
-        <p *ngIf="towns?.length < 1 && !loading" class="m-0 px-5 py-4 text-sm text-slate-600">No towns found matching '<span class="font-medium text-slate-900">{{townInput}}</span>'</p>
-        <div *ngIf="!hide_results && num_results > 0 && !loading" id="search_output_towns" class="gd-scrollbar max-h-[calc(100vh-240px)] overflow-y-auto max-[1100px]:max-h-none">
-          <table class="w-full border-separate border-spacing-0">
-            <thead>
-              <tr>
-                <th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 text-left text-xs font-medium text-slate-700 pl-5 pr-3">Town name</th>
-                <th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 text-left text-xs font-medium text-slate-700 px-3 max-[767px]:hidden">Player</th>
-                <th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 text-left text-xs font-medium text-slate-700 pl-3 pr-5 max-[991px]:hidden">World</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let town of towns" class="hover:bg-slate-50">
-                <td class="border-0 border-b border-solid border-slate-100 py-2 align-middle pl-5 pr-3">
-                  <a routerLink="/intel/town/{{town?.world}}/{{town?.id}}" class="inline-flex max-w-full items-center gap-2 text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
-                    <svg appIcon="town_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
-                    <span class="truncate">{{town?.name}}</span>
-                  </a>
-                </td>
-                <td class="border-0 border-b border-solid border-slate-100 py-2 align-middle px-3 text-sm max-[767px]:hidden">
-                  <a routerLink="/intel/player/{{town?.world}}/{{town?.player_id}}" *ngIf="town?.player_id>0" class="inline-flex max-w-full items-center gap-2 text-sm text-slate-600 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
-                    <svg appIcon="player_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
-                    <span class="truncate">{{town?.player_name}}</span>
-                  </a>
-                  <span *ngIf="town?.player_id<=0" class="italic text-slate-500">Ghost</span>
-                </td>
-                <td class="border-0 border-b border-solid border-slate-100 py-2 align-middle whitespace-nowrap pl-3 pr-5 text-sm text-slate-600 max-[991px]:hidden [&_.bg-flag]:[zoom:0.625]">
-                  <span [outerHTML]="town?.world | WorldNamePipe"></span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+      <div *ngIf="!hide_results && searching_towns && !loading" class="absolute top-full z-[10000] mt-1 w-full min-w-[300px] max-w-[calc(100vw-24px)] overflow-hidden rounded-lg bg-white text-left font-normal shadow-lg ring-1 ring-slate-900/10 right-0">
+        <p *ngIf="towns?.length < 1" class="m-0 px-4 py-3 text-sm text-slate-600">No towns found matching '<span class="font-medium text-slate-900">{{townInput}}</span>'</p>
+        <ul *ngIf="num_results > 0" id="search_output_towns" class="gd-scrollbar m-0 max-h-[calc(100vh-240px)] list-none overflow-y-auto p-0 max-[1100px]:max-h-none">
+          <li *ngFor="let town of towns" class="flex items-start gap-3 border-0 border-b border-solid border-slate-100 px-4 py-2.5 last:border-b-0 hover:bg-slate-50">
+            <svg appIcon="town_ico" variant="game" class="mt-0.5 size-4 flex-none text-slate-400"></svg>
+            <div class="min-w-0 flex-1">
+              <a routerLink="/intel/town/{{town?.world}}/{{town?.id}}" class="block truncate text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{town?.name}}</a>
+              <div class="mt-0.5 flex flex-wrap items-center gap-x-1.5 text-xs text-slate-500 [&_.bg-flag]:[zoom:0.5]">
+                <a routerLink="/intel/player/{{town?.world}}/{{town?.player_id}}" *ngIf="town?.player_id>0" class="inline-flex items-center gap-1 text-slate-600 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+                  <svg appIcon="player_ico" variant="game" class="size-3.5 flex-none text-slate-400"></svg>
+                  {{town?.player_name}}
+                </a>
+                <span *ngIf="town?.player_id<=0" class="italic">Ghost</span>
+                <span aria-hidden="true">·</span>
+                <span [outerHTML]="town?.world | WorldNamePipe"></span>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <div class="flex justify-center border-0 border-t border-solid border-slate-200 px-4 py-2">
+          <button type="button" (click)="hide_results = true; cdr.detectChanges();" class="inline-flex items-center gap-1.5 border-0 bg-transparent p-0 text-sm font-medium text-slate-600 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+            Close search results
+            <svg appIcon="x-mark" class="size-4 flex-none"></svg>
+          </button>
         </div>
       </div>
-
-      <div *ngIf="!loading" class="flex justify-center border-0 border-t border-solid border-slate-200 px-5 py-2.5">
-        <button type="button" (click)="hide_results = true; cdr.detectChanges();" class="inline-flex items-center gap-1.5 border-0 bg-transparent p-0 text-sm font-medium text-slate-600 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
-          Close search results
-          <svg appIcon="x-mark" class="size-4 flex-none"></svg>
-        </button>
-      </div>
-
     </div>
-
+  </div>
 </div>

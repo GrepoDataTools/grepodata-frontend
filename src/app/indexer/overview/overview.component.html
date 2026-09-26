@@ -159,7 +159,9 @@
 
               <!--recent latest intel-->
               <div *ngIf="latest_intel && latest_intel.length>0" class="hidden-xs hidden-sm">
-                <ng-container *ngTemplateOutlet="recentIntel"></ng-container>
+                <div class="m-3 mt-9 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+                  <ng-container *ngTemplateOutlet="recentIntel"></ng-container>
+                </div>
               </div>
 
 						</div>
@@ -202,62 +204,62 @@
         </ng-template>
 
 				<ng-template #recentIntel>
-          <mat-card class="dense-card" style="margin-top: 35px !important;">
-            <mat-card-title>
-              <div class="form-group row" style='margin: 0px;'>
-                <h3 style='font-weight: 300; color: #304357; margin-top: 0px;'><span class='world-title' style='color: #18BC9C;'>Latest reports indexed</span></h3>
-              </div>
-            </mat-card-title>
-            <mat-card-content>
-              <div>
-                <div class="table intel-table" id="table_all">
-                  <div class="row_custom header bg-gd-2" >
-                    <div class="cell">
-                      Type
-                    </div>
-                    <div class="cell">
-                      Town
-                    </div>
-                    <div class="cell">
-                      Date
-                    </div>
-                    <div class="cell" style="width: 50%;">
-                      Units
+          <div class="flex min-h-[61px] items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 px-5 py-4">
+            <h3 class="m-0 text-base font-medium text-slate-900">Latest reports indexed</h3>
+          </div>
+          <table id="table_all" class="w-full table-fixed border-separate border-spacing-0 font-normal">
+            <colgroup>
+              <col class="w-16">
+              <col class="w-[34%]">
+              <col class="w-36">
+              <col>
+            </colgroup>
+            <thead>
+              <tr>
+                <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-5 py-2 text-left text-xs font-medium text-slate-700">Type</th>
+                <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700">Town</th>
+                <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700">Date</th>
+                <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 pl-3 pr-5 text-left text-xs font-medium text-slate-700">Units</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let town of latest_intel" class="hover:bg-slate-50">
+                <td class="border-0 border-b border-solid border-slate-100 py-3 pl-5 pr-3 align-middle" matTooltip="{{getIntelTypeTranslation(town.type)}}">
+                  <img src="../../assets/images/game/towninfo/attack.png" *ngIf="town.type === 'friendly_attack'" class="block size-8 rounded-md ring-1 ring-slate-900/10">
+                  <img src="../../assets/images/game/towninfo/attack.png" *ngIf="town.type === 'enemy_attack'" class="block size-8 -scale-x-100 rounded-md ring-1 ring-slate-900/10">
+                  <img src="../../assets/images/game/towninfo/wisdom.png" *ngIf="town.type === 'wisdom'" class="block size-8 rounded-md ring-1 ring-slate-900/10">
+                  <img src="../../assets/images/game/towninfo/support.png" *ngIf="town.type === 'support'" class="block size-8 rounded-md ring-1 ring-slate-900/10">
+                  <img src="../../assets/images/game/towninfo/conquer.png" *ngIf="town.type === 'attack_on_conquest'" class="block size-8 rounded-md ring-1 ring-slate-900/10">
+                  <img src="../../assets/images/game/towninfo/espionage_2.67.png" *ngIf="town.type === 'spy'" class="block size-8 rounded-md ring-1 ring-slate-900/10">
+                </td>
+                <td class="border-0 border-b border-solid border-slate-100 p-3 align-middle">
+                  <div class="flex min-w-0 items-center gap-1">
+                    <img src="../../assets/images/town_ico.png" class="size-4 flex-none"/>
+                    <a routerLink="/intel/town/{{world}}/{{town?.town_id}}" title="{{town?.town_name}}" class="min-w-0 truncate text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{town?.town_name}}</a>
+                  </div>
+                  <div class="mt-0.5 flex min-w-0 items-center text-xs text-slate-500">
+                    <img src="../../assets/images/player_ico.png" class="size-4 flex-none"/>
+                    <a routerLink="/intel/player/{{world}}/{{town?.player_id}}" title="{{town?.player_name}}" class="ml-1 min-w-0 truncate text-slate-600 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{town?.player_name}}</a>
+                    <span class="ml-1 flex-none">(</span>
+                    <img src="../../assets/images/ally_ico.png" class="size-4 flex-none"/>
+                    <a routerLink="/intel/alliance/{{world}}/{{town?.alliance_id}}" title="{{town?.alliance_name}}" class="ml-1 min-w-0 truncate text-slate-600 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{town?.alliance_name}}</a>
+                    <span class="flex-none">)</span>
+                  </div>
+                </td>
+                <td class="whitespace-nowrap border-0 border-b border-solid border-slate-100 p-3 align-middle text-sm tabular-nums text-slate-700">{{town.date | IndexDate}}</td>
+                <td class="border-0 border-b border-solid border-slate-100 py-3 pl-3 pr-5 align-middle">
+                  <div class="flex flex-wrap gap-1.5">
+                    <div class="w-10 flex-none" *ngFor="let unit of town.units | ValuesPipe; let i = index;" title="{{unit?.name}}">
+                      <div class="unit_icon40x40 {{unit.name}} relative rounded-md border-0 ring-1 ring-inset ring-slate-900/[.18]">
+                        <span class="absolute bottom-0 right-0 rounded-br-md rounded-tl bg-slate-900/[.78] px-[3px] text-[11px] font-medium leading-[14px] tabular-nums text-white">{{unit.count}}</span>
+                      </div>
+                      <div class="mt-0.5 text-center text-xs font-medium tabular-nums text-rose-700" *ngIf="unit.killed && unit.killed!=0">-{{unit.killed}}</div>
                     </div>
                   </div>
-
-                  <div class='row_custom' *ngFor="let town of latest_intel" style="height: 40px;">
-                    <div class="cell unit-cell-small" matTooltip="{{getIntelTypeTranslation(town.type)}}">
-                      <img src="../../assets/images/game/towninfo/attack.png" *ngIf="town.type === 'friendly_attack'">
-                      <div *ngIf="town.type === 'enemy_attack'" style="-moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); filter: FlipH; -ms-filter: ;">
-                        <img src="../../assets/images/game/towninfo/attack.png">
-                      </div>
-                      <img src="../../assets/images/game/towninfo/wisdom.png" *ngIf="town.type === 'wisdom'">
-                      <img src="../../assets/images/game/towninfo/support.png" *ngIf="town.type === 'support'">
-                      <img src="../../assets/images/game/towninfo/conquer.png" *ngIf="town.type === 'attack_on_conquest'">
-                      <img src="../../assets/images/game/towninfo/espionage_2.67.png" *ngIf="town.type === 'spy'">
-                    </div>
-                    <div class="cell intel-cell-town">
-                      <img style="height: 18px; margin-top: -5px;" src="../../assets/images/town_ico.png"/>&nbsp;<a routerLink="/intel/town/{{world}}/{{town?.town_id}}">{{town?.town_name}}</a><br/>
-                      <img style="height: 18px; margin-top: -5px;" src="../../assets/images/player_ico.png"/>&nbsp;<a routerLink="/intel/player/{{world}}/{{town?.player_id}}">{{town?.player_name}}</a>
-                      &nbsp;(<img style="height: 18px; margin-top: -5px;" src="../../assets/images/ally_ico.png"/>&nbsp;<a routerLink="/intel/alliance/{{world}}/{{town?.alliance_id}}">{{town?.alliance_name}}</a>)
-                    </div>
-                    <div class="cell intel-cell-town">
-                      {{town.date | IndexDate}}
-                    </div>
-                    <div class="cell">
-                      <div class="unit-row">
-                        <div class="unit-icon-sm" *ngFor="let unit of town.units | ValuesPipe; let i = index;" title="{{unit?.name}}">
-                          <div class="unit_icon40x40 {{unit.name}}"><span class="unit-val">{{unit.count}}</span></div>
-                          <div style="color: #d00;" *ngIf="unit.killed && unit.killed!=0">-{{unit.killed}}</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </mat-card-content>
-          </mat-card>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </ng-template>
 
 				<ng-template #sieges>

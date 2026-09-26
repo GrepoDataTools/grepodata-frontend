@@ -108,11 +108,11 @@
           <div *ngIf="indexes.length > 0" class="grid grid-cols-[repeat(auto-fill,minmax(min(100%,320px),1fr))] gap-6 max-sm:gap-4">
             <ng-container *ngFor="let index of indexes">
               <ng-container *ngIf="
+                !index.world_stopped &&
                 (!filter_index_name || index.name.includes(filter_index_name)) &&
                 (!filter_index_owners || hasOwnerFilter(index)) &&
                 (!filter_world || index.world == filter_world) &&
-                (!filter_role || index.role == filter_role) &&
-                (!index.world_stopped || show_stopped_worlds)
+                (!filter_role || index.role == filter_role)
               ">
                 <ng-container *ngTemplateOutlet="teamCard; context: {$implicit: index}"></ng-container>
               </ng-container>
@@ -125,6 +125,26 @@
               <span class="max-w-[240px] text-sm font-normal text-slate-500">Share a collection of enemy intel with your alliance, or ask your allies for an invite to theirs.</span>
             </button>
           </div>
+
+          <section *ngIf="show_stopped_worlds && stopped_world_count > 0" class="space-y-3">
+            <h2 class="my-0 flex items-center gap-2 text-sm font-semibold text-slate-500">
+              <svg appIcon="archive-box" class="size-4 flex-none text-slate-400"></svg>
+              Finished worlds · {{stopped_world_count}} {{stopped_world_count === 1 ? 'team' : 'teams'}}
+            </h2>
+            <div class="grid grid-cols-[repeat(auto-fill,minmax(min(100%,320px),1fr))] gap-6 max-sm:gap-4">
+              <ng-container *ngFor="let index of indexes">
+                <ng-container *ngIf="
+                  index.world_stopped &&
+                  (!filter_index_name || index.name.includes(filter_index_name)) &&
+                  (!filter_index_owners || hasOwnerFilter(index)) &&
+                  (!filter_world || index.world == filter_world) &&
+                  (!filter_role || index.role == filter_role)
+                ">
+                  <ng-container *ngTemplateOutlet="teamCard; context: {$implicit: index}"></ng-container>
+                </ng-container>
+              </ng-container>
+            </div>
+          </section>
 
 </div>
 

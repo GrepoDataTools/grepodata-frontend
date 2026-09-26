@@ -96,6 +96,14 @@ export class OperationsComponent implements OnInit, OnDestroy {
     });
   }
 
+  activeCount(): number {
+    return this.teams.filter(team => team.active).length;
+  }
+
+  otherPlayers(team): string {
+    return Object.keys(team.players).sort().slice(3).map(name => name + ' (' + team.players[name] + ')').join(', ');
+  }
+
   hideInfo() {
     this.infoHidden = true;
     LocalCacheService.set('alert_dismiss_ops_beta_info', 1, 60 * 24 * 7);

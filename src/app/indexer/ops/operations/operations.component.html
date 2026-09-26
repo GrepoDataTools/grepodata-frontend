@@ -52,48 +52,85 @@
           </app-alert>
         </div>
 
-        <div class="active-op-row" *ngFor="let team of teams; let i = index;" routerLink="/operations/{{team.index}}/{{team.world}}" [ngClass]="{'is-active-op': team.active}">
-          <div class="op-details">
-            <div class="op-server">
-              <div [outerHTML]="team.world | WorldNamePipe"></div>
+        <section *ngIf="teams && teams.length > 0" class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+          <div class="flex min-h-[61px] items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 px-5 py-3 max-sm:px-4">
+            <div class="min-w-0">
+              <h2 class="my-0 text-base font-semibold text-slate-900">Your teams</h2>
+              <p class="mb-0 mt-0.5 text-xs tabular-nums text-slate-500">{{activeCount()}} live {{activeCount() === 1 ? 'operation' : 'operations'}} · {{teams.length}} {{teams.length === 1 ? 'team' : 'teams'}}</p>
             </div>
-            <div class="op-info">
-              <h2 class="gd-secondary hidden-xs hidden-sm" *ngIf="team.active" style="font-weight: 100; margin-top: -5px;">
-                Active Operation
-              </h2>
-              <h3 class="gd-secondary hidden-xs hidden-sm" *ngIf="!team.active" style="font-weight: 100;">
-                No Active Operation
-              </h3>
-              <h3 class="gd-secondary">
-                Team:
-                <span class="gd-primary">
-                  <mat-icon style="vertical-align: sub;">group</mat-icon>
-                  {{team.team}}
+          </div>
+          <table class="w-full table-fixed border-separate border-spacing-0 text-left font-normal">
+            <thead>
+              <tr>
+                <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-left text-xs font-medium text-slate-700 pl-5 pr-3 max-sm:pl-4 lg:w-[28%]">Team</th>
+                <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-left text-xs font-medium text-slate-700 w-40 px-3 max-md:hidden">World</th>
+                <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-left text-xs font-medium text-slate-700 w-24 px-3 max-md:hidden">Status</th>
+                <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-left text-xs font-medium text-slate-700 w-28 px-3 !text-right max-sm:hidden">Commands</th>
+                <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-left text-xs font-medium text-slate-700 px-3 max-lg:hidden">Active players</th>
+                <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-left text-xs font-medium text-slate-700 w-32 pl-3 pr-5 max-sm:w-28 max-sm:pr-4"><span class="sr-only">Open</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let team of teams; let i = index;" routerLink="/operations/{{team.index}}/{{team.world}}" class="cursor-pointer hover:bg-slate-50">
+                <td class="border-0 border-b border-solid border-slate-100 align-middle py-3 pl-5 pr-3 max-sm:pl-4">
+                  <div class="flex min-w-0 items-center gap-3">
+                    <span class="flex size-8 flex-none items-center justify-center rounded-lg" [ngClass]="team.active ? 'bg-navy-800 text-brand-500' : 'bg-slate-100 text-slate-400'">
+                      <svg appIcon="user-group" class="size-5"></svg>
+                    </span>
+                    <div class="min-w-0">
+                      <div class="truncate text-sm font-semibold text-slate-900">{{team.team}}</div>
+                      <div class="mt-1 flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-xs text-slate-500 md:hidden">
+                        <span class="truncate [&_.bg-flag]:[zoom:0.5]"><span [outerHTML]="team.world | WorldNamePipe"></span></span>
+                        <span *ngIf="team.active" class="font-semibold text-emerald-700">Live · {{team.commands}} commands</span>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td class="border-0 border-b border-solid border-slate-100 align-middle px-3 py-3 text-sm text-slate-700 max-md:hidden">
+                  <div class="truncate [&_.bg-flag]:[zoom:0.625]"><span [outerHTML]="team.world | WorldNamePipe"></span></div>
+                </td>
+                <td class="border-0 border-b border-solid border-slate-100 align-middle px-3 py-3 max-md:hidden">
+                  <ng-container *ngIf="team.active">
+                <span class="inline-flex flex-none items-center gap-1.5 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-700 ring-1 ring-inset ring-emerald-600/25">
+                  <span class="relative flex size-2 flex-none">
+                    <span class="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+                    <span class="relative inline-flex size-2 rounded-full bg-emerald-500"></span>
+                  </span>
+                  Live
                 </span>
-              </h3>
-              <h4 *ngIf="team.active">
-                Uploaded commands: <span class="gd-primary">{{team.commands}}</span>
-              </h4>
-            </div>
-            <div class="op-players hidden-xs hidden-sm" *ngIf="team.active">
-              <p><strong>Active players:</strong></p>
-              <div class="op-player-list">
-                <p *ngFor="let player of team.players | keyvalue">
-                  <img style="height: 18px; margin-top: -5px;" src="../../assets/images/player_ico.png"/>&nbsp;
-                  <span class="gd-brown">{{player.key}}</span> ({{player.value}})
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="op-launch">
-            <button *ngIf="team.active" class="btn btn-online" routerLink="/operations/{{team.index}}/{{team.world}}">
-              LIVE <mat-icon style="opacity: 1; vertical-align: middle; font-size: 20px;" class="hidden-xs">launch</mat-icon>
-            </button>
-            <button *ngIf="!team.active" class="btn btn-offline" routerLink="/operations/{{team.index}}/{{team.world}}">
-              OFFLINE
-            </button>
-          </div>
-        </div>
+                  </ng-container>
+                  <ng-container *ngIf="!team.active">
+                <span class="inline-flex flex-none items-center gap-1.5 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600 ring-1 ring-inset ring-slate-600/[.12]">
+                  <span class="size-2 flex-none rounded-full bg-slate-300"></span>
+                  Offline
+                </span>
+                  </ng-container>
+                </td>
+                <td class="border-0 border-b border-solid border-slate-100 align-middle px-3 py-3 text-right text-sm tabular-nums max-sm:hidden">
+                  <span *ngIf="team.active" class="font-semibold text-slate-900">{{team.commands}}</span>
+                  <span *ngIf="!team.active" class="text-slate-300">—</span>
+                </td>
+                <td class="border-0 border-b border-solid border-slate-100 align-middle px-3 py-3 text-sm text-slate-700 max-lg:hidden">
+                  <div *ngIf="team.active" class="flex min-w-0 items-center gap-1.5">
+                    <svg appIcon="player_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+                    <span class="min-w-0 truncate"><ng-container *ngFor="let player of team.players | keyvalue; let p = index"><ng-container *ngIf="p < 3">{{p > 0 ? ', ' : ''}}{{player.key}} <span class="text-slate-500">({{player.value}})</span></ng-container></ng-container></span>
+                    <span *ngIf="(team.players | keyvalue).length > 3" [matTooltip]="otherPlayers(team)" class="flex-none rounded-full bg-slate-100 px-1.5 text-xs font-medium leading-[18px] text-slate-600">+{{(team.players | keyvalue).length - 3}}</span>
+                  </div>
+                  <span *ngIf="!team.active" class="text-slate-300">—</span>
+                </td>
+                <td class="border-0 border-b border-solid border-slate-100 align-middle py-3 pl-3 pr-5 text-right max-sm:pr-4">
+                  <a *ngIf="team.active" routerLink="/operations/{{team.index}}/{{team.world}}" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md bg-brand-700 px-2.5 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-brand-800 hover:text-white hover:no-underline focus:text-white focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+                    Open live
+                    <svg appIcon="arrow-right" variant="micro" class="size-3.5 flex-none"></svg>
+                  </a>
+                  <a *ngIf="!team.active" routerLink="/operations/{{team.index}}/{{team.world}}" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 hover:text-slate-900 hover:no-underline focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+                    Open
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
 
         <div class="text-center" *ngIf="error!='' && !loading_teams">
           <app-alert type="error" title="Unable to load your active operations" [dismissible]="false">

@@ -152,7 +152,7 @@
               </div>
 
               <div class="grid grid-cols-3 gap-6">
-                <div class="text-left overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+                <div class="flex flex-col text-left overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
                   <ng-container *ngTemplateOutlet="info"></ng-container>
                 </div>
                 <div class="col-span-2 flex flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
@@ -397,7 +397,7 @@
 						<strong *ngIf="role=='write' && contribute===true" class="font-medium">You are currently contributing to this team.</strong>
 						<strong *ngIf="role=='write' && contribute===false" class="font-medium">You have disabled contributions to this team. The intel you collect will not be added to this team.</strong>
 					</div>
-					<div *ngIf="is_admin" class="grid grid-cols-1 gap-3 border-0 border-t border-solid border-slate-200 px-5 py-4 md:grid-cols-2">
+					<div *ngIf="is_admin" class="mt-auto grid grid-cols-1 gap-3 border-0 border-t border-solid border-slate-200 px-5 py-4 md:grid-cols-2">
 						<button type="button" (click)="showMembersDialog()" class="flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-3 py-2 text-sm font-medium text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
 							Manage users
 							<svg appIcon="shield-check" class="size-5 flex-none text-slate-400"></svg>
@@ -438,32 +438,53 @@
 				</ng-template>
 
 				<ng-template #players>
-					<div class="gd-scrollbar overflow-y-auto lg:max-h-[312px]">
-						<table id="table_players" class="w-full table-fixed border-separate border-spacing-0 text-left font-normal">
+					<div class="gd-scrollbar overflow-auto lg:max-h-[378px]">
+						<table id="table_players" class="w-full min-w-[640px] table-fixed border-separate border-spacing-0 text-left font-normal">
 							<colgroup>
+								<col class="w-12">
 								<col>
-								<col class="w-24">
-								<col class="w-20">
+								<col class="w-[196px]">
+								<col class="w-[116px]">
+								<col class="w-28">
+								<col class="w-[52px]">
 							</colgroup>
 							<thead>
 								<tr>
-									<th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 pl-5 pr-3 text-left text-xs font-medium text-slate-700">Player</th>
-									<th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2.5 text-right text-xs font-medium text-slate-700">Intel count</th>
-									<th scope="col" class="sticky top-0 z-10 border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 pl-3 pr-5"><span class="sr-only">View</span></th>
+									<th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 text-xs font-medium text-slate-700 pl-5 pr-2 text-right">#</th>
+									<th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 text-xs font-medium text-slate-700 px-3">Player</th>
+									<th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 text-xs font-medium text-slate-700 px-3">Coverage</th>
+									<th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 text-xs font-medium text-slate-700 px-3">Last report</th>
+									<th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 text-xs font-medium text-slate-700 px-3 text-right">Reports</th>
+									<th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 text-xs font-medium text-slate-700 pl-1 pr-4"><span class="sr-only">View</span></th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr *ngFor="let player of data.players_indexed" class="hover:bg-slate-50">
-									<td class="max-w-0 truncate border-0 border-b border-solid border-slate-100 py-2 pl-5 pr-3">
-										<a routerLink="/intel/player/{{world}}/{{player?.player_id}}" title="{{player?.player_name}}" class="text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{player?.player_name}}</a>
+								<tr *ngFor="let player of data.players_indexed; let i = index" class="hover:bg-slate-50">
+									<td class="border-0 border-b border-solid border-slate-100 py-2.5 align-middle pl-5 pr-2 text-right text-xs font-medium tabular-nums" [ngClass]="i < 3 ? 'text-slate-900' : 'text-slate-400'">{{i + 1}}</td>
+									<td class="border-0 border-b border-solid border-slate-100 py-2.5 align-middle max-w-0 px-3">
+										<a routerLink="/intel/player/{{world}}/{{player?.player_id}}" title="{{player?.player_name}}" class="block truncate text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{player?.player_name}}</a>
+										<span *ngIf="player.alliance_name" class="flex min-w-0 items-center gap-1 text-xs text-slate-500">
+											<img src="../../assets/images/ally_ico.png" class="size-4 flex-none"/>
+											<span class="truncate">{{player.alliance_name}}</span>
+										</span>
 									</td>
-									<td class="border-0 border-b border-solid border-slate-100 px-3 py-2 text-right text-sm tabular-nums text-slate-700">{{player.count}}</td>
-									<td class="whitespace-nowrap border-0 border-b border-solid border-slate-100 py-1 pl-2 pr-3.5 text-right">
-										<a routerLink="/intel/player/{{world}}/{{player?.player_id}}" title="Intel" class="inline-flex size-7 items-center justify-center rounded-md align-middle text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
-											<svg appIcon="document-magnifying-glass" class="size-[18px] flex-none"></svg>
-											<span class="sr-only">intel</span>
-										</a>
-										<a routerLink="/player" [queryParams]="{world: world, id: player?.player_id}" title="Stats" class="ml-0.5 inline-flex size-7 items-center justify-center rounded-md align-middle text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+									<td class="border-0 border-b border-solid border-slate-100 py-2.5 align-middle px-3">
+										<div *ngIf="player.towns" class="flex items-center gap-2.5" title="{{player.towns_indexed}} of {{player.towns}} towns have at least one report">
+											<div class="h-1.5 w-[72px] flex-none overflow-hidden rounded-full bg-slate-100">
+												<div class="h-1.5 rounded-full bg-brand-600" [style.width.%]="share(player.towns_indexed, player.towns)"></div>
+											</div>
+											<span class="whitespace-nowrap text-xs tabular-nums text-slate-600"><span class="font-medium text-slate-900">{{player.towns_indexed}}</span> / {{player.towns}} towns</span>
+										</div>
+									</td>
+									<td class="border-0 border-b border-solid border-slate-100 py-2.5 align-middle px-3">
+										<span *ngIf="player.last_report" title="Last report {{player.last_report * 1000 | date : 'd MMM y HH:mm'}}" class="inline-flex items-center gap-1.5 whitespace-nowrap text-sm tabular-nums" [ngClass]="isStale(player.last_report) ? 'font-medium text-amber-700' : 'text-slate-700'">
+											<svg appIcon="clock" class="size-4 flex-none" [ngClass]="isStale(player.last_report) ? 'text-amber-500' : 'text-slate-400'"></svg>
+											{{reportAge(player.last_report)}}
+										</span>
+									</td>
+									<td class="border-0 border-b border-solid border-slate-100 py-2.5 align-middle px-3 text-right text-sm font-medium tabular-nums text-slate-900">{{player.count}}</td>
+									<td class="border-0 border-b border-solid border-slate-100 py-2.5 align-middle whitespace-nowrap py-1.5 pl-1 pr-4 text-right">
+										<a routerLink="/player" [queryParams]="{world: world, id: player?.player_id}" title="Stats" class="inline-flex size-7 items-center justify-center rounded-md align-middle text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
 											<svg appIcon="chart-bar" class="size-[18px] flex-none"></svg>
 											<span class="sr-only">stats</span>
 										</a>
@@ -475,32 +496,50 @@
 				</ng-template>
 
 				<ng-template #allys>
-					<div class="gd-scrollbar overflow-y-auto lg:max-h-[312px]">
-						<table id="table_alliances" class="w-full table-fixed border-separate border-spacing-0 text-left font-normal">
+					<div class="gd-scrollbar overflow-auto lg:max-h-[378px]">
+						<table id="table_alliances" class="w-full min-w-[640px] table-fixed border-separate border-spacing-0 text-left font-normal">
 							<colgroup>
+								<col class="w-12">
 								<col>
-								<col class="w-24">
-								<col class="w-20">
+								<col class="w-[196px]">
+								<col class="w-[116px]">
+								<col class="w-28">
+								<col class="w-[52px]">
 							</colgroup>
 							<thead>
 								<tr>
-									<th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 pl-5 pr-3 text-left text-xs font-medium text-slate-700">Alliance</th>
-									<th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2.5 text-right text-xs font-medium text-slate-700">Intel count</th>
-									<th scope="col" class="sticky top-0 z-10 border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 pl-3 pr-5"><span class="sr-only">View</span></th>
+									<th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 text-xs font-medium text-slate-700 pl-5 pr-2 text-right">#</th>
+									<th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 text-xs font-medium text-slate-700 px-3">Alliance</th>
+									<th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 text-xs font-medium text-slate-700 px-3">Coverage</th>
+									<th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 text-xs font-medium text-slate-700 px-3">Last report</th>
+									<th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 text-xs font-medium text-slate-700 px-3 text-right">Reports</th>
+									<th scope="col" class="sticky top-0 z-10 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2.5 text-xs font-medium text-slate-700 pl-1 pr-4"><span class="sr-only">View</span></th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr *ngFor="let alliance of data.alliances_indexed" class="hover:bg-slate-50">
-									<td class="max-w-0 truncate border-0 border-b border-solid border-slate-100 py-2 pl-5 pr-3">
-										<a routerLink="/intel/alliance/{{world}}/{{alliance?.alliance_id}}" title="{{alliance?.alliance_name}}" class="text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{alliance?.alliance_name}}</a>
+								<tr *ngFor="let alliance of data.alliances_indexed; let i = index" class="hover:bg-slate-50">
+									<td class="border-0 border-b border-solid border-slate-100 py-2.5 align-middle pl-5 pr-2 text-right text-xs font-medium tabular-nums" [ngClass]="i < 3 ? 'text-slate-900' : 'text-slate-400'">{{i + 1}}</td>
+									<td class="border-0 border-b border-solid border-slate-100 py-2.5 align-middle max-w-0 px-3">
+										<a routerLink="/intel/alliance/{{world}}/{{alliance?.alliance_id}}" title="{{alliance?.alliance_name}}" class="block truncate text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{alliance?.alliance_name}}</a>
+										<span *ngIf="alliance.members" class="block text-xs tabular-nums text-slate-500">{{alliance.members}} members</span>
 									</td>
-									<td class="border-0 border-b border-solid border-slate-100 px-3 py-2 text-right text-sm tabular-nums text-slate-700">{{alliance.count}}</td>
-									<td class="whitespace-nowrap border-0 border-b border-solid border-slate-100 py-1 pl-2 pr-3.5 text-right">
-										<a routerLink="/intel/alliance/{{world}}/{{alliance?.alliance_id}}" title="Intel" class="inline-flex size-7 items-center justify-center rounded-md align-middle text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
-											<svg appIcon="document-magnifying-glass" class="size-[18px] flex-none"></svg>
-											<span class="sr-only">intel</span>
-										</a>
-										<a routerLink="/alliance" [queryParams]="{world: world, id: alliance?.alliance_id}" title="Stats" class="ml-0.5 inline-flex size-7 items-center justify-center rounded-md align-middle text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+									<td class="border-0 border-b border-solid border-slate-100 py-2.5 align-middle px-3">
+										<div *ngIf="alliance.members" class="flex items-center gap-2.5" title="{{alliance.members_indexed}} of {{alliance.members}} members have at least one report">
+											<div class="h-1.5 w-[72px] flex-none overflow-hidden rounded-full bg-slate-100">
+												<div class="h-1.5 rounded-full bg-brand-600" [style.width.%]="share(alliance.members_indexed, alliance.members)"></div>
+											</div>
+											<span class="whitespace-nowrap text-xs tabular-nums text-slate-600"><span class="font-medium text-slate-900">{{alliance.members_indexed}}</span> / {{alliance.members}} members</span>
+										</div>
+									</td>
+									<td class="border-0 border-b border-solid border-slate-100 py-2.5 align-middle px-3">
+										<span *ngIf="alliance.last_report" title="Last report {{alliance.last_report * 1000 | date : 'd MMM y HH:mm'}}" class="inline-flex items-center gap-1.5 whitespace-nowrap text-sm tabular-nums" [ngClass]="isStale(alliance.last_report) ? 'font-medium text-amber-700' : 'text-slate-700'">
+											<svg appIcon="clock" class="size-4 flex-none" [ngClass]="isStale(alliance.last_report) ? 'text-amber-500' : 'text-slate-400'"></svg>
+											{{reportAge(alliance.last_report)}}
+										</span>
+									</td>
+									<td class="border-0 border-b border-solid border-slate-100 py-2.5 align-middle px-3 text-right text-sm font-medium tabular-nums text-slate-900">{{alliance.count}}</td>
+									<td class="border-0 border-b border-solid border-slate-100 py-2.5 align-middle whitespace-nowrap py-1.5 pl-1 pr-4 text-right">
+										<a routerLink="/alliance" [queryParams]="{world: world, id: alliance?.alliance_id}" title="Stats" class="inline-flex size-7 items-center justify-center rounded-md align-middle text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
 											<svg appIcon="chart-bar" class="size-[18px] flex-none"></svg>
 											<span class="sr-only">stats</span>
 										</a>

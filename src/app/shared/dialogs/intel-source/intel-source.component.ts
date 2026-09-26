@@ -27,6 +27,7 @@ export class IntelSourceDialog {
     public dialogRef: MatDialogRef<IntelSourceDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    dialogRef.addPanelClass('team-dialog');
     this.intel_record = data.intel;
     this.index_list = data.index_list;
     this.intel_type = data.intel_type;

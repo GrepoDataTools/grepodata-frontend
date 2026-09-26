@@ -1,16 +1,28 @@
-<div mat-dialog-content style="min-width: 90%; min-height: 70%;">
+<div class="flex max-h-[95vh] w-full flex-col text-left font-normal text-slate-900">
+  <div class="flex flex-none items-start gap-4 border-0 border-b border-solid border-slate-200 px-6 py-5 max-sm:gap-3 max-sm:px-4">
+    <span class="flex-none" matTooltip="{{intel_record.type}}">
+      <img src="../../assets/images/game/towninfo/attack.png" *ngIf="intel_record.type === 'friendly_attack'" class="block size-10 rounded-lg ring-1 ring-slate-900/10">
+      <img src="../../assets/images/game/towninfo/attack.png" *ngIf="intel_record.type === 'enemy_attack'" class="block size-10 -scale-x-100 rounded-lg ring-1 ring-slate-900/10">
+      <img src="../../assets/images/game/towninfo/wisdom.png" *ngIf="intel_record.type === 'wisdom'" class="block size-10 rounded-lg ring-1 ring-slate-900/10">
+      <img src="../../assets/images/game/towninfo/support.png" *ngIf="intel_record.type === 'support'" class="block size-10 rounded-lg ring-1 ring-slate-900/10">
+      <img src="../../assets/images/game/towninfo/conquer.png" *ngIf="intel_record.type === 'attack_on_conquest'" class="block size-10 rounded-lg ring-1 ring-slate-900/10">
+      <img src="../../assets/images/game/towninfo/espionage_2.67.png" *ngIf="intel_record.type === 'spy'" class="block size-10 rounded-lg ring-1 ring-slate-900/10">
+    </span>
+    <div class="min-w-0 flex-1">
+      <h2 mat-dialog-title class="m-0 text-xl font-semibold leading-7 text-slate-900">Report details</h2>
+      <app-indexer-breadcrumbs class="mt-1 block" [data]="breadcrumb_data"></app-indexer-breadcrumbs>
+    </div>
+    <button type="button" (click)="close()" aria-label="Close" class="-mr-2 -mt-1 inline-flex size-8 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+      <svg appIcon="x-mark" class="size-5"></svg>
+    </button>
+  </div>
 
-  <a (click)="close()" class="close"></a>
-  <h2 class="gd-secondary" style="margin-top: 0;">Report details</h2>
-  <hr/>
-
+  <div class="min-h-0 flex-1 overflow-y-auto px-6 py-5 max-sm:px-4">
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-xs-12">
 
         <div class="intel-record">
-
-          <app-indexer-breadcrumbs [data]="breadcrumb_data"></app-indexer-breadcrumbs>
 
           <div style="overflow: auto;">
             <div class="table intel-table" id="table_all" style="">
@@ -179,5 +191,9 @@
 
 		</div>
 	</div>
-</div>
+  </div>
 
+  <div class="flex flex-none items-center justify-end gap-3 border-0 border-t border-solid border-slate-200 bg-slate-50 px-6 py-4 max-sm:px-4">
+    <button type="button" (click)="close()" class="inline-flex items-center justify-center rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Close</button>
+  </div>
+</div>

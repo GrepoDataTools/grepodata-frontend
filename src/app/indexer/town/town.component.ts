@@ -270,7 +270,7 @@ export class IndexTownComponent implements AfterViewInit, OnDestroy, OnInit {
       let indexes = shared_list.split(', ')
       if (shared_list.length > 0 && indexes.length > 0) {
         let dialogRef = this.dialog.open(IntelSourceDialog, {
-          width: '70%',
+          width: '760px',
           autoFocus: false,
           disableClose: false,
           data: {

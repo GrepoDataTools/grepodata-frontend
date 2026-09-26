@@ -71,31 +71,23 @@
     </li>
   </ol>
 
-  <ol class="breadcrumb" *ngIf="type == 'ops'">
-
-    <!-- Back navigation -->
-    <li class="breadcrumb-item">
-      <a class="gd-secondary hover-scale" routerLink="/profile/ops">
-        <mat-icon style="vertical-align: bottom;">keyboard_backspace</mat-icon>&nbsp;
-        <span class="ops-gd-header hidden-xs hidden-sm">
-          <span style="color: rgb(103, 103, 103)" class="dmf1">GREPO</span>
-          <span style="color: rgb(24, 188, 156)">DATA</span>
+  <ol *ngIf="type == 'ops'" class="m-0 flex list-none items-center gap-2.5 p-0 text-sm font-normal leading-5 text-slate-700 dark:text-slate-300 [&>li+li]:before:text-slate-300 [&>li+li]:before:content-['/'] dark:[&>li+li]:before:text-slate-600">
+    <li class="flex flex-none items-center">
+      <a routerLink="/profile/ops" class="group inline-flex items-center gap-2 text-slate-900 hover:text-slate-900 hover:no-underline focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:text-slate-100 dark:hover:text-slate-100">
+        <span class="flex size-8 flex-none items-center justify-center rounded-md text-slate-500 ring-1 ring-inset ring-slate-300 group-hover:bg-slate-50 dark:text-slate-400 dark:ring-slate-700 dark:group-hover:bg-slate-800">
+          <svg appIcon="arrow-left" variant="mini" class="size-4"></svg>
         </span>
-        <span style="color: #334254;" class="hidden-xxs dmf2">&nbsp;Team Ops</span>
+        <span class="text-[15px] font-extrabold tracking-wide max-[991px]:hidden"><span class="text-slate-700 dark:text-slate-300">GREPO</span><span class="text-brand-500">DATA</span></span>
+        <span class="font-semibold max-[450px]:hidden">Team Ops</span>
       </a>
     </li>
-
-    <!-- World -->
-    <li class="breadcrumb-item active hidden-xs" *ngIf="data.world">
-      <div [outerHTML]="data.world | WorldNamePipe"></div>
+    <li *ngIf="data.world" class="flex flex-none items-center gap-1.5 whitespace-nowrap max-md:hidden [&_.bg-flag]:[zoom:0.625]">
+      <span [outerHTML]="data.world | WorldNamePipe"></span>
     </li>
-
-    <!-- Team -->
-    <li class="breadcrumb-item active" *ngIf="data.team">
-      <mat-icon style="vertical-align: -5px;">group</mat-icon>
-      <a routerLink="/profile/team/{{data.team}}"> {{data.team_name}}</a>
+    <li *ngIf="data.team" class="flex min-w-0 items-center gap-1.5">
+      <svg appIcon="user-group" variant="mini" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
+      <a routerLink="/profile/team/{{data.team}}" class="min-w-0 truncate font-semibold text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:text-slate-100 dark:hover:text-brand-500">{{data.team_name}}</a>
     </li>
-
   </ol>
 
 </nav>

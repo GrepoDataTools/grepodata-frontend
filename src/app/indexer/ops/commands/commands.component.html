@@ -1,43 +1,47 @@
 <div [ngClass]="{'dark-mode': !dark_mode}">
-  <div class="ops-header">
-    <app-indexer-breadcrumbs [data]="{world: world, team: team, team_name: team_name}" [type]="'ops'"></app-indexer-breadcrumbs>
+  <div class="fixed inset-x-0 top-0 z-[1000] flex h-[58px] items-center justify-between gap-4 border-0 border-b border-solid border-slate-200 bg-white px-4 font-normal dark:border-slate-800 dark:bg-slate-900 max-sm:px-3">
+    <app-indexer-breadcrumbs class="block min-w-0" [data]="{world: world, team: team, team_name: team_name}" [type]="'ops'"></app-indexer-breadcrumbs>
+
+    <div class="flex flex-none items-center gap-2">
+      <div class="flex items-center gap-2 max-md:hidden">
+        <button type="button" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-800 dark:text-slate-100 dark:ring-slate-700 dark:hover:bg-slate-700" (click)="showHelpDialog()">
+          <svg appIcon="question-mark-circle" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
+          Help
+        </button>
+        <button type="button" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-800 dark:text-slate-100 dark:ring-slate-700 dark:hover:bg-slate-700 max-[1199px]:hidden" (click)="showContactDialog()">
+          <svg appIcon="chat-bubble-left-ellipsis" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
+          Feedback
+        </button>
+        <ng-container *ngIf="show_menu">
+          <button type="button" [disabled]="!is_admin" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-800 dark:text-slate-100 dark:ring-slate-700 dark:hover:bg-slate-700 max-[991px]:hidden" (click)="openUsersDialog()" title="Only the team admin/owner can manage these settings">
+            <svg appIcon="user-group" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
+            Users
+          </button>
+          <button type="button" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-800 dark:text-slate-100 dark:ring-slate-700 dark:hover:bg-slate-700 !text-rose-700 dark:!text-rose-300" (click)="toggleOpSettings(!showOpSettings)" title="Delete or hide commands">
+            <svg *ngIf="!showOpSettings" appIcon="trash" class="size-4 flex-none"></svg>
+            <svg *ngIf="showOpSettings" appIcon="x-mark" class="size-4 flex-none"></svg>
+            Delete commands
+          </button>
+        </ng-container>
+        <button type="button" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-800 dark:text-slate-100 dark:ring-slate-700 dark:hover:bg-slate-700" *ngIf="!show_menu" (click)="show_menu=true" title="Show Menu">
+          <svg appIcon="cog-6-tooth" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
+          Manage
+        </button>
+        <button type="button" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-800 dark:text-slate-100 dark:ring-slate-700 dark:hover:bg-slate-700 !px-1.5" *ngIf="show_menu" (click)="show_menu=false" aria-label="Hide menu">
+          <svg appIcon="x-mark" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
+        </button>
+      </div>
+
+      <label title="Toggle Dark Mode" class="m-0 inline-flex size-9 flex-none cursor-pointer items-center justify-center rounded-md text-slate-500 hover:bg-slate-100 hover:text-slate-900 has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-brand-700 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100">
+        <input type="checkbox" class="sr-only" id="Switch" [(ngModel)]="dark_mode" (ngModelChange)="saveSettingsToCache(); draw()">
+        <svg appIcon="moon" class="size-5 dark:hidden"></svg>
+        <svg appIcon="sun" class="hidden size-5 dark:block"></svg>
+        <span class="sr-only">Dark mode</span>
+      </label>
+    </div>
   </div>
 
   <div class="ops-action">
-
-    <div class="dark-mode-toggle" title="Toggle Dark Mode">
-      <div class="switch">
-        <input type="checkbox" class="switch__input" id="Switch" [(ngModel)]="dark_mode" (ngModelChange)="saveSettingsToCache(); draw()">
-        <label class="switch__label" for="Switch">
-          <span class="switch__indicator"></span>
-          <span class="switch__decoration"></span>
-        </label>
-      </div>
-    </div>
-
-    <div class="ops-action-buttons hidden-xs">
-      <button class="btn btn-secondary mr-1" (click)="showHelpDialog()">
-        Help <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">live_help</mat-icon>
-      </button>
-      <button class="btn btn-secondary mr-1 hidden-xs hidden-sm hidden-md" (click)="showContactDialog()">
-        Feedback <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">feedback</mat-icon>
-      </button>
-      <ng-container *ngIf="show_menu">
-        <button [disabled]="!is_admin" class="btn btn-secondary mr-1 hidden-xs hidden-sm" (click)="openUsersDialog()" title="Only the team admin/owner can manage these settings">
-          Users <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">group</mat-icon>
-        </button>
-        <button class="btn btn-danger mr-1 hidden-xs" (click)="toggleOpSettings(!showOpSettings)" title="Delete or hide commands" style="margin-left: 0 !important;">
-          <span *ngIf="!showOpSettings">Delete Commands <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">settings</mat-icon></span>
-          <span *ngIf="showOpSettings">Delete Commands <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">close</mat-icon></span>
-        </button>
-      </ng-container>
-      <button class="btn btn-primary" *ngIf="!show_menu" (click)="show_menu=true" title="Show Menu">
-        <mat-icon>settings</mat-icon>
-      </button>
-      <button class="btn btn-primary" *ngIf="show_menu" (click)="show_menu=false">
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
 
     <div class="op-settings-container" *ngIf="deleting">
       <div class="delete-header" fxLayout="row" style="margin-right: 15px;">

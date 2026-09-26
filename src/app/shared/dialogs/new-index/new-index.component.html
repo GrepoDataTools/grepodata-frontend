@@ -13,6 +13,11 @@
         <span *ngIf="submitted==true && building!=true">Team created successfully!</span>
       </h2>
       <p *ngIf="submitted==false" class="mb-0 mt-0.5 text-sm text-slate-600">Submit this form to create a new city indexer team.</p>
+      <p *ngIf="submitted==true && createdIndex.name" class="mb-0 mt-0.5 flex min-w-0 items-center gap-1.5 text-sm text-slate-600">
+        <span class="truncate font-medium text-slate-700">{{createdIndex.name}}</span>
+        <span class="text-slate-300">·</span>
+        <span class="truncate [&_.bg-flag]:[zoom:0.625]"><span [outerHTML]="createdIndex.world | WorldNamePipe"></span></span>
+      </p>
     </div>
     <button *ngIf="building==false" type="button" (click)="close()" aria-label="Close" class="-mr-2 -mt-1 inline-flex size-8 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
       <svg appIcon="x-mark" class="size-5"></svg>
@@ -77,45 +82,48 @@
     </div>
   </div>
 
-  <div *ngIf="submitted==true" class="min-h-0 flex-1 overflow-y-auto px-6 py-5">
-	<div *ngIf="submitted==true && createError == ''">
-		<app-alert type="success" title="Your new team has been created." [dismissible]="false">
-			<h5>
-				All reports that you index in world <strong><span [outerHTML]="createdIndex.world | WorldNamePipe"></span></strong> will now be added to this team.
-				<br/>
-			</h5>
-      <div *ngIf="createdIndex.share_link && createdIndex.share_link != 'Unauthorized' && !clickedShare">
-        <div class="row">
-          <div class="col-xs-12 gd-share-link-container">
-            <br/>
-            <h5 style="margin-bottom: 0;"><strong>Tip:</strong> send this link to your allies to give them access to this team:</h5>
-            <br/>
-            <div class="row invite-link-container" (click)="copyLink()">
-              <input #shareLink
-                     [ngClass]="{ 'copied': copied }"
-                     [disabled]="true"
-                     class="col-xs-9 col-sm-8 col-md-7 col-lg-7 ur share-link-actual"
-                     type="url"
-                     value="https://grepodata.com/invite/{{createdIndex.key}}{{createdIndex.share_link}}"
-                     id="siegeShareUrl"
-                     aria-describedby="inputGroup-sizing-default"
-                     style="height: 40px; font-size: 20px !important; color: #009688; font-weight: 900;">
-              <button class="cpy" (click)="copyLink()"><i class="fa fa-clone"></i> Copy</button><span class="message" *ngIf="copied"> Link copied!</span>
-            </div>
-          </div>
-        </div>
+  <div *ngIf="submitted==true" class="min-h-0 flex-1 space-y-5 overflow-y-auto px-6 py-5">
+    <div *ngIf="createError == ''" role="status" class="flex gap-3 rounded-lg bg-emerald-50 px-4 py-3 text-sm text-emerald-700 ring-1 ring-inset ring-emerald-200">
+      <svg appIcon="check-circle" class="size-5 flex-none text-emerald-600"></svg>
+      <div class="min-w-0">
+        <p class="m-0 font-semibold">Your new team has been created.</p>
+        <p class="mb-0 mt-0.5">All reports that you index in world <strong class="font-semibold [&_.bg-flag]:[zoom:0.625]"><span [outerHTML]="createdIndex.world | WorldNamePipe"></span></strong> will now be added to this team.</p>
       </div>
-		</app-alert>
-		<br/>
-		<button *ngIf="createdIndex.key" class="btn btn-primary mr-1" (click)="showShareDialog()">Invite users <mat-icon>group_add</mat-icon></button>
-		<button *ngIf="createdIndex.key" class="btn btn-secondary mr-1" style="float: right;" routerLink="/profile/team/{{createdIndex.key}}">Go to team overview <mat-icon>launch</mat-icon></button>
-	</div>
+    </div>
 
-	<div *ngIf="submitted==true && createError != ''">
-		<app-alert type="error" title="Unable to create team.">
-			<h5>{{createError}}	</h5>
-		</app-alert>
-	</div>
+    <div *ngIf="createError == '' && createdIndex.share_link && createdIndex.share_link != 'Unauthorized' && !clickedShare">
+      <p class="mb-1.5 mt-0 text-sm font-medium text-slate-900"><span class="font-semibold">Tip:</span> send this link to your allies to give them access to this team:</p>
+      <div (click)="copyLink()" class="flex overflow-hidden rounded-md border border-solid shadow-sm" [ngClass]="copied ? 'border-brand-700 ring-1 ring-brand-700' : 'border-slate-300'">
+        <input #shareLink readonly type="url" value="https://grepodata.com/invite/{{createdIndex.key}}{{createdIndex.share_link}}" id="siegeShareUrl" aria-label="Invite link" class="h-10 min-w-0 flex-1 cursor-pointer border-0 bg-slate-50 px-3 font-mono text-[13px] text-slate-900 focus:outline-none">
+        <button type="button" (click)="copyLink()" class="inline-flex flex-none items-center gap-1.5 border-0 border-l border-solid border-slate-300 bg-white px-3.5 text-sm font-semibold hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-700" [ngClass]="copied ? 'text-brand-700' : 'text-slate-900'">
+          <svg [appIcon]="copied ? 'clipboard-document-check' : 'clipboard-document'" class="size-[18px] flex-none" [ngClass]="copied ? 'text-brand-700' : 'text-slate-400'"></svg>
+          {{copied ? 'Copied' : 'Copy link'}}
+        </button>
+      </div>
+      <p *ngIf="copied" class="mb-0 mt-2 flex items-center gap-1 text-xs font-medium text-brand-700">
+        <svg appIcon="check" variant="micro" class="size-3.5 flex-none"></svg>
+        Link copied!
+      </p>
+    </div>
+
+    <div *ngIf="createError != ''" role="alert" class="flex gap-3 rounded-lg bg-rose-50 px-4 py-3 text-sm text-rose-700 ring-1 ring-inset ring-rose-200">
+      <svg appIcon="exclamation-circle" class="size-5 flex-none text-rose-600"></svg>
+      <div class="min-w-0">
+        <p class="m-0 font-semibold">Unable to create team.</p>
+        <p class="mb-0 mt-0.5">{{createError}}</p>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="submitted==true && createError == '' && createdIndex.key" class="flex flex-none items-center gap-3 border-0 border-t border-solid border-slate-200 bg-slate-50 px-6 py-4">
+    <button type="button" (click)="showShareDialog()" class="inline-flex items-center justify-center gap-1.5 rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+      <svg appIcon="user-plus" class="size-[18px] flex-none text-slate-400"></svg>
+      Invite users
+    </button>
+    <button type="button" routerLink="/profile/team/{{createdIndex.key}}" class="ml-auto inline-flex items-center justify-center gap-1.5 rounded-md border-0 bg-brand-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+      Go to team overview
+      <svg appIcon="arrow-right" variant="mini" class="size-4 flex-none"></svg>
+    </button>
   </div>
 
   <div *ngIf="building!=true">

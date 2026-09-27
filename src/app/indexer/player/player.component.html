@@ -1,226 +1,152 @@
-<div style="overflow-x: hidden; min-height: 100%;">
+<div [ngClass]="embedded ? 'h-full bg-white' : 'min-h-full'">
+  <div [ngClass]="embedded ? 'h-full overflow-y-auto bg-slate-50' : 'm-[22px] space-y-6 max-[1000px]:m-3'">
 
-	<mat-card [ngClass]="embedded?'embedded-intel-card':'index-card'" class="index-intel-card">
-		<div [ngClass]="{'embedded-padding': embedded}">
-			<div class="card-header bg-gd-1 text-center text-white" style="margin-bottom: 0; padding: 20px 0 0 !important;" [ngClass]="{ 'embedded-intel': embedded }">
+  <section class="bg-white" [ngClass]="embedded ? 'sticky top-0 z-20 border-0 border-b border-solid border-slate-200' : 'overflow-hidden rounded-xl shadow-sm ring-1 ring-slate-900/[.08]'">
+    <div class="flex flex-col px-6 pt-5 max-sm:px-4" [ngClass]="(mobile && showPanels() ? 'pb-0 ' : 'pb-5 ') + (embedded ? 'gap-2 pr-14' : 'gap-3.5')">
+      <app-indexer-breadcrumbs *ngIf="!embedded" class="block" [data]="breadcrumb_data"></app-indexer-breadcrumbs>
+      <div class="flex items-center gap-4 max-sm:gap-3">
+        <span class="flex flex-none items-center justify-center bg-navy-800 text-brand-500" [ngClass]="embedded ? 'size-10 rounded-lg' : 'size-12 rounded-[10px] max-sm:size-10'">
+          <svg appIcon="player_ico" variant="game" class="size-6"></svg>
+        </span>
+        <div class="min-w-0 flex-1">
+          <h1 *ngIf="!embedded" (click)="copyBB()" title="Copy BB code" class="my-0 cursor-pointer truncate text-2xl font-bold tracking-tight text-slate-900 hover:text-brand-800 max-sm:text-xl">{{playerName}}</h1>
+          <h2 *ngIf="embedded" class="my-0 truncate text-xl font-bold tracking-tight text-slate-900">{{playerName}}</h2>
+          <p *ngIf="!embedded" class="mb-0 mt-0.5 text-sm text-slate-500">Your combined intel from all your teams<span *ngIf="(allCities | ValuesPipe).length > 0"> · {{(allCities | ValuesPipe).length}} towns</span></p>
+          <app-indexer-breadcrumbs *ngIf="embedded" class="mt-0.5 block" [data]="breadcrumb_data"></app-indexer-breadcrumbs>
+        </div>
+        <button *ngIf="!embedded" type="button" name="open_bb" (click)="copyBB()" [title]="'Copy [player]' + id + '[/player] to the clipboard'" class="inline-flex flex-none items-center gap-1.5 rounded-md border-0 px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="copied ? 'bg-emerald-50 text-emerald-700 ring-emerald-200' : 'bg-white text-slate-900 ring-slate-300 hover:bg-slate-50'">
+          <svg [appIcon]="copied ? 'check' : 'clipboard-document'" class="size-[18px] flex-none" [ngClass]="copied ? 'text-emerald-600' : 'text-slate-400'"></svg>
+          <span *ngIf="!copied">Copy BB</span><span *ngIf="copied">Copied!</span>
+        </button>
+      </div>
+    </div>
+    <div *ngIf="mobile && showPanels()" role="tablist" class="mt-2.5 flex gap-6 px-6 max-sm:gap-4 max-sm:px-4">
+      <button type="button" role="tab" [attr.aria-selected]="activeTab === 0" (click)="setActiveTab(0)" class="-mb-px inline-flex items-center gap-2 whitespace-nowrap border-0 border-b-2 border-solid bg-transparent px-1 py-3 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="activeTab === 0 ? 'border-brand-700 font-semibold text-brand-700' : 'border-transparent font-medium text-slate-500 hover:border-slate-300 hover:text-slate-900'">
+        <span class="block size-5 flex-none overflow-hidden rounded-full"><span class="unit_icon40x40 unknown_naval block border-0 [zoom:0.5]"></span></span>
+        Sea units
+      </button>
+      <button type="button" role="tab" [attr.aria-selected]="activeTab === 1" (click)="setActiveTab(1)" class="-mb-px inline-flex items-center gap-2 whitespace-nowrap border-0 border-b-2 border-solid bg-transparent px-1 py-3 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="activeTab === 1 ? 'border-brand-700 font-semibold text-brand-700' : 'border-transparent font-medium text-slate-500 hover:border-slate-300 hover:text-slate-900'">
+        <span class="block size-5 flex-none overflow-hidden rounded-full"><span class="unit_icon40x40 unknown block border-0 [zoom:0.5]"></span></span>
+        Land units
+      </button>
+    </div>
+  </section>
 
-				<h2 style="cursor: pointer; margin: 0;" *ngIf="!embedded">
-          <span class="hidden-xs hidden-sm">Showing your combined intel for:&nbsp;</span>
-					<div class="name-circle" (click)="copyBB()">
-						<img style="height: 25px; margin-top: -5px;" src="../../assets/images/player_ico.png"/>&nbsp;
-						<span class="gd-brown">{{playerName}}</span>
-					</div>
-          &nbsp;<button name="open_bb" class="btn btn-secondary" (click)="copyBB()" style="vertical-align: text-top;">
-            <i class="fa fa-clipboard"></i>&nbsp;<span *ngIf="!copied">Copy BB</span><span *ngIf="copied">Copied!&nbsp;</span>
-          </button>
-				</h2>
-        <br *ngIf="!embedded" />
-        <app-indexer-breadcrumbs class="mb-5 block" [data]="breadcrumb_data"></app-indexer-breadcrumbs>
+  <div [ngClass]="embedded ? 'space-y-5 p-5 max-sm:p-3' : 'space-y-6'">
+    <section *ngIf="err != ''" class="flex flex-col items-center rounded-xl bg-white px-6 py-10 text-center shadow-sm ring-1 ring-slate-900/[.08]">
+      <span class="flex size-12 items-center justify-center rounded-full bg-amber-50 text-amber-600">
+        <svg appIcon="eye-slash" class="size-6"></svg>
+      </span>
+      <h2 class="mb-0 mt-3 text-base font-semibold text-slate-900">No player intel available</h2>
+      <p class="mb-0 mt-1 max-w-md text-sm text-slate-600">Index more reports about this player.</p>
+      <p class="mb-0 mt-1 max-w-md text-xs text-slate-500">Note: Intel about your allies (team owners) is unavailable.</p>
+    </section>
 
-			</div>
+    <section *ngIf="err == '' && loading" class="rounded-xl bg-white px-6 py-10 text-center shadow-sm ring-1 ring-slate-900/[.08]">
+      <p class="my-0 text-sm font-medium text-slate-600">Loading player intel...</p>
+      <mat-progress-bar class="mx-auto mt-3 max-w-md" mode="indeterminate"></mat-progress-bar>
+    </section>
 
-	    <mat-card-content class="decorated-card-content" [ngClass]="{'embedded-padding': embedded}" style="padding: 0 !important;">
+    <ng-container *ngIf="showPanels()">
+      <div *ngIf="mobile">
+        <div role="tabpanel" [hidden]="activeTab !== 0">
+          <ng-container *ngTemplateOutlet="seaunits"></ng-container>
+        </div>
+        <div role="tabpanel" [hidden]="activeTab !== 1">
+          <ng-container *ngTemplateOutlet="landunits"></ng-container>
+        </div>
+      </div>
+      <div *ngIf="!mobile" class="[container-type:inline-size]">
+        <div class="grid grid-cols-1 items-start gap-6 [@container(min-width:880px)]:grid-cols-2">
+          <ng-container *ngTemplateOutlet="seaunits"></ng-container>
+          <ng-container *ngTemplateOutlet="landunits"></ng-container>
+        </div>
+      </div>
+    </ng-container>
 
-	      <!--<div *ngIf="embedded">-->
-	        <!--<h4 class="gd-primary text-center">-->
-	          <!--<span class="index-title">-->
-	            <!--Index: <span class='world-title'><a class="a-link-dialog" style="color: #334254 !important;" routerLink="/indexer/{{key}}">{{key}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a></span>-->
-	          <!--</span>-->
-	          <!--<span class="index-title" *ngIf="allianceId != 0">-->
-	            <!--Alliance intel: <span class='world-title gd-secondary'><a class="a-link-dialog" style="color: #334254 !important;" routerLink="/indexer/alliance/{{key}}/{{world}}/{{allianceId}}">{{allianceName}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a></span>-->
-	          <!--</span>-->
-	        <!--</h4>-->
-	      <!--</div>-->
+    <section *ngIf="err == '' && noIntel && !loading" class="flex flex-col items-center rounded-xl bg-white px-6 py-10 text-center shadow-sm ring-1 ring-slate-900/[.08]">
+      <span class="flex size-12 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+        <svg appIcon="document-magnifying-glass" class="size-6"></svg>
+      </span>
+      <h2 class="mb-0 mt-3 text-base font-semibold text-slate-900">You have not yet gained any intel on player <strong class="font-semibold">{{playerName}}</strong></h2>
+    </section>
+  </div>
 
-	      <div *ngIf="err != ''" class="text-center">
-	          <div class="container-fluid">
-		          <div class="row">
-			          <br/>
-			          <br/>
-			          <br/>
-			          <div class="alert alert-gd-1 text-center">
-				          <h2 class="gd-primary"><strong>No player intel available.</strong> Index more reports about this player.</h2>
-				          <h4>
-					          Note: Intel about your allies (team owners) is unavailable.
-				          </h4>
-			          </div>
-		          </div>
-	          </div>
-	      </div>
-
-	      <div *ngIf="err == ''">
-
-		      <!--<app-advertorial *ngIf="!loading && !embedded && totalCount > 30"></app-advertorial>-->
-
-		      <!--<div style="width: calc(100vw - 68px); margin: auto;">-->
-			      <!--<app-index-version *ngIf="!embedded && !loading" [version]="version" [message]="message" [key]="key"></app-index-version>-->
-		      <!--</div>-->
-
-		      <div *ngIf="loading" class="text-center">
-			      <div class="align-middle" style="position: relative; top: 250px; left: 25%; width: 50%;">
-				      <h3 class="gd-primary"><strong>Loading player intel...</strong></h3>
-				      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-			      </div>
-		      </div>
-
-	        <div *ngIf="!noIntel && !loading" [ngClass]="{ 'embedded-container': embedded }">
-
-		        <div *ngIf="mobile">
-			        <mat-tab-group mat-stretch-tabs (click)="cdr.detectChanges();">
-				        <mat-tab>
-					        <ng-template mat-tab-label>
-						        <div class="unit_icon40x40 unknown_naval" style="border-radius: 30px;"></div>&nbsp;&nbsp;Sea units
-					        </ng-template>
-					        <ng-container *ngTemplateOutlet="seaunits"></ng-container>
-				        </mat-tab>
-				        <mat-tab>
-					        <ng-template mat-tab-label>
-						        <div class="unit_icon40x40 unknown" style="border-radius: 30px;"></div>&nbsp;&nbsp;Land units
-					        </ng-template>
-					        <ng-container *ngTemplateOutlet="landunits"></ng-container>
-				        </mat-tab>
-			        </mat-tab-group>
-		        </div>
-
-		        <div *ngIf="!mobile" fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="5px" style="max-width: 1700px; margin: auto;">
-			        <div fxFlex="50">
-				        <ng-container *ngTemplateOutlet="seaunits"></ng-container>
-			        </div>
-			        <div fxFlex="50">
-				        <ng-container *ngTemplateOutlet="landunits"></ng-container>
-			        </div>
-
-<!--              <div *ngIf="embedded" class="embedded-bb-copy">-->
-<!--                &nbsp;<button name="open_bb" class="btn btn-secondary" (click)="copyBB()" style="vertical-align: text-top;">-->
-<!--                  <i class="fa fa-clipboard"></i>&nbsp;<span *ngIf="!copied">Copy BB</span><span *ngIf="copied">Copied!&nbsp;</span>-->
-<!--                </button>-->
-<!--              </div>-->
-
-		        </div>
-
-	        </div>
-
-	        <!--<div *ngIf="!embedded && !loading" style="max-width: 1700px; margin: auto;">-->
-	          <!--<mat-card class="index-card">-->
-	            <!--<mat-card-title>-->
-	              <!--<div fxLayout="row">-->
-	                <!--<h3 style='font-weight: 300; color: #304357;'>-->
-	                  <!--<span class='world-title' style='color: #18BC9C;'>All indexed towns</span>-->
-	                <!--</h3>-->
-	              <!--</div>-->
-	            <!--</mat-card-title>-->
-	            <!--<mat-card-content>-->
-	              <!--<div class="table" id="table_all" style='margin: auto; margin-bottom: 0px;'>-->
-
-	                <!--<div class="row_custom header bg-gd-2" >-->
-	                  <!--<div class="cell">-->
-	                    <!--Town-->
-	                  <!--</div>-->
-	                  <!--<div class="cell">-->
-	                    <!--Reports collected-->
-	                  <!--</div>-->
-	                <!--</div>-->
-
-	                <!--<div class='row_custom' *ngFor="let town of allCities | ValuesPipe">-->
-	                  <!--<div class="cell">-->
-	                    <!--<a routerLink="/indexer/town/{{key}}/{{world}}/{{town.town_id}}">{{town.name}}</a>-->
-	                  <!--</div>-->
-	                  <!--<div class="cell">-->
-	                    <!--{{town.count}}-->
-	                  <!--</div>-->
-	                <!--</div>-->
-	              <!--</div>-->
-	            <!--</mat-card-content>-->
-	          <!--</mat-card>-->
-	        <!--</div>-->
-
-	        <div *ngIf="noIntel && !loading">
-	          <div class="container">
-	            <div class="row">
-	              <br/>
-	              <br/>
-	              <div class="alert alert-danger text-center">
-	                <h3>You have not yet gained any intel on player <strong>{{playerName}}</strong></h3>
-	              </div>
-	            </div>
-	          </div>
-	        </div>
-
-	      </div>
-
-	    </mat-card-content>
-	  </div>
-	</mat-card>
-
+  </div>
 </div>
 
-<!--sea units-->
 <ng-template #seaunits>
-	<mat-card class="index-card text-center sub-card">
-
-		<mat-card-title>
-			<div class="form-group row" style='margin: 0px;'>
-				<h1 style='font-weight: 300; color: #304357; margin: 0;'>
-					<span *ngIf="!mobile" class='world-title' style='color: #18BC9C;'>Sea units</span>
-					<span class="hidden-xs" *ngIf="!embedded">
-            &nbsp;<img src="../../assets/images/player_ico.png" style="height: 28px; margin-top: -5px;"/>&nbsp;<span>{{playerName}}</span>
-          </span>
-				</h1>
-			</div>
-		</mat-card-title>
-
-		<div class="chip-list-wrapper">
-			<mat-chip-list>
-				<mat-chip class="gd-chip gd-chip-lg" [selected]="tabsSeaIndex===0" (click)="setSeaIndex(0)"><div class="gd-icon icon-fireship"></div> {{world.substring(0, 2)=='en'?'Light ships':'Fireships'}}</mat-chip>
-        <mat-chip class="gd-chip gd-chip-lg" [selected]="tabsSeaIndex===1" (click)="setSeaIndex(1)"><div class="gd-icon icon-bireme"></div> Biremes</mat-chip>
-        <mat-chip class="gd-chip gd-chip-lg" [selected]="tabsSeaIndex===2" (click)="setSeaIndex(2)"><div class="gd-icon icon-trireme"></div> Triremes</mat-chip>
-			</mat-chip-list>
-		</div>
-
-		<div  *ngIf="tabsSeaIndex===0" style="padding-top: 16px;">
-			<intel-table [type]="'fire'" [containsDuplicates]="fireCities.contains_duplicates" [seaTowns]="fireCities.towns || []" [key]="key" [world]="world" [id]="id" [playerName]="playerName" [allianceName]="allianceName"></intel-table>
-		</div>
-		<div  *ngIf="tabsSeaIndex===1" style="padding-top: 16px;">
-			<intel-table [type]="'bir'" [containsDuplicates]="birCities.contains_duplicates" [seaTowns]="birCities.towns || []" [key]="key" [world]="world" [id]="id" [playerName]="playerName" [allianceName]="allianceName"></intel-table>
+  <section class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+    <div *ngIf="!mobile" class="flex items-center gap-2.5 border-0 border-b border-solid border-slate-200 px-5 py-3.5 max-sm:px-3">
+      <span class="block size-6 flex-none overflow-hidden rounded-md"><span class="unit_icon40x40 unknown_naval block border-0 [zoom:0.6]"></span></span>
+      <h2 class="my-0 text-base font-semibold text-slate-900">Sea units</h2>
     </div>
-    <div  *ngIf="tabsSeaIndex===2" style="padding-top: 16px;">
-			<intel-table [type]="'trir'" [containsDuplicates]="trirCities.contains_duplicates" [seaTowns]="trirCities.towns || []" [key]="key" [world]="world" [id]="id" [playerName]="playerName" [allianceName]="allianceName"></intel-table>
-		</div>
-	</mat-card>
+    <div class="px-5 pb-3 pt-4 max-sm:px-3">
+      <div role="group" aria-label="Sea unit type" class="flex gap-0.5 rounded-lg bg-slate-100 p-[3px]">
+        <button type="button" [attr.aria-pressed]="tabsSeaIndex===0" (click)="setSeaIndex(0)" class="inline-flex min-w-0 flex-1 items-center justify-center gap-2 rounded-md border-0 px-2 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tabsSeaIndex===0 ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">
+          <span class="block size-5 flex-none overflow-hidden rounded max-sm:hidden"><span class="unit_icon40x40 attack_ship block border-0 [zoom:0.5]"></span></span>
+          <span class="truncate">{{world.substring(0, 2)=='en'?'Light ships':'Fireships'}}</span>
+          <span class="flex-none rounded-full px-1.5 text-[11px] font-semibold leading-4 tabular-nums" [ngClass]="tabsSeaIndex===0 ? 'bg-brand-50 text-brand-700' : 'bg-slate-200 text-slate-600'">{{intelCount(fireCities)}}</span>
+        </button>
+        <button type="button" [attr.aria-pressed]="tabsSeaIndex===1" (click)="setSeaIndex(1)" class="inline-flex min-w-0 flex-1 items-center justify-center gap-2 rounded-md border-0 px-2 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tabsSeaIndex===1 ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">
+          <span class="block size-5 flex-none overflow-hidden rounded max-sm:hidden"><span class="unit_icon40x40 bireme block border-0 [zoom:0.5]"></span></span>
+          <span class="truncate">Biremes</span>
+          <span class="flex-none rounded-full px-1.5 text-[11px] font-semibold leading-4 tabular-nums" [ngClass]="tabsSeaIndex===1 ? 'bg-brand-50 text-brand-700' : 'bg-slate-200 text-slate-600'">{{intelCount(birCities)}}</span>
+        </button>
+        <button type="button" [attr.aria-pressed]="tabsSeaIndex===2" (click)="setSeaIndex(2)" class="inline-flex min-w-0 flex-1 items-center justify-center gap-2 rounded-md border-0 px-2 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tabsSeaIndex===2 ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">
+          <span class="block size-5 flex-none overflow-hidden rounded max-sm:hidden"><span class="unit_icon40x40 trireme block border-0 [zoom:0.5]"></span></span>
+          <span class="truncate">Triremes</span>
+          <span class="flex-none rounded-full px-1.5 text-[11px] font-semibold leading-4 tabular-nums" [ngClass]="tabsSeaIndex===2 ? 'bg-brand-50 text-brand-700' : 'bg-slate-200 text-slate-600'">{{intelCount(trirCities)}}</span>
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="tabsSeaIndex===0">
+      <intel-table [type]="'fire'" [containsDuplicates]="fireCities.contains_duplicates" [seaTowns]="fireCities.towns || []" [key]="key" [world]="world" [id]="id" [playerName]="playerName" [allianceName]="allianceName"></intel-table>
+    </div>
+    <div *ngIf="tabsSeaIndex===1">
+      <intel-table [type]="'bir'" [containsDuplicates]="birCities.contains_duplicates" [seaTowns]="birCities.towns || []" [key]="key" [world]="world" [id]="id" [playerName]="playerName" [allianceName]="allianceName"></intel-table>
+    </div>
+    <div *ngIf="tabsSeaIndex===2">
+      <intel-table [type]="'trir'" [containsDuplicates]="trirCities.contains_duplicates" [seaTowns]="trirCities.towns || []" [key]="key" [world]="world" [id]="id" [playerName]="playerName" [allianceName]="allianceName"></intel-table>
+    </div>
+  </section>
 </ng-template>
 
-<!--land units-->
 <ng-template #landunits>
-	<mat-card class="index-card text-center sub-card">
+  <section class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+    <div *ngIf="!mobile" class="flex items-center gap-2.5 border-0 border-b border-solid border-slate-200 px-5 py-3.5 max-sm:px-3">
+      <span class="block size-6 flex-none overflow-hidden rounded-md"><span class="unit_icon40x40 unknown block border-0 [zoom:0.6]"></span></span>
+      <h2 class="my-0 text-base font-semibold text-slate-900">Land units</h2>
+    </div>
+    <div class="px-5 pb-3 pt-4 max-sm:px-3">
+      <div role="group" aria-label="Land unit type" class="flex gap-0.5 rounded-lg bg-slate-100 p-[3px]">
+        <button type="button" [attr.aria-pressed]="tabsLandIndex===0" (click)="setLandIndex(0)" class="inline-flex min-w-0 flex-1 items-center justify-center gap-2 rounded-md border-0 px-2 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tabsLandIndex===0 ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">
+          <span class="block size-5 flex-none overflow-hidden rounded max-sm:hidden"><span class="unit_icon40x40 manticore block border-0 [zoom:0.5]"></span></span>
+          <span class="truncate">Mythical</span>
+          <span class="flex-none rounded-full px-1.5 text-[11px] font-semibold leading-4 tabular-nums" [ngClass]="tabsLandIndex===0 ? 'bg-brand-50 text-brand-700' : 'bg-slate-200 text-slate-600'">{{intelCount(mythCities)}}</span>
+        </button>
+        <button type="button" [attr.aria-pressed]="tabsLandIndex===1" (click)="setLandIndex(1)" class="inline-flex min-w-0 flex-1 items-center justify-center gap-2 rounded-md border-0 px-2 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tabsLandIndex===1 ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">
+          <span class="block size-5 flex-none overflow-hidden rounded max-sm:hidden"><span class="unit_icon40x40 slinger block border-0 [zoom:0.5]"></span></span>
+          <span class="truncate">Offensive</span>
+          <span class="flex-none rounded-full px-1.5 text-[11px] font-semibold leading-4 tabular-nums" [ngClass]="tabsLandIndex===1 ? 'bg-brand-50 text-brand-700' : 'bg-slate-200 text-slate-600'">{{intelCount(offCities)}}</span>
+        </button>
+        <button type="button" [attr.aria-pressed]="tabsLandIndex===2" (click)="setLandIndex(2)" class="inline-flex min-w-0 flex-1 items-center justify-center gap-2 rounded-md border-0 px-2 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tabsLandIndex===2 ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">
+          <span class="block size-5 flex-none overflow-hidden rounded max-sm:hidden"><span class="unit_icon40x40 sword block border-0 [zoom:0.5]"></span></span>
+          <span class="truncate">Defensive</span>
+          <span class="flex-none rounded-full px-1.5 text-[11px] font-semibold leading-4 tabular-nums" [ngClass]="tabsLandIndex===2 ? 'bg-brand-50 text-brand-700' : 'bg-slate-200 text-slate-600'">{{intelCount(defCities)}}</span>
+        </button>
+      </div>
+    </div>
 
-		<mat-card-title>
-			<div class="form-group row" style='margin: 0px;'>
-				<h1 style='font-weight: 300; color: #304357; margin: 0;'>
-					<span *ngIf="!mobile" class='world-title' style='color: #18BC9C;'>Land units</span>
-					<span class="hidden-xs" *ngIf="!embedded">
-            &nbsp;<img src="../../assets/images/player_ico.png" style="height: 28px; margin-top: -5px;"/>&nbsp;<span>{{playerName}}</span>
-          </span>
-				</h1>
-			</div>
-		</mat-card-title>
-
-		<div class="chip-list-wrapper">
-			<mat-chip-list>
-				<mat-chip class="gd-chip gd-chip-lg" [selected]="tabsLandIndex===0" (click)="setLandIndex(0)"><div class="gd-icon icon-manti"></div> Mythical</mat-chip>
-				<mat-chip class="gd-chip gd-chip-lg" [selected]="tabsLandIndex===1" (click)="setLandIndex(1)"><div class="gd-icon icon-slinger"></div> Offensive</mat-chip>
-				<mat-chip class="gd-chip gd-chip-lg" [selected]="tabsLandIndex===2" (click)="setLandIndex(2)"><div class="gd-icon icon-sword"></div> Defensive</mat-chip>
-			</mat-chip-list>
-		</div>
-
-		<div *ngIf="tabsLandIndex===0" style="padding-top: 16px;">
-			<intel-table [type]="'myth'" [containsDuplicates]="mythCities.contains_duplicates" [landTowns]="mythCities.towns || []" [key]="key" [world]="world" [id]="id" [playerName]="playerName" [allianceName]="allianceName"></intel-table>
-		</div>
-		<div *ngIf="tabsLandIndex===1" style="padding-top: 16px;">
-			<intel-table [type]="'off'" [containsDuplicates]="offCities.contains_duplicates" [landTowns]="offCities.towns || []" [key]="key" [world]="world" [id]="id" [playerName]="playerName" [allianceName]="allianceName"></intel-table>
-		</div>
-		<div *ngIf="tabsLandIndex===2" style="padding-top: 16px;">
-			<intel-table [type]="'def'" [containsDuplicates]="defCities.contains_duplicates" [landTowns]="defCities.towns || []" [key]="key" [world]="world" [id]="id" [playerName]="playerName" [allianceName]="allianceName"></intel-table>
-		</div>
-
-	</mat-card>
+    <div *ngIf="tabsLandIndex===0">
+      <intel-table [type]="'myth'" [containsDuplicates]="mythCities.contains_duplicates" [landTowns]="mythCities.towns || []" [key]="key" [world]="world" [id]="id" [playerName]="playerName" [allianceName]="allianceName"></intel-table>
+    </div>
+    <div *ngIf="tabsLandIndex===1">
+      <intel-table [type]="'off'" [containsDuplicates]="offCities.contains_duplicates" [landTowns]="offCities.towns || []" [key]="key" [world]="world" [id]="id" [playerName]="playerName" [allianceName]="allianceName"></intel-table>
+    </div>
+    <div *ngIf="tabsLandIndex===2">
+      <intel-table [type]="'def'" [containsDuplicates]="defCities.contains_duplicates" [landTowns]="defCities.towns || []" [key]="key" [world]="world" [id]="id" [playerName]="playerName" [allianceName]="allianceName"></intel-table>
+    </div>
+  </section>
 </ng-template>

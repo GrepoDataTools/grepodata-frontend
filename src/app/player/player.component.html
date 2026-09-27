@@ -185,23 +185,16 @@
         <div *ngIf="firstRun && !historyError" class="flex h-72 items-center justify-center gap-2 text-sm text-slate-500">
           <span aria-hidden="true" class="size-4 flex-none animate-spin rounded-full border-2 border-solid border-slate-200 border-t-brand-700"></span>Loading history…
         </div>
-        <div *ngIf="!firstRun && !historyError" class="grid lg:grid-cols-2" [ngClass]="{'pointer-events-none opacity-20': loadingHistory}">
-          <div class="min-w-0 p-5 max-sm:p-4">
-            <div class="mb-2.5 flex min-h-5 items-center justify-between gap-3">
-              <h3 class="m-0 text-sm font-semibold text-slate-900">Points</h3>
+        <div *ngIf="!firstRun && !historyError" class="p-5 max-sm:p-4" [ngClass]="{'pointer-events-none opacity-20': loadingHistory}">
+          <div class="mb-2.5 flex min-h-5 flex-wrap items-center justify-between gap-x-4 gap-y-1.5">
+            <h3 class="m-0 text-sm font-semibold text-slate-900">Points and battle points</h3>
+            <div class="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-slate-600">
+              <span class="inline-flex items-center gap-1.5 whitespace-nowrap"><span aria-hidden="true" class="h-[3px] w-3.5 flex-none rounded-sm bg-[#1BAF7A]"></span>Points</span>
+              <span class="inline-flex items-center gap-1.5 whitespace-nowrap"><span aria-hidden="true" class="h-[3px] w-3.5 flex-none rounded-sm bg-[#EB6834]"></span>Attack points</span>
+              <span class="inline-flex items-center gap-1.5 whitespace-nowrap"><span aria-hidden="true" class="h-[3px] w-3.5 flex-none rounded-sm bg-[#2A78D6]"></span>Defence points</span>
             </div>
-            <app-line-chart [results]="historyPoints" [extra]="historyBattle" [color]="historyColor" [(hoverTime)]="historyHover" label="Points per day"></app-line-chart>
           </div>
-          <div class="min-w-0 border-0 border-t border-solid border-slate-100 p-5 max-sm:p-4 lg:border-l lg:border-t-0">
-            <div class="mb-2.5 flex min-h-5 flex-wrap items-center justify-between gap-x-4 gap-y-1.5">
-              <h3 class="m-0 text-sm font-semibold text-slate-900">Battle points</h3>
-              <div class="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-slate-600">
-                <span class="inline-flex items-center gap-1.5 whitespace-nowrap"><span aria-hidden="true" class="h-[3px] w-3.5 flex-none rounded-sm bg-[#EB6834]"></span>Attack points</span>
-                <span class="inline-flex items-center gap-1.5 whitespace-nowrap"><span aria-hidden="true" class="h-[3px] w-3.5 flex-none rounded-sm bg-[#2A78D6]"></span>Defence points</span>
-              </div>
-            </div>
-            <app-line-chart [results]="historyBattle" [extra]="historyPoints" [color]="historyColor" [(hoverTime)]="historyHover" label="Attack and defence points per day"></app-line-chart>
-          </div>
+          <app-line-chart [results]="playerHistoryChart" [color]="historyColor" label="Points, attack points and defence points per day"></app-line-chart>
         </div>
       </div>
       <div *ngIf="tabsIndex == 1" role="tabpanel">

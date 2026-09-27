@@ -88,7 +88,7 @@
       <p class="mb-0 mt-1 text-sm text-slate-600">Changes of owner will be listed here.</p>
     </div>
 
-    <div *ngIf="(noData && loading) || (!noData && data.length>0) || filtering" class="gd-scrollbar overflow-x-auto" [ngClass]="{'pointer-events-none': loading}">
+    <div *ngIf="!mobile && ((noData && loading) || (!noData && data.length>0) || filtering)" class="gd-scrollbar overflow-x-auto" [ngClass]="{'pointer-events-none': loading}">
       <table class="w-full min-w-[900px] table-fixed border-separate border-spacing-0 text-left font-normal">
         <colgroup>
           <col class="w-[152px]">
@@ -237,6 +237,48 @@
       </table>
     </div>
 
+    <ul *ngIf="mobile && !noData && data.length > 0" class="m-0 list-none p-0" [ngClass]="{'opacity-35 pointer-events-none': loading}">
+      <ng-container *ngFor="let c of data; let i = index;">
+        <ng-container *ngIf="{day: i == 0 || (c.time | Datex : 'YYYY-MM-DD') != (data[i-1].time | Datex : 'YYYY-MM-DD')} as row">
+          <li *ngIf="row.day" class="flex items-center gap-2 border-0 border-b border-solid border-slate-200 bg-slate-50 px-4 py-2 text-xs font-semibold text-slate-700" [ngClass]="{'border-t': i > 0}">
+            <svg appIcon="calendar" variant="mini" class="size-3.5 flex-none text-slate-400"></svg>{{c.time | Datex : 'dddd D MMM YYYY'}}
+          </li>
+          <li class="border-0 border-solid border-slate-100 px-4 py-3" [ngClass]="{'border-t': !row.day}">
+            <div class="flex items-center justify-between gap-2">
+              <a *ngIf="type != 'town'" routerLink="/conquest/town/{{world}}/{{c.town_id}}" class="inline-flex min-w-0 items-center gap-1.5 text-sm font-semibold text-slate-900 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="town_ico" variant="game" class="size-4 flex-none text-slate-400"></svg><span class="truncate">{{c.town_name}}</span></a>
+              <span *ngIf="type == 'town'"></span>
+              <span class="flex-none">
+                <ng-container *ngIf="type == 'town'">
+                  <span *ngIf="c.type == 'internal'" class="inline-flex whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-medium ring-1 ring-inset bg-amber-50 text-amber-700 ring-amber-600/25">Internal takeover</span>
+                  <span *ngIf="c.type != 'internal'" class="inline-flex whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-medium ring-1 ring-inset bg-rose-50 text-rose-700 ring-rose-600/20">Conquered</span>
+                </ng-container>
+                <ng-container *ngIf="type == 'player'">
+                  <span *ngIf="c.type == 'internal'" class="inline-flex whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-medium ring-1 ring-inset bg-amber-50 text-amber-700 ring-amber-600/25">Internal takeover</span>
+                  <span *ngIf="c.type == 'enemy'" class="inline-flex whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-medium ring-1 ring-inset bg-rose-50 text-rose-700 ring-rose-600/20">Lost</span>
+                  <span *ngIf="c.type != 'internal' && c.type != 'enemy'" class="inline-flex whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-medium ring-1 ring-inset bg-emerald-50 text-emerald-700 ring-emerald-600/25">Gained</span>
+                </ng-container>
+                <ng-container *ngIf="type == 'alliance'">
+                  <span *ngIf="c.n_a_id == id && c.o_a_id != id" class="inline-flex whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-medium ring-1 ring-inset bg-emerald-50 text-emerald-700 ring-emerald-600/25">Gained</span>
+                  <span *ngIf="c.n_a_id == c.o_a_id" class="inline-flex whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-medium ring-1 ring-inset bg-amber-50 text-amber-700 ring-amber-600/25">Internal takeover</span>
+                  <span *ngIf="c.n_a_id != id && c.o_a_id == id" class="inline-flex whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-medium ring-1 ring-inset bg-rose-50 text-rose-700 ring-rose-600/20">Lost</span>
+                </ng-container>
+              </span>
+            </div>
+            <div class="mt-1 flex min-w-0 items-center gap-1.5 text-[13px] leading-5">
+              <span *ngIf="c.o_p_id == 0" class="flex-none text-slate-500">Ghost city</span>
+              <span *ngIf="c.o_p_id != 0 && c.o_p_name == null" class="flex-none text-slate-500">Unknown</span>
+              <a *ngIf="c.o_p_id != 0 && c.o_p_name != null" routerLink="/player" [queryParams]="{world: world, id: c.o_p_id}" (click)="linkScrollTop()" class="min-w-0 truncate text-slate-700 no-underline hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{c.o_p_name}}</a>
+              <svg appIcon="arrow-right" variant="micro" class="size-3.5 flex-none text-slate-300"></svg>
+              <a routerLink="/player" [queryParams]="{world: world, id: c.n_p_id}" (click)="linkScrollTop()" class="min-w-0 truncate font-medium text-slate-900 no-underline hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{c.n_p_name}}</a>
+            </div>
+            <div class="mt-0.5 text-xs tabular-nums text-slate-500">{{c.time | Datex : "HH:mm"}} · {{c.points | NumberFilter}} points</div>
+          </li>
+        </ng-container>
+      </ng-container>
+    </ul>
+    <p *ngIf="mobile && filtering && data.length <= 0" class="m-0 px-4 py-6 text-center text-sm text-slate-600">
+      No conquests found for these filters: <button type="button" (click)="toggleEvent(30)" class="border-0 bg-transparent p-0 font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Clear filters</button>.
+    </p>
   </div>
 
   <div *ngIf="!noData && ((count >= 30 && size >= 30) || (count > 10 && mobile))" class="flex justify-end border-0 border-t border-solid border-slate-200 py-2 pl-5 pr-3 max-sm:px-2" [ngClass]="{'pointer-events-none opacity-60': loading}">

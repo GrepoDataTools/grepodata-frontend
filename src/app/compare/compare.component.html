@@ -267,52 +267,59 @@
         </div>
       </section>
 
+      <section *ngIf="(comparingPlayers || comparingAlliances) && !firstRun && !loadingStats" aria-label="Fighting points" class="rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+        <div class="flex min-h-[61px] flex-wrap items-center justify-between gap-x-4 gap-y-2 border-0 border-b border-solid border-slate-200 px-5 py-3.5 max-sm:px-4">
+          <div class="min-w-0">
+            <h2 class="m-0 text-base font-semibold text-slate-900">Fighting points</h2>
+            <p class="mb-0 mt-0.5 text-[13px] leading-5 text-slate-500">Each one’s share of the combined total</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-4 gap-y-1.5">
+            <span *ngFor="let entity of activeList(); let idx = index" class="inline-flex min-w-0 items-center gap-1.5 whitespace-nowrap text-xs text-slate-600">
+              <span aria-hidden="true" class="size-2.5 flex-none rounded-[3px]" [style.background-color]="palette[idx % palette.length]"></span>
+              <span class="truncate">{{entity.name}}</span>
+            </span>
+          </div>
+        </div>
+        <div class="flex flex-col gap-5 p-5 max-sm:p-4">
+          <ng-container *ngTemplateOutlet="shareBar; context: {$implicit: data_fight_gauge, label: 'Total', note: 'Attack + defence', unit: 'fighting points'}"></ng-container>
+          <ng-container *ngTemplateOutlet="shareBar; context: {$implicit: data_att_gauge, label: 'Attack', note: '', unit: 'attack points'}"></ng-container>
+          <ng-container *ngTemplateOutlet="shareBar; context: {$implicit: data_def_gauge, label: 'Defence', note: '', unit: 'defence points'}"></ng-container>
+        </div>
+      </section>
+
+      <ng-template #shareBar let-items let-label="label" let-note="note" let-unit="unit">
+        <div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-5 gap-y-2 sm:grid-cols-[150px_minmax(0,1fr)_auto]">
+          <div class="min-w-0">
+            <div class="text-sm font-medium text-slate-900">{{label}}</div>
+            <div *ngIf="note" class="text-xs text-slate-500">{{note}}</div>
+          </div>
+          <div class="col-span-2 row-start-2 flex gap-0.5 sm:col-span-1 sm:col-start-2 sm:row-start-1 [&:has(>div:hover)>div:not(:hover)]:opacity-40">
+            <div *ngFor="let item of inListOrder(items); let first = first; let last = last" class="group relative flex h-5 min-w-0 items-center justify-center transition-opacity [container-type:inline-size]" [style.flex]="item.value + ' 1 0px'" [style.background-color]="colorFor(item.name)" [ngClass]="{'rounded-l': first, 'rounded-r': last}">
+              <span class="flex min-w-0 max-w-full px-1.5 text-[11px] font-semibold leading-[14px] tabular-nums [@container(max-width:35px)]:[display:none]" [ngClass]="onColor(item.name)">
+                <span class="min-w-0 truncate [@container(max-width:109px)]:[display:none]">{{item.name}}&nbsp;·&nbsp;</span>
+                <span class="flex-none">{{item.value / math.max(1, total(items)) * 100 | number:'1.1-1'}}%</span>
+              </span>
+              <span role="tooltip" class="pointer-events-none absolute bottom-full left-1/2 z-10 mb-1.5 -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-lg bg-white px-2.5 py-0.5 text-xs leading-5 shadow-lg ring-1 ring-slate-900/5 [display:none] group-hover:[display:flex]">
+                <span class="tabular-nums"><span class="text-[13px] font-semibold text-slate-900">{{item.value | number}}</span><span class="text-slate-500"> {{unit}} · {{item.value / math.max(1, total(items)) * 100 | number:'1.1-1'}}%</span></span>
+                <span aria-hidden="true" class="h-3 w-px bg-slate-200"></span>
+                <span class="inline-flex items-center gap-1.5 text-slate-600">
+                  <span aria-hidden="true" class="size-2.5 flex-none rounded-[3px]" [style.background-color]="colorFor(item.name)"></span>
+                  {{item.name}}
+                </span>
+              </span>
+            </div>
+          </div>
+          <div class="text-right">
+            <div class="text-sm font-semibold tabular-nums text-slate-900">{{total(items) | number}}</div>
+            <div class="text-xs text-slate-500">combined</div>
+          </div>
+        </div>
+      </ng-template>
+
       <div class="container-fluid" style="margin-left: 20px;" *ngIf="comparingPlayers || comparingAlliances">
         <div class="row">
           <!--PIE-->
           <div class="col-md-12 text-left" *ngIf="!firstRun && !loadingStats">
-            <h2 class="gd-primary">Fighting points</h2>
-            <div class="col-xs-12 col-sm-6 col-md-4 text-center compare-chart-container">
-              <h3 class="gd-primary">Warrior points</h3>
-              <ngx-charts-pie-chart
-                      [scheme]="colorScheme"
-                      [results]="data_fight_gauge"
-                      [legend]="false"
-                      [explodeSlices]="false"
-                      [labels]="true"
-                      [doughnut]="true"
-                      [gradient]="true"
-                      (select)="onSelect($event)">
-              </ngx-charts-pie-chart>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 text-center compare-chart-container">
-              <h3 class="gd-primary">Attack points</h3>
-              <ngx-charts-pie-chart
-                      [scheme]="colorScheme"
-                      [results]="data_att_gauge"
-                      [legend]="false"
-                      [explodeSlices]="false"
-                      [labels]="true"
-                      [doughnut]="true"
-                      [gradient]="true"
-                      (select)="onSelect($event)">
-              </ngx-charts-pie-chart>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-4 text-center compare-chart-container">
-              <h3 class="gd-primary">Defence points</h3>
-              <ngx-charts-pie-chart
-                      [scheme]="colorScheme"
-                      [results]="data_def_gauge"
-                      [legend]="false"
-                      [explodeSlices]="false"
-                      [labels]="true"
-                      [doughnut]="true"
-                      [gradient]="true"
-                      (select)="onSelect($event)">
-              </ngx-charts-pie-chart>
-            </div>
-      <!--                <div class="hidden-xs col-sm-6 hidden-md hidden-lg text-center compare-chart-container">-->
-      <!--                </div>-->
             <div class="col-xs-12 col-sm-12 col-md-6 text-center" style="">
               <br/>
               <br/>

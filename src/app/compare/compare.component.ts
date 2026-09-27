@@ -162,6 +162,14 @@ export class CompareComponent implements OnInit {
 
   colorFor = (value, field = 'name') => this.palette[this.listPosition(value, field) % this.palette.length];
 
+  onColor(value, field = 'name') {
+    return [0, 5, 6, 7].indexOf(this.listPosition(value, field) % this.palette.length) >= 0 ? 'text-white' : 'text-slate-900';
+  }
+
+  total(items) {
+    return (items || []).reduce((sum, item) => sum + item.value, 0);
+  }
+
   loadWorlds(doCompare) {
     this.worldService.getWorlds().then(response => {
       this.playerWorlds = [];

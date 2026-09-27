@@ -1,48 +1,19 @@
-<div *ngIf="!simplified && !hidden" class="text-center footer-content" [ngClass]="{'footer-background': !sidebar, 'height-2':height_adjust, 'height-1':!height_adjust}">
-  <div class="footer-below" [ngClass]="sidebar == true ? 'sidebarred':''">
-    <div [ngClass]="sidebar == true ? 'container-fluid':'container'">
-      <div class="row">
-	      <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 disclaimer">
-		      <!--<strong>Copyright notices: </strong>&nbsp;-->
-		      Grepolis is a browser game by InnoGames GmbH. This is an unofficial 3rd party site
-		      <br/>
-		      Gameplay images related to Grepolis are copyright of InnoGames GmbH.
-	      </div>
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 disclaimer">
-          Copyright &copy; Grepodata {{date| date:'yyyy'}}
-          <br/>
-          <a class="a-link-dialog" (click)="showDisclaimerDialog()">Disclaimer</a>
-          &nbsp; | &nbsp;
-          <a class="a-link-dialog" routerLink="/privacy">Privacy</a>
-          &nbsp; | &nbsp;
-          <a class="a-link-dialog" routerLink="/analytics">Statistics</a>
-        </div>
-
-
-      </div>
-    </div>
+<div *ngIf="!hidden" class="border-0 border-t border-solid border-slate-200 bg-white text-left font-normal">
+  <div class="mx-auto flex max-w-[1600px] flex-wrap items-center justify-between gap-x-6 gap-y-3 px-6 pb-4 pt-5 max-sm:flex-col max-sm:items-start max-sm:px-4">
+    <a routerLink="/" aria-label="GrepoData home" class="whitespace-nowrap text-lg font-extrabold leading-none tracking-tight no-underline hover:no-underline focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><span class="text-navy-800">GREPO</span><span class="text-brand-500">DATA</span></a>
+    <nav aria-label="Footer" class="flex flex-wrap items-center gap-x-5 gap-y-2">
+      <button type="button" aria-haspopup="dialog" (click)="showDisclaimerDialog()" class="border-0 bg-transparent p-0 text-sm font-medium leading-5 text-slate-600 no-underline hover:text-slate-900 hover:underline focus:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Disclaimer</button>
+      <a routerLink="/privacy" class="border-0 bg-transparent p-0 text-sm font-medium leading-5 text-slate-600 no-underline hover:text-slate-900 hover:underline focus:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Privacy</a>
+      <a routerLink="/analytics" class="border-0 bg-transparent p-0 text-sm font-medium leading-5 text-slate-600 no-underline hover:text-slate-900 hover:underline focus:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Statistics</a>
+    </nav>
   </div>
-</div>
-<div *ngIf="simplified && !hidden" class="text-center footer-content footer-background height-0">
-  <div class="footer-below">
-    <div class="container">
-      <div class="row">
-	      <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" *ngIf="copyright" style="padding: 12px;">
-		      <strong>Copyright notices: </strong>
-		      &nbsp;Gameplay images related to Grepolis are copyright of InnoGames GmbH.
-	      </div>
-
-        <div [ngClass]="copyright == true ? 'col-xs-12 col-sm-12 col-md-4 col-lg-4':'col-xs-12'">
-          Copyright &copy; Grepodata {{date| date:'yyyy'}}
-          <br/>
-          <a class="a-link-dialog" (click)="showDisclaimerDialog()">Disclaimer</a>
-          &nbsp; | &nbsp;
-          <a class="a-link-dialog" routerLink="/privacy">Privacy</a>
-          &nbsp; | &nbsp;
-          <a class="a-link-dialog" routerLink="/analytics">Statistics</a>
-        </div>
-
-      </div>
+  <div class="border-0 border-t border-solid border-slate-100">
+    <div class="mx-auto flex max-w-[1600px] flex-wrap items-start justify-between gap-x-6 gap-y-2 px-6 pb-5 pt-3.5 text-xs text-slate-500 max-sm:px-4">
+      <p class="m-0">
+        <ng-container *ngIf="!simplified">Grepolis is a browser game by InnoGames GmbH. This is an unofficial 3rd party site.<br/></ng-container>
+        <ng-container *ngIf="!simplified || copyright">Gameplay images related to Grepolis are copyright of InnoGames GmbH.</ng-container>
+      </p>
+      <p class="m-0 whitespace-nowrap">Copyright &copy; GrepoData {{date | date:'yyyy'}}</p>
     </div>
   </div>
 </div>

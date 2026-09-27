@@ -1,6 +1,6 @@
 <app-header *ngIf="show_header"></app-header>
-<div class="Site" id="content" (scroll)="scrollContent($event)">
-    <div class="Site-content">
+<div class="Site flex min-h-[calc(100vh-64px)] flex-col max-md:min-h-[calc(100vh-56px)]" id="content" (scroll)="scrollContent($event)">
+    <div class="Site-content flex-1">
         <router-outlet></router-outlet>
     </div>
     <footer>

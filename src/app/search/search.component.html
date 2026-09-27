@@ -1,51 +1,31 @@
-<!--<div *ngIf="hide_search" class="show-search-btn" (click)="showSearch()">-->
-<!--<div class="show-search-btn" (click)="showSearch()">-->
-  <!--<span class="fa fa-search gd-primary" aria-hidden="true"></span> Search-->
-<!--</div>-->
-
-<!--Search-->
-<div class="top-container" *ngIf="!hide_search" (click)="cdr.detectChanges()" [ngClass]="{'search-shadow': !homepage && !searching_players && !searching_alliances}">
-  <div style="width: 100% !important;">
-    <mat-card [ngClass]="(secondary==true)?'search-secondary search':'search'" style="box-shadow: none !important;">
-      <mat-card-content>
-
-        <div [ngClass]="(secondary==true)?'container':'container-fluid'">
-
-          <div class="row">
-            <!--<div *ngIf="compare" class="col-xs-12 text-center">-->
-              <!--<h2 style='font-weight: 300; color: #304357;'>-->
-                <!--<i class="fa fa-compress" aria-hidden="true"></i>-->
-                <!--Search players or alliances to compare them-->
-              <!--</h2>-->
-            <!--</div>-->
-            <div class="col-xs-6 search-group" *ngIf="!(mobile && searching_alliances)">
-              <div id="sb-search-players" class="sb-search">
-                <form>
-                  <input autocomplete="off" class="sb-search-input" placeholder="Search players..." type="search" value="" name="search" id="search-players" (keyup)="searchPlayers($event)">
-                  <input class="sb-search-submit" type="button" value="">
-                  <span class="sb-icon-search" (click)="doSearchPlayers()"><mat-icon class="search-icon">person_search</mat-icon></span>
-                  <mat-progress-bar *ngIf="!mobile && searching_players && loading" class="searching-loading" mode="indeterminate"></mat-progress-bar>
-                </form>
-              </div>
-            </div>
-            <div class="col-xs-6 search-group" *ngIf="!(mobile && searching_players)">
-              <div id="sb-search-alliances" class="sb-search">
-                <form>
-                  <input autocomplete="off" class="sb-search-input" placeholder="Search alliances..." type="search" value="" name="search" id="search-alliances" (keyup)="searchAlliances($event)">
-                  <input class="sb-search-submit" type="button" value="">
-                  <span class="sb-icon-search" (click)="doSearchAlliances()"><mat-icon class="search-icon">groups</mat-icon></span>
-                  <mat-progress-bar *ngIf="!mobile && searching_alliances && loading" class="searching-loading" mode="indeterminate"></mat-progress-bar>
-                </form>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-      </mat-card-content>
-    </mat-card>
+<section *ngIf="!hide_search" aria-label="Search" (click)="cdr.detectChanges()" class="rounded-xl bg-white ring-1 ring-slate-900/[.08] text-left font-normal text-slate-900 min-[1200px]:sticky min-[1200px]:top-[68px] min-[1200px]:z-[999]" [ngClass]="homepage ? 'p-5 shadow-lg max-sm:p-3' : 'p-4 shadow-sm max-sm:p-3'">
+  <div class="grid grid-cols-2 gap-6 max-sm:grid-cols-1 max-sm:gap-3">
+    <div *ngIf="!(mobile && searching_alliances)">
+      <form class="relative m-0 flex overflow-hidden border border-solid border-slate-300 bg-white shadow-sm focus-within:border-brand-700 focus-within:ring-1 focus-within:ring-brand-700" [ngClass]="homepage ? 'h-12 rounded-lg' : 'h-9 rounded-md'">
+        <label class="m-0 flex min-w-0 flex-1 items-center" [ngClass]="homepage ? 'gap-2.5 pl-3.5 pr-3' : 'gap-2 px-3'">
+          <svg appIcon="player_ico" variant="game" class="flex-none text-slate-400" [ngClass]="homepage ? 'size-[18px]' : 'size-4'"></svg>
+          <input autocomplete="off" placeholder="Search players..." aria-label="Search players" type="search" value="" name="search" id="search-players" (keyup)="searchPlayers($event)" class="h-full min-w-0 flex-1 border-0 bg-transparent p-0 font-normal text-slate-900 placeholder:text-slate-500 focus:outline-none" [ngClass]="homepage ? 'text-base' : 'text-sm'">
+        </label>
+        <button type="button" aria-label="Search players" (click)="doSearchPlayers()" class="flex flex-none items-center justify-center border-0 border-l border-solid border-slate-300 bg-slate-50 p-0 text-slate-500 hover:bg-slate-100 hover:text-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="homepage ? 'w-[52px]' : 'w-11'">
+          <svg appIcon="magnifying-glass" class="size-5 flex-none"></svg>
+        </button>
+        <mat-progress-bar *ngIf="!mobile && searching_players && loading" mode="indeterminate" class="!absolute inset-x-0 bottom-0 z-10 !h-0.5"></mat-progress-bar>
+      </form>
+    </div>
+    <div *ngIf="!(mobile && searching_players)">
+      <form class="relative m-0 flex overflow-hidden border border-solid border-slate-300 bg-white shadow-sm focus-within:border-brand-700 focus-within:ring-1 focus-within:ring-brand-700" [ngClass]="homepage ? 'h-12 rounded-lg' : 'h-9 rounded-md'">
+        <label class="m-0 flex min-w-0 flex-1 items-center" [ngClass]="homepage ? 'gap-2.5 pl-3.5 pr-3' : 'gap-2 px-3'">
+          <svg appIcon="ally_ico" variant="game" class="flex-none text-slate-400" [ngClass]="homepage ? 'size-[18px]' : 'size-4'"></svg>
+          <input autocomplete="off" placeholder="Search alliances..." aria-label="Search alliances" type="search" value="" name="search" id="search-alliances" (keyup)="searchAlliances($event)" class="h-full min-w-0 flex-1 border-0 bg-transparent p-0 font-normal text-slate-900 placeholder:text-slate-500 focus:outline-none" [ngClass]="homepage ? 'text-base' : 'text-sm'">
+        </label>
+        <button type="button" aria-label="Search alliances" (click)="doSearchAlliances()" class="flex flex-none items-center justify-center border-0 border-l border-solid border-slate-300 bg-slate-50 p-0 text-slate-500 hover:bg-slate-100 hover:text-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="homepage ? 'w-[52px]' : 'w-11'">
+          <svg appIcon="magnifying-glass" class="size-5 flex-none"></svg>
+        </button>
+        <mat-progress-bar *ngIf="!mobile && searching_alliances && loading" mode="indeterminate" class="!absolute inset-x-0 bottom-0 z-10 !h-0.5"></mat-progress-bar>
+      </form>
+    </div>
   </div>
-</div>
+</section>
 
 <!--Results-->
 <div class="" *ngIf="!hide_search && (searching_players || searching_alliances)" (click)="cdr.detectChanges()">

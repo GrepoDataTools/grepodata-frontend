@@ -11,7 +11,7 @@
       <span aria-hidden="true" class="absolute top-full mt-1.5 text-[11px] leading-[14px] tabular-nums text-slate-500">{{bar.label}}</span>
       <button *ngIf="clickable" type="button" (click)="barSelect.emit(bar.name)" [attr.aria-label]="bar.name + ' · ' + (bar.total | number) + ' points'" class="absolute inset-0 cursor-pointer rounded border-0 bg-transparent p-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"></button>
       <div role="tooltip" class="pointer-events-none absolute top-0 z-10 w-max min-w-[152px] rounded-lg bg-white px-3 py-2 text-xs shadow-lg ring-1 ring-slate-900/5 [display:none] group-hover:[display:block]" [ngClass]="i < bars.length / 2 ? 'left-full ml-1' : 'right-full mr-1'">
-        <p class="m-0 mb-1 font-semibold text-slate-900">{{bar.name}}</p>
+        <p class="mb-1 mt-0 font-semibold text-slate-900">{{bar.name}}</p>
         <div *ngFor="let segment of bar.segments" class="flex items-center gap-2 leading-5">
           <span aria-hidden="true" class="size-2.5 flex-none rounded-[3px]" [style.background-color]="segment.color"></span>
           <span class="min-w-0 flex-1 truncate text-slate-600">{{segment.name}}</span>

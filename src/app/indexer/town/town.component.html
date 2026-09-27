@@ -1,7 +1,7 @@
-<div class="min-h-[calc(100vh-160px)]">
-  <div [ngClass]="embedded ? '' : 'm-[22px] space-y-6 max-[1000px]:m-3'">
+<div [ngClass]="embedded ? 'h-full bg-white' : 'min-h-[calc(100vh-160px)]'">
+  <div [ngClass]="embedded ? 'h-full overflow-y-auto' : 'm-[22px] space-y-6 max-[1000px]:m-3'">
 
-  <section class="bg-white" [ngClass]="embedded ? 'border-0 border-b border-solid border-slate-200' : 'overflow-hidden rounded-xl shadow-sm ring-1 ring-slate-900/[.08]'">
+  <section class="bg-white" [ngClass]="embedded ? 'sticky top-0 z-20 border-0 border-b border-solid border-slate-200' : 'overflow-hidden rounded-xl shadow-sm ring-1 ring-slate-900/[.08]'">
     <div class="flex flex-col px-6 pt-5 max-sm:px-4" [ngClass]="(showTabs() ? 'pb-0 ' : 'pb-5 ') + (embedded ? 'gap-2 pr-14' : 'gap-3.5')">
       <app-indexer-breadcrumbs *ngIf="!embedded" class="block" [data]="breadcrumb_data"></app-indexer-breadcrumbs>
       <div class="flex items-center gap-4 max-sm:gap-3">
@@ -48,7 +48,7 @@
   </section>
 
   <ng-container *ngIf="showTabs()">
-    <div role="tabpanel" [hidden]="activeTab !== 0" [ngClass]="embedded ? 'embedded-container' : 'space-y-6'">
+    <div role="tabpanel" [hidden]="activeTab !== 0" [ngClass]="embedded ? '' : 'space-y-6'">
                 <section *ngIf="build.length > 0" class="overflow-hidden bg-white" [ngClass]="embedded ? 'border-0 border-b border-solid border-slate-200' : 'rounded-xl shadow-sm ring-1 ring-slate-900/[.08]'">
                   <div *ngIf="!embedded" class="border-0 border-b border-solid border-slate-200 px-5 py-4">
                     <h2 class="my-0 text-base font-semibold text-slate-900">Latest building intelligence</h2>

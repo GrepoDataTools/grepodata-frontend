@@ -1272,7 +1272,6 @@ export class OverviewDialog implements AfterViewInit {
 @Component({
   selector: 'player-overview-dialog',
   templateUrl: 'player-overview.html',
-  styleUrls: ['./scoreboard.component.scss'],
   providers: [ScoreboardService],
 })
 export class PlayerOverviewDialog implements AfterViewInit {
@@ -1295,6 +1294,7 @@ export class PlayerOverviewDialog implements AfterViewInit {
     private scoreboardService: ScoreboardService,
     public dialog: MatDialog
   ) {
+    dialogRef.addPanelClass('team-dialog');
     this.world = dialogData.world;
     this.date = dialogData.date;
     this.player_id = dialogData.id;
@@ -1343,6 +1343,13 @@ export class PlayerOverviewDialog implements AfterViewInit {
     });
     this.cdr.detectChanges();
     setTimeout((_) => this.cdr.detectChanges(), 250);
+  }
+
+  total(key) {
+    return (this.data || []).reduce((sum, group) => {
+      const item = (group.series || []).find((entry) => entry.name === key);
+      return sum + (item ? item.value : 0);
+    }, 0);
   }
 
   onSelect(event) {

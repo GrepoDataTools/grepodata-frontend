@@ -8,7 +8,6 @@ import {Globals} from '../globals';
 @Component({
   selector: 'app-ranking',
   templateUrl: './ranking.component.html',
-  styleUrls: ['./ranking.component.scss'],
   providers: [RankingService, WorldService]
 })
 export class RankingComponent implements OnInit {

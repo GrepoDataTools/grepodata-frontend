@@ -75,7 +75,7 @@
       <span *ngIf="active_tab === 'intel'"><app-intel></app-intel></span>
       <span *ngIf="active_tab === 'linked'"><app-linked-accounts></app-linked-accounts></span>
       <span *ngIf="active_tab === 'teams'"><app-indexes></app-indexes></span>
-      <span *ngIf="active_tab === 'script'"><app-userscript></app-userscript></span>
+      <div *ngIf="active_tab === 'script'" class="m-[22px] max-[1000px]:m-3"><app-userscript></app-userscript></div>
       <span *ngIf="active_tab === 'settings'"><app-settings></app-settings></span>
       <div *ngIf="active_tab === 'password'" class="m-[22px] max-[1000px]:m-3"><app-change-password></app-change-password></div>
       <div *ngIf="active_tab === 'delete'" class="m-[22px] max-[1000px]:m-3"><app-delete-account></app-delete-account></div>

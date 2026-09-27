@@ -1,5 +1,5 @@
 <div class="space-y-6 text-left font-normal">
-	<section class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+	<section *ngIf="section != 'features'" class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
 		<div class="flex min-h-[61px] items-center gap-3 border-0 border-b border-solid border-slate-200 px-5 py-4 max-sm:px-4">
 			<span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-lg bg-navy-800 text-brand-500">
 				<svg appIcon="puzzle-piece" class="size-6"></svg>
@@ -84,7 +84,7 @@
 		</div>
 	</section>
 
-	<section class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] [container-type:inline-size]">
+	<section *ngIf="section != 'install'" class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] [container-type:inline-size]">
 		<div class="flex min-h-[61px] items-center gap-3 border-0 border-b border-solid border-slate-200 px-5 py-4 max-sm:px-4">
 			<span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-lg bg-navy-800 text-brand-500">
 				<svg appIcon="sparkles" class="size-6"></svg>

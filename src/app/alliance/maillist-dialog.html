@@ -1,99 +1,88 @@
-<div style="font-size: 18px; max-height: 75vh; max-width: 600px; min-width: 40vw; min-height: 25vh;">
-	<!--height: calc(100% - 20px);-->
-	<a (click)="dialogRef.close()" class="close"></a>
-	<h2 class="gd-secondary" style="margin-top: 0px;" mat-dialog-title>
-		Mail List Generator: <span class="gd-primary"><div [outerHTML]="world | WorldNamePipe"></div></span>
-	</h2>
-  <hr/>
+<div class="flex max-h-[90vh] w-[640px] max-w-full flex-col text-left font-normal text-slate-900">
+  <div class="flex flex-none items-start gap-4 border-0 border-b border-solid border-slate-200 px-6 py-5 max-sm:px-4">
+    <span class="flex size-10 flex-none items-center justify-center rounded-lg bg-navy-800 text-brand-500">
+      <svg appIcon="envelope" class="size-6"></svg>
+    </span>
+    <div class="min-w-0 flex-1">
+      <h2 mat-dialog-title class="m-0 text-xl font-semibold text-slate-900">Mail list</h2>
+      <p class="mb-0 mt-0.5 flex flex-wrap items-center gap-x-2 text-sm text-slate-600">
+        <span class="inline-flex items-center gap-1.5"><span class="bg-flag flag-{{world.substr(0,2)}} flex-none [zoom:0.625]"></span>{{world | WorldNamePipe : false}}</span>
+        <span aria-hidden="true" class="text-slate-300">·</span>
+        <span>every member name, ready for an in-game message</span>
+      </p>
+    </div>
+    <button type="button" (click)="dialogRef.close()" aria-label="Close" class="-mr-2 -mt-1 inline-flex size-8 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+      <svg appIcon="x-mark" class="size-5"></svg>
+    </button>
+  </div>
 
-	<div class="container-fluid" style="padding: 0px;">
-		<div class="row">
-			<div class="col-xs-10 col-xs-offset-1">
-				<div style="margin-bottom: 15px;">
-					<div style="position: relative;width: 100%;background: #18BC9C;color: #fff;z-index: 11;min-width: 60px;height: 50px;float: right;overflow: hidden;-webkit-transition: width 0.3s;-moz-transition: width 0.3s;transition: width 0.3s;-webkit-backface-visibility: hidden;margin: 2px 0;">
-						<form>
-							<input #searchInputList autocomplete="off" class="sb-search-input" placeholder="Search alliance name to add .." type="search" value="" name="search" id="search-alliances" (keyup)="searchAlliances($event)" style="position: absolute;top: 0;right: 0;border: none;outline: none;background: #f3f3f3;width: 100%;height: 49px;margin: 0;z-index: 10;padding: 15px 55px 15px 15px;font-family: inherit;font-size: 20px;color: #2c3e50;">
-							<input class="sb-search-submit" type="button" value="" style="width: 50px;height: 50px;display: block;position: absolute;right: 0;top: 0;padding: 0;margin: 0;line-height: 50px;text-align: center;cursor: pointer;opacity: 0;color: transparent;border: none;outline: none;z-index: -1;background: #fff;-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';filter: alpha(opacity=0);">
-							<span class="sb-icon-search" (click)="doSearchAlliances()" style="width: 50px;height: 50px;display: block;position: absolute;right: 0;top: 0;padding: 0;margin: 0;line-height: 50px;text-align: center;cursor: pointer;color: #fff;background: #18BC9C;z-index: 90;font-size: 22px;font-family: 'Montserrat';speak: none;font-style: normal;font-weight: normal;font-variant: normal;text-transform: none;-webkit-font-smoothing: antialiased;">
-                            <i class="fa fa-group"></i>
-                        </span>
-						</form>
-					</div>
+  <div class="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-6 py-5 max-sm:px-4">
+    <div>
+      <label for="search-alliances" class="m-0 block text-sm font-medium text-slate-900">Add an alliance</label>
+      <form class="mt-1.5 flex">
+        <div class="relative min-w-0 flex-1">
+          <svg appIcon="ally_ico" variant="game" class="pointer-events-none absolute left-3 top-3 size-4 text-slate-400"></svg>
+          <input #searchInputList autocomplete="off" placeholder="Search alliance name to add…" type="search" value="" name="search" id="search-alliances" (keyup)="searchAlliances($event)" class="h-10 w-full min-w-0 rounded-l-md border border-solid border-slate-300 bg-white py-2 pl-9 pr-3 text-sm text-slate-900 shadow-sm outline-none placeholder:text-slate-400 focus:border-brand-700 focus:ring-2 focus:ring-brand-700/20">
+        </div>
+        <button type="button" (click)="doSearchAlliances()" aria-label="Search" class="-ml-px inline-flex h-10 w-11 flex-none items-center justify-center rounded-r-md border border-solid border-slate-300 bg-slate-50 p-0 text-slate-500 hover:bg-slate-100 hover:text-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+          <svg appIcon="magnifying-glass" class="size-5"></svg>
+        </button>
+      </form>
+      <mat-progress-bar *ngIf="searching" mode="indeterminate" class="mt-2 rounded-full"></mat-progress-bar>
+      <div *ngIf="searched && !searching" class="mt-2 overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-slate-900/5">
+        <p *ngIf="alliances?.length < 1" class="m-0 px-4 py-3 text-center text-sm text-slate-600">No alliances found for your search <span class="font-medium text-slate-900">'{{allianceInput}}'</span></p>
+        <table *ngIf="alliances?.length > 0" class="w-full border-separate border-spacing-0 text-left font-normal">
+          <thead>
+            <tr>
+              <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-4 pr-3">Alliance</th>
+              <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 w-16 px-3 text-right max-sm:[display:none]">Rank</th>
+              <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 w-20 px-3 text-right">Members</th>
+              <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 w-20 pl-3 pr-2"><span class="sr-only">Action</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let alliance of alliances" class="group hover:bg-slate-50">
+              <td class="border-0 border-t border-solid border-slate-100 py-2 align-middle text-sm group-first:border-t-0 max-w-0 pl-4 pr-3">
+                <a routerLink="/alliance" [queryParams]="{world: alliance?.world, id: alliance?.id}" class="inline-flex max-w-full items-center gap-1.5 font-medium text-slate-900 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg><span class="truncate">{{alliance?.name}}</span></a>
+              </td>
+              <td class="border-0 border-t border-solid border-slate-100 py-2 align-middle text-sm group-first:border-t-0 px-3 text-right tabular-nums text-slate-700 max-sm:[display:none]">{{alliance?.rank}}</td>
+              <td class="border-0 border-t border-solid border-slate-100 py-2 align-middle text-sm group-first:border-t-0 px-3 text-right tabular-nums text-slate-700">{{alliance?.members}}</td>
+              <td class="border-0 border-t border-solid border-slate-100 py-2 align-middle text-sm group-first:border-t-0 pl-3 pr-2 text-right">
+                <button type="button" (click)="selectAlliance(alliance?.id, alliance?.name)" class="inline-flex items-center gap-1 whitespace-nowrap rounded-md border-0 bg-white px-2 py-1 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="plus" variant="micro" class="size-3.5 flex-none text-slate-400"></svg>Add</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-					<!--Alliance results-->
-					<mat-progress-bar *ngIf="searching" mode="indeterminate"></mat-progress-bar>
-					<div *ngIf="searched">
-						<hr>
-						<br/>
-						<br/>
-						<div *ngIf="alliances?.length < 1 && !searching" class="text-center">
-							<h3>No alliances found for your search <span class="gd-primary">'{{allianceInput}}'</span></h3>
-						</div>
-						<div *ngIf="!searching" class="table" id="search_output_alliances" style="">
-							<div class="row_custom header default">
-								<div class="cell custom-cell">Alliance name</div>
-								<div class="cell hidden-sm">Rank</div>
-								<div class="cell">Members</div>
-								<div class="cell" style="min-width: 100px;">Action</div>
-							</div>
+    <div>
+      <p class="m-0 text-sm font-medium text-slate-900">Alliances in the list</p>
+      <div class="mt-2 flex flex-wrap gap-2">
+        <span *ngFor="let alliance of selected_alliances" class="inline-flex max-w-full items-center gap-1 rounded-full bg-brand-50 py-0.5 pl-2.5 pr-1 text-sm font-medium text-brand-700 ring-1 ring-inset ring-brand-700/20">
+          <svg appIcon="ally_ico" variant="game" class="size-3.5 flex-none"></svg>
+          <span class="min-w-0 truncate">{{alliance.name}}</span>
+          <button type="button" (click)="removeAllianceById(alliance.id)" [attr.aria-label]="'Remove ' + alliance.name + ' from the list'" title="Remove from the list" class="inline-flex size-5 flex-none items-center justify-center rounded-full border-0 bg-transparent p-0 text-brand-700/70 hover:bg-brand-100 hover:text-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="x-mark" variant="micro" class="size-3.5"></svg></button>
+        </span>
+        <span *ngIf="selected_alliances.length == 0" class="text-sm text-slate-500">No alliances yet. Search above to add one.</span>
+      </div>
+    </div>
 
-							<div *ngFor="let alliance of alliances" class="row_custom">
-								<div class="cell custom-cell">
-									<a routerLink="/alliance" [queryParams]="{world: alliance?.world, id: alliance?.id}">{{alliance?.name}}</a>
-								</div>
-								<div class="cell hidden-sm">
-									{{alliance?.rank}}
-								</div>
-								<div class="cell">
-									{{alliance?.members}}
-								</div>
-								<!--<div class="cell">-->
-								<!--{{alliance?.points | NumberFilter}}-->
-								<!--</div>-->
-								<!--<div class="cell hidden-sm">-->
-								<!--{{alliance?.towns}}-->
-								<!--</div>-->
-								<div class="cell">
-									<!--<button mat-button matStepperNext>Add alliance</button>-->
-									<button class="btn btn-success" style="overflow: hidden; text-overflow: ellipsis; margin: 5px 0;" (click)="selectAlliance(alliance?.id, alliance?.name, stepper)">
-										<i class="fa fa-plus"></i> Add
-									</button>
-								</div>
-							</div>
+    <div>
+      <div class="flex items-baseline justify-between gap-3">
+        <p class="m-0 text-sm font-medium text-slate-900">Mail list</p>
+        <span *ngIf="maillist" class="text-xs tabular-nums text-slate-500">{{maillist.split(';').length - 1}} player names</span>
+      </div>
+      <pre id="bb_code" class="mb-0 mt-2 !h-auto !max-h-[min(200px,30vh)] !min-w-0 overflow-auto whitespace-pre-wrap rounded-lg border-0 bg-slate-50 px-4 py-3.5 font-mono text-xs leading-[18px] text-slate-800 ring-1 ring-inset ring-slate-200 [overflow-wrap:anywhere] [word-break:normal]">{{maillist}}</pre>
+    </div>
+  </div>
 
-
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-xs-12" style="padding-top: 15px;">
-				<h4 class="gd-secondary text-center">
-					<span class="gd-primary" style="margin-right: 15px;">Alliances:&nbsp;</span>
-					<span *ngFor="let alliance of selected_alliances" style="margin-right: 30px;">
-							{{alliance.name}} <a class="a-link-dialog  diff-neg" (click)="removeAllianceById(alliance.id)"><i class="fa fa-trash"></i></a>
-					</span>
-				</h4>
-
-			</div>
-			<div class="col-xs-12" style="padding-top: 5px;">
-				<pre id="bb_code"
-				     style="max-height: 120px !important; min-width: unset !important;
-				      border-radius: 7px 7px 0 0;
-				      border-bottom: unset !important;
-				      margin: 0px;
-				      border: 1px solid #009688;
-					white-space: pre-wrap;
-					white-space: -moz-pre-wrap;
-					white-space: -pre-wrap;
-					white-space: -o-pre-wrap;
-					word-wrap: break-word;">{{maillist}}</pre>
-				<button class="btn btn-success" style="width: 100%; border-radius: 0 0 7px 7px; margin-top: 0;" (click)="copyList()">
-          <span *ngIf="!copied"><i class="fa fa-clipboard" aria-hidden="true"></i>&nbsp;copy to clipboard</span>
-          <span *ngIf="copied"><i class="fa fa-check-circle" aria-hidden="true"></i>&nbsp;Copied to clipboard!</span>
-				</button>
-			</div>
-		</div>
-	</div>
-
-
+  <div class="flex flex-none items-center justify-end gap-3 border-0 border-t border-solid border-slate-200 bg-slate-50 px-6 py-4 max-sm:px-4">
+    <span class="flex-1 text-xs text-slate-500 max-sm:hidden">Paste it in the recipients field of an in-game message.</span>
+    <button type="button" (click)="dialogRef.close()" class="inline-flex items-center justify-center gap-1.5 rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Close</button>
+    <button type="button" (click)="copyList()" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="copied ? 'bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-600/25 hover:bg-emerald-100' : 'bg-brand-700 text-white shadow-sm hover:bg-brand-800'">
+      <svg [appIcon]="copied ? 'check' : 'clipboard-document'" variant="mini" class="size-4 flex-none"></svg>
+      <span *ngIf="!copied">Copy to clipboard</span><span *ngIf="copied">Copied to clipboard</span>
+    </button>
+  </div>
 </div>

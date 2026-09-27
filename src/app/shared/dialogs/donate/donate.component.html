@@ -1,44 +1,62 @@
-<a (click)="close()" class="close"></a>
-<h2 mat-dialog-title style="margin-top: 0px;" class="gd-secondary">
-  🚀 Thank you for supporting GrepoData!
-</h2>
-<hr/>
-<h5 style="margin-top: -10px; margin-bottom: 20px;">
-  <br/>Every donation goes towards the server upkeep costs.
-  Our hosting costs are currently <strong>70€/month</strong>.
-  Your contribution is greatly appreciated!
-</h5>
+<div class="flex max-h-[95vh] w-[600px] max-w-full flex-col text-left font-normal text-slate-900">
+  <div class="flex flex-none items-start gap-4 border-0 border-b border-solid border-slate-200 px-6 py-5 max-sm:px-4">
+    <span class="flex size-10 flex-none items-center justify-center rounded-lg bg-navy-800 text-brand-500">
+      <svg appIcon="heart" class="size-6"></svg>
+    </span>
+    <div class="min-w-0 flex-1">
+      <h2 mat-dialog-title class="m-0 text-xl font-semibold text-slate-900">Thank you for supporting GrepoData!</h2>
+      <p class="mb-0 mt-0.5 text-sm text-slate-600">Every donation goes towards the server upkeep costs.</p>
+    </div>
+    <button type="button" (click)="close()" aria-label="Close" class="-mr-2 -mt-1 inline-flex size-8 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+      <svg appIcon="x-mark" class="size-5"></svg>
+    </button>
+  </div>
 
-<div mat-dialog-content>
-  <div class="donate-container">
-
-    <div class="container" style="padding: 0 !important;">
-      <div class="row">
-
-        <div class="col-xs-12 col-md-6">
-          <div class="donate-option">
-            <h2 class="gd-secondary">Donate via PayPal</h2>
-
-            <h4 class="gd-secondary">
-              <span id="donate_mail">admin@grepodata.com</span>
-              <span class="copy-txt" (click)="copyText('donate_mail')"><mat-icon>content_copy</mat-icon></span>
-            </h4>
-            <a class="donate-btn paypal" href="https://paypal.me/grepodata" target="_blank"><img src="assets/images/icons/pp.svg"/>paypal.me/grepodata</a>
-          </div>
-
-        </div>
-
-        <div class="col-xs-12 col-md-6">
-          <div class="donate-option">
-            <h2 class="gd-secondary">Or buy me a coffee</h2>
-            <br/>
-            <a class="donate-btn coffee" href="https://www.buymeacoffee.com/grepodata" target="_blank">☕ buymeacoffee.com/grepodata</a>
-          </div>
-        </div>
-
+  <div class="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-6 py-5 max-sm:px-4">
+    <div class="flex items-center gap-4 rounded-lg bg-brand-50 p-4 ring-1 ring-inset ring-brand-700/20">
+      <div class="min-w-[88px] flex-none text-center">
+        <div class="text-2xl font-bold tabular-nums text-brand-700">€70</div>
+        <div class="text-xs text-brand-700">per month</div>
+      </div>
+      <div class="min-w-0 border-0 border-l border-solid border-brand-700/20 pl-4 text-sm text-slate-700">
+        <p class="m-0 font-semibold text-slate-900">Our current hosting costs</p>
+        <p class="mb-0 mt-0.5">Your contribution is greatly appreciated!</p>
       </div>
     </div>
 
+    <ul class="m-0 list-none rounded-xl p-0 ring-1 ring-slate-200">
+      <li class="flex flex-wrap items-center gap-x-4 gap-y-3 p-4">
+        <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-lg bg-navy-800">
+          <img src="assets/images/icons/pp.svg" alt="" class="block size-[22px]"/>
+        </span>
+        <div class="min-w-0 flex-1">
+          <h3 class="m-0 text-sm font-semibold text-slate-900">Donate via PayPal</h3>
+          <div class="mt-0.5 flex items-center gap-0.5 text-sm text-slate-600">
+            <span id="donate_mail">admin@grepodata.com</span>
+            <button type="button" (click)="copyText('donate_mail')" title="Copy address" aria-label="Copy address" class="inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+              <svg appIcon="clipboard-document" class="size-4"></svg>
+            </button>
+          </div>
+        </div>
+        <a href="https://paypal.me/grepodata" target="_blank" class="inline-flex flex-none items-center justify-center gap-1.5 max-sm:w-full whitespace-nowrap rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 no-underline shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 hover:text-slate-900 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+          paypal.me/grepodata
+          <svg appIcon="arrow-top-right-on-square" variant="mini" class="size-4 flex-none text-slate-400"></svg>
+        </a>
+      </li>
+      <li class="flex flex-wrap items-center gap-x-4 gap-y-3 border-0 border-t border-solid border-slate-200 p-4">
+        <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-lg bg-amber-100 text-[22px] leading-none">☕</span>
+        <div class="min-w-0 flex-1">
+          <h3 class="m-0 text-sm font-semibold text-slate-900">Or buy me a coffee</h3>
+        </div>
+        <a href="https://www.buymeacoffee.com/grepodata" target="_blank" class="inline-flex flex-none items-center justify-center gap-1.5 max-sm:w-full whitespace-nowrap rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 no-underline shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 hover:text-slate-900 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+          buymeacoffee.com/grepodata
+          <svg appIcon="arrow-top-right-on-square" variant="mini" class="size-4 flex-none text-slate-400"></svg>
+        </a>
+      </li>
+    </ul>
   </div>
 
+  <div class="flex flex-none items-center justify-end gap-3 border-0 border-t border-solid border-slate-200 bg-slate-50 px-6 py-4 max-sm:px-4">
+    <button type="button" (click)="close()" class="inline-flex items-center justify-center gap-1.5 rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Close</button>
+  </div>
 </div>

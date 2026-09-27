@@ -17,6 +17,7 @@ export class DonateDialog {
     public googleAnalyticsEventsService: GoogleAnalyticsEventsService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    dialogRef.addPanelClass('team-dialog');
     try {
       this.googleAnalyticsEventsService.emitEvent("donate", "openDonateDialog", "openDonateDialog", 1);
     } catch (e) {

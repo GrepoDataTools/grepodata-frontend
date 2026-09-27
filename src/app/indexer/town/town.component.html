@@ -167,7 +167,7 @@
     </div>
 
     <div *ngIf="!embedded" role="tabpanel" [hidden]="activeTab !== 2">
-      <section class="rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-900/[.08] max-sm:p-3">
+      <section class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
         <app-conquest [embedded]="true" [params]="{type: 'town', world: world, id: id}"></app-conquest>
       </section>
     </div>

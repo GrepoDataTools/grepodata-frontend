@@ -36,265 +36,234 @@
 </div>
 
 <ng-template #conquest>
+<div class="text-left font-normal text-slate-900">
 
-	<mat-card-title>
-		<div style="user-select: none;">
-			<div class="row" *ngIf="!embedded && !noData">
-				<h3 class="mat-title table-title" style="margin-bottom: 0px;">Browse conquests:
-					<a *ngIf="type!='town'" routerLink="/{{type}}/{{world}}/{{id}}"><span class="gd-primary">{{name}}</span></a>
-					<span *ngIf="type=='town'" class="gd-primary">{{name}}</span>
-				</h3>
-				<!--<mat-spinner style="margin-left: 30px;" *ngIf="loading" strokeWidth="4" [diameter]="40"></mat-spinner>-->
-			</div>
-			<div class="row">
-				<div class="col-sm-12 col-md-6" style="padding-bottom: 7px; font-size: 18px !important;" *ngIf="!embedded">
-					<div *ngIf="type!=='town'"><ng-container *ngTemplateOutlet="filters"></ng-container></div>
-				</div>
+  <div *ngIf="(embedded && !minimal) || (!embedded && !noData) || (!noData && count > 10) || (type != 'town' && (!embedded || !(noData && toggleFriendly && toggleInternal && toggleEnemy)))" class="space-y-3 border-0 border-b border-solid border-slate-200 px-5 py-4 select-none max-sm:px-3">
+    <div *ngIf="(embedded && !minimal) || (!embedded && !noData) || (!noData && count > 10)" class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+      <div *ngIf="embedded && !minimal" class="min-w-0">
+        <h2 class="my-0 text-base font-semibold text-slate-900">Conquests <span *ngIf="!noData" class="font-normal text-slate-500">· {{count}}</span></h2>
+        <p *ngIf="type == 'town'" class="mb-0 mt-0.5 text-xs text-slate-500">Every change of owner of this town</p>
+      </div>
+      <h2 *ngIf="!embedded && !noData" class="my-0 min-w-0 text-base font-semibold text-slate-900">
+        Browse conquests:
+        <a *ngIf="type!='town'" routerLink="/{{type}}/{{world}}/{{id}}" class="text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{name}}</a>
+        <span *ngIf="type=='town'" class="text-brand-700">{{name}}</span>
+      </h2>
+      <div *ngIf="!noData" class="ml-auto" [ngClass]="{'pointer-events-none': loading}">
+        <div (mousemove)="cdr.detectChanges();" *ngIf="count > 10">
+          <mat-paginator [length]="count"
+                         [pageSize]="size"
+                         [pageIndex]="from/size"
+                         [pageSizeOptions]="[10, 30, 50, 100]"
+                         (page)="paginatorEvent($event)"
+                         (click)="cdr.detectChanges()"
+                         class="block bg-transparent !text-xs !font-normal text-slate-600 [&_.mat-button-wrapper]:flex [&_.mat-form-field-infix]:!w-16 [&_.mat-form-field-infix]:!p-0 [&_.mat-form-field-subscript-wrapper]:hidden [&_.mat-form-field-underline]:hidden [&_.mat-form-field-wrapper]:!m-0 [&_.mat-form-field-wrapper]:!p-0 [&_.mat-icon-button:not(.mat-button-disabled):hover]:bg-slate-100 [&_.mat-icon-button]:inline-flex [&_.mat-icon-button]:size-8 [&_.mat-icon-button]:items-center [&_.mat-icon-button]:justify-center [&_.mat-icon-button]:rounded-md [&_.mat-icon-button]:leading-8 [&_.mat-paginator-container]:min-h-0 [&_.mat-paginator-container]:flex-nowrap [&_.mat-paginator-container]:gap-3 [&_.mat-paginator-container]:p-0 [&_.mat-paginator-icon]:w-5 [&_.mat-paginator-page-size-label]:m-0 [&_.mat-paginator-page-size]:m-0 [&_.mat-paginator-page-size]:items-center [&_.mat-paginator-page-size]:gap-2 [&_.mat-paginator-page-size]:!pt-0 [&_.mat-paginator-range-actions]:gap-1 [&_.mat-paginator-range-label]:m-0 [&_.mat-paginator-range-label]:mr-1 [&_.mat-paginator-range-label]:tabular-nums [&_.mat-select-arrow-wrapper]:![transform:none] [&_.mat-select-arrow]:text-slate-400 [&_.mat-select-trigger]:h-auto [&_.mat-select-trigger]:w-full [&_.mat-select:focus]:ring-2 [&_.mat-select:focus]:ring-brand-700 [&_.mat-select]:flex [&_.mat-select]:h-8 [&_.mat-select]:items-center [&_.mat-select]:rounded-md [&_.mat-select]:bg-white [&_.mat-select]:pl-2.5 [&_.mat-select]:pr-1.5 [&_.mat-select]:text-xs [&_.mat-select]:shadow-sm [&_.mat-select]:ring-1 [&_.mat-select]:ring-inset [&_.mat-select]:ring-slate-300">
+          </mat-paginator>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="type != 'town' && (!embedded || !(noData && toggleFriendly && toggleInternal && toggleEnemy))">
+      <ng-container *ngTemplateOutlet="filters"></ng-container>
+    </div>
+  </div>
 
-				<div class="col-xs-2" *ngIf="embedded && !minimal">
-					<h3 style='font-weight: 700; color: #304357; margin-top: 0;'>
-						<span class='world-title' style='color: #18BC9C;'>Conquests</span>
-					</h3>
-				</div>
+  <div class="relative">
+    <mat-progress-bar *ngIf="noData && loading" mode="indeterminate"></mat-progress-bar>
+    <div *ngIf="!noData && loading" class="absolute inset-x-0 top-0 z-10 flex justify-center pt-20">
+      <mat-spinner mode="indeterminate" strokeWidth="6" [diameter]="50"></mat-spinner>
+    </div>
 
-				<div class="{{embedded?(minimal?'col-xs-12':'col-xs-10'):'col-sm-12 col-md-6'}}" *ngIf="!noData" [ngClass]="{'disabled-div':loading}">
-					<div style="max-height: 40px; margin-top: -12px;" (mousemove)="cdr.detectChanges();" *ngIf="count > 10">
-						<mat-paginator [length]="count"
-						               [pageSize]="size"
-						               [pageIndex]="from/size"
-						               [pageSizeOptions]="[10, 30, 50, 100]"
-						               (page)="paginatorEvent($event)"
-						               (click)="cdr.detectChanges()"
-						               style="background: none !important;">
-						</mat-paginator>
-					</div>
-				</div>
-			</div>
-			<div *ngIf="embedded && !(noData&&toggleFriendly&&toggleInternal&&toggleEnemy)" class="row">
-				<div class="col-xs-12" style="padding: 2px 2px 5px 15px; font-size: 16px !important;">
-					<ng-container *ngTemplateOutlet="filters"></ng-container>
-				</div>
-			</div>
-		</div>
-	</mat-card-title>
-	<mat-card-content style="margin: 0 !important;">
+    <div *ngIf="noData && !loading && !filtering" class="flex flex-col items-center px-6 py-10 text-center">
+      <span class="flex size-12 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+        <svg appIcon="flag" class="size-6"></svg>
+      </span>
+      <h3 class="mb-0 mt-3 text-base font-semibold text-slate-900">
+        <span *ngIf="toggleFriendly&&toggleInternal&&toggleEnemy">This {{type}} does not yet have any conquests.</span>
+        <span *ngIf="toggleFriendly&&!toggleInternal&&!toggleEnemy">This {{type}} has not yet conquered any new towns.</span>
+        <span *ngIf="toggleInternal&&!toggleFriendly&&!toggleEnemy">This {{type}} does not yet have any internal takeovers.</span>
+        <span *ngIf="toggleEnemy&&!toggleFriendly&&!toggleInternal">This {{type}} has not yet lost any towns.</span>
+      </h3>
+    </div>
 
-		<mat-progress-bar *ngIf="noData && loading" mode="indeterminate" style="
-			margin: 0;">
-		</mat-progress-bar>
-		<div *ngIf="!noData && loading" style="position: absolute; z-index: 9999; width: calc(100% - 32px);">
-			<mat-spinner style="margin:80px auto;" mode="indeterminate" strokeWidth="6" [diameter]="50"></mat-spinner>
-		</div>
+    <div *ngIf="(!noData && data.length>0) || filtering" [ngClass]="{'pointer-events-none opacity-20': loading && !loadingFiltered}">
+      <div class="gd-scrollbar overflow-x-auto">
+        <table id="player_conquests_table" class="w-full border-separate border-spacing-0 text-left font-normal [&_:is(td,th):first-child]:pl-5 [&_:is(td,th):last-child]:pr-5 [&_thead_tr:has(+tr)_th]:border-b-0">
+          <thead>
+            <tr>
+              <th *ngIf="!embedded" scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700 max-[767px]:hidden">Date</th>
+              <th *ngIf="embedded && !mobile" scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700 w-36">Date</th>
+              <th *ngIf="type == 'town'" scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700 w-40">Type</th>
+              <th *ngIf="type != 'town'" scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700">City</th>
+              <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700">Old owner</th>
+              <th *ngIf="!embedded" scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700 max-[767px]:hidden">Old alliance</th>
+              <th *ngIf="embedded && !mobile" scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700 w-8 px-0"><span class="sr-only">to</span></th>
+              <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700">New owner</th>
+              <th *ngIf="!embedded" scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700 max-[767px]:hidden">New alliance</th>
+              <th *ngIf="!embedded" scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-xs font-medium text-slate-700 text-right max-[767px]:hidden">Points</th>
+              <th *ngIf="embedded && mobile" scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-xs font-medium text-slate-700 text-right">Date</th>
+            </tr>
+            <tr *ngIf="!mobile && embedded && (data.length > 9 || filtering || from > 0)">
+              <td class="border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 pb-2.5 pt-0 align-middle">
+                <ng-container *ngTemplateOutlet="dateInput"></ng-container>
+              </td>
+              <td *ngIf="type == 'town'" class="border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 pb-2.5 pt-0 align-middle"></td>
+              <td *ngIf="type != 'town'" class="border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 pb-2.5 pt-0 align-middle">
+          <div class="relative">
+            <svg appIcon="magnifying-glass" variant="micro" class="pointer-events-none absolute left-2 top-2 size-4 text-slate-400"></svg>
+            <input [disabled]="loading" #conqcity id="conqcity" autocomplete="townname" type="text" placeholder="Search city" (keyup)="filterKeyup($event)" class="h-8 w-full min-w-0 rounded-md border-0 bg-white pl-7 text-xs font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700 disabled:cursor-not-allowed disabled:opacity-50 pr-7">
+            <button *ngIf="filterCity?.nativeElement?.value != ''" type="button" (click)="toggleEvent(30)" aria-label="Clear filters" class="absolute right-1 top-1 inline-flex size-6 items-center justify-center rounded border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-700">
+              <svg appIcon="x-mark" variant="micro" class="size-4"></svg>
+            </button>
+          </div>
+              </td>
+              <td class="border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 pb-2.5 pt-0 align-middle">
+          <div class="relative">
+            <svg appIcon="magnifying-glass" variant="micro" class="pointer-events-none absolute left-2 top-2 size-4 text-slate-400"></svg>
+            <input [disabled]="loading" #conqoname id="conqoname" autocomplete="playername" type="text" placeholder="Search owner" (keyup)="filterKeyup($event)" class="h-8 w-full min-w-0 rounded-md border-0 bg-white pl-7 text-xs font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700 disabled:cursor-not-allowed disabled:opacity-50 pr-7">
+            <button *ngIf="filterOldName?.nativeElement?.value != ''" type="button" (click)="toggleEvent(30)" aria-label="Clear filters" class="absolute right-1 top-1 inline-flex size-6 items-center justify-center rounded border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-700">
+              <svg appIcon="x-mark" variant="micro" class="size-4"></svg>
+            </button>
+          </div>
+              </td>
+              <td class="border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 pb-2.5 pt-0 align-middle px-0"></td>
+              <td class="border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 pb-2.5 pt-0 align-middle">
+          <div class="relative">
+            <svg appIcon="magnifying-glass" variant="micro" class="pointer-events-none absolute left-2 top-2 size-4 text-slate-400"></svg>
+            <input [disabled]="loading" #conqnname id="conqnname" autocomplete="playername" type="text" placeholder="Search owner" (keyup)="filterKeyup($event)" class="h-8 w-full min-w-0 rounded-md border-0 bg-white pl-7 text-xs font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700 disabled:cursor-not-allowed disabled:opacity-50 pr-7">
+            <button *ngIf="filterNewName?.nativeElement?.value != ''" type="button" (click)="toggleEvent(30)" aria-label="Clear filters" class="absolute right-1 top-1 inline-flex size-6 items-center justify-center rounded border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-700">
+              <svg appIcon="x-mark" variant="micro" class="size-4"></svg>
+            </button>
+          </div>
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let c of data; let i = index;" class="hover:bg-slate-50" [ngClass]="{'pointer-events-none opacity-20': loadingFiltered}">
+              <td *ngIf="!embedded" class="border-0 border-b border-solid border-slate-100 px-3 py-3 align-middle text-sm whitespace-nowrap tabular-nums text-slate-700 max-[767px]:hidden">{{c.time | Datex : "D MMM YYYY HH:mm"}}</td>
+              <td *ngIf="embedded && !mobile" class="border-0 border-b border-solid border-slate-100 px-3 py-3 align-middle text-sm whitespace-nowrap tabular-nums">
+                <div class="text-slate-900">{{c.time | Datex : "D MMM YYYY"}}</div>
+                <div class="text-xs text-slate-500">{{c.time | Datex : "HH:mm"}}</div>
+              </td>
+              <td *ngIf="type == 'town'" class="border-0 border-b border-solid border-slate-100 px-3 py-3 align-middle text-sm">
+                <span *ngIf="c.type == 'internal'" class="inline-flex whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-medium ring-1 ring-inset bg-amber-50 text-amber-700 ring-amber-600/25">Internal takeover</span>
+                <span *ngIf="c.type != 'internal'" class="inline-flex whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-medium ring-1 ring-inset bg-rose-50 text-rose-700 ring-rose-600/20">Conquered</span>
+              </td>
+              <td *ngIf="type != 'town'" class="border-0 border-b border-solid border-slate-100 px-3 py-3 align-middle text-sm">
+                <a routerLink="/conquest/town/{{world}}/{{c.town_id}}" *ngIf="type=='player'" class="inline-flex max-w-full items-center gap-1.5 font-semibold hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+                  <svg appIcon="town_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+                  <span class="truncate" [ngClass]="c.type == 'internal' ? 'text-amber-700' : (c.type == 'enemy' ? 'text-rose-700' : 'text-emerald-700')">{{c.town_name}}</span>
+                </a>
+                <a routerLink="/conquest/town/{{world}}/{{c.town_id}}" *ngIf="type=='alliance'" class="inline-flex max-w-full items-center gap-1.5 font-semibold hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+                  <svg appIcon="town_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+                  <span class="truncate text-emerald-700" *ngIf="c.n_a_id == id && c.o_a_id != id">{{c.town_name}}</span>
+                  <span class="truncate text-amber-700" *ngIf="c.n_a_id == c.o_a_id">{{c.town_name}}</span>
+                  <span class="truncate text-rose-700" *ngIf="c.n_a_id != id && c.o_a_id == id">{{c.town_name}}</span>
+                </a>
+                <div *ngIf="embedded" class="mt-0.5 text-xs tabular-nums text-slate-500">{{ c.points | NumberFilter }} points</div>
+              </td>
+              <td class="border-0 border-b border-solid border-slate-100 px-3 py-3 align-middle text-sm">
+          <span *ngIf="c.o_p_id == 0" class="inline-flex items-center gap-1.5 text-slate-400">
+            <svg appIcon="no-symbol" variant="micro" class="size-4 flex-none"></svg>
+            Ghost city
+          </span>
+          <ng-container *ngIf="c.o_p_id != 0">
+            <a routerLink="/player" [queryParams]="{world: world, id: c.o_p_id}" (click)="linkScrollTop()" class="inline-flex max-w-full items-center gap-1.5 font-semibold hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="type=='town' ? (c.type == 'internal' ? 'text-amber-700' : 'text-rose-700') : 'text-slate-900'">
+              <svg appIcon="player_ico" variant="game" class="size-4 flex-none" [ngClass]="type=='town' ? '' : 'text-slate-400'"></svg>
+              <span *ngIf="c.o_p_name == null" class="font-normal text-slate-400">Unknown</span>
+              <span *ngIf="c.o_p_name != null" class="truncate">{{c.o_p_name}}</span>
+            </a>
+            <div *ngIf="embedded && c.o_a_name != null && c.o_a_name != ''" class="mt-0.5">
+              <a routerLink="/alliance" [queryParams]="{world: world, id: c.o_a_id}" (click)="linkScrollTop()" class="inline-flex max-w-full items-center gap-1 text-xs text-slate-500 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+                <svg appIcon="ally_ico" variant="game" class="size-3.5 flex-none text-slate-400"></svg>
+                <span class="truncate">{{c.o_a_name}}</span>
+              </a>
+            </div>
+          </ng-container>
+              </td>
+        <td *ngIf="!embedded" class="border-0 border-b border-solid border-slate-100 px-3 py-3 align-middle text-sm max-[767px]:hidden">
+          <a *ngIf="c.o_a_name != null && c.o_a_name != ''" routerLink="/alliance" [queryParams]="{world: world, id: c.o_a_id}" class="inline-flex max-w-full items-center gap-1.5 text-slate-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+            <svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+            <span class="truncate">{{c.o_a_name}}</span>
+          </a>
+        </td>
+              <td *ngIf="embedded && !mobile" class="border-0 border-b border-solid border-slate-100 px-3 py-3 align-middle text-sm w-8 px-0 text-slate-300">
+                <svg appIcon="arrow-right" class="size-[18px]"></svg>
+              </td>
+              <td class="border-0 border-b border-solid border-slate-100 px-3 py-3 align-middle text-sm">
+          <a routerLink="/player" [queryParams]="{world: world, id: c.n_p_id}" (click)="linkScrollTop()" class="inline-flex max-w-full items-center gap-1.5 font-semibold hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="type=='town' ? (c.type == 'internal' ? 'text-amber-700' : 'text-emerald-700') : 'text-slate-900'">
+            <svg appIcon="player_ico" variant="game" class="size-4 flex-none" [ngClass]="type=='town' ? '' : 'text-slate-400'"></svg>
+            <span class="truncate">{{c.n_p_name}}</span>
+          </a>
+          <div *ngIf="embedded && c.n_a_name != null && c.n_a_name != ''" class="mt-0.5">
+            <a routerLink="/alliance" [queryParams]="{world: world, id: c.n_a_id}" (click)="linkScrollTop()" class="inline-flex max-w-full items-center gap-1 text-xs text-slate-500 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+              <svg appIcon="ally_ico" variant="game" class="size-3.5 flex-none text-slate-400"></svg>
+              <span class="truncate">{{c.n_a_name}}</span>
+            </a>
+          </div>
+              </td>
+        <td *ngIf="!embedded" class="border-0 border-b border-solid border-slate-100 px-3 py-3 align-middle text-sm max-[767px]:hidden">
+          <a *ngIf="c.n_a_name != null && c.n_a_name != ''" routerLink="/alliance" [queryParams]="{world: world, id: c.n_a_id}" class="inline-flex max-w-full items-center gap-1.5 text-slate-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+            <svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+            <span class="truncate">{{c.n_a_name}}</span>
+          </a>
+        </td>
+              <td *ngIf="!embedded" class="border-0 border-b border-solid border-slate-100 px-3 py-3 align-middle text-sm text-right tabular-nums text-slate-700 max-[767px]:hidden">{{ c.points | NumberFilter }}</td>
+              <td *ngIf="embedded && mobile" class="border-0 border-b border-solid border-slate-100 px-3 py-3 align-middle text-sm whitespace-nowrap text-right text-xs tabular-nums text-slate-500">
+                {{c.time | Datex : "D MMM YYYY"}}
+                <br/>
+                {{c.time | Datex : "HH:mm"}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-		<div *ngIf="noData && !loading && !filtering">
-			<div class="container-fluid">
-				<div class="row">
-					<br/>
-					<br/>
-					<div class="alert alert-warning text-center alert-gd-1">
-						<h2 *ngIf="toggleFriendly&&toggleInternal&&toggleEnemy">This {{type}} does not yet have any conquests.</h2>
-						<h2 *ngIf="toggleFriendly&&!toggleInternal&&!toggleEnemy">This {{type}} has not yet conquered any new towns.</h2>
-						<h2 *ngIf="toggleInternal&&!toggleFriendly&&!toggleEnemy">This {{type}} does not yet have any internal takeovers.</h2>
-						<h2 *ngIf="toggleEnemy&&!toggleFriendly&&!toggleInternal">This {{type}} has not yet lost any towns.</h2>
-					</div>
-				</div>
-			</div>
-		</div>
+      <p *ngIf="filtering && data.length <= 0" class="my-0 px-5 py-6 text-center text-sm text-slate-600">
+        No conquests found for these filters: <button type="button" (click)="toggleEvent(30)" class="border-0 bg-transparent p-0 font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Clear filters</button>.
+      </p>
+    </div>
 
-		<div class="table-container" *ngIf="(!noData && data.length>0) || filtering" [ngClass]="{'loading-overlay': loading && !loadingFiltered}">
-			<div class="table" id="player_conquests_table" style="">
-				<div class="row_custom header default">
-					<div class="cell hidden-xs" *ngIf="!embedded">Date</div>
-					<div class="cell" *ngIf="embedded && !mobile">Date</div>
-					<div class="cell" *ngIf="type != 'town'">City</div>
-					<div class="cell">Old owner</div>
-					<div class="cell hidden-xs" *ngIf="!embedded">Old alliance</div>
-					<div class="cell">New owner</div>
-					<div class="cell hidden-xs" *ngIf="!embedded">New alliance</div>
-					<div class="cell hidden-xs" *ngIf="!embedded">Points</div>
-					<div class="cell" *ngIf="embedded && mobile">Date</div>
-				</div>
+    <div *ngIf="!noData" class="flex justify-end px-5 max-sm:px-3" [ngClass]="{'pointer-events-none': loading}">
+      <div (mousemove)="cdr.detectChanges();" *ngIf="(count >= 30 && size >= 30) || (count > 10 && mobile)" class="py-3">
+        <mat-paginator [length]="count"
+                         [pageSize]="size"
+                         [pageIndex]="from/size"
+                         [pageSizeOptions]="[10, 30, 50, 100]"
+                         (page)="paginatorEvent($event)"
+                         (click)="cdr.detectChanges()"
+                         class="block bg-transparent !text-xs !font-normal text-slate-600 [&_.mat-button-wrapper]:flex [&_.mat-form-field-infix]:!w-16 [&_.mat-form-field-infix]:!p-0 [&_.mat-form-field-subscript-wrapper]:hidden [&_.mat-form-field-underline]:hidden [&_.mat-form-field-wrapper]:!m-0 [&_.mat-form-field-wrapper]:!p-0 [&_.mat-icon-button:not(.mat-button-disabled):hover]:bg-slate-100 [&_.mat-icon-button]:inline-flex [&_.mat-icon-button]:size-8 [&_.mat-icon-button]:items-center [&_.mat-icon-button]:justify-center [&_.mat-icon-button]:rounded-md [&_.mat-icon-button]:leading-8 [&_.mat-paginator-container]:min-h-0 [&_.mat-paginator-container]:flex-nowrap [&_.mat-paginator-container]:gap-3 [&_.mat-paginator-container]:p-0 [&_.mat-paginator-icon]:w-5 [&_.mat-paginator-page-size-label]:m-0 [&_.mat-paginator-page-size]:m-0 [&_.mat-paginator-page-size]:items-center [&_.mat-paginator-page-size]:gap-2 [&_.mat-paginator-page-size]:!pt-0 [&_.mat-paginator-range-actions]:gap-1 [&_.mat-paginator-range-label]:m-0 [&_.mat-paginator-range-label]:mr-1 [&_.mat-paginator-range-label]:tabular-nums [&_.mat-select-arrow-wrapper]:![transform:none] [&_.mat-select-arrow]:text-slate-400 [&_.mat-select-trigger]:h-auto [&_.mat-select-trigger]:w-full [&_.mat-select:focus]:ring-2 [&_.mat-select:focus]:ring-brand-700 [&_.mat-select]:flex [&_.mat-select]:h-8 [&_.mat-select]:items-center [&_.mat-select]:rounded-md [&_.mat-select]:bg-white [&_.mat-select]:pl-2.5 [&_.mat-select]:pr-1.5 [&_.mat-select]:text-xs [&_.mat-select]:shadow-sm [&_.mat-select]:ring-1 [&_.mat-select]:ring-inset [&_.mat-select]:ring-slate-300">
+          </mat-paginator>
+      </div>
+    </div>
+  </div>
 
-				<div class="row_custom row_filters" *ngIf="!mobile && embedded && (data.length > 9 || filtering || from > 0)">
-					<div class="cell filter-cell" *ngIf="!mobile">
-						<ng-container *ngTemplateOutlet="dateInput"></ng-container>
-					</div>
-					<div class="cell filter-cell">
-						<div class="input-wrapper">
-							<input [disabled]="loading" #conqcity class="filter-input" id="conqcity" autocomplete="townname"
-							       type="text" placeholder="Search City" (keyup)="filterKeyup($event)">
-							<label *ngIf="filterCity?.nativeElement?.value != ''" class="fa fa-times input-right" (click)="toggleEvent(30)"></label>
-						</div>
-					</div>
-					<div class="cell filter-cell">
-						<div class="input-wrapper">
-							<input [disabled]="loading" #conqoname class="filter-input" id="conqoname" autocomplete="playername"
-							       type="text" placeholder="Search owner" (keyup)="filterKeyup($event)">
-							<label *ngIf="filterOldName?.nativeElement?.value != ''" class="fa fa-times input-right" (click)="toggleEvent(30)"></label>
-						</div>
-					</div>
-					<div class="cell filter-cell">
-						<div class="input-wrapper">
-							<input [disabled]="loading" #conqnname class="filter-input" id="conqnname" autocomplete="playername"
-							       type="text" placeholder="Search owner" (keyup)="filterKeyup($event)">
-							<label *ngIf="filterNewName?.nativeElement?.value != ''" class="fa fa-times input-right" (click)="toggleEvent(30)"></label>
-						</div>
-					</div>
-					<div class="cell filter-cell" *ngIf="mobile">
-						<ng-container *ngTemplateOutlet="dateInput"></ng-container>
-					</div>
-				</div>
-
-				<div class="row_custom" *ngFor="let c of data; let i = index;" [ngClass]="{'loading-overlay': loadingFiltered}">
-
-					<div class="cell hidden-xs" *ngIf="!embedded">
-						{{c.time | Datex : "D MMM YYYY HH:mm"}}
-					</div>
-					<div class="cell" *ngIf="embedded && !mobile">
-						{{c.time | Datex : "D MMM YYYY"}}
-						<br/>
-						{{c.time | Datex : "HH:mm"}}
-					</div>
-
-					<!--Check loss or gain-->
-					<div class="cell formatted-cell" *ngIf="type != 'town'">
-						<a routerLink="/conquest/town/{{world}}/{{c.town_id}}" *ngIf="type=='player'">
-							<span ngClass="{{(c.type == 'internal'?'diff-neutral':(c.type == 'enemy' ? 'diff-neg' : 'diff-pos'))}}">{{c.town_name}}</span>
-							<!--<span class="diff-pos" *ngIf="c.n_p_id == id && c.o_p_id != id && c.n_a_id != c.o_a_id">{{c.town_name}} - {{c.type}}</span>-->
-							<!--<span class="diff-neutral" *ngIf="c.n_a_id == c.o_a_id">{{c.town_name}} - {{c.type}}</span>-->
-							<!--<span class="diff-neg" *ngIf="c.n_p_id != id && c.o_p_id == id && c.n_a_id != c.o_a_id">{{c.town_name}} - {{c.type}}</span>-->
-						</a>
-						<a routerLink="/conquest/town/{{world}}/{{c.town_id}}" *ngIf="type=='alliance'">
-							<span class="diff-pos" *ngIf="c.n_a_id == id && c.o_a_id != id">{{c.town_name}}</span>
-							<span class="diff-neutral" *ngIf="c.n_a_id == c.o_a_id">{{c.town_name}}</span>
-							<span class="diff-neg" *ngIf="c.n_a_id != id && c.o_a_id == id">{{c.town_name}}</span>
-						</a>
-						<div *ngIf="embedded" style="transform: scale(.7);">
-							{{ c.points | NumberFilter }} points
-						</div>
-					</div>
-
-					<!--Old player (might be ghost)-->
-					<div class="cell formatted-cell diff-null" *ngIf="c.o_p_id == 0">
-						Ghost city
-					</div>
-					<div class="cell formatted-cell" *ngIf="c.o_p_id != 0">
-						<a class="player-hover" routerLink="/player" [queryParams]="{world: world, id: c.o_p_id}" (click)="linkScrollTop()">
-							<span *ngIf="c.o_p_name == null" class="diff-null">Unknown</span>
-							<span *ngIf="c.o_p_name != null"
-							      ngClass="{{(type=='town'?(c.type == 'internal'?'diff-neutral':'diff-neg'):'')}}">
-								{{c.o_p_name}}</span>
-						</a>
-						<div *ngIf="embedded" style="transform: scale(.7);">
-							<a class="ally-hover" *ngIf="c.o_a_name != null && c.o_a_name != ''" routerLink="/alliance" [queryParams]="{world: world, id: c.o_a_id}" (click)="linkScrollTop()">
-								<span>{{c.o_a_name}}</span>
-							</a>
-						</div>
-					</div>
-
-					<div class="cell hidden-xs formatted-cell" *ngIf="!embedded">
-						<a *ngIf="c.o_a_name != null && c.o_a_name != ''" routerLink="/alliance" [queryParams]="{world: world, id: c.o_a_id}">{{c.o_a_name}}</a>
-					</div>
-
-					<div class="cell formatted-cell">
-						<a class="player-hover" routerLink="/player" [queryParams]="{world: world, id: c.n_p_id}" ngClass="{{(type=='town'?(c.type == 'internal'?'diff-neutral':'diff-pos'):'')}}" (click)="linkScrollTop()">
-							<span>{{c.n_p_name}}</span>
-						</a>
-						<div *ngIf="embedded" style="transform: scale(.7);">
-							<a class="ally-hover" *ngIf="c.n_a_name != null && c.n_a_name != ''" routerLink="/alliance" [queryParams]="{world: world, id: c.n_a_id}" (click)="linkScrollTop()">
-								<span>{{c.n_a_name}}</span>
-							</a>
-						</div>
-					</div>
-
-					<div class="cell hidden-xs formatted-cell" *ngIf="!embedded">
-						<a *ngIf="c.n_a_name != null && c.n_a_name != ''" routerLink="/alliance" [queryParams]="{world: world, id: c.n_a_id}">{{c.n_a_name}}</a>
-					</div>
-
-					<div class="cell hidden-xs" *ngIf="!embedded">
-						{{ c.points | NumberFilter }}
-					</div>
-
-					<div class="cell" *ngIf="embedded && mobile" style="transform: scale(.7);">
-						{{c.time | Datex : "D MMM YYYY"}}
-						<br/>
-						{{c.time | Datex : "HH:mm"}}
-					</div>
-
-				</div>
-			</div>
-
-			<div class="row_banner text-center" *ngIf="filtering && data.length <= 0">
-				<h4 style="margin: 0 !important; padding: 5px;" class="gd-secondary">No conquests found for these filters: <a class="a-link-dialog" (click)="toggleEvent(30)">Clear filters</a>.</h4>
-			</div>
-
-		</div>
-
-		<div class="container-fluid text-center" *ngIf="!noData" [ngClass]="{'disabled-div':loading}">
-			<div style="max-height: 40px; margin-top: -12px;" (mousemove)="cdr.detectChanges();" *ngIf="(count >= 30 && size >= 30) || (count > 10 && mobile)">
-				<mat-paginator [length]="count"
-				               [pageSize]="size"
-				               [pageIndex]="from/size"
-				               [pageSizeOptions]="[10, 30, 50, 100]"
-				               (page)="paginatorEvent($event)"
-				               (click)="cdr.detectChanges()"
-				               style="background: none !important;">
-				</mat-paginator>
-			</div>
-		</div>
-
-	</mat-card-content>
-
+</div>
 </ng-template>
 
 <ng-template #dateInput>
-	<div class="input-wrapper">
-		<input [disabled]="loading" style="text-align: right;" #conqdate class="filter-input" type="date"
-		       id="start" name="conqdate" value="" (change)="filterKeyup($event)">
-	</div>
+  <input [disabled]="loading" #conqdate type="date" id="start" name="conqdate" value="" (change)="filterKeyup($event)" class="h-8 w-full min-w-0 rounded-md border-0 bg-white px-2.5 text-xs font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700 disabled:cursor-not-allowed disabled:opacity-50 text-right">
 </ng-template>
 
 <ng-template #filters>
-	<!--<div fxLayout="row wrap" fxLayoutGap="10px" fxLayoutAlign="space-around center">-->
-	<!--&lt;!&ndash;<div fxLayout="row" fxLayoutGap="40px" fxLayoutAlign="center" class="table-controls">&ndash;&gt;-->
-		<!--&lt;!&ndash;<div fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="center center">&ndash;&gt;-->
-		<!--<div>-->
-			<!--<mat-checkbox class="diff-pos" [disabled]="loading" [(ngModel)]="toggleFriendly" (change)="toggleEvent()">Show conquests<span class="hidden-xs hidden-sm"> (towns gained)</span></mat-checkbox>-->
-		<!--</div>-->
-		<!--&lt;!&ndash;<div fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="center center">&ndash;&gt;-->
-		<!--<div>-->
-			<!--<mat-checkbox class="diff-neutral" [disabled]="loading" [(ngModel)]="toggleInternal" (change)="toggleEvent()">Show internal takeovers</mat-checkbox>-->
-		<!--</div>-->
-		<!--&lt;!&ndash;<div fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="center center" *ngIf="type != 'town'">&ndash;&gt;-->
-		<!--<div>-->
-			<!--<mat-checkbox class="diff-neg" [disabled]="loading" [(ngModel)]="toggleEnemy" (change)="toggleEvent()">Show enemy takeovers</mat-checkbox>-->
-		<!--</div>-->
-	<!--</div>-->
-
-	<!--<mat-select placeholder="Conquest type" [ngModel]="cType" (ngModelChange)="setType($event)" (click)="cdr.detectChanges()">-->
-		<!--<mat-option value="all">Show all</mat-option>-->
-		<!--<mat-option value="friendly">New towns gained</mat-option>-->
-		<!--<mat-option value="internal">Internal takeovers</mat-option>-->
-		<!--<mat-option value="enemy">Enemy takeovers</mat-option>-->
-	<!--</mat-select>-->
-
-	<div class="mobile-filter-push"></div>
-	<mat-chip-list [disabled]="loading" [ngClass]="{'disabled-div':loading}" *ngIf="type!='town'">
-		<mat-chip [selected]="toggleFriendly&&toggleInternal&&toggleEnemy"
-		          (click)="toggleFriendly = toggleInternal = toggleEnemy = true; cdr.detectChanges(); toggleEvent(30);">
-			All conquests
-		</mat-chip>
-		<mat-chip [selected]="toggleFriendly&&!toggleInternal&&!toggleEnemy" style="border: 1px solid #008000"
-		          (click)="toggleFriendly = true; toggleInternal = toggleEnemy = false; cdr.detectChanges(); filterClearInput();">
-			Player takeovers
-		</mat-chip>
-		<mat-chip [selected]="toggleInternal&&!toggleFriendly&&!toggleEnemy" style="border: 1px solid #ff9900"
-		          (click)="toggleInternal = true; toggleFriendly = toggleEnemy = false; cdr.detectChanges(); filterClearInput();">
-			Internal takeovers
-		</mat-chip>
-		<mat-chip [selected]="toggleEnemy&&!toggleFriendly&&!toggleInternal" style="border: 1px solid #ff0000"
-		          (click)="toggleEnemy = true; toggleInternal = toggleFriendly = false; cdr.detectChanges(); filterClearInput();">
-			Enemy takeovers
-		</mat-chip>
-	</mat-chip-list>
+  <div role="group" aria-label="Conquest type" class="inline-flex max-w-full flex-wrap gap-0.5 rounded-lg bg-slate-100 p-[3px]" [ngClass]="{'pointer-events-none': loading}">
+    <button type="button" [disabled]="loading" [attr.aria-pressed]="toggleFriendly&&toggleInternal&&toggleEnemy" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 px-3 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed" [ngClass]="toggleFriendly&&toggleInternal&&toggleEnemy ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'"
+            (click)="toggleFriendly = toggleInternal = toggleEnemy = true; cdr.detectChanges(); toggleEvent(30);">
+      All conquests
+    </button>
+    <button type="button" [disabled]="loading" [attr.aria-pressed]="toggleFriendly&&!toggleInternal&&!toggleEnemy" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 px-3 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed" [ngClass]="toggleFriendly&&!toggleInternal&&!toggleEnemy ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'"
+            (click)="toggleFriendly = true; toggleInternal = toggleEnemy = false; cdr.detectChanges(); filterClearInput();">
+      <span class="size-1.5 flex-none rounded-full bg-emerald-600"></span>
+      Player takeovers
+    </button>
+    <button type="button" [disabled]="loading" [attr.aria-pressed]="toggleInternal&&!toggleFriendly&&!toggleEnemy" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 px-3 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed" [ngClass]="toggleInternal&&!toggleFriendly&&!toggleEnemy ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'"
+            (click)="toggleInternal = true; toggleFriendly = toggleEnemy = false; cdr.detectChanges(); filterClearInput();">
+      <span class="size-1.5 flex-none rounded-full bg-amber-500"></span>
+      Internal takeovers
+    </button>
+    <button type="button" [disabled]="loading" [attr.aria-pressed]="toggleEnemy&&!toggleFriendly&&!toggleInternal" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 px-3 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed" [ngClass]="toggleEnemy&&!toggleFriendly&&!toggleInternal ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'"
+            (click)="toggleEnemy = true; toggleInternal = toggleFriendly = false; cdr.detectChanges(); filterClearInput();">
+      <span class="size-1.5 flex-none rounded-full bg-rose-600"></span>
+      Enemy takeovers
+    </button>
+  </div>
 </ng-template>

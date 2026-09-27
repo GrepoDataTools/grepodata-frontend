@@ -54,6 +54,9 @@ export class BasicDialog {
     if ('icon' in data) {
       this.icon = data.icon;
     }
+    if ('iconClass' in data) {
+      this.iconClass = data.iconClass;
+    }
   }
 
   close(): void {

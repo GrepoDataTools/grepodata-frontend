@@ -290,95 +290,92 @@
     </section>
     <app-advertorial *ngIf="!loadingInfo && towns > 1 && rank <= 1000" class="block empty:hidden"></app-advertorial>
 
-    <div class="player-cards" fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="5px">
-
-    <mat-card class="dense-card" fxFlex fxFlex.gt-md="57" fxFlex.gt-sm="100">
-      <mat-card-title>
-        <div fxLayout="row">
-          <h3 style='font-weight: 300; color: #304357; margin-top: 0;'><span class='world-title' style='color: #18BC9C;'>History</span></h3>
-          <mat-spinner style="margin-left: 30px;" *ngIf="loadingHistory" strokeWidth="3" [diameter]="30"></mat-spinner>
+    <section aria-labelledby="daily-history-title" class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+      <div class="flex min-h-[61px] items-center justify-between gap-4 border-0 border-b border-solid border-slate-200 px-5 py-3.5 max-sm:px-4">
+        <div class="min-w-0">
+          <h2 id="daily-history-title" class="m-0 text-base font-semibold text-slate-900">Daily history</h2>
+          <p class="mb-0 mt-0.5 text-[13px] leading-5 text-slate-500">{{dayRange == 'all' ? 'All time' : 'Last ' + dayRange + ' days'}} · newest first</p>
         </div>
-      </mat-card-title>
-      <mat-card-content [ngClass]="{'loading-overlay': loadingHistory}">
-        <div *ngIf="historyError" class="alert alert-warning text-center alert-gd-1">
-          <h3>Unable to load history. Try again later.</h3>
-        </div>
-        <div class="table-container table-y-limit" *ngIf="!historyError">
-          <div class="table table-sticky" id="sticky_history_header" style="text-align: left !important;">
-	              <div class="row_custom header default">
-		              <div class="cell">Date</div>
-		              <div class="cell">Alliance</div>
-		              <div class="cell">Points</div>
-		              <div class="cell">Attacking</div>
-		              <div class="cell">Defending</div>
-		              <div class="cell hidden-xs hidden-sm">Rank</div>
-		              <div class="cell hidden-xs hidden-sm">Towns</div>
-	              </div>
-          </div>
-          <div class="table" id="player_history_table" style="text-align: left !important;">
-	              <div class="row_custom header default table-header-non-sticky">
-		              <div class="cell">Date</div>
-		              <div class="cell">Alliance</div>
-		              <div class="cell">Points</div>
-		              <div class="cell">Attacking</div>
-		              <div class="cell">Defending</div>
-		              <div class="cell hidden-xs hidden-sm">Rank</div>
-		              <div class="cell hidden-xs hidden-sm">Towns</div>
-	              </div>
+      </div>
+      <p *ngIf="historyError" class="m-0 px-6 py-10 text-center text-sm text-slate-600">Unable to load history. Try again later.</p>
+      <div *ngIf="!historyError && loadingHistory && playerHistoryData.length == 0" class="flex h-40 items-center justify-center gap-2 text-sm text-slate-500">
+        <span aria-hidden="true" class="size-4 flex-none animate-spin rounded-full border-2 border-solid border-slate-200 border-t-brand-700"></span>Loading history…
+      </div>
+      <div *ngIf="!historyError && playerHistoryData.length > 0" class="max-h-[520px] overflow-y-auto" [ngClass]="{'pointer-events-none opacity-20': loadingHistory}">
+        <table class="w-full table-fixed border-separate border-spacing-0 text-left font-normal">
+          <colgroup>
+            <col class="w-[84px] sm:w-[100px] lg:w-[112px] xl:w-[132px]">
+            <col class="max-sm:[display:none]">
+            <col class="sm:w-[110px] lg:w-[140px] xl:w-[190px]">
+            <col class="sm:w-[120px] lg:w-[154px] xl:w-[210px]">
+            <col class="sm:w-[120px] lg:w-[154px] xl:w-[210px]">
+            <col class="max-md:[display:none] md:w-16 lg:w-[76px] xl:w-[110px]">
+            <col class="max-md:[display:none] md:w-[72px] lg:w-[84px] xl:w-[120px]">
+          </colgroup>
+          <thead>
+            <tr>
+              <th scope="col" class="sticky top-0 z-[1] whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-5 pr-3 max-sm:pl-4 max-sm:pr-2">Date</th>
+              <th scope="col" class="sticky top-0 z-[1] whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 px-3 max-sm:[display:none]">Alliance</th>
+              <th scope="col" class="sticky top-0 z-[1] whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 px-3 text-right max-sm:px-2 lg:pr-[76px]">Points</th>
+              <th scope="col" class="sticky top-0 z-[1] whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 px-3 text-right max-sm:px-2 lg:pr-[76px]"><span class="max-sm:hidden">Attack points</span><span class="sm:hidden">Attack</span></th>
+              <th scope="col" class="sticky top-0 z-[1] whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 px-3 text-right max-sm:px-2 max-sm:pr-4 lg:pr-[76px]"><span class="max-sm:hidden">Defence points</span><span class="sm:hidden">Defence</span></th>
+              <th scope="col" class="sticky top-0 z-[1] whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 px-3 text-right max-md:[display:none] lg:pr-[44px]">Rank</th>
+              <th scope="col" class="sticky top-0 z-[1] whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-3 pr-5 text-right max-md:[display:none] lg:pr-[52px]">Towns</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let h of playerHistoryData; let i = index;" class="group hover:bg-slate-50">
+              <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 pl-5 pr-3 max-sm:pl-4 max-sm:pr-2">
+                <span class="whitespace-nowrap tabular-nums text-slate-700">{{h.date | Datex : "D MMM"}}</span><span *ngIf="i == 0" class="ml-1.5 text-xs text-slate-500">now</span>
+                <a routerLink="/alliance" [queryParams]="{world: world, id: h.alliance_id}" class="block truncate text-xs text-slate-500 no-underline hover:text-slate-900 hover:underline sm:[display:none] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{h.alliance_name}}</a>
+              </td>
+              <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 max-w-0 px-3 max-sm:[display:none]">
+                <a *ngIf="h.alliance_name" routerLink="/alliance" [queryParams]="{world: world, id: h.alliance_id}" class="flex w-fit max-w-full items-center gap-1.5 text-slate-700 no-underline hover:text-slate-900 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg><span class="truncate">{{h.alliance_name}}</span></a>
+                <span *ngIf="!h.alliance_name" class="text-slate-400">No alliance</span>
+              </td>
+                <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 px-3 max-sm:px-2 whitespace-nowrap text-right">
+                  <span class="tabular-nums text-slate-900">{{h.points | NumberFilter}}</span>
+                  <span class="block lg:ml-2 lg:inline-block lg:w-14 lg:text-left">
+                    <a *ngIf="i+1<playerHistoryData.length && i < 90 && (h.points - playerHistoryData[i+1].points) != 0" routerLink="/points" [queryParams]="{world: world, date: h.date}" [title]="'Open the scoreboard of ' + (h.date | Datex : 'D MMM YYYY')" class="text-xs font-medium tabular-nums no-underline hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="(h.points - playerHistoryData[i+1].points) > 0 ? 'text-emerald-700 hover:text-emerald-800' : 'text-rose-700 hover:text-rose-800'">{{(h.points - playerHistoryData[i+1].points) > 0 ? '+' : ''}}{{(h.points - playerHistoryData[i+1].points) | NumberFilter}}</a>
+                  </span>
+                </td>
+                <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 px-3 max-sm:px-2 whitespace-nowrap text-right">
+                  <span class="tabular-nums text-slate-900">{{h.att | NumberFilter}}</span>
+                  <span class="block lg:ml-2 lg:inline-block lg:w-14 lg:text-left">
+                    <a *ngIf="i+1<playerHistoryData.length && i < 90 && (h.att - playerHistoryData[i+1].att) != 0" routerLink="/points" [queryParams]="{world: world, date: h.date}" [title]="'Open the scoreboard of ' + (h.date | Datex : 'D MMM YYYY')" class="text-xs font-medium tabular-nums no-underline hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="(h.att - playerHistoryData[i+1].att) > 0 ? 'text-emerald-700 hover:text-emerald-800' : 'text-rose-700 hover:text-rose-800'">{{(h.att - playerHistoryData[i+1].att) > 0 ? '+' : ''}}{{(h.att - playerHistoryData[i+1].att) | NumberFilter}}</a>
+                  </span>
+                </td>
+                <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 px-3 max-sm:px-2 max-sm:pr-4 whitespace-nowrap text-right">
+                  <span class="tabular-nums text-slate-900">{{h.def | NumberFilter}}</span>
+                  <span class="block lg:ml-2 lg:inline-block lg:w-14 lg:text-left">
+                    <a *ngIf="i+1<playerHistoryData.length && i < 90 && (h.def - playerHistoryData[i+1].def) != 0" routerLink="/points" [queryParams]="{world: world, date: h.date}" [title]="'Open the scoreboard of ' + (h.date | Datex : 'D MMM YYYY')" class="text-xs font-medium tabular-nums no-underline hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="(h.def - playerHistoryData[i+1].def) > 0 ? 'text-emerald-700 hover:text-emerald-800' : 'text-rose-700 hover:text-rose-800'">{{(h.def - playerHistoryData[i+1].def) > 0 ? '+' : ''}}{{(h.def - playerHistoryData[i+1].def) | NumberFilter}}</a>
+                  </span>
+                </td>
+                <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 px-3 whitespace-nowrap text-right max-md:[display:none]">
+                  <span class="tabular-nums text-slate-900">{{h.rank | NumberFilter}}</span>
+                  <span class="block lg:ml-2 lg:inline-block lg:w-6 lg:text-left">
+                    <a *ngIf="i+1<playerHistoryData.length && i < 90 && (playerHistoryData[i+1].rank - h.rank) != 0" routerLink="/points" [queryParams]="{world: world, date: h.date}" [title]="'Open the scoreboard of ' + (h.date | Datex : 'D MMM YYYY')" class="text-xs font-medium tabular-nums no-underline hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="(playerHistoryData[i+1].rank - h.rank) > 0 ? 'text-emerald-700 hover:text-emerald-800' : 'text-rose-700 hover:text-rose-800'">{{(playerHistoryData[i+1].rank - h.rank) > 0 ? '+' : ''}}{{(playerHistoryData[i+1].rank - h.rank) | NumberFilter}}</a>
+                  </span>
+                </td>
+                <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 pl-3 pr-5 whitespace-nowrap text-right max-md:[display:none]">
+                  <span class="tabular-nums text-slate-900">{{h.towns | NumberFilter}}</span>
+                  <span class="block lg:ml-2 lg:inline-block lg:w-6 lg:text-left">
+                    <a *ngIf="i+1<playerHistoryData.length && i < 90 && (h.towns - playerHistoryData[i+1].towns) != 0" routerLink="/points" [queryParams]="{world: world, date: h.date}" [title]="'Open the scoreboard of ' + (h.date | Datex : 'D MMM YYYY')" class="text-xs font-medium tabular-nums no-underline hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="(h.towns - playerHistoryData[i+1].towns) > 0 ? 'text-emerald-700 hover:text-emerald-800' : 'text-rose-700 hover:text-rose-800'">{{(h.towns - playerHistoryData[i+1].towns) > 0 ? '+' : ''}}{{(h.towns - playerHistoryData[i+1].towns) | NumberFilter}}</a>
+                  </span>
+                </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
 
-            <!--History-->
-            <div class="row_custom" *ngFor="let h of playerHistoryData; let i = index;">
-              <div class="cell">
-                {{h.date | Datex : "D MMM"}}
-              </div>
-              <div class="cell formatted-cell">
-                <a routerLink="/alliance" [queryParams]="{world: world, id: h.alliance_id}">{{h.alliance_name}}</a>
-              </div>
-              <div class="cell">
-                {{ h.points | NumberFilter }}
-                <a *ngIf="i+1<playerHistoryData.length && i < 90" routerLink="/points" [queryParams]="{world: world, date: h.date}">
-                  <span [outerHTML]="h.points - playerHistoryData[i+1].points | DiffFilterNonZero"></span>
-                </a>
-              </div>
-              <div class="cell">
-                {{ h.att | NumberFilter }}
-                <a *ngIf="i+1<playerHistoryData.length && i < 90" routerLink="/points" [queryParams]="{world: world, date: h.date}">
-                  <span [outerHTML]="h.att - playerHistoryData[i+1].att | DiffFilterNonZero"></span>
-                </a>
-              </div>
-              <div class="cell">
-                {{ h.def | NumberFilter }}
-                <a *ngIf="i+1<playerHistoryData.length && i < 90" routerLink="/points" [queryParams]="{world: world, date: h.date}">
-                  <span [outerHTML]="h.def - playerHistoryData[i+1].def | DiffFilterNonZero"></span>
-                </a>
-              </div>
-              <div class="cell hidden-xs hidden-sm">
-                {{ h.rank | NumberFilter }}
-                <a *ngIf="i+1<playerHistoryData.length && i < 90" routerLink="/points" [queryParams]="{world: world, date: h.date}">
-                  <span [outerHTML]="playerHistoryData[i+1].rank - h.rank | DiffFilterNonZero"></span>
-                </a>
-              </div>
-              <div class="cell hidden-xs hidden-sm">
-                {{ h.towns | NumberFilter }}
-                <a *ngIf="i+1<playerHistoryData.length && i < 90" routerLink="/points" [queryParams]="{world: world, date: h.date}">
-                  <span [outerHTML]="h.towns - playerHistoryData[i+1].towns | DiffFilterNonZero"></span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
-
-    <mat-card class="dense-card" fxFlex fxFlex.gt-md="43" fxFlex.gt-sm="100">
+    <mat-card class="dense-card">
       <mat-card-content>
 
 	          <app-conquest [embedded]="true" [params]="{type: 'player', world: world, id: id}"></app-conquest>
 
       </mat-card-content>
     </mat-card>
-
-    </div>
   </ng-container>
 </div>
 

@@ -156,322 +156,180 @@
 </ng-template>
 
 <ng-template #players_att>
-  <div class="sb-table" [ngClass]="{'loading-overlay':loadingPlayers}">
-    <div class="title txt-sm red">
-      <div class="icon" matTooltip="This table shows battle points gained as attacker. Click on a number to see a detailed hourly breakdown.">
-        <img src="../../assets/images/game/award_att.png"/>
-      </div>
-      Player Attack Points
-      <mat-progress-bar class="loading-bar" *ngIf="loadingPlayers" mode="indeterminate"></mat-progress-bar>
+  <section aria-labelledby="sb-p-att" class="flex min-w-0 flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+    <div class="relative flex min-h-[56px] items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 py-2.5 pl-5 pr-3">
+      <div class="flex min-w-0 items-center gap-2"><span aria-hidden="true" class="size-2.5 flex-none rounded-[3px] bg-[#EB6834]"></span><h3 id="sb-p-att" class="m-0 truncate text-base font-semibold text-slate-900">Attack points</h3></div>
+      <button type="button" matTooltip="This table shows battle points gained as attacker. Click on a number to see a detailed hourly breakdown." aria-label="This table shows battle points gained as attacker. Click on a number to see a detailed hourly breakdown." class="inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="information-circle" class="size-5"></svg></button>
+      <mat-progress-bar *ngIf="loadingPlayers" mode="indeterminate" class="!absolute inset-x-0 bottom-0 !h-0.5"></mat-progress-bar>
     </div>
-    <div class="content">
-
-      <div class="table" id="table_attacking_players" style="border-collapse: collapse;">
-
-        <ng-container *ngIf="loadingPlayers && !playerData">
-          <div *ngFor="let p of [].constructor(mobile?10:20); let i = index;" class="row_custom loading_cell">
-            <div class="cell hidden-xs"></div>
-            <div class="cell"><div style="opacity: 0.1">loading ...</div></div>
-            <div class="cell"></div>
-            <div class="cell hidden-xs hidden-sm" *ngIf="!mobile && hasOverview"></div>
-          </div>
-        </ng-container>
-
-        <div *ngFor="let p of playerData.att; let i = index;" class="row_custom {{i>=(mobile?10:(sieges&&sieges.length>0&&ghostsData.length>0?20:15)) && toggleMore ? 'hidden-cell' : '' }}">
-          <!--<div class="cell hidden-xs" *ngIf="i==0"><i class="fa fa-trophy fa-2x" aria-hidden="true" style="padding: 5px; color: #233140;"></i></div>-->
-          <div class="cell hidden-xs" *ngIf="i==0">🏆</div>
-          <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
-          <div class="cell" style="
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;">
-            <img class="player_ico"/>
-            <a class="gd-brown" routerLink="/player" [queryParams]="{world: playerData.world, id: p.i}">{{p.n}}</a>
-            <div class="percentage-bar red" [ngStyle]="{'width': (((p.s/player_att_max)*100)+'%')}"></div>
-          </div>
-          <div *ngIf="hasOverview && p.s > 0" class="cell score-expand hidden-xs" (click)="openPlayerOverview(p.i, p.n)">
-            {{p.s | NumberFilter}}
-          </div>
-          <div class="cell" [ngClass]="{'hidden-sm hidden-md hidden-lg':hasOverview && p.s > 0}">
-            {{p.s | NumberFilter}}
-          </div>
-
-        </div>
-
-        <div *ngFor="let p of searchResults; let i = index;" class="row_custom search_result" [ngClass]="{'search_result_top':i==0}">
-          <div class="cell hidden-xs">{{p.att_rank_scoreboard?p.att_rank_scoreboard:'>50'}}</div>
-          <div class="cell formatted-cell">
-            <img class="player_ico"/>
-            <a class="gd-brown" routerLink="/player" [queryParams]="{world: playerData.world, id: p.id}">{{p.name}}</a>
-            <div class="percentage-bar red" [ngStyle]="{'width': ((((p.att - p.att_old)/player_att_max)*100)+'%')}"></div>
-          </div>
-          <div *ngIf="hasOverview && p.att - p.att_old > 0" class="cell score-expand hidden-xs" (click)="openPlayerOverview(p.id, p.name)">
-            {{p.att - p.att_old | NumberFilter}}
-          </div>
-          <div class="cell" [ngClass]="{'hidden-sm hidden-md hidden-lg':hasOverview && p.att - p.att_old > 0}">
-            {{p.att - p.att_old | NumberFilter}}
-          </div>
-        </div>
-
-      </div>
-
-      <div class="table">
-        <div class="row_banner text-center search_result search_result_top" *ngIf="searching">
-          Searching <mat-spinner style="margin:2px auto;" mode="indeterminate" strokeWidth="2" [diameter]="16"></mat-spinner>
-        </div>
-
-        <div class="row_banner text-center search_result search_result_top" *ngIf="playerInput!=''&&!searching&&!searchInputting">
-          <span *ngIf="playerInput.length>2&&searchResults.length<=0">No results for <span class="gd-primary">{{playerInput}}</span></span>
-          <span *ngIf="playerInput.length<3">Type at least 3 characters</span>
-        </div>
-
-      </div>
-
+    <ol class="m-0 list-none p-0" [ngClass]="{'opacity-50': loadingPlayers}">
+      <ng-container *ngIf="loadingPlayers && !playerData">
+        <li *ngFor="let s of [].constructor(mobile ? 10 : 15); let i = index" aria-hidden="true" class="m-0 grid h-9 grid-cols-[24px_minmax(0,1fr)_56px_72px] items-center gap-2 border-0 border-solid border-slate-100 pl-3 pr-2" [ngClass]="{'border-t': i > 0}">
+          <span class="mx-auto block h-2 w-3 rounded bg-slate-100"></span>
+          <span class="block h-2.5 rounded bg-slate-200" [ngClass]="i % 3 == 0 ? 'w-3/4' : (i % 3 == 1 ? 'w-1/2' : 'w-2/3')"></span>
+          <span class="block h-1.5 rounded-full bg-slate-100"></span>
+          <span class="ml-auto block h-2.5 w-12 rounded bg-slate-200"></span>
+        </li>
+      </ng-container>
+      <li *ngFor="let p of playerData.att; let i = index;" class="m-0 grid h-9 grid-cols-[24px_minmax(0,1fr)_56px_72px] items-center gap-2 border-0 border-solid border-slate-100 pl-3 pr-2 hover:bg-slate-50" [ngClass]="{'[display:none]': i >= (mobile ? 10 : (sieges && sieges.length > 0 && ghostsData.length > 0 ? 20 : 15)) && toggleMore, 'border-t': i > 0}">
+          <span *ngIf="i == 0" title="First place" class="flex size-6 items-center justify-center text-amber-600"><svg appIcon="trophy" class="size-5"></svg><span class="sr-only">1</span></span>
+          <span *ngIf="i > 0" class="block w-6 text-center text-xs tabular-nums text-slate-500">{{i+1}}</span>
+          <a routerLink="/player" [queryParams]="{world: playerData.world, id: p.i}" [title]="p.n" class="block min-w-0 truncate text-sm text-slate-900 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{p.n}}</a>
+          <span aria-hidden="true" class="block h-1.5 overflow-hidden rounded-full bg-slate-100"><span class="block h-1.5 rounded-full bg-[#EB6834]" [style.width.%]="(p.s/player_att_max)*100"></span></span>
+          <span class="text-right">
+            <button *ngIf="hasOverview && p.s > 0" type="button" (click)="openPlayerOverview(p.i, p.n)" [title]="'Show hourly breakdown for ' + p.n" class="rounded-md border-0 bg-transparent px-1.5 py-0.5 text-sm font-medium tabular-nums text-slate-900 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 max-md:[display:none]">{{p.s | NumberFilter}}</button>
+            <span class="px-1.5 text-sm font-medium tabular-nums text-slate-900" [ngClass]="{'md:[display:none]': hasOverview && p.s > 0}">{{p.s | NumberFilter}}</span>
+          </span>
+        </li>
+      <li *ngFor="let p of searchResults; let i = index;" class="m-0 grid h-9 grid-cols-[24px_minmax(0,1fr)_56px_72px] items-center gap-2 border-0 border-solid pl-3 pr-2 bg-brand-50/60" [ngClass]="i == 0 ? 'border-t-2 border-brand-500' : 'border-t border-slate-100'">
+          <span class="block w-6 text-center text-xs tabular-nums text-slate-500">{{p.att_rank_scoreboard ? p.att_rank_scoreboard : '>50'}}</span>
+          <a routerLink="/player" [queryParams]="{world: playerData.world, id: p.id}" [title]="p.name" class="block min-w-0 truncate text-sm text-slate-900 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{p.name}}</a>
+          <span aria-hidden="true" class="block h-1.5 overflow-hidden rounded-full bg-slate-100"><span class="block h-1.5 rounded-full bg-[#EB6834]" [style.width.%]="((p.att - p.att_old)/player_att_max)*100"></span></span>
+          <span class="text-right">
+            <button *ngIf="hasOverview && p.att - p.att_old > 0" type="button" (click)="openPlayerOverview(p.id, p.name)" [title]="'Show hourly breakdown for ' + p.name" class="rounded-md border-0 bg-transparent px-1.5 py-0.5 text-sm font-medium tabular-nums text-slate-900 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 max-md:[display:none]">{{p.att - p.att_old | NumberFilter}}</button>
+            <span class="px-1.5 text-sm font-medium tabular-nums text-slate-900" [ngClass]="{'md:[display:none]': hasOverview && p.att - p.att_old > 0}">{{p.att - p.att_old | NumberFilter}}</span>
+          </span>
+        </li>
+    </ol>
+    <div *ngIf="searching" class="flex items-center justify-center gap-2 border-0 border-t-2 border-solid border-brand-500 px-3 py-2 text-xs text-slate-600"><span aria-hidden="true" class="size-3.5 flex-none animate-spin rounded-full border-2 border-solid border-slate-200 border-t-brand-700"></span>Searching</div>
+    <div *ngIf="playerInput!='' && !searching && !searchInputting && (playerInput.length < 3 || searchResults.length <= 0)" class="border-0 border-t border-solid border-slate-100 px-3 py-2 text-center text-xs text-slate-600">
+      <span *ngIf="playerInput.length>2 && searchResults.length<=0">No results for <span class="font-medium text-slate-900">{{playerInput}}</span></span>
+      <span *ngIf="playerInput.length<3">Type at least 3 characters</span>
     </div>
-    <div class="footer">
-
-      <div class="text-center show-more">
-        <button class="mat-primary mat-hue-1 mat-button mat-ink-ripple" type="button" (click)="toggleMore = !toggleMore">
-                      <span *ngIf="toggleMore" class="ng-scope">
-                        More <span class="fa fa-chevron-down"></span>
-                      </span>
-          <span *ngIf="!toggleMore" class="ng-scope">
-                        Less <span class="fa fa-chevron-up"></span>
-                      </span>
-          <div class="mat-ripple-container" style=""></div>
-        </button>
+    <div class="mt-auto flex items-center gap-2 border-0 border-t border-solid border-slate-200 px-3 py-2.5">
+      <button type="button" (click)="toggleMore = !toggleMore" [attr.aria-expanded]="!toggleMore" class="inline-flex flex-none items-center gap-1 rounded-md border-0 bg-transparent px-2 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{toggleMore ? 'Show more' : 'Show less'}}<svg [appIcon]="toggleMore ? 'chevron-down' : 'chevron-up'" variant="micro" class="size-4 flex-none"></svg></button>
+      <div *ngIf="!mobile && !loadingPlayers && nextUpdate != ''" class="relative min-w-0 flex-1">
+        <svg appIcon="magnifying-glass" variant="micro" class="pointer-events-none absolute left-2 top-1.5 size-4 text-slate-400"></svg>
+        <input [disabled]="searching" #searchPlayerOff id="searchPlayerOff" autocomplete="off" type="text" placeholder="Find player" aria-label="Find player" (keyup)="filterKeyup($event)" class="h-7 w-full min-w-0 rounded-md border-0 bg-white pl-7 pr-7 text-xs font-normal text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700 disabled:opacity-60">
+        <button *ngIf="playerInput != ''" type="button" (click)="clearSearch()" aria-label="Clear search" title="Clear search" class="absolute right-0.5 top-0.5 inline-flex size-6 items-center justify-center rounded border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-700"><svg appIcon="x-mark" variant="micro" class="size-4"></svg></button>
       </div>
-
-      <div class="text-center" *ngIf="!mobile && !loadingPlayers && nextUpdate != ''">
-        <div class="input-wrapper" style="font-size: 18px;">
-          <input [disabled]="searching" #searchPlayerOff id="searchPlayerOff" autocomplete="off"
-                 type="text" placeholder="Search player" (keyup)="filterKeyup($event)"
-                 style="text-align: inherit; width: calc(100% - 1px); max-width: calc(100% - 1px); border: 2px solid #77777778;">
-          <label *ngIf="playerInput != ''" matTooltip="Clear Search" class="fa fa-times input-right" (click)="clearSearch()"></label>
-        </div>
-      </div>
-
-      <button name="open_bb" style="" class="btn btn-secondary btn-xs" (click)="openBBdialog('players_att')">
-        <i class="fa fa-code"></i>&nbsp;BB
-      </button>
+      <button type="button" name="open_bb" (click)="openBBdialog('players_att')" title="Copy as BB code for the forum" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 ml-auto flex-none"><svg appIcon="code-bracket" variant="micro" class="size-3.5 flex-none text-slate-400"></svg>BB</button>
     </div>
-  </div>
+  </section>
 </ng-template>
 
 <ng-template #players_def>
-  <div class="sb-table" [ngClass]="{'loading-overlay':loadingPlayers}">
-    <div class="title txt-sm blue">
-      <div class="icon" matTooltip="This table combines battle points gained as a defender and battle points gained as a supporter. Click on a number to see a detailed hourly breakdown.">
-        <img src="../../assets/images/game/award_def.png"/>
-        <img src="../../assets/images/game/award_sup.png"/>
-      </div>
-      Player Defence Points
-      <mat-progress-bar class="loading-bar" *ngIf="loadingPlayers" mode="indeterminate"></mat-progress-bar>
+  <section aria-labelledby="sb-p-def" class="flex min-w-0 flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+    <div class="relative flex min-h-[56px] items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 py-2.5 pl-5 pr-3">
+      <div class="flex min-w-0 items-center gap-2"><span aria-hidden="true" class="size-2.5 flex-none rounded-[3px] bg-[#2A78D6]"></span><h3 id="sb-p-def" class="m-0 truncate text-base font-semibold text-slate-900">Defence points</h3></div>
+      <button type="button" matTooltip="This table combines battle points gained as a defender and battle points gained as a supporter. Click on a number to see a detailed hourly breakdown." aria-label="This table combines battle points gained as a defender and battle points gained as a supporter. Click on a number to see a detailed hourly breakdown." class="inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="information-circle" class="size-5"></svg></button>
+      <mat-progress-bar *ngIf="loadingPlayers" mode="indeterminate" class="!absolute inset-x-0 bottom-0 !h-0.5"></mat-progress-bar>
     </div>
-    <div class="content">
-
-      <div class="table" id="table_defending_players" style="border-collapse: collapse;">
-
-        <ng-container *ngIf="loadingPlayers && !playerData">
-          <div *ngFor="let p of [].constructor(mobile?10:20); let i = index;" class="row_custom loading_cell">
-            <div class="cell hidden-xs"></div>
-            <div class="cell"><div style="opacity: 0.1">loading ...</div></div>
-            <div class="cell"></div>
-            <div class="cell hidden-xs hidden-sm" *ngIf="!mobile && hasOverview"></div>
-          </div>
-        </ng-container>
-
-        <div *ngFor="let p of playerData.def; let i = index;" class="row_custom {{i>=(mobile?10:(sieges&&sieges.length>0&&ghostsData.length>0?20:15)) && toggleMore ? 'hidden-cell' : '' }}">
-          <div class="cell hidden-xs" *ngIf="i==0">🏆</div>
-          <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
-          <div class="cell formatted-cell">
-            <img class="player_ico"/>
-            <a class="gd-brown" routerLink="/player" [queryParams]="{world: playerData.world, id: p.i}">{{p.n}}</a>
-            <div class="percentage-bar blue" [ngStyle]="{'width': (((p.s/player_def_max)*100)+'%')}"></div>
-          </div>
-          <div *ngIf="hasOverview && p.s > 0" class="cell score-expand hidden-xs" (click)="openPlayerOverview(p.i, p.n)">
-            {{p.s | NumberFilter}}
-          </div>
-          <div class="cell" [ngClass]="{'hidden-sm hidden-md hidden-lg':hasOverview && p.s > 0}">
-            {{p.s | NumberFilter}}
-          </div>
-        </div>
-
-        <div *ngFor="let p of searchResults; let i = index;" class="row_custom search_result" [ngClass]="{'search_result_top':i==0}">
-          <div class="cell hidden-xs">{{p.def_rank_scoreboard?p.def_rank_scoreboard:'>50'}}</div>
-          <div class="cell formatted-cell">
-            <img class="player_ico"/>
-            <a class="gd-brown" routerLink="/player" [queryParams]="{world: playerData.world, id: p.id}">{{p.name}}</a>
-            <div class="percentage-bar blue" [ngStyle]="{'width': ((((p.def - p.def_old)/player_def_max)*100)+'%')}"></div>
-          </div>
-          <div *ngIf="hasOverview && p.def - p.def_old > 0" class="cell score-expand hidden-xs" (click)="openPlayerOverview(p.id, p.name)">
-            {{p.def - p.def_old | NumberFilter}}
-          </div>
-          <div class="cell" [ngClass]="{'hidden-sm hidden-md hidden-lg':hasOverview && p.def - p.def_old > 0}">
-            {{p.def - p.def_old | NumberFilter}}
-          </div>
-        </div>
-
-      </div>
-
-      <div class="table">
-        <div class="row_banner text-center search_result search_result_top" *ngIf="searching">
-          Searching <mat-spinner style="margin:2px auto;" mode="indeterminate" strokeWidth="2" [diameter]="16"></mat-spinner>
-        </div>
-
-        <div class="row_banner text-center search_result search_result_top" *ngIf="playerInput!=''&&!searching&&!searchInputting">
-          <span *ngIf="playerInput.length>2&&searchResults.length<=0">No results for <span class="gd-primary">{{playerInput}}</span></span>
-          <span *ngIf="playerInput.length<3">Type at least 3 characters</span>
-        </div>
-
-
-      </div>
-
+    <ol class="m-0 list-none p-0" [ngClass]="{'opacity-50': loadingPlayers}">
+      <ng-container *ngIf="loadingPlayers && !playerData">
+        <li *ngFor="let s of [].constructor(mobile ? 10 : 15); let i = index" aria-hidden="true" class="m-0 grid h-9 grid-cols-[24px_minmax(0,1fr)_56px_72px] items-center gap-2 border-0 border-solid border-slate-100 pl-3 pr-2" [ngClass]="{'border-t': i > 0}">
+          <span class="mx-auto block h-2 w-3 rounded bg-slate-100"></span>
+          <span class="block h-2.5 rounded bg-slate-200" [ngClass]="i % 3 == 0 ? 'w-3/4' : (i % 3 == 1 ? 'w-1/2' : 'w-2/3')"></span>
+          <span class="block h-1.5 rounded-full bg-slate-100"></span>
+          <span class="ml-auto block h-2.5 w-12 rounded bg-slate-200"></span>
+        </li>
+      </ng-container>
+      <li *ngFor="let p of playerData.def; let i = index;" class="m-0 grid h-9 grid-cols-[24px_minmax(0,1fr)_56px_72px] items-center gap-2 border-0 border-solid border-slate-100 pl-3 pr-2 hover:bg-slate-50" [ngClass]="{'[display:none]': i >= (mobile ? 10 : (sieges && sieges.length > 0 && ghostsData.length > 0 ? 20 : 15)) && toggleMore, 'border-t': i > 0}">
+          <span *ngIf="i == 0" title="First place" class="flex size-6 items-center justify-center text-amber-600"><svg appIcon="trophy" class="size-5"></svg><span class="sr-only">1</span></span>
+          <span *ngIf="i > 0" class="block w-6 text-center text-xs tabular-nums text-slate-500">{{i+1}}</span>
+          <a routerLink="/player" [queryParams]="{world: playerData.world, id: p.i}" [title]="p.n" class="block min-w-0 truncate text-sm text-slate-900 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{p.n}}</a>
+          <span aria-hidden="true" class="block h-1.5 overflow-hidden rounded-full bg-slate-100"><span class="block h-1.5 rounded-full bg-[#2A78D6]" [style.width.%]="(p.s/player_def_max)*100"></span></span>
+          <span class="text-right">
+            <button *ngIf="hasOverview && p.s > 0" type="button" (click)="openPlayerOverview(p.i, p.n)" [title]="'Show hourly breakdown for ' + p.n" class="rounded-md border-0 bg-transparent px-1.5 py-0.5 text-sm font-medium tabular-nums text-slate-900 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 max-md:[display:none]">{{p.s | NumberFilter}}</button>
+            <span class="px-1.5 text-sm font-medium tabular-nums text-slate-900" [ngClass]="{'md:[display:none]': hasOverview && p.s > 0}">{{p.s | NumberFilter}}</span>
+          </span>
+        </li>
+      <li *ngFor="let p of searchResults; let i = index;" class="m-0 grid h-9 grid-cols-[24px_minmax(0,1fr)_56px_72px] items-center gap-2 border-0 border-solid pl-3 pr-2 bg-brand-50/60" [ngClass]="i == 0 ? 'border-t-2 border-brand-500' : 'border-t border-slate-100'">
+          <span class="block w-6 text-center text-xs tabular-nums text-slate-500">{{p.def_rank_scoreboard ? p.def_rank_scoreboard : '>50'}}</span>
+          <a routerLink="/player" [queryParams]="{world: playerData.world, id: p.id}" [title]="p.name" class="block min-w-0 truncate text-sm text-slate-900 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{p.name}}</a>
+          <span aria-hidden="true" class="block h-1.5 overflow-hidden rounded-full bg-slate-100"><span class="block h-1.5 rounded-full bg-[#2A78D6]" [style.width.%]="((p.def - p.def_old)/player_def_max)*100"></span></span>
+          <span class="text-right">
+            <button *ngIf="hasOverview && p.def - p.def_old > 0" type="button" (click)="openPlayerOverview(p.id, p.name)" [title]="'Show hourly breakdown for ' + p.name" class="rounded-md border-0 bg-transparent px-1.5 py-0.5 text-sm font-medium tabular-nums text-slate-900 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 max-md:[display:none]">{{p.def - p.def_old | NumberFilter}}</button>
+            <span class="px-1.5 text-sm font-medium tabular-nums text-slate-900" [ngClass]="{'md:[display:none]': hasOverview && p.def - p.def_old > 0}">{{p.def - p.def_old | NumberFilter}}</span>
+          </span>
+        </li>
+    </ol>
+    <div *ngIf="searching" class="flex items-center justify-center gap-2 border-0 border-t-2 border-solid border-brand-500 px-3 py-2 text-xs text-slate-600"><span aria-hidden="true" class="size-3.5 flex-none animate-spin rounded-full border-2 border-solid border-slate-200 border-t-brand-700"></span>Searching</div>
+    <div *ngIf="playerInput!='' && !searching && !searchInputting && (playerInput.length < 3 || searchResults.length <= 0)" class="border-0 border-t border-solid border-slate-100 px-3 py-2 text-center text-xs text-slate-600">
+      <span *ngIf="playerInput.length>2 && searchResults.length<=0">No results for <span class="font-medium text-slate-900">{{playerInput}}</span></span>
+      <span *ngIf="playerInput.length<3">Type at least 3 characters</span>
     </div>
-    <div class="footer">
-
-      <div class="text-center show-more">
-        <button class="mat-primary mat-hue-1 mat-button mat-ink-ripple" type="button" (click)="toggleMore = !toggleMore">
-                    <span *ngIf="toggleMore" class="ng-scope">
-                      More <span class="fa fa-chevron-down"></span>
-                    </span>
-          <span *ngIf="!toggleMore" class="ng-scope">
-                      Less <span class="fa fa-chevron-up"></span>
-                    </span>
-          <div class="mat-ripple-container" style=""></div>
-        </button>
+    <div class="mt-auto flex items-center gap-2 border-0 border-t border-solid border-slate-200 px-3 py-2.5">
+      <button type="button" (click)="toggleMore = !toggleMore" [attr.aria-expanded]="!toggleMore" class="inline-flex flex-none items-center gap-1 rounded-md border-0 bg-transparent px-2 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{toggleMore ? 'Show more' : 'Show less'}}<svg [appIcon]="toggleMore ? 'chevron-down' : 'chevron-up'" variant="micro" class="size-4 flex-none"></svg></button>
+      <div *ngIf="!mobile && !loadingPlayers && nextUpdate != ''" class="relative min-w-0 flex-1">
+        <svg appIcon="magnifying-glass" variant="micro" class="pointer-events-none absolute left-2 top-1.5 size-4 text-slate-400"></svg>
+        <input [disabled]="searching" #searchPlayerDef id="searchPlayerDef" autocomplete="off" type="text" placeholder="Find player" aria-label="Find player" (keyup)="filterKeyup($event)" class="h-7 w-full min-w-0 rounded-md border-0 bg-white pl-7 pr-7 text-xs font-normal text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700 disabled:opacity-60">
+        <button *ngIf="playerInput != ''" type="button" (click)="clearSearch()" aria-label="Clear search" title="Clear search" class="absolute right-0.5 top-0.5 inline-flex size-6 items-center justify-center rounded border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-700"><svg appIcon="x-mark" variant="micro" class="size-4"></svg></button>
       </div>
-
-      <div class="text-center" *ngIf="!mobile && !loadingPlayers && nextUpdate != ''">
-        <div class="input-wrapper" style="font-size: 18px;">
-          <input [disabled]="searching" #searchPlayerDef id="searchPlayerDef" autocomplete="off"
-                 type="text" placeholder="Search player" (keyup)="filterKeyup($event)"
-                 style="text-align: inherit; width: calc(100% - 1px); max-width: calc(100% - 1px); border: 2px solid #77777778;">
-          <label *ngIf="playerInput != ''" matTooltip="Clear Search" class="fa fa-times input-right" (click)="clearSearch()"></label>
-        </div>
-      </div>
-
-      <button name="open_bb" style="" class="btn btn-secondary btn-xs" (click)="openBBdialog('players_def')">
-        <i class="fa fa-code"></i>&nbsp;BB
-      </button>
+      <button type="button" name="open_bb" (click)="openBBdialog('players_def')" title="Copy as BB code for the forum" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 ml-auto flex-none"><svg appIcon="code-bracket" variant="micro" class="size-3.5 flex-none text-slate-400"></svg>BB</button>
     </div>
-  </div>
+  </section>
 </ng-template>
 
 <ng-template #players_con>
-  <div class="sb-table" [ngClass]="{'loading-overlay':loadingPlayers}">
-    <div class="title txt-sm green">
-      <div class="icon" matTooltip="This table shows the number of conquests. Founded cities are excluded from this table. Click on a number to see a detailed breakdown.">
-        <img src="../../assets/images/game/award_con.png"/>
-      </div>
-      Player Conquests
-      <mat-progress-bar class="loading-bar" *ngIf="loadingPlayers" mode="indeterminate"></mat-progress-bar>
+  <section aria-labelledby="sb-p-con" class="flex min-w-0 flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+    <div class="relative flex min-h-[56px] items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 py-2.5 pl-5 pr-3">
+      <div class="flex min-w-0 items-center gap-2"><span aria-hidden="true" class="size-2.5 flex-none rounded-[3px] bg-[#1BAF7A]"></span><h3 id="sb-p-con" class="m-0 truncate text-base font-semibold text-slate-900">Conquests</h3></div>
+      <button type="button" matTooltip="This table shows the number of conquests. Founded cities are excluded from this table. Click on a number to see a detailed breakdown." aria-label="This table shows the number of conquests. Founded cities are excluded from this table. Click on a number to see a detailed breakdown." class="inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="information-circle" class="size-5"></svg></button>
+      <mat-progress-bar *ngIf="loadingPlayers" mode="indeterminate" class="!absolute inset-x-0 bottom-0 !h-0.5"></mat-progress-bar>
     </div>
-    <div class="content">
-
-      <div class="table" id="table_conquests_players" style="">
-
-        <ng-container *ngIf="loadingPlayers && !playerData">
-          <div *ngFor="let p of [].constructor(mobile?10:20); let i = index;" class="row_custom loading_cell">
-            <div class="cell hidden-xs"></div>
-            <div class="cell"><div style="opacity: 0.1">loading ...</div></div>
-            <div class="cell"></div>
-            <div class="cell hidden-xs hidden-sm" *ngIf="!mobile"></div>
-          </div>
-        </ng-container>
-
-        <div *ngFor="let p of playerData.con; let i = index;" class="row_custom {{i>=conquestVisibleRows && toggleMore ? 'hidden-cell' : '' }}">
-          <div class="cell hidden-xs" *ngIf="i==0">🏆</div>
-          <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
-          <div class="cell formatted-cell">
-            <img class="player_ico"/>
-            <a class="gd-brown" routerLink="/player" [queryParams]="{world: playerData.world, id: p.i}">{{p.n}}</a>
-          </div>
-          <div *ngIf="p.s > 0 && !mobile" class="cell score-expand" (click)="showConquests('player', p.i, p.n)">
-            {{p.s}}
-          </div>
-          <div *ngIf="p.s <= 0 || mobile" class="cell">{{p.s}}</div>
-        </div>
-
-      </div>
-
-    </div>
-    <div class="footer">
-      <div class="text-center show-more">
-        <button class="mat-primary mat-hue-1 mat-button mat-ink-ripple" type="button" (click)="toggleMore = !toggleMore">
-          <span *ngIf="toggleMore" class="ng-scope">
-            More <span class="fa fa-chevron-down"></span>
+    <ol class="m-0 list-none p-0" [ngClass]="{'opacity-50': loadingPlayers}">
+      <ng-container *ngIf="loadingPlayers && !playerData">
+        <li *ngFor="let s of [].constructor(mobile ? 10 : 15); let i = index" aria-hidden="true" class="m-0 grid h-9 grid-cols-[24px_minmax(0,1fr)_56px_72px] items-center gap-2 border-0 border-solid border-slate-100 pl-3 pr-2" [ngClass]="{'border-t': i > 0}">
+          <span class="mx-auto block h-2 w-3 rounded bg-slate-100"></span>
+          <span class="block h-2.5 rounded bg-slate-200" [ngClass]="i % 3 == 0 ? 'w-3/4' : (i % 3 == 1 ? 'w-1/2' : 'w-2/3')"></span>
+          <span class="block h-1.5 rounded-full bg-slate-100"></span>
+          <span class="ml-auto block h-2.5 w-12 rounded bg-slate-200"></span>
+        </li>
+      </ng-container>
+      <li *ngFor="let p of playerData.con; let i = index;" class="m-0 grid h-9 grid-cols-[24px_minmax(0,1fr)_56px_72px] items-center gap-2 border-0 border-solid border-slate-100 pl-3 pr-2 hover:bg-slate-50" [ngClass]="{'[display:none]': i >= (mobile ? 10 : (sieges && sieges.length > 0 && ghostsData.length > 0 ? 20 : 15)) && toggleMore, 'border-t': i > 0}">
+          <span *ngIf="i == 0" title="First place" class="flex size-6 items-center justify-center text-amber-600"><svg appIcon="trophy" class="size-5"></svg><span class="sr-only">1</span></span>
+          <span *ngIf="i > 0" class="block w-6 text-center text-xs tabular-nums text-slate-500">{{i+1}}</span>
+          <a routerLink="/player" [queryParams]="{world: playerData.world, id: p.i}" [title]="p.n" class="block min-w-0 truncate text-sm text-slate-900 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{p.n}}</a>
+          <span aria-hidden="true" class="block h-1.5 overflow-hidden rounded-full bg-slate-100"><span class="block h-1.5 rounded-full bg-[#1BAF7A]" [style.width.%]="(p.s/playerData.con[0].s)*100"></span></span>
+          <span class="text-right">
+            <button *ngIf="p.s > 0 && !mobile" type="button" (click)="showConquests('player', p.i, p.n)" [title]="'Show conquests of ' + p.n" class="rounded-md border-0 bg-transparent px-1.5 py-0.5 text-sm font-medium tabular-nums text-slate-900 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{p.s}}</button>
+            <span *ngIf="p.s <= 0 || mobile" class="px-1.5 text-sm font-medium tabular-nums text-slate-900">{{p.s}}</span>
           </span>
-          <span *ngIf="!toggleMore" class="ng-scope">
-            Less <span class="fa fa-chevron-up"></span>
-          </span>
-          <div class="mat-ripple-container" style=""></div>
-        </button>
-      </div>
+        </li>
 
-      <button name="open_bb" style="" class="btn btn-secondary btn-xs" (click)="openBBdialog('players_con')">
-        <i class="fa fa-code"></i>&nbsp;BB
-      </button>
+    </ol>
+
+    <div class="mt-auto flex items-center gap-2 border-0 border-t border-solid border-slate-200 px-3 py-2.5">
+      <button type="button" (click)="toggleMore = !toggleMore" [attr.aria-expanded]="!toggleMore" class="inline-flex flex-none items-center gap-1 rounded-md border-0 bg-transparent px-2 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{toggleMore ? 'Show more' : 'Show less'}}<svg [appIcon]="toggleMore ? 'chevron-down' : 'chevron-up'" variant="micro" class="size-4 flex-none"></svg></button>
+      <button type="button" name="open_bb" (click)="openBBdialog('players_con')" title="Copy as BB code for the forum" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 ml-auto flex-none"><svg appIcon="code-bracket" variant="micro" class="size-3.5 flex-none text-slate-400"></svg>BB</button>
     </div>
-  </div>
+  </section>
 </ng-template>
 
 <ng-template #players_los>
-  <div class="sb-table" [ngClass]="{'loading-overlay':loadingPlayers}">
-    <div class="title txt-sm black">
-      <div class="icon" matTooltip="This table shows how many towns were lost by the player. Click on a number to see a detailed breakdown.">
-        <img src="../../assets/images/game/award_los.png"/>
-      </div>
-      Player Lost Cities
-      <mat-progress-bar class="loading-bar" *ngIf="loadingPlayers" mode="indeterminate"></mat-progress-bar>
+  <section aria-labelledby="sb-p-los" class="flex min-w-0 flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+    <div class="relative flex min-h-[56px] items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 py-2.5 pl-5 pr-3">
+      <div class="flex min-w-0 items-center gap-2"><span aria-hidden="true" class="size-2.5 flex-none rounded-[3px] bg-[#94A3B8]"></span><h3 id="sb-p-los" class="m-0 truncate text-base font-semibold text-slate-900">Lost cities</h3></div>
+      <button type="button" matTooltip="This table shows how many towns were lost by the player. Click on a number to see a detailed breakdown." aria-label="This table shows how many towns were lost by the player. Click on a number to see a detailed breakdown." class="inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="information-circle" class="size-5"></svg></button>
+      <mat-progress-bar *ngIf="loadingPlayers" mode="indeterminate" class="!absolute inset-x-0 bottom-0 !h-0.5"></mat-progress-bar>
     </div>
-    <div class="content">
-
-      <div class="table" id="table_losses_players" style="">
-
-        <ng-container *ngIf="loadingPlayers && !playerData">
-          <div *ngFor="let p of [].constructor(mobile?10:20); let i = index;" class="row_custom loading_cell">
-            <div class="cell hidden-xs"></div>
-            <div class="cell"><div style="opacity: 0.1">loading ...</div></div>
-            <div class="cell"></div>
-            <div class="cell hidden-xs hidden-sm" *ngIf="!mobile"></div>
-          </div>
-        </ng-container>
-
-        <div *ngFor="let p of playerData.los; let i = index;" class="row_custom {{i>=conquestVisibleRows && toggleMore ? 'hidden-cell' : '' }}">
-          <div class="cell hidden-xs" *ngIf="i==0">🚫</div>
-          <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
-          <div class="cell formatted-cell">
-            <img class="player_ico"/>
-            <a class="gd-brown" routerLink="/player" [queryParams]="{world: playerData.world, id: p.i}">{{p.n}}</a>
-          </div>
-          <div *ngIf="p.s > 0 && !mobile" class="cell score-expand" (click)="showConquests('player', p.i, p.n)">
-            -{{p.s}}
-          </div>
-          <div *ngIf="p.s <= 0 || mobile" class="cell">-{{p.s}}</div>
-        </div>
-
-      </div>
-
-    </div>
-    <div class="footer">
-      <div class="text-center show-more">
-        <button class="mat-primary mat-hue-1 mat-button mat-ink-ripple" type="button" (click)="toggleMore = !toggleMore">
-          <span *ngIf="toggleMore" class="ng-scope">
-            More <span class="fa fa-chevron-down"></span>
+    <ol class="m-0 list-none p-0" [ngClass]="{'opacity-50': loadingPlayers}">
+      <ng-container *ngIf="loadingPlayers && !playerData">
+        <li *ngFor="let s of [].constructor(mobile ? 10 : 15); let i = index" aria-hidden="true" class="m-0 grid h-9 grid-cols-[24px_minmax(0,1fr)_56px_72px] items-center gap-2 border-0 border-solid border-slate-100 pl-3 pr-2" [ngClass]="{'border-t': i > 0}">
+          <span class="mx-auto block h-2 w-3 rounded bg-slate-100"></span>
+          <span class="block h-2.5 rounded bg-slate-200" [ngClass]="i % 3 == 0 ? 'w-3/4' : (i % 3 == 1 ? 'w-1/2' : 'w-2/3')"></span>
+          <span class="block h-1.5 rounded-full bg-slate-100"></span>
+          <span class="ml-auto block h-2.5 w-12 rounded bg-slate-200"></span>
+        </li>
+      </ng-container>
+      <li *ngFor="let p of playerData.los; let i = index;" class="m-0 grid h-9 grid-cols-[24px_minmax(0,1fr)_56px_72px] items-center gap-2 border-0 border-solid border-slate-100 pl-3 pr-2 hover:bg-slate-50" [ngClass]="{'[display:none]': i >= (mobile ? 10 : (sieges && sieges.length > 0 && ghostsData.length > 0 ? 20 : 15)) && toggleMore, 'border-t': i > 0}">
+          <span class="block w-6 text-center text-xs tabular-nums text-slate-500">{{i+1}}</span>
+          <a routerLink="/player" [queryParams]="{world: playerData.world, id: p.i}" [title]="p.n" class="block min-w-0 truncate text-sm text-slate-900 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{p.n}}</a>
+          <span aria-hidden="true" class="block h-1.5 overflow-hidden rounded-full bg-slate-100"><span class="block h-1.5 rounded-full bg-[#94A3B8]" [style.width.%]="(p.s/playerData.los[0].s)*100"></span></span>
+          <span class="text-right">
+            <button *ngIf="p.s > 0 && !mobile" type="button" (click)="showConquests('player', p.i, p.n)" [title]="'Show conquests of ' + p.n" class="rounded-md border-0 bg-transparent px-1.5 py-0.5 text-sm font-medium tabular-nums text-slate-900 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">&minus;{{p.s}}</button>
+            <span *ngIf="p.s <= 0 || mobile" class="px-1.5 text-sm font-medium tabular-nums text-slate-900">&minus;{{p.s}}</span>
           </span>
-          <span *ngIf="!toggleMore" class="ng-scope">
-            Less <span class="fa fa-chevron-up"></span>
-          </span>
-          <div class="mat-ripple-container" style=""></div>
-        </button>
-      </div>
+        </li>
 
-      <button name="open_bb" style="" class="btn btn-secondary btn-xs" (click)="openBBdialog('players_los')">
-        <i class="fa fa-code"></i>&nbsp;BB
-      </button>
+    </ol>
+
+    <div class="mt-auto flex items-center gap-2 border-0 border-t border-solid border-slate-200 px-3 py-2.5">
+      <button type="button" (click)="toggleMore = !toggleMore" [attr.aria-expanded]="!toggleMore" class="inline-flex flex-none items-center gap-1 rounded-md border-0 bg-transparent px-2 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{toggleMore ? 'Show more' : 'Show less'}}<svg [appIcon]="toggleMore ? 'chevron-down' : 'chevron-up'" variant="micro" class="size-4 flex-none"></svg></button>
+      <button type="button" name="open_bb" (click)="openBBdialog('players_los')" title="Copy as BB code for the forum" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 ml-auto flex-none"><svg appIcon="code-bracket" variant="micro" class="size-3.5 flex-none text-slate-400"></svg>BB</button>
     </div>
-  </div>
+  </section>
 </ng-template>
 
 <ng-template #alliances_att>

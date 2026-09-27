@@ -77,9 +77,9 @@ export class IconDirective implements OnChanges, OnDestroy {
             }
         });
 
-        while (svg.firstChild) {
-            this.renderer.removeChild(svg, svg.firstChild);
-        }
+        Array.from(svg.childNodes).forEach((node) => {
+            this.renderer.removeChild(svg, node);
+        });
         Array.from(source.childNodes).forEach((node) => {
             this.renderer.appendChild(svg, svg.ownerDocument.importNode(node, true));
         });

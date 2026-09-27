@@ -29,7 +29,7 @@
       <div>
         <label class="mb-1.5 block text-sm font-medium text-slate-900">Server</label>
         <div class="relative">
-          <mat-select aria-label="Server" placeholder="Server" [ngModel]="server" (ngModelChange)="updateWorlds($event)" [disabled]="building" #select class="flex h-10 w-full items-center rounded-md border border-solid border-slate-300 bg-white pl-3 pr-9 text-sm shadow-sm focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700 [&.mat-select-disabled]:bg-slate-50 [&_.mat-select-arrow-wrapper]:hidden [&_.mat-select-trigger]:w-full">
+          <mat-select aria-label="Server" placeholder="Server" [ngModel]="server" (ngModelChange)="updateWorlds($event)" [disabled]="building" #select class="h-10 w-full rounded-md border border-solid border-slate-300 bg-white text-sm shadow-sm focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700 [&.mat-select-disabled]:bg-slate-50 [&_.mat-select-arrow-wrapper]:hidden [&_.mat-select-trigger]:flex [&_.mat-select-trigger]:h-full [&_.mat-select-trigger]:w-full [&_.mat-select-trigger]:items-center [&_.mat-select-trigger]:pl-3 [&_.mat-select-trigger]:pr-9 [&_.mat-select-value]:min-w-0 [&_.mat-select-value]:max-w-none">
             <mat-select-trigger>
               <span class="inline-flex items-center gap-2 [&_.bg-flag]:[zoom:0.625]"><span class="bg-flag flag-inline-middle flag-{{server}}"></span>{{server}}</span>
             </mat-select-trigger>
@@ -43,7 +43,7 @@
       <div>
         <label class="mb-1.5 block text-sm font-medium text-slate-900">World</label>
         <div class="relative">
-          <mat-select aria-label="World" placeholder="Select a world" [ngModel]="world" required (ngModelChange)="world = $event" [disabled]="building" class="flex h-10 w-full items-center rounded-md border border-solid border-slate-300 bg-white pl-3 pr-9 text-sm shadow-sm focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700 [&.mat-select-disabled]:bg-slate-50 [&_.mat-select-arrow-wrapper]:hidden [&_.mat-select-trigger]:w-full">
+          <mat-select aria-label="World" placeholder="Select a world" [ngModel]="world" required (ngModelChange)="world = $event" [disabled]="building" class="h-10 w-full rounded-md border border-solid border-slate-300 bg-white text-sm shadow-sm focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700 [&.mat-select-disabled]:bg-slate-50 [&_.mat-select-arrow-wrapper]:hidden [&_.mat-select-trigger]:flex [&_.mat-select-trigger]:h-full [&_.mat-select-trigger]:w-full [&_.mat-select-trigger]:items-center [&_.mat-select-trigger]:pl-3 [&_.mat-select-trigger]:pr-9 [&_.mat-select-value]:min-w-0 [&_.mat-select-value]:max-w-none">
             <mat-option *ngFor="let w of worlds" value="{{w.id}}">{{w.id}} ({{w.name}})</mat-option>
           </mat-select>
           <svg appIcon="chevron-up-down" variant="mini" class="pointer-events-none absolute right-3 top-3 size-4 text-slate-400"></svg>

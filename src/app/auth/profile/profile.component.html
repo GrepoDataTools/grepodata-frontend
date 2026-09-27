@@ -1,21 +1,24 @@
 <app-index-version *ngIf="active_tab !== 'script'"></app-index-version>
 
-<mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 0 : 0">
-	<div class="text-center" *ngIf="!logged_in">
-		<div class="align-middle" style="position: relative; top: 250px; left: 25%; width: 50%;">
-			<h3 class="gd-primary"><strong>Logging in...</strong></h3>
-			<mat-progress-bar mode="indeterminate"></mat-progress-bar>
-		</div>
-	</div>
-  <mat-sidenav #snav id="snav" class="dark-sidebar pl-xs" [mode]="mobileQuery.matches ? 'side' : 'over'" fixedTopGap="0" [opened]="mobileQuery.matches" [disableClose]="mobileQuery.matches"  >
+<mat-sidenav-container class="sidenav-container !bg-slate-50 text-left font-normal" [style.marginTop.px]="mobileQuery.matches ? 0 : 0">
+  <div *ngIf="!logged_in" class="flex justify-center px-4 pt-[180px] max-sm:pt-24">
+    <section role="status" class="flex w-[400px] max-w-full flex-col items-center rounded-xl bg-white p-8 text-center shadow-sm ring-1 ring-slate-900/[.08]">
+      <span aria-hidden="true" class="flex size-12 items-center justify-center rounded-full bg-brand-50 text-brand-700">
+        <svg appIcon="lock-closed" class="size-6"></svg>
+      </span>
+      <h1 class="mb-0 mt-4 text-lg font-semibold text-slate-900">Signing you in...</h1>
+      <mat-progress-bar mode="indeterminate" class="mt-5 w-full rounded-full"></mat-progress-bar>
+    </section>
+  </div>
+  <mat-sidenav #snav class="!border-slate-200 !bg-white" [mode]="mobileQuery.matches ? 'side' : 'over'" fixedTopGap="0" [opened]="mobileQuery.matches" [disableClose]="mobileQuery.matches"  >
     <app-sidebar [username]="username"></app-sidebar>
   </mat-sidenav>
-	<div class="profile-container" *ngIf="logged_in">
+  <div *ngIf="logged_in" class="flex min-h-full flex-col">
 
-    <div class="profile-page">
+    <div class="flex-1">
       <div class="page-wrapper"></div>
 
-      <div *ngIf="!account_confirmed" style="">
+      <div *ngIf="!account_confirmed">
         <app-confirm></app-confirm>
       </div>
 
@@ -90,37 +93,15 @@
         </mat-card>
       </span>
 
-      <div class="footer-push"></div>
     </div>
 
-    <div class="profile-footer">
-      <div class="text-center footer-content">
-        <div class="footer-below">
-          <div>
-            <div class="row">
-              <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 disclaimer">
-                <!--<strong>Copyright notices: </strong>&nbsp;-->
-                Grepolis is a browser game by InnoGames GmbH. This is an unofficial 3rd party site
-                <br/>
-                Gameplay images related to Grepolis are copyright of InnoGames GmbH.
-              </div>
-              <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 disclaimer">
-                Copyright &copy; Grepodata {{date| date:'yyyy'}}
-                <br/>
-                <a class="a-link-dialog" (click)="showDisclaimerDialog()">Disclaimer</a>
-                &nbsp; | &nbsp;
-                <a class="a-link-dialog" routerLink="/privacy">Privacy</a>
-                &nbsp; | &nbsp;
-                <a class="a-link-dialog" routerLink="/analytics">Statistics</a>
-              </div>
-
-
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
+    <footer class="flex justify-between gap-6 border-0 border-t border-solid border-slate-200 bg-white px-6 py-5 text-xs text-slate-500 max-sm:flex-col max-sm:gap-3 max-sm:px-4">
+      <p class="m-0">Grepolis is a browser game by InnoGames GmbH. This is an unofficial 3rd party site.<br/>Gameplay images related to Grepolis are copyright of InnoGames GmbH.</p>
+      <p class="m-0 sm:text-right">
+        Copyright &copy; GrepoData {{date| date:'yyyy'}}
+        <br/>
+        <button type="button" (click)="showDisclaimerDialog()" class="border-0 bg-transparent p-0 text-xs font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Disclaimer</button><span aria-hidden="true" class="text-slate-300">&nbsp;·&nbsp;</span><a routerLink="/privacy" class="font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Privacy</a><span aria-hidden="true" class="text-slate-300">&nbsp;·&nbsp;</span><a routerLink="/analytics" class="font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Statistics</a>
+      </p>
+    </footer>
   </div>
 </mat-sidenav-container>
-

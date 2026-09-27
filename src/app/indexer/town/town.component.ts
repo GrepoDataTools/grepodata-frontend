@@ -149,6 +149,10 @@ export class IndexTownComponent implements AfterViewInit, OnDestroy, OnInit {
     return this.build.filter(building => this.treeBuildings.indexOf(building.name) < 0);
   }
 
+  sharedCount(town): number {
+    return (town.shared_via_indexes || '').split(', ').length;
+  }
+
   showTabs(): boolean {
     return this.err == '' && !this.noIntel && !this.loading;
   }

@@ -1,4 +1,4 @@
-<section *ngIf="!hide_search" aria-label="Search" (click)="cdr.detectChanges()" class="rounded-xl bg-white ring-1 ring-slate-900/[.08] text-left font-normal text-slate-900 min-[1200px]:sticky min-[1200px]:top-[68px] min-[1200px]:z-[999]" [ngClass]="homepage ? 'p-5 shadow-lg max-sm:p-3' : 'p-4 shadow-sm max-sm:p-3'">
+<section *ngIf="!hide_search" aria-label="Search" (click)="cdr.detectChanges()" class="text-left font-normal text-slate-900" [ngClass]="homepage ? 'p-6 max-sm:p-3' : 'rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-900/[.08] max-sm:p-3 min-[1200px]:sticky min-[1200px]:top-16 min-[1200px]:z-[999]'">
   <div class="grid grid-cols-2 gap-6 max-sm:grid-cols-1 max-sm:gap-3">
     <div *ngIf="!(mobile && searching_alliances)">
       <form class="relative m-0 flex overflow-hidden border border-solid border-slate-300 bg-white shadow-sm focus-within:border-brand-700 focus-within:ring-1 focus-within:ring-brand-700" [ngClass]="homepage ? 'h-12 rounded-lg' : 'h-9 rounded-md'">
@@ -28,7 +28,7 @@
 </section>
 
 <ng-container *ngIf="!hide_search && (searching_players || searching_alliances)">
-<div (click)="cdr.detectChanges()" class="text-left font-normal text-slate-900">
+<div (click)="cdr.detectChanges()" class="text-left font-normal text-slate-900" [ngClass]="{'px-6 pb-6 max-sm:px-3 max-sm:pb-3 [&>section]:mt-0': homepage}">
 
 <section *ngIf="!mobile && searching_players && loading && !(num_results > 0)" aria-busy="true" aria-label="Player search results" class="mt-6 overflow-hidden rounded-xl bg-white ring-1 ring-slate-900/[.08]" [ngClass]="homepage ? 'shadow-none' : 'shadow-sm'">
   <div class="flex items-center justify-between gap-4 border-0 border-b border-solid border-slate-200 px-5 py-3.5">

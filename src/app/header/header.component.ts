@@ -129,7 +129,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 @Component({
   selector: 'contact-dialog',
   templateUrl: 'contact-dialog.html',
-  styleUrls: ['./contact.scss'],
   providers: [MessageService, CaptchaService, RecaptchaComponent]
 })
 export class ContactDialog {

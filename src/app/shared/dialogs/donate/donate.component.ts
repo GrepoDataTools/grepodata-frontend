@@ -5,8 +5,7 @@ import {GoogleAnalyticsEventsService} from "../../../services/google-analytics-e
 
 @Component({
   selector: 'app-donate-dialog',
-  templateUrl: './donate.component.html',
-  styleUrls: ['./donate.component.scss']
+  templateUrl: './donate.component.html'
 })
 export class DonateDialog {
 

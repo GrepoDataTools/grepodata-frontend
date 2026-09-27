@@ -16,7 +16,6 @@ import { PageEvent } from '@angular/material/paginator';
 @Component({
     selector: 'app-conquest',
     templateUrl: './conquest.component.html',
-    styleUrls: ['./conquest.component.scss'],
     providers: [ConquestService],
 })
 export class ConquestComponent implements AfterViewInit, OnChanges {

@@ -109,12 +109,12 @@ export class AppComponent {
     _window().cookieconsent.initialise({
       'palette': {
         'popup': {
-          'background': '#2e3c4b',
-          'text': '#d6d6d6'
+          'background': '#2C3E50',
+          'text': '#E2E8F0'
         },
         'button': {
           'background': '#18BC9C',
-          'text': '#2e3c4b'
+          'text': '#0F172A'
         }
       },
       'position': 'bottom-right'
@@ -125,11 +125,11 @@ export class AppComponent {
     this.cookieConsent();
 
     addBackToTop({
-      diameter: 56,
-      backgroundColor: '#304356',
+      diameter: 44,
+      backgroundColor: '#2C3E50',
       textColor: '#18BC9C',
       // scrollContainer: document.getElementById('content'),
-      // innerHTML: '<svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path></svg>',
+      innerHTML: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="fill: none"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18"></path></svg>',
       onClickScrollTo: 0, // px
       scrollDuration: 100, // ms
       showWhenScrollTopIs: 200, // px

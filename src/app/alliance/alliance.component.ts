@@ -13,7 +13,6 @@ import {DonateDialog} from '../shared/dialogs/donate/donate.component';
 @Component({
     selector: 'app-alliance',
     templateUrl: './alliance.component.html',
-    styleUrls: ['./alliance.component.scss'],
     providers: [AllianceService, WorldService],
 })
 export class AllianceComponent implements AfterViewInit {

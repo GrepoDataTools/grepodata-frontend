@@ -436,7 +436,8 @@ export class PlayerComponent implements OnInit {
         data: {
           id: this.id,
           name: this.playerName,
-          world: this.world
+          world: this.world,
+          worldName: this.worldName
         }
       });
 
@@ -458,20 +459,24 @@ export class TownDialog {
 
   name: string;
   world: string;
+  worldName: string;
   player_id: string;
   townData: any;
   loading: boolean = true;
   bbMode: boolean = true;
   generated_at : any;
   copied = false;
+  tab = 0;
 
   constructor(
     private globals: Globals,
     private playerService: PlayerService,
     public dialogRef: MatDialogRef<TownDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
+    dialogRef.addPanelClass('team-dialog');
     this.name = data.name;
     this.world = data.world;
+    this.worldName = data.worldName;
     this.player_id = data.id;
     this.playerService.getTowns(data.world, data.id)
       .subscribe(

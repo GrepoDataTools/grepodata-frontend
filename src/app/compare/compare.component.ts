@@ -83,6 +83,7 @@ export class CompareComponent implements OnInit {
   allianceWorld = '';
 
   math = Math;
+  palette = ['#2A78D6', '#EB6834', '#1BAF7A', '#EDA100', '#E87BA4', '#008300', '#4A3AA7', '#E34948'];
 
   public showSearch$: any = new Subject();
 
@@ -126,6 +127,13 @@ export class CompareComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  get listCount() {
+    let count = 0;
+    Object.keys(this.comparedPlayers).forEach(world => count += this.comparedPlayers[world].length);
+    Object.keys(this.comparedAlliances).forEach(world => count += this.comparedAlliances[world].length);
+    return count;
   }
 
   loadWorlds(doCompare) {

@@ -9,7 +9,6 @@ import {BBDialog} from '../utils';
 @Component({
   selector: 'intel-table',
   templateUrl: './table.component.html',
-  styleUrls: ['./table.component.scss'],
   providers: [IndexerService]
 })
 export class TableComponent implements OnInit, AfterViewInit {

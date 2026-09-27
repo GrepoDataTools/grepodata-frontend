@@ -12,7 +12,6 @@ import {Subscription} from 'rxjs';
 @Component({
   selector: 'app-index-alliance',
   templateUrl: './alliance.component.html',
-  styleUrls: ['./alliance.component.scss'],
   providers: [AllianceService, IndexerService, WorldService]
 })
 export class IndexAllianceComponent implements AfterViewInit, OnDestroy {

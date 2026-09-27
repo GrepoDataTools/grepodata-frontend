@@ -14,7 +14,6 @@ import {Globals} from '../../globals';
 @Component({
   selector: 'app-index-player',
   templateUrl: './player.component.html',
-  styleUrls: ['./player.component.scss'],
   providers: [PlayerService, IndexerService, WorldService, LocalCacheService]
 })
 export class IndexPlayerComponent implements AfterViewInit, OnDestroy, OnInit {

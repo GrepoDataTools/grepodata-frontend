@@ -2,9 +2,6 @@
   margin-bottom: 5px;
   padding: 0 5px 0 5px;
 }
-.ngx-chart-container {
-  height: 320px;
-}
 
 .loading-overlay {
   opacity: 0.2;
@@ -13,12 +10,6 @@
 
 mat-card-title {
   margin-bottom: 0px !important;
-}
-
-.history-chart {
-  height: unset !important;
-  overflow-x: hidden !important;
-  overflow-y: hidden !important;
 }
 
 .heatmap-container {
@@ -42,11 +33,6 @@ mat-card-title {
   padding-left: 5px !important;
 }
 
-@media (max-width:400px) {
-  ngx-charts-legend {
-    display: none !important;
-  }
-}
 @media (max-width:600px) {
   .player-cards {
     margin-bottom: 5px;

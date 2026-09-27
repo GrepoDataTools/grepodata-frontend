@@ -113,6 +113,10 @@ export class PlayerComponent implements OnInit {
   playerAllianceChanges = [];
   playerHistoryData = [];
   playerHistoryChart = [];
+  historyPoints = [];
+  historyBattle = [];
+  historyHover: number = null;
+  historyColor = (name: string) => (name === 'Attack points' ? '#EB6834' : name === 'Defence points' ? '#2A78D6' : '#1BAF7A');
   ghost_town_data: any[] = [];
   playerName = '';
   points = '';
@@ -405,6 +409,9 @@ export class PlayerComponent implements OnInit {
         'series': chartSeriesDef,
       },
     ];
+
+    this.historyPoints = this.playerHistoryChart.slice(0, 1);
+    this.historyBattle = this.playerHistoryChart.slice(1);
 
     this.data_default = this.playerHistoryChart;
     this.data_default = [...this.data_default];

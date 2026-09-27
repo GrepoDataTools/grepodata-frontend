@@ -166,50 +166,42 @@
             Ghost towns
           </button>
         </div>
+        <div *ngIf="tabsIndex == 0 && !loadingHistory && playerHistoryJson.length >= 30" class="flex flex-none items-center pb-1 max-lg:[display:none]">
+          <ng-container *ngTemplateOutlet="historyRange"></ng-container>
+        </div>
       </div>
-      <div *ngIf="tabsIndex == 0" role="tabpanel" class="p-5 max-sm:p-4">
-              <br/>
-              <mat-card-title>
-                <div fxLayout="row">
-                  <h4 style='font-weight: 300; color: #304357;'><span class='world-title' style='color: #18BC9C;'>Player history</span></h4>
-                  <mat-spinner style="margin-left: 30px;" *ngIf="loadingHistory" strokeWidth="3" [diameter]="30"></mat-spinner>
-                </div>
-              </mat-card-title>
-              <mat-card-content style="overflow: hidden !important;">
-                <div *ngIf="historyError" class="alert alert-warning text-center alert-gd-1">
-                  <h3>Unable to load history. Try again later.</h3>
-                </div>
-                <div *ngIf="!firstRun && !historyError" class="ngx-chart-container" [ngClass]="{'loading-overlay': loadingHistory}">
-                  <ngx-charts-line-chart
-                          *ngIf="bShowHistoryChart"
-                          [scheme]="colorScheme"
-                          [results]="data_default"
-                          [gradient]="gradient"
-                          [xAxis]="showXAxis"
-                          [yAxis]="showYAxis"
-                          [legend]="showLegend"
-                          [animations]="animations"
-                          [showXAxisLabel]="showXAxisLabel"
-                          [showYAxisLabel]="showYAxisLabel"
-                          [xAxisLabel]="xAxisLabel"
-                          [yAxisLabel]="yAxisLabel"
-                          [autoScale]="autoScale"
-                          (select)="onSelect($event)">
-                  </ngx-charts-line-chart>
-                </div>
-                <br/>
-                <div *ngIf="!loadingHistory" fxLayout="row" fxLayoutAlign="space-evenly center">
-                  <div>
-                    <mat-chip-list>
-                      <mat-chip *ngIf="playerHistoryJson.length >= 30" [selected]="dayRange==='30'" (click)="selectDayRange('30')">last 30 days</mat-chip>
-                      <mat-chip *ngIf="playerHistoryJson.length > 30" [selected]="dayRange==='90'" (click)="selectDayRange('90')">last 90 days</mat-chip>
-                      <mat-chip *ngIf="playerHistoryJson.length > 90" [selected]="dayRange==='all'" (click)="selectDayRange('all')">All time</mat-chip>
-                    </mat-chip-list>
-                  </div>
-
-                </div>
-              </mat-card-content>
-
+      <div *ngIf="tabsIndex == 0" role="tabpanel">
+        <div *ngIf="!loadingHistory && playerHistoryJson.length >= 30" class="flex justify-end border-0 border-b border-solid border-slate-100 px-5 py-3 max-sm:px-4 lg:[display:none]">
+          <ng-container *ngTemplateOutlet="historyRange"></ng-container>
+        </div>
+        <div *ngIf="historyError" class="flex flex-col items-center px-6 py-10 text-center">
+          <span aria-hidden="true" class="flex size-12 items-center justify-center rounded-full bg-amber-50 text-amber-600">
+            <svg appIcon="exclamation-triangle" class="size-6"></svg>
+          </span>
+          <h3 class="mb-0 mt-3 text-base font-semibold text-slate-900">Unable to load history</h3>
+          <p class="mb-0 mt-1 text-sm text-slate-600">Try again later.</p>
+        </div>
+        <div *ngIf="firstRun && !historyError" class="flex h-72 items-center justify-center gap-2 text-sm text-slate-500">
+          <span aria-hidden="true" class="size-4 flex-none animate-spin rounded-full border-2 border-solid border-slate-200 border-t-brand-700"></span>Loading history…
+        </div>
+        <div *ngIf="!firstRun && !historyError" class="grid lg:grid-cols-2" [ngClass]="{'pointer-events-none opacity-20': loadingHistory}">
+          <div class="min-w-0 p-5 max-sm:p-4">
+            <div class="mb-2.5 flex min-h-5 items-center justify-between gap-3">
+              <h3 class="m-0 text-sm font-semibold text-slate-900">Points</h3>
+            </div>
+            <app-line-chart [results]="historyPoints" [extra]="historyBattle" [color]="historyColor" [(hoverTime)]="historyHover" label="Points per day"></app-line-chart>
+          </div>
+          <div class="min-w-0 border-0 border-t border-solid border-slate-100 p-5 max-sm:p-4 lg:border-l lg:border-t-0">
+            <div class="mb-2.5 flex min-h-5 flex-wrap items-center justify-between gap-x-4 gap-y-1.5">
+              <h3 class="m-0 text-sm font-semibold text-slate-900">Battle points</h3>
+              <div class="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-slate-600">
+                <span class="inline-flex items-center gap-1.5 whitespace-nowrap"><span aria-hidden="true" class="h-[3px] w-3.5 flex-none rounded-sm bg-[#EB6834]"></span>Attack points</span>
+                <span class="inline-flex items-center gap-1.5 whitespace-nowrap"><span aria-hidden="true" class="h-[3px] w-3.5 flex-none rounded-sm bg-[#2A78D6]"></span>Defence points</span>
+              </div>
+            </div>
+            <app-line-chart [results]="historyBattle" [extra]="historyPoints" [color]="historyColor" [(hoverTime)]="historyHover" label="Attack and defence points per day"></app-line-chart>
+          </div>
+        </div>
       </div>
       <div *ngIf="tabsIndex == 1" role="tabpanel" class="p-5 max-sm:p-4">
               <br/>
@@ -396,3 +388,11 @@
     </div>
   </ng-container>
 </div>
+
+<ng-template #historyRange>
+  <div role="group" aria-label="History range" class="inline-flex gap-0.5 rounded-lg bg-slate-100 p-[3px] max-sm:flex max-sm:w-full">
+    <button *ngIf="playerHistoryJson.length >= 30" type="button" [attr.aria-pressed]="dayRange==='30'" (click)="selectDayRange('30')" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 px-3 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 max-sm:flex-1" [ngClass]="dayRange==='30' ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">30 days</button>
+    <button *ngIf="playerHistoryJson.length > 30" type="button" [attr.aria-pressed]="dayRange==='90'" (click)="selectDayRange('90')" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 px-3 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 max-sm:flex-1" [ngClass]="dayRange==='90' ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">90 days</button>
+    <button *ngIf="playerHistoryJson.length > 90" type="button" [attr.aria-pressed]="dayRange==='all'" (click)="selectDayRange('all')" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 px-3 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 max-sm:flex-1" [ngClass]="dayRange==='all' ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">All time</button>
+  </div>
+</ng-template>

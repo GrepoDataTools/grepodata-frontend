@@ -20,7 +20,6 @@ import {environment} from '../../environments/environment';
 @Component({
   selector: 'app-advertorial',
   templateUrl: './advertorial.component.html',
-  styleUrls: ['./advertorial.component.scss']
 })
 export class AdvertorialComponent implements OnInit {
 

@@ -19,6 +19,7 @@ export class LineChartComponent implements OnChanges {
     @Input() hourly = false;
     @Input() ends = 'name';
     @Input() plot = 'h-60';
+    @Input() months = 0;
     @Input() width: (name: string) => number = () => 2;
 
     lines: any[] = [];
@@ -178,7 +179,13 @@ export class LineChartComponent implements OnChanges {
                 ticks.push({ label: date.format(format), x: this.x(time) });
             }
         };
-        if (span <= 12) {
+        if (this.months > 0) {
+            for (const date = moment(this.xMin).startOf('month'); date.valueOf() <= this.xMax; date.add(1, 'month')) {
+                if (date.month() % this.months === 0) {
+                    add(date.clone(), date.month() === 0 ? 'MMM YYYY' : 'MMM');
+                }
+            }
+        } else if (span <= 12) {
             const every = Math.max(1, Math.ceil(span / 6));
             for (const date = moment(this.xMin).startOf('day'); date.valueOf() <= this.xMax; date.add(every, 'days')) {
                 add(date, 'D MMM');

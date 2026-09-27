@@ -10,7 +10,6 @@ import {JwtService} from '../../../services/jwt.service';
 @Component({
   selector: 'app-bug-report',
   templateUrl: './bug-report.component.html',
-  styleUrls: ['./bug-report.component.scss'],
   providers: [CaptchaService, MessageService]
 })
 export class BugReportComponent {

@@ -3,8 +3,7 @@ import * as moment from 'moment';
 
 @Component({
   selector: 'app-script-version',
-  templateUrl: './script-version.component.html',
-  styleUrls: ['./script-version.component.scss']
+  templateUrl: './script-version.component.html'
 })
 export class ScriptVersionComponent implements OnInit {
   @Input() details_hidden: boolean = true;

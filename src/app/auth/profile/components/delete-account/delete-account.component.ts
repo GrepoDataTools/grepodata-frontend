@@ -4,8 +4,7 @@ import {JwtService} from '../../../services/jwt.service';
 
 @Component({
   selector: 'app-delete-account',
-  templateUrl: './delete-account.component.html',
-  styleUrls: ['./delete-account.component.scss']
+  templateUrl: './delete-account.component.html'
 })
 export class DeleteAccountComponent implements OnInit {
 

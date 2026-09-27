@@ -3,8 +3,7 @@ import {JwtService} from '../auth/services/jwt.service';
 
 @Component({
   selector: 'app-faq',
-  templateUrl: './faq.component.html',
-  styleUrls: ['./faq.component.scss']
+  templateUrl: './faq.component.html'
 })
 export class FaqComponent implements OnInit {
 

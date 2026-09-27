@@ -81,17 +81,40 @@
       <div *ngIf="active_tab === 'delete'" class="m-[22px] max-[1000px]:m-3"><app-delete-account></app-delete-account></div>
       <span *ngIf="active_tab === 'commands'"><app-demo-overview></app-demo-overview></span>
       <span *ngIf="active_tab === 'changelog'"><app-changelog></app-changelog></span>
-      <span *ngIf="active_tab === 'faq'">
-        <mat-card class="index-card">
-          <h2>📋 Frequently asked questions</h2>
-          <h4>Can't find what you are looking for? Feel free to <a class="a-link-dialog" (click)="showContactDialog()">send us a message</a> and we will responds as soon as possible.</h4>
-
-          <app-server-alert></app-server-alert>
-
-          <br/>
-          <app-faq></app-faq>
-        </mat-card>
-      </span>
+      <div *ngIf="active_tab === 'faq'" class="m-[22px] space-y-6 max-[1000px]:m-3">
+        <div class="min-w-0">
+          <h1 class="my-0 text-2xl font-bold tracking-tight text-slate-900">Help</h1>
+          <p class="mb-0 mt-1 text-sm text-slate-500">Frequently asked questions</p>
+        </div>
+        <div class="grid grid-cols-[minmax(0,1fr)_300px] items-start gap-6 max-lg:grid-cols-1">
+          <app-faq class="block min-w-0"></app-faq>
+          <aside class="flex flex-col gap-4">
+            <section class="flex flex-col gap-3 rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-900/[.08]">
+              <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-lg bg-brand-50 text-brand-700">
+                <svg appIcon="chat-bubble-left-right" class="size-6"></svg>
+              </span>
+              <h2 class="m-0 text-base font-semibold text-slate-900">Can't find what you are looking for?</h2>
+              <p class="m-0 text-sm text-slate-600">Feel free to send us a message and we will respond as soon as possible.</p>
+              <div>
+                <button type="button" (click)="showContactDialog()" class="inline-flex items-center justify-center gap-1.5 rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+                  <svg appIcon="envelope" class="size-4 flex-none text-slate-400"></svg>
+                  Send us a message
+                </button>
+              </div>
+            </section>
+            <section class="flex flex-col gap-3 rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-900/[.08]">
+              <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-lg bg-navy-800 text-brand-500">
+                <svg appIcon="discord" variant="game" class="size-6"></svg>
+              </span>
+              <h2 class="m-0 text-base font-semibold text-slate-900">Need help or support?</h2>
+              <p class="m-0 text-sm text-slate-600">Join our Discord server!</p>
+              <div>
+                <a href="https://discord.gg/E95bhqR3Ns" target="_blank" class="inline-flex items-center gap-1 text-sm font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">discord.gg/E95bhqR3Ns<svg appIcon="arrow-top-right-on-square" variant="micro" class="size-3.5 flex-none"></svg></a>
+              </div>
+            </section>
+          </aside>
+        </div>
+      </div>
 
     </div>
 

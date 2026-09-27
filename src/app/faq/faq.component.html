@@ -1,168 +1,235 @@
-<div class="faq-container">
+<section class="rounded-xl bg-white text-left font-normal shadow-sm ring-1 ring-slate-900/[.08]">
 
-  <div class="alert alert-gd-1">
-    <h2 class="gd-primary">Why do I need a GrepoData account?</h2>
-    <div class="faq-content">
-      A GrepoData account is required to guarantee the security of the intel you collect and the people you share it with.
-      This way, the admin of a GrepoData team can manage exactly who has access to the intel and can revoke their access whenever needed.
-      <br/>
-      <br/>
-      Privacy is very important to us. Your username is visible to all GrepoData users but your email address will always remain private and will only be used to authenticate you when you wish to reset your password.
-      At any time, you are able to completely delete your account from our database. Read more in our <a routerLink="/privacy">Privacy Policy</a>.
+  <details class="group border-0 border-t border-solid border-slate-100 first:border-t-0" open>
+    <summary class="flex cursor-pointer list-none items-center gap-4 px-5 py-3.5 text-sm font-semibold text-slate-900 hover:text-brand-800 max-sm:px-4 [&::-webkit-details-marker]:hidden">
+      <span class="min-w-0 flex-1">Why do I need a GrepoData account?</span>
+      <svg appIcon="chevron-down" class="size-5 flex-none text-slate-400 transition-transform group-open:rotate-180"></svg>
+    </summary>
+    <div class="px-5 pb-5 text-sm leading-[22px] text-slate-600 max-sm:px-4">
+      <p class="m-0">
+        A GrepoData account is required to guarantee the security of the intel you collect and the people you share it with.
+        This way, the admin of a GrepoData team can manage exactly who has access to the intel and can revoke their access whenever needed.
+      </p>
+      <p class="mb-0 mt-2">
+        Privacy is very important to us. Your username is visible to all GrepoData users but your email address will always remain private and will only be used to authenticate you when you wish to reset your password.
+        At any time, you are able to completely delete your account from our database. Read more in our <a routerLink="/privacy" class="font-medium text-brand-700 hover:text-brand-800 hover:underline">Privacy Policy</a>.
+      </p>
     </div>
-  </div>
+  </details>
 
-  <div class="alert alert-gd-1" *ngIf="!logged_in">
-    <h2 class="gd-primary">I did not receive the confirmation email.</h2>
-    <div class="faq-content">
-      Check your spam folder and make sure you did not make any spelling mistakes when entering your email address. If you did make a spelling mistake, you can simply register again with the correct email. It may take a couple minutes for the email to arrive. If you still do not receive the email, feel free to contact us at admin@grepodata.com.
+  <details *ngIf="!logged_in" class="group border-0 border-t border-solid border-slate-100 first:border-t-0">
+    <summary class="flex cursor-pointer list-none items-center gap-4 px-5 py-3.5 text-sm font-semibold text-slate-900 hover:text-brand-800 max-sm:px-4 [&::-webkit-details-marker]:hidden">
+      <span class="min-w-0 flex-1">I did not receive the confirmation email.</span>
+      <svg appIcon="chevron-down" class="size-5 flex-none text-slate-400 transition-transform group-open:rotate-180"></svg>
+    </summary>
+    <div class="px-5 pb-5 text-sm leading-[22px] text-slate-600 max-sm:px-4">
+      <p class="m-0">
+        Check your spam folder and make sure you did not make any spelling mistakes when entering your email address. If you did make a spelling mistake, you can simply register again with the correct email. It may take a couple minutes for the email to arrive. If you still do not receive the email, feel free to contact us at admin@grepodata.com.
+      </p>
     </div>
-  </div>
+  </details>
 
-  <div class="alert alert-gd-1">
-    <h2 class="gd-primary">How does the City Indexer work?</h2>
-    <div class="faq-content">
-      <br/>
-      <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8">
-          1. <strong>Indexing reports:</strong> Reports in your inbox and on your forum will receive an additional '<strong class="gd-primary">Index +</strong>' button.
-          When you click on this button, the report is uploaded to your personal GrepoData account and is shared with all your teammates.
+  <details class="group border-0 border-t border-solid border-slate-100 first:border-t-0" open>
+    <summary class="flex cursor-pointer list-none items-center gap-4 px-5 py-3.5 text-sm font-semibold text-slate-900 hover:text-brand-800 max-sm:px-4 [&::-webkit-details-marker]:hidden">
+      <span class="min-w-0 flex-1">How does the City Indexer work?</span>
+      <svg appIcon="chevron-down" class="size-5 flex-none text-slate-400 transition-transform group-open:rotate-180"></svg>
+    </summary>
+    <div class="flex flex-col gap-5 px-5 pb-5 text-sm leading-[22px] text-slate-600 max-sm:px-4">
+      <div class="grid grid-cols-[minmax(0,1fr)_300px] items-start gap-6 max-md:grid-cols-1 max-md:gap-3">
+        <div class="flex gap-3">
+          <span aria-hidden="true" class="flex size-6 flex-none items-center justify-center rounded-full bg-brand-50 text-xs font-bold text-brand-700">1</span>
+          <p class="mb-0 mt-0.5"><strong class="font-semibold text-slate-900">Indexing reports:</strong> Reports in your inbox and on your forum will receive an additional '<strong class="font-semibold text-brand-700">Index +</strong>' button.
+            When you click on this button, the report is uploaded to your personal GrepoData account and is shared with all your teammates.</p>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
-          <img class="lib-img img-scale" style="max-width: 100%; display: block; border: 1px solid #334254;" src="../../assets/images/index.png" alt="Grepolis index report">
+        <img class="relative block h-auto w-full origin-right rounded-lg ring-1 ring-slate-900/10 transition-transform duration-[250ms] hover:z-10 hover:scale-[1.6]" src="../../assets/images/index.png" alt="Grepolis index report">
+      </div>
+      <div class="grid grid-cols-[minmax(0,1fr)_300px] items-start gap-6 max-md:grid-cols-1 max-md:gap-3">
+        <div class="flex gap-3">
+          <span aria-hidden="true" class="flex size-6 flex-none items-center justify-center rounded-full bg-brand-50 text-xs font-bold text-brand-700">2</span>
+          <p class="mb-0 mt-0.5"><strong class="font-semibold text-slate-900">Sharing commands:</strong> Your in-game command overview will receive a new '<strong class="font-semibold text-brand-700">Share with team</strong>' button.
+            When you click on this button, your commands are uploaded to a real-time shared command overview for you and your teammates.</p>
+        </div>
+        <img class="relative block h-auto w-full origin-right rounded-lg ring-1 ring-slate-900/10 transition-transform duration-[250ms] hover:z-10 hover:scale-[1.6]" src="../../assets/images/share_commands.jpg" alt="Grepolis share commands">
+      </div>
+      <div class="grid grid-cols-[minmax(0,1fr)_300px] items-start gap-6 max-md:grid-cols-1 max-md:gap-3">
+        <div class="flex flex-col gap-3">
+          <div class="flex gap-3">
+            <span aria-hidden="true" class="flex size-6 flex-none items-center justify-center rounded-full bg-brand-50 text-xs font-bold text-brand-700">3</span>
+            <p class="mb-0 mt-0.5"><strong class="font-semibold text-slate-900">Browsing intel:</strong> The extracted enemy intelligence from the report is linked to your personal GrepoData account.
+              This allows you to browse the collected intel using the in-game town intel view or by signing in here.</p>
+          </div>
+          <div class="flex gap-3">
+            <span aria-hidden="true" class="flex size-6 flex-none items-center justify-center rounded-full bg-brand-50 text-xs font-bold text-brand-700">4</span>
+            <p class="mb-0 mt-0.5"><strong class="font-semibold text-slate-900">Sharing intel &amp; commands:</strong> If you are a member of a GrepoData team and if you enable contributions to that team, the reports you index and the commands you upload will be shared with your allies as long as they also have access to that team.</p>
+          </div>
+        </div>
+        <div>
+          <img class="relative block h-auto w-full origin-right rounded-lg ring-1 ring-slate-900/10 transition-transform duration-[250ms] hover:z-10 hover:scale-[1.6]" src="../../assets/images/indexer_town_sm.png" alt="Grepolis town intel">
+          <p class="mb-0 mt-2 text-right text-xs text-slate-500">Images copyright © InnoGames GmbH</p>
         </div>
       </div>
-      <br/>
-      <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8">
-          2. <strong>Sharing commands:</strong> Your in-game command overview will receive a new '<strong class="gd-primary">Share with team</strong>' button.
-          When you click on this button, your commands are uploaded to a real-time shared command overview for you and your teammates.
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
-          <img class="lib-img img-scale" style="max-width: 100%; display: block; border: 1px solid #334254;" src="../../assets/images/share_commands.jpg" alt="Grepolis share commands">
-        </div>
-      </div>
-      <br/>
-      <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8">
-          3. <strong>Browsing intel:</strong> The extracted enemy intelligence from the report is linked to your personal GrepoData account.
-          This allows you to browse the collected intel using the in-game town intel view or by signing in here.
-          <br/>
-          <br/>
-          4. <strong>Sharing intel & commands:</strong> If you are a member of a GrepoData team and if you enable contributions to that team, the reports you index and the commands you upload will be shared with your allies as long as they also have access to that team.
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
-          <img class="lib-img img-scale" style="max-width: 100%; display: block;" src="../../assets/images/indexer_town_sm.png" alt="Grepolis town intel">
-          <h5 class="gd-secondary" style="float: right;">Images copyright © InnoGames GmbH</h5>
-        </div>
-      </div>
     </div>
-  </div>
+  </details>
 
-
-  <div class="alert alert-gd-1" *ngIf="logged_in">
-    <h2 class="gd-primary">How do I install the userscript?</h2>
-    <div class="faq-content">
-      Check out the detailed instructions on this page: <a routerLink="/profile/script" style="text-decoration: underline;">Userscript installation instructions</a>
+  <details *ngIf="logged_in" class="group border-0 border-t border-solid border-slate-100 first:border-t-0">
+    <summary class="flex cursor-pointer list-none items-center gap-4 px-5 py-3.5 text-sm font-semibold text-slate-900 hover:text-brand-800 max-sm:px-4 [&::-webkit-details-marker]:hidden">
+      <span class="min-w-0 flex-1">How do I install the userscript?</span>
+      <svg appIcon="chevron-down" class="size-5 flex-none text-slate-400 transition-transform group-open:rotate-180"></svg>
+    </summary>
+    <div class="px-5 pb-5 text-sm leading-[22px] text-slate-600 max-sm:px-4">
+      <p class="m-0">Check out the detailed instructions on this page: <a routerLink="/profile/script" class="font-medium text-brand-700 hover:text-brand-800 hover:underline">Userscript installation instructions</a></p>
     </div>
-  </div>
+  </details>
 
-  <div class="alert alert-gd-1">
-    <h2 class="gd-primary">What is a GrepoData team?</h2>
-    <div class="faq-content">
-      A <strong>team</strong> is a collection of enemy intelligence. Anyone can create a new team and invite others to join their team.
-      The members of a team can then choose to contribute the reports they collect to the team. All members of the team will also be able to browse this intel.
-      <br/>
-      Our recommendation is that you create a team together with your alliance. This way, you can work together to gather enemy intelligence.
-      <br/>
-      <br/>
-      Before April 2021, a team used to be known as an 'index'. Teams are the replacement of the old index system, but their functionality is still very similar.
+  <details class="group border-0 border-t border-solid border-slate-100 first:border-t-0">
+    <summary class="flex cursor-pointer list-none items-center gap-4 px-5 py-3.5 text-sm font-semibold text-slate-900 hover:text-brand-800 max-sm:px-4 [&::-webkit-details-marker]:hidden">
+      <span class="min-w-0 flex-1">What is a GrepoData team?</span>
+      <svg appIcon="chevron-down" class="size-5 flex-none text-slate-400 transition-transform group-open:rotate-180"></svg>
+    </summary>
+    <div class="px-5 pb-5 text-sm leading-[22px] text-slate-600 max-sm:px-4">
+      <p class="m-0">
+        A <strong class="font-semibold text-slate-900">team</strong> is a collection of enemy intelligence. Anyone can create a new team and invite others to join their team.
+        The members of a team can then choose to contribute the reports they collect to the team. All members of the team will also be able to browse this intel.
+      </p>
+      <p class="mb-0 mt-2">Our recommendation is that you create a team together with your alliance. This way, you can work together to gather enemy intelligence.</p>
+      <p class="mb-0 mt-2">Before April 2021, a team used to be known as an 'index'. Teams are the replacement of the old index system, but their functionality is still very similar.</p>
     </div>
-  </div>
+  </details>
 
-  <div class="alert alert-gd-1">
-    <h2 class="gd-primary">Userscript keyboard shortcuts (in-game inbox)</h2>
-    <div class="faq-content">
-      You can use the <strong>[</strong> and <strong>]</strong> keys on your keyboard to navigate to the previous and next report in your reports inbox.
+  <details class="group border-0 border-t border-solid border-slate-100 first:border-t-0">
+    <summary class="flex cursor-pointer list-none items-center gap-4 px-5 py-3.5 text-sm font-semibold text-slate-900 hover:text-brand-800 max-sm:px-4 [&::-webkit-details-marker]:hidden">
+      <span class="min-w-0 flex-1">Userscript keyboard shortcuts (in-game inbox)</span>
+      <svg appIcon="chevron-down" class="size-5 flex-none text-slate-400 transition-transform group-open:rotate-180"></svg>
+    </summary>
+    <div class="px-5 pb-5 text-sm leading-[22px] text-slate-600 max-sm:px-4">
+      <p class="m-0">You can use the <kbd class="rounded border border-solid border-slate-300 bg-slate-50 px-1.5 py-0.5 font-mono text-xs font-semibold text-slate-900 shadow-none">[</kbd> and <kbd class="rounded border border-solid border-slate-300 bg-slate-50 px-1.5 py-0.5 font-mono text-xs font-semibold text-slate-900 shadow-none">]</kbd> keys on your keyboard to navigate to the previous and next report in your reports inbox.</p>
     </div>
-  </div>
+  </details>
 
-  <div class="alert alert-gd-1">
-    <h2 class="gd-primary">Is it allowed?</h2>
-    <div class="faq-content">
-      <strong>Yes!</strong> Our script has official approval on a global level.
-      <ul>
-        <li>EN: <a href="https://wiki.en.grepolis.com/wiki/Approved_Scripts" target="_blank">https://wiki.en.grepolis.com/wiki/Approved_Scripts</a></li>
-        <li>DE: <a href="https://wiki.de.grepolis.com/wiki/Community-Projekte" target="_blank">https://wiki.de.grepolis.com/wiki/Community-Projekte</a></li>
-        <li>NL: <a href="https://wiki.nl.grepolis.com/wiki/Scripts" target="_blank">https://wiki.nl.grepolis.com/wiki/Scripts</a></li>
-        <li>IT: <a href="https://it.forum.grepolis.com/index.php?threads/lista-script-tool-approvati.3691/" target="_blank">https://it.forum.grepolis.com/index.php?threads/lista-script-tool-approvati.3691/</a></li>
-        <li>FR: <a href="https://forum.fr.grepolis.com/index.php?threads/grepodata.80374/post-2030923" target="_blank">https://forum.fr.grepolis.com/index.php?threads/grepodata.80374/post-2030923</a></li>
-        <li>Others (please check your own local wiki, this is not an exhaustive list)</li>
+  <details class="group border-0 border-t border-solid border-slate-100 first:border-t-0" open>
+    <summary class="flex cursor-pointer list-none items-center gap-4 px-5 py-3.5 text-sm font-semibold text-slate-900 hover:text-brand-800 max-sm:px-4 [&::-webkit-details-marker]:hidden">
+      <span class="min-w-0 flex-1">Is it allowed?</span>
+      <svg appIcon="chevron-down" class="size-5 flex-none text-slate-400 transition-transform group-open:rotate-180"></svg>
+    </summary>
+    <div class="px-5 pb-5 text-sm leading-[22px] text-slate-600 max-sm:px-4">
+      <p class="m-0"><strong class="font-semibold text-slate-900">Yes!</strong> Our script has official approval on a global level.</p>
+      <ul class="mb-0 mt-2.5 flex list-none flex-col gap-1.5 p-0">
+        <li class="flex min-w-0 items-center gap-2.5">
+          <span class="min-w-7 flex-none rounded bg-slate-100 px-1.5 text-center text-[11px] font-bold leading-[18px] text-slate-600">EN</span>
+          <a href="https://wiki.en.grepolis.com/wiki/Approved_Scripts" target="_blank" class="inline-flex min-w-0 items-center gap-1 font-medium text-brand-700 hover:text-brand-800 hover:underline"><span class="truncate">wiki.en.grepolis.com/wiki/Approved_Scripts</span><svg appIcon="arrow-top-right-on-square" variant="micro" class="size-3.5 flex-none"></svg></a>
+        </li>
+        <li class="flex min-w-0 items-center gap-2.5">
+          <span class="min-w-7 flex-none rounded bg-slate-100 px-1.5 text-center text-[11px] font-bold leading-[18px] text-slate-600">DE</span>
+          <a href="https://wiki.de.grepolis.com/wiki/Community-Projekte" target="_blank" class="inline-flex min-w-0 items-center gap-1 font-medium text-brand-700 hover:text-brand-800 hover:underline"><span class="truncate">wiki.de.grepolis.com/wiki/Community-Projekte</span><svg appIcon="arrow-top-right-on-square" variant="micro" class="size-3.5 flex-none"></svg></a>
+        </li>
+        <li class="flex min-w-0 items-center gap-2.5">
+          <span class="min-w-7 flex-none rounded bg-slate-100 px-1.5 text-center text-[11px] font-bold leading-[18px] text-slate-600">NL</span>
+          <a href="https://wiki.nl.grepolis.com/wiki/Scripts" target="_blank" class="inline-flex min-w-0 items-center gap-1 font-medium text-brand-700 hover:text-brand-800 hover:underline"><span class="truncate">wiki.nl.grepolis.com/wiki/Scripts</span><svg appIcon="arrow-top-right-on-square" variant="micro" class="size-3.5 flex-none"></svg></a>
+        </li>
+        <li class="flex min-w-0 items-center gap-2.5">
+          <span class="min-w-7 flex-none rounded bg-slate-100 px-1.5 text-center text-[11px] font-bold leading-[18px] text-slate-600">IT</span>
+          <a href="https://it.forum.grepolis.com/index.php?threads/lista-script-tool-approvati.3691/" target="_blank" class="inline-flex min-w-0 items-center gap-1 font-medium text-brand-700 hover:text-brand-800 hover:underline"><span class="truncate">it.forum.grepolis.com/index.php?threads/lista-script-tool-approvati.3691/</span><svg appIcon="arrow-top-right-on-square" variant="micro" class="size-3.5 flex-none"></svg></a>
+        </li>
+        <li class="flex min-w-0 items-center gap-2.5">
+          <span class="min-w-7 flex-none rounded bg-slate-100 px-1.5 text-center text-[11px] font-bold leading-[18px] text-slate-600">FR</span>
+          <a href="https://forum.fr.grepolis.com/index.php?threads/grepodata.80374/post-2030923" target="_blank" class="inline-flex min-w-0 items-center gap-1 font-medium text-brand-700 hover:text-brand-800 hover:underline"><span class="truncate">forum.fr.grepolis.com/index.php?threads/grepodata.80374/post-2030923</span><svg appIcon="arrow-top-right-on-square" variant="micro" class="size-3.5 flex-none"></svg></a>
+        </li>
       </ul>
+      <p class="mb-0 mt-2.5">Others (please check your own local wiki, this is not an exhaustive list)</p>
     </div>
-  </div>
+  </details>
 
-  <div class="alert alert-gd-1">
-    <h2 class="gd-primary">What type of reports can be collected?</h2>
-    <div class="faq-content">
-      Currently our userscript allows you to collect published reports that are posted on your alliance forum or sent to you in a personal message.
-      Reports from your personal reports inbox can also be indexed without publishing them.
-      Converted reports from other third party tools can not be indexed.
+  <details class="group border-0 border-t border-solid border-slate-100 first:border-t-0">
+    <summary class="flex cursor-pointer list-none items-center gap-4 px-5 py-3.5 text-sm font-semibold text-slate-900 hover:text-brand-800 max-sm:px-4 [&::-webkit-details-marker]:hidden">
+      <span class="min-w-0 flex-1">What type of reports can be collected?</span>
+      <svg appIcon="chevron-down" class="size-5 flex-none text-slate-400 transition-transform group-open:rotate-180"></svg>
+    </summary>
+    <div class="px-5 pb-5 text-sm leading-[22px] text-slate-600 max-sm:px-4">
+      <p class="m-0">
+        Currently our userscript allows you to collect published reports that are posted on your alliance forum or sent to you in a personal message.
+        Reports from your personal reports inbox can also be indexed without publishing them.
+        Converted reports from other third party tools can not be indexed.
+      </p>
     </div>
-  </div>
+  </details>
 
-  <div class="alert alert-gd-1">
-    <h2 class="gd-primary">Is my data secure?</h2>
-    <div class="faq-content">
-      The newly updated GrepoData city indexer tool was developed with data security as it's number one priority. Above all else, data must be stored securely and team admins must have absolute authority over who has access to the team's intel & data.
-      <br/>
-      <br/>
-      <strong>Data protection</strong><br/>
-      We take data protection very seriously. All sensitive user data is stored using industry standard best practices.
-      Even in the unlikely event that an unauthorized person gains access to this data; they would be unable to parse the hashed data they would find.
-      <br/>
-      <br/>
-      <strong>GrepoData team security</strong><br/>
-      As an admin or owner of a team, you can add or remove users from the team at any time.
-      Only active members of the team will have access to the information in the team.
-      Once you remove a user, they will nog longer be able to access the collected intel from your team.
-      Any intel that they collected themselves will still be available to them.
+  <details class="group border-0 border-t border-solid border-slate-100 first:border-t-0">
+    <summary class="flex cursor-pointer list-none items-center gap-4 px-5 py-3.5 text-sm font-semibold text-slate-900 hover:text-brand-800 max-sm:px-4 [&::-webkit-details-marker]:hidden">
+      <span class="min-w-0 flex-1">Is my data secure?</span>
+      <svg appIcon="chevron-down" class="size-5 flex-none text-slate-400 transition-transform group-open:rotate-180"></svg>
+    </summary>
+    <div class="px-5 pb-5 text-sm leading-[22px] text-slate-600 max-sm:px-4">
+      <p class="m-0">The newly updated GrepoData city indexer tool was developed with data security as it's number one priority. Above all else, data must be stored securely and team admins must have absolute authority over who has access to the team's intel &amp; data.</p>
+      <h4 class="mb-0 mt-4 text-sm font-semibold text-slate-900">Data protection</h4>
+      <p class="mb-0 mt-1">
+        We take data protection very seriously. All sensitive user data is stored using industry standard best practices.
+        Even in the unlikely event that an unauthorized person gains access to this data; they would be unable to parse the hashed data they would find.
+      </p>
+      <h4 class="mb-0 mt-4 text-sm font-semibold text-slate-900">GrepoData team security</h4>
+      <p class="mb-0 mt-1">
+        As an admin or owner of a team, you can add or remove users from the team at any time.
+        Only active members of the team will have access to the information in the team.
+        Once you remove a user, they will no longer be able to access the collected intel from your team.
+        Any intel that they collected themselves will still be available to them.
+      </p>
     </div>
-  </div>
+  </details>
 
-  <div class="alert alert-gd-1">
-    <h2 class="gd-primary">How do I delete my GrepoData account?</h2>
-    <div class="faq-content">
-      You can delete your account and all associated data from our server by logging in to your account and navigating to the '<a routerLink="/profile/settings">My Account</a>' section.
-      There you can enter your password and submit a request to delete your account. Once you confirm the request by clicking on the link in the email you received, all your personal data will be permanently removed from our database.
+  <details class="group border-0 border-t border-solid border-slate-100 first:border-t-0">
+    <summary class="flex cursor-pointer list-none items-center gap-4 px-5 py-3.5 text-sm font-semibold text-slate-900 hover:text-brand-800 max-sm:px-4 [&::-webkit-details-marker]:hidden">
+      <span class="min-w-0 flex-1">How do I delete my GrepoData account?</span>
+      <svg appIcon="chevron-down" class="size-5 flex-none text-slate-400 transition-transform group-open:rotate-180"></svg>
+    </summary>
+    <div class="px-5 pb-5 text-sm leading-[22px] text-slate-600 max-sm:px-4">
+      <p class="m-0">
+        You can delete your account and all associated data from our server by logging in to your account and navigating to the '<a routerLink="/profile/settings" class="font-medium text-brand-700 hover:text-brand-800 hover:underline">My account</a>' section.
+        There you can enter your password and submit a request to delete your account. Once you confirm the request by clicking on the link in the email you received, all your personal data will be permanently removed from our database.
+      </p>
     </div>
-  </div>
+  </details>
 
-  <div class="alert alert-gd-1">
-    <h2 class="gd-primary">Who should install the userscript?</h2>
-    <div class="faq-content">
-      The userscript is the only way to contribute new intelligence to a team. You should encourage your team members to also use the script in order to maximize the collected intel.
+  <details class="group border-0 border-t border-solid border-slate-100 first:border-t-0">
+    <summary class="flex cursor-pointer list-none items-center gap-4 px-5 py-3.5 text-sm font-semibold text-slate-900 hover:text-brand-800 max-sm:px-4 [&::-webkit-details-marker]:hidden">
+      <span class="min-w-0 flex-1">Who should install the userscript?</span>
+      <svg appIcon="chevron-down" class="size-5 flex-none text-slate-400 transition-transform group-open:rotate-180"></svg>
+    </summary>
+    <div class="px-5 pb-5 text-sm leading-[22px] text-slate-600 max-sm:px-4">
+      <p class="m-0">The userscript is the only way to contribute new intelligence to a team. You should encourage your team members to also use the script in order to maximize the collected intel.</p>
     </div>
-  </div>
-  <div class="alert alert-gd-1">
-    <h2 class="gd-primary">How do i uninstall the userscript?</h2>
-    <div class="faq-content">
-      If you want to uninstall the userscript, navigate to the Tampermonkey dashboard by left clicking on the <strong>Tampermonkey</strong> icon in the top right of your browser,
-      and then clicking on <strong>Dashboard</strong>. Find the script called 'GrepoData City Indexer' in this list and remove it from Tampermonkey by clicking the trash can icon next to it.
+  </details>
+
+  <details class="group border-0 border-t border-solid border-slate-100 first:border-t-0">
+    <summary class="flex cursor-pointer list-none items-center gap-4 px-5 py-3.5 text-sm font-semibold text-slate-900 hover:text-brand-800 max-sm:px-4 [&::-webkit-details-marker]:hidden">
+      <span class="min-w-0 flex-1">How do I uninstall the userscript?</span>
+      <svg appIcon="chevron-down" class="size-5 flex-none text-slate-400 transition-transform group-open:rotate-180"></svg>
+    </summary>
+    <div class="px-5 pb-5 text-sm leading-[22px] text-slate-600 max-sm:px-4">
+      <p class="m-0">
+        If you want to uninstall the userscript, navigate to the Tampermonkey dashboard by left clicking on the <strong class="font-semibold text-slate-900">Tampermonkey</strong> icon in the top right of your browser,
+        and then clicking on <strong class="font-semibold text-slate-900">Dashboard</strong>. Find the script called 'GrepoData City Indexer' in this list and remove it from Tampermonkey by clicking the trash can icon next to it.
+      </p>
     </div>
-  </div>
-  <div class="alert alert-gd-1">
-    <h2 class="gd-primary">Can I create multiple teams?</h2>
-    <div class="faq-content">
-      You can create as many teams as you wish. Please note that a team only works on 1 game world. You should make a new team for each world you wish to play in.
+  </details>
+
+  <details class="group border-0 border-t border-solid border-slate-100 first:border-t-0">
+    <summary class="flex cursor-pointer list-none items-center gap-4 px-5 py-3.5 text-sm font-semibold text-slate-900 hover:text-brand-800 max-sm:px-4 [&::-webkit-details-marker]:hidden">
+      <span class="min-w-0 flex-1">Can I create multiple teams?</span>
+      <svg appIcon="chevron-down" class="size-5 flex-none text-slate-400 transition-transform group-open:rotate-180"></svg>
+    </summary>
+    <div class="px-5 pb-5 text-sm leading-[22px] text-slate-600 max-sm:px-4">
+      <p class="m-0">You can create as many teams as you wish. Please note that a team only works on 1 game world. You should make a new team for each world you wish to play in.</p>
     </div>
-  </div>
-  <div class="alert alert-gd-1">
-    <h2 class="gd-primary">Can I merge my team with another team from a friendly alliance?</h2>
-    <div class="faq-content">
-      You can invite the users of the other alliance to join your existing team, or you can simply create a brand new team and invite everybody to that one. Once they join the new team, each individual user will have to option to upload their existing intel to the new team.
-      <br/><br/>In order to commit your existing intel, go to the overview for the new team on grepodata.com. If there is any existing intel to commit, you will be prompted with a message to share the intel (as shown below). If you do not see this message, there is no intel to share.
-      <br/><img style="max-width: 80vw;" src="../../assets/images/intel_imports.png"><br/><br/>
+  </details>
+
+  <details class="group border-0 border-t border-solid border-slate-100 first:border-t-0">
+    <summary class="flex cursor-pointer list-none items-center gap-4 px-5 py-3.5 text-sm font-semibold text-slate-900 hover:text-brand-800 max-sm:px-4 [&::-webkit-details-marker]:hidden">
+      <span class="min-w-0 flex-1">Can I merge my team with another team from a friendly alliance?</span>
+      <svg appIcon="chevron-down" class="size-5 flex-none text-slate-400 transition-transform group-open:rotate-180"></svg>
+    </summary>
+    <div class="px-5 pb-5 text-sm leading-[22px] text-slate-600 max-sm:px-4">
+      <p class="m-0">You can invite the users of the other alliance to join your existing team, or you can simply create a brand new team and invite everybody to that one. Once they join the new team, each individual user will have to option to upload their existing intel to the new team.</p>
+      <p class="mb-0 mt-2">In order to commit your existing intel, go to the overview for the new team on grepodata.com. If there is any existing intel to commit, you will be prompted with a message to share the intel (as shown below). If you do not see this message, there is no intel to share.</p>
+      <img class="mt-4 block h-auto w-full max-w-md rounded-lg ring-1 ring-slate-900/10" src="../../assets/images/intel_imports.png">
     </div>
-  </div>
-</div>
+  </details>
+</section>

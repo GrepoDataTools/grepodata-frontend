@@ -122,55 +122,45 @@
     </div>
 
     <div role="tabpanel" [hidden]="activeTab !== 1">
-					              <br/>
-					              <div>
-						              <h3 style='font-weight: 300; color: #304357;'>
-							              <span class='world-title' style='color: #18BC9C;'>Town notes</span>
-						              </h3>
-						              <br/>
-						              <div *ngIf="!notes.length || notes.length <= 0">
-							              <div class="alert alert-warning text-center alert-gd-1">
-								              <h2>There are no notes about this town</h2>
-							              </div>
-						              </div>
-						              <div *ngIf="notes.length > 0" class="table intel-table" id="table_notes" style="text-align: left;">
-
-							              <div class="row_custom header bg-gd-2" >
-								              <div class="cell" style="width: 20%;">
-									              Date
-								              </div>
-								              <div class="cell" style="width: 30%;">
-									              Poster
-								              </div>
-								              <div class="cell" style="width: 50%;">
-									              Note
-								              </div>
-								              <!--<div class="cell">-->
-									              <!--Action-->
-								              <!--</div>-->
-							              </div>
-
-							              <div class='row_custom' *ngFor="let note of notes" [style.opacity]="note.deleted?'0.3':'1'">
-								              <div class="cell">
-									              {{note.date}}
-								              </div>
-								              <div class="cell">
-									              {{note.poster_name}}
-								              </div>
-								              <div class="cell">
-									              {{note.message}}
-								              </div>
-								              <!--<div class="cell" style="margin: 5px 0;">-->
-									              <!--<button name="open_bb" class="btn btn-danger btn-xs" style="" *ngIf="!note.deleted"-->
-									                      <!--(click)="deleteNote(note?.note_id); note.deleted = true;">-->
-										              <!--<i class="fa fa-close"></i>&nbsp;Delete-->
-									              <!--</button>-->
-									              <!--<span *ngIf="note.deleted">Deleted</span>-->
-								              <!--</div>-->
-							              </div>
-						              </div>
-
-					              </div>
+      <section class="overflow-hidden bg-white" [ngClass]="embedded ? '' : 'rounded-xl shadow-sm ring-1 ring-slate-900/[.08]'">
+        <div class="border-0 border-b border-solid border-slate-200 px-5 py-4">
+          <h2 class="my-0 text-base font-semibold text-slate-900">Town notes <span class="font-normal text-slate-500">· {{notes.length}}</span></h2>
+        </div>
+        <div *ngIf="!notes.length || notes.length <= 0" class="flex flex-col items-center px-6 py-10 text-center">
+          <span class="flex size-12 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+            <svg appIcon="chat-bubble-bottom-center-text" class="size-6"></svg>
+          </span>
+          <h3 class="mb-0 mt-3 text-base font-semibold text-slate-900">There are no notes about this town</h3>
+        </div>
+        <div *ngIf="notes.length > 0" class="gd-scrollbar overflow-x-auto">
+          <table id="table_notes" class="w-full min-w-[640px] table-fixed border-separate border-spacing-0 text-left font-normal">
+            <colgroup>
+              <col class="w-[180px]">
+              <col class="w-[220px]">
+              <col>
+            </colgroup>
+            <thead>
+              <tr>
+                <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700 pl-5">Date</th>
+                <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700">Poster</th>
+                <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700 pr-5">Note</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let note of notes" [style.opacity]="note.deleted?'0.3':'1'" class="hover:bg-slate-50">
+                <td class="border-0 border-b border-solid border-slate-100 px-3 py-3 align-top text-sm whitespace-nowrap pl-5 tabular-nums text-slate-700">{{note.date}}</td>
+                <td class="border-0 border-b border-solid border-slate-100 px-3 py-3 align-top text-sm">
+                  <span class="flex min-w-0 items-center gap-1.5 font-medium text-slate-900">
+                    <svg appIcon="player_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+                    <span class="truncate">{{note.poster_name}}</span>
+                  </span>
+                </td>
+                <td class="border-0 border-b border-solid border-slate-100 px-3 py-3 align-top text-sm pr-5 text-slate-900">{{note.message}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
     </div>
 
     <div *ngIf="!embedded" role="tabpanel" [hidden]="activeTab !== 2">

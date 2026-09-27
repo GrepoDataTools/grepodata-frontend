@@ -5,7 +5,6 @@ import {IndexerService} from '../indexer.service';
 @Component({
   selector: 'app-analytics',
   templateUrl: './analytics.component.html',
-  styleUrls: ['./analytics.component.scss'],
   providers: [IndexerService]
 })
 export class AnalyticsComponent implements OnInit {
@@ -51,6 +50,43 @@ export class AnalyticsComponent implements OnInit {
     console.log(event);
   }
 
+  chartColor = (name: string) => {
+    const colors = {
+      'Indexed reports': '#B4D0F1',
+      'Indexed reports (MA7)': '#2A78D6',
+      'Shared commands': '#F8CAB8',
+      'Shared commands (MA7)': '#EB6834',
+      'Total reports shared': '#1BAF7A',
+      'Total commands shared': '#EB6834',
+      'Number of teams': '#EB6834',
+      'Forum reports': '#EB6834',
+      'Logger warnings': '#D97706',
+    };
+    if (name in colors) {
+      return colors[name];
+    }
+    if (name.startsWith('Daily')) {
+      return '#86B6EF';
+    }
+    if (name.startsWith('Monthly')) {
+      return '#104281';
+    }
+    return '#2A78D6';
+  };
+
+  chartWidth = (name: string) => {
+    if (name === 'Indexed reports' || name === 'Shared commands') {
+      return 1.25;
+    }
+    if (name.startsWith('Daily')) {
+      return 1.75;
+    }
+    if (name.startsWith('Hourly')) {
+      return 1.5;
+    }
+    return 2;
+  };
+
   loading_info = true;
   loading_index = true;
   error = false;
@@ -93,27 +129,32 @@ export class AnalyticsComponent implements OnInit {
       (response : any) => {
         this.cards_data = [
           {
-            "name": "Registered Users (+24hr)",
+            "name": "Registered users",
+            "icon": "user-plus",
             "value": response.now.user_count,
             "extra": response.now.user_count - response.yesterday.user_count,
           },
           {
-            "name": "Teams Created (+24hr)",
+            "name": "Teams created",
+            "icon": "user-group",
             "value": response.now.index_count,
             "extra": response.now.index_count - response.yesterday.index_count,
           },
           {
-            "name": "Reports Indexed (+24hr)",
+            "name": "Reports indexed",
+            "icon": "document-text",
             "value": response.now.reports,
             "extra": response.now.reports - response.yesterday.reports,
           },
           {
-            "name": "Unique Towns (+24hr)",
+            "name": "Unique towns",
+            "icon": "building-library",
             "value": response.now.town_count,
             "extra": response.now.town_count - response.yesterday.town_count,
           },
           {
-            "name": "Commands Shared (+24hr)",
+            "name": "Commands shared",
+            "icon": "paper-airplane",
             "value": response.now.commands_count,
             "extra": response.now.commands_today,
           }
@@ -462,7 +503,7 @@ export class AnalyticsComponent implements OnInit {
         'series': cmd_teamsPerMonth,
       });
       this.total_reports.push({
-        'name': 'Total Unique Reports',
+        'name': 'Total unique reports',
         'series': chartNumReports,
       });
       // this.total_reports.push({
@@ -470,11 +511,11 @@ export class AnalyticsComponent implements OnInit {
       //   'series': chartNumReportsShared,
       // });
       this.total_reports.push({
-        'name': 'Total Reports Shared',
+        'name': 'Total reports shared',
         'series': chartNumReportsSharedNormalized,
       });
       this.total_reports.push({
-        'name': 'Total Commands Shared',
+        'name': 'Total commands shared',
         'series': chartNumCommands,
       });
     }

@@ -28,6 +28,7 @@ export class RankingComponent implements OnInit {
   size = 30;
   pageIndex = 0;
   highlightId = 0;
+  expandedId: any = null;
   fromResult = this.from;
   worldName = '';
   servers = [];

@@ -115,6 +115,10 @@ export class ConquestComponent implements AfterViewInit, OnChanges {
         });
     }
 
+    showFilterRow(): boolean {
+        return !this.mobile && (this.data.length > 9 || this.filtering || this.from > 0);
+    }
+
     linkScrollTop() {
         window.scrollTo(0, 0);
     }

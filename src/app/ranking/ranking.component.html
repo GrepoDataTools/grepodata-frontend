@@ -8,7 +8,7 @@
     </div>
     <div class="flex w-full gap-2 sm:w-auto">
       <div class="relative w-[152px] flex-none max-sm:w-24">
-        <mat-select aria-label="Server" placeholder="Server" [ngModel]="server" (ngModelChange)="updateWorlds($event)" #select class="flex h-9 w-full items-center rounded-md bg-white pl-3 pr-8 text-sm text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-700 [&_.mat-select-arrow-wrapper]:hidden [&_.mat-select-trigger]:w-full">
+        <mat-select aria-label="Server" placeholder="Server" [ngModel]="server" (ngModelChange)="updateWorlds($event)" #select panelClass="!rounded-lg !p-1 !shadow-lg [&_.mat-option-text]:flex [&_.mat-option-text]:items-center [&_.mat-option-text]:gap-2 [&_.mat-option.mat-selected]:!bg-brand-50 [&_.mat-option.mat-selected]:!text-slate-900 [&_.mat-option]:!h-9 [&_.mat-option]:!rounded-md [&_.mat-option]:!px-2.5 [&_.mat-option]:!text-sm [&_.mat-option]:!leading-9 [&_.mat-option]:!text-slate-900" class="flex h-9 w-full items-center rounded-md bg-white pl-3 pr-8 text-sm text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-700 [&_.mat-select-arrow-wrapper]:hidden [&_.mat-select-trigger]:w-full">
           <mat-select-trigger>
             <span class="flex items-center gap-2 whitespace-nowrap">
               <span class="text-slate-500 max-sm:[display:none]">Server</span>
@@ -17,13 +17,14 @@
             </span>
           </mat-select-trigger>
           <mat-option *ngFor="let s of servers" value="{{s}}">
-            <div class="bg-flag flag-inline flag-{{s}}"></div>&nbsp;{{s}}
+            <span class="bg-flag flag-{{s}} flex-none [zoom:0.625]"></span>{{s}}
+            <svg *ngIf="s == server" appIcon="check" class="ml-auto size-4 flex-none text-brand-700"></svg>
           </mat-option>
         </mat-select>
         <svg appIcon="chevron-down" class="pointer-events-none absolute right-2.5 top-2.5 size-4 text-slate-400"></svg>
       </div>
       <div class="relative w-[248px] min-w-0 max-sm:flex-1">
-        <mat-select aria-label="World" placeholder="World" [ngModel]="world" (ngModelChange)="setWorld($event)" class="flex h-9 w-full items-center rounded-md bg-white pl-3 pr-8 text-sm text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-700 [&_.mat-select-arrow-wrapper]:hidden [&_.mat-select-trigger]:w-full">
+        <mat-select aria-label="World" placeholder="World" [ngModel]="world" (ngModelChange)="setWorld($event)" panelClass="!rounded-lg !p-1 !shadow-lg [&_.mat-option-text]:flex [&_.mat-option-text]:items-center [&_.mat-option-text]:gap-2 [&_.mat-option.mat-selected]:!bg-brand-50 [&_.mat-option.mat-selected]:!text-slate-900 [&_.mat-option]:!h-9 [&_.mat-option]:!rounded-md [&_.mat-option]:!px-2.5 [&_.mat-option]:!text-sm [&_.mat-option]:!leading-9 [&_.mat-option]:!text-slate-900" class="flex h-9 w-full items-center rounded-md bg-white pl-3 pr-8 text-sm text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-700 [&_.mat-select-arrow-wrapper]:hidden [&_.mat-select-trigger]:w-full">
           <mat-select-trigger>
             <span class="flex min-w-0 items-center gap-2 whitespace-nowrap">
               <span class="text-slate-500 max-sm:[display:none]">World</span>
@@ -32,7 +33,10 @@
               <span class="truncate font-medium">{{worldName}}</span>
             </span>
           </mat-select-trigger>
-          <mat-option *ngFor="let w of worlds" value="{{w.id}}">{{w.id}} · {{w.name}}</mat-option>
+          <mat-option *ngFor="let w of worlds" value="{{w.id}}">
+            <span class="tabular-nums">{{w.id}}</span><span class="text-slate-400">·</span><span class="truncate">{{w.name}}</span>
+            <svg *ngIf="w.id == world" appIcon="check" class="ml-auto size-4 flex-none text-brand-700"></svg>
+          </mat-option>
         </mat-select>
         <svg appIcon="chevron-down" class="pointer-events-none absolute right-2.5 top-2.5 size-4 text-slate-400"></svg>
       </div>
@@ -61,20 +65,20 @@
 
   <div class="flex gap-2 lg:[display:none]">
     <div class="relative min-w-0 flex-1">
-      <mat-select aria-label="Sort by" [ngModel]="sort_field" (ngModelChange)="sort($event)" class="flex h-9 w-full items-center rounded-md bg-white pl-3 pr-8 text-sm text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-700 [&_.mat-select-arrow-wrapper]:hidden [&_.mat-select-trigger]:w-full">
+      <mat-select aria-label="Sort by" [ngModel]="sort_field" (ngModelChange)="sort($event)" panelClass="!rounded-lg !p-1 !shadow-lg [&_.mat-option-text]:flex [&_.mat-option-text]:items-center [&_.mat-option-text]:gap-2 [&_.mat-option.mat-selected]:!bg-brand-50 [&_.mat-option.mat-selected]:!text-slate-900 [&_.mat-option]:!h-9 [&_.mat-option]:!rounded-md [&_.mat-option]:!px-2.5 [&_.mat-option]:!text-sm [&_.mat-option]:!leading-9 [&_.mat-option]:!text-slate-900" class="flex h-9 w-full items-center rounded-md bg-white pl-3 pr-8 text-sm text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-700 [&_.mat-select-arrow-wrapper]:hidden [&_.mat-select-trigger]:w-full">
         <mat-select-trigger>
           <span class="flex items-center gap-2 whitespace-nowrap">
             <span class="text-slate-500">Sort by</span>
             <span class="font-medium first-letter:uppercase">{{sortLabel}}</span>
           </span>
         </mat-select-trigger>
-        <mat-option value="Points">Points</mat-option>
-        <mat-option value="Rank">General rank</mat-option>
-        <mat-option value="Towns">Towns</mat-option>
-        <mat-option *ngIf="type=='alliance'" value="Members">Members</mat-option>
-        <mat-option value="Att">Attack points</mat-option>
-        <mat-option value="Def">Defence points</mat-option>
-        <mat-option value="AttDef">Combined points</mat-option>
+        <mat-option value="Points">Points<svg *ngIf="sort_field=='Points'" appIcon="check" class="ml-auto size-4 flex-none text-brand-700"></svg></mat-option>
+        <mat-option value="Rank">General rank<svg *ngIf="sort_field=='Rank'" appIcon="check" class="ml-auto size-4 flex-none text-brand-700"></svg></mat-option>
+        <mat-option value="Towns">Towns<svg *ngIf="sort_field=='Towns'" appIcon="check" class="ml-auto size-4 flex-none text-brand-700"></svg></mat-option>
+        <mat-option *ngIf="type=='alliance'" value="Members">Members<svg *ngIf="sort_field=='Members'" appIcon="check" class="ml-auto size-4 flex-none text-brand-700"></svg></mat-option>
+        <mat-option value="Att">Attack points<svg *ngIf="sort_field=='Att'" appIcon="check" class="ml-auto size-4 flex-none text-brand-700"></svg></mat-option>
+        <mat-option value="Def">Defence points<svg *ngIf="sort_field=='Def'" appIcon="check" class="ml-auto size-4 flex-none text-brand-700"></svg></mat-option>
+        <mat-option value="AttDef">Combined points<svg *ngIf="sort_field=='AttDef'" appIcon="check" class="ml-auto size-4 flex-none text-brand-700"></svg></mat-option>
       </mat-select>
       <svg appIcon="chevron-down" class="pointer-events-none absolute right-2.5 top-2.5 size-4 text-slate-400"></svg>
     </div>
@@ -149,6 +153,22 @@
       </article>
     </ng-container>
   </section>
+
+  <div *ngIf="!error && loading && !(results?.length > 0)" aria-hidden="true" class="grid grid-cols-3 items-end gap-6 max-lg:[display:none]">
+    <div *ngFor="let idx of [1, 0, 2]" class="relative flex flex-col items-center rounded-xl bg-white px-6 pb-5 shadow-sm ring-1 ring-slate-900/[.08]" [ngClass]="idx == 0 ? 'mt-[26px] pt-[52px]' : 'mt-[22px] pt-9'">
+      <span class="absolute left-1/2 -translate-x-1/2 animate-pulse rounded-full bg-slate-100 shadow-[0_0_0_4px_#F5F6FA]" [ngClass]="idx == 0 ? '-top-[26px] size-[52px]' : '-top-[22px] size-11'"></span>
+      <span class="h-4 w-32 animate-pulse rounded bg-slate-100"></span>
+      <span class="mt-2 h-3 w-24 animate-pulse rounded bg-slate-100"></span>
+      <span class="mt-5 h-7 w-40 animate-pulse rounded bg-slate-100"></span>
+      <span class="mt-2 h-2.5 w-12 animate-pulse rounded bg-slate-100"></span>
+      <span class="mt-5 grid w-full grid-cols-3 gap-3 border-0 border-t border-solid border-slate-100 pt-4">
+        <span class="mx-auto h-3 w-12 animate-pulse rounded bg-slate-100"></span>
+        <span class="mx-auto h-3 w-12 animate-pulse rounded bg-slate-100"></span>
+        <span class="mx-auto h-3 w-12 animate-pulse rounded bg-slate-100"></span>
+      </span>
+      <span class="mt-4 h-1.5 w-full animate-pulse rounded-full bg-slate-100"></span>
+    </div>
+  </div>
 
   <section *ngIf="!error && loading && !(results?.length > 0)" aria-label="Ranking" aria-busy="true" class="relative overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
     <mat-progress-bar mode="indeterminate" class="!absolute inset-x-0 top-0 z-10 !h-0.5"></mat-progress-bar>

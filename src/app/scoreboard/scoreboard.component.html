@@ -505,63 +505,30 @@
 </ng-template>
 
 <ng-template #alliances_changes>
-  <div class="sb-table" [ngClass]="{'loading-overlay':loadingAlliances}">
-    <div class="title txt-sm green">
-      Alliance Changes
+  <section aria-labelledby="sb-changes" class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+    <div class="relative flex min-h-[56px] items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 py-2.5 pl-5 pr-3">
+      <h2 id="sb-changes" class="m-0 truncate text-base font-semibold text-slate-900">Alliance changes</h2>
+      <button type="button" matTooltip="Players who joined or left an alliance on this day." aria-label="Players who joined or left an alliance on this day." class="inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="information-circle" class="size-5"></svg></button>
     </div>
-    <div>
-      <div class="table-container">
-        <div class="table" id="table_alliance_changes" style="">
-<!--          <div class="row_custom header green">-->
-<!--            <div class="cell">Player</div>-->
-<!--            <div class="cell">Old alliance</div>-->
-<!--            <div class="cell hidden-xs"> </div>-->
-<!--            <div class="cell">New alliance</div>-->
-<!--            <div class="cell hidden-xs">Time</div>-->
-<!--          </div>-->
-
-          <div class="row_custom" *ngFor="let p of allianceChangesData; let i = index;">
-            <div class="cell formatted-cell">
-              <img style="height: 18px; margin-top: -5px; margin-right: 5px;" src="../../assets/images/player_ico.png"/>
-              <a class="gd-brown" routerLink="/player" [queryParams]="{world: p.world, id: p.player_grep_id}">{{p.player_name}}</a>
-              <br/>
-              <!--{{p.player_points | NumberFilter}} points - -->
-              rank {{p.player_rank}}
-            </div>
-            <div class="cell formatted-cell">
-              <img style="height: 18px; margin-top: -5px; margin-right: 5px;" src="../../assets/images/ally_ico.png"/>
-              <span *ngIf="p.old_alliance_grep_id != 0">
-                <a class="gd-brown" routerLink="/alliance" [queryParams]="{world: p.world, id: p.old_alliance_grep_id}">{{p.old_alliance_name}}</a>
-                <br/>
-                rank {{p.old_alliance_rank}}
-              </span>
-              <span *ngIf="p.old_alliance_grep_id == 0" class="diff-null">
-                None
-              </span>
-            </div>
-            <div class="cell hidden-xs">
-              <i class="fa fa-arrow-right gd-secondary" aria-hidden="true"></i>
-            </div>
-            <div class="cell formatted-cell">
-              <img style="height: 18px; margin-top: -5px; margin-right: 5px;" src="../../assets/images/ally_ico.png"/>
-              <span *ngIf="p.new_alliance_grep_id != 0">
-                <a class="gd-brown" routerLink="/alliance" [queryParams]="{world: p.world, id: p.new_alliance_grep_id}">{{p.new_alliance_name}}</a>
-                <br/>
-                rank {{p.new_alliance_rank}}
-              </span>
-              <span *ngIf="p.new_alliance_grep_id == 0" class="diff-null">
-                None
-              </span>
-            </div>
-            <div class="cell hidden-xs">
-              {{p.date.date | Datex : "D MMM ~HH:mm"}}
-            </div>
-          </div>
-
-        </div>
-      </div>
+    <div aria-hidden="true" class="grid grid-cols-[minmax(0,1fr)_16px_minmax(0,1fr)] items-center gap-x-3 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_16px_minmax(0,1fr)_112px] bg-slate-50 px-5 py-2 text-xs font-semibold text-slate-700 max-md:[display:none]">
+      <span>Player</span><span class="md:text-right">Left</span><span></span><span>Joined</span><span class="md:text-right">Time</span>
     </div>
-  </div>
+    <ul class="m-0 list-none p-0" [ngClass]="{'opacity-50': loadingAlliances}">
+      <li *ngFor="let p of allianceChangesData; let i = index;" class="m-0 grid grid-cols-[minmax(0,1fr)_16px_minmax(0,1fr)] items-center gap-x-3 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_16px_minmax(0,1fr)_112px] gap-y-1 border-0 border-solid border-slate-100 px-5 py-2.5 hover:bg-slate-50 max-sm:px-4" [ngClass]="{'border-t': i > 0}">
+        <span class="flex min-w-0 items-center gap-1.5 max-md:col-span-3"><svg appIcon="player_ico" variant="game" class="size-4 flex-none text-slate-400"></svg><a routerLink="/player" [queryParams]="{world: p.world, id: p.player_grep_id}" [title]="p.player_name" class="min-w-0 truncate text-sm font-medium text-slate-900 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{p.player_name}}</a><span class="flex-none text-xs tabular-nums text-slate-500">#{{p.player_rank}}</span></span>
+        <span class="min-w-0">
+            <span *ngIf="p.old_alliance_grep_id != 0" class="flex min-w-0 items-center gap-1.5 md:justify-end"><svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg><a routerLink="/alliance" [queryParams]="{world: p.world, id: p.old_alliance_grep_id}" [title]="p.old_alliance_name" class="min-w-0 truncate text-sm text-slate-900 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{p.old_alliance_name}}</a><span class="flex-none text-xs tabular-nums text-slate-500">#{{p.old_alliance_rank}}</span></span>
+            <span *ngIf="p.old_alliance_grep_id == 0" class="block text-sm text-slate-400 md:text-right">No alliance</span>
+        </span>
+        <span aria-hidden="true" class="flex justify-center text-slate-400"><svg appIcon="arrow-right" class="size-4"></svg></span>
+        <span class="min-w-0">
+            <span *ngIf="p.new_alliance_grep_id != 0" class="flex min-w-0 items-center gap-1.5"><svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg><a routerLink="/alliance" [queryParams]="{world: p.world, id: p.new_alliance_grep_id}" [title]="p.new_alliance_name" class="min-w-0 truncate text-sm text-slate-900 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{p.new_alliance_name}}</a><span class="flex-none text-xs tabular-nums text-slate-500">#{{p.new_alliance_rank}}</span></span>
+            <span *ngIf="p.new_alliance_grep_id == 0" class="block text-sm text-slate-400">No alliance</span>
+        </span>
+        <span class="whitespace-nowrap text-xs tabular-nums text-slate-500 max-md:[display:none] md:text-right">{{p.date.date | Datex : "D MMM ~HH:mm"}}</span>
+      </li>
+    </ul>
+  </section>
 </ng-template>
 
 <div id="pagehead" (scroll)="clearTip()" class="mx-auto flex max-w-[1600px] flex-col gap-6 px-6 py-6 text-left font-normal text-slate-900 max-sm:gap-4 max-sm:px-4">

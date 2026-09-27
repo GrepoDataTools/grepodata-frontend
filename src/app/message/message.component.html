@@ -1,57 +1,83 @@
-<div class="container" style="margin-top: 30px;">
-  <div class="row">
-    <div class="col-lg-8 col-md-10 col-sm-12" style="float: none; margin: auto;">
-      <div class=" alert text-center alert-gd-1" style="padding-bottom: 50px;">
-        <h3>Contact us</h3>
+<div class="mx-auto flex max-w-[648px] flex-col gap-3 px-6 pb-12 pt-6 text-left font-normal text-slate-900 max-sm:px-4 max-sm:pb-8 max-sm:pt-4">
+  <a routerLink="/" class="inline-flex w-fit items-center gap-1.5 text-sm font-medium text-slate-600 no-underline hover:text-slate-900 hover:no-underline focus:text-slate-600 focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+    <svg appIcon="arrow-left" variant="mini" class="size-4 flex-none text-slate-400"></svg>Homepage
+  </a>
 
-	      <div *ngIf="submitted==false">
-          <p>Please use this form to get in touch or drop us a line at admin@grepodata.com.</p>
-          <br/>
-          <div fxLayout="column" fxLayoutAlign="center center" style="width: 100% !important;">
-            <mat-form-field style="width: 70% !important;">
-              <textarea [ngModel]="contact_message" (ngModelChange)="contact_message=$event" required matInput placeholder="Message" rows="4"></textarea>
-            </mat-form-field>
-            <mat-form-field style="width: 70% !important;">
-              <input [ngModel]="contact_name" (ngModelChange)="contact_name=$event" matInput placeholder="Name (optional)">
-            </mat-form-field>
-            <mat-form-field style="width: 70% !important;">
-              <input autocomplete="email" [ngModel]="contact_mail" (ngModelChange)="contact_mail=$event" matInput placeholder="Email (optional)">
-            </mat-form-field>
-            <re-captcha
-                size="invisible" badge="inline"
-                #captchaRef="reCaptcha"
-                siteKey="{{recaptcha_key}}"
-                (resolved)="$event && resolved($event)">
-            </re-captcha>
-            <br/>
-          </div>
-
-          <div *ngIf="error!=''" class="alert alert-danger">
-            <strong>Invalid input!</strong> {{error}}.
-          </div>
-
-          <div *ngIf="loading">
-            <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
-          </div>
-
-        </div>
-
-        <div *ngIf="submitted==true">
-          <p>Thanks for reaching out! We will respond as soon as possible.</p>
-        </div>
-
-        <div *ngIf="submitted==false" style="float: right;">
-          <a (click)="captchaRef.execute()" mat-button class="mat-raised-button bg-gd-2" style="font-size: 18px; color: white;">
-            <span class="fa fa-send"></span> Send Message
-          </a>
-        </div>
-
-        <div style="float: left;">
-          <a mat-button style="font-size: 18px; color: gray;" routerLink="/">
-            <span class="fa fa-backward"></span> Homepage
-          </a>
-        </div>
+  <section aria-labelledby="contact-title" class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+    <div class="flex items-center gap-4 border-0 border-b border-solid border-slate-200 px-6 py-5 max-sm:px-4">
+      <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-lg bg-navy-800 text-brand-500">
+        <svg appIcon="envelope" class="size-6"></svg>
+      </span>
+      <div class="min-w-0">
+        <h1 id="contact-title" class="m-0 text-xl font-semibold leading-7 text-slate-900">Contact us</h1>
+        <p class="mb-0 mt-0.5 text-sm text-slate-600">Use this form to get in touch.</p>
       </div>
     </div>
-  </div>
+
+    <div *ngIf="submitted==false" class="flex flex-col gap-5 px-6 py-5 max-sm:px-4">
+      <div>
+        <label for="message-text" class="mb-1.5 block text-sm font-medium text-slate-900">Your message</label>
+        <textarea id="message-text" [disabled]="loading" [ngModel]="contact_message" (ngModelChange)="contact_message=$event" required rows="4" class="block w-full resize-y rounded-md border border-solid border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700 disabled:bg-slate-50 disabled:text-slate-400"></textarea>
+      </div>
+
+      <div>
+        <div class="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
+          <div>
+            <label for="message-name" class="mb-1.5 block text-sm font-medium text-slate-900">Name <span class="font-normal text-slate-500">(optional)</span></label>
+            <input id="message-name" [disabled]="loading" [ngModel]="contact_name" (ngModelChange)="contact_name=$event" placeholder="Your name" class="h-10 w-full rounded-md border border-solid border-slate-300 bg-white px-3 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700 disabled:bg-slate-50 disabled:text-slate-400">
+          </div>
+          <div>
+            <label for="message-mail" class="mb-1.5 block text-sm font-medium text-slate-900">Email <span class="font-normal text-slate-500">(optional)</span></label>
+            <input id="message-mail" autocomplete="email" [disabled]="loading" [ngModel]="contact_mail" (ngModelChange)="contact_mail=$event" placeholder="you@example.com" class="h-10 w-full rounded-md border border-solid border-slate-300 bg-white px-3 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700 disabled:bg-slate-50 disabled:text-slate-400">
+          </div>
+        </div>
+        <p class="mb-0 mt-1.5 text-xs text-slate-500">If you want us to reply, please also enter your email address.</p>
+      </div>
+
+      <p class="m-0 flex items-start gap-2 text-xs leading-5 text-slate-500">
+        <svg appIcon="shield-check" class="mt-0.5 size-4 flex-none text-slate-400"></svg>
+        <span>Protected by reCAPTCHA · Google <a href="https://policies.google.com/privacy" target="_blank" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline focus:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline focus:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Terms</a> apply</span>
+      </p>
+
+      <div *ngIf="error!=''" role="alert" class="flex gap-3 rounded-lg bg-rose-50 px-4 py-3 ring-1 ring-inset ring-rose-200">
+        <svg appIcon="exclamation-circle" class="size-5 flex-none text-rose-600"></svg>
+        <div class="min-w-0 text-sm text-rose-700">
+          <p class="m-0 font-semibold">Invalid input</p>
+          <p class="mb-0 mt-0.5">{{error}}.</p>
+        </div>
+      </div>
+
+      <div class="-mt-5 h-0 overflow-hidden">
+        <re-captcha
+            size="invisible" badge="inline"
+            #captchaRef="reCaptcha"
+            siteKey="{{recaptcha_key}}"
+            (resolved)="$event && resolved($event)">
+        </re-captcha>
+      </div>
+    </div>
+
+    <div *ngIf="submitted==true" class="flex flex-col items-center px-6 py-9 text-center max-sm:px-4">
+      <span aria-hidden="true" class="flex size-12 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+        <svg appIcon="check" class="size-6"></svg>
+      </span>
+      <h2 class="mb-0 mt-3 text-base font-semibold text-slate-900">Thanks for reaching out!</h2>
+      <p class="mb-0 mt-1 text-sm text-slate-600">We will respond as soon as possible.</p>
+    </div>
+
+    <div class="flex flex-wrap items-center justify-end gap-3 border-0 border-t border-solid border-slate-200 bg-slate-50 px-6 py-4 max-sm:px-4">
+      <ng-container *ngIf="submitted==false">
+        <p class="my-0 mr-auto min-w-0 text-[13px] text-slate-500 max-sm:w-full">Or email <span class="ml-1 select-all font-medium text-slate-700">admin@grepodata.com</span></p>
+        <button type="button" [disabled]="loading" (click)="captchaRef.execute()" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-brand-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-progress disabled:opacity-75 max-sm:w-full">
+          <svg *ngIf="!loading" appIcon="paper-airplane" variant="mini" class="size-4 flex-none"></svg>
+          <span *ngIf="loading" class="size-4 flex-none animate-spin rounded-full border-2 border-solid border-white/35 border-t-white"></span>
+          <span *ngIf="loading">Sending message...</span>
+          <span *ngIf="!loading">Send message</span>
+        </button>
+      </ng-container>
+      <a *ngIf="submitted==true" routerLink="/" class="inline-flex items-center justify-center gap-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 no-underline shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 hover:text-slate-900 hover:no-underline focus:text-slate-900 focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+        <svg appIcon="arrow-left" variant="mini" class="size-4 flex-none text-slate-400"></svg>Homepage
+      </a>
+    </div>
+  </section>
 </div>

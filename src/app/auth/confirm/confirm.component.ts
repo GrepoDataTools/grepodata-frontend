@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {JwtService} from '../services/jwt.service';
+import {MatDialog} from '@angular/material/dialog';
+import {BasicDialog} from '../../shared/dialogs/basic/basic.component';
 
 @Component({
   selector: 'app-confirm',
@@ -14,7 +16,8 @@ export class ConfirmComponent implements OnInit {
   success = '';
 
   constructor(
-    private authService: JwtService
+    private authService: JwtService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -59,28 +62,42 @@ export class ConfirmComponent implements OnInit {
   }
 
   deleteAccount() {
-    let confirmed = confirm("Are you sure you want to delete your account? This can not be undone. If you click OK, your account will be permanently deleted.");
-    if (confirmed == true) {
-      this.authService.accessToken().then(access_token => {
-        this.authService.deleteAccount(access_token, 'null').subscribe(
-          (response) => {
-            console.log(response);
-            this.error = '';
-            this.submitting = false;
-            if ('status' in response && response.status === 'Account deleted') {
-              this.authService.logout(true);
-            } else {
+    const dialogRef = this.dialog.open(BasicDialog, {
+      autoFocus: false,
+      data: {
+        title: 'Delete your account?',
+        show_close: false,
+        icon: 'trash',
+        messageHtml: '<p class="m-0">This can not be undone. If you continue, your account will be permanently deleted.</p>',
+        cancel_action: 'Cancel',
+        action_type: 'danger',
+        action: 'Delete my account',
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(confirmed => {
+      if (confirmed == true) {
+        this.authService.accessToken().then(access_token => {
+          this.authService.deleteAccount(access_token, 'null').subscribe(
+            (response) => {
+              console.log(response);
+              this.error = '';
+              this.submitting = false;
+              if ('status' in response && response.status === 'Account deleted') {
+                this.authService.logout(true);
+              } else {
+                this.error = "Unable to complete your request. Please try again later or contact us if this error persists.";
+              }
+            },
+            (error) => {
+              console.log(error);
               this.error = "Unable to complete your request. Please try again later or contact us if this error persists.";
-            }
-          },
-          (error) => {
-            console.log(error);
-            this.error = "Unable to complete your request. Please try again later or contact us if this error persists.";
-            this.submitting = false;
-          },
-        );
-      });
-    }
+              this.submitting = false;
+            },
+          );
+        });
+      }
+    });
   }
 }
 

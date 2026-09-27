@@ -1,0 +1,28 @@
+<div class="relative [container-type:inline-size]">
+  <div role="img" [attr.aria-label]="label" class="relative mb-6 ml-11 mr-2 h-[180px] [@container(min-width:480px)]:mr-24" (pointermove)="move($event)" (pointerleave)="hover = null">
+    <svg class="absolute inset-0 h-full w-full overflow-visible" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+      <path *ngFor="let band of bands" [attr.d]="band.path" [attr.fill]="band.color" fill-opacity="0.13" stroke="none"></path>
+      <line *ngFor="let tick of yTicks; let first = first" x1="0" x2="100" [attr.y1]="tick.y" [attr.y2]="tick.y" [attr.stroke]="first ? '#CBD5E1' : '#E2E8F0'" [attr.stroke-opacity]="first ? 1 : 0.6" stroke-width="1" vector-effect="non-scaling-stroke"></line>
+      <path *ngFor="let edge of edges" [attr.d]="edge.path" fill="none" [attr.stroke]="edge.color" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"></path>
+    </svg>
+
+    <span *ngFor="let tick of yTicks" aria-hidden="true" class="absolute right-full mr-2 -translate-y-1/2 whitespace-nowrap text-[11px] leading-[14px] tabular-nums text-slate-500" [style.top.%]="tick.y">{{tick.value}}%</span>
+    <span *ngFor="let tick of xTicks" aria-hidden="true" class="absolute top-full mt-1.5 -translate-x-1/2 whitespace-nowrap text-[11px] leading-[14px] tabular-nums text-slate-500" [style.left.%]="tick.x">{{tick.label}}</span>
+    <span *ngFor="let band of bands" aria-hidden="true" class="absolute left-full ml-2 -translate-y-1/2 whitespace-nowrap text-[11px] font-semibold leading-[14px] text-slate-700 [@container(max-width:479px)]:[display:none]" [style.top.%]="band.y">{{band.short}} {{band.share | number:'1.0-0'}}%</span>
+
+    <p *ngIf="bands.length == 0" class="absolute inset-0 m-0 flex items-center justify-center text-sm text-slate-500">No history available</p>
+
+    <ng-container *ngIf="hover">
+      <span aria-hidden="true" class="pointer-events-none absolute inset-y-0 w-px bg-slate-400" [style.left.%]="hover.x"></span>
+      <div role="tooltip" class="pointer-events-none absolute top-2 z-10 w-max min-w-[176px] rounded-lg bg-white px-3 py-2 text-xs shadow-lg ring-1 ring-slate-900/5" [style.left.%]="hover.x" [ngClass]="hover.x > 55 ? '-ml-3 -translate-x-full' : 'ml-3'">
+        <p class="mb-1 mt-0 font-semibold text-slate-900">{{hover.date}}</p>
+        <div *ngFor="let row of hover.rows" class="flex items-center gap-2 leading-5">
+          <span aria-hidden="true" class="size-2.5 flex-none rounded-[3px]" [style.background-color]="row.color"></span>
+          <span class="w-9 flex-none font-semibold tabular-nums text-slate-900">{{row.share | number:'1.0-0'}}%</span>
+          <span class="min-w-0 flex-1 truncate text-slate-600">{{row.name}}</span>
+          <span class="tabular-nums text-slate-400">{{row.value | number}}</span>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

@@ -153,6 +153,7 @@ export class ContactDialog {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private messageService : MessageService)
   {
+    dialogRef.addPanelClass('team-dialog');
     if (data && 'custom_title' in data) {
       this.custom_title = data.custom_title;
     }

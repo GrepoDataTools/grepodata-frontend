@@ -1,18 +1,28 @@
 <div class="relative [container-type:inline-size]">
-  <div role="img" [attr.aria-label]="label" class="relative mb-6 ml-11 mr-2 h-60 [@container(min-width:560px)]:mr-36" (pointermove)="move($event)" (pointerleave)="hover = null">
+  <div role="img" [attr.aria-label]="label" class="relative mb-6 ml-11 mr-2" [ngClass]="[plot, ends == 'name' ? '[@container(min-width:560px)]:mr-36' : ends == 'value' ? '[@container(min-width:560px)]:mr-14' : '']" (pointermove)="move($event)" (pointerleave)="hover = null">
     <svg class="absolute inset-0 h-full w-full overflow-visible" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
       <line *ngFor="let tick of yTicks; let first = first" x1="0" x2="100" [attr.y1]="tick.y" [attr.y2]="tick.y" [attr.stroke]="first ? '#CBD5E1' : '#F1F5F9'" stroke-width="1" vector-effect="non-scaling-stroke"></line>
-      <path *ngFor="let line of lines" [attr.d]="line.path" fill="none" [attr.stroke]="line.color" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"></path>
+      <ng-container *ngIf="area">
+        <path *ngFor="let line of lines" [attr.d]="line.fill" [attr.fill]="line.color" fill-opacity="0.08" stroke="none"></path>
+      </ng-container>
+      <path *ngFor="let line of lines" [attr.d]="line.path" fill="none" [attr.stroke]="line.color" [attr.stroke-width]="line.width" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"></path>
     </svg>
 
     <span *ngFor="let tick of yTicks" aria-hidden="true" class="absolute right-full mr-2 -translate-y-1/2 whitespace-nowrap text-[11px] leading-[14px] tabular-nums text-slate-500" [style.top.%]="tick.y">{{tick.value | compactNumber}}</span>
     <span *ngFor="let tick of xTicks" aria-hidden="true" class="absolute top-full mt-1.5 -translate-x-1/2 whitespace-nowrap text-[11px] leading-[14px] tabular-nums text-slate-500" [style.left.%]="tick.x">{{tick.label}}</span>
 
-    <span *ngFor="let line of lines" aria-hidden="true" class="absolute size-2 -translate-x-1/2 -translate-y-1/2 rounded-full ring-2 ring-white" [style.left.%]="line.x" [style.top.%]="line.y" [style.background-color]="line.color"></span>
-    <span *ngFor="let item of endLabels" aria-hidden="true" class="absolute left-full ml-3 flex -translate-y-1/2 items-baseline gap-1.5 whitespace-nowrap text-[11px] leading-[14px] [@container(max-width:559px)]:[display:none]" [style.top.%]="item.y">
-      <span class="max-w-[88px] truncate font-semibold text-slate-900">{{item.name}}</span>
-      <span class="tabular-nums text-slate-500">{{item.value | compactNumber}}</span>
-    </span>
+    <ng-container *ngIf="ends != 'none'">
+      <span *ngFor="let line of lines" aria-hidden="true" class="absolute size-2 -translate-x-1/2 -translate-y-1/2 rounded-full ring-2 ring-white" [style.left.%]="line.x" [style.top.%]="line.y" [style.background-color]="line.color"></span>
+      <span *ngFor="let item of endLabels" aria-hidden="true" class="absolute left-full ml-3 flex -translate-y-1/2 items-baseline gap-1.5 whitespace-nowrap text-[11px] leading-[14px] [@container(max-width:559px)]:[display:none]" [style.top.%]="item.y">
+        <span *ngIf="ends == 'name'" class="max-w-[88px] truncate font-semibold text-slate-900">{{item.name}}</span>
+        <span class="tabular-nums" [ngClass]="ends == 'name' ? 'text-slate-500' : 'font-semibold text-slate-900'">{{item.value | compactNumber}}</span>
+      </span>
+    </ng-container>
+
+    <ng-container *ngIf="peakPoint">
+      <span aria-hidden="true" class="absolute size-2 -translate-x-1/2 -translate-y-1/2 rounded-full ring-2 ring-white" [style.left.%]="peakPoint.x" [style.top.%]="peakPoint.y" [style.background-color]="peakPoint.color"></span>
+      <span aria-hidden="true" class="absolute -translate-y-1/2 whitespace-nowrap text-[11px] font-semibold leading-[14px] text-slate-700" [style.left.%]="peakPoint.x" [style.top.%]="peakPoint.y" [ngClass]="peakPoint.x > 70 ? '-ml-2 -translate-x-full' : 'ml-2'">{{peakPoint.value | compactNumber}} on {{peakPoint.date}}</span>
+    </ng-container>
 
     <p *ngIf="lines.length == 0" class="absolute inset-0 m-0 flex items-center justify-center text-sm text-slate-500">No history available</p>
 
@@ -20,7 +30,7 @@
       <span aria-hidden="true" class="pointer-events-none absolute inset-y-0 w-px bg-slate-300" [style.left.%]="hover.x"></span>
       <span *ngFor="let row of hover.rows" aria-hidden="true" class="pointer-events-none absolute size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full ring-2 ring-white" [style.left.%]="row.x" [style.top.%]="row.y" [style.background-color]="row.color"></span>
       <div role="tooltip" class="pointer-events-none absolute top-2 z-10 w-max min-w-[168px] max-w-[260px] rounded-lg bg-white px-3 py-2 text-xs shadow-lg ring-1 ring-slate-900/5" [style.left.%]="hover.x" [ngClass]="hover.x > 55 ? '-ml-3 -translate-x-full' : 'ml-3'">
-        <p class="m-0 mb-1 font-semibold text-slate-900">{{hover.date}}</p>
+        <p class="mb-1 mt-0 font-semibold text-slate-900">{{hover.date}}</p>
         <div *ngFor="let row of hover.rows" class="flex items-center gap-2 leading-5">
           <span aria-hidden="true" class="size-2.5 flex-none rounded-[3px]" [style.background-color]="row.color"></span>
           <span class="min-w-0 flex-1 truncate text-slate-600">{{row.name}}</span>

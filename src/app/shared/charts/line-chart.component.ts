@@ -13,12 +13,20 @@ export class LineChartComponent implements OnChanges {
     @Input() results: any[] = [];
     @Input() color: (name: string) => string = () => '#2A78D6';
     @Input() label = '';
+    @Input() zero = false;
+    @Input() area = false;
+    @Input() peak = false;
+    @Input() hourly = false;
+    @Input() ends = 'name';
+    @Input() plot = 'h-60';
+    @Input() width: (name: string) => number = () => 2;
 
     lines: any[] = [];
     yTicks: any[] = [];
     xTicks: any[] = [];
     endLabels: any[] = [];
     hover: any = null;
+    peakPoint: any = null;
 
     private series: any[] = [];
     private xMin = 0;
@@ -45,6 +53,7 @@ export class LineChartComponent implements OnChanges {
             this.yTicks = [];
             this.xTicks = [];
             this.endLabels = [];
+            this.peakPoint = null;
             return;
         }
 
@@ -55,6 +64,9 @@ export class LineChartComponent implements OnChanges {
 
         let min = Math.min(...values);
         let max = Math.max(...values);
+        if (this.zero) {
+            min = Math.min(0, min);
+        }
         if (min === max) {
             min -= 1;
             max += 1;
@@ -69,16 +81,31 @@ export class LineChartComponent implements OnChanges {
         }
 
         this.lines = this.series.map((item) => {
+            const first = item.points[0];
             const last = item.points[item.points.length - 1];
+            const path = 'M' + item.points.map((point) => this.x(point.time).toFixed(2) + ',' + this.y(point.value).toFixed(2)).join('L');
             return {
                 name: item.name,
                 color: item.color,
-                path: 'M' + item.points.map((point) => this.x(point.time).toFixed(2) + ',' + this.y(point.value).toFixed(2)).join('L'),
+                width: this.width(item.name),
+                path: path,
+                fill: path + 'L' + this.x(last.time).toFixed(2) + ',100L' + this.x(first.time).toFixed(2) + ',100Z',
                 x: this.x(last.time),
                 y: this.y(last.value),
                 value: last.value,
             };
         });
+
+        this.peakPoint = null;
+        if (this.peak) {
+            this.series.forEach((item) =>
+                item.points.forEach((point) => {
+                    if (this.peakPoint === null || point.value > this.peakPoint.value) {
+                        this.peakPoint = { value: point.value, color: item.color, x: this.x(point.time), y: this.y(point.value), date: moment(point.time).format('D MMM') };
+                    }
+                })
+            );
+        }
 
         this.endLabels = this.lines
             .map((line) => ({ name: line.name, color: line.color, value: line.value, y: line.y }))
@@ -122,7 +149,7 @@ export class LineChartComponent implements OnChanges {
         this.hover = {
             time: nearest,
             x: this.x(nearest),
-            date: moment(nearest).format('D MMM YYYY'),
+            date: moment(nearest).format(this.hourly ? 'D MMM HH:mm' : 'D MMM YYYY'),
             rows: rows.sort((a, b) => b.value - a.value),
         };
     }

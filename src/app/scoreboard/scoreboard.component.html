@@ -76,47 +76,23 @@
 </ng-template>
 
 <ng-template #points_per_hour>
-  <div class="sb-table" [ngClass]="{'loading-overlay':loadingPlayers}">
-    <div class="title txt-sm default">
-      Points per Hour
-      <span *ngIf="!mobile && !loadingPlayers && nextUpdate == ''" style='font-weight: 300; color: #304357;' class="hidden-xs">
-        <span class="label label-danger">You are viewing historic data</span> Go to <a class="a-link-dialog" routerLink="/points" [queryParams]="{world: world}">today</a>
-      </span>
-      <div class="info">
-        <i class="fa fa-info-circle" matTooltip="Total number of attack (red) and defence (blue) points gained per hour. Click on a bar to view a detailed breakdown."></i>
+  <section aria-labelledby="sb-hourly" class="min-w-0 rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+    <div class="relative flex min-h-[56px] items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 py-2.5 pl-5 pr-3 flex-wrap">
+      <div class="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1">
+        <h2 id="sb-hourly" class="m-0 whitespace-nowrap text-base font-semibold text-slate-900">Points per hour</h2>
+        <span *ngIf="!mobile && !loadingPlayers && nextUpdate == ''" class="inline-flex items-center gap-2 text-xs"><span class="whitespace-nowrap rounded-full bg-amber-50 px-2 py-0.5 font-medium text-amber-700 ring-1 ring-inset ring-amber-600/25">Historic data</span><a routerLink="/points" [queryParams]="{world: world}" class="whitespace-nowrap font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Go to today</a></span>
       </div>
-      <mat-progress-bar class="loading-bar" *ngIf="loadingPlayers" mode="indeterminate"></mat-progress-bar>
-    </div>
-    <div class="content">
-      <div style="display: flex; place-content: center; width: 100%;" [ngClass]="{'loading-overlay':loadingPlayers}">
-        <div style="max-width: 100%;"
-             #overviewContainer class="row hidden-xs text-center"
-             [ngStyle]="{'width': (150*playerData.overview.length)+'px'}">
-          <ngx-charts-bar-vertical-stacked
-            [view]="[overviewContainer.offsetWidth, playerData.overview.length > 10 ? 200 : 150]"
-            [scheme]="{domain: ['#ea6153', '#297fb9']}"
-            [results]="data_default"
-            [gradient]="false"
-            [animations]="false"
-            [xAxis]="true"
-            [yAxis]="playerData.overview.length <= 10"
-            [xAxisTickFormatting]="formatTime"
-            [legend]="false"
-            [showXAxisLabel]="playerData.overview.length <= 10"
-            [showYAxisLabel]="playerData.overview.length <= 10"
-            [noBarWhenZero]="false"
-            [roundDomains]="false"
-            [barPadding]="1"
-            [xAxisLabel]="'Hour'"
-            [yAxisLabel]="'Score'"
-            (select)="onOverviewSelect($event)"
-            [ngClass]="{'oversized': playerData.overview.length > 10}"
-          >
-          </ngx-charts-bar-vertical-stacked>
-        </div>
+      <div class="flex items-center gap-3">
+        <span class="inline-flex items-center gap-1.5 whitespace-nowrap text-xs text-slate-600"><span aria-hidden="true" class="size-2.5 flex-none rounded-[3px] bg-[#EB6834]"></span>Attack</span>
+        <span class="inline-flex items-center gap-1.5 whitespace-nowrap text-xs text-slate-600"><span aria-hidden="true" class="size-2.5 flex-none rounded-[3px] bg-[#2A78D6]"></span>Defence</span>
+        <button type="button" matTooltip="Total number of attack (orange) and defence (blue) points gained per hour. Click on a bar to view a detailed breakdown." aria-label="Total number of attack (orange) and defence (blue) points gained per hour. Click on a bar to view a detailed breakdown." class="inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="information-circle" class="size-5"></svg></button>
       </div>
+      <mat-progress-bar *ngIf="loadingPlayers" mode="indeterminate" class="!absolute inset-x-0 bottom-0 !h-0.5"></mat-progress-bar>
     </div>
-  </div>
+    <div class="px-5 py-2" [ngClass]="{'opacity-50': loadingPlayers}">
+      <app-stacked-bar-chart [results]="data_default" [colors]="['#EB6834', '#2A78D6']" [seriesLabels]="['Attack', 'Defence']" [clickable]="hasOverview" label="Points per hour" (barSelect)="onOverviewSelect({series: $event})"></app-stacked-bar-chart>
+    </div>
+  </section>
 </ng-template>
 
 <ng-template #ghosts>

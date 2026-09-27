@@ -57,6 +57,7 @@ export class CompareComponent implements OnInit {
   attChart = [];
   defChart = [];
   townChart = [];
+  historyTab = 'points';
 
   loadingStats = false;
   fightGauge = [];

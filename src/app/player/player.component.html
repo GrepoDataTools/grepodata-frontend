@@ -32,7 +32,8 @@
               </a>
               <span *ngIf="alliance_id=='0'" class="text-slate-400">No alliance</span>
               <span aria-hidden="true" class="text-slate-300">·</span>
-              <app-player-activity [hours_inactive]="playerInfoData.hours_inactive" [show_active]="true"></app-player-activity>
+              <app-player-activity *ngIf="!bIsGhost" [hours_inactive]="playerInfoData.hours_inactive" [show_active]="true"></app-player-activity>
+              <span *ngIf="bIsGhost" class="inline-flex flex-none items-center gap-1.5 whitespace-nowrap rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-700 ring-1 ring-inset ring-amber-600/25"><span aria-hidden="true" class="size-1.5 rounded-full bg-current"></span>Account reset</span>
             </ng-container>
           </div>
         </div>
@@ -283,9 +284,8 @@
           </figure>
         </div>
       </div>
-      <div *ngIf="tabsIndex == 3 && bIsGhost" role="tabpanel" class="p-5 max-sm:p-4">
-
-              <app-ghost-towns [id]="id" [world]="world"></app-ghost-towns>
+      <div *ngIf="tabsIndex == 3 && bIsGhost" role="tabpanel">
+        <app-ghost-towns [id]="id" [world]="world"></app-ghost-towns>
       </div>
     </section>
     <app-advertorial *ngIf="!loadingInfo && towns > 1 && rank <= 1000" class="block empty:hidden"></app-advertorial>

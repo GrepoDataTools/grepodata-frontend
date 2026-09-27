@@ -268,15 +268,14 @@ export class InviteComponent implements OnInit {
       data: {
         title: '',
         show_close: false,
-        messageHtml: '<div class="text-center">' +
-          '<div class="gd-txt-icon-container">\n' +
-          '  <span class="gd-txt-icon-1">GREPO</span>\n' +
-          '  <span class="gd-txt-icon-2">DATA</span>\n' +
-          '</div>' +
-          '<h2 class="gd-primary">Userscript login complete. Happy indexing!</h2>' +
-          '<h4>You can now use the city indexer tool while playing Grepolis.</h4>' +
-          '<br/>' +
-          '<h5>Thank you for using GrepoData.</h5>' +
+        messageHtml: '<div class="flex flex-col items-center pb-1 pt-2 text-center">' +
+          '<p class="m-0 whitespace-nowrap text-[28px] font-extrabold leading-none tracking-tight"><span class="text-navy-800">GREPO</span><span class="text-brand-500">DATA</span></p>' +
+          '<span class="mt-5 flex size-12 items-center justify-center rounded-full bg-emerald-50 text-emerald-600 ring-1 ring-inset ring-emerald-100">' +
+          '<span class="block size-[26px] bg-current [mask:url(/assets/heroicons/24/outline/check-badge.svg)_center/contain_no-repeat]"></span>' +
+          '</span>' +
+          '<h2 class="pt-4 text-slate-900">Userscript login complete. Happy indexing!</h2>' +
+          '<p class="mt-1.5">You can now use the city indexer tool while playing Grepolis.</p>' +
+          '<p class="mt-3 text-slate-500">Thank you for using GrepoData.</p>' +
           '</div>',
         closeOnNavigation: false
       }

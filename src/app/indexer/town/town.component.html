@@ -46,17 +46,50 @@
 
   <ng-container *ngIf="showTabs()">
     <div role="tabpanel" [hidden]="activeTab !== 0" [ngClass]="{ 'embedded-container': embedded }">
-					              <div *ngIf="build.length > 0">
-						              <h3 class="gd-secondary" *ngIf="!embedded">
-							              <span class='world-title'>Latest building intelligence</span>
-						              </h3>
-						              <span class="build-cell" style="transform: scale(1.4); float: left; margin: 15px;" *ngFor="let building of build" >
-			                      <div class="building_icon40x40 {{building.name}}" matTooltip="{{building.name}}: {{building.val}} ({{building.date}})">
-			                        <span class="unit-val">{{building.val}}</span>
-			                      </div>
-			                    </span>
-						              <br/><br/><br/>
-					              </div>
+                <section *ngIf="build.length > 0" class="overflow-hidden bg-white" [ngClass]="embedded ? 'border-0 border-b border-solid border-slate-200' : 'rounded-xl shadow-sm ring-1 ring-slate-900/[.08]'">
+                  <div *ngIf="!embedded" class="border-0 border-b border-solid border-slate-200 px-5 py-4">
+                    <h2 class="my-0 text-base font-semibold text-slate-900">Latest building intelligence</h2>
+                    <p class="mb-0 mt-0.5 text-xs text-slate-500">Each building at its latest known level, laid out like the in-game Senate. Hover a building for the full report date.</p>
+                  </div>
+                  <div class="bg-gradient-to-b from-slate-50 to-white px-5 pb-7 pt-6 [container-type:inline-size] max-sm:px-3">
+                    <div class="relative">
+                      <div class="absolute top-7 h-[66px] rounded-t-lg border-0 border-x-[1.5px] border-t-[1.5px] border-solid border-slate-300 [left:calc((100%-72px)/4-108px)] [right:calc((100%-72px)/4-108px)] [display:none] [@container(min-width:880px)]:[display:block]"></div>
+                      <div class="absolute top-7 h-[66px] w-0 border-0 border-l-[1.5px] border-solid border-slate-300 [left:calc((100%-72px)/4+132px)] [display:none] [@container(min-width:880px)]:[display:block]"></div>
+                      <div class="absolute top-7 h-[66px] w-0 border-0 border-r-[1.5px] border-solid border-slate-300 [right:calc((100%-72px)/4+132px)] [display:none] [@container(min-width:880px)]:[display:block]"></div>
+                      <div class="absolute top-[94px] h-1.5 w-[9px] [left:calc((100%-72px)/4-112.5px)] [display:none] [@container(min-width:880px)]:[display:block]"><span class="absolute bottom-0 left-1/2 -translate-x-1/2 border-0 border-x-[4.5px] border-t-[6px] border-solid border-x-transparent border-t-slate-400"></span></div>
+                      <div class="absolute top-[94px] h-1.5 w-[9px] [left:calc((100%-72px)/4+127.5px)] [display:none] [@container(min-width:880px)]:[display:block]"><span class="absolute bottom-0 left-1/2 -translate-x-1/2 border-0 border-x-[4.5px] border-t-[6px] border-solid border-x-transparent border-t-slate-400"></span></div>
+                      <div class="absolute top-[94px] h-1.5 w-[9px] [right:calc((100%-72px)/4+127.5px)] [display:none] [@container(min-width:880px)]:[display:block]"><span class="absolute bottom-0 left-1/2 -translate-x-1/2 border-0 border-x-[4.5px] border-t-[6px] border-solid border-x-transparent border-t-slate-400"></span></div>
+                      <div class="absolute top-[94px] h-1.5 w-[9px] [right:calc((100%-72px)/4-112.5px)] [display:none] [@container(min-width:880px)]:[display:block]"><span class="absolute bottom-0 left-1/2 -translate-x-1/2 border-0 border-x-[4.5px] border-t-[6px] border-solid border-x-transparent border-t-slate-400"></span></div>
+                      <div class="relative z-10 mx-auto w-full [@container(min-width:480px)]:max-w-[260px]">
+                        <ng-container *ngTemplateOutlet="buildingNode; context: {$implicit: 'main'}"></ng-container>
+                      </div>
+                      <div class="mt-4 grid grid-cols-2 gap-x-6 gap-y-3 [@container(max-width:479px)]:grid-cols-1 [@container(min-width:880px)]:mt-11 [@container(min-width:880px)]:grid-cols-4 [@container(min-width:880px)]:gap-y-8">
+                        <ng-container *ngFor="let row of treeRows; let r = index">
+                          <div *ngFor="let key of row; let c = index" class="relative">
+                            <ng-container *ngTemplateOutlet="buildingNode; context: {$implicit: key}"></ng-container>
+                            <div class="absolute top-full w-[9px] [display:none] [@container(min-width:880px)]:[display:block]" [ngClass]="(r < 2 ? 'h-8 ' : 'h-11 ') + (c % 2 == 0 ? 'right-[103.5px]' : 'left-[103.5px]')">
+                              <span class="absolute bottom-1.5 left-1/2 top-0 w-0 -translate-x-1/2 border-0 border-l-[1.5px] border-solid border-slate-300"></span>
+                              <span class="absolute bottom-0 left-1/2 -translate-x-1/2 border-0 border-x-[4.5px] border-t-[6px] border-solid border-x-transparent border-t-slate-400"></span>
+                            </div>
+                          </div>
+                        </ng-container>
+                      </div>
+                      <div class="mt-3 grid grid-cols-2 gap-x-6 gap-y-3 [@container(max-width:479px)]:grid-cols-1 [@container(min-width:880px)]:mt-11">
+                        <div class="mx-auto w-full [@container(min-width:480px)]:max-w-[320px]">
+                          <ng-container *ngTemplateOutlet="specialNode; context: {$implicit: specialLeft}"></ng-container>
+                        </div>
+                        <div class="mx-auto w-full [@container(min-width:480px)]:max-w-[320px]">
+                          <ng-container *ngTemplateOutlet="specialNode; context: {$implicit: specialRight}"></ng-container>
+                        </div>
+                      </div>
+                      <div *ngIf="otherBuildings().length > 0" class="mt-8 grid grid-cols-2 gap-x-6 gap-y-3 [@container(max-width:479px)]:grid-cols-1 [@container(min-width:880px)]:grid-cols-4">
+                        <ng-container *ngFor="let other of otherBuildings()">
+                          <ng-container *ngTemplateOutlet="buildingNode; context: {$implicit: other.name}"></ng-container>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </div>
+                </section>
 					              <div *ngIf="!allCities.length || allCities.length <= 0">
 						              <br/>
 						              <br/>
@@ -403,3 +436,46 @@
 
   </div>
 </div>
+
+<ng-template #buildingNode let-key let-special="special">
+  <ng-container *ngIf="building(key) as b; else missingBuilding">
+    <div matTooltip="{{buildingNames[b.name] || b.name}}: {{b.val}} ({{b.date | IndexDate}})" class="flex h-14 items-center gap-2.5 rounded-lg bg-white pl-2 pr-3 shadow-sm ring-1 ring-slate-900/10">
+      <div class="building_icon40x40 {{b.name}} flex-none rounded-md border-0 ring-1 ring-inset ring-slate-900/[.18]"></div>
+      <div class="min-w-0 flex-1">
+        <div class="truncate text-sm font-semibold text-slate-900">{{buildingNames[b.name] || b.name}}</div>
+        <div class="flex min-w-0 items-center gap-1.5 text-xs tabular-nums text-slate-500">
+          <span *ngIf="special" class="flex-none rounded-full bg-violet-50 px-2 font-medium leading-4 text-violet-700 ring-1 ring-inset ring-violet-700/20">Special</span>
+          <span class="truncate">{{b.date | IndexDate}}</span>
+        </div>
+      </div>
+      <span class="flex-none text-xl font-bold tabular-nums" [ngClass]="b.val == 0 ? 'text-slate-400' : 'text-slate-900'">{{b.val}}</span>
+    </div>
+  </ng-container>
+  <ng-template #missingBuilding>
+    <div matTooltip="{{buildingNames[key]}}: no intel yet" class="flex h-14 items-center gap-2.5 rounded-lg bg-slate-50 pl-2 pr-3 ring-1 ring-inset ring-slate-200">
+      <div class="building_icon40x40 {{key}} flex-none rounded-md border-0 opacity-35 grayscale"></div>
+      <div class="min-w-0 flex-1">
+        <div class="truncate text-sm font-semibold text-slate-400">{{buildingNames[key]}}</div>
+        <div class="text-xs text-slate-400">No intel</div>
+      </div>
+      <span class="flex-none text-xl font-semibold text-slate-300">—</span>
+    </div>
+  </ng-template>
+</ng-template>
+
+<ng-template #specialNode let-keys>
+  <ng-container *ngIf="specialBuilding(keys) as special; else noSpecial">
+    <ng-container *ngTemplateOutlet="buildingNode; context: {$implicit: special.name, special: true}"></ng-container>
+  </ng-container>
+  <ng-template #noSpecial>
+    <div class="flex h-14 items-center gap-2.5 rounded-lg border border-dashed border-slate-300 bg-slate-50 pl-2 pr-3">
+      <span class="flex size-10 flex-none items-center justify-center rounded-md bg-slate-100 text-slate-400">
+        <svg appIcon="sparkles" class="size-5"></svg>
+      </span>
+      <div class="min-w-0 flex-1">
+        <div class="truncate text-sm font-semibold text-slate-500">Special building</div>
+        <div class="truncate text-xs text-slate-400">None built or no intel</div>
+      </div>
+    </div>
+  </ng-template>
+</ng-template>

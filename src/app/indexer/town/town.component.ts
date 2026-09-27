@@ -53,6 +53,17 @@ export class IndexTownComponent implements AfterViewInit, OnDestroy, OnInit {
   hasOldIntel = false;
   activeTab = 0;
 
+  treeRows = [['lumber', 'farm', 'stoner', 'storage'], ['ironer', 'barracks', 'temple', 'market'], ['docks', 'academy', 'wall', 'hide']];
+  specialLeft = ['theater', 'thermal', 'library', 'lighthouse'];
+  specialRight = ['tower', 'statue', 'oracle', 'trade_office'];
+  treeBuildings = ['main', 'lumber', 'farm', 'stoner', 'storage', 'ironer', 'barracks', 'temple', 'market', 'docks', 'academy', 'wall', 'hide', 'theater', 'thermal', 'library', 'lighthouse', 'tower', 'statue', 'oracle', 'trade_office', 'place'];
+  buildingNames = {
+    main: "Senate", lumber: "Timber camp", farm: "Farm", stoner: "Quarry", storage: "Warehouse", ironer: "Silver mine", barracks: "Barracks",
+    temple: "Temple", market: "Marketplace", docks: "Harbor", academy: "Academy", wall: "City wall", hide: "Cave", theater: "Theater",
+    thermal: "Thermal baths", library: "Library", lighthouse: "Lighthouse", tower: "Tower", statue: "Divine statue", oracle: "Oracle",
+    trade_office: "Merchant's shop"
+  };
+
   routeParams: any;
 
   constructor(
@@ -124,6 +135,18 @@ export class IndexTownComponent implements AfterViewInit, OnDestroy, OnInit {
           );
       });
     }
+  }
+
+  building(name: string) {
+    return this.build.find(building => building.name === name);
+  }
+
+  specialBuilding(names: string[]) {
+    return this.build.find(building => names.indexOf(building.name) >= 0);
+  }
+
+  otherBuildings() {
+    return this.build.filter(building => this.treeBuildings.indexOf(building.name) < 0);
   }
 
   showTabs(): boolean {

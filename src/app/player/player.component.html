@@ -1,298 +1,287 @@
-<app-search [compare]="true"></app-search>
+<div id="pagehead" class="mx-auto flex max-w-[1600px] flex-col gap-6 px-6 py-6 text-left font-normal text-slate-900 max-sm:gap-4 max-sm:px-4">
+  <app-search [compare]="true"></app-search>
 
-<div>
-  <div>
-    <div class='' id="pagehead"></div>
-    <mat-card-content *ngIf="notFound">
-      <div class="alert alert-warning text-center">
-        <br/>
-        <br/>
-        <h3><strong>This player does not exist (anymore)!</strong> No player found with id {{id}} in world {{world}}</h3>
-	      <p>Try the search function to find players.</p>
-        <br/>
-        <br/>
-      </div>
-    </mat-card-content>
-    <mat-card-content *ngIf="!notFound">
+  <section *ngIf="notFound" class="rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+    <div class="flex flex-col items-center px-6 py-10 text-center">
+      <span aria-hidden="true" class="flex size-12 items-center justify-center rounded-full bg-rose-50 text-rose-600">
+        <svg appIcon="user" class="size-6"></svg>
+      </span>
+      <h2 class="mb-0 mt-3 text-base font-semibold text-slate-900">This player does not exist (anymore)</h2>
+      <p class="mb-0 mt-1 max-w-[480px] text-sm text-slate-600">No player found with id <span class="tabular-nums">{{id}}</span> in world {{world}}. Try the search above to find players.</p>
+    </div>
+  </section>
 
-<!--      <app-alert class="text-center" type="error" title="Grepolis API Offline: Data Unavailable" *ngIf="world.substring(0,2)=='en'||world.substring(0,2)=='pt'" [dismissible]="false">-->
-<!--        <h3>-->
-<!--          The Grepolis API for the EN and PT servers is offline. We have to wait for Grepolis to fix the issue.<br/>-->
-<!--          As a result, the scoreboard can not be updated and all players in this world will start to show as inactive.<br/>-->
-<!--          We are sorry for the inconvenience, but there is nothing we (as a third party) can do about the issue.-->
-<!--        </h3>-->
-<!--      </app-alert>-->
-
-      <div class="player-cards" fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap="5px">
-        <mat-card class="dense-card" fxFlex="40" fxFlex.lg="32" fxFlex.gt-lg="25" style="">
-          <div class="card-header bg-gd-1 text-center" style="padding-bottom: 20px !important;">
-            <h1 class="gd-white entity-name">
-              <div class="icon-circle"><img style="height: 25px; margin-top: -5px;" src="../../assets/images/player_ico.png"/></div> {{playerName}}
-            </h1>
-	          <div *ngIf="loadingInfo || loadingHistory || loadingChanges" style="position: relative; top: 10px; height: 0px; margin: 0px -30px;">
-		          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-	          </div>
+  <ng-container *ngIf="!notFound">
+    <section aria-labelledby="player-name" class="relative overflow-hidden rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-900/[.08] max-sm:p-4">
+      <mat-progress-bar *ngIf="loadingInfo || loadingHistory || loadingChanges" mode="indeterminate" class="!absolute inset-x-0 top-0 z-10 !h-0.5"></mat-progress-bar>
+      <div class="flex flex-wrap items-center gap-4">
+        <span aria-hidden="true" class="flex size-12 flex-none items-center justify-center rounded-[10px] bg-navy-800 text-brand-500">
+          <svg appIcon="player_ico" variant="game" class="size-[26px]"></svg>
+        </span>
+        <div class="min-w-0 flex-1">
+          <h1 id="player-name" class="m-0 truncate text-2xl font-bold tracking-tight text-slate-900">{{playerName}}</h1>
+          <div class="mt-1 flex min-h-5 flex-wrap items-center gap-x-3 gap-y-1.5 text-sm">
+            <a routerLink="/points" [queryParams]="{world: world}" title="Open the scoreboard of this world" class="inline-flex items-center gap-1.5 whitespace-nowrap text-slate-700 no-underline hover:text-slate-900 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+              <span class="bg-flag flag-{{world.substr(0,2)}} flex-none [zoom:0.625]"></span>{{worldName}} ({{world}})
+            </a>
+            <span *ngIf="loadingInfo" aria-hidden="true" class="block h-2.5 w-40 rounded bg-slate-100"></span>
+            <ng-container *ngIf="!loadingInfo">
+              <span aria-hidden="true" class="text-slate-300">·</span>
+              <a *ngIf="alliance_id!='0'" routerLink="/alliance" [queryParams]="{world: world, id: alliance_id}" class="inline-flex min-w-0 max-w-full items-center gap-1.5 text-slate-700 no-underline hover:text-slate-900 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+                <svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg><span class="truncate">{{alliance_name}}</span>
+              </a>
+              <span *ngIf="alliance_id=='0'" class="text-slate-400">No alliance</span>
+              <span aria-hidden="true" class="text-slate-300">·</span>
+              <app-player-activity [hours_inactive]="playerInfoData.hours_inactive" [show_active]="true"></app-player-activity>
+            </ng-container>
           </div>
-          <mat-card-content [ngClass]="{'loading-overlay': loadingInfo}">
+        </div>
+        <div class="flex flex-none items-center gap-2 max-sm:w-full">
+          <button type="button" (click)="searchOtherWorlds()" title="Search other worlds for this player" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 max-sm:flex-1">
+            <svg appIcon="globe-alt" class="size-[18px] flex-none text-slate-400"></svg>Other worlds
+          </button>
+          <button *ngIf="!compareOpened" type="button" (click)="addToCompare()" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-brand-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 max-sm:flex-1">
+            <svg appIcon="plus" variant="mini" class="size-[18px] flex-none"></svg>Compare
+          </button>
+          <button *ngIf="compareOpened" type="button" [matMenuTriggerFor]="compareMenu" title="Players in your comparison" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 aria-expanded:bg-slate-50 aria-expanded:ring-slate-400 max-sm:flex-1">
+            <svg appIcon="scale" class="size-[18px] flex-none text-slate-400"></svg>Comparing
+            <span class="rounded-full bg-slate-100 px-[7px] text-xs font-semibold leading-[18px] tabular-nums text-slate-700">{{comparedPlayers.length}}</span>
+            <svg appIcon="chevron-down" variant="mini" class="size-4 flex-none text-slate-400"></svg>
+          </button>
+          <mat-menu #compareMenu="matMenu" xPosition="before" class="!w-[280px] !min-w-[280px] !max-w-[280px] !rounded-[10px] [&_.mat-menu-content]:!p-1.5">
+            <p class="m-0 px-2.5 py-1.5 text-xs font-medium text-slate-500">Currently comparing</p>
+            <div *ngFor="let p of comparedPlayers" class="flex items-center gap-2 rounded-md py-0.5 pl-2.5 pr-0.5">
+              <a routerLink="/player" [queryParams]="{world: world, id: p.id}" class="flex min-w-0 flex-1 items-center gap-1.5 text-sm font-medium text-slate-900 no-underline hover:text-slate-900 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+                <svg appIcon="player_ico" variant="game" class="size-4 flex-none text-slate-400"></svg><span class="truncate">{{p.name}}</span>
+              </a>
+              <button type="button" (click)="$event.stopPropagation(); removeFromCompare(p.id, world)" [attr.aria-label]="'Remove ' + p.name + ' from the comparison'" title="Remove from the comparison" class="inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent text-slate-400 hover:bg-slate-100 hover:text-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+                <svg appIcon="x-mark" variant="mini" class="size-4"></svg>
+              </button>
+            </div>
+            <div class="-mx-1.5 mt-1.5 border-0 border-t border-solid border-slate-100 px-2 pt-2">
+              <a routerLink="/compare/player/{{world}}" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-brand-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 w-full no-underline hover:text-white">View comparison<svg appIcon="arrow-right" variant="mini" class="size-4 flex-none"></svg></a>
+            </div>
+          </mat-menu>
+        </div>
+      </div>
+      <dl class="mb-0 mt-5 grid grid-cols-2 gap-4 border-0 border-t border-solid border-slate-100 pt-5 sm:grid-cols-3 sm:gap-6 xl:grid-cols-6">
+        <div class="min-w-0">
+          <dt class="text-xs font-medium text-slate-500">Rank</dt>
+          <dd class="mt-1.5 text-[22px] font-semibold leading-7 tracking-[-0.01em] tabular-nums text-slate-900">
+            <span *ngIf="loadingInfo" aria-hidden="true" class="block h-7 w-24 py-1.5"><span class="block h-full rounded bg-slate-100"></span></span>
+            <a *ngIf="!loadingInfo" routerLink="/ranking/player/{{world}}/points/{{rank}}/{{id}}" title="Show in the ranking" class="text-slate-900 no-underline hover:text-slate-900 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">#{{rank}}</a>
+          </dd>
+          <dd class="mt-1 min-h-4 whitespace-nowrap text-xs tabular-nums text-slate-500">
+            <span *ngIf="!loadingInfo && playerInfoData.rank_max" [matTooltip]="'Best rank on ' + datePipe.transform(playerInfoData.rank_date,'D MMM YYYY')">Best #{{playerInfoData.rank_max}}</span>
+          </dd>
+        </div>
+        <div class="min-w-0">
+          <dt class="text-xs font-medium text-slate-500">Points</dt>
+          <dd class="mt-1.5 text-[22px] font-semibold leading-7 tracking-[-0.01em] tabular-nums text-slate-900">
+            <span *ngIf="loadingInfo" aria-hidden="true" class="block h-7 w-24 py-1.5"><span class="block h-full rounded bg-slate-100"></span></span>
+            <ng-container *ngIf="!loadingInfo">{{points | NumberFilter}}</ng-container>
+          </dd>
+          <dd class="mt-1 min-h-4 whitespace-nowrap text-xs tabular-nums text-slate-500">
+            <ng-container *ngIf="!loadingInfo && !loadingHistory && playerHistoryData.length > 1">
+              <span class="font-medium" [ngClass]="playerHistoryData[0].points - playerHistoryData[1].points > 0 ? 'text-emerald-700' : playerHistoryData[0].points - playerHistoryData[1].points < 0 ? 'text-rose-700' : 'text-slate-700'">{{playerHistoryData[0].points - playerHistoryData[1].points > 0 ? '+' : ''}}{{playerHistoryData[0].points - playerHistoryData[1].points | NumberFilter}}</span> today
+            </ng-container>
+          </dd>
+        </div>
+        <div class="min-w-0">
+          <dt class="text-xs font-medium text-slate-500">Towns</dt>
+          <dd class="mt-1.5 text-[22px] font-semibold leading-7 tracking-[-0.01em] tabular-nums text-slate-900">
+            <span *ngIf="loadingInfo" aria-hidden="true" class="block h-7 w-24 py-1.5"><span class="block h-full rounded bg-slate-100"></span></span>
+            <button *ngIf="!loadingInfo" type="button" (click)="showTownDialog()" [title]="bIsGhost ? 'Show the ghost towns' : 'Show the town list'" class="inline-flex items-center gap-1.5 rounded border-0 bg-transparent p-0 font-semibold tabular-nums text-slate-900 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+              {{towns}}<svg [appIcon]="bIsGhost ? 'flag' : 'list-bullet'" class="size-[18px] flex-none text-slate-400"></svg>
+            </button>
+          </dd>
+          <dd class="mt-1 min-h-4 whitespace-nowrap text-xs tabular-nums text-slate-500">
+            <span *ngIf="!loadingInfo && playerInfoData.towns_max" [matTooltip]="'Most towns on ' + datePipe.transform(playerInfoData.towns_date,'D MMM YYYY')">Best {{playerInfoData.towns_max}}</span>
+          </dd>
+        </div>
+        <div class="min-w-0">
+          <dt class="text-xs font-medium text-slate-500">Attack points</dt>
+          <dd class="mt-1.5 text-[22px] font-semibold leading-7 tracking-[-0.01em] tabular-nums text-slate-900">
+            <span *ngIf="loadingInfo" aria-hidden="true" class="block h-7 w-24 py-1.5"><span class="block h-full rounded bg-slate-100"></span></span>
+            <ng-container *ngIf="!loadingInfo">{{att ? (att | NumberFilter) : 0}}</ng-container>
+          </dd>
+          <dd class="mt-1 min-h-4 whitespace-nowrap text-xs tabular-nums text-slate-500">
+            <ng-container *ngIf="!loadingInfo">
+              <ng-container *ngIf="att && playerInfoData.att_rank">Rank <a routerLink="/ranking/player/{{world}}/attack/{{playerInfoData.att_rank}}/{{id}}" title="Show in the attack ranking" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">#{{playerInfoData.att_rank}}</a></ng-container>
+              <ng-container *ngIf="att && playerInfoData.att_rank && playerInfoData.att_rank_max"><span aria-hidden="true" class="text-slate-300"> · </span><span [matTooltip]="'Best attack rank on ' + datePipe.transform(playerInfoData.att_rank_date,'D MMM YYYY')">best #{{playerInfoData.att_rank_max}}</span></ng-container>
+              <ng-container *ngIf="!att || !playerInfoData.att_rank">No rank</ng-container>
+            </ng-container>
+          </dd>
+        </div>
+        <div class="min-w-0">
+          <dt class="text-xs font-medium text-slate-500">Defence points</dt>
+          <dd class="mt-1.5 text-[22px] font-semibold leading-7 tracking-[-0.01em] tabular-nums text-slate-900">
+            <span *ngIf="loadingInfo" aria-hidden="true" class="block h-7 w-24 py-1.5"><span class="block h-full rounded bg-slate-100"></span></span>
+            <ng-container *ngIf="!loadingInfo">{{def ? (def | NumberFilter) : 0}}</ng-container>
+          </dd>
+          <dd class="mt-1 min-h-4 whitespace-nowrap text-xs tabular-nums text-slate-500">
+            <ng-container *ngIf="!loadingInfo">
+              <ng-container *ngIf="def && playerInfoData.def_rank">Rank <a routerLink="/ranking/player/{{world}}/defence/{{playerInfoData.def_rank}}/{{id}}" title="Show in the defence ranking" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">#{{playerInfoData.def_rank}}</a></ng-container>
+              <ng-container *ngIf="def && playerInfoData.def_rank && playerInfoData.def_rank_max"><span aria-hidden="true" class="text-slate-300"> · </span><span [matTooltip]="'Best defence rank on ' + datePipe.transform(playerInfoData.def_rank_date,'D MMM YYYY')">best #{{playerInfoData.def_rank_max}}</span></ng-container>
+              <ng-container *ngIf="!def || !playerInfoData.def_rank">No rank</ng-container>
+            </ng-container>
+          </dd>
+        </div>
+        <div class="min-w-0">
+          <dt class="text-xs font-medium text-slate-500">Fighting points</dt>
+          <dd class="mt-1.5 text-[22px] font-semibold leading-7 tracking-[-0.01em] tabular-nums text-slate-900">
+            <span *ngIf="loadingInfo" aria-hidden="true" class="block h-7 w-24 py-1.5"><span class="block h-full rounded bg-slate-100"></span></span>
+            <ng-container *ngIf="!loadingInfo">{{(att || def) ? ((att || 0) + (def || 0) | NumberFilter) : 0}}</ng-container>
+          </dd>
+          <dd class="mt-1 min-h-4 whitespace-nowrap text-xs tabular-nums text-slate-500">
+            <ng-container *ngIf="!loadingInfo">
+              <ng-container *ngIf="(att || def) && playerInfoData.fight_rank">Rank <a routerLink="/ranking/player/{{world}}/fight/{{playerInfoData.fight_rank}}/{{id}}" title="Show in the fighting ranking" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">#{{playerInfoData.fight_rank}}</a></ng-container>
+              <ng-container *ngIf="(att || def) && playerInfoData.fight_rank && playerInfoData.fight_rank_max"><span aria-hidden="true" class="text-slate-300"> · </span><span [matTooltip]="'Best fighting rank on ' + datePipe.transform(playerInfoData.fight_rank_date,'D MMM YYYY')">best #{{playerInfoData.fight_rank_max}}</span></ng-container>
+              <ng-container *ngIf="!(att || def) || !playerInfoData.fight_rank">No rank</ng-container>
+            </ng-container>
+          </dd>
+        </div>
+      </dl>
+    </section>
 
-            <table class="table table-no-more player-info">
-              <tbody>
-                <tr>
-                  <th>World</th>
-                  <td style="padding-bottom: 0;">
-	                  <div class="bg-flag flag-inline flag-{{world.substr(0,2)}}"></div>&nbsp;<a style="vertical-align: text-bottom;" class="decorated" routerLink="/points" [queryParams]="{world: world}">{{worldName}}&nbsp;({{world}})</a>
-	                  <div class="hidden-xs" style="float: right; margin-top: -3px;">
-		                  <mat-chip [selected]="true" (click)="searchOtherWorlds()" matTooltip="Search other worlds for this player"><i class="fa fa-search"></i></mat-chip>
-	                  </div>
-                  </td>
-                </tr>
-                <tr>
-	                <th>Alliance</th>
-	                <td>
-		                <a *ngIf="alliance_id!='0'" routerLink="/alliance" [queryParams]="{world: world, id: alliance_id}">{{alliance_name}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a>
-		                <span *ngIf="alliance_id=='0'">None</span>
-	                </td>
-                </tr>
-                <tr>
-                  <th>Rank</th>
-                  <td>
-	                  <a routerLink="/ranking/player/{{world}}/points/{{rank}}/{{id}}">{{rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs hidden-sm">launch</mat-icon></a>
-	                  <span class="hidden-xxs" *ngIf="playerInfoData.rank_max" style="float: right; font-style: italic; font-size: .9em;" matTooltip="{{datePipe.transform(playerInfoData.rank_date,'D MMM YYYY')}}">
-		                  best: {{playerInfoData.rank_max}}
-	                  </span>
-                  </td>
-                </tr>
-                <tr>
-                  <th>Towns</th>
-                  <td>
-	                  <a class="a-link" (click)="showTownDialog()">{{towns}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs hidden-sm">launch</mat-icon></a>
-	                  <span class="hidden-xxs" *ngIf="playerInfoData.towns_max" style="float: right; font-style: italic; font-size: .9em;" matTooltip="{{datePipe.transform(playerInfoData.towns_date,'D MMM YYYY')}}">
-		                  best: {{playerInfoData.towns_max}}
-	                  </span>
-                  </td>
-                </tr>
-                <tr>
-                  <th>Points</th>
-                  <td>
-                    {{points | NumberFilter}}
-                    <app-player-activity [hours_inactive]="playerInfoData.hours_inactive" style="padding-left: 10px;" [show_active]="true"></app-player-activity>
-                  </td>
-                </tr>
-                <tr>
-                  <th>Attacking</th>
-                  <td *ngIf="att">
-	                  <a class="gd-primary" *ngIf="playerInfoData.att_rank" routerLink="/ranking/player/{{world}}/attack/{{playerInfoData.att_rank}}/{{id}}">#{{playerInfoData.att_rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs hidden-sm hidden-md">launch</mat-icon></a>
-	                  {{att | NumberFilter}}<span class="hidden-xs"> points</span>
-	                  <span class="hidden-xxs" *ngIf="playerInfoData.att_rank_max" style="float: right; font-style: italic; font-size: .9em;" matTooltip="{{datePipe.transform(playerInfoData.att_rank_date,'D MMM YYYY')}}">
-		                  best: {{playerInfoData.att_rank_max}}
-	                  </span>
-                  </td>
-	                <td *ngIf="!att">0 points</td>
-                </tr>
-                <tr>
-                  <th>Defending</th>
-                  <td *ngIf="def">
-	                  <a class="gd-primary" *ngIf="playerInfoData.def_rank" routerLink="/ranking/player/{{world}}/defence/{{playerInfoData.def_rank}}/{{id}}">#{{playerInfoData.def_rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs hidden-sm hidden-md">launch</mat-icon></a>
-	                  {{def | NumberFilter}}<span class="hidden-xs"> points</span>
-	                  <span class="hidden-xxs" *ngIf="playerInfoData.def_rank_max" style="float: right; font-style: italic; font-size: .9em;" matTooltip="{{datePipe.transform(playerInfoData.def_rank_date,'D MMM YYYY')}}">
-		                  best: {{playerInfoData.def_rank_max}}
-	                  </span>
-                  </td>
-	                <td *ngIf="!def">0 points</td>
-                </tr>
-                <tr class="hidden-xs">
-                  <th>Fighting</th>
-                  <td *ngIf="def&&att">
-	                  <a class="gd-primary" *ngIf="playerInfoData.fight_rank" routerLink="/ranking/player/{{world}}/fight/{{playerInfoData.fight_rank}}/{{id}}">#{{playerInfoData.fight_rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs hidden-sm hidden-md">launch</mat-icon></a>
-	                  {{def+att | NumberFilter}}<span class="hidden-xs"> points</span>
-	                  <span class="hidden-xxs" *ngIf="playerInfoData.fight_rank_max" style="float: right; font-style: italic; font-size: .9em;" matTooltip="{{datePipe.transform(playerInfoData.fight_rank_date,'D MMM YYYY')}}">
-		                  best: {{playerInfoData.fight_rank_max}}
-	                  </span>
-                  </td>
-	                <td *ngIf="!def">0</td>
-                </tr>
-              </tbody>
-            </table>
-
+    <mat-card class="dense-card" style="padding-bottom: 0px !important; padding-top: 10px !important;">
+	        <div #infoTabs style="width: 100%;"></div>
+      <mat-tab-group [selectedIndex]="tabsIndex" (selectedTabChange)="onTabClick($event)" mat-stretch-tabs>
+        <mat-tab class="history-chart" style="padding: 20px 0; overflow: hidden !important;">
+          <ng-template mat-tab-label>
+            <mat-icon style="opacity: 1; vertical-align: bottom;">timeline</mat-icon>&nbsp;History
+          </ng-template>
+          <br/>
+          <mat-card-title>
+            <div fxLayout="row">
+              <h4 style='font-weight: 300; color: #304357;'><span class='world-title' style='color: #18BC9C;'>Player history</span></h4>
+              <mat-spinner style="margin-left: 30px;" *ngIf="loadingHistory" strokeWidth="3" [diameter]="30"></mat-spinner>
+            </div>
+          </mat-card-title>
+          <mat-card-content style="overflow: hidden !important;">
+            <div *ngIf="historyError" class="alert alert-warning text-center alert-gd-1">
+              <h3>Unable to load history. Try again later.</h3>
+            </div>
+            <div *ngIf="!firstRun && !historyError" class="ngx-chart-container" [ngClass]="{'loading-overlay': loadingHistory}">
+              <ngx-charts-line-chart
+                      *ngIf="bShowHistoryChart"
+                      [scheme]="colorScheme"
+                      [results]="data_default"
+                      [gradient]="gradient"
+                      [xAxis]="showXAxis"
+                      [yAxis]="showYAxis"
+                      [legend]="showLegend"
+                      [animations]="animations"
+                      [showXAxisLabel]="showXAxisLabel"
+                      [showYAxisLabel]="showYAxisLabel"
+                      [xAxisLabel]="xAxisLabel"
+                      [yAxisLabel]="yAxisLabel"
+                      [autoScale]="autoScale"
+                      (select)="onSelect($event)">
+              </ngx-charts-line-chart>
+            </div>
             <br/>
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-lg-offset-2 text-center">
+            <div *ngIf="!loadingHistory" fxLayout="row" fxLayoutAlign="space-evenly center">
+              <div>
+                <mat-chip-list>
+                  <mat-chip *ngIf="playerHistoryJson.length >= 30" [selected]="dayRange==='30'" (click)="selectDayRange('30')">last 30 days</mat-chip>
+                  <mat-chip *ngIf="playerHistoryJson.length > 30" [selected]="dayRange==='90'" (click)="selectDayRange('90')">last 90 days</mat-chip>
+                  <mat-chip *ngIf="playerHistoryJson.length > 90" [selected]="dayRange==='all'" (click)="selectDayRange('all')">All time</mat-chip>
+                </mat-chip-list>
+              </div>
 
-                  <mat-expansion-panel hideToggle="true" [expanded]="compareOpened">
-                    <mat-expansion-panel-header *ngIf="!compareOpened" class="gd-btn-1" (click)="addToCompare()">
-                      <mat-panel-title class="gd-secondary" fxLayoutAlign="center center">
-                        <mat-icon><i class="fa fa-plus" style="vertical-align: bottom;"></i></mat-icon>&nbsp;&nbsp;Compare
-                      </mat-panel-title>
-                    </mat-expansion-panel-header>
-                    <h4 *ngIf="compareOpened" fxLayoutAlign="center center">
-                        Currently comparing:
-                    </h4>
+            </div>
+          </mat-card-content>
 
-                    <table class="table table-no-more">
-                      <tbody>
-                      <tr *ngFor="let p of comparedPlayers; let i = index;">
-                        <th><a routerLink="/player" [queryParams]="{world: world, id: p.id}">{{p.name}}</a></th>
-                        <td>
-                          <i class="fa fa-trash" (click)="removeFromCompare(p.id, world)"></i>
-                        </td>
-                      </tr>
-                      </tbody>
-                    </table>
+        </mat-tab>
 
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon style="opacity: 1; vertical-align: bottom;">compare_arrows</mat-icon>&nbsp;
+	              <span class="hidden-xs">Alliance changes</span>
+	              <span class="hidden-md hidden-sm hidden-lg">Changes</span>
+          </ng-template>
+          <br/>
+          <mat-card-title>
+            <div *ngIf="playerAllianceChanges.length > 0">
+              <h4 style='font-weight: 300; color: #304357;'>
+                <mat-spinner style="margin-left: 30px;" *ngIf="loadingChanges" strokeWidth="3" [diameter]="30"></mat-spinner>
+                <a *ngIf="playerAllianceChanges.length >= 10" routerLink="/changes/player/{{world}}/{{id}}" style="color: #949494; right: 20px; position: absolute;">
+                  <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon> Show all changes
+                </a>
+              </h4>
+            </div>
+	              <div *ngIf="playerAllianceChanges.length <= 0">
+              <div class="container-fluid">
+                <div class="row">
+                  <br/>
+                  <br/>
+                  <div class="alert alert-warning text-center alert-gd-1">
+                    <h2><strong>No alliance changes found.</strong></h2>
+                    <p>We have not yet recorded any alliance changes for this player.</p>
+                  </div>
+                </div>
+              </div>
+	              </div>
+          </mat-card-title>
+          <br/>
+          <mat-card-content [ngClass]="{'loading-overlay': loadingChanges}" *ngIf="playerAllianceChanges.length > 0">
+            <div class="table-container">
+              <div class="table" id="player_changes_table" style="">
+                <div class="row_custom header default">
+                  <div class="cell">Date</div>
+                  <div class="cell">Old alliance</div>
+                  <div class="cell hidden-sm hidden-xs"></div>
+                  <div class="cell">New alliance</div>
+                  <div class="cell hidden-sm hidden-xs">Player rank</div>
+                  <div class="cell hidden-sm hidden-xs">Player points</div>
+                </div>
+
+                <div class="row_custom" *ngFor="let c of playerAllianceChanges; let i = index;">
+                  <div class="cell">
+                    {{c.date.date | Datex : "D MMM YYYY"}}
                     <br/>
-                    <button routerLink="/compare/player/{{world}}" class="gd-btn-1" style="height: 40px; width: 100%; overflow: hidden; text-overflow: ellipsis;">
-                      View comparison &nbsp; <i class="fa fa-arrow-circle-right"></i>
-                    </button>
-                  </mat-expansion-panel>
+                    {{c.date.date | Datex : "HH"}}:00
+                  </div>
 
+                  <div class="cell formatted-cell">
+                    <a routerLink="/alliance" [queryParams]="{world: world, id: c.old_alliance_grep_id}">
+                      {{c.old_alliance_name}}
+                    </a>
+                  </div>
+                  <div class="cell hidden-sm hidden-xs"><span class="fa fa-angle-double-right fa-2x"></span></div>
+                  <div class="cell formatted-cell">
+                    <a routerLink="/alliance" [queryParams]="{world: world, id: c.new_alliance_grep_id}">
+                      {{c.new_alliance_name}}
+                    </a>
+                  </div>
 
-
+                  <div class="cell hidden-sm hidden-xs">{{c.player_rank}}</div>
+                  <div class="cell hidden-sm hidden-xs">{{c.player_points | NumberFilter}}</div>
                 </div>
               </div>
             </div>
-
           </mat-card-content>
-        </mat-card>
-
-        <mat-card class="dense-card" fxFlex="60" fxFlex.lg="68" fxFlex.gt-lg="75" style="padding-bottom: 0px !important; padding-top: 10px !important;">
-	        <div #infoTabs style="width: 100%;"></div>
-          <mat-tab-group [selectedIndex]="tabsIndex" (selectedTabChange)="onTabClick($event)" mat-stretch-tabs>
-            <mat-tab class="history-chart" style="padding: 20px 0; overflow: hidden !important;">
-              <ng-template mat-tab-label>
-                <mat-icon style="opacity: 1; vertical-align: bottom;">timeline</mat-icon>&nbsp;History
-              </ng-template>
-              <br/>
-              <mat-card-title>
-                <div fxLayout="row">
-                  <h4 style='font-weight: 300; color: #304357;'><span class='world-title' style='color: #18BC9C;'>Player history</span></h4>
-                  <mat-spinner style="margin-left: 30px;" *ngIf="loadingHistory" strokeWidth="3" [diameter]="30"></mat-spinner>
-                </div>
-              </mat-card-title>
-              <mat-card-content style="overflow: hidden !important;">
-                <div *ngIf="historyError" class="alert alert-warning text-center alert-gd-1">
-                  <h3>Unable to load history. Try again later.</h3>
-                </div>
-                <div *ngIf="!firstRun && !historyError" class="ngx-chart-container" [ngClass]="{'loading-overlay': loadingHistory}">
-                  <ngx-charts-line-chart
-                          *ngIf="bShowHistoryChart"
-                          [scheme]="colorScheme"
-                          [results]="data_default"
-                          [gradient]="gradient"
-                          [xAxis]="showXAxis"
-                          [yAxis]="showYAxis"
-                          [legend]="showLegend"
-                          [animations]="animations"
-                          [showXAxisLabel]="showXAxisLabel"
-                          [showYAxisLabel]="showYAxisLabel"
-                          [xAxisLabel]="xAxisLabel"
-                          [yAxisLabel]="yAxisLabel"
-                          [autoScale]="autoScale"
-                          (select)="onSelect($event)">
-                  </ngx-charts-line-chart>
-                </div>
-                <br/>
-                <div *ngIf="!loadingHistory" fxLayout="row" fxLayoutAlign="space-evenly center">
-                  <div>
-                    <mat-chip-list>
-                      <mat-chip *ngIf="playerHistoryJson.length >= 30" [selected]="dayRange==='30'" (click)="selectDayRange('30')">last 30 days</mat-chip>
-                      <mat-chip *ngIf="playerHistoryJson.length > 30" [selected]="dayRange==='90'" (click)="selectDayRange('90')">last 90 days</mat-chip>
-                      <mat-chip *ngIf="playerHistoryJson.length > 90" [selected]="dayRange==='all'" (click)="selectDayRange('all')">All time</mat-chip>
-                    </mat-chip-list>
-                  </div>
-
-                </div>
-              </mat-card-content>
-
-            </mat-tab>
-
-            <mat-tab>
-              <ng-template mat-tab-label>
-                <mat-icon style="opacity: 1; vertical-align: bottom;">compare_arrows</mat-icon>&nbsp;
-	              <span class="hidden-xs">Alliance changes</span>
-	              <span class="hidden-md hidden-sm hidden-lg">Changes</span>
-              </ng-template>
-              <br/>
-              <mat-card-title>
-                <div *ngIf="playerAllianceChanges.length > 0">
-                  <h4 style='font-weight: 300; color: #304357;'>
-                    <mat-spinner style="margin-left: 30px;" *ngIf="loadingChanges" strokeWidth="3" [diameter]="30"></mat-spinner>
-                    <a *ngIf="playerAllianceChanges.length >= 10" routerLink="/changes/player/{{world}}/{{id}}" style="color: #949494; right: 20px; position: absolute;">
-                      <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon> Show all changes
-                    </a>
-                  </h4>
-                </div>
-	              <div *ngIf="playerAllianceChanges.length <= 0">
-                  <div class="container-fluid">
-                    <div class="row">
-                      <br/>
-                      <br/>
-                      <div class="alert alert-warning text-center alert-gd-1">
-                        <h2><strong>No alliance changes found.</strong></h2>
-                        <p>We have not yet recorded any alliance changes for this player.</p>
-                      </div>
-                    </div>
-                  </div>
-	              </div>
-              </mat-card-title>
-              <br/>
-              <mat-card-content [ngClass]="{'loading-overlay': loadingChanges}" *ngIf="playerAllianceChanges.length > 0">
-                <div class="table-container">
-                  <div class="table" id="player_changes_table" style="">
-                    <div class="row_custom header default">
-                      <div class="cell">Date</div>
-                      <div class="cell">Old alliance</div>
-                      <div class="cell hidden-sm hidden-xs"></div>
-                      <div class="cell">New alliance</div>
-                      <div class="cell hidden-sm hidden-xs">Player rank</div>
-                      <div class="cell hidden-sm hidden-xs">Player points</div>
-                    </div>
-
-                    <div class="row_custom" *ngFor="let c of playerAllianceChanges; let i = index;">
-                      <div class="cell">
-                        {{c.date.date | Datex : "D MMM YYYY"}}
-                        <br/>
-                        {{c.date.date | Datex : "HH"}}:00
-                      </div>
-
-                      <div class="cell formatted-cell">
-                        <a routerLink="/alliance" [queryParams]="{world: world, id: c.old_alliance_grep_id}">
-                          {{c.old_alliance_name}}
-                        </a>
-                      </div>
-                      <div class="cell hidden-sm hidden-xs"><span class="fa fa-angle-double-right fa-2x"></span></div>
-                      <div class="cell formatted-cell">
-                        <a routerLink="/alliance" [queryParams]="{world: world, id: c.new_alliance_grep_id}">
-                          {{c.new_alliance_name}}
-                        </a>
-                      </div>
-
-                      <div class="cell hidden-sm hidden-xs">{{c.player_rank}}</div>
-                      <div class="cell hidden-sm hidden-xs">{{c.player_points | NumberFilter}}</div>
-                    </div>
-                  </div>
-                </div>
-              </mat-card-content>
-            </mat-tab>
-            <mat-tab>
-              <ng-template mat-tab-label>
-                <mat-icon style="opacity: 1; vertical-align: bottom;">account_balance</mat-icon>&nbsp;
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon style="opacity: 1; vertical-align: bottom;">account_balance</mat-icon>&nbsp;
 	              <span class="hidden-xs">Town intelligence</span>
 	              <span class="hidden-md hidden-sm hidden-lg">Intel</span>
-              </ng-template>
-              <app-index-player *ngIf="bShowIntel && hasIndex" [world]="world" [id]="id" [embedded]="true"></app-index-player>
+          </ng-template>
+          <app-index-player *ngIf="bShowIntel && hasIndex" [world]="world" [id]="id" [embedded]="true"></app-index-player>
 	            <h3 style="padding: 30px;" *ngIf="!bShowIntel && hasIndex"><a class="a-link-dialog" style="color: #334254 !important;" (click)="bShowIntel = true;">Load town intelligence..</a></h3>
-              <div *ngIf="!bShowIntel || !hasIndex" style="padding: 20px;">
+          <div *ngIf="!bShowIntel || !hasIndex" style="padding: 20px;">
 	              <div class="container-fluid">
 		              <div class="row">
 			              <div class="col-xs-12 col-sm-8">
 				              <div class="alert alert-gd-1 text-center">
-                        <p>When you sign in with a GrepoData city indexer account, we will be able to show collected intelligence about this alliance here.</p>
-                        <h3>
-                          <a class="gd-primary a-link-dialog" routerLink="/indexer">
-                            Sign in to your GrepoData account <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon>
-                          </a>
-                        </h3>
+                    <p>When you sign in with a GrepoData city indexer account, we will be able to show collected intelligence about this alliance here.</p>
+                    <h3>
+                      <a class="gd-primary a-link-dialog" routerLink="/indexer">
+                        Sign in to your GrepoData account <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon>
+                      </a>
+                    </h3>
 				              </div>
 			              </div>
 			              <div class="col-sm-4 hidden-xs">
@@ -301,39 +290,34 @@
 			              </div>
 		              </div>
 	              </div>
-              </div>
-            </mat-tab>
-            <mat-tab *ngIf="bIsGhost" class="ghost-chart" style="padding: 20px 0; overflow: hidden !important;">
-              <ng-template mat-tab-label>
-                <mat-icon style="opacity: 1; vertical-align: bottom;">outlined_flag</mat-icon>&nbsp;Ghost towns
-              </ng-template>
+          </div>
+        </mat-tab>
+        <mat-tab *ngIf="bIsGhost" class="ghost-chart" style="padding: 20px 0; overflow: hidden !important;">
+          <ng-template mat-tab-label>
+            <mat-icon style="opacity: 1; vertical-align: bottom;">outlined_flag</mat-icon>&nbsp;Ghost towns
+          </ng-template>
 
-              <app-ghost-towns [id]="id" [world]="world"></app-ghost-towns>
-            </mat-tab>
-          </mat-tab-group>
-        </mat-card>
+          <app-ghost-towns [id]="id" [world]="world"></app-ghost-towns>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card>
+    <app-advertorial *ngIf="!loadingInfo && towns > 1 && rank <= 1000" class="block empty:hidden"></app-advertorial>
 
-      </div>
+    <div class="player-cards" fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="5px">
 
-	    <div style="margin: -5px 17px" *ngIf="!loadingInfo && towns > 1 && rank <= 1000">
-		    <app-advertorial></app-advertorial>
-	    </div>
-
-      <div class="player-cards" fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="5px">
-
-        <mat-card class="dense-card" fxFlex fxFlex.gt-md="57" fxFlex.gt-sm="100">
-          <mat-card-title>
-            <div fxLayout="row">
-              <h3 style='font-weight: 300; color: #304357; margin-top: 0;'><span class='world-title' style='color: #18BC9C;'>History</span></h3>
-              <mat-spinner style="margin-left: 30px;" *ngIf="loadingHistory" strokeWidth="3" [diameter]="30"></mat-spinner>
-            </div>
-          </mat-card-title>
-          <mat-card-content [ngClass]="{'loading-overlay': loadingHistory}">
-            <div *ngIf="historyError" class="alert alert-warning text-center alert-gd-1">
-              <h3>Unable to load history. Try again later.</h3>
-            </div>
-            <div class="table-container table-y-limit" *ngIf="!historyError">
-              <div class="table table-sticky" id="sticky_history_header" style="text-align: left !important;">
+    <mat-card class="dense-card" fxFlex fxFlex.gt-md="57" fxFlex.gt-sm="100">
+      <mat-card-title>
+        <div fxLayout="row">
+          <h3 style='font-weight: 300; color: #304357; margin-top: 0;'><span class='world-title' style='color: #18BC9C;'>History</span></h3>
+          <mat-spinner style="margin-left: 30px;" *ngIf="loadingHistory" strokeWidth="3" [diameter]="30"></mat-spinner>
+        </div>
+      </mat-card-title>
+      <mat-card-content [ngClass]="{'loading-overlay': loadingHistory}">
+        <div *ngIf="historyError" class="alert alert-warning text-center alert-gd-1">
+          <h3>Unable to load history. Try again later.</h3>
+        </div>
+        <div class="table-container table-y-limit" *ngIf="!historyError">
+          <div class="table table-sticky" id="sticky_history_header" style="text-align: left !important;">
 	              <div class="row_custom header default">
 		              <div class="cell">Date</div>
 		              <div class="cell">Alliance</div>
@@ -343,8 +327,8 @@
 		              <div class="cell hidden-xs hidden-sm">Rank</div>
 		              <div class="cell hidden-xs hidden-sm">Towns</div>
 	              </div>
-              </div>
-              <div class="table" id="player_history_table" style="text-align: left !important;">
+          </div>
+          <div class="table" id="player_history_table" style="text-align: left !important;">
 	              <div class="row_custom header default table-header-non-sticky">
 		              <div class="cell">Date</div>
 		              <div class="cell">Alliance</div>
@@ -355,63 +339,58 @@
 		              <div class="cell hidden-xs hidden-sm">Towns</div>
 	              </div>
 
-                <!--History-->
-                <div class="row_custom" *ngFor="let h of playerHistoryData; let i = index;">
-                  <div class="cell">
-                    {{h.date | Datex : "D MMM"}}
-                  </div>
-                  <div class="cell formatted-cell">
-                    <a routerLink="/alliance" [queryParams]="{world: world, id: h.alliance_id}">{{h.alliance_name}}</a>
-                  </div>
-                  <div class="cell">
-                    {{ h.points | NumberFilter }}
-                    <a *ngIf="i+1<playerHistoryData.length && i < 90" routerLink="/points" [queryParams]="{world: world, date: h.date}">
-                      <span [outerHTML]="h.points - playerHistoryData[i+1].points | DiffFilterNonZero"></span>
-                    </a>
-                  </div>
-                  <div class="cell">
-                    {{ h.att | NumberFilter }}
-                    <a *ngIf="i+1<playerHistoryData.length && i < 90" routerLink="/points" [queryParams]="{world: world, date: h.date}">
-                      <span [outerHTML]="h.att - playerHistoryData[i+1].att | DiffFilterNonZero"></span>
-                    </a>
-                  </div>
-                  <div class="cell">
-                    {{ h.def | NumberFilter }}
-                    <a *ngIf="i+1<playerHistoryData.length && i < 90" routerLink="/points" [queryParams]="{world: world, date: h.date}">
-                      <span [outerHTML]="h.def - playerHistoryData[i+1].def | DiffFilterNonZero"></span>
-                    </a>
-                  </div>
-                  <div class="cell hidden-xs hidden-sm">
-                    {{ h.rank | NumberFilter }}
-                    <a *ngIf="i+1<playerHistoryData.length && i < 90" routerLink="/points" [queryParams]="{world: world, date: h.date}">
-                      <span [outerHTML]="playerHistoryData[i+1].rank - h.rank | DiffFilterNonZero"></span>
-                    </a>
-                  </div>
-                  <div class="cell hidden-xs hidden-sm">
-                    {{ h.towns | NumberFilter }}
-                    <a *ngIf="i+1<playerHistoryData.length && i < 90" routerLink="/points" [queryParams]="{world: world, date: h.date}">
-                      <span [outerHTML]="h.towns - playerHistoryData[i+1].towns | DiffFilterNonZero"></span>
-                    </a>
-                  </div>
-                </div>
+            <!--History-->
+            <div class="row_custom" *ngFor="let h of playerHistoryData; let i = index;">
+              <div class="cell">
+                {{h.date | Datex : "D MMM"}}
+              </div>
+              <div class="cell formatted-cell">
+                <a routerLink="/alliance" [queryParams]="{world: world, id: h.alliance_id}">{{h.alliance_name}}</a>
+              </div>
+              <div class="cell">
+                {{ h.points | NumberFilter }}
+                <a *ngIf="i+1<playerHistoryData.length && i < 90" routerLink="/points" [queryParams]="{world: world, date: h.date}">
+                  <span [outerHTML]="h.points - playerHistoryData[i+1].points | DiffFilterNonZero"></span>
+                </a>
+              </div>
+              <div class="cell">
+                {{ h.att | NumberFilter }}
+                <a *ngIf="i+1<playerHistoryData.length && i < 90" routerLink="/points" [queryParams]="{world: world, date: h.date}">
+                  <span [outerHTML]="h.att - playerHistoryData[i+1].att | DiffFilterNonZero"></span>
+                </a>
+              </div>
+              <div class="cell">
+                {{ h.def | NumberFilter }}
+                <a *ngIf="i+1<playerHistoryData.length && i < 90" routerLink="/points" [queryParams]="{world: world, date: h.date}">
+                  <span [outerHTML]="h.def - playerHistoryData[i+1].def | DiffFilterNonZero"></span>
+                </a>
+              </div>
+              <div class="cell hidden-xs hidden-sm">
+                {{ h.rank | NumberFilter }}
+                <a *ngIf="i+1<playerHistoryData.length && i < 90" routerLink="/points" [queryParams]="{world: world, date: h.date}">
+                  <span [outerHTML]="playerHistoryData[i+1].rank - h.rank | DiffFilterNonZero"></span>
+                </a>
+              </div>
+              <div class="cell hidden-xs hidden-sm">
+                {{ h.towns | NumberFilter }}
+                <a *ngIf="i+1<playerHistoryData.length && i < 90" routerLink="/points" [queryParams]="{world: world, date: h.date}">
+                  <span [outerHTML]="h.towns - playerHistoryData[i+1].towns | DiffFilterNonZero"></span>
+                </a>
               </div>
             </div>
-          </mat-card-content>
-        </mat-card>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
 
-        <mat-card class="dense-card" fxFlex fxFlex.gt-md="43" fxFlex.gt-sm="100">
-          <mat-card-content>
+    <mat-card class="dense-card" fxFlex fxFlex.gt-md="43" fxFlex.gt-sm="100">
+      <mat-card-content>
 
 	          <app-conquest [embedded]="true" [params]="{type: 'player', world: world, id: id}"></app-conquest>
 
-          </mat-card-content>
-        </mat-card>
+      </mat-card-content>
+    </mat-card>
 
-      </div>
-
-	    <br/>
-
-    </mat-card-content>
-  </div>
-
+    </div>
+  </ng-container>
 </div>

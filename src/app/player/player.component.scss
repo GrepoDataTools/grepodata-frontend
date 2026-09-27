@@ -11,14 +11,6 @@
   pointer-events: none !important;
 }
 
-mat-expansion-panel-header {
-  height: 40px !important;
-
-}
-mat-expansion-panel-header.mat-expanded {
-  height: 60px !important;
-}
-
 mat-card-title {
   margin-bottom: 0px !important;
 }
@@ -40,37 +32,14 @@ mat-card-title {
   height: 400px !important;
 }
 
-.a-link:hover {
-  cursor: pointer !important;
-}
-
 @media screen and (min-width: 1800px) {
   .table {
     font-size: 18px !important;
   }
 }
 
-td {
-  text-align: center !important;
-}
-
 .cell {
   padding-left: 5px !important;
-}
-
-p {
-  color: #1a242f !important;
-  font-size: 18px !important;
-}
-
-.decorated {
-  text-decoration: underline;
-}
-
-.header_cell {
-  text-align: right;
-  padding-right: 10px !important;
-  width: 150px !important;
 }
 
 @media (max-width:400px) {
@@ -83,14 +52,4 @@ p {
     margin-bottom: 5px;
     padding: 0;
   }
-}
-
-.player-info th {
-  text-align: right !important;
-}
-.player-info td {
-  text-align: left !important;
-}
-mat-chip:hover {
-  cursor: pointer !important;
 }

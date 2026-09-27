@@ -1,194 +1,194 @@
-<app-search [compare]="true"></app-search>
+<div id="pagehead" class="mx-auto flex max-w-[1600px] flex-col gap-6 px-6 py-6 text-left font-normal text-slate-900 max-sm:px-4">
+  <app-search [compare]="true"></app-search>
 
-<div>
-  <div class="ranking" id="pagehead">
-    <mat-card style="padding: 16px 0;">
-
-	    <div *ngIf="loading" style="position: relative; top: -15px; height: 0px;">
-		    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-	    </div>
-
-      <mat-card-content>
-
-        <div class="container-fluid" id="player_ranking">
-          <div class="row">
-
-	          <div class="col-xs-12 text-center">
-		          <h3 class="gd-primary" style="margin: 0;">
-			          Grepolis <span *ngIf="type!='alliance'">player</span><span *ngIf="type=='alliance'">alliance</span> ranking
-		          </h3>
-	          </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-5 col-lg-offset-1 title-selection">
-
-	            <div>
-		            <mat-icon class="icon-margin"><div class="bg-flag flag-{{server}}"></div></mat-icon>
-		            <mat-form-field class="input-server">
-			            <mat-select placeholder="Server" [ngModel]="server" (ngModelChange)="updateWorlds($event)" #select>
-				            <mat-option *ngFor="let s of servers" value="{{s}}">
-					            <div class="bg-flag flag-inline flag-{{s}}"></div>&nbsp;{{s}}
-				            </mat-option>
-			            </mat-select>
-		            </mat-form-field>&nbsp;
-		            <mat-form-field class="input-world">
-			            <mat-select placeholder="World" [ngModel]="world" (ngModelChange)="setWorld($event)">
-				            <mat-option *ngFor="let w of worlds" value="{{w.id}}">{{w.id}} ({{w.name}})</mat-option>
-			            </mat-select>
-		            </mat-form-field>&nbsp;
-		            <mat-form-field class="input-date">
-			            <mat-select placeholder="Type" [ngModel]="type" (ngModelChange)="setType($event)">
-				            <mat-option value="player" selected>Players</mat-option>
-				            <mat-option value="alliance">Alliances</mat-option>
-			            </mat-select>
-		            </mat-form-field>
-	            </div>
-
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-5 title-paginator">
-              <mat-paginator class="title-paginator"
-                             [length]="count"
-                             [pageSize]="size"
-                             [pageIndex]="pageIndex"
-                             [pageSizeOptions]="[10, 30, 50, 100, 200]"
-                             (page)="paginatorEvent($event)">
-              </mat-paginator>
-            </div>
-          </div>
-          <div *ngIf="error" class="alert alert-warning text-center alert-gd-1">
-            <h3>Unable to load ranking.</h3>
-          </div>
-
-          <div class="row" *ngIf="!error">
-	          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-10 col-lg-offset-1" style="margin-top: -20px;">
-		          <div class="scroll-table">
-		            <div class="table" id="player_ranking_table" style="border-collapse: collapse;">
-				          <div class="row_custom header default">
-					          <div class="cell">
-						          #
-					          </div>
-					          <div *ngIf="type=='player'" class="cell">
-						          Player name
-					          </div>
-					          <div class="cell">
-						          Alliance name
-					          </div>
-					          <div class="cell hidden-xs" (click)="sort('Points')">
-						          <span class="ranking-control {{sort_field=='Points' ? 'selected' : ''}}">Points</span>
-						          <div class="sort-carets">
-							          <i class="fa fa-caret-up {{sort_field=='Points'&&sort_order=='asc' ? 'selected' : ''}}"></i>
-							          <i class="fa fa-caret-down {{sort_field=='Points'&&sort_order=='desc' ? 'selected' : ''}}"></i>
-						          </div>
-					          </div>
-					          <div class="cell custom-cell" (click)="sort('Rank')">
-						          <span class="ranking-control {{sort_field=='Rank' ? 'selected' : ''}}">
-							          <span class="hidden-xs hidden-sm hidden-md">General rank</span>
-							          <span class="hidden-lg">Rank</span>
-						          </span>
-						          <div class="sort-carets">
-							          <i class="fa fa-caret-up {{sort_field=='Rank'&&sort_order=='asc' ? 'selected' : ''}}"></i>
-							          <i class="fa fa-caret-down {{sort_field=='Rank'&&sort_order=='desc' ? 'selected' : ''}}"></i>
-						          </div>
-					          </div>
-					          <div class="cell" (click)="sort('Towns')">
-						          <span class="ranking-control {{sort_field=='Towns' ? 'selected' : ''}}">Towns</span>
-						          <div class="sort-carets">
-							          <i class="fa fa-caret-up {{sort_field=='Towns'&&sort_order=='asc' ? 'selected' : ''}}"></i>
-							          <i class="fa fa-caret-down {{sort_field=='Towns'&&sort_order=='desc' ? 'selected' : ''}}"></i>
-						          </div>
-					          </div>
-					          <div *ngIf="type=='alliance'" class="cell" (click)="sort('Members')">
-						          <span class="ranking-control {{sort_field=='Members' ? 'selected' : ''}}">Members</span>
-						          <div class="sort-carets">
-							          <i class="fa fa-caret-up {{sort_field=='Members'&&sort_order=='asc' ? 'selected' : ''}}"></i>
-							          <i class="fa fa-caret-down {{sort_field=='Members'&&sort_order=='desc' ? 'selected' : ''}}"></i>
-						          </div>
-					          </div>
-					          <div class="cell" (click)="sort('Att')">
-						          <span class="ranking-control {{sort_field=='Att' ? 'selected' : ''}}">Attack<span class="hidden-xs hidden-sm hidden-md"> points</span></span>
-						          <div class="sort-carets">
-							          <i class="fa fa-caret-up {{sort_field=='Att'&&sort_order=='asc' ? 'selected' : ''}}"></i>
-							          <i class="fa fa-caret-down {{sort_field=='Att'&&sort_order=='desc' ? 'selected' : ''}}"></i>
-						          </div>
-					          </div>
-					          <div class="cell" (click)="sort('Def')">
-						          <span class="ranking-control {{sort_field=='Def' ? 'selected' : ''}}">Defence<span class="hidden-xs hidden-sm hidden-md"> points</span></span>
-						          <div class="sort-carets">
-							          <i class="fa fa-caret-up {{sort_field=='Def'&&sort_order=='asc' ? 'selected' : ''}}"></i>
-							          <i class="fa fa-caret-down {{sort_field=='Def'&&sort_order=='desc' ? 'selected' : ''}}"></i>
-						          </div>
-					          </div>
-					          <div class="cell" (click)="sort('AttDef')">
-						          <span class="ranking-control {{sort_field=='AttDef' ? 'selected' : ''}}">Combined<span class="hidden-xs hidden-sm hidden-md"> points</span></span>
-						          <div class="sort-carets">
-							          <i class="fa fa-caret-up {{sort_field=='AttDef'&&sort_order=='asc' ? 'selected' : ''}}"></i>
-							          <i class="fa fa-caret-down {{sort_field=='AttDef'&&sort_order=='desc' ? 'selected' : ''}}"></i>
-						          </div>
-					          </div>
-				          </div>
-
-				          <div *ngFor="let result of results; let i = index;" class="row_custom" [ngClass]="{row_winner:i==0&&fromResult==0, row_highlight:highlightId==result?.id}">
-					          <div class="cell custom-cell">
-						          <div *ngIf="i==0&&fromResult==0&&sort_order=='desc'">🏆</div>
-						          <div *ngIf="i==1&&fromResult==0&&sort_order=='desc'">🥈</div>
-						          <div *ngIf="i==2&&fromResult==0&&sort_order=='desc'">🥉</div>
-						          <span *ngIf="i>=3||fromResult!=0||sort_order=='asc'">{{i+fromResult+1}}</span>
-					          </div>
-					          <div *ngIf="type=='player'" class="cell">
-						          <a routerLink="/player" [queryParams]="{world: result?.world, id: result?.id}">{{result?.name}}</a>
-					          </div>
-					          <div class="cell">
-						          <a *ngIf="type=='player'" routerLink="/alliance" [queryParams]="{world: result?.world, id: result?.alliance_id}">{{result?.alliance_name}}</a>
-						          <a *ngIf="type=='alliance'" routerLink="/alliance" [queryParams]="{world: result?.world, id: result?.id}">{{result?.name}}</a>
-					          </div>
-					          <div class="cell hidden-xs">
-						          {{result?.points | NumberFilter}}
-					          </div>
-					          <div class="cell custom-cell">
-						          <div *ngIf="highlightId==result?.id" id="highlightRow">{{result?.rank}}</div>
-						          <div *ngIf="highlightId!=result?.id">{{result?.rank}}</div>
-					          </div>
-					          <div class="cell">
-						          <a routerLink="/conquest/{{type}}/{{world}}/{{result?.id}}">{{result?.towns}}</a>
-					          </div>
-					          <div *ngIf="type=='alliance'" class="cell">
-						          {{result?.members}}
-					          </div>
-					          <div class="cell">
-						          {{result?.att | NumberFilter}}
-					          </div>
-					          <div class="cell">
-						          {{result?.def | NumberFilter}}
-					          </div>
-					          <div class="cell">
-						          {{result?.def + result?.att | NumberFilter}}
-					          </div>
-				          </div>
-
-			          </div>
-
-	            </div>
-
-	          </div>
-
-          </div>
-
-	        <div class="row">
-		        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-10 col-lg-offset-1">
-			        <mat-paginator [length]="count"
-			                       [pageSize]="size"
-			                       [pageIndex]="pageIndex"
-			                       [pageSizeOptions]="[10, 30, 50, 100, 200]"
-			                       (page)="paginatorEvent($event)">
-			        </mat-paginator>
-		        </div>
-	        </div>
-        </div>
-
-      </mat-card-content>
-    </mat-card>
-
+  <div class="flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
+    <div class="min-w-0">
+      <h1 class="m-0 text-2xl font-bold tracking-tight text-slate-900"><span *ngIf="type!='alliance'">Player</span><span *ngIf="type=='alliance'">Alliance</span> ranking</h1>
+      <p *ngIf="worldName" class="mb-0 mt-1 text-sm text-slate-500"><span class="tabular-nums">{{count | number}}</span> {{type=='alliance' ? 'alliances' : 'active players'}} on {{worldName}} ({{world}})</p>
+    </div>
+    <div class="flex w-full gap-2 sm:w-auto">
+      <div class="relative w-[152px] flex-none max-sm:w-24">
+        <mat-select aria-label="Server" placeholder="Server" [ngModel]="server" (ngModelChange)="updateWorlds($event)" #select class="flex h-9 w-full items-center rounded-md bg-white pl-3 pr-8 text-sm text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-700 [&_.mat-select-arrow-wrapper]:hidden [&_.mat-select-trigger]:w-full">
+          <mat-select-trigger>
+            <span class="flex items-center gap-2 whitespace-nowrap">
+              <span class="text-slate-500 max-sm:[display:none]">Server</span>
+              <span class="bg-flag flag-{{server}} flex-none [zoom:0.625]"></span>
+              <span class="font-medium">{{server}}</span>
+            </span>
+          </mat-select-trigger>
+          <mat-option *ngFor="let s of servers" value="{{s}}">
+            <div class="bg-flag flag-inline flag-{{s}}"></div>&nbsp;{{s}}
+          </mat-option>
+        </mat-select>
+        <svg appIcon="chevron-down" class="pointer-events-none absolute right-2.5 top-2.5 size-4 text-slate-400"></svg>
+      </div>
+      <div class="relative w-[248px] min-w-0 max-sm:flex-1">
+        <mat-select aria-label="World" placeholder="World" [ngModel]="world" (ngModelChange)="setWorld($event)" class="flex h-9 w-full items-center rounded-md bg-white pl-3 pr-8 text-sm text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-700 [&_.mat-select-arrow-wrapper]:hidden [&_.mat-select-trigger]:w-full">
+          <mat-select-trigger>
+            <span class="flex min-w-0 items-center gap-2 whitespace-nowrap">
+              <span class="text-slate-500 max-sm:[display:none]">World</span>
+              <span class="font-medium tabular-nums">{{world}}</span>
+              <span class="text-slate-400">·</span>
+              <span class="truncate font-medium">{{worldName}}</span>
+            </span>
+          </mat-select-trigger>
+          <mat-option *ngFor="let w of worlds" value="{{w.id}}">{{w.id}} · {{w.name}}</mat-option>
+        </mat-select>
+        <svg appIcon="chevron-down" class="pointer-events-none absolute right-2.5 top-2.5 size-4 text-slate-400"></svg>
+      </div>
+    </div>
   </div>
 
+  <div class="-mt-2 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-0 border-b border-solid border-slate-200">
+    <div role="tablist" aria-label="Ranking type" class="flex gap-6">
+      <button type="button" role="tab" [attr.aria-selected]="type!='alliance'" (click)="type!='player' && setType('player')" class="-mb-px inline-flex items-center gap-2 whitespace-nowrap border-0 border-b-2 border-solid bg-transparent px-0.5 py-3 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="type!='alliance' ? 'border-brand-700 font-semibold text-brand-700' : 'border-transparent font-medium text-slate-500 hover:border-slate-300 hover:text-slate-900'">
+        <svg appIcon="player_ico" variant="game" class="size-4 flex-none" [ngClass]="type!='alliance' ? 'text-brand-700' : 'text-slate-400'"></svg>
+        Players
+      </button>
+      <button type="button" role="tab" [attr.aria-selected]="type=='alliance'" (click)="type!='alliance' && setType('alliance')" class="-mb-px inline-flex items-center gap-2 whitespace-nowrap border-0 border-b-2 border-solid bg-transparent px-0.5 py-3 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="type=='alliance' ? 'border-brand-700 font-semibold text-brand-700' : 'border-transparent font-medium text-slate-500 hover:border-slate-300 hover:text-slate-900'">
+        <svg appIcon="ally_ico" variant="game" class="size-4 flex-none" [ngClass]="type=='alliance' ? 'text-brand-700' : 'text-slate-400'"></svg>
+        Alliances
+      </button>
+    </div>
+    <mat-paginator class="block bg-transparent !text-xs !font-normal text-slate-600 [&_.mat-button-wrapper]:flex [&_.mat-form-field-infix]:!w-16 [&_.mat-form-field-infix]:!p-0 [&_.mat-form-field-subscript-wrapper]:hidden [&_.mat-form-field-underline]:hidden [&_.mat-form-field-wrapper]:!m-0 [&_.mat-form-field-wrapper]:!p-0 [&_.mat-icon-button:not(.mat-button-disabled):hover]:bg-slate-100 [&_.mat-icon-button]:inline-flex [&_.mat-icon-button]:size-8 [&_.mat-icon-button]:items-center [&_.mat-icon-button]:justify-center [&_.mat-icon-button]:rounded-md [&_.mat-icon-button]:leading-8 [&_.mat-paginator-container]:min-h-0 [&_.mat-paginator-container]:flex-nowrap [&_.mat-paginator-container]:gap-3 [&_.mat-paginator-container]:p-0 [&_.mat-paginator-icon]:w-5 [&_.mat-paginator-page-size-label]:m-0 [&_.mat-paginator-page-size]:m-0 [&_.mat-paginator-page-size]:items-center [&_.mat-paginator-page-size]:gap-2 [&_.mat-paginator-page-size]:!pt-0 [&_.mat-paginator-range-actions]:gap-1 [&_.mat-paginator-range-label]:m-0 [&_.mat-paginator-range-label]:mr-1 [&_.mat-paginator-range-label]:tabular-nums [&_.mat-select-arrow-wrapper]:![transform:none] [&_.mat-select-arrow]:text-slate-400 [&_.mat-select-trigger]:h-auto [&_.mat-select-trigger]:w-full [&_.mat-select:focus]:ring-2 [&_.mat-select:focus]:ring-brand-700 [&_.mat-select]:flex [&_.mat-select]:h-8 [&_.mat-select]:items-center [&_.mat-select]:rounded-md [&_.mat-select]:bg-white [&_.mat-select]:pl-2.5 [&_.mat-select]:pr-1.5 [&_.mat-select]:text-xs [&_.mat-select]:shadow-sm [&_.mat-select]:ring-1 [&_.mat-select]:ring-inset [&_.mat-select]:ring-slate-300"
+                   [length]="count"
+                   [pageSize]="size"
+                   [pageIndex]="pageIndex"
+                   [pageSizeOptions]="[10, 30, 50, 100, 200]"
+                   (page)="paginatorEvent($event)">
+    </mat-paginator>
+  </div>
+
+  <div *ngIf="error" role="alert" class="flex gap-3 rounded-xl bg-rose-50 px-4 py-3 text-sm text-rose-700 ring-1 ring-inset ring-rose-200">
+    <svg appIcon="exclamation-circle" class="size-5 flex-none text-rose-600"></svg>
+    <div class="min-w-0">
+      <p class="m-0 font-semibold">Unable to load ranking</p>
+      <p class="mb-0 mt-0.5">Something went wrong on our side. Please try again in a moment.</p>
+    </div>
+  </div>
+
+  <section *ngIf="!error && loading && !(results?.length > 0)" aria-label="Ranking" aria-busy="true" class="relative overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+    <mat-progress-bar mode="indeterminate" class="!absolute inset-x-0 top-0 z-10 !h-0.5"></mat-progress-bar>
+    <div *ngFor="let row of [0, 1, 2, 3, 4, 5]" aria-hidden="true" class="flex items-center gap-4 border-0 border-b border-solid border-slate-100 px-5 py-3.5 last:border-b-0">
+      <span class="h-3 w-5 flex-none animate-pulse rounded bg-slate-100"></span>
+      <span class="flex min-w-0 flex-1 flex-col gap-1.5">
+        <span class="h-3 w-40 max-w-full animate-pulse rounded bg-slate-100"></span>
+        <span class="h-2.5 w-24 max-w-full animate-pulse rounded bg-slate-100"></span>
+      </span>
+      <span class="h-3 w-24 flex-none animate-pulse rounded bg-slate-100 max-sm:w-16"></span>
+      <span class="h-3 w-20 flex-none animate-pulse rounded bg-slate-100 max-lg:[display:none]"></span>
+      <span class="h-3 w-24 flex-none animate-pulse rounded bg-slate-100 max-lg:[display:none]"></span>
+    </div>
+  </section>
+
+  <section *ngIf="!error && !loading && !(results?.length > 0)" class="flex flex-col items-center rounded-xl bg-white px-6 py-12 text-center shadow-sm ring-1 ring-slate-900/[.08]">
+    <span aria-hidden="true" class="flex size-12 items-center justify-center rounded-full bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-700/15">
+      <svg appIcon="trophy" class="size-6"></svg>
+    </span>
+    <h2 class="mb-0 mt-4 text-base font-semibold text-slate-900">No ranking for {{worldName || world}} yet</h2>
+    <p class="mb-0 mt-1 text-sm text-slate-600">No active {{type=='alliance' ? 'alliances' : 'players'}} on {{worldName}} ({{world}}) yet. Try another world.</p>
+  </section>
+
+  <section *ngIf="!error && results?.length > 0" aria-label="Ranking" class="relative overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+    <mat-progress-bar *ngIf="loading" mode="indeterminate" class="!absolute inset-x-0 top-0 z-10 !h-0.5"></mat-progress-bar>
+    <div class="overflow-x-auto">
+      <table class="w-full min-w-[960px] table-fixed border-separate border-spacing-0 text-left">
+        <thead>
+          <tr>
+            <th scope="col" class="border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-semibold text-slate-700 w-16 pl-5 text-center">#</th>
+            <th scope="col" class="border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-semibold text-slate-700">{{type=='alliance' ? 'Alliance' : 'Player'}}</th>
+            <th scope="col" [attr.aria-sort]="sort_field=='Points' ? (sort_order=='asc' ? 'ascending' : 'descending') : 'none'" class="border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-semibold text-slate-700 text-right w-[200px]">
+              <button type="button" (click)="sort('Points')" title="Sort by points" class="inline-flex items-center gap-1 whitespace-nowrap border-0 bg-transparent p-0 text-xs font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="sort_field=='Points' ? 'text-brand-700 hover:text-brand-800' : 'text-slate-700 hover:text-slate-900'">
+                <svg [appIcon]="sort_field=='Points' ? (sort_order=='asc' ? 'arrow-up' : 'arrow-down') : 'chevron-up-down'" class="size-3.5 flex-none" [ngClass]="sort_field=='Points' ? 'text-brand-700' : 'text-slate-400'"></svg>
+                <span>Points</span>
+              </button>
+            </th>
+            <th scope="col" [attr.aria-sort]="sort_field=='Rank' ? (sort_order=='asc' ? 'ascending' : 'descending') : 'none'" class="border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-semibold text-slate-700 text-right w-32">
+              <button type="button" (click)="sort('Rank')" title="Sort by general rank" class="inline-flex items-center gap-1 whitespace-nowrap border-0 bg-transparent p-0 text-xs font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="sort_field=='Rank' ? 'text-brand-700 hover:text-brand-800' : 'text-slate-700 hover:text-slate-900'">
+                <svg [appIcon]="sort_field=='Rank' ? (sort_order=='asc' ? 'arrow-up' : 'arrow-down') : 'chevron-up-down'" class="size-3.5 flex-none" [ngClass]="sort_field=='Rank' ? 'text-brand-700' : 'text-slate-400'"></svg>
+                <span>General rank</span>
+              </button>
+            </th>
+            <th scope="col" [attr.aria-sort]="sort_field=='Towns' ? (sort_order=='asc' ? 'ascending' : 'descending') : 'none'" class="border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-semibold text-slate-700 text-right w-[92px]">
+              <button type="button" (click)="sort('Towns')" title="Sort by towns" class="inline-flex items-center gap-1 whitespace-nowrap border-0 bg-transparent p-0 text-xs font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="sort_field=='Towns' ? 'text-brand-700 hover:text-brand-800' : 'text-slate-700 hover:text-slate-900'">
+                <svg [appIcon]="sort_field=='Towns' ? (sort_order=='asc' ? 'arrow-up' : 'arrow-down') : 'chevron-up-down'" class="size-3.5 flex-none" [ngClass]="sort_field=='Towns' ? 'text-brand-700' : 'text-slate-400'"></svg>
+                <span>Towns</span>
+              </button>
+            </th>
+            <ng-container *ngIf="type=='alliance'">
+            <th scope="col" [attr.aria-sort]="sort_field=='Members' ? (sort_order=='asc' ? 'ascending' : 'descending') : 'none'" class="border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-semibold text-slate-700 text-right w-24">
+              <button type="button" (click)="sort('Members')" title="Sort by members" class="inline-flex items-center gap-1 whitespace-nowrap border-0 bg-transparent p-0 text-xs font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="sort_field=='Members' ? 'text-brand-700 hover:text-brand-800' : 'text-slate-700 hover:text-slate-900'">
+                <svg [appIcon]="sort_field=='Members' ? (sort_order=='asc' ? 'arrow-up' : 'arrow-down') : 'chevron-up-down'" class="size-3.5 flex-none" [ngClass]="sort_field=='Members' ? 'text-brand-700' : 'text-slate-400'"></svg>
+                <span>Members</span>
+              </button>
+            </th>
+            </ng-container>
+            <th scope="col" [attr.aria-sort]="sort_field=='Att' ? (sort_order=='asc' ? 'ascending' : 'descending') : 'none'" class="border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-semibold text-slate-700 text-right w-[140px]">
+              <button type="button" (click)="sort('Att')" title="Sort by attack points" class="inline-flex items-center gap-1 whitespace-nowrap border-0 bg-transparent p-0 text-xs font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="sort_field=='Att' ? 'text-brand-700 hover:text-brand-800' : 'text-slate-700 hover:text-slate-900'">
+                <svg [appIcon]="sort_field=='Att' ? (sort_order=='asc' ? 'arrow-up' : 'arrow-down') : 'chevron-up-down'" class="size-3.5 flex-none" [ngClass]="sort_field=='Att' ? 'text-brand-700' : 'text-slate-400'"></svg>
+                <span>Attack points</span>
+              </button>
+            </th>
+            <th scope="col" [attr.aria-sort]="sort_field=='Def' ? (sort_order=='asc' ? 'ascending' : 'descending') : 'none'" class="border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-semibold text-slate-700 text-right w-[148px]">
+              <button type="button" (click)="sort('Def')" title="Sort by defence points" class="inline-flex items-center gap-1 whitespace-nowrap border-0 bg-transparent p-0 text-xs font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="sort_field=='Def' ? 'text-brand-700 hover:text-brand-800' : 'text-slate-700 hover:text-slate-900'">
+                <svg [appIcon]="sort_field=='Def' ? (sort_order=='asc' ? 'arrow-up' : 'arrow-down') : 'chevron-up-down'" class="size-3.5 flex-none" [ngClass]="sort_field=='Def' ? 'text-brand-700' : 'text-slate-400'"></svg>
+                <span>Defence points</span>
+              </button>
+            </th>
+            <th scope="col" [attr.aria-sort]="sort_field=='AttDef' ? (sort_order=='asc' ? 'ascending' : 'descending') : 'none'" class="border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-semibold text-slate-700 text-right w-[164px] pr-5">
+              <button type="button" (click)="sort('AttDef')" title="Sort by combined points" class="inline-flex items-center gap-1 whitespace-nowrap border-0 bg-transparent p-0 text-xs font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="sort_field=='AttDef' ? 'text-brand-700 hover:text-brand-800' : 'text-slate-700 hover:text-slate-900'">
+                <svg [appIcon]="sort_field=='AttDef' ? (sort_order=='asc' ? 'arrow-up' : 'arrow-down') : 'chevron-up-down'" class="size-3.5 flex-none" [ngClass]="sort_field=='AttDef' ? 'text-brand-700' : 'text-slate-400'"></svg>
+                <span>Combined points</span>
+              </button>
+            </th>
+          </tr>
+        </thead>
+        <tbody class="transition-opacity" [ngClass]="{'opacity-50': loading}">
+          <tr *ngFor="let result of results; let i = index;" [attr.id]="highlightId==result?.id ? 'highlightRow' : null" [ngClass]="highlightId==result?.id ? 'bg-brand-50' : 'hover:bg-slate-50'" class="[&:first-child>td]:border-t-0">
+            <td class="border-0 border-t border-solid border-slate-100 px-3 py-2 align-middle text-sm pl-5 text-center" [ngClass]="{'shadow-[inset_3px_0_0_#18BC9C]': highlightId==result?.id}">
+              <span *ngIf="i<3&&fromResult==0&&sort_order=='desc'" role="img" [attr.aria-label]="['1st place', '2nd place', '3rd place'][i]" [title]="['1st place', '2nd place', '3rd place'][i]" class="inline-flex size-6 items-center justify-center rounded-full text-xs font-bold tabular-nums ring-1 ring-inset" [ngClass]="['bg-amber-100 text-amber-700 ring-amber-500/60', 'bg-slate-100 text-slate-600 ring-slate-500/45', 'bg-report-enemy/[.12] text-amber-800 ring-report-enemy/50'][i]">{{i+1}}</span>
+              <span *ngIf="i>=3||fromResult!=0||sort_order=='asc'" class="text-[13px] tabular-nums text-slate-500">{{i+fromResult+1}}</span>
+            </td>
+            <td class="border-0 border-t border-solid border-slate-100 px-3 py-2 align-middle text-sm max-w-0">
+              <ng-container *ngIf="type=='player'">
+                <a routerLink="/player" [queryParams]="{world: result?.world, id: result?.id}" [title]="result?.name" class="inline-flex max-w-full items-center gap-1 align-top font-medium text-slate-900 no-underline hover:text-brand-700 hover:underline">
+                  <svg appIcon="player_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+                  <span class="truncate">{{result?.name}}</span>
+                </a>
+                <div class="mt-0.5 flex min-w-0">
+                  <a *ngIf="result?.alliance_name" routerLink="/alliance" [queryParams]="{world: result?.world, id: result?.alliance_id}" [title]="result?.alliance_name" class="inline-flex max-w-full items-center gap-1 text-xs text-slate-500 no-underline hover:text-brand-700 hover:underline">
+                    <svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+                    <span class="truncate">{{result?.alliance_name}}</span>
+                  </a>
+                  <span *ngIf="!result?.alliance_name" class="text-xs text-slate-500">No alliance</span>
+                </div>
+              </ng-container>
+              <a *ngIf="type=='alliance'" routerLink="/alliance" [queryParams]="{world: result?.world, id: result?.id}" [title]="result?.name" class="inline-flex max-w-full items-center gap-1 align-top font-medium text-slate-900 no-underline hover:text-brand-700 hover:underline">
+                <svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+                <span class="truncate">{{result?.name}}</span>
+              </a>
+            </td>
+            <td class="border-0 border-t border-solid border-slate-100 px-3 py-2 align-middle text-sm text-right tabular-nums" [ngClass]="sort_field=='Points' ? 'font-semibold text-slate-900' : 'text-slate-700'">{{result?.points | NumberFilter}}</td>
+            <td class="border-0 border-t border-solid border-slate-100 px-3 py-2 align-middle text-sm text-right tabular-nums" [ngClass]="sort_field=='Rank' ? 'font-semibold text-slate-900' : 'text-slate-700'">{{result?.rank}}</td>
+            <td class="border-0 border-t border-solid border-slate-100 px-3 py-2 align-middle text-sm text-right">
+              <a routerLink="/conquest/{{type}}/{{world}}/{{result?.id}}" title="View conquests" class="tabular-nums text-brand-700 no-underline hover:text-brand-800 hover:underline" [ngClass]="sort_field=='Towns' ? 'font-semibold' : 'font-medium'">{{result?.towns}}</a>
+            </td>
+            <td *ngIf="type=='alliance'" class="border-0 border-t border-solid border-slate-100 px-3 py-2 align-middle text-sm text-right tabular-nums" [ngClass]="sort_field=='Members' ? 'font-semibold text-slate-900' : 'text-slate-700'">{{result?.members}}</td>
+            <td class="border-0 border-t border-solid border-slate-100 px-3 py-2 align-middle text-sm text-right tabular-nums" [ngClass]="sort_field=='Att' ? 'font-semibold text-slate-900' : 'text-slate-700'">{{result?.att | NumberFilter}}</td>
+            <td class="border-0 border-t border-solid border-slate-100 px-3 py-2 align-middle text-sm text-right tabular-nums" [ngClass]="sort_field=='Def' ? 'font-semibold text-slate-900' : 'text-slate-700'">{{result?.def | NumberFilter}}</td>
+            <td class="border-0 border-t border-solid border-slate-100 px-3 py-2 align-middle text-sm pr-5 text-right tabular-nums" [ngClass]="sort_field=='AttDef' ? 'font-semibold text-slate-900' : 'text-slate-700'">{{result?.def + result?.att | NumberFilter}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="flex flex-wrap items-center justify-end gap-x-4 gap-y-2 border-0 border-t border-solid border-slate-200 py-2 pl-5 pr-3">
+      <mat-paginator class="block bg-transparent !text-xs !font-normal text-slate-600 [&_.mat-button-wrapper]:flex [&_.mat-form-field-infix]:!w-16 [&_.mat-form-field-infix]:!p-0 [&_.mat-form-field-subscript-wrapper]:hidden [&_.mat-form-field-underline]:hidden [&_.mat-form-field-wrapper]:!m-0 [&_.mat-form-field-wrapper]:!p-0 [&_.mat-icon-button:not(.mat-button-disabled):hover]:bg-slate-100 [&_.mat-icon-button]:inline-flex [&_.mat-icon-button]:size-8 [&_.mat-icon-button]:items-center [&_.mat-icon-button]:justify-center [&_.mat-icon-button]:rounded-md [&_.mat-icon-button]:leading-8 [&_.mat-paginator-container]:min-h-0 [&_.mat-paginator-container]:flex-nowrap [&_.mat-paginator-container]:gap-3 [&_.mat-paginator-container]:p-0 [&_.mat-paginator-icon]:w-5 [&_.mat-paginator-page-size-label]:m-0 [&_.mat-paginator-page-size]:m-0 [&_.mat-paginator-page-size]:items-center [&_.mat-paginator-page-size]:gap-2 [&_.mat-paginator-page-size]:!pt-0 [&_.mat-paginator-range-actions]:gap-1 [&_.mat-paginator-range-label]:m-0 [&_.mat-paginator-range-label]:mr-1 [&_.mat-paginator-range-label]:tabular-nums [&_.mat-select-arrow-wrapper]:![transform:none] [&_.mat-select-arrow]:text-slate-400 [&_.mat-select-trigger]:h-auto [&_.mat-select-trigger]:w-full [&_.mat-select:focus]:ring-2 [&_.mat-select:focus]:ring-brand-700 [&_.mat-select]:flex [&_.mat-select]:h-8 [&_.mat-select]:items-center [&_.mat-select]:rounded-md [&_.mat-select]:bg-white [&_.mat-select]:pl-2.5 [&_.mat-select]:pr-1.5 [&_.mat-select]:text-xs [&_.mat-select]:shadow-sm [&_.mat-select]:ring-1 [&_.mat-select]:ring-inset [&_.mat-select]:ring-slate-300"
+                     [length]="count"
+                     [pageSize]="size"
+                     [pageIndex]="pageIndex"
+                     [pageSizeOptions]="[10, 30, 50, 100, 200]"
+                     (page)="paginatorEvent($event)">
+      </mat-paginator>
+    </div>
+  </section>
 </div>
-
-

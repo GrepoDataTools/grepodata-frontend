@@ -1,34 +1,60 @@
-<div style="font-size: 18px;">
-  <a (click)="dialogRef.close()" class="close"></a>
-  <h1 class="mat-primary" style="color: #18BC9C; margin-top: 0px;" mat-dialog-title>Disclaimer</h1>
-
-  <div mat-dialog-content>
-    <p>Grepolis is a browser game by InnoGames GmbH. This is an unofficial 3rd party site.</p>
-    <br/>
-    <p>Some images on this website, relating to the gameplay of Grepolis, are copyright of InnoGames GmbH.</p>
-    <br/>
-    <p>All data related to game statistics is collected once every hour from the official Grepolis API.</p>
-    <br/>
-    <p>We use cookies to analyze website traffic and enhance your experience. <a href="http://cookiesandyou.com/">More info</a> </p>
-    <br/>
-    <p>
-      Grepodata will sometimes request personal data. We may for example ask for your e-mail address if you would like to use our city indexer tool.
-      Grepodata respects the privacy of the visitors on our website, and will solely use the information you provide to us for previously determined purposes, in accordance with GDPR.
-      Grepodata does not send marketing emails, but may send you a message to authenticate you when you wish to use some of our functionality.
-    </p>
-    <br/>
-    <p>
-      Please read our <a routerLink="/privacy" (click)="dialogRef.close()">Privacy Policy</a> for more information.
-    </p>
-    <br/>
-  </div>
-
-  <div mat-dialog-actions>
-    <button mat-button class="mat-raised-button mat-primary" (click)="dialogRef.close()">
-      Close
+<div class="flex max-h-[95vh] w-[600px] max-w-full flex-col text-left font-normal text-slate-900">
+  <div class="flex flex-none items-center gap-4 border-0 border-b border-solid border-slate-200 px-6 py-5 max-sm:px-4">
+    <span class="flex size-10 flex-none items-center justify-center rounded-lg bg-navy-800 text-brand-500">
+      <svg appIcon="scale" class="size-6"></svg>
+    </span>
+    <h2 mat-dialog-title class="m-0 min-w-0 flex-1 text-xl font-semibold text-slate-900">Disclaimer</h2>
+    <button type="button" (click)="dialogRef.close()" aria-label="Close" class="-mr-2 inline-flex size-8 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+      <svg appIcon="x-mark" class="size-5"></svg>
     </button>
-    <p style="float: right;">Copyright © Grepodata {{date| date:'yyyy'}}</p>
   </div>
 
+  <div class="min-h-0 flex-1 overflow-y-auto px-6 py-5 max-sm:px-4">
+    <ul class="m-0 flex list-none flex-col gap-4 p-0">
+      <li class="flex gap-3.5">
+        <span aria-hidden="true" class="flex size-8 flex-none items-center justify-center rounded-lg bg-slate-100 text-slate-500">
+          <svg appIcon="information-circle" class="size-5"></svg>
+        </span>
+        <div class="min-w-0">
+          <h3 class="m-0 text-sm font-semibold text-slate-900">Unofficial site</h3>
+          <p class="mb-0 mt-0.5 text-sm text-slate-600">Grepolis is a browser game by InnoGames GmbH. This is an unofficial 3rd party site. Some images on this website, relating to the gameplay of Grepolis, are copyright of InnoGames GmbH.</p>
+        </div>
+      </li>
+      <li class="flex gap-3.5 border-0 border-t border-solid border-slate-100 pt-4">
+        <span aria-hidden="true" class="flex size-8 flex-none items-center justify-center rounded-lg bg-slate-100 text-slate-500">
+          <svg appIcon="arrow-path" class="size-5"></svg>
+        </span>
+        <div class="min-w-0">
+          <h3 class="m-0 text-sm font-semibold text-slate-900">Game data</h3>
+          <p class="mb-0 mt-0.5 text-sm text-slate-600">All data related to game statistics is collected once every hour from the official Grepolis API.</p>
+        </div>
+      </li>
+      <li class="flex gap-3.5 border-0 border-t border-solid border-slate-100 pt-4">
+        <span aria-hidden="true" class="flex size-8 flex-none items-center justify-center rounded-lg bg-slate-100 text-slate-500">
+          <svg appIcon="chart-bar" class="size-5"></svg>
+        </span>
+        <div class="min-w-0">
+          <h3 class="m-0 text-sm font-semibold text-slate-900">Cookies</h3>
+          <p class="mb-0 mt-0.5 text-sm text-slate-600">We use cookies to analyze website traffic and enhance your experience. <a href="http://cookiesandyou.com/" class="inline-flex items-center gap-1 whitespace-nowrap font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">More info<svg appIcon="arrow-top-right-on-square" variant="micro" class="size-3.5 flex-none"></svg></a></p>
+        </div>
+      </li>
+      <li class="flex gap-3.5 border-0 border-t border-solid border-slate-100 pt-4">
+        <span aria-hidden="true" class="flex size-8 flex-none items-center justify-center rounded-lg bg-slate-100 text-slate-500">
+          <svg appIcon="shield-check" class="size-5"></svg>
+        </span>
+        <div class="min-w-0 text-sm text-slate-600">
+          <h3 class="m-0 text-sm font-semibold text-slate-900">Personal data</h3>
+          <p class="mb-0 mt-0.5">GrepoData will sometimes request personal data. We may for example ask for your email address if you would like to use our city indexer tool.</p>
+          <p class="mb-0 mt-2">GrepoData respects the privacy of the visitors on our website, and will solely use the information you provide to us for previously determined purposes, in accordance with GDPR.</p>
+          <p class="mb-0 mt-2">GrepoData does not send marketing emails, but may send you a message to authenticate you when you wish to use some of our functionality.</p>
+          <p class="mb-0 mt-2">Please read our <a routerLink="/privacy" (click)="dialogRef.close()" class="font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Privacy Policy</a> for more information.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
 
+  <div class="flex flex-none items-center justify-end gap-3 border-0 border-t border-solid border-slate-200 bg-slate-50 px-6 py-4 max-sm:px-4">
+    <span class="mr-auto text-[13px] text-slate-500">Copyright © GrepoData {{date| date:'yyyy'}}</span>
+    <button type="button" (click)="dialogRef.close()" class="inline-flex items-center justify-center gap-1.5 rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Close</button>
+  </div>
 </div>

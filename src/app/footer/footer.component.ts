@@ -74,7 +74,9 @@ export class DisclaimerDialog {
 
   constructor(
     public dialogRef: MatDialogRef<DisclaimerDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+    dialogRef.addPanelClass('team-dialog');
+  }
 
   onNoClick(): void {
     this.dialogRef.close();

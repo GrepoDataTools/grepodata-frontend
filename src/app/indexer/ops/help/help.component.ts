@@ -12,6 +12,7 @@ export class OpsHelpDialog {
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<OpsHelpDialog>
   ) {
+    dialogRef.addPanelClass('team-dialog');
   }
 
   close(): void {

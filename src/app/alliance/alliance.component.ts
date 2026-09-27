@@ -43,6 +43,10 @@ export class AllianceComponent implements AfterViewInit {
     allianceHistoryJson = [] as any;
     allianceHistoryData = [] as any;
     allianceHistoryChart = [] as any;
+    historyPoints = [];
+    historyBattle = [];
+    historyHover: number = null;
+    historyColor = (name: string) => (name === 'Attack points' ? '#EB6834' : name === 'Defence points' ? '#2A78D6' : '#1BAF7A');
     allianceMembersData = [] as any;
     playerAllianceChanges = [] as any;
     allianceName = '';
@@ -428,6 +432,9 @@ export class AllianceComponent implements AfterViewInit {
                     series: chartSeriesDef,
                 },
             ];
+
+            this.historyPoints = this.allianceHistoryChart.slice(0, 1);
+            this.historyBattle = this.allianceHistoryChart.slice(1);
 
             this.data_default = this.allianceHistoryChart;
             this.data_default = [...this.data_default];

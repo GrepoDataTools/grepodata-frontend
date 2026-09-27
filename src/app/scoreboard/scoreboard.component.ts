@@ -971,6 +971,7 @@ export class BBScoreboardDialog {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public googleAnalyticsEventsService: GoogleAnalyticsEventsService
   ) {
+    dialogRef.addPanelClass('team-dialog');
     this.type = data.type;
 
     if (

@@ -1,27 +1,24 @@
-<div style="font-size: 18px;">
-  <a (click)="dialogRef.close()" class="close"></a>
-    <h1 class="mat-primary" style="color: #18BC9C; margin: 0;" mat-dialog-title>BB code</h1>
-
-    <div mat-dialog-content>
-
-	    <div style="display: flex;">
-	      Number of {{typeDisplay}}s:
-		    <div class="slidecontainer" style="margin: 8px 15px; padding-bottom: 5px;">
-			    <input class="slider" type="range" name="points" id="points" min="3"
-	         max="40" data-show-value="true" data-popup-enabled="true" [(ngModel)]="slider"/>
-		    </div>
-		    {{slider}}
-	    </div>
-
-      <div class="container-fluid" style="padding: 0px;">
-        <button class="btn btn-success" style="margin-bottom: 5px; width: 100%" (click)="copyBB()">
-          <i class="fa fa-clipboard" aria-hidden="true"></i>&nbsp;<span *ngIf="!copied">copy to clipboard</span><span *ngIf="copied">Copied to clipboard!</span>
-        </button>
+<div class="flex max-h-[90vh] w-[720px] max-w-full flex-col text-left font-normal text-slate-900">
+  <div class="relative flex-none border-0 border-b border-solid border-slate-200 px-6 py-5 max-sm:px-4">
+    <div class="flex items-start gap-4">
+      <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-lg bg-navy-800 text-brand-500"><svg appIcon="code-bracket" class="size-6"></svg></span>
+      <div class="min-w-0 flex-1">
+        <h2 mat-dialog-title class="m-0 truncate text-xl font-semibold text-slate-900">BB code</h2>
+        <p class="mb-0 mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-slate-600"><span>{{typeDisplay == 'Player' ? 'Players' : 'Alliances'}} · {{{att: 'Attack points', def: 'Defence points', con: 'Conquests', los: 'Lost cities'}[type.split('_')[1]]}}</span><span aria-hidden="true" class="text-slate-300">·</span><span class="inline-flex items-center gap-1.5"><span class="bg-flag flag-{{dataBB.world?.substr(0,2)}} flex-none [zoom:0.625]"></span>{{dataBB.worldName ? dataBB.worldName + ' (' + dataBB.world + ')' : dataBB.world}}</span></p>
       </div>
+      <button type="button" (click)="dialogRef.close()" aria-label="Close" class="-mr-2 -mt-1 inline-flex size-8 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="x-mark" class="size-5"></svg></button>
+    </div>
+  </div>
 
-<!--Player att-->
-<!--suppress XmlDuplicatedId -->
-      <pre *ngIf="type=='players_att' || type=='alliances_att'" id="bb_code">[quote]
+  <div class="gd-scrollbar min-h-0 flex-1 overflow-y-auto px-6 py-5 max-sm:px-4">
+    <label class="m-0 flex flex-wrap items-center gap-3 text-sm font-medium text-slate-900">
+      Number of {{typeDisplay == 'Player' ? 'players' : 'alliances'}}
+      <input type="range" name="points" id="points" min="3" max="40" data-show-value="true" data-popup-enabled="true" [(ngModel)]="slider" class="m-0 ![display:inline-block] h-1.5 !w-60 cursor-pointer accent-brand-700 max-sm:!w-36"/>
+      <output class="inline-flex min-w-[36px] justify-center rounded-md bg-slate-50 px-1.5 py-0.5 text-[13px] font-semibold tabular-nums text-slate-900 ring-1 ring-inset ring-slate-200">{{slider}}</output>
+    </label>
+
+    <div class="mt-4">
+      <pre *ngIf="type=='players_att' || type=='alliances_att'" id="bb_code" class="gd-scrollbar m-0 !h-auto !max-h-[302px] !min-w-0 overflow-y-auto whitespace-pre-wrap [overflow-wrap:anywhere] [word-break:normal] rounded-lg border-0 bg-slate-50 py-3.5 pl-4 pr-5 font-mono text-xs leading-[18px] text-slate-800 ring-1 ring-inset ring-slate-200">[quote]
 [size=12][b][color=#D60101]Daily best attackers[/color] in world [url=https://grepodata.com/points?world={{dataBB.world}}]{{dataBB.world}} ({{dataBB.worldName}})[/url][/b][/size]
 <span *ngIf="dataBB.dateInfo.indexOf('today') !== -1">[b]Showing best attackers for {{dataBB.dateInfo}} ({{dataBB.date}})[/b] [[i]Updates are available [url=https://grepodata.com/points?world={{dataBB.world}}]here[/url][/i]]</span>
 <span *ngIf="dataBB.dateInfo.indexOf('today') === -1">[b]Showing the top {{slider}} attackers {{dataBB.dateInfo}}[/b]</span>
@@ -33,10 +30,7 @@
 [i]This table was generated on [b]{{generated_at}}[/b]. [url=https://grepodata.com/points?world={{dataBB.world}}&date={{dataBB.date}}]View on grepodata.com[/url][/i]
 
 [/quote]</pre>
-
-<!--Player def-->
-<!--suppress XmlDuplicatedId -->
-      <pre *ngIf="type=='players_def' || type=='alliances_def'" id="bb_code">[quote]
+      <pre *ngIf="type=='players_def' || type=='alliances_def'" id="bb_code" class="gd-scrollbar m-0 !h-auto !max-h-[302px] !min-w-0 overflow-y-auto whitespace-pre-wrap [overflow-wrap:anywhere] [word-break:normal] rounded-lg border-0 bg-slate-50 py-3.5 pl-4 pr-5 font-mono text-xs leading-[18px] text-slate-800 ring-1 ring-inset ring-slate-200">[quote]
 [size=12][b][color=#2980b9]Daily best defenders[/color] in world [url=https://grepodata.com/points?world={{dataBB.world}}]{{dataBB.world}} ({{dataBB.worldName}})[/url][/b][/size]
 <span *ngIf="dataBB.dateInfo.indexOf('today') !== -1">[b]Showing best defenders for {{dataBB.dateInfo}} ({{dataBB.date}})[/b] [[i]Updates are available [url=https://grepodata.com/points?world={{dataBB.world}}]here[/url][/i]]</span>
 <span *ngIf="dataBB.dateInfo.indexOf('today') === -1">[b]Showing the top {{slider}} defenders {{dataBB.dateInfo}}[/b]</span>
@@ -48,10 +42,7 @@
 [i]This table was generated on [b]{{generated_at}}[/b]. [url=https://grepodata.com/points?world={{dataBB.world}}&date={{dataBB.date}}]View on grepodata.com[/url][/i]
 
 [/quote]</pre>
-
-<!--Player con-->
-<!--suppress XmlDuplicatedId -->
-      <pre *ngIf="type=='players_con' || type=='alliances_con'" id="bb_code">[quote]
+      <pre *ngIf="type=='players_con' || type=='alliances_con'" id="bb_code" class="gd-scrollbar m-0 !h-auto !max-h-[302px] !min-w-0 overflow-y-auto whitespace-pre-wrap [overflow-wrap:anywhere] [word-break:normal] rounded-lg border-0 bg-slate-50 py-3.5 pl-4 pr-5 font-mono text-xs leading-[18px] text-slate-800 ring-1 ring-inset ring-slate-200">[quote]
 [size=12][b][color=#497949]Daily best conquerors[/color] in world [url=https://grepodata.com/points?world={{dataBB.world}}]{{dataBB.world}} ({{dataBB.worldName}})[/url][/b][/size]
 <span *ngIf="dataBB.dateInfo.indexOf('today') !== -1">[b]Showing best conquerors for {{dataBB.dateInfo}} ({{dataBB.date}})[/b] [[i]Updates are available [url=https://grepodata.com/points?world={{dataBB.world}}]here[/url][/i]]</span>
 <span *ngIf="dataBB.dateInfo.indexOf('today') === -1">[b]Showing the top {{slider}} conquerors {{dataBB.dateInfo}}[/b]</span>
@@ -63,10 +54,7 @@
 [i]This table was generated on [b]{{generated_at}}[/b]. [url=https://grepodata.com/points?world={{dataBB.world}}&date={{dataBB.date}}]View on grepodata.com[/url][/i]
 
 [/quote]</pre>
-
-<!--Player los-->
-<!--suppress XmlDuplicatedId -->
-      <pre *ngIf="type=='players_los' || type=='alliances_los'" id="bb_code">[quote]
+      <pre *ngIf="type=='players_los' || type=='alliances_los'" id="bb_code" class="gd-scrollbar m-0 !h-auto !max-h-[302px] !min-w-0 overflow-y-auto whitespace-pre-wrap [overflow-wrap:anywhere] [word-break:normal] rounded-lg border-0 bg-slate-50 py-3.5 pl-4 pr-5 font-mono text-xs leading-[18px] text-slate-800 ring-1 ring-inset ring-slate-200">[quote]
 [size=12][b][color=#233140]Daily town losses[/color] in world [url=https://grepodata.com/points?world={{dataBB.world}}]{{dataBB.world}} ({{dataBB.worldName}})[/url][/b][/size]
 <span *ngIf="dataBB.dateInfo.indexOf('today') !== -1">[b]Showing town losses for {{dataBB.dateInfo}} ({{dataBB.date}})[/b] [[i]Updates are available [url=https://grepodata.com/points?world={{dataBB.world}}]here[/url][/i]]</span>
 <span *ngIf="dataBB.dateInfo.indexOf('today') === -1">[b]Showing the worst {{slider}} losses {{dataBB.dateInfo}}[/b]</span>
@@ -79,10 +67,13 @@
 
 [/quote]</pre>
     </div>
+  </div>
 
-    <!--<div mat-dialog-actions>-->
-        <!--<button type="button" name="close" class="btn btn-danger" (click)="dialogRef.close()"><i class="fa fa-times"></i> Close</button>-->
-    <!--</div>-->
-
-
+  <div class="flex flex-none items-center gap-3 border-0 border-t border-solid border-slate-200 bg-slate-50 px-6 py-4 max-sm:px-4">
+    <span class="min-w-0 flex-1 text-xs text-slate-500 max-sm:[display:none]">Paste it in a forum post or an in-game message.</span>
+    <button type="button" (click)="dialogRef.close()" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 ml-auto">Close</button>
+    <button type="button" (click)="copyBB()" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 px-3 py-2 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="copied ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-brand-700 hover:bg-brand-800'">
+      <svg [appIcon]="copied ? 'check' : 'clipboard-document'" variant="mini" class="size-4 flex-none"></svg><span *ngIf="!copied">Copy to clipboard</span><span *ngIf="copied">Copied to clipboard</span>
+    </button>
+  </div>
 </div>

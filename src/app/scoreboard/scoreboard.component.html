@@ -58,46 +58,21 @@
 </ng-template>
 
 <ng-template #ticker>
-  <div class="ticker-wrap" *ngIf="!mobile && !loadingDiffs && playerDiffs != ''">
-    <div class="ticker">
-      <div class="ticker__item" *ngIf="playerDiffs.att">
-        <span class="item-red">Attack points in last update: &nbsp;&nbsp;&nbsp;&nbsp;</span>
-        <span *ngFor="let d of playerDiffs.att">
-          {{d.name}} <span class="item-red">+{{d.diff | NumberFilter}}</span> &nbsp;&nbsp;|&nbsp;&nbsp;
-        </span>
-      </div>
-      <div class="ticker__item" *ngIf="playerDiffs.def">
-        <span class="item-blue">Defence points in last update: &nbsp;&nbsp;&nbsp;&nbsp;</span>
-        <span *ngFor="let d of playerDiffs.def">
-          {{d.name}} <span class="item-blue">+{{d.diff | NumberFilter}}</span> &nbsp;&nbsp;|&nbsp;&nbsp;
-        </span>
-      </div>
-      <div class="ticker__item" *ngIf="playerDiffs.att">
-        <span class="item-red">Attack points in last update: &nbsp;&nbsp;&nbsp;&nbsp;</span>
-        <span *ngFor="let d of playerDiffs.att">
-          {{d.name}} <span class="item-red">+{{d.diff | NumberFilter}}</span> &nbsp;&nbsp;|&nbsp;&nbsp;
-        </span>
-      </div>
-      <div class="ticker__item" *ngIf="playerDiffs.def">
-        <span class="item-blue">Defence points in last update: &nbsp;&nbsp;&nbsp;&nbsp;</span>
-        <span *ngFor="let d of playerDiffs.def">
-          {{d.name}} <span class="item-blue">+{{d.diff | NumberFilter}}</span> &nbsp;&nbsp;|&nbsp;&nbsp;
-        </span>
-      </div>
-      <div class="ticker__item" *ngIf="playerDiffs.att">
-        <span class="item-red">Attack points in last update: &nbsp;&nbsp;&nbsp;&nbsp;</span>
-        <span *ngFor="let d of playerDiffs.att">
-          {{d.name}} <span class="item-red">+{{d.diff | NumberFilter}}</span> &nbsp;&nbsp;|&nbsp;&nbsp;
-        </span>
-      </div>
-      <div class="ticker__item" *ngIf="playerDiffs.def">
-        <span class="item-blue">Defence points in last update: &nbsp;&nbsp;&nbsp;&nbsp;</span>
-        <span *ngFor="let d of playerDiffs.def">
-          {{d.name}} <span class="item-blue">+{{d.diff | NumberFilter}}</span> &nbsp;&nbsp;|&nbsp;&nbsp;
-        </span>
-      </div>
+  <section *ngIf="!mobile && !loadingDiffs && playerDiffs != ''" aria-label="Latest update" class="flex items-center gap-4 py-3 pl-4 rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+    <span class="flex flex-none items-center gap-2 whitespace-nowrap text-xs font-semibold text-slate-900"><span aria-hidden="true" class="size-2 flex-none rounded-full bg-brand-500 ring-[3px] ring-brand-50"></span>Latest update<ng-container *ngIf="playerData?.time"> · {{playerData.time.substr(0, 5)}}</ng-container></span>
+    <span aria-hidden="true" class="h-5 w-px flex-none bg-slate-200"></span>
+    <div class="flex min-w-0 flex-1 items-center gap-2 overflow-x-auto pr-4 [mask-image:linear-gradient(90deg,#000_88%,transparent)] [scrollbar-width:none] [&::-webkit-scrollbar]:[display:none]">
+      <ng-container *ngIf="playerDiffs.att">
+        <span class="flex-none text-xs font-semibold text-slate-500">Attack</span>
+        <span *ngFor="let d of playerDiffs.att" class="inline-flex h-6 flex-none items-center gap-1.5 whitespace-nowrap rounded-full bg-slate-50 px-2.5 text-xs ring-1 ring-inset ring-slate-200"><span aria-hidden="true" class="size-2 flex-none rounded-[3px] bg-[#EB6834]"></span><span class="font-medium text-slate-900">{{d.name}}</span><span class="tabular-nums text-slate-700">+{{d.diff | NumberFilter}}</span></span>
+      </ng-container>
+      <span *ngIf="playerDiffs.att && playerDiffs.def" aria-hidden="true" class="w-2 flex-none"></span>
+      <ng-container *ngIf="playerDiffs.def">
+        <span class="flex-none text-xs font-semibold text-slate-500">Defence</span>
+        <span *ngFor="let d of playerDiffs.def" class="inline-flex h-6 flex-none items-center gap-1.5 whitespace-nowrap rounded-full bg-slate-50 px-2.5 text-xs ring-1 ring-inset ring-slate-200"><span aria-hidden="true" class="size-2 flex-none rounded-[3px] bg-[#2A78D6]"></span><span class="font-medium text-slate-900">{{d.name}}</span><span class="tabular-nums text-slate-700">+{{d.diff | NumberFilter}}</span></span>
+      </ng-container>
     </div>
-  </div>
+  </section>
 </ng-template>
 
 <ng-template #points_per_hour>

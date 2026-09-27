@@ -40,9 +40,12 @@
 
   <mat-progress-bar *ngIf="err == '' && loading" mode="indeterminate"></mat-progress-bar>
 
-  <div *ngIf="err != ''" class="alert alert-danger text-center">
-    {{err}}
-  </div>
+  <section *ngIf="err != ''" role="alert" class="flex flex-col items-center bg-white px-6 py-10 text-center" [ngClass]="embedded ? '' : 'rounded-xl shadow-sm ring-1 ring-slate-900/[.08]'">
+    <span class="flex size-12 items-center justify-center rounded-full bg-rose-50 text-rose-600">
+      <svg appIcon="exclamation-circle" class="size-6"></svg>
+    </span>
+    <h2 class="mb-0 mt-3 text-base font-semibold text-slate-900">{{err}}</h2>
+  </section>
 
   <ng-container *ngIf="showTabs()">
     <div role="tabpanel" [hidden]="activeTab !== 0" [ngClass]="embedded ? 'embedded-container' : 'space-y-6'">
@@ -170,17 +173,12 @@
     </div>
   </ng-container>
 
-  <div *ngIf="err == '' && noIntel && !loading">
-    <div class="container">
-      <div class="row">
-        <br/>
-        <br/>
-        <div class="alert alert-danger text-center">
-          <h3>No intel available for town <strong>{{townName}}</strong></h3>
-        </div>
-      </div>
-    </div>
-  </div>
+  <section *ngIf="err == '' && noIntel && !loading" class="flex flex-col items-center bg-white px-6 py-10 text-center" [ngClass]="embedded ? '' : 'rounded-xl shadow-sm ring-1 ring-slate-900/[.08]'">
+    <span class="flex size-12 items-center justify-center rounded-full bg-amber-50 text-amber-600">
+      <svg appIcon="eye-slash" class="size-6"></svg>
+    </span>
+    <h2 class="mb-0 mt-3 text-base font-semibold text-slate-900">No intel available for town <strong class="font-semibold">{{townName}}</strong></h2>
+  </section>
 
   </div>
 </div>

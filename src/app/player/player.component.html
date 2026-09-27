@@ -283,88 +283,87 @@
         <app-ghost-towns [id]="id" [world]="world"></app-ghost-towns>
       </div>
     </section>
-    <section aria-labelledby="daily-history-title" class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
-      <div class="flex min-h-[61px] items-center justify-between gap-4 border-0 border-b border-solid border-slate-200 px-5 py-3.5 max-sm:px-4">
-        <div class="min-w-0">
-          <h2 id="daily-history-title" class="m-0 text-base font-semibold text-slate-900">Daily history</h2>
-          <p class="mb-0 mt-0.5 text-[13px] leading-5 text-slate-500">{{dayRange == 'all' ? 'All time' : 'Last ' + dayRange + ' days'}} · newest first</p>
+    <div class="grid items-stretch gap-6 max-sm:gap-4 min-[1360px]:grid-cols-[minmax(0,1fr)_minmax(700px,1fr)]">
+      <section aria-labelledby="daily-history-title" class="relative min-w-0 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] [container-type:inline-size] min-[1360px]:min-h-[520px]">
+        <div class="flex flex-col min-[1360px]:absolute min-[1360px]:inset-0">
+          <div class="flex min-h-[61px] flex-none items-center justify-between gap-4 border-0 border-b border-solid border-slate-200 px-5 py-3.5 max-sm:px-4">
+            <div class="min-w-0">
+              <h2 id="daily-history-title" class="m-0 text-base font-semibold text-slate-900">Daily history</h2>
+              <p class="mb-0 mt-0.5 text-[13px] leading-5 text-slate-500">{{dayRange == 'all' ? 'All time' : 'Last ' + dayRange + ' days'}} · newest first</p>
+            </div>
+          </div>
+          <p *ngIf="historyError" class="m-0 px-6 py-10 text-center text-sm text-slate-600">Unable to load history. Try again later.</p>
+          <div *ngIf="!historyError && loadingHistory && playerHistoryData.length == 0" class="flex h-40 items-center justify-center gap-2 text-sm text-slate-500">
+            <span aria-hidden="true" class="size-4 flex-none animate-spin rounded-full border-2 border-solid border-slate-200 border-t-brand-700"></span>Loading history…
+          </div>
+          <div *ngIf="!historyError && playerHistoryData.length > 0" class="max-h-[520px] overflow-y-auto min-[1360px]:max-h-none min-[1360px]:min-h-0 min-[1360px]:flex-1" [ngClass]="{'pointer-events-none opacity-20': loadingHistory}">
+            <table class="w-full table-fixed border-separate border-spacing-0 text-left font-normal">
+              <colgroup>
+                <col class="w-[132px] [@container(max-width:559px)]:w-[92px]">
+                <col>
+                <col>
+                <col>
+                <col class="w-[72px] [@container(max-width:559px)]:[display:none]">
+                <col class="w-[84px] [@container(max-width:559px)]:[display:none]">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th scope="col" class="sticky top-0 z-[1] whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-5 pr-3 [@container(max-width:559px)]:pl-4 [@container(max-width:559px)]:pr-2">Date<span class="[@container(max-width:559px)]:[display:none]"> · alliance</span></th>
+                  <th scope="col" class="sticky top-0 z-[1] whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 px-3 [@container(max-width:559px)]:px-2 text-right [@container(min-width:720px)]:pr-[76px]">Points</th>
+                  <th scope="col" class="sticky top-0 z-[1] whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 px-3 [@container(max-width:559px)]:px-2 text-right [@container(min-width:720px)]:pr-[76px]"><span class="[@container(max-width:559px)]:[display:none]">Attack points</span><span class="[@container(min-width:560px)]:[display:none]">Attack</span></th>
+                  <th scope="col" class="sticky top-0 z-[1] whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 px-3 [@container(max-width:559px)]:px-2 text-right [@container(max-width:559px)]:pr-4 [@container(min-width:720px)]:pr-[76px]"><span class="[@container(max-width:559px)]:[display:none]">Defence points</span><span class="[@container(min-width:560px)]:[display:none]">Defence</span></th>
+                  <th scope="col" class="sticky top-0 z-[1] whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 px-3 text-right [@container(max-width:559px)]:[display:none] [@container(min-width:720px)]:pr-[44px]">Rank</th>
+                  <th scope="col" class="sticky top-0 z-[1] whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-3 pr-5 text-right [@container(max-width:559px)]:[display:none] [@container(min-width:720px)]:pr-[52px]">Towns</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let h of playerHistoryData; let i = index;" class="group hover:bg-slate-50">
+                  <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 max-w-0 pl-5 pr-3 [@container(max-width:559px)]:pl-4 [@container(max-width:559px)]:pr-2">
+                    <span class="whitespace-nowrap tabular-nums text-slate-700">{{h.date | Datex : "D MMM"}}</span><span *ngIf="i == 0" class="ml-1.5 text-xs text-slate-500">now</span>
+                    <a *ngIf="h.alliance_name" routerLink="/alliance" [queryParams]="{world: world, id: h.alliance_id}" class="block truncate text-xs text-slate-500 no-underline hover:text-slate-900 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{h.alliance_name}}</a>
+                    <span *ngIf="!h.alliance_name" class="block truncate text-xs text-slate-400">No alliance</span>
+                  </td>
+                  <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 px-3 [@container(max-width:559px)]:px-2 whitespace-nowrap text-right">
+                    <span class="tabular-nums text-slate-900">{{h.points | NumberFilter}}</span>
+                    <span class="block [@container(min-width:720px)]:ml-2 [@container(min-width:720px)]:inline-block [@container(min-width:720px)]:w-14 [@container(min-width:720px)]:text-left">
+                      <a *ngIf="i+1<playerHistoryData.length && i < 90 && (h.points - playerHistoryData[i+1].points) != 0" routerLink="/points" [queryParams]="{world: world, date: h.date}" [title]="'Open the scoreboard of ' + (h.date | Datex : 'D MMM YYYY')" class="text-xs font-medium tabular-nums no-underline hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="(h.points - playerHistoryData[i+1].points) > 0 ? 'text-emerald-700 hover:text-emerald-800' : 'text-rose-700 hover:text-rose-800'">{{(h.points - playerHistoryData[i+1].points) > 0 ? '+' : ''}}{{(h.points - playerHistoryData[i+1].points) | NumberFilter}}</a>
+                    </span>
+                  </td>
+                  <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 px-3 [@container(max-width:559px)]:px-2 whitespace-nowrap text-right">
+                    <span class="tabular-nums text-slate-900">{{h.att | NumberFilter}}</span>
+                    <span class="block [@container(min-width:720px)]:ml-2 [@container(min-width:720px)]:inline-block [@container(min-width:720px)]:w-14 [@container(min-width:720px)]:text-left">
+                      <a *ngIf="i+1<playerHistoryData.length && i < 90 && (h.att - playerHistoryData[i+1].att) != 0" routerLink="/points" [queryParams]="{world: world, date: h.date}" [title]="'Open the scoreboard of ' + (h.date | Datex : 'D MMM YYYY')" class="text-xs font-medium tabular-nums no-underline hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="(h.att - playerHistoryData[i+1].att) > 0 ? 'text-emerald-700 hover:text-emerald-800' : 'text-rose-700 hover:text-rose-800'">{{(h.att - playerHistoryData[i+1].att) > 0 ? '+' : ''}}{{(h.att - playerHistoryData[i+1].att) | NumberFilter}}</a>
+                    </span>
+                  </td>
+                  <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 px-3 [@container(max-width:559px)]:px-2 [@container(max-width:559px)]:pr-4 whitespace-nowrap text-right">
+                    <span class="tabular-nums text-slate-900">{{h.def | NumberFilter}}</span>
+                    <span class="block [@container(min-width:720px)]:ml-2 [@container(min-width:720px)]:inline-block [@container(min-width:720px)]:w-14 [@container(min-width:720px)]:text-left">
+                      <a *ngIf="i+1<playerHistoryData.length && i < 90 && (h.def - playerHistoryData[i+1].def) != 0" routerLink="/points" [queryParams]="{world: world, date: h.date}" [title]="'Open the scoreboard of ' + (h.date | Datex : 'D MMM YYYY')" class="text-xs font-medium tabular-nums no-underline hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="(h.def - playerHistoryData[i+1].def) > 0 ? 'text-emerald-700 hover:text-emerald-800' : 'text-rose-700 hover:text-rose-800'">{{(h.def - playerHistoryData[i+1].def) > 0 ? '+' : ''}}{{(h.def - playerHistoryData[i+1].def) | NumberFilter}}</a>
+                    </span>
+                  </td>
+                  <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 px-3 whitespace-nowrap text-right [@container(max-width:559px)]:[display:none]">
+                    <span class="tabular-nums text-slate-900">{{h.rank | NumberFilter}}</span>
+                    <span class="block [@container(min-width:720px)]:ml-2 [@container(min-width:720px)]:inline-block [@container(min-width:720px)]:w-6 [@container(min-width:720px)]:text-left">
+                      <a *ngIf="i+1<playerHistoryData.length && i < 90 && (playerHistoryData[i+1].rank - h.rank) != 0" routerLink="/points" [queryParams]="{world: world, date: h.date}" [title]="'Open the scoreboard of ' + (h.date | Datex : 'D MMM YYYY')" class="text-xs font-medium tabular-nums no-underline hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="(playerHistoryData[i+1].rank - h.rank) > 0 ? 'text-emerald-700 hover:text-emerald-800' : 'text-rose-700 hover:text-rose-800'">{{(playerHistoryData[i+1].rank - h.rank) > 0 ? '+' : ''}}{{(playerHistoryData[i+1].rank - h.rank) | NumberFilter}}</a>
+                    </span>
+                  </td>
+                  <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 pl-3 pr-5 whitespace-nowrap text-right [@container(max-width:559px)]:[display:none]">
+                    <span class="tabular-nums text-slate-900">{{h.towns | NumberFilter}}</span>
+                    <span class="block [@container(min-width:720px)]:ml-2 [@container(min-width:720px)]:inline-block [@container(min-width:720px)]:w-6 [@container(min-width:720px)]:text-left">
+                      <a *ngIf="i+1<playerHistoryData.length && i < 90 && (h.towns - playerHistoryData[i+1].towns) != 0" routerLink="/points" [queryParams]="{world: world, date: h.date}" [title]="'Open the scoreboard of ' + (h.date | Datex : 'D MMM YYYY')" class="text-xs font-medium tabular-nums no-underline hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="(h.towns - playerHistoryData[i+1].towns) > 0 ? 'text-emerald-700 hover:text-emerald-800' : 'text-rose-700 hover:text-rose-800'">{{(h.towns - playerHistoryData[i+1].towns) > 0 ? '+' : ''}}{{(h.towns - playerHistoryData[i+1].towns) | NumberFilter}}</a>
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
-      <p *ngIf="historyError" class="m-0 px-6 py-10 text-center text-sm text-slate-600">Unable to load history. Try again later.</p>
-      <div *ngIf="!historyError && loadingHistory && playerHistoryData.length == 0" class="flex h-40 items-center justify-center gap-2 text-sm text-slate-500">
-        <span aria-hidden="true" class="size-4 flex-none animate-spin rounded-full border-2 border-solid border-slate-200 border-t-brand-700"></span>Loading history…
-      </div>
-      <div *ngIf="!historyError && playerHistoryData.length > 0" class="max-h-[520px] overflow-y-auto" [ngClass]="{'pointer-events-none opacity-20': loadingHistory}">
-        <table class="w-full table-fixed border-separate border-spacing-0 text-left font-normal">
-          <colgroup>
-            <col class="w-[84px] sm:w-[100px] lg:w-[112px] xl:w-[132px]">
-            <col class="max-sm:[display:none]">
-            <col class="sm:w-[110px] lg:w-[140px] xl:w-[190px]">
-            <col class="sm:w-[120px] lg:w-[154px] xl:w-[210px]">
-            <col class="sm:w-[120px] lg:w-[154px] xl:w-[210px]">
-            <col class="max-md:[display:none] md:w-16 lg:w-[76px] xl:w-[110px]">
-            <col class="max-md:[display:none] md:w-[72px] lg:w-[84px] xl:w-[120px]">
-          </colgroup>
-          <thead>
-            <tr>
-              <th scope="col" class="sticky top-0 z-[1] whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-5 pr-3 max-sm:pl-4 max-sm:pr-2">Date</th>
-              <th scope="col" class="sticky top-0 z-[1] whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 px-3 max-sm:[display:none]">Alliance</th>
-              <th scope="col" class="sticky top-0 z-[1] whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 px-3 text-right max-sm:px-2 lg:pr-[76px]">Points</th>
-              <th scope="col" class="sticky top-0 z-[1] whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 px-3 text-right max-sm:px-2 lg:pr-[76px]"><span class="max-sm:hidden">Attack points</span><span class="sm:hidden">Attack</span></th>
-              <th scope="col" class="sticky top-0 z-[1] whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 px-3 text-right max-sm:px-2 max-sm:pr-4 lg:pr-[76px]"><span class="max-sm:hidden">Defence points</span><span class="sm:hidden">Defence</span></th>
-              <th scope="col" class="sticky top-0 z-[1] whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 px-3 text-right max-md:[display:none] lg:pr-[44px]">Rank</th>
-              <th scope="col" class="sticky top-0 z-[1] whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-3 pr-5 text-right max-md:[display:none] lg:pr-[52px]">Towns</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let h of playerHistoryData; let i = index;" class="group hover:bg-slate-50">
-              <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 pl-5 pr-3 max-sm:pl-4 max-sm:pr-2">
-                <span class="whitespace-nowrap tabular-nums text-slate-700">{{h.date | Datex : "D MMM"}}</span><span *ngIf="i == 0" class="ml-1.5 text-xs text-slate-500">now</span>
-                <a routerLink="/alliance" [queryParams]="{world: world, id: h.alliance_id}" class="block truncate text-xs text-slate-500 no-underline hover:text-slate-900 hover:underline sm:[display:none] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{h.alliance_name}}</a>
-              </td>
-              <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 max-w-0 px-3 max-sm:[display:none]">
-                <a *ngIf="h.alliance_name" routerLink="/alliance" [queryParams]="{world: world, id: h.alliance_id}" class="flex w-fit max-w-full items-center gap-1.5 text-slate-700 no-underline hover:text-slate-900 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg><span class="truncate">{{h.alliance_name}}</span></a>
-                <span *ngIf="!h.alliance_name" class="text-slate-400">No alliance</span>
-              </td>
-                <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 px-3 max-sm:px-2 whitespace-nowrap text-right">
-                  <span class="tabular-nums text-slate-900">{{h.points | NumberFilter}}</span>
-                  <span class="block lg:ml-2 lg:inline-block lg:w-14 lg:text-left">
-                    <a *ngIf="i+1<playerHistoryData.length && i < 90 && (h.points - playerHistoryData[i+1].points) != 0" routerLink="/points" [queryParams]="{world: world, date: h.date}" [title]="'Open the scoreboard of ' + (h.date | Datex : 'D MMM YYYY')" class="text-xs font-medium tabular-nums no-underline hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="(h.points - playerHistoryData[i+1].points) > 0 ? 'text-emerald-700 hover:text-emerald-800' : 'text-rose-700 hover:text-rose-800'">{{(h.points - playerHistoryData[i+1].points) > 0 ? '+' : ''}}{{(h.points - playerHistoryData[i+1].points) | NumberFilter}}</a>
-                  </span>
-                </td>
-                <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 px-3 max-sm:px-2 whitespace-nowrap text-right">
-                  <span class="tabular-nums text-slate-900">{{h.att | NumberFilter}}</span>
-                  <span class="block lg:ml-2 lg:inline-block lg:w-14 lg:text-left">
-                    <a *ngIf="i+1<playerHistoryData.length && i < 90 && (h.att - playerHistoryData[i+1].att) != 0" routerLink="/points" [queryParams]="{world: world, date: h.date}" [title]="'Open the scoreboard of ' + (h.date | Datex : 'D MMM YYYY')" class="text-xs font-medium tabular-nums no-underline hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="(h.att - playerHistoryData[i+1].att) > 0 ? 'text-emerald-700 hover:text-emerald-800' : 'text-rose-700 hover:text-rose-800'">{{(h.att - playerHistoryData[i+1].att) > 0 ? '+' : ''}}{{(h.att - playerHistoryData[i+1].att) | NumberFilter}}</a>
-                  </span>
-                </td>
-                <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 px-3 max-sm:px-2 max-sm:pr-4 whitespace-nowrap text-right">
-                  <span class="tabular-nums text-slate-900">{{h.def | NumberFilter}}</span>
-                  <span class="block lg:ml-2 lg:inline-block lg:w-14 lg:text-left">
-                    <a *ngIf="i+1<playerHistoryData.length && i < 90 && (h.def - playerHistoryData[i+1].def) != 0" routerLink="/points" [queryParams]="{world: world, date: h.date}" [title]="'Open the scoreboard of ' + (h.date | Datex : 'D MMM YYYY')" class="text-xs font-medium tabular-nums no-underline hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="(h.def - playerHistoryData[i+1].def) > 0 ? 'text-emerald-700 hover:text-emerald-800' : 'text-rose-700 hover:text-rose-800'">{{(h.def - playerHistoryData[i+1].def) > 0 ? '+' : ''}}{{(h.def - playerHistoryData[i+1].def) | NumberFilter}}</a>
-                  </span>
-                </td>
-                <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 px-3 whitespace-nowrap text-right max-md:[display:none]">
-                  <span class="tabular-nums text-slate-900">{{h.rank | NumberFilter}}</span>
-                  <span class="block lg:ml-2 lg:inline-block lg:w-6 lg:text-left">
-                    <a *ngIf="i+1<playerHistoryData.length && i < 90 && (playerHistoryData[i+1].rank - h.rank) != 0" routerLink="/points" [queryParams]="{world: world, date: h.date}" [title]="'Open the scoreboard of ' + (h.date | Datex : 'D MMM YYYY')" class="text-xs font-medium tabular-nums no-underline hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="(playerHistoryData[i+1].rank - h.rank) > 0 ? 'text-emerald-700 hover:text-emerald-800' : 'text-rose-700 hover:text-rose-800'">{{(playerHistoryData[i+1].rank - h.rank) > 0 ? '+' : ''}}{{(playerHistoryData[i+1].rank - h.rank) | NumberFilter}}</a>
-                  </span>
-                </td>
-                <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 pl-3 pr-5 whitespace-nowrap text-right max-md:[display:none]">
-                  <span class="tabular-nums text-slate-900">{{h.towns | NumberFilter}}</span>
-                  <span class="block lg:ml-2 lg:inline-block lg:w-6 lg:text-left">
-                    <a *ngIf="i+1<playerHistoryData.length && i < 90 && (h.towns - playerHistoryData[i+1].towns) != 0" routerLink="/points" [queryParams]="{world: world, date: h.date}" [title]="'Open the scoreboard of ' + (h.date | Datex : 'D MMM YYYY')" class="text-xs font-medium tabular-nums no-underline hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="(h.towns - playerHistoryData[i+1].towns) > 0 ? 'text-emerald-700 hover:text-emerald-800' : 'text-rose-700 hover:text-rose-800'">{{(h.towns - playerHistoryData[i+1].towns) > 0 ? '+' : ''}}{{(h.towns - playerHistoryData[i+1].towns) | NumberFilter}}</a>
-                  </span>
-                </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
+      </section>
 
-    <section class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
-      <app-conquest [embedded]="true" [params]="{type: 'player', world: world, id: id}"></app-conquest>
-    </section>
+      <section class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+        <app-conquest [embedded]="true" [params]="{type: 'player', world: world, id: id}"></app-conquest>
+      </section>
+    </div>
   </ng-container>
 </div>
 

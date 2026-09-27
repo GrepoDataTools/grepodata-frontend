@@ -17,18 +17,28 @@ export class BBDialog {
   hiddenKey: boolean = false;
   hideAvailable: boolean = false;
   showNonPriority: boolean = false;
+  subtitle = '';
+  townCount = 0;
+  olderCount = 0;
 
   constructor(
     private globals: Globals,
     public dialogRef: MatDialogRef<BBDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public googleAnalyticsEventsService: GoogleAnalyticsEventsService) {
+    dialogRef.addPanelClass('team-dialog');
     this.type = data.type;
     this.dataBB = data.dataBB;
     this.generated_at = new Date().toLocaleString();
 
     this.hideAvailable = this.dataBB.contains_duplicates && this.dataBB.data.length > 6;
     this.showNonPriority = !this.hideAvailable;
+
+    if (Array.isArray(this.dataBB.data)) {
+      this.olderCount = this.dataBB.data.filter(town => town && town.priority === false).length;
+      this.townCount = this.dataBB.data.length - this.olderCount;
+    }
+    this.subtitle = this.buildSubtitle();
 
     try {
       this.googleAnalyticsEventsService.emitEvent("BB_code", "copyBB", "copyBB", 1);
@@ -37,6 +47,22 @@ export class BBDialog {
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  private buildSubtitle(): string {
+    const labels = {
+      player_fire: this.dataBB.world && this.dataBB.world.substring(0, 2) == 'en' ? 'Light ships' : 'Fireships',
+      player_bir: 'Biremes',
+      player_trir: 'Triremes',
+      player_myth: 'Mythical units',
+      player_off: 'Offensive units',
+      player_def: 'Defensive units',
+      players_indexed: 'Most indexed players',
+      alliances_indexed: 'Most indexed alliances',
+      island: 'Island intel',
+    };
+    const label = labels[this.type] || '';
+    return label && this.dataBB.name ? label + ' · ' + this.dataBB.name : label;
   }
 
   copyBB() {

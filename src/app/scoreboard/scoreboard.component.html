@@ -614,13 +614,15 @@
   <ng-container *ngIf="!noAllianceData">
     <ng-container *ngTemplateOutlet="map"></ng-container>
 
-    <div *ngIf="!loadingPlayers && !loadingAlliances && playerData && allianceData && playerData?.att && playerData?.att.length > 20" class="sb-table">
-      <div class="content">
-        <app-alert type="info text-center" [dismissible]="true" [dismissPermanentId]="'daily_donate24'">
-          <h5><strong>The GrepoData hosting costs are currently €70/month.</strong> If you like what we do, please consider <a class="a-link-dialog" (click)="donate()">donating</a>. Thank you! 🤗</h5>
-        </app-alert>
-      </div>
-    </div>
+    <ng-container *ngIf="!loadingPlayers && !loadingAlliances && playerData && allianceData && playerData?.att && playerData?.att.length > 20">
+      <app-alert #donateAlert type="info" [dismissible]="true" [dismissPermanentId]="'daily_donate24'" class="[display:none]"></app-alert>
+      <section *ngIf="!donateAlert.alertHidden" aria-label="Support GrepoData" class="flex items-center gap-3 rounded-xl bg-brand-50 py-3 pl-4 pr-3 ring-1 ring-inset ring-brand-700/20 max-sm:flex-wrap">
+        <svg appIcon="heart" class="size-5 flex-none text-brand-700"></svg>
+        <p class="m-0 min-w-0 flex-1 text-sm text-teal-900 max-sm:basis-[calc(100%-32px)]"><strong class="font-semibold">The GrepoData hosting costs are currently €70/month.</strong> If you like what we do, please consider donating. Thank you!</p>
+        <button type="button" (click)="donate()" class="inline-flex flex-none items-center max-sm:ml-8 gap-1.5 whitespace-nowrap rounded-md border-0 bg-brand-700 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Donate</button>
+        <button type="button" (click)="donateAlert.hideAlert()" aria-label="Dismiss" title="Dismiss" class="inline-flex size-8 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-brand-700 hover:bg-brand-500/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="x-mark" class="size-5"></svg></button>
+      </section>
+    </ng-container>
 
     <div class="-mb-2 flex items-baseline gap-2"><h2 class="m-0 text-lg font-semibold text-slate-900">Alliances</h2><span class="text-sm text-slate-500">{{nextUpdate != '' ? 'Today' : (selectedDate | Datex : 'D MMM YYYY')}}</span></div>
     <div class="grid grid-cols-4 gap-6 max-[1279px]:grid-cols-2 max-sm:grid-cols-1 max-sm:gap-4">

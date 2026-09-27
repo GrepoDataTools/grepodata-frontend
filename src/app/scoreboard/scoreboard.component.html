@@ -333,145 +333,142 @@
 </ng-template>
 
 <ng-template #alliances_att>
-  <div class="sb-table" [ngClass]="{'loading-overlay':loadingAlliances}">
-    <div class="title txt-sm red">
-      Alliance Attack Points
+  <section aria-labelledby="sb-a-att" class="flex min-w-0 flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+    <div class="relative flex min-h-[56px] items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 py-2.5 pl-5 pr-3">
+      <div class="flex min-w-0 items-center gap-2"><span aria-hidden="true" class="size-2.5 flex-none rounded-[3px] bg-[#EB6834]"></span><h3 id="sb-a-att" class="m-0 truncate text-base font-semibold text-slate-900">Attack points</h3></div>
+      <button type="button" matTooltip="Battle points gained as attacker by the members of each alliance. Click on a number to see a detailed hourly breakdown." aria-label="Battle points gained as attacker by the members of each alliance. Click on a number to see a detailed hourly breakdown." class="inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="information-circle" class="size-5"></svg></button>
+      
     </div>
-    <div class="content">
+    <ol class="m-0 list-none p-0" [ngClass]="{'opacity-50': loadingAlliances}">
+      <ng-container *ngIf="loadingAlliances && !allianceData">
+        <li *ngFor="let s of [].constructor(10); let i = index" aria-hidden="true" class="m-0 grid h-9 grid-cols-[24px_minmax(0,1fr)_56px_72px] items-center gap-2 border-0 border-solid border-slate-100 pl-3 pr-2" [ngClass]="{'border-t': i > 0}">
+          <span class="mx-auto block h-2 w-3 rounded bg-slate-100"></span>
+          <span class="block h-2.5 rounded bg-slate-200" [ngClass]="i % 3 == 0 ? 'w-3/4' : (i % 3 == 1 ? 'w-1/2' : 'w-2/3')"></span>
+          <span class="block h-1.5 rounded-full bg-slate-100"></span>
+          <span class="ml-auto block h-2.5 w-12 rounded bg-slate-200"></span>
+        </li>
+      </ng-container>
+      <li *ngFor="let p of allianceData.att; let i = index;" class="m-0 grid h-9 grid-cols-[24px_minmax(0,1fr)_56px_72px] items-center gap-2 border-0 border-solid border-slate-100 pl-3 pr-2 hover:bg-slate-50" [ngClass]="{'border-t': i > 0}">
+          <span *ngIf="i == 0" title="First place" class="flex size-6 items-center justify-center text-amber-600"><svg appIcon="trophy" class="size-5"></svg><span class="sr-only">1</span></span>
+          <span *ngIf="i > 0" class="block w-6 text-center text-xs tabular-nums text-slate-500">{{i+1}}</span>
+          <a routerLink="/alliance" [queryParams]="{world: allianceData.world, id: p.i}" [title]="p.n" class="block min-w-0 truncate text-sm text-slate-900 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{p.n}}</a>
+          <span aria-hidden="true" class="block h-1.5 overflow-hidden rounded-full bg-slate-100"><span class="block h-1.5 rounded-full bg-[#EB6834]" [style.width.%]="(p.s/alliance_att_max)*100"></span></span>
+          <span class="text-right">
+            <button *ngIf="hasOverview && p.s > 0" type="button" (click)="openAllianceOverview(p.i, p.n)" [title]="'Show hourly breakdown for ' + p.n" class="rounded-md border-0 bg-transparent px-1.5 py-0.5 text-sm font-medium tabular-nums text-slate-900 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 max-md:[display:none]">{{p.s | NumberFilter}}</button>
+            <span class="px-1.5 text-sm font-medium tabular-nums text-slate-900" [ngClass]="{'md:[display:none]': hasOverview && p.s > 0}">{{p.s | NumberFilter}}</span>
+          </span>
+        </li>
 
-      <div class="table" id="table_attacking_alliances" style="">
-        <div class="row_custom" *ngFor="let p of allianceData.att; let i = index;">
-          <div class="cell hidden-xs" *ngIf="i==0">🏆</div>
-          <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
-          <div class="cell formatted-cell">
-            <img class="ally_ico"/>
-            <a class="gd-brown" routerLink="/alliance" [queryParams]="{world: allianceData.world, id: p.i}">{{p.n}}</a>
-            <div class="percentage-bar red" [ngStyle]="{'width': (((p.s/alliance_att_max)*100)+'%')}"></div>
-          </div>
-          <div *ngIf="hasOverview && p.s > 0" class="cell score-expand hidden-xs" (click)="openAllianceOverview(p.i, p.n)">
-            {{p.s | NumberFilter}}
-          </div>
-          <div class="cell" [ngClass]="{'hidden-sm hidden-md hidden-lg':hasOverview && p.s > 0}">
-            {{p.s | NumberFilter}}
-          </div>
+    </ol>
 
-        </div>
-      </div>
-
+    <div class="mt-auto flex items-center gap-2 border-0 border-t border-solid border-slate-200 px-3 py-2.5">
+      <button type="button" name="open_bb" (click)="openBBdialog('alliances_att')" title="Copy as BB code for the forum" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 ml-auto flex-none"><svg appIcon="code-bracket" variant="micro" class="size-3.5 flex-none text-slate-400"></svg>BB</button>
     </div>
-    <div class="footer">
-      <div></div>
-      <button name="open_bb" style="" class="btn btn-secondary btn-xs" (click)="openBBdialog('alliances_att')">
-        <i class="fa fa-code"></i>&nbsp;BB
-      </button>
-    </div>
-  </div>
+  </section>
 </ng-template>
 
 <ng-template #alliances_def>
-  <div class="sb-table" [ngClass]="{'loading-overlay':loadingAlliances}">
-    <div class="title txt-sm blue">
-      Alliance Defence Points
+  <section aria-labelledby="sb-a-def" class="flex min-w-0 flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+    <div class="relative flex min-h-[56px] items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 py-2.5 pl-5 pr-3">
+      <div class="flex min-w-0 items-center gap-2"><span aria-hidden="true" class="size-2.5 flex-none rounded-[3px] bg-[#2A78D6]"></span><h3 id="sb-a-def" class="m-0 truncate text-base font-semibold text-slate-900">Defence points</h3></div>
+      <button type="button" matTooltip="Battle points gained as defender and supporter by the members of each alliance. Click on a number to see a detailed hourly breakdown." aria-label="Battle points gained as defender and supporter by the members of each alliance. Click on a number to see a detailed hourly breakdown." class="inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="information-circle" class="size-5"></svg></button>
+      
     </div>
-    <div class="content">
+    <ol class="m-0 list-none p-0" [ngClass]="{'opacity-50': loadingAlliances}">
+      <ng-container *ngIf="loadingAlliances && !allianceData">
+        <li *ngFor="let s of [].constructor(10); let i = index" aria-hidden="true" class="m-0 grid h-9 grid-cols-[24px_minmax(0,1fr)_56px_72px] items-center gap-2 border-0 border-solid border-slate-100 pl-3 pr-2" [ngClass]="{'border-t': i > 0}">
+          <span class="mx-auto block h-2 w-3 rounded bg-slate-100"></span>
+          <span class="block h-2.5 rounded bg-slate-200" [ngClass]="i % 3 == 0 ? 'w-3/4' : (i % 3 == 1 ? 'w-1/2' : 'w-2/3')"></span>
+          <span class="block h-1.5 rounded-full bg-slate-100"></span>
+          <span class="ml-auto block h-2.5 w-12 rounded bg-slate-200"></span>
+        </li>
+      </ng-container>
+      <li *ngFor="let p of allianceData.def; let i = index;" class="m-0 grid h-9 grid-cols-[24px_minmax(0,1fr)_56px_72px] items-center gap-2 border-0 border-solid border-slate-100 pl-3 pr-2 hover:bg-slate-50" [ngClass]="{'border-t': i > 0}">
+          <span *ngIf="i == 0" title="First place" class="flex size-6 items-center justify-center text-amber-600"><svg appIcon="trophy" class="size-5"></svg><span class="sr-only">1</span></span>
+          <span *ngIf="i > 0" class="block w-6 text-center text-xs tabular-nums text-slate-500">{{i+1}}</span>
+          <a routerLink="/alliance" [queryParams]="{world: allianceData.world, id: p.i}" [title]="p.n" class="block min-w-0 truncate text-sm text-slate-900 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{p.n}}</a>
+          <span aria-hidden="true" class="block h-1.5 overflow-hidden rounded-full bg-slate-100"><span class="block h-1.5 rounded-full bg-[#2A78D6]" [style.width.%]="(p.s/alliance_def_max)*100"></span></span>
+          <span class="text-right">
+            <button *ngIf="hasOverview && p.s > 0" type="button" (click)="openAllianceOverview(p.i, p.n)" [title]="'Show hourly breakdown for ' + p.n" class="rounded-md border-0 bg-transparent px-1.5 py-0.5 text-sm font-medium tabular-nums text-slate-900 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 max-md:[display:none]">{{p.s | NumberFilter}}</button>
+            <span class="px-1.5 text-sm font-medium tabular-nums text-slate-900" [ngClass]="{'md:[display:none]': hasOverview && p.s > 0}">{{p.s | NumberFilter}}</span>
+          </span>
+        </li>
 
-      <div class="table" id="table_defending_alliances" style="">
-        <div class="row_custom" *ngFor="let p of allianceData.def; let i = index;">
-          <div class="cell hidden-xs" *ngIf="i==0">🏆</div>
-          <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
-          <div class="cell formatted-cell">
-            <img class="ally_ico"/>
-            <a class="gd-brown" routerLink="/alliance" [queryParams]="{world: allianceData.world, id: p.i}">{{p.n}}</a>
-            <div class="percentage-bar blue" [ngStyle]="{'width': (((p.s/alliance_def_max)*100)+'%')}"></div>
-          </div>
-          <div *ngIf="hasOverview && p.s > 0" class="cell score-expand hidden-xs" (click)="openAllianceOverview(p.i, p.n)">
-            {{p.s | NumberFilter}}
-          </div>
-          <div class="cell" [ngClass]="{'hidden-sm hidden-md hidden-lg':hasOverview && p.s > 0}">
-            {{p.s | NumberFilter}}
-          </div>
+    </ol>
 
-        </div>
-      </div>
-
+    <div class="mt-auto flex items-center gap-2 border-0 border-t border-solid border-slate-200 px-3 py-2.5">
+      <button type="button" name="open_bb" (click)="openBBdialog('alliances_def')" title="Copy as BB code for the forum" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 ml-auto flex-none"><svg appIcon="code-bracket" variant="micro" class="size-3.5 flex-none text-slate-400"></svg>BB</button>
     </div>
-    <div class="footer">
-      <div></div>
-      <button name="open_bb" style="" class="btn btn-secondary btn-xs" (click)="openBBdialog('alliances_def')">
-        <i class="fa fa-code"></i>&nbsp;BB
-      </button>
-    </div>
-  </div>
+  </section>
 </ng-template>
 
 <ng-template #alliances_con>
-  <div class="sb-table" [ngClass]="{'loading-overlay':loadingAlliances}">
-    <div class="title txt-sm green">
-      Alliance Conquests
+  <section aria-labelledby="sb-a-con" class="flex min-w-0 flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+    <div class="relative flex min-h-[56px] items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 py-2.5 pl-5 pr-3">
+      <div class="flex min-w-0 items-center gap-2"><span aria-hidden="true" class="size-2.5 flex-none rounded-[3px] bg-[#1BAF7A]"></span><h3 id="sb-a-con" class="m-0 truncate text-base font-semibold text-slate-900">Conquests</h3></div>
+      <button type="button" matTooltip="The number of towns conquered by each alliance. Click on a number to see a detailed breakdown." aria-label="The number of towns conquered by each alliance. Click on a number to see a detailed breakdown." class="inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="information-circle" class="size-5"></svg></button>
+      
     </div>
-    <div class="content">
+    <ol class="m-0 list-none p-0" [ngClass]="{'opacity-50': loadingAlliances}">
+      <ng-container *ngIf="loadingAlliances && !allianceData">
+        <li *ngFor="let s of [].constructor(10); let i = index" aria-hidden="true" class="m-0 grid h-9 grid-cols-[24px_minmax(0,1fr)_56px_72px] items-center gap-2 border-0 border-solid border-slate-100 pl-3 pr-2" [ngClass]="{'border-t': i > 0}">
+          <span class="mx-auto block h-2 w-3 rounded bg-slate-100"></span>
+          <span class="block h-2.5 rounded bg-slate-200" [ngClass]="i % 3 == 0 ? 'w-3/4' : (i % 3 == 1 ? 'w-1/2' : 'w-2/3')"></span>
+          <span class="block h-1.5 rounded-full bg-slate-100"></span>
+          <span class="ml-auto block h-2.5 w-12 rounded bg-slate-200"></span>
+        </li>
+      </ng-container>
+      <li *ngFor="let p of allianceData.con; let i = index;" class="m-0 grid h-9 grid-cols-[24px_minmax(0,1fr)_56px_72px] items-center gap-2 border-0 border-solid border-slate-100 pl-3 pr-2 hover:bg-slate-50" [ngClass]="{'border-t': i > 0}">
+          <span *ngIf="i == 0" title="First place" class="flex size-6 items-center justify-center text-amber-600"><svg appIcon="trophy" class="size-5"></svg><span class="sr-only">1</span></span>
+          <span *ngIf="i > 0" class="block w-6 text-center text-xs tabular-nums text-slate-500">{{i+1}}</span>
+          <a routerLink="/alliance" [queryParams]="{world: allianceData.world, id: p.i}" [title]="p.n" class="block min-w-0 truncate text-sm text-slate-900 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{p.n}}</a>
+          <span aria-hidden="true" class="block h-1.5 overflow-hidden rounded-full bg-slate-100"><span class="block h-1.5 rounded-full bg-[#1BAF7A]" [style.width.%]="(p.s/allianceData.con[0].s)*100"></span></span>
+          <span class="text-right">
+            <button *ngIf="p.s > 0 && !mobile" type="button" (click)="showConquests('alliance', p.i, p.n)" [title]="'Show conquests of ' + p.n" class="rounded-md border-0 bg-transparent px-1.5 py-0.5 text-sm font-medium tabular-nums text-slate-900 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{p.s}}</button>
+            <span *ngIf="p.s <= 0 || mobile" class="px-1.5 text-sm font-medium tabular-nums text-slate-900">{{p.s}}</span>
+          </span>
+        </li>
 
-      <div class="table" id="table_conquests_alliances" style="">
+    </ol>
 
-        <div class="row_custom" *ngFor="let p of allianceData.con; let i = index;">
-          <div class="cell hidden-xs" *ngIf="i==0">🏆</div>
-          <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
-          <div class="cell formatted-cell">
-            <img class="ally_ico"/>
-            <a class="gd-brown" routerLink="/alliance" [queryParams]="{world: allianceData.world, id: p.i}">{{p.n}}</a>
-          </div>
-          <div *ngIf="p.s > 0 && !mobile" class="cell score-expand" (click)="showConquests('alliance', p.i, p.n)">
-            {{p.s}}
-          </div>
-          <div *ngIf="p.s <= 0 || mobile" class="cell">{{p.s}}</div>
-
-        </div>
-
-      </div>
-
+    <div class="mt-auto flex items-center gap-2 border-0 border-t border-solid border-slate-200 px-3 py-2.5">
+      <button type="button" name="open_bb" (click)="openBBdialog('alliances_con')" title="Copy as BB code for the forum" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 ml-auto flex-none"><svg appIcon="code-bracket" variant="micro" class="size-3.5 flex-none text-slate-400"></svg>BB</button>
     </div>
-    <div class="footer">
-      <div></div>
-      <button name="open_bb" style="" class="btn btn-secondary btn-xs" (click)="openBBdialog('alliances_con')">
-        <i class="fa fa-code"></i>&nbsp;BB
-      </button>
-    </div>
-  </div>
+  </section>
 </ng-template>
 
 <ng-template #alliances_los>
-  <div class="sb-table" [ngClass]="{'loading-overlay':loadingAlliances}">
-    <div class="title txt-sm black">
-      Alliance Lost Cities
+  <section aria-labelledby="sb-a-los" class="flex min-w-0 flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+    <div class="relative flex min-h-[56px] items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 py-2.5 pl-5 pr-3">
+      <div class="flex min-w-0 items-center gap-2"><span aria-hidden="true" class="size-2.5 flex-none rounded-[3px] bg-[#94A3B8]"></span><h3 id="sb-a-los" class="m-0 truncate text-base font-semibold text-slate-900">Lost cities</h3></div>
+      <button type="button" matTooltip="The number of towns lost by each alliance. Click on a number to see a detailed breakdown." aria-label="The number of towns lost by each alliance. Click on a number to see a detailed breakdown." class="inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="information-circle" class="size-5"></svg></button>
+      
     </div>
-    <div class="content">
+    <ol class="m-0 list-none p-0" [ngClass]="{'opacity-50': loadingAlliances}">
+      <ng-container *ngIf="loadingAlliances && !allianceData">
+        <li *ngFor="let s of [].constructor(10); let i = index" aria-hidden="true" class="m-0 grid h-9 grid-cols-[24px_minmax(0,1fr)_56px_72px] items-center gap-2 border-0 border-solid border-slate-100 pl-3 pr-2" [ngClass]="{'border-t': i > 0}">
+          <span class="mx-auto block h-2 w-3 rounded bg-slate-100"></span>
+          <span class="block h-2.5 rounded bg-slate-200" [ngClass]="i % 3 == 0 ? 'w-3/4' : (i % 3 == 1 ? 'w-1/2' : 'w-2/3')"></span>
+          <span class="block h-1.5 rounded-full bg-slate-100"></span>
+          <span class="ml-auto block h-2.5 w-12 rounded bg-slate-200"></span>
+        </li>
+      </ng-container>
+      <li *ngFor="let p of allianceData.los; let i = index;" class="m-0 grid h-9 grid-cols-[24px_minmax(0,1fr)_56px_72px] items-center gap-2 border-0 border-solid border-slate-100 pl-3 pr-2 hover:bg-slate-50" [ngClass]="{'border-t': i > 0}">
+          <span class="block w-6 text-center text-xs tabular-nums text-slate-500">{{i+1}}</span>
+          <a routerLink="/alliance" [queryParams]="{world: allianceData.world, id: p.i}" [title]="p.n" class="block min-w-0 truncate text-sm text-slate-900 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{p.n}}</a>
+          <span aria-hidden="true" class="block h-1.5 overflow-hidden rounded-full bg-slate-100"><span class="block h-1.5 rounded-full bg-[#94A3B8]" [style.width.%]="(p.s/allianceData.los[0].s)*100"></span></span>
+          <span class="text-right">
+            <button *ngIf="p.s > 0 && !mobile" type="button" (click)="showConquests('alliance', p.i, p.n)" [title]="'Show conquests of ' + p.n" class="rounded-md border-0 bg-transparent px-1.5 py-0.5 text-sm font-medium tabular-nums text-slate-900 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">&minus;{{p.s}}</button>
+            <span *ngIf="p.s <= 0 || mobile" class="px-1.5 text-sm font-medium tabular-nums text-slate-900">&minus;{{p.s}}</span>
+          </span>
+        </li>
 
-      <div class="table" id="table_losses_alliances" style="">
+    </ol>
 
-        <div class="row_custom" *ngFor="let p of allianceData.los; let i = index;">
-          <div class="cell hidden-xs" *ngIf="i==0">🚫</div>
-          <div class="cell hidden-xs" *ngIf="i>0">{{i+1}}</div>
-          <div class="cell formatted-cell">
-            <img class="ally_ico"/>
-            <a class="gd-brown" routerLink="/alliance" [queryParams]="{world: allianceData.world, id: p.i}">{{p.n}}</a>
-          </div>
-          <div *ngIf="p.s > 0 && !mobile" class="cell score-expand" (click)="showConquests('alliance', p.i, p.n)">
-            -{{p.s}}
-          </div>
-          <div *ngIf="p.s <= 0 || mobile" class="cell">-{{p.s}}</div>
-
-        </div>
-
-      </div>
-
+    <div class="mt-auto flex items-center gap-2 border-0 border-t border-solid border-slate-200 px-3 py-2.5">
+      <button type="button" name="open_bb" (click)="openBBdialog('alliances_los')" title="Copy as BB code for the forum" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 ml-auto flex-none"><svg appIcon="code-bracket" variant="micro" class="size-3.5 flex-none text-slate-400"></svg>BB</button>
     </div>
-    <div class="footer">
-      <div></div>
-      <button name="open_bb" style="" class="btn btn-secondary btn-xs" (click)="openBBdialog('alliances_los')">
-        <i class="fa fa-code"></i>&nbsp;BB
-      </button>
-    </div>
-  </div>
+  </section>
 </ng-template>
 
 <ng-template #map>

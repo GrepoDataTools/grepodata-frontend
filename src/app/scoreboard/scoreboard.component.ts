@@ -27,7 +27,6 @@ import {DonateDialog} from '../shared/dialogs/donate/donate.component';
 @Component({
   selector: 'app-scoreboard',
   templateUrl: './scoreboard.component.html',
-  styleUrls: ['./scoreboard.component.scss'],
   providers: [ScoreboardService, LocalCacheService, WorldService, SearchService, ConquestService],
 })
 export class ScoreboardComponent implements OnInit {

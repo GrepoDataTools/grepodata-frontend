@@ -604,33 +604,31 @@
     </ng-container>
   </ng-container>
 
-  <div class="scoreboard-section" *ngIf="!noPlayerData || !noAllianceData">
-    <div class="row">
-      <div class="col-xs-12 scoreboard-table">
-        <div class="sb-table">
-          <div class="title txt-sm default">
-            FaQ - About this Scoreboard
-          </div>
-          <div class="content about">
-            <p><br/>This scoreboard currently shows points gained {{scoreboardDateInfo}}. {{nextUpdate}}</p>
-            <h2 class="gd-primary">Data Collection Delays</h2>
-            <p>There can be delays of up to 2 hours between when the points were actually gained and when they show up on this scoreboard. This is due to the way that Grepolis publishes this data. We check every 10 minutes if there is new data available, but the delay is on the Grepolis side and we can not do anything about it. Furthermore, the data endpoints made by Grepolis are extremely unreliable. Sometimes they are updated within minutes and sometimes it takes more then an hour. We have even seen occasions where the data was 'updated' but in fact the 'new' data was older then the previously published data.</p>
-            <h2 class="gd-primary">Daily Reset</h2>
-            <p>Our scoreboards are reset at 02:00 AM every night. The reason we do not reset exactly at midnight is due to the data processing delay we explained in the previous section. By resetting at 2 AM, the probability of showing the correct daily totals is increased. Due to the night bonus on many worlds, there are usually not many points gained between 00:00 and 02:00 AM; this means that our risk of counting too many points is very low whereas our risk of counting too few points would be very high if we were to reset at midnight. That being said, please understand that this scoreboard can never be 100% accurate.</p>
-            <h2 class="gd-primary">Published Siege Reports</h2>
-            <p>GrepoData City Indexer Team admins and owners can publish their indexed siege reports. They can also unpublish the report if they change their mind. We do not make any City Indexer data public without the explicit opt-in concent of the respective team admins. If you want to use this feature, please create a <a class="a-link-dialog" routerLink="/indexer">City Indexer</a> account, create a city indexer team and start using the userscript. If you or your teammates index conquest reports, you will have the option to publish the respective siege overview to this scoreboard. If you publish a siege, all GrepoData users will be able to see your siege overview. The individual conquest attacks remain hidden and are only visible to you and your team.</p>
-            <h2 class="gd-primary">World Map</h2>
-            <p>
-              The world map shows island domination per alliance. An island is counted towards an alliance if that alliance owns the most cities on that island. This includes both islands with and without farm villages.
-              While this map can serve as an approximation of world domination, the percentages on the right are not the same as the domination end-game percentages.
-            </p>
-            <p>Admittedly, the world map on this scoreboard is a bit outdated and not very useful. It was meant to show on a high level which alliances are fighting eachother. We have received many requests to make a better map tool; and while we may do this in the future, we currently have no concrete plans to do so.</p>
-            <br/>
-            <p>Thank you for using GrepoData! If you have any questions or remarks, feel free to <a class="a-link-dialog" routerLink="/message">contact us</a>.</p>
-            <br/>
-          </div>
+  <section *ngIf="!noPlayerData || !noAllianceData" aria-labelledby="sb-about" class="rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+    <div class="relative flex min-h-[56px] items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 py-2.5 pl-5 pr-3">
+      <h2 id="sb-about" class="m-0 truncate text-base font-semibold text-slate-900">About this scoreboard</h2>
+    </div>
+    <div class="px-5 py-5 max-sm:px-4">
+      <p class="m-0 text-sm text-slate-700">This scoreboard shows points gained {{scoreboardDateInfo}}.<ng-container *ngIf="nextUpdate"> {{nextUpdate}}.</ng-container></p>
+      <div class="mt-5 grid gap-x-10 gap-y-5 md:grid-cols-2 min-[1200px]:grid-cols-4">
+        <div>
+          <h3 class="m-0 text-sm font-semibold text-slate-900">Data collection delays</h3>
+          <p class="mb-0 mt-1 text-sm text-slate-600">Points can take up to 2 hours to show up here. We check every 10 minutes for new data, but Grepolis publishes it with a delay that we cannot influence, and sometimes the published data is older than the previous update.</p>
+        </div>
+        <div>
+          <h3 class="m-0 text-sm font-semibold text-slate-900">Daily reset</h3>
+          <p class="mb-0 mt-1 text-sm text-slate-600">The scoreboard resets at 02:00 every night rather than at midnight, because of the data processing delay. Few points are gained between 00:00 and 02:00, so the risk of counting too many is low. The totals are never 100% accurate.</p>
+        </div>
+        <div>
+          <h3 class="m-0 text-sm font-semibold text-slate-900">Published siege reports</h3>
+          <p class="mb-0 mt-1 text-sm text-slate-600">Team admins of the <a routerLink="/indexer" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">City Indexer</a> can publish an indexed siege here, and unpublish it again. Nothing is made public without their opt-in: everyone sees the siege overview, while the individual attacks stay visible to the team only.</p>
+        </div>
+        <div>
+          <h3 class="m-0 text-sm font-semibold text-slate-900">World map</h3>
+          <p class="mb-0 mt-1 text-sm text-slate-600">An island counts towards an alliance if that alliance owns the most towns on it, with or without farm villages. It approximates who controls what; the percentages are not the domination end-game percentages.</p>
         </div>
       </div>
+      <p class="mb-0 mt-5 text-sm text-slate-600">Questions or remarks? <a routerLink="/message" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Contact us</a>.</p>
     </div>
-  </div>
+  </section>
 </div>

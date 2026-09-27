@@ -120,160 +120,161 @@
       </dl>
     </section>
 
-    <mat-card class="dense-card" style="padding-bottom: 0px !important; padding-top: 10px !important;">
-        <div #infoTabs style="width: 100%;"></div>
-      <mat-tab-group mat-stretch-tabs animationDuration="0ms" [selectedIndex]="tabsIndex"
-                     (click)="cdr.detectChanges();" (selectedTabChange)="onTabClick($event)">
-        <mat-tab style="padding: 20px 0; overflow: hidden;">
-          <ng-template mat-tab-label>
-            <mat-icon style="opacity: 1; vertical-align: bottom;">timeline</mat-icon>&nbsp;History
-          </ng-template>
-          <br/>
-          <!--<mat-card-title>-->
-            <!--<div fxLayout="row">-->
-                <!--<h3 style='font-weight: 700; color: #304357;'><span class='world-title' style='color: #18BC9C;'>Alliance history</span></h3>-->
-              <!--<mat-spinner style="margin-left: 30px;" *ngIf="loadingMembers" strokeWidth="3" [diameter]="30"></mat-spinner>-->
-            <!--</div>-->
-          <!--</mat-card-title>-->
-          <mat-card-content [ngClass]="{'loading-overlay': loadingHistory}">
-              <mat-progress-bar style="margin-top: -10px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; opacity: .2;" *ngIf="loadingMembers" mode="indeterminate"></mat-progress-bar>
-            <div *ngIf="historyError" class="alert alert-warning text-center alert-gd-1">
-              <h3>Unable to load history. Try again later.</h3>
-            </div>
-            <div class="ngx-chart-container" *ngIf="!firstRun && !historyError" (mousemove)="cdr.detectChanges();">
-              <ngx-charts-line-chart
-                      [scheme]="colorScheme"
-                      [results]="data_default"
-                      [gradient]="gradient"
-                      [xAxis]="showXAxis"
-                      [yAxis]="showYAxis"
-                      [legend]="showLegend"
-                      [animations]="animations"
-                      [showXAxisLabel]="showXAxisLabel"
-                      [showYAxisLabel]="showYAxisLabel"
-                      [xAxisLabel]="xAxisLabel"
-                      [yAxisLabel]="yAxisLabel"
-                      [autoScale]="autoScale">
-                <!--[view]="view"-->
-              </ngx-charts-line-chart>
-            </div>
-            <br/>
-            <div *ngIf="!loadingHistory && (allianceHistoryJson.length > 25 || selectionChanged)" fxLayout="row" fxLayoutAlign="space-evenly center">
-              <div>
-                <mat-chip-list>
-                  <mat-chip *ngIf="allianceHistoryJson.length >= 30" [selected]="dayRange==='30'" (click)="selectDayRange('30')">last 30 days</mat-chip>
-                  <mat-chip *ngIf="allianceHistoryJson.length >= 90" [selected]="dayRange==='90'" (click)="selectDayRange('90')">last 90 days</mat-chip>
-                  <mat-chip *ngIf="allianceHistoryJson.length > 30" [selected]="dayRange==='all'" (click)="selectDayRange('all')">All time</mat-chip>
-                </mat-chip-list>
-              </div>
-            </div>
-          </mat-card-content>
-        </mat-tab>
-        <mat-tab style="overflow: hidden;">
-          <ng-template mat-tab-label>
-              <mat-icon style="opacity: 1; vertical-align: bottom;">compare_arrows</mat-icon>&nbsp;
-              <span class="hidden-xs">Alliance Changes</span>
-              <span class="hidden-md hidden-sm hidden-lg">Changes</span>
-          </ng-template>
-          <br/>
-          <mat-card-content style="overflow: hidden;">
-            <div *ngIf="playerAllianceChanges.length <= 0">
-              <div class="container-fluid">
-                <div class="row">
-                  <br/>
-                  <br/>
-                  <div class="alert alert-warning text-center alert-gd-1">
-                    <h2><strong>No alliance changes found.</strong></h2>
-                    <p>We have not yet recorded any alliance changes for this alliance.</p>
+    <section aria-label="Alliance details" class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+      <div #infoTabs class="scroll-mt-6"></div>
+      <div class="flex justify-between gap-4 border-0 border-b border-solid border-slate-200 px-5 pt-1 max-sm:px-4">
+        <div role="tablist" aria-label="Alliance details" class="flex min-w-0 gap-6 overflow-x-auto max-sm:gap-4">
+          <button type="button" role="tab" [attr.aria-selected]="tabsIndex == 0" (click)="onTabClick(0)" class="-mb-px inline-flex flex-none items-center gap-2 whitespace-nowrap border-0 border-b-2 border-solid bg-transparent px-1 py-3 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tabsIndex == 0 ? 'border-brand-700 font-semibold text-brand-700' : 'border-transparent font-medium text-slate-500 hover:border-slate-300 hover:text-slate-900'">
+            <svg appIcon="presentation-chart-line" class="size-[18px] flex-none max-sm:hidden" [ngClass]="tabsIndex == 0 ? 'text-brand-700' : 'text-slate-400'"></svg>
+            History
+          </button>
+          <button type="button" role="tab" [attr.aria-selected]="tabsIndex == 1" (click)="onTabClick(1)" class="-mb-px inline-flex flex-none items-center gap-2 whitespace-nowrap border-0 border-b-2 border-solid bg-transparent px-1 py-3 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tabsIndex == 1 ? 'border-brand-700 font-semibold text-brand-700' : 'border-transparent font-medium text-slate-500 hover:border-slate-300 hover:text-slate-900'">
+            <svg appIcon="arrows-right-left" class="size-[18px] flex-none max-sm:hidden" [ngClass]="tabsIndex == 1 ? 'text-brand-700' : 'text-slate-400'"></svg>
+            <span class="max-sm:hidden">Alliance changes</span><span class="sm:hidden">Changes</span>
+            <span *ngIf="playerAllianceChanges.length > 0" class="rounded-full px-[7px] text-xs font-semibold leading-[18px] tabular-nums" [ngClass]="tabsIndex == 1 ? 'bg-brand-50 text-brand-700' : 'bg-slate-100 text-slate-600'">{{playerAllianceChanges.length}}</span>
+          </button>
+          <button type="button" role="tab" [attr.aria-selected]="tabsIndex == 2" (click)="onTabClick(2)" class="-mb-px inline-flex flex-none items-center gap-2 whitespace-nowrap border-0 border-b-2 border-solid bg-transparent px-1 py-3 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tabsIndex == 2 ? 'border-brand-700 font-semibold text-brand-700' : 'border-transparent font-medium text-slate-500 hover:border-slate-300 hover:text-slate-900'">
+            <svg appIcon="building-library" class="size-[18px] flex-none max-sm:hidden" [ngClass]="tabsIndex == 2 ? 'text-brand-700' : 'text-slate-400'"></svg>
+            <span class="max-sm:hidden">Town intelligence</span><span class="sm:hidden">Intel</span>
+          </button>
+        </div>
+      </div>
+      <div *ngIf="tabsIndex == 0" role="tabpanel" class="p-5 max-sm:p-4">
+              <br/>
+              <!--<mat-card-title>-->
+                <!--<div fxLayout="row">-->
+                    <!--<h3 style='font-weight: 700; color: #304357;'><span class='world-title' style='color: #18BC9C;'>Alliance history</span></h3>-->
+                  <!--<mat-spinner style="margin-left: 30px;" *ngIf="loadingMembers" strokeWidth="3" [diameter]="30"></mat-spinner>-->
+                <!--</div>-->
+              <!--</mat-card-title>-->
+              <mat-card-content [ngClass]="{'loading-overlay': loadingHistory}">
+                  <mat-progress-bar style="margin-top: -10px; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; opacity: .2;" *ngIf="loadingMembers" mode="indeterminate"></mat-progress-bar>
+                <div *ngIf="historyError" class="alert alert-warning text-center alert-gd-1">
+                  <h3>Unable to load history. Try again later.</h3>
+                </div>
+                <div class="ngx-chart-container" *ngIf="!firstRun && !historyError" (mousemove)="cdr.detectChanges();">
+                  <ngx-charts-line-chart
+                          [scheme]="colorScheme"
+                          [results]="data_default"
+                          [gradient]="gradient"
+                          [xAxis]="showXAxis"
+                          [yAxis]="showYAxis"
+                          [legend]="showLegend"
+                          [animations]="animations"
+                          [showXAxisLabel]="showXAxisLabel"
+                          [showYAxisLabel]="showYAxisLabel"
+                          [xAxisLabel]="xAxisLabel"
+                          [yAxisLabel]="yAxisLabel"
+                          [autoScale]="autoScale">
+                    <!--[view]="view"-->
+                  </ngx-charts-line-chart>
+                </div>
+                <br/>
+                <div *ngIf="!loadingHistory && (allianceHistoryJson.length > 25 || selectionChanged)" fxLayout="row" fxLayoutAlign="space-evenly center">
+                  <div>
+                    <mat-chip-list>
+                      <mat-chip *ngIf="allianceHistoryJson.length >= 30" [selected]="dayRange==='30'" (click)="selectDayRange('30')">last 30 days</mat-chip>
+                      <mat-chip *ngIf="allianceHistoryJson.length >= 90" [selected]="dayRange==='90'" (click)="selectDayRange('90')">last 90 days</mat-chip>
+                      <mat-chip *ngIf="allianceHistoryJson.length > 30" [selected]="dayRange==='all'" (click)="selectDayRange('all')">All time</mat-chip>
+                    </mat-chip-list>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div class="table-container" *ngIf="playerAllianceChanges.length > 0">
-              <div class="table" id="player_changes_table" style="">
-                <div class="row_custom header default">
-                  <div class="cell">Date</div>
-                  <div class="cell">Player</div>
-                  <div class="cell">Old Alliance</div>
-                  <div class="cell hidden-sm hidden-xs"></div>
-                  <div class="cell">New Alliance</div>
-                  <div class="cell hidden-sm hidden-xs">Player Rank</div>
-                  <div class="cell hidden-md hidden-sm hidden-xs">Player Points</div>
-                </div>
-
-                <div class="row_custom" *ngFor="let c of playerAllianceChanges; let i = index;">
-                  <div class="cell">
-                    {{c.date.date | Datex : "D MMM YYYY"}}
-                    <br/>
-                    {{c.date.date | Datex : "HH"}}:00
-                  </div>
-
-                  <div class="cell formatted-cell">
-                    <a routerLink="/player" [queryParams]="{world: world, id: c.player_grep_id}">
-                      <span class="diff-pos" *ngIf="c.new_alliance_grep_id==id">{{c.player_name}}</span>
-                      <span class="diff-neg" *ngIf="c.old_alliance_grep_id==id">{{c.player_name}}</span>
-                    </a>
-                  </div>
-
-                  <div class="cell formatted-cell">
-                    <a routerLink="/alliance" [queryParams]="{world: world, id: c.old_alliance_grep_id}">
-                      {{c.old_alliance_name}}
-                    </a>
-                  </div>
-                  <div class="cell hidden-sm hidden-xs">
-                    <span class="diff-pos" *ngIf="c.new_alliance_grep_id==id"><span class="fa fa-angle-double-right fa-2x"></span></span>
-                    <span class="diff-neg" *ngIf="c.old_alliance_grep_id==id"><span class="fa fa-angle-double-right fa-2x"></span></span>
-                  </div>
-                  <div class="cell formatted-cell">
-                    <a routerLink="/alliance" [queryParams]="{world: world, id: c.new_alliance_grep_id}">
-                      {{c.new_alliance_name}}
-                    </a>
-                  </div>
-
-                  <div class="cell hidden-sm hidden-xs">{{c.player_rank}}</div>
-                  <div class="cell hidden-md hidden-sm hidden-xs">{{c.player_points | NumberFilter}}</div>
-                </div>
-              </div>
-
-              <h3 style='font-weight: 700; color: #304357; height: 20px;'>
-                <a *ngIf="playerAllianceChanges.length >= 10" routerLink="/changes/alliance/{{world}}/{{id}}" style="color: #949494; right: 20px; position: absolute;">
-                  <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon> Show all changes
-                </a>
-              </h3>
-            </div>
-          </mat-card-content>
-        </mat-tab>
-        <mat-tab>
-          <ng-template mat-tab-label>
-              <mat-icon style="opacity: 1; vertical-align: bottom;">account_balance</mat-icon>&nbsp;
-              <span class="hidden-xs">Town Intelligence</span>
-              <span class="hidden-md hidden-sm hidden-lg">Intel</span>
-          </ng-template>
-          <app-index-alliance *ngIf="bShowIntel && hasIndex" [world]="world" [id]="id" [embedded]="true"></app-index-alliance>
-            <h3 style="padding: 30px;" *ngIf="!bShowIntel && hasIndex"><a class="a-link-dialog" style="color: #334254 !important;" (click)="bShowIntel = true;">Load town intelligence..</a></h3>
-            <div *ngIf="!bShowIntel || !hasIndex" style="padding: 20px;">
-                <div class="container-fluid">
+              </mat-card-content>
+      </div>
+      <div *ngIf="tabsIndex == 1" role="tabpanel" class="p-5 max-sm:p-4">
+              <br/>
+              <mat-card-content style="overflow: hidden;">
+                <div *ngIf="playerAllianceChanges.length <= 0">
+                  <div class="container-fluid">
                     <div class="row">
-                        <div class="col-xs-12 col-sm-8">
-                            <div class="alert alert-gd-1 text-center">
-                                <p>When you sign in with a GrepoData city indexer account, we will be able to show collected intelligence about this alliance here.</p>
-                                <h3>
-                                    <a class="gd-primary a-link-dialog" routerLink="/indexer">
-                        Sign in to your GrepoData account <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon>
-                                    </a>
-                                </h3>
+                      <br/>
+                      <br/>
+                      <div class="alert alert-warning text-center alert-gd-1">
+                        <h2><strong>No alliance changes found.</strong></h2>
+                        <p>We have not yet recorded any alliance changes for this alliance.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="table-container" *ngIf="playerAllianceChanges.length > 0">
+                  <div class="table" id="player_changes_table" style="">
+                    <div class="row_custom header default">
+                      <div class="cell">Date</div>
+                      <div class="cell">Player</div>
+                      <div class="cell">Old Alliance</div>
+                      <div class="cell hidden-sm hidden-xs"></div>
+                      <div class="cell">New Alliance</div>
+                      <div class="cell hidden-sm hidden-xs">Player Rank</div>
+                      <div class="cell hidden-md hidden-sm hidden-xs">Player Points</div>
+                    </div>
+
+                    <div class="row_custom" *ngFor="let c of playerAllianceChanges; let i = index;">
+                      <div class="cell">
+                        {{c.date.date | Datex : "D MMM YYYY"}}
+                        <br/>
+                        {{c.date.date | Datex : "HH"}}:00
+                      </div>
+
+                      <div class="cell formatted-cell">
+                        <a routerLink="/player" [queryParams]="{world: world, id: c.player_grep_id}">
+                          <span class="diff-pos" *ngIf="c.new_alliance_grep_id==id">{{c.player_name}}</span>
+                          <span class="diff-neg" *ngIf="c.old_alliance_grep_id==id">{{c.player_name}}</span>
+                        </a>
+                      </div>
+
+                      <div class="cell formatted-cell">
+                        <a routerLink="/alliance" [queryParams]="{world: world, id: c.old_alliance_grep_id}">
+                          {{c.old_alliance_name}}
+                        </a>
+                      </div>
+                      <div class="cell hidden-sm hidden-xs">
+                        <span class="diff-pos" *ngIf="c.new_alliance_grep_id==id"><span class="fa fa-angle-double-right fa-2x"></span></span>
+                        <span class="diff-neg" *ngIf="c.old_alliance_grep_id==id"><span class="fa fa-angle-double-right fa-2x"></span></span>
+                      </div>
+                      <div class="cell formatted-cell">
+                        <a routerLink="/alliance" [queryParams]="{world: world, id: c.new_alliance_grep_id}">
+                          {{c.new_alliance_name}}
+                        </a>
+                      </div>
+
+                      <div class="cell hidden-sm hidden-xs">{{c.player_rank}}</div>
+                      <div class="cell hidden-md hidden-sm hidden-xs">{{c.player_points | NumberFilter}}</div>
+                    </div>
+                  </div>
+
+                  <h3 style='font-weight: 700; color: #304357; height: 20px;'>
+                    <a *ngIf="playerAllianceChanges.length >= 10" routerLink="/changes/alliance/{{world}}/{{id}}" style="color: #949494; right: 20px; position: absolute;">
+                      <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon> Show all changes
+                    </a>
+                  </h3>
+                </div>
+              </mat-card-content>
+      </div>
+      <div *ngIf="tabsIndex == 2" role="tabpanel" class="p-5 max-sm:p-4">
+              <app-index-alliance *ngIf="bShowIntel && hasIndex" [world]="world" [id]="id" [embedded]="true"></app-index-alliance>
+                <h3 style="padding: 30px;" *ngIf="!bShowIntel && hasIndex"><a class="a-link-dialog" style="color: #334254 !important;" (click)="bShowIntel = true;">Load town intelligence..</a></h3>
+                <div *ngIf="!bShowIntel || !hasIndex" style="padding: 20px;">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-8">
+                                <div class="alert alert-gd-1 text-center">
+                                    <p>When you sign in with a GrepoData city indexer account, we will be able to show collected intelligence about this alliance here.</p>
+                                    <h3>
+                                        <a class="gd-primary a-link-dialog" routerLink="/indexer">
+                            Sign in to your GrepoData account <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon>
+                                        </a>
+                                    </h3>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-sm-4 hidden-xs">
-                            <img class="lib-img" style="max-width: 100%; display: block;" src="../../assets/images/indexer_town_sm.png" alt="Grepolis town intel">
-                            <h5 class="gd-secondary" style="float: right;">Images copyright © InnoGames GmbH</h5>
+                            <div class="col-sm-4 hidden-xs">
+                                <img class="lib-img" style="max-width: 100%; display: block;" src="../../assets/images/indexer_town_sm.png" alt="Grepolis town intel">
+                                <h5 class="gd-secondary" style="float: right;">Images copyright © InnoGames GmbH</h5>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </mat-tab>
-      </mat-tab-group>
-    </mat-card>
+      </div>
+    </section>
 
     <div class="alliance-cards">
         <mat-card class="dense-card" style="padding-bottom: 25px !important; padding-top: 10px !important;">

@@ -6,7 +6,6 @@ import { GoogleAnalyticsEventsService } from '../services/google-analytics-event
 import { CompareService } from '../compare/compare.service';
 import { WorldService } from '../services/world.service';
 import { Globals } from '../globals';
-import { MatTabChangeEvent } from '@angular/material/tabs';
 import {MatDialog} from '@angular/material/dialog';
 import {JwtService} from '../auth/services/jwt.service';
 import {DonateDialog} from '../shared/dialogs/donate/donate.component';
@@ -222,11 +221,11 @@ export class AllianceComponent implements AfterViewInit {
         setTimeout((_) => this.cdr.detectChanges(), 250);
     }
 
-    onTabClick(event: MatTabChangeEvent) {
-        if (event.index == 2) {
+    onTabClick(index: number) {
+        if (index == 2) {
             this.bShowIntel = true;
         }
-        this.tabsIndex = event.index;
+        this.tabsIndex = index;
         this.cdr.detectChanges();
         setTimeout((_) => this.cdr.detectChanges(), 250);
         setTimeout((_) => this.cdr.detectChanges(), 500);

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import * as moment from 'moment';
 
 const DAY = 86400000;
@@ -13,9 +13,6 @@ export class LineChartComponent implements OnChanges {
     @Input() results: any[] = [];
     @Input() color: (name: string) => string = () => '#2A78D6';
     @Input() label = '';
-    @Input() extra: any[] = [];
-    @Input() hoverTime: number = null;
-    @Output() hoverTimeChange = new EventEmitter<number>();
 
     lines: any[] = [];
     yTicks: any[] = [];
@@ -24,21 +21,24 @@ export class LineChartComponent implements OnChanges {
     hover: any = null;
 
     private series: any[] = [];
-    private extraSeries: any[] = [];
-    private pointerInside = false;
     private xMin = 0;
     private xMax = 0;
     private yMin = 0;
     private yMax = 0;
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (Object.keys(changes).every((key) => key === 'hoverTime')) {
-            this.syncHover();
-            return;
-        }
+    ngOnChanges(): void {
         this.hover = null;
-        this.series = this.parse(this.results);
-        this.extraSeries = this.parse(this.extra);
+        this.series = (this.results || [])
+            .filter((item) => item && item.series && item.series.length > 0)
+            .map((item) => ({
+                name: item.name,
+                color: this.color(item.name),
+                points: item.series
+                    .map((point) => ({ time: new Date(point.name).getTime(), value: point.value }))
+                    .filter((point) => !isNaN(point.time) && point.value !== null && point.value !== undefined)
+                    .sort((a, b) => a.time - b.time),
+            }))
+            .filter((item) => item.points.length > 0);
 
         if (this.series.length === 0) {
             this.lines = [];
@@ -92,7 +92,6 @@ export class LineChartComponent implements OnChanges {
         }
 
         this.xTicks = this.dateTicks();
-        this.syncHover();
     }
 
     move(event: PointerEvent): void {
@@ -110,68 +109,22 @@ export class LineChartComponent implements OnChanges {
                 }
             })
         );
-        this.pointerInside = true;
-        if (this.hover && this.hover.time === nearest && this.hover.tooltip) {
+        if (this.hover && this.hover.time === nearest) {
             return;
         }
-        this.hover = this.hoverAt(nearest, true);
-        this.hoverTimeChange.emit(nearest);
-    }
-
-    leave(): void {
-        this.pointerInside = false;
-        this.hover = null;
-        this.hoverTimeChange.emit(null);
-    }
-
-    private syncHover(): void {
-        if (this.pointerInside) {
-            return;
-        }
-        this.hover = this.hoverTime === null || this.hoverTime === undefined || this.series.length === 0 ? null : this.hoverAt(this.hoverTime, false);
-    }
-
-    private hoverAt(time: number, tooltip: boolean): any {
-        const dots = [];
         const rows = [];
         this.series.forEach((item) => {
-            const point = item.points.find((candidate) => candidate.time === time);
+            const point = item.points.find((candidate) => candidate.time === nearest);
             if (point) {
-                dots.push({ color: item.color, x: this.x(point.time), y: this.y(point.value) });
-                rows.push({ name: item.name, color: item.color, value: point.value });
+                rows.push({ name: item.name, color: item.color, value: point.value, x: this.x(point.time), y: this.y(point.value) });
             }
         });
-        this.extraSeries.forEach((item) => {
-            const point = item.points.find((candidate) => candidate.time === time);
-            if (point) {
-                rows.push({ name: item.name, color: item.color, value: point.value });
-            }
-        });
-        if (dots.length === 0) {
-            return null;
-        }
-        return {
-            time: time,
-            x: this.x(time),
-            date: moment(time).format('D MMM YYYY'),
-            tooltip: tooltip,
-            dots: dots,
+        this.hover = {
+            time: nearest,
+            x: this.x(nearest),
+            date: moment(nearest).format('D MMM YYYY'),
             rows: rows.sort((a, b) => b.value - a.value),
         };
-    }
-
-    private parse(results: any[]): any[] {
-        return (results || [])
-            .filter((item) => item && item.series && item.series.length > 0)
-            .map((item) => ({
-                name: item.name,
-                color: this.color(item.name),
-                points: item.series
-                    .map((point) => ({ time: new Date(point.name).getTime(), value: point.value }))
-                    .filter((point) => !isNaN(point.time) && point.value !== null && point.value !== undefined)
-                    .sort((a, b) => a.time - b.time),
-            }))
-            .filter((item) => item.points.length > 0);
     }
 
     private x(time: number): number {

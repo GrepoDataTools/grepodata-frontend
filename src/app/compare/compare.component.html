@@ -96,156 +96,179 @@
         <p class="mb-0 mt-5 text-xs text-slate-500">You can also click Compare on any player or alliance page.</p>
       </section>
 
+      <section *ngIf="(comparingPlayers || comparingAlliances) && (firstRun || loadingStats)" aria-label="Overview" aria-busy="true" class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+        <div class="flex min-h-[61px] items-center justify-between gap-4 border-0 border-b border-solid border-slate-200 px-5 py-3.5 max-sm:px-4">
+          <div class="min-w-0">
+            <h2 class="m-0 text-base font-semibold text-slate-900">Overview</h2>
+            <p *ngIf="(comparingPlayers ? playerWorld : allianceWorld) as world" class="mb-0 mt-0.5 flex flex-wrap items-center gap-1.5 text-[13px] leading-5 text-slate-500">
+              {{activeList().length}} {{comparingPlayers ? (activeList().length == 1 ? 'player' : 'players') : (activeList().length == 1 ? 'alliance' : 'alliances')}} on
+              <span aria-hidden="true" class="bg-flag flag-{{world.substring(0, 2)}} flex-none [zoom:0.625]"></span>
+              <span class="font-medium text-brand-700">{{world | WorldNamePipe:false}}</span>
+            </p>
+          </div>
+          <span class="flex flex-none items-center gap-2 text-xs text-slate-500">
+            <span aria-hidden="true" class="size-3.5 flex-none animate-spin rounded-full border-2 border-solid border-brand-700/25 border-t-brand-700"></span>
+            Loading {{activeList().length}} {{comparingPlayers ? (activeList().length == 1 ? 'player' : 'players') : (activeList().length == 1 ? 'alliance' : 'alliances')}}…
+          </span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full table-fixed border-collapse text-left" [style.min-width.px]="200 + activeList().length * 170">
+            <thead>
+              <tr>
+                <th scope="col" class="w-[200px] border-0 border-b border-solid border-slate-200 bg-slate-50 px-5 py-2 align-bottom text-xs font-semibold text-slate-700 max-sm:w-[140px] max-sm:px-4">{{comparingPlayers ? 'Player' : 'Alliance'}}</th>
+                <th *ngFor="let entity of activeList(); let idx = index" scope="col" class="border-0 border-b border-l border-solid border-b-slate-200 border-l-slate-100 bg-slate-50 py-2.5 pl-3 pr-1.5 align-top">
+                  <div class="flex items-start gap-2">
+                    <span aria-hidden="true" class="mt-[5px] size-2.5 flex-none rounded-[3px]" [style.background-color]="palette[idx % palette.length]"></span>
+                    <span class="min-w-0 flex-1 truncate text-sm font-semibold text-slate-900">{{entity.name}}</span>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of (comparingPlayers ? ['Towns', 'Points', 'Fighting points', 'Attack points', 'Defence points'] : ['Rank', 'Towns', 'Members', 'Points', 'Fighting points', 'Attack points', 'Defence points'])">
+                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4">{{row}}</th>
+                <td *ngFor="let entity of activeList()" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top">
+                  <span aria-hidden="true" class="block h-3 w-3/5 max-w-[84px] animate-pulse rounded bg-slate-100"></span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section *ngIf="(comparingPlayers || comparingAlliances) && !firstRun && !loadingStats" aria-label="Overview" class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+        <div class="flex min-h-[61px] items-center justify-between gap-4 border-0 border-b border-solid border-slate-200 px-5 py-3.5 max-sm:px-4">
+          <div class="min-w-0">
+            <h2 class="m-0 text-base font-semibold text-slate-900">Overview</h2>
+            <p *ngIf="(comparingPlayers ? playerWorld : allianceWorld) as world" class="mb-0 mt-0.5 flex flex-wrap items-center gap-1.5 text-[13px] leading-5 text-slate-500">
+              {{activeList().length}} {{comparingPlayers ? (activeList().length == 1 ? 'player' : 'players') : (activeList().length == 1 ? 'alliance' : 'alliances')}} on
+              <span aria-hidden="true" class="bg-flag flag-{{world.substring(0, 2)}} flex-none [zoom:0.625]"></span>
+              <a routerLink="/points" [queryParams]="{world: world}" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline">{{world | WorldNamePipe:false}}</a>
+            </p>
+          </div>
+        </div>
+
+        <div *ngIf="infoData.length == 1" role="note" class="mx-5 mt-4 flex gap-3 rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-800 ring-1 ring-inset ring-amber-200 max-sm:mx-4">
+          <svg appIcon="exclamation-triangle" class="size-5 flex-none text-amber-600"></svg>
+          <p class="m-0 min-w-0">You have only added 1 {{comparingPlayers ? 'player' : 'alliance'}} to the comparison. Use the search above to add more.</p>
+        </div>
+
+        <div class="overflow-x-auto" [ngClass]="{'mt-4': infoData.length == 1}">
+          <table class="w-full table-fixed border-collapse text-left" [style.min-width.px]="200 + infoData.length * 170">
+            <thead>
+              <tr>
+                <th scope="col" class="w-[200px] border-0 border-b border-solid border-slate-200 bg-slate-50 px-5 py-2 align-bottom text-xs font-semibold text-slate-700 max-sm:w-[140px] max-sm:px-4">{{comparingPlayers ? 'Player' : 'Alliance'}}</th>
+                <th *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" scope="col" class="border-0 border-b border-l border-solid border-b-slate-200 border-l-slate-100 bg-slate-50 py-2.5 pl-3 pr-1.5 align-top">
+                  <div class="flex items-start gap-2">
+                    <span aria-hidden="true" class="mt-[5px] size-2.5 flex-none rounded-[3px]" [style.background-color]="colorFor(i.grep_id, 'id')"></span>
+                    <div *ngIf="comparingPlayers" class="min-w-0 flex-1">
+                      <a routerLink="/player" [queryParams]="{world: i.world, id: i.grep_id}" [title]="i.name" class="block truncate text-sm font-semibold text-slate-900 no-underline hover:text-brand-700 hover:underline">{{i.name}}</a>
+                      <a *ngIf="i.alliance_id != 0 && i.alliance_name != ''" routerLink="/alliance" [queryParams]="{world: i.world, id: i.alliance_id}" [title]="i.alliance_name" class="mt-0.5 flex max-w-full items-center gap-1 text-xs font-normal text-slate-500 no-underline hover:text-brand-700 hover:underline">
+                        <svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+                        <span class="truncate">{{i.alliance_name}}</span>
+                      </a>
+                      <span *ngIf="!(i.alliance_id != 0 && i.alliance_name != '')" class="mt-0.5 block text-xs font-normal text-slate-500">No alliance</span>
+                    </div>
+                    <div *ngIf="comparingAlliances" class="min-w-0 flex-1">
+                      <a routerLink="/alliance" [queryParams]="{world: i.world, id: i.grep_id}" [title]="i.name" class="block truncate text-sm font-semibold text-slate-900 no-underline hover:text-brand-700 hover:underline">{{i.name}}</a>
+                    </div>
+                    <button type="button" (click)="removePlayer(i.grep_id, i.world)" [attr.aria-label]="'Remove ' + i.name + ' from the comparison'" title="Remove from the comparison" class="inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-rose-50 hover:text-rose-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+                      <svg appIcon="x-mark" class="size-4"></svg>
+                    </button>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+
+            <tbody *ngIf="comparingPlayers">
+              <tr class="hover:bg-slate-50">
+                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4">Towns</th>
+                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top">
+                  <a routerLink="/conquest/player/{{i.world}}/{{i.grep_id}}" [title]="'Conquests of ' + i.name" class="text-sm font-medium tabular-nums text-brand-700 no-underline hover:text-brand-800 hover:underline">{{i.towns}}</a>
+                </td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4">
+                  Points
+                  <div class="text-xs font-normal text-slate-500">⌀ per town · overall rank</div>
+                </th>
+                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top">
+                  <div class="text-sm font-semibold tabular-nums text-slate-900">{{i.points | NumberFilter}}</div>
+                  <div class="whitespace-nowrap text-xs tabular-nums text-slate-500">⌀ {{math.floor(i.points / math.max(1, i.towns)) | NumberFilter}} per town · <a routerLink="/ranking/player/{{i.world}}/points/{{i.rank}}/{{i.grep_id}}" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline">Rank #{{i.rank}}</a></div>
+                </td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4">
+                  Fighting points
+                  <div class="text-xs font-normal text-slate-500">⌀ per town · fighting rank</div>
+                </th>
+                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top">
+                  <div class="text-sm font-semibold tabular-nums text-slate-900">{{i.att + i.def | NumberFilter}}</div>
+                  <div class="whitespace-nowrap text-xs tabular-nums text-slate-500">⌀ {{math.floor((i.att + i.def) / math.max(1, i.towns)) | NumberFilter}} per town · <a routerLink="/ranking/player/{{i.world}}/fight/{{i.fight_rank}}/{{i.grep_id}}" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline">Rank #{{i.fight_rank}}</a></div>
+                </td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4">
+                  Attack points
+                  <div class="text-xs font-normal text-slate-500">⌀ per town · attack rank</div>
+                </th>
+                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top">
+                  <div class="text-sm font-semibold tabular-nums text-slate-900">{{i.att | NumberFilter}}</div>
+                  <div class="whitespace-nowrap text-xs tabular-nums text-slate-500">⌀ {{math.floor(i.att / math.max(1, i.towns)) | NumberFilter}} per town · <a routerLink="/ranking/player/{{i.world}}/attack/{{i.att_rank}}/{{i.grep_id}}" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline">Rank #{{i.att_rank}}</a></div>
+                </td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4">
+                  Defence points
+                  <div class="text-xs font-normal text-slate-500">⌀ per town · defence rank</div>
+                </th>
+                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top">
+                  <div class="text-sm font-semibold tabular-nums text-slate-900">{{i.def |NumberFilter}}</div>
+                  <div class="whitespace-nowrap text-xs tabular-nums text-slate-500">⌀ {{math.floor(i.def / math.max(1, i.towns)) | NumberFilter}} per town · <a routerLink="/ranking/player/{{i.world}}/defence/{{i.def_rank}}/{{i.grep_id}}" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline">Rank #{{i.def_rank}}</a></div>
+                </td>
+              </tr>
+            </tbody>
+
+            <tbody *ngIf="comparingAlliances">
+              <tr class="hover:bg-slate-50">
+                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4">Rank</th>
+                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top">
+                  <a routerLink="/ranking/player/{{i.world}}/points/{{i.rank}}/{{i.grep_id}}" class="text-sm font-medium tabular-nums text-brand-700 no-underline hover:text-brand-800 hover:underline">#{{i.rank}}</a>
+                </td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4">Towns</th>
+                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top">
+                  <a routerLink="/conquest/alliance/{{i.world}}/{{i.grep_id}}" [title]="'Conquests of ' + i.name" class="text-sm font-medium tabular-nums text-brand-700 no-underline hover:text-brand-800 hover:underline">{{i.towns}}</a>
+                </td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4">Members</th>
+                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top text-sm tabular-nums text-slate-900">{{i.members}}</td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4">Points</th>
+                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top text-sm font-semibold tabular-nums text-slate-900">{{i.points | NumberFilter}}</td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4">Fighting points</th>
+                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top text-sm font-semibold tabular-nums text-slate-900">{{i.att + i.def | NumberFilter}}</td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4">Attack points</th>
+                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top text-sm font-semibold tabular-nums text-slate-900">{{i.att | NumberFilter}}</td>
+              </tr>
+              <tr class="hover:bg-slate-50">
+                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4">Defence points</th>
+                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top text-sm font-semibold tabular-nums text-slate-900">{{i.def |NumberFilter}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
       <div class="container-fluid" style="margin-left: 20px;" *ngIf="comparingPlayers || comparingAlliances">
         <div class="row">
-          <!--OVERVIEW-->
-          <div class="col-md-12 text-left" *ngIf="!firstRun && !loadingStats">
-            <h2 class="gd-primary">Overview</h2>
-            <div class="alert alert-warning" *ngIf="infoData.length == 1">
-              You have only added 1 item to the comparison. Use the search function to add more.
-            </div>
-            <table class="table table-no-more">
-              <tbody *ngIf="comparingPlayers">
-                <tr>
-                  <th>Name</th>
-                  <td *ngFor="let i of infoData;">
-                    <a routerLink="/player" [queryParams]="{world: i.world, id: i.grep_id}">{{i.name}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a>
-                  </td>
-                </tr>
-                <tr>
-                  <th>Alliance</th>
-                  <td *ngFor="let i of infoData;">
-                    <a *ngIf="i.alliance_id != 0 && i.alliance_name != ''" routerLink="/alliance" [queryParams]="{world: i.world, id: i.alliance_id}">{{i.alliance_name}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a>
-                  </td>
-                </tr>
-                <tr>
-                  <th>World</th>
-                  <td *ngFor="let i of infoData;">
-                    <a *ngIf="i.alliance_id != 0 && i.alliance_name != ''" routerLink="/points" [queryParams]="{world: i.world}">
-                      <div [outerHTML]="i.world | WorldNamePipe"></div>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <th>Towns</th>
-                  <td *ngFor="let i of infoData;">
-                    <a routerLink="/conquest/player/{{i.world}}/{{i.grep_id}}">{{i.towns}} <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon></a>
-                  </td>
-                </tr>
-
-                <tr>
-                  <th>
-                    Points (Avg. per town)
-                    <br/><mat-icon class="directory">subdirectory_arrow_right</mat-icon>Overall Rank
-                  </th>
-                  <td *ngFor="let i of infoData;">
-                    {{i.points | NumberFilter}} (⌀ {{math.floor(i.points / math.max(1, i.towns)) | NumberFilter}})
-                    <br/><a routerLink="/ranking/player/{{i.world}}/points/{{i.rank}}/{{i.grep_id}}">#{{i.rank}} <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon></a>
-                  </td>
-                </tr>
-
-                <tr>
-                  <th>
-                    Fighting Points (Avg. per town)
-                    <br/><mat-icon class="directory">subdirectory_arrow_right</mat-icon>Fighting Rank
-                  </th>
-                  <td *ngFor="let i of infoData;">
-                    {{i.att + i.def | NumberFilter}} (⌀ {{math.floor((i.att + i.def) / math.max(1, i.towns)) | NumberFilter}})
-                    <br/><a routerLink="/ranking/player/{{i.world}}/fight/{{i.fight_rank}}/{{i.grep_id}}">#{{i.fight_rank}} <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon></a>
-                  </td>
-                </tr>
-
-                <tr>
-                  <th>
-                    Attack Points (Avg. per town)
-                    <br/><mat-icon class="directory">subdirectory_arrow_right</mat-icon>Attack Rank
-                  </th>
-                  <td *ngFor="let i of infoData;">
-                    {{i.att | NumberFilter}} (⌀ {{math.floor(i.att / math.max(1, i.towns)) | NumberFilter}})
-                    <br/><a routerLink="/ranking/player/{{i.world}}/attack/{{i.att_rank}}/{{i.grep_id}}">#{{i.att_rank}} <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon></a>
-                  </td>
-                </tr>
-
-                <tr>
-                  <th>
-                    Defence Points (Avg. per town)
-                    <br/><mat-icon class="directory">subdirectory_arrow_right</mat-icon>Defence Rank
-                  </th>
-                  <td *ngFor="let i of infoData;">
-                    {{i.def |NumberFilter}} (⌀ {{math.floor(i.def / math.max(1, i.towns)) | NumberFilter}})
-                    <br/><a routerLink="/ranking/player/{{i.world}}/defence/{{i.def_rank}}/{{i.grep_id}}">#{{i.def_rank}} <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon></a>
-                  </td>
-                </tr>
-
-                <tr>
-                  <th></th>
-                  <td *ngFor="let i of infoData;">
-                    <button name="open_bb" class="btn btn-danger btn-xs" style="margin-top: -5px;" (click)="removePlayer(i.grep_id, i.world)">
-                      Remove <i class="fa fa-times"></i>
-                    </button>
-                  </td>
-                </tr>
-
-              </tbody>
-              <tbody *ngIf="comparingAlliances">
-                <tr>
-                  <th>Name</th>
-                  <td *ngFor="let i of infoData;">
-                    <a routerLink="/alliance" [queryParams]="{world: i.world, id: i.grep_id}">{{i.name}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a>
-                  </td>
-                </tr>
-                <tr>
-                  <th>World</th>
-                  <td *ngFor="let i of infoData;">
-                    <a *ngIf="i.alliance_id != 0 && i.alliance_name != ''" routerLink="/points" [queryParams]="{world: i.world}">
-                      <div [outerHTML]="i.world | WorldNamePipe"></div>
-                    </a>
-                  </td>
-                </tr>
-                <tr>
-                  <th>Rank</th>
-                  <td *ngFor="let i of infoData;">
-                    <a routerLink="/ranking/player/{{i.world}}/points/{{i.rank}}/{{i.grep_id}}">{{i.rank}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a>
-                  </td>
-                </tr>
-                <tr>
-                  <th>Towns</th>
-                  <td *ngFor="let i of infoData;">
-                    <a routerLink="/conquest/alliance/{{i.world}}/{{i.grep_id}}">{{i.towns}} <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon></a>
-                  </td>
-                </tr>
-                <tr>
-                  <th>Members</th>
-                  <td *ngFor="let i of infoData;">{{i.members}}</td>
-                </tr>
-                <tr>
-                  <th>Points</th>
-                  <td *ngFor="let i of infoData;">{{i.points | NumberFilter}}</td>
-                </tr>
-                <tr>
-                  <th>Fighting</th>
-                  <td *ngFor="let i of infoData;">{{i.att + i.def | NumberFilter}}</td>
-                </tr>
-                <tr>
-                  <th>Attacking</th>
-                  <td *ngFor="let i of infoData;">{{i.att | NumberFilter}}</td>
-                </tr>
-                <tr>
-                  <th>Defending</th>
-                  <td *ngFor="let i of infoData;">{{i.def |NumberFilter}}</td>
-                </tr>
-                <tr>
-                  <th></th>
-                  <td *ngFor="let i of infoData;">
-                    <button name="open_bb" class="btn btn-danger btn-xs" style="margin-top: -5px;" (click)="removePlayer(i.grep_id, i.world)">
-                      Remove <i class="fa fa-times"></i>
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
           <!--PIE-->
           <div class="col-md-12 text-left" *ngIf="!firstRun && !loadingStats">
             <h2 class="gd-primary">Fighting points</h2>

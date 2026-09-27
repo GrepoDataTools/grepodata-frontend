@@ -136,6 +136,32 @@ export class CompareComponent implements OnInit {
     return count;
   }
 
+  activeList() {
+    if (this.comparingPlayers) {
+      return this.comparedPlayers[this.playerWorld] || [];
+    }
+    if (this.comparingAlliances) {
+      return this.comparedAlliances[this.allianceWorld] || [];
+    }
+    return [];
+  }
+
+  listPosition(value, field = 'name') {
+    const list = this.activeList();
+    for (let i = 0; i < list.length; i++) {
+      if (list[i][field] == value) {
+        return i;
+      }
+    }
+    return list.length;
+  }
+
+  inListOrder(items, key = 'name', field = 'name') {
+    return (items || []).slice().sort((a, b) => this.listPosition(a[key], field) - this.listPosition(b[key], field));
+  }
+
+  colorFor = (value, field = 'name') => this.palette[this.listPosition(value, field) % this.palette.length];
+
   loadWorlds(doCompare) {
     this.worldService.getWorlds().then(response => {
       this.playerWorlds = [];

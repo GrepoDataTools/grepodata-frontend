@@ -253,7 +253,7 @@
     <button type="button" [disabled]="loading" [attr.aria-pressed]="toggleFriendly&&!toggleInternal&&!toggleEnemy" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 px-3 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed" [ngClass]="toggleFriendly&&!toggleInternal&&!toggleEnemy ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'"
             (click)="toggleFriendly = true; toggleInternal = toggleEnemy = false; cdr.detectChanges(); filterClearInput();">
       <span class="size-1.5 flex-none rounded-full bg-emerald-600"></span>
-      Player takeovers
+      Towns gained
     </button>
     <button type="button" [disabled]="loading" [attr.aria-pressed]="toggleInternal&&!toggleFriendly&&!toggleEnemy" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 px-3 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed" [ngClass]="toggleInternal&&!toggleFriendly&&!toggleEnemy ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'"
             (click)="toggleInternal = true; toggleFriendly = toggleEnemy = false; cdr.detectChanges(); filterClearInput();">
@@ -263,7 +263,7 @@
     <button type="button" [disabled]="loading" [attr.aria-pressed]="toggleEnemy&&!toggleFriendly&&!toggleInternal" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 px-3 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed" [ngClass]="toggleEnemy&&!toggleFriendly&&!toggleInternal ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'"
             (click)="toggleEnemy = true; toggleInternal = toggleFriendly = false; cdr.detectChanges(); filterClearInput();">
       <span class="size-1.5 flex-none rounded-full bg-rose-600"></span>
-      Enemy takeovers
+      Towns lost
     </button>
   </div>
 </ng-template>

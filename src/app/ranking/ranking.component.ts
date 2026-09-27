@@ -52,6 +52,44 @@ export class RankingComponent implements OnInit {
 
   ngOnInit() {}
 
+  get showPodium() {
+    return this.fromResult == 0 && this.sort_order == 'desc' && this.results && this.results.length > 0;
+  }
+
+  get sortLabel() {
+    switch (this.sort_field) {
+      case 'Rank': return 'general rank';
+      case 'Towns': return 'towns';
+      case 'Members': return 'members';
+      case 'Att': return 'attack points';
+      case 'Def': return 'defence points';
+      case 'AttDef': return 'combined points';
+      default: return 'points';
+    }
+  }
+
+  sortValue(result) {
+    switch (this.sort_field) {
+      case 'Rank': return result.rank;
+      case 'Towns': return result.towns;
+      case 'Members': return result.members;
+      case 'Att': return result.att;
+      case 'Def': return result.def;
+      case 'AttDef': return result.att + result.def;
+      default: return result.points;
+    }
+  }
+
+  barWidth(result) {
+    const top = this.sortValue(this.results[0]);
+    return top > 0 ? Math.max(0, this.sortValue(result) / top * 100) : 0;
+  }
+
+  attackShare(result) {
+    const total = result.att + result.def;
+    return total > 0 ? result.att / total * 100 : 50;
+  }
+
   paginatorEvent($event) {
     this.pageEvent = $event;
     if (typeof this.pageEvent != 'undefined') {

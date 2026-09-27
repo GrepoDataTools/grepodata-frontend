@@ -67,6 +67,65 @@
     </div>
   </div>
 
+  <section *ngIf="!error && showPodium" aria-label="Top 3" class="grid grid-cols-3 items-end gap-6 transition-opacity max-lg:[display:none]" [ngClass]="{'opacity-50': loading}">
+    <ng-container *ngFor="let idx of [1, 0, 2]">
+      <article *ngIf="results[idx] as r" [attr.aria-label]="['1st', '2nd', '3rd'][idx] + ' place: ' + r.name" class="relative min-w-0 rounded-xl px-6 pb-5 text-center shadow-sm" [ngClass]="[idx == 0 ? 'mt-[26px] pt-[52px]' : 'mt-[22px] pt-9', highlightId == r.id ? 'bg-brand-50 ring-2 ring-brand-500' : 'bg-white ring-1 ring-slate-900/[.08]']">
+        <div class="absolute left-1/2 -translate-x-1/2 rounded-full bg-white shadow-[0_0_0_4px_#F5F6FA]" [ngClass]="idx == 0 ? '-top-[26px]' : '-top-[22px]'">
+          <span role="img" [attr.aria-label]="['1st place', '2nd place', '3rd place'][idx]" [title]="['1st place', '2nd place', '3rd place'][idx]" class="inline-flex flex-none items-center justify-center rounded-full text-lg font-bold leading-none tabular-nums ring-[1.5px] ring-inset" [ngClass]="[idx == 0 ? 'size-[52px]' : 'size-11', ['bg-amber-100 text-amber-700 ring-amber-500/60', 'bg-slate-100 text-slate-600 ring-slate-500/45', 'bg-report-enemy/[.12] text-amber-800 ring-report-enemy/50'][idx]]">{{idx + 1}}</span>
+        </div>
+        <div class="flex min-w-0 justify-center">
+          <a *ngIf="type=='player'" routerLink="/player" [queryParams]="{world: r.world, id: r.id}" [title]="r.name" class="inline-flex max-w-full items-center gap-1.5 text-lg font-semibold text-slate-900 no-underline hover:text-brand-700 hover:underline">
+            <svg appIcon="player_ico" variant="game" class="size-[18px] flex-none text-slate-400"></svg>
+            <span class="truncate">{{r.name}}</span>
+          </a>
+          <a *ngIf="type=='alliance'" routerLink="/alliance" [queryParams]="{world: r.world, id: r.id}" [title]="r.name" class="inline-flex max-w-full items-center gap-1.5 text-lg font-semibold text-slate-900 no-underline hover:text-brand-700 hover:underline">
+            <svg appIcon="ally_ico" variant="game" class="size-[18px] flex-none text-slate-400"></svg>
+            <span class="truncate">{{r.name}}</span>
+          </a>
+        </div>
+        <div class="mt-0.5 flex min-w-0 justify-center text-sm text-slate-600">
+          <ng-container *ngIf="type=='player'">
+            <a *ngIf="r.alliance_name" routerLink="/alliance" [queryParams]="{world: r.world, id: r.alliance_id}" [title]="r.alliance_name" class="inline-flex max-w-full items-center gap-1 text-slate-600 no-underline hover:text-brand-700 hover:underline">
+              <svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+              <span class="truncate">{{r.alliance_name}}</span>
+            </a>
+            <span *ngIf="!r.alliance_name">No alliance</span>
+          </ng-container>
+          <span *ngIf="type=='alliance'" class="inline-flex items-center gap-1.5">
+            <svg appIcon="users" class="size-4 flex-none text-slate-400"></svg>
+            <span class="tabular-nums">{{r.members}}</span> members
+          </span>
+        </div>
+        <div class="mt-4 text-[28px] font-bold leading-9 tracking-tight tabular-nums text-slate-900">{{sortValue(r) | NumberFilter}}</div>
+        <div class="text-xs text-slate-500">{{sortLabel}}</div>
+        <div class="mt-4 grid grid-cols-3 gap-3 border-0 border-t border-solid border-slate-100 pt-4">
+          <div class="min-w-0">
+            <div class="text-xs text-slate-500">General rank</div>
+            <div class="mt-0.5 text-sm font-semibold tabular-nums text-slate-900">{{r.rank}}</div>
+          </div>
+          <div class="min-w-0">
+            <div class="text-xs text-slate-500">Towns</div>
+            <div class="mt-0.5 text-sm"><a routerLink="/conquest/{{type}}/{{world}}/{{r.id}}" title="View conquests" class="font-semibold tabular-nums text-brand-700 no-underline hover:text-brand-800 hover:underline">{{r.towns}}</a></div>
+          </div>
+          <div class="min-w-0">
+            <div class="text-xs text-slate-500">Combined</div>
+            <div class="mt-0.5 text-sm font-semibold tabular-nums text-slate-900">{{r.def + r.att | NumberFilter}}</div>
+          </div>
+        </div>
+        <div class="mt-4 text-left">
+          <div class="flex h-1.5 overflow-hidden rounded-full bg-slate-100" [title]="'Attack ' + (attackShare(r) | number:'1.0-0') + '% · Defence ' + (100 - attackShare(r) | number:'1.0-0') + '%'">
+            <span class="bg-report-enemy" [style.width.%]="attackShare(r)"></span>
+            <span class="ml-0.5 flex-1 bg-report-friendly"></span>
+          </div>
+          <div class="mt-2 flex justify-between gap-3 text-xs text-slate-500">
+            <span class="inline-flex items-center gap-1.5"><span aria-hidden="true" class="size-2 rounded-sm bg-report-enemy"></span>Attack <span class="font-semibold tabular-nums text-slate-900">{{r.att | NumberFilter}}</span></span>
+            <span class="inline-flex items-center gap-1.5">Defence <span class="font-semibold tabular-nums text-slate-900">{{r.def | NumberFilter}}</span><span aria-hidden="true" class="size-2 rounded-sm bg-report-friendly"></span></span>
+          </div>
+        </div>
+      </article>
+    </ng-container>
+  </section>
+
   <section *ngIf="!error && loading && !(results?.length > 0)" aria-label="Ranking" aria-busy="true" class="relative overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
     <mat-progress-bar mode="indeterminate" class="!absolute inset-x-0 top-0 z-10 !h-0.5"></mat-progress-bar>
     <div *ngFor="let row of [0, 1, 2, 3, 4, 5]" aria-hidden="true" class="flex items-center gap-4 border-0 border-b border-solid border-slate-100 px-5 py-3.5 last:border-b-0">
@@ -92,12 +151,12 @@
   <section *ngIf="!error && results?.length > 0" aria-label="Ranking" class="relative overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
     <mat-progress-bar *ngIf="loading" mode="indeterminate" class="!absolute inset-x-0 top-0 z-10 !h-0.5"></mat-progress-bar>
     <div class="overflow-x-auto">
-      <table class="w-full min-w-[960px] table-fixed border-separate border-spacing-0 text-left">
+      <table class="w-full min-w-[1060px] table-fixed border-separate border-spacing-0 text-left">
         <thead>
           <tr>
             <th scope="col" class="border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-semibold text-slate-700 w-16 pl-5 text-center">#</th>
             <th scope="col" class="border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-semibold text-slate-700">{{type=='alliance' ? 'Alliance' : 'Player'}}</th>
-            <th scope="col" [attr.aria-sort]="sort_field=='Points' ? (sort_order=='asc' ? 'ascending' : 'descending') : 'none'" class="border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-semibold text-slate-700 text-right w-[200px]">
+            <th scope="col" [attr.aria-sort]="sort_field=='Points' ? (sort_order=='asc' ? 'ascending' : 'descending') : 'none'" class="border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-semibold text-slate-700 text-right" [ngClass]="showPodium && sort_field=='Points' ? 'w-[212px]' : 'w-32'">
               <button type="button" (click)="sort('Points')" title="Sort by points" class="inline-flex items-center gap-1 whitespace-nowrap border-0 bg-transparent p-0 text-xs font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="sort_field=='Points' ? 'text-brand-700 hover:text-brand-800' : 'text-slate-700 hover:text-slate-900'">
                 <svg [appIcon]="sort_field=='Points' ? (sort_order=='asc' ? 'arrow-up' : 'arrow-down') : 'chevron-up-down'" class="size-3.5 flex-none" [ngClass]="sort_field=='Points' ? 'text-brand-700' : 'text-slate-400'"></svg>
                 <span>Points</span>
@@ -109,33 +168,33 @@
                 <span>General rank</span>
               </button>
             </th>
-            <th scope="col" [attr.aria-sort]="sort_field=='Towns' ? (sort_order=='asc' ? 'ascending' : 'descending') : 'none'" class="border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-semibold text-slate-700 text-right w-[92px]">
+            <th scope="col" [attr.aria-sort]="sort_field=='Towns' ? (sort_order=='asc' ? 'ascending' : 'descending') : 'none'" class="border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-semibold text-slate-700 text-right" [ngClass]="showPodium && sort_field=='Towns' ? 'w-[176px]' : 'w-[92px]'">
               <button type="button" (click)="sort('Towns')" title="Sort by towns" class="inline-flex items-center gap-1 whitespace-nowrap border-0 bg-transparent p-0 text-xs font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="sort_field=='Towns' ? 'text-brand-700 hover:text-brand-800' : 'text-slate-700 hover:text-slate-900'">
                 <svg [appIcon]="sort_field=='Towns' ? (sort_order=='asc' ? 'arrow-up' : 'arrow-down') : 'chevron-up-down'" class="size-3.5 flex-none" [ngClass]="sort_field=='Towns' ? 'text-brand-700' : 'text-slate-400'"></svg>
                 <span>Towns</span>
               </button>
             </th>
             <ng-container *ngIf="type=='alliance'">
-            <th scope="col" [attr.aria-sort]="sort_field=='Members' ? (sort_order=='asc' ? 'ascending' : 'descending') : 'none'" class="border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-semibold text-slate-700 text-right w-24">
+            <th scope="col" [attr.aria-sort]="sort_field=='Members' ? (sort_order=='asc' ? 'ascending' : 'descending') : 'none'" class="border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-semibold text-slate-700 text-right" [ngClass]="showPodium && sort_field=='Members' ? 'w-[180px]' : 'w-24'">
               <button type="button" (click)="sort('Members')" title="Sort by members" class="inline-flex items-center gap-1 whitespace-nowrap border-0 bg-transparent p-0 text-xs font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="sort_field=='Members' ? 'text-brand-700 hover:text-brand-800' : 'text-slate-700 hover:text-slate-900'">
                 <svg [appIcon]="sort_field=='Members' ? (sort_order=='asc' ? 'arrow-up' : 'arrow-down') : 'chevron-up-down'" class="size-3.5 flex-none" [ngClass]="sort_field=='Members' ? 'text-brand-700' : 'text-slate-400'"></svg>
                 <span>Members</span>
               </button>
             </th>
             </ng-container>
-            <th scope="col" [attr.aria-sort]="sort_field=='Att' ? (sort_order=='asc' ? 'ascending' : 'descending') : 'none'" class="border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-semibold text-slate-700 text-right w-[140px]">
+            <th scope="col" [attr.aria-sort]="sort_field=='Att' ? (sort_order=='asc' ? 'ascending' : 'descending') : 'none'" class="border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-semibold text-slate-700 text-right" [ngClass]="showPodium && sort_field=='Att' ? 'w-[224px]' : 'w-[140px]'">
               <button type="button" (click)="sort('Att')" title="Sort by attack points" class="inline-flex items-center gap-1 whitespace-nowrap border-0 bg-transparent p-0 text-xs font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="sort_field=='Att' ? 'text-brand-700 hover:text-brand-800' : 'text-slate-700 hover:text-slate-900'">
                 <svg [appIcon]="sort_field=='Att' ? (sort_order=='asc' ? 'arrow-up' : 'arrow-down') : 'chevron-up-down'" class="size-3.5 flex-none" [ngClass]="sort_field=='Att' ? 'text-brand-700' : 'text-slate-400'"></svg>
                 <span>Attack points</span>
               </button>
             </th>
-            <th scope="col" [attr.aria-sort]="sort_field=='Def' ? (sort_order=='asc' ? 'ascending' : 'descending') : 'none'" class="border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-semibold text-slate-700 text-right w-[148px]">
+            <th scope="col" [attr.aria-sort]="sort_field=='Def' ? (sort_order=='asc' ? 'ascending' : 'descending') : 'none'" class="border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-semibold text-slate-700 text-right" [ngClass]="showPodium && sort_field=='Def' ? 'w-[232px]' : 'w-[148px]'">
               <button type="button" (click)="sort('Def')" title="Sort by defence points" class="inline-flex items-center gap-1 whitespace-nowrap border-0 bg-transparent p-0 text-xs font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="sort_field=='Def' ? 'text-brand-700 hover:text-brand-800' : 'text-slate-700 hover:text-slate-900'">
                 <svg [appIcon]="sort_field=='Def' ? (sort_order=='asc' ? 'arrow-up' : 'arrow-down') : 'chevron-up-down'" class="size-3.5 flex-none" [ngClass]="sort_field=='Def' ? 'text-brand-700' : 'text-slate-400'"></svg>
                 <span>Defence points</span>
               </button>
             </th>
-            <th scope="col" [attr.aria-sort]="sort_field=='AttDef' ? (sort_order=='asc' ? 'ascending' : 'descending') : 'none'" class="border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-semibold text-slate-700 text-right w-[164px] pr-5">
+            <th scope="col" [attr.aria-sort]="sort_field=='AttDef' ? (sort_order=='asc' ? 'ascending' : 'descending') : 'none'" class="border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-semibold text-slate-700 text-right pr-5" [ngClass]="showPodium && sort_field=='AttDef' ? 'w-[248px]' : 'w-[164px]'">
               <button type="button" (click)="sort('AttDef')" title="Sort by combined points" class="inline-flex items-center gap-1 whitespace-nowrap border-0 bg-transparent p-0 text-xs font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="sort_field=='AttDef' ? 'text-brand-700 hover:text-brand-800' : 'text-slate-700 hover:text-slate-900'">
                 <svg [appIcon]="sort_field=='AttDef' ? (sort_order=='asc' ? 'arrow-up' : 'arrow-down') : 'chevron-up-down'" class="size-3.5 flex-none" [ngClass]="sort_field=='AttDef' ? 'text-brand-700' : 'text-slate-400'"></svg>
                 <span>Combined points</span>
@@ -144,7 +203,7 @@
           </tr>
         </thead>
         <tbody class="transition-opacity" [ngClass]="{'opacity-50': loading}">
-          <tr *ngFor="let result of results; let i = index;" [attr.id]="highlightId==result?.id ? 'highlightRow' : null" [ngClass]="highlightId==result?.id ? 'bg-brand-50' : 'hover:bg-slate-50'" class="[&:first-child>td]:border-t-0">
+          <tr *ngFor="let result of results; let i = index;" [attr.id]="highlightId==result?.id ? 'highlightRow' : null" [ngClass]="[highlightId==result?.id ? 'bg-brand-50' : 'hover:bg-slate-50', showPodium && i < 3 ? 'lg:[display:none]' : '', showPodium && i == 3 ? 'lg:[&>td]:border-t-0' : '']" class="[&:first-child>td]:border-t-0">
             <td class="border-0 border-t border-solid border-slate-100 px-3 py-2 align-middle text-sm pl-5 text-center" [ngClass]="{'shadow-[inset_3px_0_0_#18BC9C]': highlightId==result?.id}">
               <span *ngIf="i<3&&fromResult==0&&sort_order=='desc'" role="img" [attr.aria-label]="['1st place', '2nd place', '3rd place'][i]" [title]="['1st place', '2nd place', '3rd place'][i]" class="inline-flex size-6 items-center justify-center rounded-full text-xs font-bold tabular-nums ring-1 ring-inset" [ngClass]="['bg-amber-100 text-amber-700 ring-amber-500/60', 'bg-slate-100 text-slate-600 ring-slate-500/45', 'bg-report-enemy/[.12] text-amber-800 ring-report-enemy/50'][i]">{{i+1}}</span>
               <span *ngIf="i>=3||fromResult!=0||sort_order=='asc'" class="text-[13px] tabular-nums text-slate-500">{{i+fromResult+1}}</span>
@@ -168,20 +227,21 @@
                 <span class="truncate">{{result?.name}}</span>
               </a>
             </td>
-            <td class="border-0 border-t border-solid border-slate-100 px-3 py-2 align-middle text-sm text-right tabular-nums" [ngClass]="sort_field=='Points' ? 'font-semibold text-slate-900' : 'text-slate-700'">{{result?.points | NumberFilter}}</td>
+            <td class="border-0 border-t border-solid border-slate-100 px-3 py-2 align-middle text-sm text-right tabular-nums" [ngClass]="sort_field=='Points' ? 'font-semibold text-slate-900' : 'text-slate-700'"><span *ngIf="showPodium && sort_field=='Points'" aria-hidden="true" class="relative mr-3 inline-block h-1.5 w-[72px] overflow-hidden rounded-full bg-slate-100 align-middle"><span class="absolute inset-y-0 left-0 rounded-full bg-brand-500" [style.width.%]="barWidth(result)"></span></span><span class="inline-block min-w-[4.5em]">{{result?.points | NumberFilter}}</span></td>
             <td class="border-0 border-t border-solid border-slate-100 px-3 py-2 align-middle text-sm text-right tabular-nums" [ngClass]="sort_field=='Rank' ? 'font-semibold text-slate-900' : 'text-slate-700'">{{result?.rank}}</td>
             <td class="border-0 border-t border-solid border-slate-100 px-3 py-2 align-middle text-sm text-right">
-              <a routerLink="/conquest/{{type}}/{{world}}/{{result?.id}}" title="View conquests" class="tabular-nums text-brand-700 no-underline hover:text-brand-800 hover:underline" [ngClass]="sort_field=='Towns' ? 'font-semibold' : 'font-medium'">{{result?.towns}}</a>
+              <span *ngIf="showPodium && sort_field=='Towns'" aria-hidden="true" class="relative mr-3 inline-block h-1.5 w-[72px] overflow-hidden rounded-full bg-slate-100 align-middle"><span class="absolute inset-y-0 left-0 rounded-full bg-brand-500" [style.width.%]="barWidth(result)"></span></span><span class="inline-block min-w-[4.5em]"><a routerLink="/conquest/{{type}}/{{world}}/{{result?.id}}" title="View conquests" class="tabular-nums text-brand-700 no-underline hover:text-brand-800 hover:underline" [ngClass]="sort_field=='Towns' ? 'font-semibold' : 'font-medium'">{{result?.towns}}</a></span>
             </td>
-            <td *ngIf="type=='alliance'" class="border-0 border-t border-solid border-slate-100 px-3 py-2 align-middle text-sm text-right tabular-nums" [ngClass]="sort_field=='Members' ? 'font-semibold text-slate-900' : 'text-slate-700'">{{result?.members}}</td>
-            <td class="border-0 border-t border-solid border-slate-100 px-3 py-2 align-middle text-sm text-right tabular-nums" [ngClass]="sort_field=='Att' ? 'font-semibold text-slate-900' : 'text-slate-700'">{{result?.att | NumberFilter}}</td>
-            <td class="border-0 border-t border-solid border-slate-100 px-3 py-2 align-middle text-sm text-right tabular-nums" [ngClass]="sort_field=='Def' ? 'font-semibold text-slate-900' : 'text-slate-700'">{{result?.def | NumberFilter}}</td>
-            <td class="border-0 border-t border-solid border-slate-100 px-3 py-2 align-middle text-sm pr-5 text-right tabular-nums" [ngClass]="sort_field=='AttDef' ? 'font-semibold text-slate-900' : 'text-slate-700'">{{result?.def + result?.att | NumberFilter}}</td>
+            <td *ngIf="type=='alliance'" class="border-0 border-t border-solid border-slate-100 px-3 py-2 align-middle text-sm text-right tabular-nums" [ngClass]="sort_field=='Members' ? 'font-semibold text-slate-900' : 'text-slate-700'"><span *ngIf="showPodium && sort_field=='Members'" aria-hidden="true" class="relative mr-3 inline-block h-1.5 w-[72px] overflow-hidden rounded-full bg-slate-100 align-middle"><span class="absolute inset-y-0 left-0 rounded-full bg-brand-500" [style.width.%]="barWidth(result)"></span></span><span class="inline-block min-w-[4.5em]">{{result?.members}}</span></td>
+            <td class="border-0 border-t border-solid border-slate-100 px-3 py-2 align-middle text-sm text-right tabular-nums" [ngClass]="sort_field=='Att' ? 'font-semibold text-slate-900' : 'text-slate-700'"><span *ngIf="showPodium && sort_field=='Att'" aria-hidden="true" class="relative mr-3 inline-block h-1.5 w-[72px] overflow-hidden rounded-full bg-slate-100 align-middle"><span class="absolute inset-y-0 left-0 rounded-full bg-brand-500" [style.width.%]="barWidth(result)"></span></span><span class="inline-block min-w-[4.5em]">{{result?.att | NumberFilter}}</span></td>
+            <td class="border-0 border-t border-solid border-slate-100 px-3 py-2 align-middle text-sm text-right tabular-nums" [ngClass]="sort_field=='Def' ? 'font-semibold text-slate-900' : 'text-slate-700'"><span *ngIf="showPodium && sort_field=='Def'" aria-hidden="true" class="relative mr-3 inline-block h-1.5 w-[72px] overflow-hidden rounded-full bg-slate-100 align-middle"><span class="absolute inset-y-0 left-0 rounded-full bg-brand-500" [style.width.%]="barWidth(result)"></span></span><span class="inline-block min-w-[4.5em]">{{result?.def | NumberFilter}}</span></td>
+            <td class="border-0 border-t border-solid border-slate-100 px-3 py-2 align-middle text-sm pr-5 text-right tabular-nums" [ngClass]="sort_field=='AttDef' ? 'font-semibold text-slate-900' : 'text-slate-700'"><span *ngIf="showPodium && sort_field=='AttDef'" aria-hidden="true" class="relative mr-3 inline-block h-1.5 w-[72px] overflow-hidden rounded-full bg-slate-100 align-middle"><span class="absolute inset-y-0 left-0 rounded-full bg-brand-500" [style.width.%]="barWidth(result)"></span></span><span class="inline-block min-w-[4.5em]">{{result?.def + result?.att | NumberFilter}}</span></td>
           </tr>
         </tbody>
       </table>
     </div>
     <div class="flex flex-wrap items-center justify-end gap-x-4 gap-y-2 border-0 border-t border-solid border-slate-200 py-2 pl-5 pr-3">
+      <span *ngIf="showPodium" class="mr-auto text-xs text-slate-500 max-lg:[display:none]">Ranks 4 – {{fromResult + results.length}} · the top 3 are shown above</span>
       <mat-paginator class="block bg-transparent !text-xs !font-normal text-slate-600 [&_.mat-button-wrapper]:flex [&_.mat-form-field-infix]:!w-16 [&_.mat-form-field-infix]:!p-0 [&_.mat-form-field-subscript-wrapper]:hidden [&_.mat-form-field-underline]:hidden [&_.mat-form-field-wrapper]:!m-0 [&_.mat-form-field-wrapper]:!p-0 [&_.mat-icon-button:not(.mat-button-disabled):hover]:bg-slate-100 [&_.mat-icon-button]:inline-flex [&_.mat-icon-button]:size-8 [&_.mat-icon-button]:items-center [&_.mat-icon-button]:justify-center [&_.mat-icon-button]:rounded-md [&_.mat-icon-button]:leading-8 [&_.mat-paginator-container]:min-h-0 [&_.mat-paginator-container]:flex-nowrap [&_.mat-paginator-container]:gap-3 [&_.mat-paginator-container]:p-0 [&_.mat-paginator-icon]:w-5 [&_.mat-paginator-page-size-label]:m-0 [&_.mat-paginator-page-size]:m-0 [&_.mat-paginator-page-size]:items-center [&_.mat-paginator-page-size]:gap-2 [&_.mat-paginator-page-size]:!pt-0 [&_.mat-paginator-range-actions]:gap-1 [&_.mat-paginator-range-label]:m-0 [&_.mat-paginator-range-label]:mr-1 [&_.mat-paginator-range-label]:tabular-nums [&_.mat-select-arrow-wrapper]:![transform:none] [&_.mat-select-arrow]:text-slate-400 [&_.mat-select-trigger]:h-auto [&_.mat-select-trigger]:w-full [&_.mat-select:focus]:ring-2 [&_.mat-select:focus]:ring-brand-700 [&_.mat-select]:flex [&_.mat-select]:h-8 [&_.mat-select]:items-center [&_.mat-select]:rounded-md [&_.mat-select]:bg-white [&_.mat-select]:pl-2.5 [&_.mat-select]:pr-1.5 [&_.mat-select]:text-xs [&_.mat-select]:shadow-sm [&_.mat-select]:ring-1 [&_.mat-select]:ring-inset [&_.mat-select]:ring-slate-300"
                      [length]="count"
                      [pageSize]="size"

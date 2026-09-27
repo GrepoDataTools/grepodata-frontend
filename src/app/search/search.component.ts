@@ -11,7 +11,6 @@ import {LocalCacheService} from '../services/local-cache.service';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss'],
   providers: [SearchService, WorldService, LocalCacheService]
 })
 export class SearchComponent implements AfterViewInit {

@@ -140,6 +140,7 @@ export class IndexAllianceComponent implements AfterViewInit, OnDestroy {
     // Reset
     this.allianceName = 'Loading..';
     this.loading = true;
+    this.activeTab = 0;
     this.noIntel = false;
     this.allPlayers = '';
     this.firePlayers = '';

@@ -105,6 +105,7 @@ export class IndexPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     // Reset
     this.playerName = 'Loading..';
     this.loading = true;
+    this.activeTab = 0;
     this.noIntel = false;
     this.allCities = [];
     this.fireCities = [];

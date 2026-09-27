@@ -244,29 +244,32 @@
           </div>
         </div>
       </div>
-      <div *ngIf="tabsIndex == 2" role="tabpanel" class="p-5 max-sm:p-4">
-              <app-index-alliance *ngIf="bShowIntel && hasIndex" [world]="world" [id]="id" [embedded]="true"></app-index-alliance>
-                <h3 style="padding: 30px;" *ngIf="!bShowIntel && hasIndex"><a class="a-link-dialog" style="color: #334254 !important;" (click)="bShowIntel = true;">Load town intelligence..</a></h3>
-                <div *ngIf="!bShowIntel || !hasIndex" style="padding: 20px;">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-8">
-                                <div class="alert alert-gd-1 text-center">
-                                    <p>When you sign in with a GrepoData city indexer account, we will be able to show collected intelligence about this alliance here.</p>
-                                    <h3>
-                                        <a class="gd-primary a-link-dialog" routerLink="/indexer">
-                            Sign in to your GrepoData account <mat-icon style="opacity: 1; vertical-align: bottom;" class="hidden-xs">launch</mat-icon>
-                                        </a>
-                                    </h3>
-                                </div>
-                            </div>
-                            <div class="col-sm-4 hidden-xs">
-                                <img class="lib-img" style="max-width: 100%; display: block;" src="../../assets/images/indexer_town_sm.png" alt="Grepolis town intel">
-                                <h5 class="gd-secondary" style="float: right;">Images copyright © InnoGames GmbH</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      <div *ngIf="tabsIndex == 2" role="tabpanel">
+        <app-index-alliance *ngIf="bShowIntel && hasIndex" [world]="world" [id]="id" [embedded]="true"></app-index-alliance>
+        <div *ngIf="!bShowIntel && hasIndex" class="flex flex-col items-center px-6 py-9 text-center">
+          <span aria-hidden="true" class="flex size-12 items-center justify-center rounded-full bg-brand-50 text-brand-700">
+            <svg appIcon="building-library" class="size-6"></svg>
+          </span>
+          <h3 class="mb-0 mt-3 text-base font-semibold text-slate-900">Town intelligence</h3>
+          <p class="mb-0 mt-1 max-w-[440px] text-sm text-slate-600">Your combined intel about this alliance from all your teams.</p>
+          <button type="button" (click)="bShowIntel = true; cdr.detectChanges();" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-brand-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 mt-4">
+            <svg appIcon="arrow-down-tray" class="size-[18px] flex-none"></svg>Load town intelligence
+          </button>
+        </div>
+        <div *ngIf="!bShowIntel || !hasIndex" class="flex items-center gap-8 p-7 max-sm:p-5">
+          <div class="min-w-0 flex-1">
+            <span aria-hidden="true" class="flex size-10 items-center justify-center rounded-full bg-brand-50 text-brand-700">
+              <svg appIcon="lock-closed" class="size-5"></svg>
+            </span>
+            <h3 class="mb-0 mt-3 text-base font-semibold text-slate-900">Sign in to see town intelligence</h3>
+            <p class="mb-0 mt-1 max-w-[460px] text-sm text-slate-600">When you sign in with a GrepoData city indexer account, we will be able to show collected intelligence about this alliance here.</p>
+            <a routerLink="/indexer" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-brand-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 mt-4 no-underline hover:text-white hover:no-underline focus:text-white focus:no-underline">Sign in to your GrepoData account<svg appIcon="arrow-right" variant="mini" class="size-4 flex-none"></svg></a>
+          </div>
+          <figure class="m-0 w-[300px] flex-none max-md:[display:none]">
+            <img src="../../assets/images/indexer_town_sm.png" alt="Town intel as shown in the game by the GrepoData city indexer" class="block h-auto w-full rounded-lg ring-1 ring-slate-900/10">
+            <figcaption class="mt-1.5 text-right text-[11px] leading-4 text-slate-400">Images copyright © InnoGames GmbH</figcaption>
+          </figure>
+        </div>
       </div>
     </section>
 

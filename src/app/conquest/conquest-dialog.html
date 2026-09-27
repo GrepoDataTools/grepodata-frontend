@@ -1,12 +1,26 @@
-<div style="font-size: 18px; max-height: 75vh; min-width: 40vw; min-height: 25vh;">
-  <!--height: calc(100% - 20px);-->
-  <a (click)="dialogRef.close()" class="close"></a>
-  <h1 class="mat-primary" style="text-align: center; color: #18BC9C; margin-top: 0px;" mat-dialog-title>
-	  <img *ngIf="params?.type=='alliance'" src="../../assets/images/ally_ico.png" style="height: 28px;"/>
-	  <img *ngIf="params?.type=='player'" src="../../assets/images/player_ico.png" style="height: 28px; margin-top: -5px;"/>
-	  {{name}}<span class="gd-secondary">'s conquests</span>
-  </h1>
+<div class="flex max-h-[90vh] w-[920px] max-w-full flex-col text-left font-normal text-slate-900">
+  <div class="flex flex-none items-start gap-4 border-0 border-b border-solid border-slate-200 p-5 max-sm:px-4">
+    <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-lg bg-navy-800 text-brand-500">
+      <svg *ngIf="params?.type=='alliance'" appIcon="ally_ico" variant="game" class="size-6"></svg>
+      <svg *ngIf="params?.type=='player'" appIcon="player_ico" variant="game" class="size-6"></svg>
+    </span>
+    <div class="min-w-0 flex-1">
+      <h2 mat-dialog-title class="m-0 truncate text-xl font-semibold text-slate-900">{{name}}'s conquests</h2>
+      <p class="mb-0 mt-0.5 flex items-center gap-1.5 text-sm text-slate-600"><span class="bg-flag flag-{{params?.world?.substr(0,2)}} flex-none [zoom:0.625]"></span>{{params?.world}}</p>
+    </div>
+    <button type="button" (click)="dialogRef.close()" aria-label="Close" class="-mr-2 -mt-1 inline-flex size-8 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+      <svg appIcon="x-mark" class="size-5"></svg>
+    </button>
+  </div>
 
-  <app-conquest [embedded]="true" [params]="params" [minimal]="true"></app-conquest>
+  <div class="gd-scrollbar min-h-0 flex-1 overflow-y-auto">
+    <app-conquest #conquests [embedded]="true" [params]="params" [minimal]="true"></app-conquest>
+  </div>
 
+  <div class="flex flex-none items-center justify-end gap-3 border-0 border-t border-solid border-slate-200 bg-slate-50 px-5 py-3 max-sm:px-4">
+    <p *ngIf="!conquests.noData" class="m-0 flex-1 text-[13px] leading-5 text-slate-600">
+      <span class="tabular-nums">{{conquests.count | NumberFilter}}</span> {{conquests.count == 1 ? 'conquest' : 'conquests'}}
+    </p>
+    <button type="button" (click)="dialogRef.close()" class="inline-flex items-center justify-center gap-1.5 rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Close</button>
+  </div>
 </div>

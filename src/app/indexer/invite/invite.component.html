@@ -111,10 +111,10 @@
       </ng-container>
 
       <ng-container *ngIf="error">
-        <span aria-hidden="true" class="flex size-12 flex-none items-center justify-center rounded-full bg-rose-50 text-rose-600 ring-1 ring-inset ring-rose-100">
-          <svg appIcon="exclamation-triangle" class="size-6"></svg>
+        <span aria-hidden="true" class="flex size-12 flex-none items-center justify-center rounded-full ring-1 ring-inset" [ngClass]="error_icon == 'clock' || error_icon == 'lock-closed' || error_icon == 'globe-europe-africa' ? 'bg-amber-50 text-amber-600 ring-amber-100' : error_icon == 'magnifying-glass' ? 'bg-slate-100 text-slate-500 ring-slate-200' : 'bg-rose-50 text-rose-600 ring-rose-100'">
+          <svg [appIcon]="error_icon" class="size-6"></svg>
         </span>
-        <div class="w-full min-w-0 text-sm text-slate-600 [&_h2]:m-0 [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:leading-7 [&_h2]:text-slate-900 [&_h4]:mb-0 [&_h4]:mt-1.5 [&_h4]:text-sm [&_h4]:font-normal [&_h4]:leading-5 [&_h4]:text-slate-600 [&_pre]:mb-0 [&_pre]:mt-4 [&_pre]:!max-h-40 [&_pre]:overflow-auto [&_pre]:rounded-lg [&_pre]:border-0 [&_pre]:bg-slate-50 [&_pre]:px-3 [&_pre]:py-2.5 [&_pre]:text-left [&_pre]:font-mono [&_pre]:text-xs [&_pre]:text-slate-700 [&_pre]:!whitespace-pre-wrap [&_pre]:break-all [&_pre]:ring-1 [&_pre]:ring-inset [&_pre]:ring-slate-200">
+        <div class="w-full min-w-0 text-sm text-slate-600 [&_strong]:font-semibold [&_h4_strong]:text-slate-900 [&_h2]:m-0 [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:leading-7 [&_h2]:text-slate-900 [&_h4]:mb-0 [&_h4]:mt-1.5 [&_h4]:text-sm [&_h4]:font-normal [&_h4]:leading-5 [&_h4]:text-slate-600 [&_pre]:mb-0 [&_pre]:mt-4 [&_pre]:!max-h-40 [&_pre]:overflow-auto [&_pre]:rounded-lg [&_pre]:border-0 [&_pre]:bg-slate-50 [&_pre]:px-3 [&_pre]:py-2.5 [&_pre]:text-left [&_pre]:font-mono [&_pre]:text-xs [&_pre]:text-slate-700 [&_pre]:!whitespace-pre-wrap [&_pre]:break-all [&_pre]:ring-1 [&_pre]:ring-inset [&_pre]:ring-slate-200">
           <div [outerHTML]="error"></div>
         </div>
       </ng-container>

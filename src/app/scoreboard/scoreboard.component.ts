@@ -1023,7 +1023,6 @@ export class BBScoreboardDialog {
 @Component({
   selector: 'overview-dialog',
   templateUrl: 'overview.html',
-  styleUrls: ['./scoreboard.component.scss'],
   providers: [ScoreboardService],
 })
 export class OverviewDialog implements AfterViewInit {
@@ -1064,6 +1063,7 @@ export class OverviewDialog implements AfterViewInit {
     private scoreboardService: ScoreboardService,
     public dialog: MatDialog
   ) {
+    dialogRef.addPanelClass('team-dialog');
     this.world = dialogData.world;
     this.date = dialogData.date;
     this.hourRaw = dialogData.hour;
@@ -1099,6 +1099,18 @@ export class OverviewDialog implements AfterViewInit {
 
   toggleFilter() {
     this.filtering=!this.filtering;
+  }
+
+  seriesSum(player) {
+    return (player.series || []).reduce((sum, item) => sum + item.value, 0);
+  }
+
+  seriesMax(players) {
+    return Math.max(1, ...(players || []).map((player) => this.seriesSum(player)));
+  }
+
+  toggledCount(alliances) {
+    return (alliances || []).filter((alliance) => alliance.toggle).length;
   }
 
   onNoClick(): void {

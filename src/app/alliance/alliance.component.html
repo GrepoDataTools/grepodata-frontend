@@ -332,7 +332,7 @@
       </ul>
     </section>
 
-    <div class="grid items-stretch gap-6 max-sm:gap-4 min-[1360px]:grid-cols-[minmax(0,1.3fr)_minmax(700px,1fr)]">
+    <div class="grid items-stretch gap-6 max-sm:gap-4 min-[1360px]:grid-cols-[minmax(0,1.3fr)_minmax(min-content,1fr)]">
       <section aria-labelledby="members-title" class="relative min-w-0 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
         <mat-progress-bar *ngIf="loadingMembers" mode="indeterminate" class="!absolute inset-x-0 top-0 z-10 !h-0.5"></mat-progress-bar>
         <div class="flex min-h-[61px] items-center justify-between gap-4 border-0 border-b border-solid border-slate-200 px-5 py-3.5 max-sm:px-4">
@@ -458,13 +458,9 @@
         </ng-container>
       </section>
 
-    <mat-card class="dense-card" fxFlex="100" fxFlex.gt-md="40">
-      <mat-card-content>
-
-          <app-conquest [embedded]="true" [params]="{type: 'alliance', world: world, id: id}"></app-conquest>
-
-      </mat-card-content>
-    </mat-card>
+      <section class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+        <app-conquest [embedded]="true" [params]="{type: 'alliance', world: world, id: id}"></app-conquest>
+      </section>
 
     </div>
 

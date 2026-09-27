@@ -1,52 +1,51 @@
-<div style="min-height: calc(100vh - 160px);">
+<div class="min-h-[calc(100vh-160px)]">
+  <div [ngClass]="embedded ? '' : 'm-[22px] space-y-6 max-[1000px]:m-3'">
 
-	<mat-card class="index-card index-intel-card">
-		<div class="card-header bg-gd-1 text-center text-white" style="margin-bottom: 0;" [ngClass]="{ 'embedded-intel': embedded }">
-
-      <h2 style="cursor: pointer; margin: 0;" *ngIf="!embedded">
-        <span class="hidden-xs hidden-sm hidden-md">Showing your combined intel for:&nbsp;</span>
-        <span class="hidden-xs hidden-sm hidden-lg">Combined intel for:&nbsp;</span>
-	      <div class="name-circle" (click)="copyBB()">
-		      <img style="height: 25px; margin-top: -5px;" src="../../assets/images/town_ico.png"/>&nbsp;
-		      <span class="gd-brown">{{townName}}</span>
-	      </div>
-	      &nbsp;<button name="open_bb" class="btn btn-secondary" (click)="copyBB()" style="vertical-align: text-top;">
-	        <i class="fa fa-clipboard"></i>&nbsp;<span *ngIf="!copied">Copy BB</span><span *ngIf="copied">Copied!&nbsp;</span>
+  <section class="bg-white" [ngClass]="embedded ? 'border-0 border-b border-solid border-slate-200' : 'overflow-hidden rounded-xl shadow-sm ring-1 ring-slate-900/[.08]'">
+    <div class="flex flex-col px-6 pt-5 max-sm:px-4" [ngClass]="(showTabs() ? 'pb-0 ' : 'pb-5 ') + (embedded ? 'gap-2 pr-14' : 'gap-3.5')">
+      <app-indexer-breadcrumbs *ngIf="!embedded" class="block" [data]="breadcrumb_data"></app-indexer-breadcrumbs>
+      <div class="flex items-center gap-4 max-sm:gap-3">
+        <span class="flex flex-none items-center justify-center bg-navy-800 text-brand-500" [ngClass]="embedded ? 'size-10 rounded-lg' : 'size-12 rounded-[10px] max-sm:size-10'">
+          <svg appIcon="town_ico" variant="game" class="size-6"></svg>
+        </span>
+        <div class="min-w-0 flex-1">
+          <h1 (click)="copyBB()" title="Copy BB code" class="my-0 cursor-pointer truncate font-bold tracking-tight text-slate-900 hover:text-brand-800" [ngClass]="embedded ? 'text-xl' : 'text-2xl max-sm:text-xl'">{{townName}}</h1>
+          <p *ngIf="!embedded" class="mb-0 mt-0.5 text-sm text-slate-500">Your combined intel from all your teams<span *ngIf="allCities.length > 0"> · {{allCities.length}} reports</span></p>
+          <app-indexer-breadcrumbs *ngIf="embedded" class="mt-0.5 block" [data]="breadcrumb_data"></app-indexer-breadcrumbs>
+        </div>
+        <button type="button" name="open_bb" (click)="copyBB()" [title]="'Copy [town]' + id + '[/town] to the clipboard'" class="inline-flex flex-none items-center gap-1.5 rounded-md border-0 font-semibold shadow-sm ring-1 ring-inset focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="(embedded ? 'px-2.5 py-1.5 text-xs ' : 'px-3 py-2 text-sm ') + (copied ? 'bg-emerald-50 text-emerald-700 ring-emerald-200' : 'bg-white text-slate-900 ring-slate-300 hover:bg-slate-50')">
+          <svg [appIcon]="copied ? 'check' : 'clipboard-document'" class="flex-none" [ngClass]="(embedded ? 'size-4 ' : 'size-[18px] ') + (copied ? 'text-emerald-600' : 'text-slate-400')"></svg>
+          <span *ngIf="!copied">Copy BB</span><span *ngIf="copied">Copied!</span>
         </button>
-      </h2>
-      <br *ngIf="!embedded" />
-      <app-indexer-breadcrumbs class="mb-5 block" [data]="breadcrumb_data"></app-indexer-breadcrumbs>
-
-    </div>
-    <mat-card-content class="decorated-card-content" style="padding: 0 !important;">
-
-      <div *ngIf="err != ''" class="alert alert-danger text-center">
-        {{err}}
       </div>
-      <div *ngIf="err == ''">
+    </div>
+    <div *ngIf="showTabs()" role="tablist" class="mt-2.5 flex gap-6 px-6 max-sm:gap-4 max-sm:px-4">
+      <button type="button" role="tab" [attr.aria-selected]="activeTab === 0" (click)="activeTab = 0" class="-mb-px inline-flex items-center gap-2 whitespace-nowrap border-0 border-b-2 border-solid bg-transparent px-1 py-3 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="activeTab === 0 ? 'border-brand-700 font-semibold text-brand-700' : 'border-transparent font-medium text-slate-500 hover:border-slate-300 hover:text-slate-900'">
+        <svg appIcon="building-library" class="size-[18px] flex-none" [ngClass]="activeTab === 0 ? 'text-brand-700' : 'text-slate-400'"></svg>
+        <span class="max-[991px]:hidden">Town intelligence</span><span class="min-[992px]:hidden">Units</span>
+      </button>
+      <button type="button" role="tab" [attr.aria-selected]="activeTab === 1" (click)="activeTab = 1" class="-mb-px inline-flex items-center gap-2 whitespace-nowrap border-0 border-b-2 border-solid bg-transparent px-1 py-3 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="activeTab === 1 ? 'border-brand-700 font-semibold text-brand-700' : 'border-transparent font-medium text-slate-500 hover:border-slate-300 hover:text-slate-900'">
+        <svg appIcon="chat-bubble-bottom-center-text" class="size-[18px] flex-none" [ngClass]="activeTab === 1 ? 'text-brand-700' : 'text-slate-400'"></svg>
+        Notes
+        <span class="rounded-full px-[7px] text-xs font-semibold leading-[18px] tabular-nums" [ngClass]="activeTab === 1 ? 'bg-brand-50 text-brand-700' : 'bg-slate-100 text-slate-600'">{{notes.length}}</span>
+      </button>
+      <ng-container *ngIf="!embedded">
+        <button type="button" role="tab" [attr.aria-selected]="activeTab === 2" (click)="activeTab = 2" class="-mb-px inline-flex items-center gap-2 whitespace-nowrap border-0 border-b-2 border-solid bg-transparent px-1 py-3 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="activeTab === 2 ? 'border-brand-700 font-semibold text-brand-700' : 'border-transparent font-medium text-slate-500 hover:border-slate-300 hover:text-slate-900'">
+          <svg appIcon="flag" class="size-[18px] flex-none" [ngClass]="activeTab === 2 ? 'text-brand-700' : 'text-slate-400'"></svg>
+          Conquests
+        </button>
+      </ng-container>
+    </div>
+  </section>
 
-	      <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+  <mat-progress-bar *ngIf="err == '' && loading" mode="indeterminate"></mat-progress-bar>
 
-        <div *ngIf="!noIntel && !loading">
-          <div>
+  <div *ngIf="err != ''" class="alert alert-danger text-center">
+    {{err}}
+  </div>
 
-            <div>
-              <div>
-
-                <div *ngIf="embedded" class="embedded-bb-copy">
-                  &nbsp;<button name="open_bb" class="btn btn-secondary" (click)="copyBB()" style="vertical-align: text-top;">
-                    <i class="fa fa-clipboard"></i>&nbsp;<span *ngIf="!copied">Copy BB</span><span *ngIf="copied">Copied!&nbsp;</span>
-                  </button>
-                </div>
-
-	              <div class="container-fluid" [ngClass]="{ 'embedded-container': embedded }">
-		              <div class="row">
-			              <mat-tab-group mat-stretch-tabs>
-				              <mat-tab class="history-chart" style="padding: 20px 0; overflow: hidden !important;">
-					              <ng-template mat-tab-label>
-						              <mat-icon style="opacity: 1; vertical-align: bottom;">account_balance</mat-icon>&nbsp;<span class="hidden-xs hidden-sm">Town intelligence</span><span class="hidden-lg hidden-md">Units</span>
-					              </ng-template>
-
+  <ng-container *ngIf="showTabs()">
+    <div role="tabpanel" [hidden]="activeTab !== 0" [ngClass]="{ 'embedded-container': embedded }">
 					              <div *ngIf="build.length > 0">
 						              <h3 class="gd-secondary" *ngIf="!embedded">
 							              <span class='world-title'>Latest building intelligence</span>
@@ -331,16 +330,9 @@
 							              </div>
 						              </div>
 					              </div>
+    </div>
 
-
-				              </mat-tab>
-
-
-				              <mat-tab class="history-chart" style="padding: 20px 0; overflow: hidden !important;">
-					              <ng-template mat-tab-label>
-						              <mat-icon style="opacity: 1; vertical-align: bottom;">speaker_notes</mat-icon>&nbsp;Notes &nbsp;
-						              <div class="note-count">{{notes.length}}</div>
-					              </ng-template>
+    <div role="tabpanel" [hidden]="activeTab !== 1">
 					              <br/>
 					              <div>
 						              <h3 style='font-weight: 300; color: #304357;'>
@@ -390,40 +382,24 @@
 						              </div>
 
 					              </div>
-				              </mat-tab>
+    </div>
 
+    <div *ngIf="!embedded" role="tabpanel" [hidden]="activeTab !== 2">
+      <app-conquest [embedded]="true" [params]="{type: 'town', world: world, id: id}"></app-conquest>
+    </div>
+  </ng-container>
 
-				              <mat-tab class="history-chart" style="padding: 20px 0; overflow: hidden !important;" *ngIf="!embedded">
-					              <ng-template mat-tab-label>
-						              <mat-icon style="opacity: 1; margin-top: -8px; font-weight: 900;">⚔</mat-icon>&nbsp;Conquests
-					              </ng-template>
-
-					              <app-conquest [embedded]="true" [params]="{type: 'town', world: world, id: id}"></app-conquest>
-
-				              </mat-tab>
-			              </mat-tab-group>
-		              </div>
-	              </div>
-
-              </div>
-            </div>
-          </div>
+  <div *ngIf="err == '' && noIntel && !loading">
+    <div class="container">
+      <div class="row">
+        <br/>
+        <br/>
+        <div class="alert alert-danger text-center">
+          <h3>No intel available for town <strong>{{townName}}</strong></h3>
         </div>
-        <div *ngIf="noIntel && !loading">
-          <div class="container">
-            <div class="row">
-              <br/>
-              <br/>
-              <div class="alert alert-danger text-center">
-                <h3>No intel available for town <strong>{{townName}}</strong></h3>
-              </div>
-            </div>
-          </div>
-        </div>
-
       </div>
+    </div>
+  </div>
 
-    </mat-card-content>
-  </mat-card>
-
+  </div>
 </div>

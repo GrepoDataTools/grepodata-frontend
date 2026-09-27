@@ -51,6 +51,7 @@ export class IndexTownComponent implements AfterViewInit, OnDestroy, OnInit {
   hasConquest = false;
   hasSharingDetails = false;
   hasOldIntel = false;
+  activeTab = 0;
 
   routeParams: any;
 
@@ -123,6 +124,10 @@ export class IndexTownComponent implements AfterViewInit, OnDestroy, OnInit {
           );
       });
     }
+  }
+
+  showTabs(): boolean {
+    return this.err == '' && !this.noIntel && !this.loading;
   }
 
   softNotification(message, title = '', lifetime=5000) {

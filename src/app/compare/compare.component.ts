@@ -10,7 +10,6 @@ import {GoogleAnalyticsEventsService} from "../services/google-analytics-events.
 @Component({
   selector: 'app-compare',
   templateUrl: './compare.component.html',
-  styleUrls: ['./compare.component.scss'],
   providers: [AllianceService, PlayerService, WorldService]
 })
 export class CompareComponent implements OnInit {

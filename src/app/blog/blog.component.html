@@ -1,243 +1,141 @@
-<div style="width: 100%; min-width: 100%; background: #fff">
-
-  <div class="container-fluid">
-    <div class="row">
-      <div class="hidden-xs hidden-sm hidden-md col-lg-3 text-left">
-        <div class="affix contents">
-          <h4 (click)="scroll(Introduction)">Introduction</h4>
-          <h4 (click)="scroll(Overview)">Overview</h4>
-          <h4 (click)="scroll(Clients)">Client Services</h4>
-            <h5 (click)="scroll(Frontend)">Frontend</h5>
-            <h5 (click)="scroll(Userscript)">Userscript</h5>
-            <h5 (click)="scroll(Websocket)">WebSocket</h5>
-            <h5 (click)="scroll(Discord)">Discord Bot</h5>
-            <h5 (click)="scroll(api)">Indexer API</h5>
-          <h4 (click)="scroll(Data)">Data Processing</h4>
-            <h5 (click)="scroll(GameData)">Game Data</h5>
-            <h5 (click)="scroll(InternalData)">Internal Data</h5>
-          <h4 (click)="scroll(Databases)">Databases</h4>
-            <h5 (click)="scroll(MySQL)">MySQL</h5>
-            <h5 (click)="scroll(Elasticsearch)">Elasticsearch</h5>
-            <h5 (click)="scroll(Redis)">Redis</h5>
-        </div>
+<div class="mx-auto grid max-w-[1148px] items-start gap-14 px-6 pb-16 pt-6 text-left font-normal text-slate-900 min-[1200px]:grid-cols-[232px_minmax(0,760px)] max-[1199px]:max-w-[808px] max-sm:px-4 max-sm:pb-10 max-sm:pt-4">
+  <aside class="sticky top-[88px] max-[1199px]:[display:none]">
+    <nav aria-label="Contents" class="rounded-xl bg-white px-3 py-4 shadow-sm ring-1 ring-slate-900/[.08]">
+      <p class="mb-2 mt-0 px-2.5 text-xs font-semibold uppercase tracking-wider text-slate-400">Contents</p>
+      <ul class="m-0 list-none p-0">
+          <li class="m-0"><button type="button" (click)="scroll(Introduction)" class="block w-full rounded-md border-0 bg-transparent px-2.5 py-1.5 text-left text-sm font-medium leading-5 text-slate-900 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Introduction</button></li>
+          <li class="m-0"><button type="button" (click)="scroll(Overview)" class="block w-full rounded-md border-0 bg-transparent px-2.5 py-1.5 text-left text-sm font-medium leading-5 text-slate-900 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Overview</button></li>
+          <li class="m-0"><button type="button" (click)="scroll(Clients)" class="block w-full rounded-md border-0 bg-transparent px-2.5 py-1.5 text-left text-sm font-medium leading-5 text-slate-900 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Client services</button>
+            <ul class="mb-1.5 ml-2.5 mt-0.5 list-none border-0 border-l border-solid border-slate-200 py-0 pl-3 pr-0">
+              <li class="m-0"><button type="button" (click)="scroll(Frontend)" class="block w-full rounded-md border-0 bg-transparent px-2.5 py-1 text-left text-[13px] leading-[18px] text-slate-600 hover:bg-slate-50 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Frontend</button></li>
+              <li class="m-0"><button type="button" (click)="scroll(Userscript)" class="block w-full rounded-md border-0 bg-transparent px-2.5 py-1 text-left text-[13px] leading-[18px] text-slate-600 hover:bg-slate-50 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Userscript</button></li>
+              <li class="m-0"><button type="button" (click)="scroll(Websocket)" class="block w-full rounded-md border-0 bg-transparent px-2.5 py-1 text-left text-[13px] leading-[18px] text-slate-600 hover:bg-slate-50 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">WebSocket</button></li>
+              <li class="m-0"><button type="button" (click)="scroll(Discord)" class="block w-full rounded-md border-0 bg-transparent px-2.5 py-1 text-left text-[13px] leading-[18px] text-slate-600 hover:bg-slate-50 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Discord bot</button></li>
+              <li class="m-0"><button type="button" (click)="scroll(api)" class="block w-full rounded-md border-0 bg-transparent px-2.5 py-1 text-left text-[13px] leading-[18px] text-slate-600 hover:bg-slate-50 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Indexer API</button></li>
+            </ul>
+          </li>
+          <li class="m-0"><button type="button" (click)="scroll(Data)" class="block w-full rounded-md border-0 bg-transparent px-2.5 py-1.5 text-left text-sm font-medium leading-5 text-slate-900 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Data processing</button>
+            <ul class="mb-1.5 ml-2.5 mt-0.5 list-none border-0 border-l border-solid border-slate-200 py-0 pl-3 pr-0">
+              <li class="m-0"><button type="button" (click)="scroll(GameData)" class="block w-full rounded-md border-0 bg-transparent px-2.5 py-1 text-left text-[13px] leading-[18px] text-slate-600 hover:bg-slate-50 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Game data</button></li>
+              <li class="m-0"><button type="button" (click)="scroll(InternalData)" class="block w-full rounded-md border-0 bg-transparent px-2.5 py-1 text-left text-[13px] leading-[18px] text-slate-600 hover:bg-slate-50 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Internal data</button></li>
+            </ul>
+          </li>
+          <li class="m-0"><button type="button" (click)="scroll(Databases)" class="block w-full rounded-md border-0 bg-transparent px-2.5 py-1.5 text-left text-sm font-medium leading-5 text-slate-900 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Databases</button>
+            <ul class="mb-1.5 ml-2.5 mt-0.5 list-none border-0 border-l border-solid border-slate-200 py-0 pl-3 pr-0">
+              <li class="m-0"><button type="button" (click)="scroll(MySQL)" class="block w-full rounded-md border-0 bg-transparent px-2.5 py-1 text-left text-[13px] leading-[18px] text-slate-600 hover:bg-slate-50 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">MySQL</button></li>
+              <li class="m-0"><button type="button" (click)="scroll(Elasticsearch)" class="block w-full rounded-md border-0 bg-transparent px-2.5 py-1 text-left text-[13px] leading-[18px] text-slate-600 hover:bg-slate-50 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Elasticsearch</button></li>
+              <li class="m-0"><button type="button" (click)="scroll(Redis)" class="block w-full rounded-md border-0 bg-transparent px-2.5 py-1 text-left text-[13px] leading-[18px] text-slate-600 hover:bg-slate-50 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Redis</button></li>
+            </ul>
+          </li>
+      </ul>
+    </nav>
+  </aside>
+  <article class="flex min-w-0 flex-col gap-4">
+      <header class="flex flex-col gap-2.5 border-0 border-b border-solid border-slate-200 pb-6">
+        <h1 class="m-0 text-4xl font-extrabold leading-[44px] tracking-tight text-slate-900 max-sm:text-[28px] max-sm:leading-9">GrepoData architecture</h1>
+        <p class="m-0 text-[15px] leading-6 text-slate-500">By <span class="font-semibold text-brand-700">Camiel Kerkhofs</span></p>
+      </header>
+      <h2 #Introduction class="mb-0 mt-6 text-2xl font-bold tracking-[-0.015em] text-slate-900">Introduction</h2>
+      <p class="m-0 text-base leading-7 text-slate-700">After we released the new indexer version, we received many questions about how our website works, with a particular focus on authentication and privacy. In the spirit of transparency and to address these questions, we wrote this blog to explain the architectural decisions guiding our platform. Currently, our stack operates on a single virtual machine with only 4 vCPUs and 8 GB RAM. We implemented many optimizations to be able to handle the computational demands of our dynamic user base exceeding 20,000 unique users monthly.</p>
+      <hr class="mx-0 mb-0 mt-2 border-0 border-t border-solid border-slate-200">
+      <h2 #Overview class="mb-0 mt-6 text-2xl font-bold tracking-[-0.015em] text-slate-900">Architecture overview</h2>
+      <p class="m-0 text-base leading-7 text-slate-700">Below is an overview of the complete GrepoData architecture. We serve 4 client services. The in-game userscript and the Angular frontend both communicate with our PHP REST API. Both our WebSocket server and the Discord bot require a dedicated backend service. We use a MySQL database for our relational data, an Elasticsearch node to enable our search functionality and a Redis instance as a cache and pub/sub communication backbone.</p>
+      <figure class="mx-0 my-1 rounded-xl bg-white p-4 ring-1 ring-inset ring-slate-200 max-sm:p-2"><img src="assets/images/architecture.png" alt="GrepoData architecture overview" class="mx-auto block h-auto max-w-full rounded"></figure>
+      <h2 #Clients class="mb-0 mt-6 text-2xl font-bold tracking-[-0.015em] text-slate-900">Client services and authentication</h2>
+      <hr class="mx-0 mb-0 mt-2 border-0 border-t border-solid border-slate-200">
+      <h3 #Frontend class="mb-0 mt-3 flex flex-wrap items-center gap-2 text-[19px] font-semibold leading-7 text-slate-900">Angular frontend<a href="https://github.com/GrepoDataTools/grepodata-frontend" target="_blank" class="ml-1 inline-flex items-center gap-1.5 whitespace-nowrap rounded-md bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 no-underline shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 hover:text-slate-900 hover:no-underline focus:text-slate-900 focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="code-bracket" class="size-3.5 flex-none text-slate-400"></svg>View source<svg appIcon="arrow-top-right-on-square" class="size-3.5 flex-none text-slate-400"></svg></a></h3>
+      <p class="m-0 text-base leading-7 text-slate-700">The frontend being served at https://grepodata.com is an Angular 11 application. Angular provides us with a modular architecture, two-way data binding, dependency injection, improved performance, and cross-platform development capabilities. There are still some big items that we would like to add to our Angular app such as internationalisation and lazy loading to improve the speed of our application but unfortunately that would require a rewrite of a large part of the frontend code.</p>
+      <h4 #AuthFront class="mb-0 mt-1 text-base font-semibold leading-6 text-slate-900">Frontend authentication</h4>
+      <p class="m-0 text-base leading-7 text-slate-700">The GrepoData indexer tool is protected by a user sign in. Anybody is free to create an account. We use JSON Web Tokens (JWT) for authentication. JWT is an open standard (RFC 7519) that defines a compact and self-contained way for securely transmitting information between parties as a JSON object. This information can be verified and trusted because it is digitally signed. Our JWTs are signed by the GrepoData backend using a secret. All sensitive user data such as the password is stored using industry best practices. We never store such data as plain text.</p>
+      <hr class="mx-0 mb-0 mt-2 border-0 border-t border-solid border-slate-200">
+      <h3 #Userscript class="mb-0 mt-3 flex flex-wrap items-center gap-2 text-[19px] font-semibold leading-7 text-slate-900">In-game userscript<a href="https://github.com/GrepoDataTools/grepodata-backend/tree/master/Software/Application/Indexer" target="_blank" class="ml-1 inline-flex items-center gap-1.5 whitespace-nowrap rounded-md bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 no-underline shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 hover:text-slate-900 hover:no-underline focus:text-slate-900 focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="code-bracket" class="size-3.5 flex-none text-slate-400"></svg>View source<svg appIcon="arrow-top-right-on-square" class="size-3.5 flex-none text-slate-400"></svg></a></h3>
+      <p class="m-0 text-base leading-7 text-slate-700">The userscript itself is only used as an injection trigger. Whenever the user loads the game, the userscript will be triggered due to the matching url (<code class="rounded bg-slate-100 px-[5px] py-px font-mono text-[13px] leading-[18px] text-slate-800">*.grepolis.com</code>). The only task of the userscript is then to inject a .js and .css file that contain the code to run the in-game functionality of our City Indexer tool. The injected .js script enables the following functions:</p>
+      <ul class="m-0 flex flex-col gap-2 pl-[22px] text-base leading-7 text-slate-700">
+        <li class="pl-1"><strong class="font-semibold text-slate-900">Authentication:</strong> Get a JWT token to authenticate all subsequent requests.</li>
+        <li class="pl-1"><strong class="font-semibold text-slate-900">Indexing reports:</strong> Users can click on 'Index +' to submit the entire report HTML to our backend via a POST request.</li>
+        <li class="pl-1"><strong class="font-semibold text-slate-900">Browsing intel:</strong> Users can browse town intel and notes for each town by doing a GET request to our backend.</li>
+        <li class="pl-1"><strong class="font-semibold text-slate-900">Adding notes:</strong> Notes can be added via a POST request to the backend.</li>
+        <li class="pl-1"><strong class="font-semibold text-slate-900">Forum reactions:</strong> Users can react to forum posts and see the reactions of teammates.</li>
+        <li class="pl-1"><strong class="font-semibold text-slate-900">Sharing commands:</strong> Users can share their command overview and attack planner with their teammates.</li>
+        <li class="pl-1"><strong class="font-semibold text-slate-900">Push notifications:</strong> Users are notified when their teammates share commands.</li>
+      </ul>
+      <h4 #Authenticate class="mb-0 mt-1 text-base font-semibold leading-6 text-slate-900">Userscript authentication flow</h4>
+      <p class="m-0 text-base leading-7 text-slate-700">Once the userscript is started, it attempts to get a JWT access token from our backend using the refresh token in local storage. If we are unable to get a valid access token, the authentication flow is triggered by calling <a href="https://github.com/GrepoDataTools/grepodata-backend/blob/651e00fd3efdcfb5e178f203de21a7c0e49dad58/Software/Application/Indexer/indexer.js#L1000" target="_blank" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline focus:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><code class="rounded bg-slate-100 px-[5px] py-px font-mono text-[13px] leading-[18px] text-slate-800">showLoginPopup()</code></a>:</p>
+      <ul class="m-0 flex flex-col gap-2 pl-[22px] text-base leading-7 text-slate-700">
+        <li class="pl-1"><strong class="font-semibold text-slate-900">(1)</strong> First we get a <i>script_token</i> from our backend. This token is linked to the current client.</li>
+        <li class="pl-1"><strong class="font-semibold text-slate-900">(2)</strong> The login popup is displayed, showing a link with the <i>script_token</i> in the payload. The user clicks on this link and the frontend opens in a new tab.</li>
+        <li class="pl-1"><strong class="font-semibold text-slate-900">(3)</strong> Once the link has been clicked by the user, we start calling checkScriptToken() at a 5 second interval.</li>
+        <li class="pl-1"><strong class="font-semibold text-slate-900">(4)</strong> Meanwhile, the user has been redirected to our frontend. Here we check if the user is already logged in to get an <i>access_token</i>.</li>
+        <li class="pl-1"><strong class="font-semibold text-slate-900">(5)</strong> If the user is not logged in, we show a login screen and get an <i>access_token</i> by calling our backend with the given credentials.</li>
+        <li class="pl-1"><strong class="font-semibold text-slate-900">(6)</strong> Now that we have both an <i>access_token</i> and a <i>script_token</i>, we POST them to the backend. This lets the backend know that the <i>script_token</i> has been authenticated by this specific user (identified by the <i>access_token</i>).</li>
+        <li class="pl-1"><strong class="font-semibold text-slate-900">(7)</strong> checkScriptToken() sends the <i>script_token</i> to the backend to check if it has already been verified.</li>
+        <li class="pl-1"><strong class="font-semibold text-slate-900">(8)</strong> The backend returns an <i>access_token</i> and a <i>refresh_token</i> for the user that authenticated the <i>script_token</i> in step 6. These JWT tokens are used to authenticate all subsequent requests.</li>
+      </ul>
+      <figure class="mx-0 my-1 rounded-xl bg-white p-4 ring-1 ring-inset ring-slate-200 max-sm:p-2"><img src="assets/images/architecture_auth.png" alt="Userscript authentication flow" class="mx-auto block h-auto max-w-full rounded"></figure>
+      <figure class="mx-0 my-1 rounded-xl bg-white p-4 ring-1 ring-inset ring-slate-200 max-sm:p-2"><img src="assets/images/link_script.png" alt="Linking the userscript to your account" class="mx-auto block h-auto max-w-full rounded"></figure>
+      <hr class="mx-0 mb-0 mt-2 border-0 border-t border-solid border-slate-200">
+      <h3 #Websocket class="mb-0 mt-3 flex flex-wrap items-center gap-2 text-[19px] font-semibold leading-7 text-slate-900">WebSocket<a href="https://github.com/GrepoDataTools/grepodata-websocket" target="_blank" class="ml-1 inline-flex items-center gap-1.5 whitespace-nowrap rounded-md bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 no-underline shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 hover:text-slate-900 hover:no-underline focus:text-slate-900 focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="code-bracket" class="size-3.5 flex-none text-slate-400"></svg>View source<svg appIcon="arrow-top-right-on-square" class="size-3.5 flex-none text-slate-400"></svg></a></h3>
+      <p class="m-0 text-base leading-7 text-slate-700">The GrepoData WSS service allows us to communicate in real-time with our connected clients. Under normal conditions, our WSS service has between 1000 and 2000 concurrent connections. The connection with the WSS server is managed by the GrepoData in-game userscript. When a message is published via the Redis backbone, the WSS server will push the message to the respective clients.</p>
+      <h4 #AuthWSS class="mb-0 mt-1 text-base font-semibold leading-6 text-slate-900">WebSocket authentication flow</h4>
+      <p class="m-0 text-base leading-7 text-slate-700">Each new client connection must first be authenticated before we can subscribe the connection to the correct user/team topics. The authentication flow is as follows:</p>
+      <ul class="m-0 flex flex-col gap-2 pl-[22px] text-base leading-7 text-slate-700">
+        <li class="pl-1"><strong class="font-semibold text-slate-900">(1)</strong> If an authenticated user opens the game, the userscript will retrieve a <i>websocket_token</i> from our backend. This token is stored in Redis and is linked to the current user and client.</li>
+        <li class="pl-1"><strong class="font-semibold text-slate-900">(2)</strong> The userscript will then attempt to connect to the WSS server available at <i>wss://grepodata.com:8443</i>.</li>
+        <li class="pl-1"><strong class="font-semibold text-slate-900">(3)</strong> Once the connection is established, the userscript will send the <i>websocket_token</i> from step 1.</li>
+        <li class="pl-1"><strong class="font-semibold text-slate-900">(4)</strong> The WSS server receives the <i>websocket_token</i> and checks its validity against the token stored in Redis in step 1.</li>
+        <li class="pl-1"><strong class="font-semibold text-slate-900">(5)</strong> If the token was valid, the connection is subscribed to the user and team topics as identified via Redis. If the token is not valid, the connection is closed.</li>
+        <li class="pl-1"><strong class="font-semibold text-slate-900">(6)</strong> We use a hashmap to store connection subscriptions. If a message is received for team X, it is propagated to all connections that subscribed to team X.</li>
+      </ul>
+      <figure class="mx-0 my-1 rounded-xl bg-white p-4 ring-1 ring-inset ring-slate-200 max-sm:p-2"><img src="assets/images/wss_auth.png" alt="WebSocket authentication flow" class="mx-auto block h-auto max-w-full rounded"></figure>
+      <hr class="mx-0 mb-0 mt-2 border-0 border-t border-solid border-slate-200">
+      <h3 #Discord class="mb-0 mt-3 flex flex-wrap items-center gap-2 text-[19px] font-semibold leading-7 text-slate-900">Discord bot<a href="https://github.com/GrepoDataTools/grepodata-discord" target="_blank" class="ml-1 inline-flex items-center gap-1.5 whitespace-nowrap rounded-md bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 no-underline shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 hover:text-slate-900 hover:no-underline focus:text-slate-900 focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="code-bracket" class="size-3.5 flex-none text-slate-400"></svg>View source<svg appIcon="arrow-top-right-on-square" class="size-3.5 flex-none text-slate-400"></svg></a></h3>
+      <p class="m-0 text-base leading-7 text-slate-700">The Discord bot is a bot service that users can add to their Discord servers. We wrote the bot using the popular discord.js library. Currently our bot is serving in 3000 Discord servers with a total of over 50.000 users. This is a challenge because if your bot is in more than 2500 servers, the server side client needs to be sharded. We are currently using the discord.js <a href="https://discordjs.guide/sharding/#how-does-sharding-work" target="_blank" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline focus:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">ShardingManager</a> to run multiple shards on the same machine. A list of available commands can be found here: <a href="https://grepodata.com/discord" target="_blank" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline focus:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">grepodata.com/discord</a>. Our Discord Bot only serves public data and therefore does not require authentication.</p>
+      <hr class="mx-0 mb-0 mt-2 border-0 border-t border-solid border-slate-200">
+      <h3 #api class="mb-0 mt-3 flex flex-wrap items-center gap-2 text-[19px] font-semibold leading-7 text-slate-900">GrepoData Indexer API</h3>
+      <p class="m-0 text-base leading-7 text-slate-700">The GrepoData Indexer API provides programmatic access to intel collected by the authenticated user. We also provide authentication endpoints. Advanced users can retrieve intel for towns, players or alliances. Our authentication service ensures that users can only retrieve intel that was collected by themselves or their teammates. The API documentation is available here (account required): <a href="https://grepodata.com/profile/api" target="_blank" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline focus:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">grepodata.com/profile/api</a></p>
+      <hr class="mx-0 mb-0 mt-2 border-0 border-t border-solid border-slate-200">
+      <h2 #Data class="mb-0 mt-6 text-2xl font-bold tracking-[-0.015em] text-slate-900">Scheduled data processing</h2>
+      <p class="m-0 text-base leading-7 text-slate-700">In total, we use 20 data processing jobs written in PHP. Each job is on a custom cron schedule. We differentiate between jobs that sync game data and jobs that clean/process our internal data.</p>
+      <h3 #GameData class="mb-0 mt-3 flex flex-wrap items-center gap-2 text-[19px] font-semibold leading-7 text-slate-900">Grepolis game data</h3>
+      <p class="m-0 text-base leading-7 text-slate-700">For each game server, there are 11 files of game data to be collected. Some files are pulled every hour while others are only pulled once per day. Game data is made available as compressed csv files. Unfortunately, these files are only updated once every 1 or 2 hours, and by the time they are released they are already out of date. This means that we can never show real-time game data, but we try to get as close as possible.</p>
+      <div class="rounded-lg bg-white px-4 py-3.5 font-mono text-[13px] leading-5 text-slate-600 ring-1 ring-inset ring-slate-200">
+        <p class="mb-2 mt-0">[server].grepolis.com/data/</p>
+        <ul class="m-0 grid list-none grid-cols-3 gap-x-4 gap-y-1 p-0 max-md:grid-cols-2 max-sm:grid-cols-1">
+          <li class="m-0"><strong class="font-semibold text-slate-900">players.txt.gz</strong></li>
+          <li class="m-0"><strong class="font-semibold text-slate-900">alliances.txt.gz</strong></li>
+          <li class="m-0"><strong class="font-semibold text-slate-900">towns.txt.gz</strong></li>
+          <li class="m-0"><strong class="font-semibold text-slate-900">islands.txt.gz</strong></li>
+          <li class="m-0"><strong class="font-semibold text-slate-900">player_kills_all.txt.gz</strong></li>
+          <li class="m-0"><strong class="font-semibold text-slate-900">player_kills_att.txt.gz</strong></li>
+          <li class="m-0"><strong class="font-semibold text-slate-900">player_kills_def.txt.gz</strong></li>
+          <li class="m-0"><strong class="font-semibold text-slate-900">alliance_kills_all.txt.gz</strong></li>
+          <li class="m-0"><strong class="font-semibold text-slate-900">alliance_kills_att.txt.gz</strong></li>
+          <li class="m-0"><strong class="font-semibold text-slate-900">alliance_kills_def.txt.gz</strong></li>
+          <li class="m-0"><strong class="font-semibold text-slate-900">conquers.txt.gz</strong></li>
+        </ul>
       </div>
-      <div class="col-md-12 col-lg-8 text-center">
-        <br/>
-        <h1>GrepoData Architecture</h1><br/>
-        <h6 class="gd-primary">By Camiel Kerkhofs</h6>
-
-        <h4 #Introduction style="text-align: left;">Introduction</h4>
-        <h5 align="justify">After we released the new indexer version, we received many questions about how our website works, with a particular focus on authentication and privacy.
-          In the spirit of transparency and to address these questions, we wrote this blog to explain the architectural decisions guiding our platform.
-          Currently, our stack operates on a single virtual machine with only 4 vCPUs and 8 GB RAM. We implemented many optimizations to be able to handle the computational demands of our dynamic user base exceeding 20,000 unique users monthly.
-        </h5>
-
-        <br/>
-        <hr>
-        <h4 #Overview style="text-align: left">Architecture Overview</h4>
-        <h5 align="justify">
-          Below is an overview of the complete GrepoData architecture. We serve 4 client services. The in-game userscript and the Angular frontend both communicate with our PHP REST API.
-          Both our WebSocket server and the Discord bot require a dedicated backend service.
-          We use a MySQL database for our relational data, an Elasticsearch node to enable our search functionality and a Redis instance as a cache and pub/sub communication backbone.
-        </h5>
-
-        <div class="">
-          <img style="max-width: 100%; margin: auto;" src="assets/images/architecture.png">
-        </div>
-
-        <br/>
-        <br/>
-        <h4 #Clients style="text-align: left">Client Services & Authentication</h4>
-        <h5 align="justify">
-
-        </h5>
-
-        <hr>
-        <h5 #Frontend class="subtitle" style="text-align: left">Angular Frontend <a class="source-link" href="https://github.com/GrepoDataTools/grepodata-frontend" target="_blank">(View Source)</a></h5>
-        <h5 align="justify">
-          The frontend being served at https://grepodata.com is an Angular 11 application. Angular provides us with a modular architecture, two-way data binding, dependency injection, improved performance, and cross-platform development capabilities.
-          There are still some big items that we would like to add to our Angular app such as internationalisation and lazy loading to improve the speed of our application but unfortunately that would require a rewrite of a large part of the frontend code.
-        </h5>
-        <h6 #AuthFront class="subtitle" style="text-align: left">Frontend Authentication</h6>
-        <h5 align="justify">
-          The GrepoData indexer tool is protected by a user sign in. Anybody is free to create an account. We use a JSON Web Tokens (JWT) for authentication. JWT is an open standard (RFC 7519) that defines a compact and self-contained way for securely transmitting information between parties as a JSON object. This information can be verified and trusted because it is digitally signed.
-          Our JWTs are signed by the GrepoData backend using a secret. All sensitive user data such as the password is stored using industry best practices. We never store such data as plain text.
-        </h5>
-
-        <br/>
-        <hr>
-        <h5 #Userscript class="subtitle" style="text-align: left">In-Game Userscript <a class="source-link" href="https://github.com/GrepoDataTools/grepodata-backend/tree/master/Software/Application/Indexer" target="_blank">(View Source)</a></h5>
-        <h5 align="justify">
-          The userscript itself is only used as an injection trigger. Whenever the user loads the game, the userscript will be triggered due to the matching url (*.grepolis.com). The only task of the Userscript is then to inject a .js and .css file that contain the code to run the in-game functionality of our City Indexer tool.
-          The injected .js script enables the following functions:
-          <ul>
-            <li><strong>Authentication:</strong> Get a JWT token to authenticate all subsequent requests.</li>
-            <li><strong>Indexing Reports:</strong> Users can click on 'Index +' to submit the entire report HTML to our backend via a POST request.</li>
-            <li><strong>Browsing Intel:</strong> Users can browse town intel and notes for each town by doing a GET request to our backend.</li>
-            <li><strong>Adding Notes:</strong> Notes can be added via a POST request to the backend.</li>
-            <li><strong>Forum Reactions:</strong> Users can react to forum posts and see the reactions of teammates.</li>
-            <li><strong>Sharing Commands:</strong> Users can share their command overview and attack planner with their teammates.</li>
-            <li><strong>Push Notifications:</strong> Users are notified when their teammates share commands.</li>
-          </ul>
-        </h5>
-
-        <br/>
-        <h6 #Authenticate class="subtitle" style="text-align: left">Userscript Authentication Flow</h6>
-        <h5 align="justify">
-
-          Once the userscript is started, it attempts to get a JWT access token from our backend using the refresh token in local storage. If we are unable to get a valid access token, the authentication flow is triggered by calling <a href="https://github.com/GrepoDataTools/grepodata-backend/blob/651e00fd3efdcfb5e178f203de21a7c0e49dad58/Software/Application/Indexer/indexer.js#L1000" target="_blank">showLoginPopup()</a>:
-          <ul>
-            <li><strong>(1):</strong> First we get a <i>script_token</i> from our backend. This token is linked to the current client.</li>
-            <li><strong>(2):</strong> The login popup is displayed, showing a link with the <i>script_token</i> in the payload. The user clicks on this link and the frontend opens in a new tab.</li>
-            <li><strong>(3):</strong> Once the link has been clicked by the user, we start calling checkScriptToken() at a 5 second interval. </li>
-            <li><strong>(4):</strong> Meanwhile, the user has been redirected to our frontend. Here we check if the user is already logged in to get an <i>access_token</i>. </li>
-            <li><strong>(5):</strong> If the user is not logged in, we show a login screen and get an <i>access_token</i> by calling our backend with the given credentials. </li>
-            <li><strong>(6):</strong> Now that we have both an <i>access_token</i> and a <i>script_token</i>, we POST them to the backend. This lets the backend know that the <i>script_token</i> has been authenticated by this specific user (identified by the <i>access_token</i>). </li>
-            <li><strong>(7):</strong> checkScriptToken() sends the <i>script_token</i> to the backend to check if it has already been verified. </li>
-            <li><strong>(8):</strong> The backend returns an <i>access_token</i> and a <i>refresh_token</i> for the user that authenticated the <i>script_token</i> in step 6. These JWT tokens are used to authenticate all subsequent requests. </li>
-          </ul>
-        </h5>
-
-        <div class="">
-          <img style="max-width: 100%; margin: auto;" src="assets/images/architecture_auth.png">
-        </div>
-        <div class="">
-          <img style="max-width: 100%; margin: auto;" src="assets/images/link_script.png">
-        </div>
-
-        <br/>
-        <br/>
-
-        <br/>
-        <hr>
-
-        <h5 #Websocket class="subtitle" style="text-align: left">WebSocket <a class="source-link" href="https://github.com/GrepoDataTools/grepodata-websocket" target="_blank">(View Source)</a></h5>
-        <h5 align="justify">
-          The GrepoData WSS service allows us to communicate in real-time with our connected clients.
-          Under normal conditions, our WSS service has between 1000 and 2000 concurrent connections.
-          The connection with the WSS server is managed by the GrepoData in-game userscript.
-          When a message is published via the Redis backbone, the WSS server will push the message to the respective clients.
-        </h5>
-        <h6 #AuthWSS class="subtitle" style="text-align: left">WebSocket Authentication Flow</h6>
-        <h5 align="justify">
-          Each new client connection must first be authenticated before we can subscribe the connection to the correct user/team topics.
-          The authentication flow is as follows:
-          <ul>
-            <li><strong>(1):</strong> If an authenticated user opens the game, the userscript will retrieve a <i>websocket_token</i> from our backend. This token is stored in Redis and is linked to the current user and client.</li>
-            <li><strong>(2):</strong> The userscript will then attempt to connect to the WSS server available at <i>wss://grepodata.com:8443</i>.</li>
-            <li><strong>(3):</strong> Once the connection is established, the userscript will send the <i>websocket_token</i> from step 1.</li>
-            <li><strong>(4):</strong> The WSS server receives the <i>websocket_token</i> and checks it validity against the token stored in Redis in step 1.</li>
-            <li><strong>(5):</strong> If the token was valid, the connection is subscribed to the user and team topics as identified via Redis. If the token is not valid, the connection is closed.</li>
-            <li><strong>(6):</strong> We use a hashmap to store connection subscriptions. If a message is received for team X, it is propagated to all connections that subscribed to team X</li>
-          </ul>
-        </h5>
-
-        <div class="">
-          <img style="max-width: 100%; margin: auto;" src="assets/images/wss_auth.png">
-        </div>
-
-        <br/>
-        <hr>
-        <h5 #Discord class="subtitle" style="text-align: left">Discord Bot <a class="source-link" href="https://github.com/GrepoDataTools/grepodata-discord" target="_blank">(View Source)</a></h5>
-        <h5 align="justify">
-          The Discord bot is a bot service that users can add to their Discord servers. We wrote the bot using the popular discord.js library. Currently our bot is serving in 3000 Discord servers with a total of over 50.000 users.
-          This is challenge because if your bot is in more than 2500 servers, the server side client needs to be sharded.
-          We are currently using the discord.js <a href="https://discordjs.guide/sharding/#how-does-sharding-work" target="_blank">ShardingManager</a> to run multiple shards on the same machine.
-          A list of available commands can be found here: <a href="https://grepodata.com/discord" target="_blank">grepodata.com/discord</a>.
-          Our Discord Bot only serves public data and therefore does not require authentication.
-        </h5>
-
-        <br/>
-        <hr>
-        <h5 #api class="subtitle" style="text-align: left">GrepoData Indexer API</h5>
-        <h5 align="justify">
-          The GrepoData Indexer API provides programmatic access to intel collected by the authenticated user. We also provide authentication endpoints.
-          Advanced users can retrieve intel for towns, players or alliances. Our authentication service ensures that users can only retrieve intel that was collected by themselves or their teammates.
-          <br/>The API documentation is available here (account required): <a href="https://grepodata.com/profile/api" target="_blank">grepodata.com/profile/api</a>
-        </h5>
-        <br/>
-
-        <br/>
-        <hr>
-        <h4 #Data style="text-align: left">Scheduled Data Processing</h4>
-        <h5 align="justify">
-          In total, we use 20 data processing jobs written in PHP. Each job is on a custom cron schedule. We differentiate between jobs that sync game data and jobs that clean/process our internal data.
-        </h5>
-        <br/>
-        <h5 #GameData class="subtitle" style="text-align: left">Grepolis Game Data</h5>
-        <h5 align="justify">
-          For each game server, there are 11 files of game data to be collected. Some files are pulled every hour while others are only pulled once per day.
-          Game data is made available as compressed csv files. Unfortunately, these files are only updated once every 1 or 2 hours, and by the time they are released they are already out of date. This means that we can never show real-time game data, but we try to get as close as possible.
-          <ul>
-            <li>[server].grepolis.com/data/<strong>players.txt.gz</strong></li>
-            <li>[server].grepolis.com/data/<strong>alliances.txt.gz</strong></li>
-            <li>[server].grepolis.com/data/<strong>towns.txt.gz</strong></li>
-            <li>[server].grepolis.com/data/<strong>islands.txt.gz</strong></li>
-            <li>[server].grepolis.com/data/<strong>player_kills_all.txt.gz</strong></li>
-            <li>[server].grepolis.com/data/<strong>player_kills_att.txt.gz</strong></li>
-            <li>[server].grepolis.com/data/<strong>player_kills_def.txt.gz</strong></li>
-            <li>[server].grepolis.com/data/<strong>alliance_kills_all.txt.gz</strong></li>
-            <li>[server].grepolis.com/data/<strong>alliance_kills_att.txt.gz</strong></li>
-            <li>[server].grepolis.com/data/<strong>alliance_kills_def.txt.gz</strong></li>
-            <li>[server].grepolis.com/data/<strong>conquers.txt.gz</strong></li>
-          </ul>
-        </h5>
-        <br/>
-        <h5 #InternalData class="subtitle" style="text-align: left">Internal Data</h5>
-        <h5 align="justify">
-          We also require some data processing jobs to synchronize and clean our databases or to preprocess data. To this end, we have jobs to aggregate indexer data, index data to Elasticsearch, reset daily score trackers, generate aggregated usage statistics, detect new game servers, cleanup indexer data, cleanup stopped game servers, cleanup old diffs in Elasticsearch, build world maps, enhance indexer data and cleanup remaining data.
-          Below is an overview of the CRON schedule of all of these jobs.
-        </h5>
-
-
-        <div class="">
-          <img style="max-width: 100%; margin: auto;" src="assets/images/cron.png">
-        </div>
-
-        <br/>
-        <br/>
-        <h4 #Databases style="text-align: left">Databases</h4>
-        <hr>
-        <h5 #MySQL class="subtitle" style="text-align: left">MySQL</h5>
-        <h5 align="justify">
-          MySQL is used to store most of our data. Due to the large amount of lookup queries, we make sure to add indexes wherever required. In order to limit the number of inserts, we only update/create records if their values have changed. This also allows our scheduled data processing jobs to be much more efficient. To achieve this, we simply keep a local copy of the game data in csv format. When new data is pulled, we first compare it against the previous data dump, and only persist records to the database if there has been a change.
-        </h5>
-        <br/>
-        <hr>
-        <h5 #Elasticsearch class="subtitle" style="text-align: left">Elasticsearch</h5>
-        <h5 align="justify">
-          Elasticsearch is a search engine based on Lucene. GrepoData uses Elasticsearch to index player and alliance names. This allows us to query half a million names within milliseconds. We use the fuzzy matching algorithm to return results even when the user makes a spelling mistake. The aggregation feature also comes in handy to allow the user to filter based on country and server. A custom scoring function was created to promote results that are on the same game server as the user.
-          <br/>We also use our Elasticsearch node to host the attack & defend diffs. Whenever a player gains an attack or defend point, we store this event as a 'diff'. We use the powerful aggregation features of Elasticsearch to quickly aggregate millions of diffs to render the diffs shown on our daily scoreboard.
-        </h5>
-        <br/>
-        <hr>
-        <h5 #Redis class="subtitle" style="text-align: left">Redis</h5>
-        <h5 align="justify">
-          Redis is an in-memory key-value store. We use a Redis instance to support 3 key backend functionalities:
-          <ul>
-            <li>We monitor our SQL database for heavy queries and if their functionality allows for <strong>cached responses</strong> then we will use Redis to store the results of a query for a limited time.
-              Mostly we use this approach for requests related to our city indexer where we have some larger queries that aggregate user intel. For example, we cache the alliance and player intelligence pages for 5 minutes. Changes to the underlying data are infrequent and of little consequence while these queries may sometimes take 5 to 10 seconds if the user has collected a lot of intelligence.</li>
-            <li>In addition to being used as a cache, we also use Redis to implement our <strong>rate limiter</strong>. The PHP backend tracks rate limited resources using Redis. If the rate limit is exceeded, our service can respond appropriately.</li>
-            <li>Finally, we also use Redis <strong>pub/sub</strong> topics as a backbone communication channel. This allows our PHP backend to communicate in real-time with our Ratchet WSS server.</li>
-          </ul>
-
-        </h5>
-        <br/>
-
-
-        <br/>
-        <br/>
-        <br/>
-
-        <h5 align="justify">
-          Our source code is available on GitHub: <a href="https://github.com/grepodatatools" target="_blank">github.com/grepodatatools</a>
-        </h5>
-
-        <br/>
+      <h3 #InternalData class="mb-0 mt-3 flex flex-wrap items-center gap-2 text-[19px] font-semibold leading-7 text-slate-900">Internal data</h3>
+      <p class="m-0 text-base leading-7 text-slate-700">We also require some data processing jobs to synchronize and clean our databases or to preprocess data. To this end, we have jobs to aggregate indexer data, index data to Elasticsearch, reset daily score trackers, generate aggregated usage statistics, detect new game servers, cleanup indexer data, cleanup stopped game servers, cleanup old diffs in Elasticsearch, build world maps, enhance indexer data and cleanup remaining data. Below is an overview of the CRON schedule of all of these jobs.</p>
+      <figure class="mx-0 my-1 rounded-xl bg-white p-4 ring-1 ring-inset ring-slate-200 max-sm:p-2"><img src="assets/images/cron.png" alt="CRON schedule of the data processing jobs" class="mx-auto block h-auto max-w-full rounded"></figure>
+      <h2 #Databases class="mb-0 mt-6 text-2xl font-bold tracking-[-0.015em] text-slate-900">Databases</h2>
+      <hr class="mx-0 mb-0 mt-2 border-0 border-t border-solid border-slate-200">
+      <h3 #MySQL class="mb-0 mt-3 flex flex-wrap items-center gap-2 text-[19px] font-semibold leading-7 text-slate-900">MySQL</h3>
+      <p class="m-0 text-base leading-7 text-slate-700">MySQL is used to store most of our data. Due to the large amount of lookup queries, we make sure to add indexes wherever required. In order to limit the number of inserts, we only update/create records if their values have changed. This also allows our scheduled data processing jobs to be much more efficient. To achieve this, we simply keep a local copy of the game data in csv format. When new data is pulled, we first compare it against the previous data dump, and only persist records to the database if there has been a change.</p>
+      <hr class="mx-0 mb-0 mt-2 border-0 border-t border-solid border-slate-200">
+      <h3 #Elasticsearch class="mb-0 mt-3 flex flex-wrap items-center gap-2 text-[19px] font-semibold leading-7 text-slate-900">Elasticsearch</h3>
+      <p class="m-0 text-base leading-7 text-slate-700">Elasticsearch is a search engine based on Lucene. GrepoData uses Elasticsearch to index player and alliance names. This allows us to query half a million names within milliseconds. We use the fuzzy matching algorithm to return results even when the user makes a spelling mistake. The aggregation feature also comes in handy to allow the user to filter based on country and server. A custom scoring function was created to promote results that are on the same game server as the user.</p>
+      <p class="m-0 text-base leading-7 text-slate-700">We also use our Elasticsearch node to host the attack &amp; defend diffs. Whenever a player gains an attack or defend point, we store this event as a 'diff'. We use the powerful aggregation features of Elasticsearch to quickly aggregate millions of diffs to render the diffs shown on our daily scoreboard.</p>
+      <hr class="mx-0 mb-0 mt-2 border-0 border-t border-solid border-slate-200">
+      <h3 #Redis class="mb-0 mt-3 flex flex-wrap items-center gap-2 text-[19px] font-semibold leading-7 text-slate-900">Redis</h3>
+      <p class="m-0 text-base leading-7 text-slate-700">Redis is an in-memory key-value store. We use a Redis instance to support 3 key backend functionalities:</p>
+      <ul class="m-0 flex flex-col gap-2 pl-[22px] text-base leading-7 text-slate-700">
+        <li class="pl-1">We monitor our SQL database for heavy queries and if their functionality allows for <strong class="font-semibold text-slate-900">cached responses</strong> then we will use Redis to store the results of a query for a limited time. Mostly we use this approach for requests related to our city indexer where we have some larger queries that aggregate user intel. For example, we cache the alliance and player intelligence pages for 5 minutes. Changes to the underlying data are infrequent and of little consequence while these queries may sometimes take 5 to 10 seconds if the user has collected a lot of intelligence.</li>
+        <li class="pl-1">In addition to being used as a cache, we also use Redis to implement our <strong class="font-semibold text-slate-900">rate limiter</strong>. The PHP backend tracks rate limited resources using Redis. If the rate limit is exceeded, our service can respond appropriately.</li>
+        <li class="pl-1">Finally, we also use Redis <strong class="font-semibold text-slate-900">pub/sub</strong> topics as a backbone communication channel. This allows our PHP backend to communicate in real-time with our Ratchet WSS server.</li>
+      </ul>
+      <div class="mt-4 flex items-center gap-3 rounded-xl bg-white px-5 py-4 ring-1 ring-inset ring-slate-200">
+        <svg appIcon="code-bracket" class="size-5 flex-none text-slate-400"></svg>
+        <p class="m-0 min-w-0 flex-1 text-base leading-7 text-slate-700">Our source code is available on GitHub: <a href="https://github.com/grepodatatools" target="_blank" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline focus:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">github.com/grepodatatools</a></p>
       </div>
-
-
-    </div>
-  </div>
-
+  </article>
 </div>

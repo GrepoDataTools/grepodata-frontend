@@ -1,68 +1,58 @@
-<div class="container-fluid" style="
-		position: fixed;
-    top: 20%;
-    left: 5%;
-    width: 90%;
-		padding: 0 !important;">
+<div class="mx-auto w-[552px] max-w-full px-4 pb-20 pt-12 text-left font-normal text-slate-900 max-sm:pt-8">
+	<section class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
 
-	<div class="row">
-		<div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
-
-			<mat-card style="padding: 30px;">
-				<h1 class="gd-primary">Please confirm your request</h1>
-				<h4>When you click on the button below, your account will be deleted. <strong>This can not be undone.</strong></h4>
-				<br/>
-
-				<app-alert type="success" title="Account removal complete!" *ngIf="success" [dismissible]="false">
-					<h5>Your account has been deleted.</h5>
-				</app-alert>
-
-				<div *ngIf="!success">
-					<re-captcha
-						size="invisible"
-						#captchaRef="reCaptcha"
-						siteKey="{{recaptcha_key}}"
-						(resolved)="$event && resolved($event)">
-					</re-captcha>
-				</div>
-
-				<app-alert type="error" title="Unable to remove your account" *ngIf="error" [dismissible]="false">
-					<h5>{{error}}</h5>
-				</app-alert>
-
-				<button *ngIf="!success" [disabled]="loading" class="btn btn-danger" (click)="environment.production==true?captchaRef.execute():sendRequest()">
-					<span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-					Delete my GrepoData account
-				</button>
-
-				<div *ngIf="loading">
-					<br/>
-					<mat-progress-bar mode="indeterminate"></mat-progress-bar>
-				</div>
-
-				<!--<div class="alert alert-gd-1" style="margin: 0 0 15px 0;" *ngIf="!success">-->
-
-					<!--<div>-->
-
-
-					<!--</div>-->
-
-
-				<!--</div>-->
-
-				<div style="height: 25px;" *ngIf="!success">
-					<a routerLink="/profile" class="btn btn-link" style="float: right;" ><< Back to my profile</a>
-				</div>
-
-			</mat-card>
+		<div *ngIf="success" role="status" class="flex flex-col items-center gap-4 px-7 pb-9 pt-9 text-center max-sm:px-5">
+			<span aria-hidden="true" class="flex size-12 flex-none items-center justify-center rounded-full bg-emerald-50 text-emerald-600 ring-1 ring-inset ring-emerald-100">
+				<svg appIcon="check" class="size-6"></svg>
+			</span>
+			<div>
+				<h1 class="m-0 text-xl font-semibold text-slate-900">Account removal complete!</h1>
+				<p class="mb-0 mt-1 text-sm text-slate-600">Your account has been deleted.</p>
+			</div>
 		</div>
-	</div>
 
-	<!--<div *ngIf="submitted==true && error == ''">-->
-	<!--<br/>-->
-	<!--<p>Logged in! We will redirect you now..</p>-->
-	<!--<br/>-->
-	<!--</div>-->
+		<div *ngIf="!success" class="flex flex-col gap-5 px-7 pb-6 pt-7 max-sm:px-5">
+			<div class="flex flex-col items-start gap-4">
+				<span aria-hidden="true" class="flex size-12 flex-none items-center justify-center rounded-full bg-rose-50 text-rose-600 ring-1 ring-inset ring-rose-100">
+					<svg appIcon="exclamation-triangle" class="size-6"></svg>
+				</span>
+				<div>
+					<h1 class="m-0 text-xl font-semibold text-slate-900">Please confirm your request</h1>
+					<p class="mb-0 mt-1 text-sm text-slate-600">When you click on the button below, your account will be deleted. <strong class="font-semibold text-slate-900">This can not be undone.</strong></p>
+				</div>
+			</div>
 
+			<div *ngIf="error" role="alert" class="flex gap-3 rounded-lg bg-rose-50 px-4 py-3 text-sm text-rose-700 ring-1 ring-inset ring-rose-200">
+				<svg appIcon="exclamation-circle" class="size-5 flex-none text-rose-600"></svg>
+				<div class="min-w-0">
+					<p class="m-0 font-semibold">Unable to remove your account</p>
+					<p class="mb-0 mt-0.5">{{error}}</p>
+				</div>
+			</div>
 
+			<p class="m-0 text-xs text-slate-500">This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy" target="_blank" class="text-slate-600 underline decoration-slate-300 hover:text-slate-900">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank" class="text-slate-600 underline decoration-slate-300 hover:text-slate-900">Terms of Service</a> apply.</p>
+		</div>
+
+		<div *ngIf="!success" class="flex flex-wrap items-center justify-end gap-3 border-0 border-t border-solid border-slate-200 bg-slate-50 px-7 py-4 max-sm:px-5">
+			<a routerLink="/profile" class="inline-flex items-center justify-center gap-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 no-underline shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 hover:text-slate-900 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 max-sm:w-full">
+				<svg appIcon="arrow-left" class="size-[18px] flex-none text-slate-400"></svg>
+				Back to my profile
+			</a>
+			<button *ngIf="!success" type="button" [disabled]="loading" (click)="environment.production==true?captchaRef.execute():sendRequest()" class="inline-flex items-center justify-center gap-1.5 rounded-md border-0 bg-rose-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-600 disabled:cursor-default disabled:bg-rose-600 disabled:opacity-70 max-sm:w-full">
+				<svg *ngIf="!loading" appIcon="trash" class="size-[18px] flex-none"></svg>
+				<span *ngIf="loading" class="size-4 flex-none animate-spin rounded-full border-2 border-solid border-white/35 border-t-white"></span>
+				<span *ngIf="!loading">Delete my GrepoData account</span>
+				<span *ngIf="loading">Deleting account…</span>
+			</button>
+		</div>
+
+		<div *ngIf="!success">
+			<re-captcha
+				size="invisible"
+				#captchaRef="reCaptcha"
+				siteKey="{{recaptcha_key}}"
+				(resolved)="$event && resolved($event)">
+			</re-captcha>
+		</div>
+	</section>
 </div>

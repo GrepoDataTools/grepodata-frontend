@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class CompactNumberPipe implements PipeTransform {
     transform(value: number): string {
-        if (value === null || value === undefined || isNaN(value)) {
+        if (value === null || value === undefined || !isFinite(value)) {
             return '';
         }
         const abs = Math.abs(value);

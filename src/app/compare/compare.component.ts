@@ -69,6 +69,7 @@ export class CompareComponent implements OnInit {
   data_def_gauge: any[];
   polar_chart_data: any[];
   polar_chart_data_abs: any[];
+  playStyleTotal = false;
 
   //private vars
   comparedPlayers : any = [];
@@ -168,6 +169,10 @@ export class CompareComponent implements OnInit {
 
   total(items) {
     return (items || []).reduce((sum, item) => sum + item.value, 0);
+  }
+
+  metricMax(items, index) {
+    return Math.max(1, ...(items || []).map(item => item.series[index].value).filter(value => isFinite(value)));
   }
 
   loadWorlds(doCompare) {

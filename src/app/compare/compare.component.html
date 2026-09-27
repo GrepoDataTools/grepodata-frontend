@@ -316,51 +316,46 @@
         </div>
       </ng-template>
 
+      <section *ngIf="(comparingPlayers || comparingAlliances) && !firstRun && !loadingStats" aria-label="Play style" class="rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+        <div class="flex min-h-[61px] flex-wrap items-center justify-between gap-x-4 gap-y-2 border-0 border-b border-solid border-slate-200 px-5 py-3.5 max-sm:px-4">
+          <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+            <h2 class="m-0 text-base font-semibold text-slate-900">Play style</h2>
+            <div class="inline-flex gap-0.5 rounded-lg bg-slate-100 p-[3px]">
+              <button type="button" [attr.aria-pressed]="!playStyleTotal" (click)="playStyleTotal = false" class="whitespace-nowrap rounded-md border-0 px-3 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="!playStyleTotal ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">Per town</button>
+              <button type="button" [attr.aria-pressed]="playStyleTotal" (click)="playStyleTotal = true" class="whitespace-nowrap rounded-md border-0 px-3 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="playStyleTotal ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">Total</button>
+            </div>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-4 gap-y-1.5">
+            <span *ngFor="let entity of activeList(); let idx = index" class="inline-flex min-w-0 items-center gap-1.5 whitespace-nowrap text-xs text-slate-600">
+              <span aria-hidden="true" class="size-2.5 flex-none rounded-[3px]" [style.background-color]="palette[idx % palette.length]"></span>
+              <span class="truncate">{{entity.name}}</span>
+            </span>
+          </div>
+        </div>
+        <div class="px-5 pb-5 pt-4 max-sm:px-4">
+          <p class="mb-4 mt-0 text-[13px] leading-5 text-slate-500">{{playStyleTotal ? 'Total attack, defence and town points.' : 'Average attack, defence and town points per town.'}}</p>
+          <div class="flex flex-col gap-[18px]">
+            <div *ngFor="let metric of [0, 1, 2]" class="grid grid-cols-1 gap-x-3 gap-y-2 sm:grid-cols-[170px_minmax(0,1fr)] sm:items-center">
+              <div>
+                <div class="text-sm font-medium text-slate-900">{{playStyleTotal ? ['Attacking', 'Defending', 'Town points'][metric] : ['Attack per town', 'Defence per town', 'Town points per town'][metric]}}</div>
+                <div *ngIf="!playStyleTotal" class="text-xs text-slate-500">{{['APPT', 'DPPT', 'TPPT'][metric]}}</div>
+              </div>
+              <div class="flex flex-col gap-[3px] border-0 border-l border-solid border-slate-300 py-0.5">
+                <div *ngFor="let item of inListOrder(playStyleTotal ? polar_chart_data_abs : polar_chart_data)" [title]="item.name + ': ' + (item.series[metric].value | number)" class="flex h-4 items-center gap-1.5">
+                  <span aria-hidden="true" class="block h-3 flex-none rounded-r" [style.width.%]="item.series[metric].value / metricMax(playStyleTotal ? polar_chart_data_abs : polar_chart_data, metric) * 78" [style.background-color]="colorFor(item.name)"></span>
+                  <span class="flex min-w-0 gap-1.5 whitespace-nowrap text-[11px] leading-[14px]">
+                    <span class="flex-none font-semibold tabular-nums text-slate-700">{{item.series[metric].value | compactNumber}}</span>
+                    <span *ngIf="metric == 0" class="truncate font-medium text-slate-600">{{item.name}}</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <div class="container-fluid" style="margin-left: 20px;" *ngIf="comparingPlayers || comparingAlliances">
         <div class="row">
-          <!--PIE-->
-          <div class="col-md-12 text-left" *ngIf="!firstRun && !loadingStats">
-            <div class="col-xs-12 col-sm-12 col-md-6 text-center" style="">
-              <br/>
-              <br/>
-              <h3 class="gd-primary">Play style (average per town)</h3>
-              <p>APPT = Attack Points Per Town, DPPT = Defence Points Per Town, TPPT = Town Points Per Town</p>
-              <ngx-charts-polar-chart
-                [view]="[800, 500]"
-                [scheme]="colorScheme"
-                [legend]="true"
-                [showXAxisLabel]="false"
-                [showYAxisLabel]="false"
-                [xAxis]="true"
-                [yAxis]="false"
-                [xAxisLabel]="'Play style'"
-                [yAxisLabel]="'Rank'"
-                [results]="polar_chart_data"
-                (select)="onSelect($event)">
-              </ngx-charts-polar-chart>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-6 text-center" style="">
-              <br/>
-              <br/>
-              <h3 class="gd-primary">Play style (absolute)</h3>
-              <p>Total Attack, Defence and Town points</p>
-              <ngx-charts-polar-chart
-                [view]="[800, 500]"
-                [scheme]="colorScheme"
-                [legend]="true"
-                [showXAxisLabel]="false"
-                [showYAxisLabel]="false"
-                [xAxis]="true"
-                [yAxis]="false"
-                [xAxisLabel]="'Play style'"
-                [yAxisLabel]="'Rank'"
-                [results]="polar_chart_data_abs"
-                (select)="onSelect($event)">
-              </ngx-charts-polar-chart>
-            </div>
-
-          </div>
-
           <!--POINTS-->
           <div class="col-md-12 text-left" *ngIf="!firstRun && !loadingHistory">
 

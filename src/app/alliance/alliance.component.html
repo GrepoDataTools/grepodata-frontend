@@ -123,7 +123,7 @@
     <section aria-label="Alliance details" class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
       <div #infoTabs class="scroll-mt-6"></div>
       <div class="flex justify-between gap-4 border-0 border-b border-solid border-slate-200 px-5 pt-1 max-sm:px-4">
-        <div role="tablist" aria-label="Alliance details" class="flex min-w-0 gap-6 overflow-x-auto max-sm:gap-4">
+        <div role="tablist" aria-label="Alliance details" class="flex min-w-0 gap-6 max-sm:gap-4">
           <button type="button" role="tab" [attr.aria-selected]="tabsIndex == 0" (click)="onTabClick(0)" class="-mb-px inline-flex flex-none items-center gap-2 whitespace-nowrap border-0 border-b-2 border-solid bg-transparent px-1 py-3 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tabsIndex == 0 ? 'border-brand-700 font-semibold text-brand-700' : 'border-transparent font-medium text-slate-500 hover:border-slate-300 hover:text-slate-900'">
             <svg appIcon="presentation-chart-line" class="size-[18px] flex-none max-sm:hidden" [ngClass]="tabsIndex == 0 ? 'text-brand-700' : 'text-slate-400'"></svg>
             History

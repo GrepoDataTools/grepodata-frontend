@@ -21,6 +21,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
   stats: any = '';
   loading = true;
   show_stats = true;
+  activeTab = 1;
 
   single: any[];
   view: any[] = [700, 400];

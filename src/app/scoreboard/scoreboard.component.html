@@ -472,45 +472,36 @@
 </ng-template>
 
 <ng-template #map>
-  <div class="sb-table" [ngClass]="{'loading-overlay':loadingPlayers}">
-    <div class="title txt-sm default">
-      World Map
-      <div class="info">
-        <i class="fa fa-info-circle" matTooltip="This world map shows island domination per alliance. An island is counted towards an alliance if that alliance owns the most cities on that island. This includes both islands with and without farm villages.
-        While this map can serve as an approximation of world domination, the percentages on the right are not the same as the domination end-game percentages."></i>
+  <section aria-labelledby="sb-map" class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]" [ngClass]="{'[display:none]': mobile}">
+    <div class="relative flex min-h-[56px] items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 py-2.5 pl-5 pr-3 flex-wrap">
+      <h2 id="sb-map" class="m-0 truncate text-base font-semibold text-slate-900">World map</h2>
+      <div class="flex flex-wrap items-center gap-2">
+        <button *ngIf="!animated" type="button" (click)="mapZoom($event, +1)" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="magnifying-glass-plus" variant="micro" class="size-3.5 flex-none text-slate-400"></svg>Zoom in</button>
+        <button *ngIf="!animated && currentZoom>0" type="button" (click)="mapZoom($event, -1)" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="magnifying-glass-minus" variant="micro" class="size-3.5 flex-none text-slate-400"></svg>Zoom out</button>
+        <button *ngIf="!animated" type="button" (click)="animate(true)" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="play-circle" variant="micro" class="size-3.5 flex-none text-slate-400"></svg>Animate history</button>
+        <button *ngIf="animated" type="button" (click)="animate(false)" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="pause-circle" variant="micro" class="size-3.5 flex-none text-slate-400"></svg>Stop animation</button>
+        <button type="button" matTooltip="This world map shows island domination per alliance. An island is counted towards an alliance if that alliance owns the most cities on that island. This includes both islands with and without farm villages. While this map can serve as an approximation of world domination, the percentages on the right are not the same as the domination end-game percentages." aria-label="This world map shows island domination per alliance. An island is counted towards an alliance if that alliance owns the most cities on that island. This includes both islands with and without farm villages. While this map can serve as an approximation of world domination, the percentages on the right are not the same as the domination end-game percentages." class="inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="information-circle" class="size-5"></svg></button>
       </div>
     </div>
-    <div>
-      <div class="map-container noselect">
-        <div class="map-controls">
-          <div class="static-controls">
-            <mat-chip-list style="" [multiple]="true" [selectable]="true">
-              <mat-chip style="cursor: pointer" *ngIf="!animated" class="btn-chip" (click)="mapZoom($event, +1)">Zoom in<mat-icon matChipRemove style="color: #fff; opacity: 1;">add_circle_outline</mat-icon></mat-chip>
-              <mat-chip style="cursor: pointer" *ngIf="!animated && currentZoom>0" class="btn-chip" (click)="mapZoom($event, -1)">Zoom out<mat-icon matChipRemove style="color: #fff; opacity: 1;">zoom_out_map</mat-icon></mat-chip>
-              <mat-chip style="cursor: pointer" *ngIf="!animated" class="btn-chip" (click)="animate(true)">Animate map history<mat-icon matChipRemove style="color: #fff; opacity: 1;">play_circle_outline</mat-icon></mat-chip>
-              <mat-chip style="cursor: pointer" *ngIf="animated" class="btn-chip" (click)="animate(false)">Stop animation<mat-icon matChipRemove style="color: #fff; opacity: 1;">pause_circle_outline</mat-icon></mat-chip>
-            </mat-chip-list>
-          </div>
-        </div>
-
-        <div class="nav-controls" *ngIf="currentZoom>0">
-          <div class="map-nav up" (click)="mapNav($event, 0, -1)"><mat-icon style="color: #fff; opacity: 1;">keyboard_arrow_up</mat-icon></div>
-          <div class="map-nav right" (click)="mapNav($event, +1, 0)"><mat-icon style="color: #fff; opacity: 1;">keyboard_arrow_right</mat-icon></div>
-          <div class="map-nav down" (click)="mapNav($event, 0, +1)"><mat-icon style="color: #fff; opacity: 1;">keyboard_arrow_down</mat-icon></div>
-          <div class="map-nav left" (click)="mapNav($event, -1, 0)"><mat-icon style="color: #fff; opacity: 1;">keyboard_arrow_left</mat-icon></div>
-        </div>
-
-        <div #worldMapContainer class="map-overlay">
+    <div class="p-4" [ngClass]="{'opacity-50': loadingPlayers}">
+      <div class="noselect relative mx-auto min-h-[200px] w-full max-w-[750px] overflow-hidden rounded-lg bg-[url(/assets/images/m/bg.png)]">
+        <ng-container *ngIf="currentZoom>0">
+          <button type="button" (click)="mapNav($event, 0, -1)" aria-label="Move up" class="absolute z-[99] flex items-center justify-center border-0 bg-transparent p-0 text-white hover:bg-white/30 inset-x-0 top-0 h-10"><svg appIcon="chevron-up" class="size-8 drop-shadow"></svg></button>
+          <button type="button" (click)="mapNav($event, +1, 0)" aria-label="Move right" class="absolute z-[99] flex items-center justify-center border-0 bg-transparent p-0 text-white hover:bg-white/30 inset-y-0 right-0 w-10"><svg appIcon="chevron-right" class="size-8 drop-shadow"></svg></button>
+          <button type="button" (click)="mapNav($event, 0, +1)" aria-label="Move down" class="absolute z-[99] flex items-center justify-center border-0 bg-transparent p-0 text-white hover:bg-white/30 inset-x-0 bottom-0 h-10"><svg appIcon="chevron-down" class="size-8 drop-shadow"></svg></button>
+          <button type="button" (click)="mapNav($event, -1, 0)" aria-label="Move left" class="absolute z-[99] flex items-center justify-center border-0 bg-transparent p-0 text-white hover:bg-white/30 inset-y-0 left-0 w-10"><svg appIcon="chevron-left" class="size-8 drop-shadow"></svg></button>
+        </ng-container>
+        <div #worldMapContainer class="bg-[linear-gradient(to_left,whitesmoke_20%,#ffffff00_20%)]">
           <img #worldMap (mousemove)="mapTooltip($event)" (load)="buildCanvas($event)"
                (mouseleave)="clearTip();" (mouseout)="clearTip();" (dragstart)="dragStartJs($event)"
                style="max-width: 100%; display: none;" src="" alt="Alliance map for world {{world}} on {{selectedDate.toString()}}"/>
         </div>
       </div>
-      <div #mapTooltipContainer style="display: none;position:fixed;background:#fff; padding: 4px;">
-        <div #mapTip style=" width: 180px; height: 18px; "></div>
-      </div>
     </div>
-  </div>
+    <div #mapTooltipContainer class="z-50 rounded-md shadow-lg ring-1 ring-slate-900/10" style="display: none;position:fixed;background:#fff; padding: 4px;">
+      <div #mapTip style=" width: 180px; height: 18px; "></div>
+    </div>
+  </section>
 </ng-template>
 
 <ng-template #alliances_changes>

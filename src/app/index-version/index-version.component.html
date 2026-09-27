@@ -1,27 +1,22 @@
-<div class="index-version-wrapper hidden-xs hidden-sm">
-
-	<!--If no script is installed show this-->
-	<div id="help_by_contributing">
-	  <div *ngIf="showHelp">
-	    <div class="col-12 alert alert-warning text-center alert-gd-1" style="width: 100vw; position: absolute;"
-	         [@helpAnim]>
-	      <div class="row install-hint">
-	        <div class="col-md-7 col-lg-8">
-	          <h2>Install the userscript to start collecting enemy intelligence!</h2>
-            <h5>The intel you collect can be viewed by you and your allies if you share a team with them</h5>
-	        </div>
-	        <div class="col-md-5 col-lg-4" style="padding-right: 40px;">
-	          <button mat-button class="mat-raised-button bg-gd-2" style="font-size: 22px; padding: 8px; width: 80%; top: 5px;color: white;" routerLink="/profile/script">
-		          <i class="fa fa-download"></i> Install userscript
-	          </button>
-	          <a (click)="hideHelp()" class="close" style="top: 15px;" title="Don't show again for 7 days"></a>
-	        </div>
-	      </div>
-	    </div>
-	    <div [@animPush] style="height: 100px;"></div>
-	  </div>
-	</div>
-
+<div class="fixed bottom-6 left-[264px] right-6 z-[999] text-left font-normal max-[991px]:hidden">
+  <div id="help_by_contributing">
+    <div *ngIf="showHelp" [@helpAnim] role="region" aria-label="Install the userscript" class="flex items-center gap-4 rounded-xl bg-navy-800 py-3.5 pl-4 pr-3.5 shadow-xl ring-1 ring-slate-900/5">
+      <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-lg bg-white/[.08] text-brand-500">
+        <svg appIcon="puzzle-piece" class="size-6"></svg>
+      </span>
+      <div class="min-w-0 flex-1">
+        <p class="m-0 text-base font-semibold text-white">Install the userscript to start collecting enemy intelligence!</p>
+        <p class="mb-0 mt-0.5 text-sm text-slate-300">The intel you collect can be viewed by you and your allies if you share a team with them</p>
+      </div>
+      <a routerLink="/profile/script" class="inline-flex flex-none items-center gap-2 rounded-md bg-brand-500 px-3.5 py-2 text-sm font-semibold text-slate-900 no-underline hover:bg-brand-600 hover:text-slate-900 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500">
+        <svg appIcon="arrow-down-tray" variant="mini" class="size-4 flex-none"></svg>
+        Install userscript
+      </a>
+      <button type="button" (click)="hideHelp()" aria-label="Don't show again for 7 days" title="Don't show again for 7 days" class="inline-flex size-9 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-300 hover:bg-white/[.06] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+        <svg appIcon="x-mark" class="size-5"></svg>
+      </button>
+    </div>
+  </div>
 </div>
 
 <span style="display: none;" id="userscript_version"></span>

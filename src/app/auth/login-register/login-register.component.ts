@@ -12,7 +12,6 @@ import {Globals} from '../../globals';
 @Component({
   selector: 'app-login-register',
   templateUrl: './login-register.component.html',
-  styleUrls: ['./login-register.component.scss'],
   providers: [IndexAuthService]
 })
 export class LoginRegisterComponent implements OnInit, AfterViewInit {

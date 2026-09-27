@@ -12,7 +12,6 @@ import {animate, style, transition, trigger} from '@angular/animations';
 @Component({
   selector: 'app-landing-page',
   templateUrl: './landing-page.component.html',
-  styleUrls: ['./landing-page.component.scss'],
   providers: [IndexerService, LocalCacheService, WorldService]
 })
 export class LandingPageComponent implements OnInit, AfterViewInit {

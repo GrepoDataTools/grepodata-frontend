@@ -8,7 +8,6 @@ import {environment} from '../../../environments/environment';
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',
-  styleUrls: ['./reset-password.component.scss'],
   providers: [JwtService, RecaptchaComponent]
 })
 export class ResetPasswordComponent implements OnInit {

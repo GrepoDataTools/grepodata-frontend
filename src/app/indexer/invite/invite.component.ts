@@ -11,7 +11,6 @@ import {BasicDialog} from '../../shared/dialogs/basic/basic.component';
 @Component({
   selector: 'app-invite',
   templateUrl: './invite.component.html',
-  styleUrls: ['./invite.component.scss'],
   providers: [IndexAuthService]
 })
 export class InviteComponent implements OnInit {

@@ -100,6 +100,7 @@ export class SiegeListDialog {
     public siegeService: SiegeService,
     public dialog: MatDialog
   ) {
+    dialogRef.addPanelClass('team-dialog');
     this.key = data.key;
     this.world = data.world;
     this.index_name = data.index_name;

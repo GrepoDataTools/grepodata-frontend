@@ -6,7 +6,6 @@ import * as moment from 'moment';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
 import {GoogleAnalyticsEventsService} from "../services/google-analytics-events.service";
 import {CompareService} from "../compare/compare.service";
-import { MatTabChangeEvent } from '@angular/material/tabs';
 import {WorldService} from "../services/world.service";
 import {Globals} from "../globals";
 import {Datex} from '../app.component';
@@ -71,8 +70,8 @@ export class PlayerComponent implements OnInit {
     console.log(event);
   }
 
-  onTabClick(event: MatTabChangeEvent) {
-  	switch (event.index) {
+  onTabClick(index: number) {
+  	switch (index) {
 			case 0:
 				this.bShowHistoryChart = true;
 				this.bShowHeatmapChart = false;
@@ -89,7 +88,7 @@ export class PlayerComponent implements OnInit {
         }, 2000);
 				break;
 		}
-    this.tabsIndex = event.index;
+    this.tabsIndex = index;
   }
 
   setActiveTab(type) {

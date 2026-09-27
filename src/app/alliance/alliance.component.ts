@@ -60,6 +60,7 @@ export class AllianceComponent implements AfterViewInit {
     worldName = '';
     id = '';
     tabsIndex = 0;
+    membersTab = 0;
     allianceHistoryLastDay = null;
 
     // Activity

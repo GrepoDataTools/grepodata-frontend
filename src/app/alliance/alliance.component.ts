@@ -210,6 +210,14 @@ export class AllianceComponent implements AfterViewInit {
         }
     }
 
+    get warsWon(): number {
+        return (this.allianceWars || []).reduce((sum, war) => sum + war.towns_gained_from, 0);
+    }
+
+    get warsLost(): number {
+        return (this.allianceWars || []).reduce((sum, war) => sum + war.towns_lost_to, 0);
+    }
+
     activeMemberTabChange(event) {
         switch (event.index) {
             case 1:

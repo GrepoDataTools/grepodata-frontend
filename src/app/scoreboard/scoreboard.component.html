@@ -96,107 +96,49 @@
 </ng-template>
 
 <ng-template #ghosts>
-
-  <div class="sb-table" [ngClass]="{'loading-overlay':loadingPlayers}">
-    <div class="title txt-sm default">
-      Player Resets ({{ghostsData.length}})
-      <div class="info">
-        <i class="fa fa-info-circle" matTooltip="These players have recently reset their account. Their towns have become ghost towns."></i>
-      </div>
-      <mat-progress-bar class="loading-bar" *ngIf="loadingPlayers" mode="indeterminate"></mat-progress-bar>
+  <section aria-labelledby="sb-resets" class="flex min-w-0 flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]" [ngClass]="{'min-[1200px]:absolute min-[1200px]:inset-0': !mobile && playerData.overview && playerData.overview.length > 2}">
+    <div class="relative flex min-h-[56px] items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 py-2.5 pl-5 pr-3 flex-none">
+      <div class="flex min-w-0 items-center gap-2"><h2 id="sb-resets" class="m-0 truncate text-base font-semibold text-slate-900">Player resets</h2><span class="whitespace-nowrap text-xs tabular-nums text-slate-500">{{ghostsData.length}}</span></div>
+      <button type="button" matTooltip="These players have recently reset their account. Their towns have become ghost towns." aria-label="These players have recently reset their account. Their towns have become ghost towns." class="inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="information-circle" class="size-5"></svg></button>
+      <mat-progress-bar *ngIf="loadingPlayers" mode="indeterminate" class="!absolute inset-x-0 bottom-0 !h-0.5"></mat-progress-bar>
     </div>
-    <div class="content">
-
-
-      <div class="index-events-container">
-        <div class="text-left">
-
-          <div class="events-list">
-            <div class="event" [ngClass]="{'odd':i%2==1}" *ngFor="let ghost of ghostsData; let i = index" routerLink="/player" [queryParams]="{world: world, id: ghost.player_id}">
-              <div class="event-date hidden-xs hidden-sm">
-                {{ghost.ghost_time | Datex : 'D MMM YYYY ~HH:00'}}
-              </div>
-              <div>
-                <a routerLink="/player" [queryParams]="{world: world, id: ghost.player_id}">
-                  <img style="height: 18px; margin-top: -5px;" src="../../assets/images/player_ico.png"/>&nbsp;
-                  <span class="gd-brown">{{ghost.player_name}}</span>
-                </a>
-                has reset their account
-                (<span class="event-part entity"><strong>{{ghost.num_towns}}</strong></span>
-                ghost towns).
-              </div>
-              <div class="hidden-xs hidden-sm">
-                <a class="btn-success btn-xs">
-                  View ghost towns
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-<!--      <div class="table" id="table_ghost_towns" style="">-->
-<!--        <div class="row_custom" *ngFor="let ghost of ghostsData; let i = index" routerLink="/player" [queryParams]="{world: world, id: ghost.player_id}">-->
-<!--          <div class="cell text-left" style="color: #334254 !important;">-->
-<!--            <a class="gd-brown" routerLink="/player" [queryParams]="{world: world, id: ghost.player_id}">-->
-<!--              <img class="hidden-xs hidden-sm" style="height: 18px; margin-top: -5px; margin-right: 5px;" src="../../assets/images/player_ico.png"/>-->
-<!--              <span class="gd-brown">{{ghost.player_name}}</span>-->
-<!--            </a>-->
-<!--            has reset their account around {{ghost.ghost_time | Datex : 'D MMM YYYY ~HH:00'}}-->
-<!--            (<span class="event-part entity"><strong>{{ghost.num_towns}}</strong></span>-->
-<!--            ghost towns).-->
-
-<!--          </div>-->
-
-<!--        </div>-->
-<!--      </div>-->
-
-    </div>
-
-  </div>
+    <ul class="gd-scrollbar m-0 min-h-0 flex-1 list-none overflow-y-auto p-0" [ngClass]="{'opacity-50': loadingPlayers}">
+      <li *ngFor="let ghost of ghostsData; let i = index" routerLink="/player" [queryParams]="{world: world, id: ghost.player_id}" class="m-0 flex cursor-pointer items-center gap-3 border-0 border-solid border-slate-100 py-3 pl-5 pr-4 hover:bg-slate-50" [ngClass]="{'border-t': i > 0}">
+        <span class="w-[88px] flex-none text-xs tabular-nums text-slate-500">{{ghost.ghost_time | Datex : 'D MMM ~HH:00'}}</span>
+        <p class="m-0 min-w-0 flex-1 text-sm text-slate-700"><a routerLink="/player" [queryParams]="{world: world, id: ghost.player_id}" class="font-medium text-slate-900 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{ghost.player_name}}</a> reset their account <span class="text-slate-500">· {{ghost.num_towns}} ghost towns</span></p>
+        <a routerLink="/player" [queryParams]="{world: world, id: ghost.player_id}" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 no-underline hover:text-slate-900 hover:no-underline focus:text-slate-900 focus:no-underline flex-none max-sm:[display:none]">View ghost towns</a>
+      </li>
+    </ul>
+  </section>
 </ng-template>
 
 <ng-template #siege_list>
-
-  <div class="sb-table" [ngClass]="{'loading-overlay':loadingPlayers}">
-    <div class="title txt-sm default">
-      Published Siege Reports ({{sieges.length}})
-      <div class="info">
-        <i class="fa fa-info-circle" matTooltip="These sieges were published by a GrepoData City Indexer Team on this game world."></i>
-      </div>
-      <mat-progress-bar class="loading-bar" *ngIf="loadingPlayers" mode="indeterminate"></mat-progress-bar>
+  <section aria-labelledby="sb-sieges" class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+    <div class="relative flex min-h-[56px] items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 py-2.5 pl-5 pr-3">
+      <div class="flex min-w-0 items-center gap-2"><h2 id="sb-sieges" class="m-0 truncate text-base font-semibold text-slate-900">Published siege reports</h2><span class="whitespace-nowrap text-xs tabular-nums text-slate-500">{{sieges.length}}</span></div>
+      <button type="button" matTooltip="These sieges were published by a GrepoData City Indexer Team on this game world." aria-label="These sieges were published by a GrepoData City Indexer Team on this game world." class="inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="information-circle" class="size-5"></svg></button>
+      <mat-progress-bar *ngIf="loadingPlayers" mode="indeterminate" class="!absolute inset-x-0 bottom-0 !h-0.5"></mat-progress-bar>
     </div>
-    <div class="content published-sieges">
-      <div class="siege-towns-list gd-scrollbar">
-        <div class="siege-town" *ngFor="let siege of sieges; let i = index;" (click)="selectedSiege=i" [ngClass]="{'active': selectedSiege==i}">
-          <div *ngIf="sieges.length<=3">
-            <img src="../../assets/images/town_ico.png"/>
-            <span class="gd-brown">{{siege?.town_name}}</span>
-            <span *ngIf="siege?.duplicate_id"> ({{siege?.duplicate_id}})</span>
-          </div>
-          <div>
-            <img src="../../assets/images/player_ico.png"/>
-            <span class="gd-brown">{{siege?.player_name}}</span>
-          </div>
-          <div *ngIf="siege?.alliance_name!='' && siege?.alliance_id > 0">
-            <img src="../../assets/images/ally_ico.png"/>
-            <span class="gd-brown">{{siege?.alliance_name}}</span>
-          </div>
-          <div>
-            ⚔ {{siege?.num_attacks_counted}} Attacks
-          </div>
-        </div>
-        <div class="siege-town hint" routerLink="/profile/teams" *ngIf="sieges.length <= 2">
-          <div>
-            Publish your teams' sieges to show them here
-          </div>
-          <mat-icon>launch</mat-icon>
-        </div>
-      </div>
-      <div class="selected-siege">
+    <div class="grid lg:grid-cols-[288px_minmax(0,1fr)]" [ngClass]="{'opacity-50': loadingPlayers}">
+      <ul class="gd-scrollbar m-0 flex max-h-[560px] list-none flex-col gap-1 overflow-y-auto border-0 border-b border-solid border-slate-200 p-2 lg:border-b-0 lg:border-r">
+        <li *ngFor="let siege of sieges; let i = index;" class="m-0">
+          <button type="button" (click)="selectedSiege=i" [attr.aria-pressed]="selectedSiege==i" class="flex w-full flex-col gap-1 rounded-lg border-0 px-3 py-2.5 text-left text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="selectedSiege==i ? 'bg-brand-50 ring-1 ring-inset ring-brand-600/25' : 'bg-transparent hover:bg-slate-50'">
+            <span *ngIf="sieges.length<=3" class="flex min-w-0 items-center gap-1.5 font-semibold text-slate-900"><svg appIcon="town_ico" variant="game" class="size-4 flex-none text-slate-400"></svg><span class="truncate">{{siege?.town_name}}</span><span *ngIf="siege?.duplicate_id" class="font-normal text-slate-500">({{siege?.duplicate_id}})</span></span>
+            <span class="flex min-w-0 items-center gap-1.5 text-slate-700"><svg appIcon="player_ico" variant="game" class="size-4 flex-none text-slate-400"></svg><span class="truncate">{{siege?.player_name}}</span></span>
+            <span *ngIf="siege?.alliance_name!='' && siege?.alliance_id > 0" class="flex min-w-0 items-center gap-1.5 text-slate-600"><svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg><span class="truncate">{{siege?.alliance_name}}</span></span>
+            <span class="flex items-center gap-1.5 text-xs text-slate-500"><svg appIcon="swords" variant="game" class="size-4 flex-none text-slate-400"></svg><span class="tabular-nums">{{siege?.num_attacks_counted}}</span> attacks</span>
+          </button>
+        </li>
+        <li *ngIf="sieges.length <= 2" class="m-0">
+          <a routerLink="/profile/teams" class="flex items-center justify-between gap-2 rounded-lg px-3 py-2.5 text-sm text-slate-600 no-underline ring-1 ring-inset ring-slate-200 hover:bg-slate-50 hover:text-slate-900 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Publish your teams' sieges to show them here<svg appIcon="arrow-top-right-on-square" variant="micro" class="size-4 flex-none text-slate-400"></svg></a>
+        </li>
+      </ul>
+      <div class="min-w-0 p-5 max-sm:p-4">
         <app-siege
+          class="block"
           [embedded]="true"
           [isCard]="true"
+          [newDesign]="true"
           [conquest]="sieges[selectedSiege]"
           [conquestId]="sieges[selectedSiege]?.conquest_id"
           [key]="sieges[selectedSiege]?.key"
@@ -206,20 +148,11 @@
         </app-siege>
       </div>
     </div>
-
-    <div class="footer" routerLink="/profile/teams" style="padding: 7px; cursor: pointer">
-
-      <div style="opacity: .5; margin-left: 5px;">
-        <i class="fa fa-info-circle"></i>&nbsp;Team admins can publish an indexed siege to show it here
-      </div>
-
-
-      <button name="open_bb" style="" class="btn btn-secondary btn-xs">
-        City Indexer&nbsp;<mat-icon>launch</mat-icon>
-      </button>
-    </div>
-
-  </div>
+    <a routerLink="/profile/teams" class="flex items-center justify-between gap-3 border-0 border-t border-solid border-slate-200 bg-slate-50 px-5 py-3 text-sm text-slate-600 no-underline hover:bg-slate-100 hover:text-slate-900 hover:no-underline focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+      <span class="inline-flex min-w-0 items-center gap-2"><svg appIcon="information-circle" class="size-5 flex-none text-slate-400"></svg>Team admins can publish an indexed siege to show it here</span>
+      <span class="inline-flex flex-none items-center gap-1.5 whitespace-nowrap rounded-md bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300">City Indexer<svg appIcon="arrow-top-right-on-square" variant="micro" class="size-3.5 flex-none text-slate-400"></svg></span>
+    </a>
+  </section>
 </ng-template>
 
 <ng-template #players_att>

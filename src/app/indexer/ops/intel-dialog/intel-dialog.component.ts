@@ -4,7 +4,6 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog
 @Component({
   selector: 'ops-intel-dialog',
   templateUrl: './intel-dialog.component.html',
-  styleUrls: ['./intel-dialog.component.scss'],
   host: {class: 'block h-full'}
 })
 export class OpsIntelDialog {

@@ -4,10 +4,7 @@
   </button>
 
   <ng-container *ngIf="type=='player'">
-    <div class="dialog-header"></div>
-    <div class="intel-wrapper-player">
-      <app-index-player [world]="world" [id]="id" [key]="team" [embedded]="true"></app-index-player>
-    </div>
+    <app-index-player class="block h-full" [world]="world" [id]="id" [key]="team" [embedded]="true"></app-index-player>
   </ng-container>
 
   <ng-container *ngIf="type=='town'">

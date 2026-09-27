@@ -118,6 +118,7 @@ export class IndexTownComponent implements AfterViewInit, OnDestroy, OnInit {
     // Reset
     this.townName = 'Loading..';
     this.loading = true;
+    this.activeTab = 0;
     this.noIntel = false;
     this.allCities = [];
     this.notes = [];

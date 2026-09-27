@@ -1,0 +1,24 @@
+<div role="group" [attr.aria-label]="label" class="relative pb-3 pt-1.5">
+  <div aria-hidden="true" class="absolute bottom-[34px] left-[176px] right-9 top-1.5 max-sm:left-[124px]">
+    <span *ngFor="let tick of xTicks; let first = first" class="absolute inset-y-0 border-0 border-l border-solid" [ngClass]="first ? 'border-slate-300' : 'border-slate-100'" [style.left.%]="tick.x"></span>
+  </div>
+  <ol class="relative m-0 list-none p-0">
+    <li *ngFor="let row of rows" class="group relative m-0 grid grid-cols-[148px_minmax(0,1fr)_16px] items-center gap-3 py-1.5 pl-4 pr-2 hover:bg-slate-50 max-sm:grid-cols-[96px_minmax(0,1fr)_16px]">
+      <span class="flex min-w-0 items-center gap-1.5">
+        <svg *ngIf="icon" [appIcon]="icon" variant="game" class="size-3.5 flex-none text-slate-400"></svg>
+        <span class="truncate text-[13px] font-medium leading-5 text-slate-900 group-hover:font-semibold">{{row.name}}</span>
+      </span>
+      <span class="flex min-w-0 flex-col gap-0.5">
+        <span *ngFor="let bar of row.bars" class="flex h-3 items-center gap-1.5" [title]="bar.label + ': ' + (bar.value | number)">
+          <span *ngIf="bar.value > 0" aria-hidden="true" class="h-2.5 flex-none rounded-r" [style.width.%]="bar.width" [style.background-color]="bar.color"></span>
+          <span class="whitespace-nowrap text-[11px] font-medium leading-3 tabular-nums" [ngClass]="bar.value > 0 ? 'text-slate-700' : 'pl-1 text-slate-400'">{{bar.value | number}}</span>
+        </span>
+      </span>
+      <svg appIcon="chevron-right" variant="mini" class="size-4 flex-none text-slate-400 opacity-0 group-hover:opacity-100" [ngClass]="{'[visibility:hidden]': !clickable}"></svg>
+      <button *ngIf="clickable" type="button" (click)="rowSelect.emit(row.name)" [attr.aria-label]="row.name" class="absolute inset-0 cursor-pointer border-0 bg-transparent p-0 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-700"></button>
+    </li>
+  </ol>
+  <div aria-hidden="true" class="relative ml-[176px] mr-9 mt-1.5 h-3.5 max-sm:ml-[124px]">
+    <span *ngFor="let tick of xTicks" class="absolute -translate-x-1/2 whitespace-nowrap text-[11px] leading-[14px] tabular-nums text-slate-500" [style.left.%]="tick.x">{{tick.value | compactNumber}}</span>
+  </div>
+</div>

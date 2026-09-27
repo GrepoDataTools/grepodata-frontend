@@ -207,7 +207,7 @@ export class Globals {
         customActionData: customActionData,
       },
       duration: lifetime,
-      panelClass: ['default-snackbar']
+      panelClass: ['default-snackbar', '!min-w-0', '!rounded-[10px]', '!bg-white', '!px-4', '!py-3', '!text-slate-900', '!shadow-lg', '!ring-1', '!ring-slate-900/5']
     });
     snackBarRef.afterDismissed().subscribe(() => {
       console.log('snackbar dismissed')

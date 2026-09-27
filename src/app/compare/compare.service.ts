@@ -4,6 +4,51 @@ import { MAT_SNACK_BAR_DATA, MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalCacheService } from '../services/local-cache.service';
 
+const COMPARE_TOAST = [
+    '!min-w-0',
+    '!max-w-[calc(100vw-32px)]',
+    '!rounded-lg',
+    '!border-0',
+    '!bg-navy-800',
+    '!py-2.5',
+    '!pl-4',
+    '!pr-2.5',
+    '!text-white',
+    '!shadow-xl',
+    '!ring-1',
+    '!ring-slate-900/5',
+    '[&_.mat-simple-snackbar>span]:flex',
+    '[&_.mat-simple-snackbar>span]:items-center',
+    '[&_.mat-simple-snackbar>span]:gap-3',
+    '[&_.mat-simple-snackbar>span]:!text-sm',
+    '[&_.mat-simple-snackbar>span]:!font-medium',
+    '[&_.mat-simple-snackbar>span]:!leading-5',
+    "[&_.mat-simple-snackbar>span]:before:content-['']",
+    '[&_.mat-simple-snackbar>span]:before:size-5',
+    '[&_.mat-simple-snackbar>span]:before:flex-none',
+    '[&_.mat-simple-snackbar>span]:before:bg-brand-500',
+    '[&_.mat-simple-snackbar>span]:before:[mask:url(/assets/heroicons/24/outline/check-circle.svg)_center/contain_no-repeat]',
+    '[&_.mat-simple-snackbar-action]:!my-0',
+    '[&_.mat-simple-snackbar-action]:!ml-3',
+    '[&_.mat-simple-snackbar-action]:!mr-0',
+    '[&_.mat-simple-snackbar-action_button]:!rounded-md',
+    '[&_.mat-simple-snackbar-action_button]:!bg-white/[.06]',
+    '[&_.mat-simple-snackbar-action_button]:!px-2.5',
+    '[&_.mat-simple-snackbar-action_button]:!py-1.5',
+    '[&_.mat-simple-snackbar-action_button]:!text-sm',
+    '[&_.mat-simple-snackbar-action_button]:!font-semibold',
+    '[&_.mat-simple-snackbar-action_button]:!leading-5',
+    '[&_.mat-simple-snackbar-action_button]:!text-brand-500',
+    '[&_.mat-button-wrapper]:flex',
+    '[&_.mat-button-wrapper]:items-center',
+    '[&_.mat-button-wrapper]:gap-1',
+    "[&_.mat-button-wrapper]:after:content-['']",
+    '[&_.mat-button-wrapper]:after:size-4',
+    '[&_.mat-button-wrapper]:after:flex-none',
+    '[&_.mat-button-wrapper]:after:bg-current',
+    '[&_.mat-button-wrapper]:after:[mask:url(/assets/heroicons/24/outline/arrow-right.svg)_center/contain_no-repeat]',
+];
+
 @Injectable()
 export class CompareService {
     // cache vars
@@ -80,11 +125,11 @@ export class CompareService {
 
         // this.snackBar.openFromComponent(CompareSnackbar, {data: 'Player added!', duration: 3000, panelClass: ['success-snack']});
 
-        let snackBarRef = this.snackBar.open('Player added!', 'Show comparison', {
+        let snackBarRef = this.snackBar.open('Player added to the comparison', 'Show comparison', {
             duration: 6000,
             horizontalPosition: 'center',
             verticalPosition: 'bottom',
-            panelClass: ['compare-snackbar'],
+            panelClass: COMPARE_TOAST,
         });
         snackBarRef.onAction().subscribe((response) => {
             // if (this.router.url.indexOf('/compare') != -1) {
@@ -115,11 +160,11 @@ export class CompareService {
         }
         this.update$.next();
 
-        let snackBarRef = this.snackBar.open('Alliance added!', 'Show comparison', {
+        let snackBarRef = this.snackBar.open('Alliance added to the comparison', 'Show comparison', {
             duration: 6000,
             horizontalPosition: 'center',
             verticalPosition: 'bottom',
-            panelClass: ['compare-snackbar'],
+            panelClass: COMPARE_TOAST,
         });
         snackBarRef.onAction().subscribe((response) => {
             // if (this.router.url.indexOf('/compare') == -1) {

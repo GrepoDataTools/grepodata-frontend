@@ -15,7 +15,6 @@ import {Subscription} from 'rxjs';
 @Component({
   selector: 'app-index-town',
   templateUrl: './town.component.html',
-  styleUrls: ['./town.component.scss'],
   providers: [IndexerService, WorldService, LocalCacheService]
 })
 export class IndexTownComponent implements AfterViewInit, OnDestroy, OnInit {

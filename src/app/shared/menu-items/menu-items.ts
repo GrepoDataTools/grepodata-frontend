@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { faDiscord } from '@fortawesome/free-brands-svg-icons';
+import { IconVariant } from '../icon/icon.directive';
 
 export interface BadgeItem {
   type: string;
@@ -28,8 +27,9 @@ export interface Menu {
   state: string;
   name: string;
   type: string;
-  icon?: string | IconProp;
-  iconType?: 'material' | 'fontawesome' | 'unicode';
+  icon?: string;
+  iconVariant?: IconVariant;
+  external?: boolean;
   action?: string;
   active?: string;
   badge?: BadgeItem[];
@@ -38,47 +38,46 @@ export interface Menu {
 }
 
 const MENU_ITEMS: Array<Menu> = [
-  { mobileOnly: true, state: '', name: 'Statistics', type: 'separator', iconType: 'material'},
-  { mobileOnly: true, state: 'points', name: 'Daily Scoreboard', type: 'link', icon: 'insights', iconType: 'material' },
-  { mobileOnly: true, state: 'compare', name: 'Compare', type: 'link', icon: 'compare_arrows', iconType: 'material' },
-  { mobileOnly: true, state: 'ranking', name: 'Ranking', type: 'link', icon: 'list', iconType: 'material' },
+  { mobileOnly: true, state: '', name: 'Statistics', type: 'separator' },
+  { mobileOnly: true, state: 'points', name: 'Daily scoreboard', type: 'link', icon: 'chart-bar' },
+  { mobileOnly: true, state: 'compare', name: 'Compare', type: 'link', icon: 'arrows-right-left' },
+  { mobileOnly: true, state: 'ranking', name: 'Ranking', type: 'link', icon: 'trophy' },
 
-  { mobileOnly: false, state: '', name: 'Indexer', type: 'separator', iconType: 'material' },
-  { mobileOnly: false, state: 'profile/intel', name: 'My intel', type: 'link', icon: 'account_balance', iconType: 'material', active: '/intel' },
-  { mobileOnly: false, state: 'profile/teams', name: 'My teams', type: 'link', icon: 'group', iconType: 'material', active: '/teams' },
-  { mobileOnly: false, state: 'profile/ops', name: 'Team Ops', type: 'link', icon: 'airplay', iconType: 'material', active: '/ops' },
-  { mobileOnly: false, state: 'profile/script', name: 'Userscript', type: 'link', icon: 'description' },
+  { mobileOnly: false, state: '', name: 'Indexer', type: 'separator' },
+  { mobileOnly: false, state: 'profile/intel', name: 'My intel', type: 'link', icon: 'building-library', active: '/intel' },
+  { mobileOnly: false, state: 'profile/teams', name: 'My teams', type: 'link', icon: 'user-group', active: '/teams' },
+  { mobileOnly: false, state: 'profile/ops', name: 'Team Ops', type: 'link', icon: 'computer-desktop', active: '/ops' },
+  { mobileOnly: false, state: 'profile/script', name: 'Userscript', type: 'link', icon: 'document-text' },
 
-  { mobileOnly: false, state: '', name: 'Community', type: 'separator', icon: ''},
-  { mobileOnly: false, state: 'discord', name: 'Discord Server', type: 'action', icon: 'discord', action: 'discord', iconType: 'material'},
-  { mobileOnly: false, state: 'donate', name: 'Donate', type: 'action', icon: '🚀', action: 'donate', iconType: 'unicode'},
-  { mobileOnly: false, state: '/profile/bug', name: 'Report an issue', type: 'link', icon: '🐞', iconType: 'unicode' },
+  { mobileOnly: false, state: '', name: 'Community', type: 'separator' },
+  { mobileOnly: false, state: 'discord', name: 'Discord server', type: 'action', icon: 'discord', iconVariant: 'game', action: 'discord', external: true },
+  { mobileOnly: false, state: 'donate', name: 'Donate', type: 'action', icon: 'heart', action: 'donate' },
+  { mobileOnly: false, state: '/profile/bug', name: 'Report an issue', type: 'link', icon: 'bug-ant' },
   // { mobileOnly: false, state: '/profile/ideas', name: 'Idea board', type: 'link', icon: 'tips_and_updates'},
-  { mobileOnly: false, state: '/profile/api', name: 'API documentation', type: 'link', icon: '📜', iconType: 'unicode'},
+  { mobileOnly: false, state: '/profile/api', name: 'API documentation', type: 'link', icon: 'code-bracket' },
 
-  { mobileOnly: false, state: '', name: 'Other', type: 'separator', icon: '' },
-  { mobileOnly: false, state: '/profile/changelog', name: 'Changelog', type: 'link', icon: 'description'},
+  { mobileOnly: false, state: '', name: 'Other', type: 'separator' },
+  { mobileOnly: false, state: '/profile/changelog', name: 'Changelog', type: 'link', icon: 'newspaper' },
   {
     mobileOnly: false,
     state: 'profile/settings',
     name: 'My account',
     type: 'link',
     // type: 'sub',
-    icon: 'settings',
+    icon: 'cog-6-tooth',
     // children: [
     //     { state: 'password', name: 'Change password', type: 'link' },
     //     { state: 'delete', name: 'Delete account', type: 'link' },
     // ],
   },
-  { mobileOnly: false, state: 'profile/faq', name: 'Help', type: 'link', icon: 'help_outline', iconType: 'material' },
+  { mobileOnly: false, state: 'profile/faq', name: 'Help', type: 'link', icon: 'question-mark-circle' },
   {
     mobileOnly: false,
     state: 'profile/logout',
-    name: 'Sign Out',
+    name: 'Sign out',
     type: 'action',
-    icon: 'power_settings_new',
+    icon: 'power',
     action: 'logout',
-    iconType: 'material',
   },
 ];
 

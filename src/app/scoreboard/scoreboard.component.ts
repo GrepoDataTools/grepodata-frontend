@@ -1371,7 +1371,6 @@ export class PlayerOverviewDialog implements AfterViewInit {
 @Component({
   selector: 'alliance-overview-dialog',
   templateUrl: 'alliance-overview.html',
-  styleUrls: ['./scoreboard.component.scss'],
   providers: [ScoreboardService],
 })
 export class AllianceOverviewDialog implements AfterViewInit {
@@ -1394,6 +1393,7 @@ export class AllianceOverviewDialog implements AfterViewInit {
     private scoreboardService: ScoreboardService,
     public dialog: MatDialog
   ) {
+    dialogRef.addPanelClass('team-dialog');
     this.world = dialogData.world;
     this.date = dialogData.date;
     this.alliance_id = dialogData.id;
@@ -1433,6 +1433,13 @@ export class AllianceOverviewDialog implements AfterViewInit {
       },
     });
     dialogRef.afterClosed().subscribe((result) => {});
+  }
+
+  total(key) {
+    return (this.data || []).reduce((sum, group) => {
+      const item = (group.series || []).find((entry) => entry.name === key);
+      return sum + (item ? item.value : 0);
+    }, 0);
   }
 
   onSelect(event) {

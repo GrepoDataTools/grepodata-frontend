@@ -10,11 +10,12 @@ import { LineChartComponent } from './charts/line-chart.component';
 import { StackedBarChartComponent } from './charts/stacked-bar-chart.component';
 import { GroupedBarChartComponent } from './charts/grouped-bar-chart.component';
 import { GroupedHbarChartComponent } from './charts/grouped-hbar-chart.component';
+import { BarChartComponent } from './charts/bar-chart.component';
 
 @NgModule({
     imports: [CommonModule],
-    declarations: [AccordionAnchorDirective, AccordionLinkDirective, AccordionDirective, IconDirective, CompactNumberPipe, LineChartComponent, StackedBarChartComponent, GroupedBarChartComponent, GroupedHbarChartComponent],
-    exports: [AccordionAnchorDirective, AccordionLinkDirective, AccordionDirective, IconDirective, CompactNumberPipe, LineChartComponent, StackedBarChartComponent, GroupedBarChartComponent, GroupedHbarChartComponent],
+    declarations: [AccordionAnchorDirective, AccordionLinkDirective, AccordionDirective, IconDirective, CompactNumberPipe, LineChartComponent, StackedBarChartComponent, GroupedBarChartComponent, GroupedHbarChartComponent, BarChartComponent],
+    exports: [AccordionAnchorDirective, AccordionLinkDirective, AccordionDirective, IconDirective, CompactNumberPipe, LineChartComponent, StackedBarChartComponent, GroupedBarChartComponent, GroupedHbarChartComponent, BarChartComponent],
     providers: [MenuItems],
 })
 export class SharedModule {}

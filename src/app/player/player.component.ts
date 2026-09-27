@@ -14,7 +14,6 @@ import {JwtService} from '../auth/services/jwt.service';
 @Component({
   selector: 'app-player',
   templateUrl: './player.component.html',
-  styleUrls: ['./player.component.scss'],
   providers: [PlayerService, WorldService, Datex]
 })
 export class PlayerComponent implements OnInit {

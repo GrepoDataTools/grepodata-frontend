@@ -11,7 +11,6 @@ import {DonateDialog} from '../../shared/dialogs/donate/donate.component';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss'],
   viewProviders: [MatExpansionPanel],
 })
 export class SidebarComponent implements OnInit, OnDestroy {

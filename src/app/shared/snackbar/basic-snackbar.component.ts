@@ -4,7 +4,6 @@ import {MAT_SNACK_BAR_DATA, MatSnackBarRef} from '@angular/material/snack-bar';
 @Component({
   selector: 'basic-snack',
   templateUrl: "./basic-snackbar.component.html",
-  styleUrls: ['./basic-snackbar.component.scss'],
 })
 export class BasicSnackbar {
 

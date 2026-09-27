@@ -18,7 +18,6 @@ import {NewIndexDialog} from '../../shared/dialogs/new-index/new-index.component
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss'],
   providers: [ProfileService, IndexAuthService, JwtService],
 })
 export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {

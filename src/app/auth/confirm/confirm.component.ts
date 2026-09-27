@@ -5,8 +5,7 @@ import {BasicDialog} from '../../shared/dialogs/basic/basic.component';
 
 @Component({
   selector: 'app-confirm',
-  templateUrl: './confirm.component.html',
-  styleUrls: ['./confirm.component.scss']
+  templateUrl: './confirm.component.html'
 })
 export class ConfirmComponent implements OnInit {
 

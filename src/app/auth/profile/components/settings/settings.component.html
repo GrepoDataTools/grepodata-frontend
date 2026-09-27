@@ -1,13 +1,9 @@
-<mat-card class="index-card">
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-xs-12">
-				<h2>My GrepoData account</h2>
-				<app-change-password></app-change-password>
-			</div>
-			<div class="col-xs-12">
-				<app-delete-account></app-delete-account>
-			</div>
-		</div>
+<div class="m-[22px] space-y-6 text-left font-normal max-[1000px]:m-3">
+	<div class="min-w-0">
+		<h1 class="my-0 text-2xl font-bold tracking-tight text-slate-900">My account</h1>
+		<p class="mb-0 mt-1 text-sm text-slate-500">Your GrepoData account</p>
 	</div>
-</mat-card>
+	<app-change-password class="block"></app-change-password>
+	<div class="h-px bg-slate-200"></div>
+	<app-delete-account class="block"></app-delete-account>
+</div>

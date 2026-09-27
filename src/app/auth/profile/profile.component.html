@@ -77,8 +77,8 @@
       <span *ngIf="active_tab === 'teams'"><app-indexes></app-indexes></span>
       <span *ngIf="active_tab === 'script'"><app-userscript></app-userscript></span>
       <span *ngIf="active_tab === 'settings'"><app-settings></app-settings></span>
-      <span *ngIf="active_tab === 'password'"><app-change-password></app-change-password></span>
-      <span *ngIf="active_tab === 'delete'"><app-delete-account></app-delete-account></span>
+      <div *ngIf="active_tab === 'password'" class="m-[22px] max-[1000px]:m-3"><app-change-password></app-change-password></div>
+      <div *ngIf="active_tab === 'delete'" class="m-[22px] max-[1000px]:m-3"><app-delete-account></app-delete-account></div>
       <span *ngIf="active_tab === 'commands'"><app-demo-overview></app-demo-overview></span>
       <span *ngIf="active_tab === 'changelog'"><app-changelog></app-changelog></span>
       <span *ngIf="active_tab === 'faq'">

@@ -369,13 +369,9 @@
       </div>
     </section>
 
-    <mat-card class="dense-card">
-      <mat-card-content>
-
-	          <app-conquest [embedded]="true" [params]="{type: 'player', world: world, id: id}"></app-conquest>
-
-      </mat-card-content>
-    </mat-card>
+    <section class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+      <app-conquest [embedded]="true" [params]="{type: 'player', world: world, id: id}"></app-conquest>
+    </section>
   </ng-container>
 </div>
 

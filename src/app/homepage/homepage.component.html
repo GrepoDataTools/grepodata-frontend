@@ -8,7 +8,7 @@
     </div>
   </section>
 
-  <div class="mx-auto flex max-w-[1248px] flex-col gap-12 px-6 pb-14 max-sm:gap-8 max-sm:px-4 max-sm:pb-8">
+  <div class="mx-auto flex max-w-[1248px] flex-col gap-12 px-6 max-sm:gap-8 max-sm:px-4">
     <section aria-label="Search and features" class="relative -mt-20 overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-slate-900/[.08] max-sm:-mt-[52px]">
       <app-search [homepage]="true"></app-search>
       <div class="grid gap-8 border-0 border-t border-solid border-slate-100 px-6 pb-7 pt-6 md:grid-cols-3 max-md:gap-0 max-md:p-0">
@@ -83,29 +83,33 @@
         </a>
       </div>
     </section>
+  </div>
 
-    <div #indexerText>
-      <section *ngIf="indexerInView && loggedOut" aria-labelledby="h-indexer" class="grid items-center gap-x-20 gap-y-8 lg:grid-cols-[minmax(0,1fr)_440px]">
-        <div class="flex min-w-0 flex-col gap-6">
+  <div #indexerText>
+    <section *ngIf="indexerInView && loggedOut" aria-labelledby="h-indexer" class="mt-12 bg-navy-800 bg-[radial-gradient(ellipse_55%_85%_at_50%_0%,rgba(24,188,156,0.20),rgba(24,188,156,0)_70%),radial-gradient(ellipse_40%_60%_at_85%_100%,rgba(24,188,156,0.08),rgba(24,188,156,0)_70%)] px-6 py-14 max-sm:mt-8 max-sm:px-4 max-sm:py-10">
+      <div class="mx-auto grid max-w-[1200px] items-center gap-x-20 gap-y-10 lg:grid-cols-[minmax(0,1fr)_440px]">
+        <div class="flex min-w-0 flex-col gap-7">
           <div>
-            <span class="inline-flex items-center gap-1.5 rounded-full bg-brand-50 py-1 pl-2 pr-2.5 text-xs font-semibold text-brand-700 ring-1 ring-inset ring-brand-700/20"><svg appIcon="puzzle-piece" class="size-3.5 flex-none"></svg>Userscript</span>
-            <h2 id="h-indexer" class="mb-0 mt-4 text-3xl font-bold tracking-tight text-slate-900 max-sm:text-2xl">City indexer</h2>
-            <p class="mb-0 mt-2 text-lg text-slate-600 max-sm:text-base">Create an account to collect &amp; share enemy intelligence</p>
+            <span class="inline-flex items-center gap-1.5 rounded-full bg-brand-500/[.12] py-1 pl-2 pr-2.5 text-xs font-semibold text-brand-500 ring-1 ring-inset ring-brand-500/30"><svg appIcon="puzzle-piece" class="size-3.5 flex-none"></svg>Userscript</span>
+            <h2 id="h-indexer" class="mb-0 mt-4 text-4xl font-bold leading-[44px] tracking-[-0.02em] text-white max-sm:text-3xl">City indexer</h2>
+            <p class="mb-0 mt-2 text-lg text-slate-300 max-sm:text-base">Create an account to collect &amp; share enemy intelligence</p>
           </div>
           <ng-container *ngIf="stats != '' &amp;&amp; show_stats">
-            <div class="grid grid-cols-2 gap-4 max-sm:gap-2.5">
-              <button *ngFor="let stat of stats_data" type="button" (click)="viewDetails()" title="View usage statistics" class="flex min-w-0 flex-col gap-0.5 rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] border-0 px-5 py-4 text-left hover:bg-slate-50 max-sm:px-3.5 max-sm:py-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
-                <span class="block text-sm text-slate-600 first-letter:uppercase max-sm:text-xs">{{stat.name | lowercase}}</span>
-                <span class="text-2xl font-bold tabular-nums tracking-tight text-slate-900 max-sm:text-xl">{{stat.value | number}}</span>
+            <div class="grid grid-cols-2 gap-x-8 gap-y-6 border-0 border-t border-solid border-white/10 pt-6 max-sm:gap-x-4">
+              <button *ngFor="let stat of stats_data" type="button" (click)="viewDetails()" title="View usage statistics" class="group flex min-w-0 flex-col gap-0.5 border-0 bg-transparent p-0 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500">
+                <span class="text-[28px] font-bold leading-9 tracking-[-0.01em] tabular-nums text-white group-hover:text-brand-500 max-sm:text-2xl">{{stat.value | number}}</span>
+                <span class="block text-sm text-slate-400 first-letter:uppercase">{{stat.name | lowercase}}</span>
               </button>
             </div>
-            <a routerLink="/analytics" class="inline-flex w-fit items-center gap-1 text-sm font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline focus:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">View usage statistics<svg appIcon="arrow-right" variant="mini" class="size-4 flex-none"></svg></a>
+            <a routerLink="/analytics" class="inline-flex w-fit items-center gap-1 text-sm font-medium text-brand-500 no-underline hover:text-white hover:underline focus:text-brand-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500">View usage statistics<svg appIcon="arrow-right" variant="mini" class="size-4 flex-none"></svg></a>
           </ng-container>
         </div>
-        <app-login-register class="block min-w-0" [require_explicit_action]="true" [tabs]="true"></app-login-register>
-      </section>
-    </div>
+        <app-login-register class="block min-w-0 max-lg:max-w-[560px]" [require_explicit_action]="true" [tabs]="true"></app-login-register>
+      </div>
+    </section>
+  </div>
 
+  <div class="mx-auto flex max-w-[1248px] flex-col gap-12 px-6 pb-14 pt-12 max-sm:gap-8 max-sm:px-4 max-sm:pb-8 max-sm:pt-8">
     <section aria-labelledby="h-thanks" class="rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] px-10 py-8 max-sm:px-4 max-sm:py-5">
       <div class="flex items-start gap-4">
         <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-lg bg-navy-800 text-brand-500"><svg appIcon="heart" class="size-6"></svg></span>

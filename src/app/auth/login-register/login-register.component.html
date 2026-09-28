@@ -1,8 +1,17 @@
-<section aria-label="Create an account or sign in" class="mx-auto w-[960px] max-w-full overflow-hidden rounded-xl bg-white text-left font-normal text-slate-900 shadow-sm ring-1 ring-slate-900/[.08] [container-type:inline-size]">
-  <div class="grid grid-cols-1 [@container(min-width:720px)]:grid-cols-2">
+<section aria-label="Create an account or sign in" class="mx-auto w-[960px] max-w-full overflow-hidden rounded-xl bg-white text-left font-normal text-slate-900 ring-1 ring-slate-900/[.08] [container-type:inline-size]" [ngClass]="tabs ? 'shadow-lg' : 'shadow-sm'">
+  <div *ngIf="tabs" role="tablist" aria-label="Sign in or create an account" class="flex gap-2 border-0 border-b border-solid border-slate-200 px-5">
+    <button type="button" role="tab" [attr.aria-selected]="tab == 'signin'" (click)="tab = 'signin'" class="-mb-px inline-flex flex-1 items-center justify-center gap-2 border-0 border-b-2 border-solid bg-transparent px-2 pb-3 pt-3.5 text-sm leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tab == 'signin' ? 'border-brand-700 font-semibold text-brand-700' : 'border-transparent font-medium text-slate-500 hover:text-slate-900'">
+      <svg appIcon="arrow-right-end-on-rectangle" class="size-[18px] flex-none" [ngClass]="tab == 'signin' ? 'text-brand-700' : 'text-slate-400'"></svg>Sign in
+    </button>
+    <button type="button" role="tab" [attr.aria-selected]="tab == 'register'" (click)="tab = 'register'" class="-mb-px inline-flex flex-1 items-center justify-center gap-2 border-0 border-b-2 border-solid bg-transparent px-2 pb-3 pt-3.5 text-sm leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tab == 'register' ? 'border-brand-700 font-semibold text-brand-700' : 'border-transparent font-medium text-slate-500 hover:text-slate-900'">
+      <svg appIcon="user-plus" class="size-[18px] flex-none" [ngClass]="tab == 'register' ? 'text-brand-700' : 'text-slate-400'"></svg>Create account
+    </button>
+  </div>
+  <div class="grid grid-cols-1" [ngClass]="{'[@container(min-width:720px)]:grid-cols-2': !tabs}">
 
-    <div class="flex min-w-0 flex-col gap-5 p-6 [@container(min-width:720px)]:px-8 [@container(min-width:720px)]:py-7">
-      <div class="flex items-center gap-3">
+    <div *ngIf="!tabs || tab == 'register'" [attr.role]="tabs ? 'tabpanel' : null" class="flex min-w-0 flex-col gap-5 p-6 [@container(min-width:720px)]:px-8 [@container(min-width:720px)]:py-7">
+      <p *ngIf="tabs" class="m-0 text-sm text-slate-600">Start collecting and sharing enemy intelligence</p>
+      <div *ngIf="!tabs" class="flex items-center gap-3">
         <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-full bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-700/15">
           <svg appIcon="user-plus" class="size-5"></svg>
         </span>
@@ -85,8 +94,9 @@
       </form>
     </div>
 
-    <div *ngIf="!forgotPassswordForm" class="flex min-w-0 flex-col gap-5 border-0 border-t border-solid border-slate-200 bg-slate-50 p-6 [@container(min-width:720px)]:border-l [@container(min-width:720px)]:border-t-0 [@container(min-width:720px)]:px-8 [@container(min-width:720px)]:py-7">
-      <div class="flex items-center gap-3">
+    <div *ngIf="!forgotPassswordForm && (!tabs || tab == 'signin')" [attr.role]="tabs ? 'tabpanel' : null" class="flex min-w-0 flex-col gap-5 p-6 [@container(min-width:720px)]:px-8 [@container(min-width:720px)]:py-7" [ngClass]="{'border-0 border-t border-solid border-slate-200 bg-slate-50 [@container(min-width:720px)]:border-l [@container(min-width:720px)]:border-t-0': !tabs}">
+      <p *ngIf="tabs" class="m-0 text-sm text-slate-600">Sign in using an existing GrepoData account</p>
+      <div *ngIf="!tabs" class="flex items-center gap-3">
         <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-full bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-700/15">
           <svg appIcon="arrow-right-end-on-rectangle" class="size-5"></svg>
         </span>
@@ -139,9 +149,9 @@
       </form>
     </div>
 
-    <div *ngIf="forgotPassswordForm" class="flex min-w-0 flex-col gap-5 border-0 border-t border-solid border-slate-200 bg-slate-50 p-6 [@container(min-width:720px)]:border-l [@container(min-width:720px)]:border-t-0 [@container(min-width:720px)]:px-8 [@container(min-width:720px)]:py-7">
+    <div *ngIf="forgotPassswordForm && (!tabs || tab == 'signin')" [attr.role]="tabs ? 'tabpanel' : null" class="flex min-w-0 flex-col gap-5 p-6 [@container(min-width:720px)]:px-8 [@container(min-width:720px)]:py-7" [ngClass]="{'border-0 border-t border-solid border-slate-200 bg-slate-50 [@container(min-width:720px)]:border-l [@container(min-width:720px)]:border-t-0': !tabs}">
       <div *ngIf="!reset_success" class="flex items-center gap-3">
-        <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-full bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-700/15">
+        <span *ngIf="!tabs" aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-full bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-700/15">
           <svg appIcon="key" class="size-5"></svg>
         </span>
         <div class="min-w-0">
@@ -203,7 +213,7 @@
 
   </div>
 
-  <div class="border-0 border-t border-solid border-slate-200 bg-white px-6 py-3">
+  <div class="border-0 border-t border-solid px-6 py-3" [ngClass]="tabs ? 'border-slate-100 bg-slate-50' : 'border-slate-200 bg-white'">
     <p class="m-0 text-center text-xs text-slate-500">This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy" target="_blank" class="text-slate-600 underline decoration-slate-300 hover:text-slate-900">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank" class="text-slate-600 underline decoration-slate-300 hover:text-slate-900">Terms of Service</a> apply.</p>
   </div>
 </section>

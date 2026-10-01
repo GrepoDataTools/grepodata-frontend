@@ -16,19 +16,6 @@ import {MediaMatcher} from '@angular/cdk/layout';
 import {Subscription} from 'rxjs';
 import {IndexerOverviewService, IntelMovementKeys} from './overview.service';
 
-const MOCK_TARGET_STATS = [
-  {size: 18, indexed: 17, minutes: 120, split: [18, 41, 33]},
-  {size: 15, indexed: 14, minutes: 40, split: [25, 30, 38]},
-  {size: 21, indexed: 9, minutes: 4320, split: [12, 20, 61]},
-  {size: 12, indexed: 11, minutes: 300, split: [30, 28, 34]},
-  {size: 14, indexed: 6, minutes: 1560, split: [9, 15, 70]},
-  {size: 8, indexed: 8, minutes: 60, split: [35, 33, 25]},
-  {size: 11, indexed: 5, minutes: 2880, split: [14, 22, 58]},
-  {size: 9, indexed: 7, minutes: 540, split: [20, 44, 30]},
-  {size: 10, indexed: 3, minutes: 8640, split: [6, 12, 75]},
-  {size: 4, indexed: 4, minutes: 180, split: [22, 26, 44]},
-];
-
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
@@ -184,8 +171,6 @@ export class OverviewComponent implements OnInit, OnDestroy, OnInit {
       this.index_name = data.index_name;
       this.index_name_edit = data.index_name;
       this.data = data;
-      this.data.players_indexed = this.withMockedTargetStats(data.players_indexed, 'towns');
-      this.data.alliances_indexed = this.withMockedTargetStats(data.alliances_indexed, 'members');
       if (data.latest_intel) {
         this.latest_intel = data.latest_intel;
       }
@@ -413,23 +398,6 @@ export class OverviewComponent implements OnInit, OnDestroy, OnInit {
       .filter(([label, count]) => count > 0)
       .map(([label, count]) => label + ' ' + Math.round(this.share(count, total)) + '%')
       .join(' · ');
-  }
-
-  private withMockedTargetStats(targets: any[], size: string): any[] {
-    const now = Math.floor(Date.now() / 1000);
-    const alliances = (this.data.alliances_indexed || []).map(alliance => alliance.alliance_name);
-    return (targets || []).map((target, index) => {
-      const mock = MOCK_TARGET_STATS[index % MOCK_TARGET_STATS.length];
-      const [friendly, enemy, spy] = mock.split.map(part => Math.round(target.count * part / 100));
-      return {
-        alliance_name: alliances.length > 0 ? alliances[index % alliances.length] : '',
-        [size]: mock.size,
-        [size + '_indexed']: mock.indexed,
-        last_report: now - mock.minutes * 60,
-        report_types: {friendly_attack: friendly, enemy_attack: enemy, spy, other: target.count - friendly - enemy - spy},
-        ...target,
-      };
-    });
   }
 
 }

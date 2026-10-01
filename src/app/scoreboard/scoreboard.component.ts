@@ -819,6 +819,11 @@ export class ScoreboardComponent implements OnInit {
     );
   }
 
+  get tickerSeconds(): number {
+    const chips = (this.playerDiffs?.att?.length || 0) + (this.playerDiffs?.def?.length || 0);
+    return Math.max(36, chips * 4);
+  }
+
   renderAllianceScoreboard(json, date) {
     if (json == null) {
       this.noticeAlliance = 'We found no alliance scoreboard for ' + this.world + ' on ' + date + '. Use the world selector above to select another world.';

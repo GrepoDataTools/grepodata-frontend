@@ -61,16 +61,20 @@
   <section *ngIf="!mobile && !loadingDiffs && playerDiffs != ''" aria-label="Latest update" class="flex items-center gap-4 py-3 pl-4 rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
     <span class="flex flex-none items-center gap-2 whitespace-nowrap text-xs font-semibold text-slate-900"><span aria-hidden="true" class="size-2 flex-none rounded-full bg-brand-500 ring-[3px] ring-brand-50"></span>Latest update<ng-container *ngIf="playerData?.time"> · {{playerData.time.substr(0, 5)}}</ng-container></span>
     <span aria-hidden="true" class="h-5 w-px flex-none bg-slate-200"></span>
-    <div class="flex min-w-0 flex-1 items-center gap-2 overflow-x-auto pr-4 [mask-image:linear-gradient(90deg,#000_88%,transparent)] [scrollbar-width:none] [&::-webkit-scrollbar]:[display:none]">
-      <ng-container *ngIf="playerDiffs.att">
-        <span class="flex-none text-xs font-semibold text-slate-500">Attack</span>
-        <span *ngFor="let d of playerDiffs.att" class="inline-flex h-6 flex-none items-center gap-1.5 whitespace-nowrap rounded-full bg-slate-50 px-2.5 text-xs ring-1 ring-inset ring-slate-200"><span aria-hidden="true" class="size-2 flex-none rounded-[3px] bg-[#EB6834]"></span><span class="font-medium text-slate-900">{{d.name}}</span><span class="tabular-nums text-slate-700">+{{d.diff | NumberFilter}}</span></span>
-      </ng-container>
-      <span *ngIf="playerDiffs.att && playerDiffs.def" aria-hidden="true" class="w-2 flex-none"></span>
-      <ng-container *ngIf="playerDiffs.def">
-        <span class="flex-none text-xs font-semibold text-slate-500">Defence</span>
-        <span *ngFor="let d of playerDiffs.def" class="inline-flex h-6 flex-none items-center gap-1.5 whitespace-nowrap rounded-full bg-slate-50 px-2.5 text-xs ring-1 ring-inset ring-slate-200"><span aria-hidden="true" class="size-2 flex-none rounded-[3px] bg-[#2A78D6]"></span><span class="font-medium text-slate-900">{{d.name}}</span><span class="tabular-nums text-slate-700">+{{d.diff | NumberFilter}}</span></span>
-      </ng-container>
+    <div class="-ml-4 min-w-0 flex-1 overflow-hidden px-4 [container-type:inline-size] [mask-image:linear-gradient(90deg,#000_88%,transparent)] [scrollbar-width:none] motion-reduce:overflow-x-auto [&::-webkit-scrollbar]:[display:none]">
+      <div class="flex w-max animate-ticker will-change-transform hover:[animation-play-state:paused] motion-reduce:animate-none" [style.animation-duration.s]="tickerSeconds">
+        <div *ngFor="let copy of [0, 1]" [attr.aria-hidden]="copy == 1 ? 'true' : null" class="flex min-w-[calc(100cqw_+_16px)] flex-none items-center gap-2 pr-6 motion-reduce:min-w-0" [ngClass]="{'motion-reduce:[display:none]': copy == 1}">
+          <ng-container *ngIf="playerDiffs.att">
+            <span class="flex-none text-xs font-semibold text-slate-500">Attack</span>
+            <span *ngFor="let d of playerDiffs.att" class="inline-flex h-6 flex-none items-center gap-1.5 whitespace-nowrap rounded-full bg-slate-50 px-2.5 text-xs ring-1 ring-inset ring-slate-200"><span aria-hidden="true" class="size-2 flex-none rounded-[3px] bg-[#EB6834]"></span><span class="font-medium text-slate-900">{{d.name}}</span><span class="tabular-nums text-slate-700">+{{d.diff | NumberFilter}}</span></span>
+          </ng-container>
+          <span *ngIf="playerDiffs.att && playerDiffs.def" aria-hidden="true" class="w-2 flex-none"></span>
+          <ng-container *ngIf="playerDiffs.def">
+            <span class="flex-none text-xs font-semibold text-slate-500">Defence</span>
+            <span *ngFor="let d of playerDiffs.def" class="inline-flex h-6 flex-none items-center gap-1.5 whitespace-nowrap rounded-full bg-slate-50 px-2.5 text-xs ring-1 ring-inset ring-slate-200"><span aria-hidden="true" class="size-2 flex-none rounded-[3px] bg-[#2A78D6]"></span><span class="font-medium text-slate-900">{{d.name}}</span><span class="tabular-nums text-slate-700">+{{d.diff | NumberFilter}}</span></span>
+          </ng-container>
+        </div>
+      </div>
     </div>
   </section>
 </ng-template>

@@ -388,7 +388,7 @@
 			<div class="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3">
 				<div class="min-w-0">
 					<p class="m-0 text-xs font-medium text-slate-500">Attacker losses</p>
-					<p class="mb-0 mt-0.5 text-sm font-medium tabular-nums text-emerald-700">+{{conquest.total_bp_att | NumberFilter}} BP</p>
+					<p class="mb-0 mt-0.5 text-sm font-medium tabular-nums text-emerald-700">+{{conquest.total_bp_def | NumberFilter}} BP</p>
 				</div>
 				<div *ngIf="average_luck!=null" matTooltip="Average Attacker Luck: {{average_luck | number : '1.1-1'}}%" class="flex h-8 flex-none flex-col items-center justify-center rounded-md bg-slate-100 px-1.5 ring-1 ring-inset ring-slate-200">
 					<span class="text-[10px] leading-3 text-slate-500">Luck</span>
@@ -396,7 +396,7 @@
 				</div>
 				<div class="col-start-3 min-w-0 text-right">
 					<p class="m-0 text-xs font-medium text-slate-500">Defender losses</p>
-					<p class="mb-0 mt-0.5 text-sm font-medium tabular-nums text-emerald-700">+{{conquest.total_bp_def | NumberFilter}} BP</p>
+					<p class="mb-0 mt-0.5 text-sm font-medium tabular-nums text-emerald-700">+{{conquest.total_bp_att | NumberFilter}} BP</p>
 				</div>
 			</div>
 			<div class="mt-2 grid grid-cols-2 gap-4">

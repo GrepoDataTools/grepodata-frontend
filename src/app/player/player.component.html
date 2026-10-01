@@ -297,65 +297,36 @@
             <span aria-hidden="true" class="size-4 flex-none animate-spin rounded-full border-2 border-solid border-slate-200 border-t-brand-700"></span>Loading history…
           </div>
           <div *ngIf="!historyError && playerHistoryData.length > 0" class="max-h-[520px] overflow-y-auto min-[1360px]:max-h-none min-[1360px]:min-h-0 min-[1360px]:flex-1" [ngClass]="{'pointer-events-none opacity-20': loadingHistory}">
-            <table class="w-full table-fixed border-separate border-spacing-0 text-left font-normal">
-              <colgroup>
-                <col class="w-[132px] [@container(max-width:559px)]:w-[92px]">
-                <col>
-                <col>
-                <col>
-                <col class="w-[72px] [@container(max-width:559px)]:[display:none]">
-                <col class="w-[84px] [@container(max-width:559px)]:[display:none]">
-              </colgroup>
-              <thead>
-                <tr>
-                  <th scope="col" class="sticky top-0 z-[1] whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-5 pr-3 [@container(max-width:559px)]:pl-4 [@container(max-width:559px)]:pr-2">Date<span class="[@container(max-width:559px)]:[display:none]"> · alliance</span></th>
-                  <th scope="col" class="sticky top-0 z-[1] whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 px-3 [@container(max-width:559px)]:px-2 text-right [@container(min-width:720px)]:pr-[76px]">Points</th>
-                  <th scope="col" class="sticky top-0 z-[1] whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 px-3 [@container(max-width:559px)]:px-2 text-right [@container(min-width:720px)]:pr-[76px]"><span class="[@container(max-width:559px)]:[display:none]">Attack points</span><span class="[@container(min-width:560px)]:[display:none]">Attack</span></th>
-                  <th scope="col" class="sticky top-0 z-[1] whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 px-3 [@container(max-width:559px)]:px-2 text-right [@container(max-width:559px)]:pr-4 [@container(min-width:720px)]:pr-[76px]"><span class="[@container(max-width:559px)]:[display:none]">Defence points</span><span class="[@container(min-width:560px)]:[display:none]">Defence</span></th>
-                  <th scope="col" class="sticky top-0 z-[1] whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 px-3 text-right [@container(max-width:559px)]:[display:none] [@container(min-width:720px)]:pr-[44px]">Rank</th>
-                  <th scope="col" class="sticky top-0 z-[1] whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-3 pr-5 text-right [@container(max-width:559px)]:[display:none] [@container(min-width:720px)]:pr-[52px]">Towns</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let h of playerHistoryData; let i = index;" class="group hover:bg-slate-50">
-                  <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 max-w-0 pl-5 pr-3 [@container(max-width:559px)]:pl-4 [@container(max-width:559px)]:pr-2">
-                    <span class="whitespace-nowrap tabular-nums text-slate-700">{{h.date | Datex : "D MMM"}}</span><span *ngIf="i == 0" class="ml-1.5 text-xs text-slate-500">now</span>
-                    <a *ngIf="h.alliance_name" routerLink="/alliance" [queryParams]="{world: world, id: h.alliance_id}" class="block truncate text-xs text-slate-500 no-underline hover:text-slate-900 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{h.alliance_name}}</a>
-                    <span *ngIf="!h.alliance_name" class="block truncate text-xs text-slate-400">No alliance</span>
-                  </td>
-                  <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 px-3 [@container(max-width:559px)]:px-2 whitespace-nowrap text-right">
-                    <span class="tabular-nums text-slate-900">{{h.points | NumberFilter}}</span>
-                    <span class="block [@container(min-width:720px)]:ml-2 [@container(min-width:720px)]:inline-block [@container(min-width:720px)]:w-14 [@container(min-width:720px)]:text-left">
-                      <a *ngIf="i+1<playerHistoryData.length && i < 90 && (h.points - playerHistoryData[i+1].points) != 0" routerLink="/points" [queryParams]="{world: world, date: h.date}" [title]="'Open the scoreboard of ' + (h.date | Datex : 'D MMM YYYY')" class="text-xs font-medium tabular-nums no-underline hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="(h.points - playerHistoryData[i+1].points) > 0 ? 'text-emerald-700 hover:text-emerald-800' : 'text-rose-700 hover:text-rose-800'">{{(h.points - playerHistoryData[i+1].points) > 0 ? '+' : ''}}{{(h.points - playerHistoryData[i+1].points) | NumberFilter}}</a>
-                    </span>
-                  </td>
-                  <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 px-3 [@container(max-width:559px)]:px-2 whitespace-nowrap text-right">
-                    <span class="tabular-nums text-slate-900">{{h.att | NumberFilter}}</span>
-                    <span class="block [@container(min-width:720px)]:ml-2 [@container(min-width:720px)]:inline-block [@container(min-width:720px)]:w-14 [@container(min-width:720px)]:text-left">
-                      <a *ngIf="i+1<playerHistoryData.length && i < 90 && (h.att - playerHistoryData[i+1].att) != 0" routerLink="/points" [queryParams]="{world: world, date: h.date}" [title]="'Open the scoreboard of ' + (h.date | Datex : 'D MMM YYYY')" class="text-xs font-medium tabular-nums no-underline hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="(h.att - playerHistoryData[i+1].att) > 0 ? 'text-emerald-700 hover:text-emerald-800' : 'text-rose-700 hover:text-rose-800'">{{(h.att - playerHistoryData[i+1].att) > 0 ? '+' : ''}}{{(h.att - playerHistoryData[i+1].att) | NumberFilter}}</a>
-                    </span>
-                  </td>
-                  <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 px-3 [@container(max-width:559px)]:px-2 [@container(max-width:559px)]:pr-4 whitespace-nowrap text-right">
-                    <span class="tabular-nums text-slate-900">{{h.def | NumberFilter}}</span>
-                    <span class="block [@container(min-width:720px)]:ml-2 [@container(min-width:720px)]:inline-block [@container(min-width:720px)]:w-14 [@container(min-width:720px)]:text-left">
-                      <a *ngIf="i+1<playerHistoryData.length && i < 90 && (h.def - playerHistoryData[i+1].def) != 0" routerLink="/points" [queryParams]="{world: world, date: h.date}" [title]="'Open the scoreboard of ' + (h.date | Datex : 'D MMM YYYY')" class="text-xs font-medium tabular-nums no-underline hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="(h.def - playerHistoryData[i+1].def) > 0 ? 'text-emerald-700 hover:text-emerald-800' : 'text-rose-700 hover:text-rose-800'">{{(h.def - playerHistoryData[i+1].def) > 0 ? '+' : ''}}{{(h.def - playerHistoryData[i+1].def) | NumberFilter}}</a>
-                    </span>
-                  </td>
-                  <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 px-3 whitespace-nowrap text-right [@container(max-width:559px)]:[display:none]">
-                    <span class="tabular-nums text-slate-900">{{h.rank | NumberFilter}}</span>
-                    <span class="block [@container(min-width:720px)]:ml-2 [@container(min-width:720px)]:inline-block [@container(min-width:720px)]:w-6 [@container(min-width:720px)]:text-left">
-                      <a *ngIf="i+1<playerHistoryData.length && i < 90 && (playerHistoryData[i+1].rank - h.rank) != 0" routerLink="/points" [queryParams]="{world: world, date: h.date}" [title]="'Open the scoreboard of ' + (h.date | Datex : 'D MMM YYYY')" class="text-xs font-medium tabular-nums no-underline hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="(playerHistoryData[i+1].rank - h.rank) > 0 ? 'text-emerald-700 hover:text-emerald-800' : 'text-rose-700 hover:text-rose-800'">{{(playerHistoryData[i+1].rank - h.rank) > 0 ? '+' : ''}}{{(playerHistoryData[i+1].rank - h.rank) | NumberFilter}}</a>
-                    </span>
-                  </td>
-                  <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 pl-3 pr-5 whitespace-nowrap text-right [@container(max-width:559px)]:[display:none]">
-                    <span class="tabular-nums text-slate-900">{{h.towns | NumberFilter}}</span>
-                    <span class="block [@container(min-width:720px)]:ml-2 [@container(min-width:720px)]:inline-block [@container(min-width:720px)]:w-6 [@container(min-width:720px)]:text-left">
-                      <a *ngIf="i+1<playerHistoryData.length && i < 90 && (h.towns - playerHistoryData[i+1].towns) != 0" routerLink="/points" [queryParams]="{world: world, date: h.date}" [title]="'Open the scoreboard of ' + (h.date | Datex : 'D MMM YYYY')" class="text-xs font-medium tabular-nums no-underline hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="(h.towns - playerHistoryData[i+1].towns) > 0 ? 'text-emerald-700 hover:text-emerald-800' : 'text-rose-700 hover:text-rose-800'">{{(h.towns - playerHistoryData[i+1].towns) > 0 ? '+' : ''}}{{(h.towns - playerHistoryData[i+1].towns) | NumberFilter}}</a>
-                    </span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <div role="table" aria-labelledby="daily-history-title" class="grid text-left font-normal [@container(max-width:639px)]:grid-cols-[96px_repeat(3,minmax(0,1fr))] [@container(min-width:560px)_and_(max-width:639px)]:grid-cols-[132px_repeat(3,minmax(0,1fr))_72px_84px] [@container(min-width:640px)]:grid-cols-[max-content_minmax(0,1fr)_repeat(10,max-content)]">
+              <div role="row" class="sticky top-0 z-[1] col-span-full grid grid-cols-subgrid items-center border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700">
+                <span role="columnheader" class="whitespace-nowrap pl-5 pr-1.5 [@container(max-width:639px)]:pl-4 [@container(min-width:560px)_and_(max-width:639px)]:pl-5 [@container(min-width:880px)]:pr-2">Date</span>
+                <span role="columnheader" class="whitespace-nowrap px-1 [@container(max-width:639px)]:[display:none] [@container(min-width:880px)]:px-2">Alliance</span>
+                <span role="columnheader" aria-colspan="2" class="col-span-2 whitespace-nowrap pl-1 pr-1 [@container(max-width:639px)]:col-span-1 [@container(max-width:639px)]:px-1.5 [@container(max-width:639px)]:text-right [@container(min-width:880px)]:pl-4 [@container(min-width:880px)]:pr-2">Points</span>
+                <span role="columnheader" aria-colspan="2" class="col-span-2 whitespace-nowrap pl-1 pr-1 [@container(max-width:639px)]:col-span-1 [@container(max-width:639px)]:px-1.5 [@container(max-width:639px)]:text-right [@container(min-width:880px)]:pl-4 [@container(min-width:880px)]:pr-2"><span class="[@container(max-width:559px)]:[display:none]">Attack points</span><span class="[@container(min-width:560px)]:[display:none]">Attack</span></span>
+                <span role="columnheader" aria-colspan="2" class="col-span-2 whitespace-nowrap pl-1 pr-1 [@container(max-width:639px)]:col-span-1 [@container(max-width:639px)]:px-1.5 [@container(max-width:639px)]:text-right [@container(max-width:639px)]:pr-4 [@container(min-width:560px)_and_(max-width:639px)]:pr-1.5 [@container(min-width:880px)]:pl-4 [@container(min-width:880px)]:pr-2"><span class="[@container(max-width:559px)]:[display:none]">Defence points</span><span class="[@container(min-width:560px)]:[display:none]">Defence</span></span>
+                <span role="columnheader" aria-colspan="2" class="col-span-2 whitespace-nowrap pl-1 pr-1 [@container(max-width:639px)]:col-span-1 [@container(max-width:639px)]:px-1.5 [@container(max-width:639px)]:text-right [@container(max-width:559px)]:[display:none] [@container(min-width:880px)]:pl-4 [@container(min-width:880px)]:pr-2">Rank</span>
+                <span role="columnheader" aria-colspan="2" class="col-span-2 whitespace-nowrap pl-1 pr-5 [@container(max-width:639px)]:col-span-1 [@container(max-width:639px)]:px-1.5 [@container(max-width:639px)]:text-right [@container(max-width:559px)]:[display:none] [@container(min-width:560px)_and_(max-width:639px)]:pr-5 [@container(min-width:880px)]:pl-4">Towns</span>
+              </div>
+              <div role="row" *ngFor="let h of playerHistoryData; let i = index; let first = first" class="group col-span-full grid grid-cols-subgrid items-center border-0 border-solid border-slate-100 py-1.5 hover:bg-slate-50 [@container(max-width:639px)]:grid-flow-col [@container(max-width:639px)]:grid-rows-[auto_auto] [@container(max-width:639px)]:gap-y-0.5" [ngClass]="{'border-t': !first}">
+                <ng-container *ngIf="{prev: i + 1 < playerHistoryData.length && i < 90 ? playerHistoryData[i + 1] : null} as row">
+                  <span role="cell" class="whitespace-nowrap pl-5 pr-1.5 text-[13px] leading-5 tabular-nums text-slate-700 [@container(max-width:639px)]:pl-4 [@container(min-width:560px)_and_(max-width:639px)]:pl-5 [@container(min-width:880px)]:pr-2">{{h.date | Datex : "D MMM"}}<ng-container *ngIf="first"><span role="img" aria-label="now" title="now" class="ml-[5px] size-1.5 rounded-full bg-brand-500 align-[1px] [display:none] [@container(min-width:640px)_and_(max-width:879px)]:[display:inline-block]"></span><span class="ml-1.5 text-xs text-slate-500 [@container(min-width:640px)_and_(max-width:879px)]:[display:none]">now</span></ng-container></span>
+                  <span role="cell" class="min-w-0 px-1 [@container(max-width:639px)]:pl-4 [@container(max-width:639px)]:pr-1.5 [@container(min-width:560px)_and_(max-width:639px)]:pl-5 [@container(min-width:880px)]:px-2">
+                    <a *ngIf="h.alliance_name" routerLink="/alliance" [queryParams]="{world: world, id: h.alliance_id}" [title]="h.alliance_name" class="flex min-w-0 items-center gap-1.5 text-xs leading-5 text-slate-500 no-underline hover:text-slate-900 hover:underline focus:text-slate-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 [@container(max-width:639px)]:leading-4 [@container(min-width:880px)]:text-[13px] [@container(min-width:880px)]:text-slate-600"><svg appIcon="ally_ico" variant="game" class="size-3.5 flex-none text-slate-400 [display:none] [@container(min-width:880px)]:[display:block]"></svg><span class="truncate">{{h.alliance_name}}</span></a>
+                    <span *ngIf="!h.alliance_name" class="block truncate text-xs leading-5 text-slate-400 [@container(max-width:639px)]:leading-4 [@container(min-width:880px)]:text-[13px]">No alliance</span>
+                  </span>
+                  <span role="cell" class="whitespace-nowrap pl-1 text-right text-[13px] leading-5 tabular-nums text-slate-900 [@container(max-width:639px)]:px-1.5 [@container(min-width:880px)]:pl-4">{{h.points | NumberFilter}}</span>
+                  <span role="cell" class="whitespace-nowrap pl-[3px] pr-1 [@container(max-width:639px)]:px-1.5 [@container(max-width:639px)]:text-right [@container(min-width:880px)]:pl-1.5 [@container(min-width:880px)]:pr-2"><ng-container *ngIf="row.prev"><ng-container *ngTemplateOutlet="dailyChange; context: {$implicit: h.points - row.prev.points, date: h.date}"></ng-container></ng-container></span>
+                  <span role="cell" class="whitespace-nowrap pl-1 text-right text-[13px] leading-5 tabular-nums text-slate-900 [@container(max-width:639px)]:px-1.5 [@container(min-width:880px)]:pl-4">{{h.att | NumberFilter}}</span>
+                  <span role="cell" class="whitespace-nowrap pl-[3px] pr-1 [@container(max-width:639px)]:px-1.5 [@container(max-width:639px)]:text-right [@container(min-width:880px)]:pl-1.5 [@container(min-width:880px)]:pr-2"><ng-container *ngIf="row.prev"><ng-container *ngTemplateOutlet="dailyChange; context: {$implicit: h.att - row.prev.att, date: h.date}"></ng-container></ng-container></span>
+                  <span role="cell" class="whitespace-nowrap pl-1 text-right text-[13px] leading-5 tabular-nums text-slate-900 [@container(max-width:639px)]:px-1.5 [@container(max-width:639px)]:pr-4 [@container(min-width:560px)_and_(max-width:639px)]:pr-1.5 [@container(min-width:880px)]:pl-4">{{h.def | NumberFilter}}</span>
+                  <span role="cell" class="whitespace-nowrap pl-[3px] pr-1 [@container(max-width:639px)]:px-1.5 [@container(max-width:639px)]:text-right [@container(max-width:639px)]:pr-4 [@container(min-width:560px)_and_(max-width:639px)]:pr-1.5 [@container(min-width:880px)]:pl-1.5 [@container(min-width:880px)]:pr-2"><ng-container *ngIf="row.prev"><ng-container *ngTemplateOutlet="dailyChange; context: {$implicit: h.def - row.prev.def, date: h.date}"></ng-container></ng-container></span>
+                  <span role="cell" class="whitespace-nowrap pl-1 text-right text-[13px] leading-5 tabular-nums text-slate-900 [@container(max-width:639px)]:px-1.5 [@container(max-width:559px)]:[display:none] [@container(min-width:880px)]:pl-4">{{h.rank | NumberFilter}}</span>
+                  <span role="cell" class="whitespace-nowrap pl-[3px] pr-1 [@container(max-width:639px)]:px-1.5 [@container(max-width:639px)]:text-right [@container(max-width:559px)]:[display:none] [@container(min-width:880px)]:pl-1.5 [@container(min-width:880px)]:pr-2"><ng-container *ngIf="row.prev"><ng-container *ngTemplateOutlet="dailyChange; context: {$implicit: row.prev.rank - h.rank, date: h.date}"></ng-container></ng-container></span>
+                  <span role="cell" class="whitespace-nowrap pl-1 text-right text-[13px] leading-5 tabular-nums text-slate-900 [@container(max-width:639px)]:px-1.5 [@container(max-width:559px)]:[display:none] [@container(min-width:560px)_and_(max-width:639px)]:pr-5 [@container(min-width:880px)]:pl-4">{{h.towns | NumberFilter}}</span>
+                  <span role="cell" class="whitespace-nowrap pl-[3px] pr-5 [@container(max-width:639px)]:px-1.5 [@container(max-width:639px)]:text-right [@container(max-width:559px)]:[display:none] [@container(min-width:560px)_and_(max-width:639px)]:pr-5 [@container(min-width:880px)]:pl-1.5"><ng-container *ngIf="row.prev"><ng-container *ngTemplateOutlet="dailyChange; context: {$implicit: h.towns - row.prev.towns, date: h.date}"></ng-container></ng-container></span>
+                </ng-container>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -366,6 +337,10 @@
     </div>
   </ng-container>
 </div>
+
+<ng-template #dailyChange let-value let-date="date">
+  <a *ngIf="value != 0" routerLink="/points" [queryParams]="{world: world, date: date}" [title]="'Open the scoreboard of ' + (date | Datex : 'D MMM YYYY')" class="text-xs font-medium tabular-nums no-underline hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="value > 0 ? 'text-emerald-700 hover:text-emerald-800' : 'text-rose-700 hover:text-rose-800'">{{value > 0 ? '+' : ''}}{{value | NumberFilter}}</a>
+</ng-template>
 
 <ng-template #historyRange>
   <div role="group" aria-label="History range" class="inline-flex gap-0.5 rounded-lg bg-slate-100 p-[3px] max-sm:flex max-sm:w-full">

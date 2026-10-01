@@ -513,7 +513,7 @@
 					</div>
 					<div class="flex items-baseline justify-between gap-3 border-0 border-t border-solid border-slate-200 pt-3">
 						<span class="text-xs font-medium text-slate-500">Losses</span>
-						<span matTooltip="Battle points (without modifier)" class="text-base font-semibold tabular-nums text-emerald-700">+{{conquest.total_bp_att | NumberFilter}} BP</span>
+						<span matTooltip="Battle points (without modifier)" class="text-base font-semibold tabular-nums text-emerald-700">+{{conquest.total_bp_def | NumberFilter}} BP</span>
 					</div>
 					<div class="flex flex-wrap gap-x-1.5 gap-y-2">
 						<div *ngFor="let unit of objectKeys(conquest.total_losses_att)" class="relative size-10 flex-none">
@@ -544,7 +544,7 @@
 					</div>
 					<div class="flex items-baseline justify-between gap-3 border-0 border-t border-solid border-slate-200 pt-3">
 						<span class="text-xs font-medium text-slate-500">Losses</span>
-						<span matTooltip="Battle points (without modifier)" class="text-base font-semibold tabular-nums text-emerald-700">+{{conquest.total_bp_def | NumberFilter}} BP</span>
+						<span matTooltip="Battle points (without modifier)" class="text-base font-semibold tabular-nums text-emerald-700">+{{conquest.total_bp_att | NumberFilter}} BP</span>
 					</div>
 					<div class="flex flex-wrap gap-x-1.5 gap-y-2">
 						<div *ngFor="let unit of objectKeys(conquest.total_losses_def)" class="relative size-10 flex-none">

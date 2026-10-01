@@ -283,4 +283,9 @@
       display: block;
     }
   }
+  .command-overview-content .command-list .command .command-details .command-timing {
+    height: auto;
+    min-height: 25px;
+    flex-wrap: wrap;
+  }
 }

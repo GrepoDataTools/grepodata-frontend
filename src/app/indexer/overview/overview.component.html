@@ -478,7 +478,7 @@
 										</span>
 									</td>
 									<td class="border-0 border-b border-solid border-slate-100 py-2.5 align-middle px-3">
-										<span *ngIf="player.player_id == 0" class="text-xs text-slate-400">—</span>
+										<span *ngIf="player.player_id == 0 || !player.towns" class="text-xs text-slate-400">—</span>
 										<div *ngIf="player.player_id != 0 && player.towns" class="flex items-center gap-2.5" title="{{player.towns_indexed}} of {{player.towns}} towns have at least one report">
 											<div class="h-1.5 w-[72px] flex-none overflow-hidden rounded-full bg-slate-100">
 												<div class="h-1.5 rounded-full bg-brand-600" [style.width.%]="share(player.towns_indexed, player.towns)"></div>
@@ -491,6 +491,7 @@
 											<svg appIcon="clock" class="size-4 flex-none" [ngClass]="isStale(player.last_report) ? 'text-amber-500' : 'text-slate-400'"></svg>
 											{{reportAge(player.last_report)}}
 										</span>
+										<span *ngIf="!player.last_report" class="text-xs text-slate-400">—</span>
 									</td>
 									<td class="border-0 border-b border-solid border-slate-100 py-2.5 align-middle px-3 text-right">
 										<span class="block text-sm font-medium tabular-nums text-slate-900">{{player.count}}</span>
@@ -549,6 +550,7 @@
 										<span *ngIf="alliance.members" class="block text-xs tabular-nums text-slate-500">{{alliance.members}} members</span>
 									</td>
 									<td class="border-0 border-b border-solid border-slate-100 py-2.5 align-middle px-3">
+										<span *ngIf="!alliance.members" class="text-xs text-slate-400">—</span>
 										<div *ngIf="alliance.members" class="flex items-center gap-2.5" title="{{alliance.members_indexed}} of {{alliance.members}} members have at least one report">
 											<div class="h-1.5 w-[72px] flex-none overflow-hidden rounded-full bg-slate-100">
 												<div class="h-1.5 rounded-full bg-brand-600" [style.width.%]="share(alliance.members_indexed, alliance.members)"></div>
@@ -561,6 +563,7 @@
 											<svg appIcon="clock" class="size-4 flex-none" [ngClass]="isStale(alliance.last_report) ? 'text-amber-500' : 'text-slate-400'"></svg>
 											{{reportAge(alliance.last_report)}}
 										</span>
+										<span *ngIf="!alliance.last_report" class="text-xs text-slate-400">—</span>
 									</td>
 									<td class="border-0 border-b border-solid border-slate-100 py-2.5 align-middle px-3 text-right">
 										<span class="block text-sm font-medium tabular-nums text-slate-900">{{alliance.count}}</span>

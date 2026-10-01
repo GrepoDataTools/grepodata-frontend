@@ -47,6 +47,14 @@ module.exports = {
           other: '#94A3B8',
         },
       },
+      keyframes: {
+        ticker: {
+          to: { transform: 'translateX(-50%)' },
+        },
+      },
+      animation: {
+        ticker: 'ticker 60s linear infinite',
+      },
     },
   },
   plugins: [],

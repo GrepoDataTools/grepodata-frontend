@@ -378,26 +378,35 @@
 
           </div>
 
-          <div class="flex flex-none flex-col gap-2.5 border-0 border-t border-solid border-slate-200 bg-slate-50 px-4 py-2.5 dark:border-slate-800 dark:bg-slate-900/60">
-            <div class="flex flex-wrap items-center gap-1">
-              <button type="button" *ngFor="let type of command_types;" (click)="toggleCommandTypeFilter(type)" title="{{type}}" [attr.aria-pressed]="active_view?.command_type_toggle[type]" class="inline-flex rounded-md border-0 p-[3px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="active_view?.command_type_toggle[type] ? 'bg-white shadow-sm ring-1 ring-inset ring-slate-200 dark:bg-slate-800 dark:ring-slate-700' : 'bg-transparent opacity-60 hover:opacity-100'">
-                <span class="support_filter {{type}} block rounded" [ngClass]="{'inactive': !active_view?.command_type_toggle[type]}"></span>
-              </button>
-              <span class="mx-1.5 h-5 w-px bg-slate-200 dark:bg-slate-700"></span>
-              <button type="button" (click)="toggleShowReturns()" title="Show returning commands" [attr.aria-pressed]="active_view?.show_returns" class="inline-flex items-center gap-1 rounded-md border-0 px-2 py-1 text-xs font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="active_view?.show_returns ? 'bg-white text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:ring-slate-700' : 'bg-transparent text-slate-400 line-through dark:text-slate-500'">
-                <svg appIcon="arrow-uturn-left" variant="micro" class="size-3.5 flex-none"></svg>
-                Returns
-              </button>
+          <div class="command-overview-footer flex-none">
+            <div class="command_filter">
+
+              <div class="options">
+
+                <div
+                  *ngFor="let type of command_types;"
+                  class="support_filter {{type}}"
+                  (click)="toggleCommandTypeFilter(type)"
+                  [ngClass]="{'inactive': !active_view?.command_type_toggle[type]}"
+                  title="{{type}}"
+                ></div>
+
+                <div class="filter-returns" [ngClass]="{ 'disabled': !active_view?.show_returns }" (click)="toggleShowReturns()" title="Show returning commands"></div>
+
+              </div>
             </div>
 
-            <div class="flex min-w-0 items-center gap-3" *ngIf="active_view.show_total_units">
-              <span *ngIf="total_units && objectKeys(total_units).length < 14" class="flex-none text-xs font-semibold text-slate-500 dark:text-slate-400">Total units<span *ngIf="is_filtered"> (filtered)</span></span>
-              <ul class="m-0 flex min-w-0 list-none flex-wrap gap-x-3.5 gap-y-1.5 p-0" *ngIf="total_units">
-                <li *ngFor="let unit of total_units | keyvalue" title="{{unit.value}} {{unit.key}}" class="inline-flex items-center gap-1 text-xs font-semibold tabular-nums text-slate-700 dark:text-slate-300">
-                  <span class="block size-5 flex-none overflow-hidden rounded ring-1 ring-inset ring-slate-900/[.18] dark:ring-white/[.14]"><span class="unit_icon40x40 {{unit.key}} block origin-top-left scale-50 border-0"></span></span>
-                  <span [ngClass]="{'text-[11px]': unit.value>9999}">{{unit.value}}</span>
-                </li>
-              </ul>
+            <div class="refresh-timer" *ngIf="!active_view.show_total_units">
+              <h5>Next refresh: <div class="ops-next-refresh">{{next_refresh}}</div></h5>
+            </div>
+
+            <div class="total-units" *ngIf="active_view.show_total_units">
+              <h5 *ngIf="total_units && objectKeys(total_units).length < 14">Total units<span *ngIf="is_filtered"> (filtered)</span>:</h5>
+              <div class="unit-row" *ngIf="total_units">
+                <div class="unit-icon-lg" *ngFor="let unit of total_units | keyvalue" title="{{unit.value}} {{unit.key}}" style="margin: 0px 1px 0 !important; transform: scale(0.9) !important;">
+                  <div class="unit_icon40x40 {{unit.key}}"><span class="unit-val" [ngClass]="{ 'smaller-text': unit.value>9999 }">{{unit.value}}</span></div>
+                </div>
+              </div>
             </div>
           </div>
         </section>

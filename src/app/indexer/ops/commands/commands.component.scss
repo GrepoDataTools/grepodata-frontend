@@ -103,8 +103,60 @@
   }
 }
 
+.total-units {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f6e7c8;
+  padding: 0 3px;
+  gap: 10px;
+  .smaller-text {
+    font-size: 13px !important;
+  }
+}
+
 .town-name:hover {
   cursor: pointer;
+}
+
+.command-overview-footer {
+  background: #f9ab0033;
+  border-top: 2px solid #d0be97;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  .command_filter {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin: 5px;
+    .options {
+      margin-left: 5px;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      .support_filter {
+        margin-right: 5px;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  .refresh-timer {
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
+.ops-next-refresh {
+  min-width: 20px;
+  display: inline-block;
 }
 
 .overview_incoming.icon,
@@ -139,6 +191,14 @@
 
 .mobile-newline {
   display: inline-block;
+}
+
+.cmd-mobile {
+  .command_filter {
+    .options {
+      flex-wrap: wrap;
+    }
+  }
 }
 
 @media (max-width: 1200px) {

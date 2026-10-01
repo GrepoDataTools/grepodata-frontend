@@ -3,15 +3,6 @@
     <app-indexer-breadcrumbs class="block min-w-0" [data]="{world: world, team: team, team_name: team_name}" [type]="'ops'"></app-indexer-breadcrumbs>
 
     <div class="flex flex-none items-center gap-2">
-      <span class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-bold tracking-wide ring-1 ring-inset" [ngClass]="sync_status=='LIVE' || sync_status=='LOADING' ? 'bg-emerald-50 text-emerald-700 ring-emerald-600/25 dark:bg-emerald-500/10 dark:text-emerald-300 dark:ring-emerald-400/30' : 'bg-rose-50 text-rose-700 ring-rose-600/25 dark:bg-rose-500/10 dark:text-rose-300 dark:ring-rose-400/30'">
-        <svg appIcon="arrow-path" variant="micro" class="size-3.5 flex-none" [ngClass]="{'animate-spin': animate_refresh}"></svg>
-        {{sync_status}}
-      </span>
-      <span class="inline-flex items-center gap-1.5 text-[13px] font-semibold tabular-nums text-slate-900 dark:text-slate-100" title="Server Time">
-        <svg appIcon="clock" variant="mini" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
-        {{game_time_string}}
-      </span>
-      <span class="mx-1 h-5 w-px bg-slate-200 dark:bg-slate-700 max-md:hidden"></span>
       <div class="flex items-center gap-2 max-md:hidden">
         <button type="button" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-800 dark:text-slate-100 dark:ring-slate-700 dark:hover:bg-slate-700" (click)="showHelpDialog()">
           <svg appIcon="question-mark-circle" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
@@ -254,16 +245,20 @@
         </details>
       </div>
 
-        <section class="command-overview-container flex min-h-0 flex-1 flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] dark:bg-[#111A2E] dark:ring-slate-800" [ngClass]="{'cmd-mobile': !mobileQuery.matches}">
-          <div class="flex flex-none flex-wrap items-center justify-between gap-x-3 gap-y-1 border-0 border-b border-solid border-slate-200 px-4 py-3 dark:border-slate-800">
-            <h1 class="m-0 text-base font-semibold text-slate-900 dark:text-slate-100">
-              Combined command overview
-              <span class="font-normal tabular-nums text-slate-500 dark:text-slate-400" *ngIf="commands && commands.length > 5">· {{commands.length}} active commands</span>
-            </h1>
-            <span class="inline-flex items-center gap-1.5 text-xs tabular-nums text-slate-500 dark:text-slate-400">
-              <svg appIcon="arrow-path" variant="micro" class="size-3.5 flex-none"></svg>
-              Next refresh in <span class="inline-block min-w-[2ch] text-right">{{next_refresh}}</span>s
-            </span>
+        <section class="command-overview-container game-border flex min-h-0 flex-1 flex-col bg-slate-50" [ngClass]="{'cmd-mobile': !mobileQuery.matches}">
+          <div class="command-overview-title flex-none">
+            <div class="server-time" title="Server Time">
+              {{game_time_string}}
+            </div>
+            <div class="title">
+              <p style="margin: 0; font-weight: 500;">Combined Command Overview <span class="cmd-total-commands" *ngIf="commands && commands.length > 5">&nbsp;({{commands.length}} active commands)</span></p>
+            </div>
+            <div class="sync-status">
+              <span class="sync-label" [ngClass]="{ 'sync-ok': sync_status=='LIVE' || sync_status=='LOADING' }">
+                <span class="rotate-cont"><mat-icon class="rotate-loader" [ngClass]="{ 'rotate-anim': animate_refresh }">refresh</mat-icon></span>
+                {{sync_status}}
+              </span>
+            </div>
           </div>
 
           <div class="command-overview-content min-h-0 flex-1">

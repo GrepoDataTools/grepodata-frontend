@@ -2,6 +2,46 @@
   font-size: 18px;
 }
 
+.command-overview-title {
+  background-image: url(~assets/images/game/header.png);
+  color: #fff;
+  padding: 3px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  .server-time {
+    text-align: left;
+    width: 25%;
+    padding: 0 5px;
+    font-weight: 500;
+  }
+  .title {
+    text-align: center;
+    width: 50%;
+  }
+  .sync-status {
+    text-align: right;
+    width: 25%;
+    padding: 0 5px;
+    min-width: 50px;
+    min-height: 30px;
+
+    font-weight: 900;
+    color: #fff;
+    font-size: 20px;
+    margin: 0;
+
+    .sync-label {
+      color: red;
+      margin-right: 7px;
+    }
+    .sync-ok {
+      color: #18bc9b;
+    }
+  }
+}
+
 .deleted-status {
   display: flex;
   align-items: center;
@@ -189,11 +229,40 @@
   background: #18bc9b6b !important;
 }
 
+.rotate-cont {
+  min-width: 24px;
+  display: inline-block;
+  margin-left: 3px;
+  margin-right: -3px;
+}
+.rotate-loader {
+  transition: all 0.3s ease;
+  display: none;
+  opacity: .7;
+  vertical-align: text-bottom;
+  min-width: 15px;
+}
+.rotate-anim {
+  display: inline-block;
+  animation: rotate-anim 2s infinite ease-out;
+}
+@keyframes rotate-anim {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .mobile-newline {
   display: inline-block;
 }
 
 .cmd-mobile {
+  .cmd-total-commands {
+    display: none;
+  }
   .command_filter {
     .options {
       flex-wrap: wrap;

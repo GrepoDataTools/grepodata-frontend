@@ -1,62 +1,102 @@
-<div class="flex max-h-[95vh] w-[600px] max-w-full flex-col text-left font-normal text-slate-900">
+<div class="flex max-h-[95vh] w-[600px] max-w-full flex-col text-left font-normal text-slate-900 lg:w-[900px]">
   <div class="flex flex-none items-start gap-4 border-0 border-b border-solid border-slate-200 px-6 py-5 max-sm:px-4">
     <span class="flex size-10 flex-none items-center justify-center rounded-lg bg-navy-800 text-brand-500">
       <svg appIcon="heart" class="size-6"></svg>
     </span>
     <div class="min-w-0 flex-1">
       <h2 mat-dialog-title class="m-0 text-xl font-semibold text-slate-900">Thank you for supporting GrepoData!</h2>
-      <p class="mb-0 mt-0.5 text-sm text-slate-600">Every donation goes towards the server upkeep costs.</p>
+      <p class="mb-0 mt-0.5 text-sm text-slate-600">Hosting costs are currently <strong class="font-semibold tabular-nums text-slate-700">€{{hostingCost}}</strong>/month — <button type="button" (click)="showProof = true" class="border-0 bg-transparent p-0 text-sm font-medium text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">view proof</button></p>
     </div>
     <button type="button" (click)="close()" aria-label="Close" class="-mr-2 -mt-1 inline-flex size-8 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
       <svg appIcon="x-mark" class="size-5"></svg>
     </button>
   </div>
 
-  <div class="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-6 py-5 max-sm:px-4">
-    <div class="flex items-center gap-4 rounded-lg bg-brand-50 p-4 ring-1 ring-inset ring-brand-700/20">
-      <div class="min-w-[88px] flex-none text-center">
-        <div class="text-2xl font-bold tabular-nums text-brand-700">€105</div>
-        <div class="text-xs text-brand-700">per month</div>
-      </div>
-      <div class="min-w-0 border-0 border-l border-solid border-brand-700/20 pl-4 text-sm text-slate-700">
-        <p class="m-0 font-semibold text-slate-900">Our current hosting costs</p>
-        <p class="mb-0 mt-0.5">Your contribution is greatly appreciated!</p>
-      </div>
+  <div class="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-6 py-5 max-sm:px-4 lg:grid lg:grid-cols-[1fr_300px] lg:items-center lg:gap-x-6 lg:gap-y-5">
+    <div class="flex flex-col gap-4 lg:order-2">
+      <h3 class="m-0 text-sm font-semibold text-slate-900 lg:text-center">Choose how to donate</h3>
+
+      <ul class="m-0 flex list-none flex-col gap-2.5 p-0">
+        <li class="m-0">
+          <a href="https://www.buymeacoffee.com/grepodata" target="_blank" class="flex items-center gap-3 rounded-xl bg-brand-700 p-4 text-left no-underline shadow-sm hover:bg-brand-800 hover:text-white hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+            <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-lg bg-white/15">
+              <img src="assets/images/icons/bmc-logo.svg" alt="" class="block size-[20px]"/>
+            </span>
+            <span class="min-w-0 flex-1">
+              <span class="block text-sm font-semibold text-white">Buy Me a Coffee</span>
+              <span class="block text-xs text-white/70">buymeacoffee.com/grepodata</span>
+            </span>
+            <svg appIcon="arrow-top-right-on-square" variant="mini" class="size-4 flex-none text-white/70"></svg>
+          </a>
+        </li>
+        <li class="m-0">
+          <a href="https://paypal.me/grepodata" target="_blank" class="flex items-center gap-3 rounded-xl bg-navy-800 p-4 text-left no-underline shadow-sm hover:bg-navy-800/90 hover:text-white hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+            <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-lg bg-white/15">
+              <img src="assets/images/icons/pp.svg" alt="" class="block size-[20px]"/>
+            </span>
+            <span class="min-w-0 flex-1">
+              <span class="block text-sm font-semibold text-white">PayPal</span>
+              <span class="block text-xs text-white/70">paypal.me/grepodata</span>
+            </span>
+            <svg appIcon="arrow-top-right-on-square" variant="mini" class="size-4 flex-none text-white/70"></svg>
+          </a>
+        </li>
+      </ul>
     </div>
 
-    <ul class="m-0 list-none rounded-xl p-0 ring-1 ring-slate-200">
-      <li class="flex flex-wrap items-center gap-x-4 gap-y-3 p-4">
-        <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-lg bg-amber-100 text-[22px] leading-none">☕</span>
-        <div class="min-w-0 flex-1">
-          <h3 class="m-0 text-sm font-semibold text-slate-900">Buy me a coffee</h3>
-        </div>
-        <a href="https://www.buymeacoffee.com/grepodata" target="_blank" class="inline-flex flex-none items-center justify-center gap-1.5 max-sm:w-full whitespace-nowrap rounded-md bg-brand-700 px-3 py-2 text-sm font-semibold text-white no-underline shadow-sm hover:bg-brand-800 hover:text-white hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
-          buymeacoffee.com/grepodata
-          <svg appIcon="arrow-top-right-on-square" variant="mini" class="size-4 flex-none text-white/70"></svg>
-        </a>
-      </li>
-      <li class="flex flex-wrap items-center gap-x-4 gap-y-3 border-0 border-t border-solid border-slate-200 p-4">
-        <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-lg bg-navy-800">
-          <img src="assets/images/icons/pp.svg" alt="" class="block size-[22px]"/>
-        </span>
-        <div class="min-w-0 flex-1">
-          <h3 class="m-0 text-sm font-semibold text-slate-900">Donate via PayPal</h3>
-          <div class="mt-0.5 flex items-center gap-0.5 text-sm text-slate-600">
-            <span id="donate_mail">admin@grepodata.com</span>
-            <button type="button" (click)="copyText('donate_mail')" title="Copy address" aria-label="Copy address" class="inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
-              <svg appIcon="clipboard-document" class="size-4"></svg>
-            </button>
-          </div>
-        </div>
-        <a href="https://paypal.me/grepodata" target="_blank" class="inline-flex flex-none items-center justify-center gap-1.5 max-sm:w-full whitespace-nowrap rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 no-underline shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 hover:text-slate-900 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
-          paypal.me/grepodata
-          <svg appIcon="arrow-top-right-on-square" variant="mini" class="size-4 flex-none text-slate-400"></svg>
-        </a>
-      </li>
-    </ul>
+    <div class="max-sm:hidden rounded-lg p-4 ring-1 ring-slate-200 lg:order-1">
+      <h3 class="mb-2 mt-0 text-sm font-semibold text-slate-900">Donations per month</h3>
+      <div *ngIf="chartLoading" aria-hidden="true" class="h-[140px] animate-pulse rounded-lg bg-slate-50 lg:h-[220px]"></div>
+      <app-line-chart *ngIf="!chartLoading" [results]="chartData" [color]="donationChartColor" [width]="donationChartWidth" [prefix]="'€'" [zero]="true" [months]="1" ends="value" plot="h-[140px] lg:h-[220px]" label="Donations per month vs hosting costs"></app-line-chart>
+    </div>
+
+    <div *ngIf="!chartLoading && rawDonations.length > 0" class="rounded-lg bg-slate-50/60 ring-1 ring-slate-200/70 lg:order-3 lg:col-span-2">
+      <div class="gd-scrollbar" [ngClass]="listExpanded ? 'max-h-[220px] overflow-y-auto' : ''">
+        <table class="w-full border-separate border-spacing-0 text-left font-normal">
+          <thead>
+            <tr>
+              <th scope="col" class="sticky top-0 whitespace-nowrap rounded-tl-lg border-0 border-b border-solid border-slate-200 bg-slate-100/70 py-1.5 pl-4 pr-3 text-xs font-medium text-slate-600">Supporter</th>
+              <th scope="col" class="sticky top-0 whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-100/70 py-1.5 px-3 text-xs font-medium text-slate-600">Date</th>
+              <th scope="col" class="sticky top-0 border-0 border-b border-solid border-slate-200 bg-slate-100/70 py-1.5 px-3 text-xs font-medium text-slate-600">Note</th>
+              <th scope="col" class="sticky top-0 whitespace-nowrap rounded-tr-lg border-0 border-b border-solid border-slate-200 bg-slate-100/70 py-1.5 pl-3 pr-4 text-right text-xs font-medium text-slate-600">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of (listExpanded ? rawDonations : (rawDonations | slice:0:3))" (click)="toggleNote(row)" class="group cursor-pointer">
+              <td class="max-w-0 truncate border-0 border-t border-solid border-slate-100 py-1.5 pl-4 pr-3 align-middle text-xs text-slate-700 group-first:border-t-0">{{row.name || 'Anonymous'}}</td>
+              <td class="whitespace-nowrap border-0 border-t border-solid border-slate-100 py-1.5 px-3 align-middle text-xs text-slate-500 group-first:border-t-0">{{row.dateText}}</td>
+              <td class="border-0 border-t border-solid border-slate-100 py-1.5 px-3 align-middle text-xs text-slate-500 group-first:border-t-0" [ngClass]="row.noteExpanded ? 'whitespace-normal break-words' : 'max-w-0 overflow-hidden whitespace-nowrap'">
+                <span *ngIf="!row.noteExpanded">{{(row.noteText || '—').slice(0, 60)}}</span>
+                <span *ngIf="row.noteExpanded" [innerHTML]="row.note || '—'"></span>
+              </td>
+              <td class="whitespace-nowrap border-0 border-t border-solid border-slate-100 py-1.5 pl-3 pr-4 text-right align-middle text-xs font-semibold tabular-nums text-slate-700 group-first:border-t-0">€{{row.donation}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="flex items-center justify-between gap-3 border-0 border-t border-solid border-slate-200 p-2">
+        <span *ngIf="listExpanded" class="text-xs text-slate-400">Only showing last 12 months of donations</span>
+        <button *ngIf="rawDonations.length > 3" type="button" (click)="toggleList()" class="ml-auto flex-none border-0 bg-transparent p-0 text-xs font-medium text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{listExpanded ? 'Show less' : 'Show more'}} ›</button>
+      </div>
+    </div>
   </div>
 
-  <div class="flex flex-none items-center justify-end gap-3 border-0 border-t border-solid border-slate-200 bg-slate-50 px-6 py-4 max-sm:px-4">
-    <button type="button" (click)="close()" class="inline-flex items-center justify-center gap-1.5 rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Close</button>
+  <div *ngIf="!chartLoading && marqueeDonations.length > 0" aria-hidden="true" class="flex-none overflow-hidden border-0 border-t border-solid border-slate-200 bg-slate-50 py-2 [mask-image:linear-gradient(90deg,transparent,#000_24px,#000_calc(100%-24px),transparent)] [scrollbar-width:none] motion-reduce:overflow-x-auto [&::-webkit-scrollbar]:[display:none]">
+    <div class="flex w-max animate-ticker will-change-transform hover:[animation-play-state:paused] motion-reduce:animate-none" style="animation-duration: 28s">
+      <ul *ngFor="let copy of [0, 1]" [attr.aria-hidden]="copy == 1 ? 'true' : null" class="m-0 flex min-w-max list-none items-center gap-6 whitespace-nowrap px-6" [ngClass]="{'motion-reduce:[display:none]': copy == 1}">
+        <li *ngFor="let row of marqueeDonations" [title]="row.noteText || null" class="flex flex-none items-center gap-1.5 text-xs text-slate-500">
+          <span>{{row.emoji}}</span>
+          <span class="font-medium text-slate-700">{{row.name || 'Anonymous'}}</span>
+          <span class="tabular-nums text-slate-400">€{{row.donation}}</span>
+        </li>
+      </ul>
+    </div>
   </div>
+</div>
+
+<div *ngIf="showProof" (click)="showProof = false" class="fixed inset-0 z-[1000] flex items-center justify-center bg-slate-900/80 p-6">
+  <button type="button" (click)="showProof = false" aria-label="Close" class="absolute right-4 top-4 inline-flex size-9 flex-none items-center justify-center rounded-md border-0 bg-white/10 p-0 text-white hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+    <svg appIcon="x-mark" class="size-5"></svg>
+  </button>
+  <img src="assets/images/hosting.png" alt="Proof of our current hosting costs" (click)="$event.stopPropagation()" class="max-h-full max-w-full rounded-lg shadow-2xl"/>
 </div>

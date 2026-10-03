@@ -21,6 +21,7 @@ export class LineChartComponent implements OnChanges {
     @Input() plot = 'h-60';
     @Input() months = 0;
     @Input() width: (name: string) => number = () => 2;
+    @Input() prefix = '';
 
     lines: any[] = [];
     yTicks: any[] = [];

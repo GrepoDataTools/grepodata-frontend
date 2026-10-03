@@ -23,6 +23,7 @@ import { environment } from '../../environments/environment';
 import * as moment from 'moment';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {DonateDialog} from '../shared/dialogs/donate/donate.component';
+import {HOSTING_COST_PER_MONTH} from '../shared/hosting-cost';
 
 @Component({
   selector: 'app-scoreboard',
@@ -37,6 +38,8 @@ export class ScoreboardComponent implements OnInit {
   @ViewChild('worldMapContainer', { static: false }) worldMapContainer: ElementRef;
   @ViewChild('mapTooltipContainer', { static: false }) mapTooltipContainer: ElementRef;
   @ViewChild('mapTip', { static: false }) mapTip: ElementRef;
+
+  readonly hostingCost = HOSTING_COST_PER_MONTH;
 
   // API data
   playerData = '' as any;

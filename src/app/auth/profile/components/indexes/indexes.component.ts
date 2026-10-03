@@ -19,6 +19,7 @@ import {MediaMatcher} from '@angular/cdk/layout';
 import {Sort} from '@angular/material/sort';
 import {HttpClient} from '@angular/common/http';
 import {DonateDialog} from '../../../../shared/dialogs/donate/donate.component';
+import {HOSTING_COST_PER_MONTH} from '../../../../shared/hosting-cost';
 
 const apiUrl = environment.apiUrl;
 
@@ -60,6 +61,8 @@ export class IndexesComponent implements OnInit, OnDestroy {
   filter_role : any = '';
 
   private timezones: {[server: string]: string} = null;
+
+  readonly hostingCost = HOSTING_COST_PER_MONTH;
 
   constructor(
     private globals: Globals,

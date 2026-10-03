@@ -39,6 +39,7 @@
         >
           <svg [appIcon]="menuItem.icon" [variant]="menuItem.iconVariant || 'outline'" class="size-5 flex-none text-slate-400"></svg>
           <span class="min-w-0 flex-1 truncate">{{ menuItem.name }}</span>
+          <span *ngIf="menuItem.name === 'Donate'" class="flex-none rounded-full px-2 text-xs font-medium leading-5" [ngClass]="donationBadgeClasses">{{donationPercent}}%</span>
           <svg *ngIf="menuItem.external" appIcon="arrow-top-right-on-square" variant="micro" class="size-3.5 flex-none text-slate-300"></svg>
         </button>
       </div>

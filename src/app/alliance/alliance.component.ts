@@ -9,6 +9,7 @@ import { Globals } from '../globals';
 import {MatDialog} from '@angular/material/dialog';
 import {JwtService} from '../auth/services/jwt.service';
 import {DonateDialog} from '../shared/dialogs/donate/donate.component';
+import {HOSTING_COST_PER_MONTH} from '../shared/hosting-cost';
 
 @Component({
     selector: 'app-alliance',
@@ -17,6 +18,8 @@ import {DonateDialog} from '../shared/dialogs/donate/donate.component';
 })
 export class AllianceComponent implements AfterViewInit {
     @ViewChild('infoTabs', { static: false }) infoTabs: ElementRef;
+
+    readonly hostingCost = HOSTING_COST_PER_MONTH;
 
     // Chart vars
     data_default: any[];

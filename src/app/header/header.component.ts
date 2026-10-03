@@ -7,7 +7,6 @@ import {RecaptchaComponent} from 'ng-recaptcha';
 import {environment} from '../../environments/environment';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {SidenavService} from '../layout/sidebar/sidenav-service';
-import {DonateDialog} from '../shared/dialogs/donate/donate.component';
 
 @Component({
   selector: 'app-header',
@@ -75,16 +74,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-  }
-
-  donate()
-  {
-    // window.open("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WYX6WW65KYQ5N&source=url", "_blank")
-    // this.routing('/donate');
-
-    const dialogRef = this.dialog.open(DonateDialog, {
-      autoFocus: false,
-    });
   }
 
   toggleNav()

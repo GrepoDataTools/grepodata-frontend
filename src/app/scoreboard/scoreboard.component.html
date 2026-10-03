@@ -597,7 +597,8 @@
       <app-alert #donateAlert type="info" [dismissible]="true" [dismissPermanentId]="'daily_donate24'" class="[display:none]"></app-alert>
       <section *ngIf="!donateAlert.alertHidden" aria-label="Support GrepoData" class="flex items-center gap-3 rounded-xl bg-brand-50 py-3 pl-4 pr-3 ring-1 ring-inset ring-brand-700/20 max-sm:flex-wrap">
         <svg appIcon="heart" class="size-5 flex-none text-brand-700"></svg>
-        <p class="m-0 min-w-0 flex-1 text-sm text-teal-900 max-sm:basis-[calc(100%-32px)]"><strong class="font-semibold">The GrepoData hosting costs are currently €70/month.</strong> If you like what we do, please consider donating. Thank you!</p>
+        <p class="m-0 min-w-0 flex-1 text-sm text-teal-900 max-sm:basis-[calc(100%-32px)]"><strong class="font-semibold">The GrepoData hosting costs are currently €{{hostingCost}}/month.</strong> If you like what we do, please consider donating. Thank you!</p>
+        <app-donation-kpi class="flex-none"></app-donation-kpi>
         <button type="button" (click)="donate()" class="inline-flex flex-none items-center max-sm:ml-8 gap-1.5 whitespace-nowrap rounded-md border-0 bg-brand-700 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Donate</button>
         <button type="button" (click)="donateAlert.hideAlert()" aria-label="Dismiss" title="Dismiss" class="inline-flex size-8 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-brand-700 hover:bg-brand-500/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="x-mark" class="size-5"></svg></button>
       </section>

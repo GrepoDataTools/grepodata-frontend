@@ -8,6 +8,7 @@ import { NewIndexDialog } from '../../../../shared/dialogs/new-index/new-index.c
 import { JwtService } from '../../../services/jwt.service';
 import { ProfileService } from '../../../services/profile.service';
 import {DonateDialog} from '../../../../shared/dialogs/donate/donate.component';
+import {HOSTING_COST_PER_MONTH} from '../../../../shared/hosting-cost';
 
 @Component({
   selector: 'app-intel',
@@ -33,6 +34,8 @@ export class IntelComponent implements OnInit {
   hasIntel = true;
 
   private timezones: {[server: string]: string} = null;
+
+  readonly hostingCost = HOSTING_COST_PER_MONTH;
 
   constructor(
     private globals: Globals,

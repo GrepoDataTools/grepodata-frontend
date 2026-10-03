@@ -1,0 +1,5 @@
+<button type="button" (click)="openDonate()" [title]="tooltip" aria-haspopup="dialog" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border-0 px-2.5 py-1 text-xs font-semibold leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="badgeClasses">
+  <svg appIcon="heart" class="size-3.5 flex-none"></svg>
+  <span *ngIf="!loading" class="tabular-nums">{{percent}}%</span>
+  <span *ngIf="loading" aria-hidden="true" class="block h-3 w-5 rounded bg-current opacity-30"></span>
+</button>

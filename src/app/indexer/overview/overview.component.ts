@@ -19,7 +19,6 @@ import {IndexerOverviewService, IntelMovementKeys} from './overview.service';
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
-  styleUrls: ['./overview.component.scss'],
   providers: [IndexerService, LocalCacheService, WorldService, IndexerOverviewService],
 })
 export class OverviewComponent implements OnInit, OnDestroy, OnInit {
@@ -58,6 +57,7 @@ export class OverviewComponent implements OnInit, OnDestroy, OnInit {
   recent_conquests: any = [];
   events: any = [];
   update: any = '';
+  targetsTab = 'players';
 
   mobileQuery: MediaQueryList;
   private readonly _mediaQueryListener: () => void;
@@ -373,6 +373,31 @@ export class OverviewComponent implements OnInit, OnDestroy, OnInit {
 
   getIntelTypeTranslation(type: IntelMovementKeys) {
     return this.IndexerOverviewService.INTEL_MOVEMENT_TYPES[type]
+  }
+
+  share(part: number, total: number): number {
+    return total > 0 ? Math.min(100, part / total * 100) : 0;
+  }
+
+  reportAge(timestamp: number): string {
+    const minutes = Math.max(0, Math.floor((Date.now() / 1000 - timestamp) / 60));
+    if (minutes < 60) {
+      return minutes + 'm ago';
+    }
+    const hours = Math.floor(minutes / 60);
+    return hours < 24 ? hours + 'h ago' : Math.floor(hours / 24) + 'd ago';
+  }
+
+  isStale(timestamp: number): boolean {
+    return Date.now() / 1000 - timestamp > 86400;
+  }
+
+  reportSplit(types: any): string {
+    const total = types.friendly_attack + types.enemy_attack + types.spy + types.other;
+    return [['Our attacks', types.friendly_attack], ['Attacks on us', types.enemy_attack], ['Spy reports', types.spy], ['Other', types.other]]
+      .filter(([label, count]) => count > 0)
+      .map(([label, count]) => label + ' ' + Math.round(this.share(count, total)) + '%')
+      .join(' · ');
   }
 
 }

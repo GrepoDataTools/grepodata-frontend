@@ -12,7 +12,6 @@ import {animate, style, transition, trigger} from '@angular/animations';
 @Component({
   selector: 'app-landing-page',
   templateUrl: './landing-page.component.html',
-  styleUrls: ['./landing-page.component.scss'],
   providers: [IndexerService, LocalCacheService, WorldService]
 })
 export class LandingPageComponent implements OnInit, AfterViewInit {
@@ -21,6 +20,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
   stats: any = '';
   loading = true;
   show_stats = true;
+  activeTab = 1;
 
   single: any[];
   view: any[] = [700, 400];

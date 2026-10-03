@@ -1,115 +1,114 @@
-<div>
+<div id="pagehead" class="mx-auto flex max-w-[1600px] flex-col gap-6 px-6 py-6 text-left font-normal text-slate-900 max-sm:gap-4 max-sm:px-4">
+  <app-search></app-search>
 
-  <div class="decorated-card">
-    <div class='decorated-card-header-secondary decorated-title'>
-      <h1>
-        Showing alliance changes for: &nbsp; &nbsp; &nbsp;
-        <i *ngIf="type == 'town'" class="fa fa-university gd-secondary" aria-hidden="true"></i>
-        <i *ngIf="type == 'player'" class="fa fa-user gd-secondary" aria-hidden="true"></i>
-        <i *ngIf="type == 'alliance'" class="fa fa-group gd-secondary" aria-hidden="true"></i>
-        &nbsp;
-        <a *ngIf="type!='town'" routerLink="/{{type}}/{{world}}/{{id}}"><span class="gd-secondary">{{name}}</span></a>
-        <span *ngIf="type=='town'" class="gd-secondary">{{name}}</span>
-      </h1>
-      <h3>
-        World: <span class='world-title gd-secondary'><div class="bg-flag flag-inline-title flag-{{world.substr(0,2)}}"></div>&nbsp;<a class="a-link-dialog" style="color: #334254 !important;" routerLink="/points" [queryParams]="{world: world}">{{world}}</a></span>
-      </h3>
-    </div>
-    <app-search></app-search>
-    <div style="margin-top: 5px;" class="decorated-card-content">
-
-
-      <div>
-
-        <mat-card>
-          <mat-card-title>
-            <div *ngIf="!loading">
-              <div class="row" *ngIf="!noData">
-                <div class="col-xs-12 col-sm-4 col-md-6" style="padding-top: 20px;">
-                  <h3 class="mat-title table-title" style="margin-bottom: 0px; text-align: left;">Browse alliance changes:
-                    <a *ngIf="type!='town'" routerLink="/{{type}}/{{world}}/{{id}}"><span class="gd-primary">{{name}}</span></a>
-                    <span *ngIf="type=='town'" class="gd-primary">{{name}}</span>
-                  </h3>
-                </div>
-
-                <div class="col-xs-12 col-sm-8 col-md-6" *ngIf="!noData && data.length>=size">
-                  <mat-paginator [length]="count"
-                                 [pageSize]="size"
-                                 [pageIndex]="from/size"
-                                 [pageSizeOptions]="[10, 30, 50, 100, 200]"
-                                 (page)="paginatorEvent($event)">
-                  </mat-paginator>
-                </div>
-              </div>
-            </div>
-            <mat-progress-bar *ngIf="loading" mode="indeterminate" style="margin: 25px 0px;"></mat-progress-bar>
-          </mat-card-title>
-          <mat-card-content>
-
-            <div *ngIf="noData && !loading">
-              <div class="container">
-                <div class="row">
-                  <br/>
-                  <br/>
-                  <div class="alert alert-warning text-center alert-gd-1">
-                    <h3>We have not yet detected any changes for this {{type}}.</h3>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="table-container" *ngIf="!noData && (!loading || data.length>0)">
-              <div class="table" id="table_alliance_changes" style="">
-                <div class="row_custom header dark">
-                  <div class="cell">Player</div>
-                  <div class="cell">Old alliance</div>
-                  <div class="cell hidden-xs"> </div>
-                  <div class="cell">New alliance</div>
-                  <div class="cell hidden-xs">Time</div>
-                </div>
-
-                <div class="row_custom" *ngFor="let p of data; let i = index;">
-                  <div class="cell formatted-cell">
-                    <a routerLink="/player" [queryParams]="{world: world, id: p.player_grep_id}">{{p.player_name}}</a>
-                    <br/>
-                    {{p.player_points | NumberFilter}} points - rank {{p.player_rank}}
-                  </div>
-                  <div class="cell formatted-cell">
-                    <span *ngIf="p.old_alliance_grep_id != 0">
-                      <a routerLink="/alliance" [queryParams]="{world: world, id: p.old_alliance_grep_id}">{{p.old_alliance_name}}</a>
-                      <br/>
-                      rank {{p.old_alliance_rank}}
-                    </span>
-                    <span *ngIf="p.old_alliance_grep_id == 0" class="diff-null">
-                      None
-                    </span>
-                  </div>
-                  <div class="cell hidden-xs">
-                    <i class="fa fa-arrow-right" aria-hidden="true" ngClass="{{type=='alliance'&&p.old_alliance_grep_id==id?'diff-neg':'diff-pos'}}"></i>
-                  </div>
-                  <div class="cell formatted-cell">
-                    <span *ngIf="p.new_alliance_grep_id != 0">
-                      <a routerLink="/alliance" [queryParams]="{world: world, id: p.new_alliance_grep_id}">{{p.new_alliance_name}}</a>
-                      <br/>
-                      rank {{p.new_alliance_rank}}
-                    </span>
-                    <span *ngIf="p.new_alliance_grep_id == 0" class="diff-null">
-                      None
-                    </span>
-                  </div>
-                  <div class="cell hidden-xs">
-                    {{p.date.date | Datex : "D MMM ~HH:mm"}}
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </mat-card-content>
-        </mat-card>
-
+  <div class="flex items-center gap-4">
+    <span aria-hidden="true" class="flex size-12 flex-none items-center justify-center rounded-[10px] bg-navy-800 text-brand-500 max-sm:size-10">
+      <svg *ngIf="type == 'player'" appIcon="player_ico" variant="game" class="size-[26px] max-sm:size-6"></svg>
+      <svg *ngIf="type == 'alliance'" appIcon="ally_ico" variant="game" class="size-[26px] max-sm:size-6"></svg>
+      <svg *ngIf="type == 'town'" appIcon="town_ico" variant="game" class="size-[26px] max-sm:size-6"></svg>
+    </span>
+    <div class="min-w-0 flex-1">
+      <h1 class="m-0 text-2xl font-bold tracking-tight text-slate-900 max-sm:text-xl">Alliance changes</h1>
+      <div class="mt-1 flex min-h-5 flex-wrap items-center gap-x-3 gap-y-1 text-sm">
+        <a *ngIf="type!='town' && name" routerLink="/{{type}}/{{world}}/{{id}}" class="inline-flex min-w-0 max-w-full items-center gap-1.5 text-slate-700 no-underline hover:text-slate-900 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+          <svg [appIcon]="type == 'player' ? 'player_ico' : 'ally_ico'" variant="game" class="size-4 flex-none text-slate-400"></svg><span class="truncate">{{name}}</span>
+        </a>
+        <span *ngIf="type=='town'" class="text-slate-700">{{name}}</span>
+        <span *ngIf="name" aria-hidden="true" class="text-slate-300">·</span>
+        <a routerLink="/points" [queryParams]="{world: world}" title="Open the scoreboard of this world" class="inline-flex items-center gap-1.5 whitespace-nowrap text-slate-700 no-underline hover:text-slate-900 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+          <span class="bg-flag flag-{{world.substr(0,2)}} flex-none [zoom:0.625]"></span>{{world}}
+        </a>
       </div>
-
     </div>
   </div>
 
+  <section aria-labelledby="changes-title" class="relative overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+    <mat-progress-bar *ngIf="loading" mode="indeterminate" class="!absolute inset-x-0 top-0 z-10 !h-0.5"></mat-progress-bar>
+    <div class="flex min-h-[61px] flex-wrap items-center justify-between gap-x-6 gap-y-3 border-0 border-b border-solid border-slate-200 px-5 py-3.5 max-sm:px-4">
+      <div class="min-w-0">
+        <h2 id="changes-title" class="m-0 text-base font-semibold text-slate-900">All changes<span *ngIf="!loading || count > 0" class="font-normal tabular-nums text-slate-500"> · {{count | NumberFilter}}</span></h2>
+        <p class="mb-0 mt-0.5 text-[13px] leading-5 text-slate-500">{{type == 'player' ? 'Every time this player joined or left an alliance, newest first' : 'Every time a player joined or left this alliance, newest first'}}</p>
+      </div>
+      <div *ngIf="!noData && data.length>=size" class="ml-auto" [ngClass]="{'pointer-events-none': loading}">
+          <mat-paginator [length]="count"
+                         [pageSize]="size"
+                         [pageIndex]="from/size"
+                         [pageSizeOptions]="[10, 30, 50, 100, 200]"
+                         (page)="paginatorEvent($event)"
+                         class="block bg-transparent !text-xs !font-normal text-slate-600 [&_.mat-button-wrapper]:flex [&_.mat-form-field-infix]:!w-16 [&_.mat-form-field-infix]:!p-0 [&_.mat-form-field-subscript-wrapper]:hidden [&_.mat-form-field-underline]:hidden [&_.mat-form-field-wrapper]:!m-0 [&_.mat-form-field-wrapper]:!p-0 [&_.mat-icon-button:not(.mat-button-disabled):hover]:bg-slate-100 [&_.mat-icon-button]:inline-flex [&_.mat-icon-button]:size-8 [&_.mat-icon-button]:items-center [&_.mat-icon-button]:justify-center [&_.mat-icon-button]:rounded-md [&_.mat-icon-button]:leading-8 [&_.mat-paginator-container]:min-h-0 [&_.mat-paginator-container]:flex-nowrap [&_.mat-paginator-container]:gap-3 [&_.mat-paginator-container]:p-0 [&_.mat-paginator-icon]:w-5 [&_.mat-paginator-page-size-label]:m-0 [&_.mat-paginator-page-size]:m-0 [&_.mat-paginator-page-size]:items-center [&_.mat-paginator-page-size]:gap-2 [&_.mat-paginator-page-size]:!pt-0 [&_.mat-paginator-range-actions]:gap-1 [&_.mat-paginator-range-label]:m-0 [&_.mat-paginator-range-label]:mr-1 [&_.mat-paginator-range-label]:tabular-nums [&_.mat-select-arrow-wrapper]:![transform:none] [&_.mat-select-arrow]:text-slate-400 [&_.mat-select-trigger]:flex [&_.mat-select-trigger]:h-full [&_.mat-select-trigger]:w-full [&_.mat-select-trigger]:items-center [&_.mat-select-trigger]:pl-2.5 [&_.mat-select-trigger]:pr-1.5 [&_.mat-select-value]:min-w-0 [&_.mat-select-value]:max-w-none [&_.mat-select:focus]:ring-2 [&_.mat-select:focus]:ring-brand-700 [&_.mat-select]:flex [&_.mat-select]:h-8 [&_.mat-select]:items-center [&_.mat-select]:rounded-md [&_.mat-select]:bg-white [&_.mat-select]:text-xs [&_.mat-select]:shadow-sm [&_.mat-select]:ring-1 [&_.mat-select]:ring-inset [&_.mat-select]:ring-slate-300">
+          </mat-paginator>
+      </div>
+    </div>
+
+    <p *ngIf="loading && data.length == 0 && !noData" class="m-0 px-6 py-10 text-center text-sm text-slate-500">Loading alliance changes…</p>
+
+    <div *ngIf="noData && !loading" class="flex flex-col items-center px-6 py-10 text-center">
+      <span aria-hidden="true" class="flex size-12 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+        <svg appIcon="arrows-right-left" class="size-6"></svg>
+      </span>
+      <h3 class="mb-0 mt-3 text-base font-semibold text-slate-900">We have not yet detected any changes for this {{type}}.</h3>
+      <p class="mb-0 mt-1 max-w-[480px] text-sm text-slate-600">Changes show up here as soon as a player joins or leaves.</p>
+    </div>
+
+    <div *ngIf="!noData && (!loading || data.length>0)" class="overflow-x-auto" [ngClass]="{'pointer-events-none opacity-20': loading}">
+      <table class="w-full min-w-[760px] table-fixed border-separate border-spacing-0 text-left font-normal">
+        <colgroup>
+          <col class="w-[26%]">
+          <col *ngIf="type == 'alliance'" class="w-24">
+          <col>
+          <col class="w-10">
+          <col>
+          <col class="w-[132px]">
+        </colgroup>
+        <thead>
+          <tr>
+            <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-5 pr-3">Player</th>
+            <th *ngIf="type == 'alliance'" scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 px-3">Change</th>
+            <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 px-3">Old alliance</th>
+            <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700"><span class="sr-only">to</span></th>
+            <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 px-3">New alliance</th>
+            <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-3 pr-5 text-right">Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of data; let i = index;" class="group hover:bg-slate-50">
+            <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 max-w-0 pl-5 pr-3">
+              <a routerLink="/player" [queryParams]="{world: world, id: p.player_grep_id}" class="inline-flex max-w-full items-center gap-1.5 font-medium text-slate-900 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="player_ico" variant="game" class="size-4 flex-none text-slate-400"></svg><span class="truncate">{{p.player_name}}</span></a>
+              <div class="mt-0.5 text-xs tabular-nums text-slate-500">{{p.player_points | NumberFilter}} points · rank {{p.player_rank}}</div>
+            </td>
+            <td *ngIf="type == 'alliance'" class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 px-3">
+              <span *ngIf="p.new_alliance_grep_id == id" class="inline-flex whitespace-nowrap rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/25">Joined</span>
+              <span *ngIf="p.old_alliance_grep_id == id" class="inline-flex whitespace-nowrap rounded-full bg-rose-50 px-2 py-0.5 text-xs font-medium text-rose-700 ring-1 ring-inset ring-rose-600/20">Left</span>
+            </td>
+            <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 max-w-0 px-3">
+                <ng-container *ngIf="p.old_alliance_grep_id != 0">
+                  <a routerLink="/alliance" [queryParams]="{world: world, id: p.old_alliance_grep_id}" class="inline-flex max-w-full items-center gap-1.5 font-medium text-slate-900 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg><span class="truncate">{{p.old_alliance_name}}</span></a>
+                  <div class="mt-0.5 text-xs tabular-nums text-slate-500">rank {{p.old_alliance_rank}}</div>
+                </ng-container>
+                <span *ngIf="p.old_alliance_grep_id == 0" class="text-slate-400">No alliance</span>
+            </td>
+            <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0" [ngClass]="type=='alliance'&&p.old_alliance_grep_id==id ? 'text-rose-500' : 'text-emerald-600'"><svg appIcon="arrow-right" variant="mini" class="mx-auto block size-4"></svg></td>
+            <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 max-w-0 px-3">
+                <ng-container *ngIf="p.new_alliance_grep_id != 0">
+                  <a routerLink="/alliance" [queryParams]="{world: world, id: p.new_alliance_grep_id}" class="inline-flex max-w-full items-center gap-1.5 font-medium text-slate-900 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg><span class="truncate">{{p.new_alliance_name}}</span></a>
+                  <div class="mt-0.5 text-xs tabular-nums text-slate-500">rank {{p.new_alliance_rank}}</div>
+                </ng-container>
+                <span *ngIf="p.new_alliance_grep_id == 0" class="text-slate-400">No alliance</span>
+            </td>
+            <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 whitespace-nowrap pl-3 pr-5 text-right tabular-nums text-slate-700">{{p.date.date | Datex : "D MMM ~HH:mm"}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="!noData && data.length>=size" class="flex justify-end border-0 border-t border-solid border-slate-200 px-5 py-3 max-sm:px-4" [ngClass]="{'pointer-events-none': loading}">
+          <mat-paginator [length]="count"
+                         [pageSize]="size"
+                         [pageIndex]="from/size"
+                         [pageSizeOptions]="[10, 30, 50, 100, 200]"
+                         (page)="paginatorEvent($event)"
+                         class="block bg-transparent !text-xs !font-normal text-slate-600 [&_.mat-button-wrapper]:flex [&_.mat-form-field-infix]:!w-16 [&_.mat-form-field-infix]:!p-0 [&_.mat-form-field-subscript-wrapper]:hidden [&_.mat-form-field-underline]:hidden [&_.mat-form-field-wrapper]:!m-0 [&_.mat-form-field-wrapper]:!p-0 [&_.mat-icon-button:not(.mat-button-disabled):hover]:bg-slate-100 [&_.mat-icon-button]:inline-flex [&_.mat-icon-button]:size-8 [&_.mat-icon-button]:items-center [&_.mat-icon-button]:justify-center [&_.mat-icon-button]:rounded-md [&_.mat-icon-button]:leading-8 [&_.mat-paginator-container]:min-h-0 [&_.mat-paginator-container]:flex-nowrap [&_.mat-paginator-container]:gap-3 [&_.mat-paginator-container]:p-0 [&_.mat-paginator-icon]:w-5 [&_.mat-paginator-page-size-label]:m-0 [&_.mat-paginator-page-size]:m-0 [&_.mat-paginator-page-size]:items-center [&_.mat-paginator-page-size]:gap-2 [&_.mat-paginator-page-size]:!pt-0 [&_.mat-paginator-range-actions]:gap-1 [&_.mat-paginator-range-label]:m-0 [&_.mat-paginator-range-label]:mr-1 [&_.mat-paginator-range-label]:tabular-nums [&_.mat-select-arrow-wrapper]:![transform:none] [&_.mat-select-arrow]:text-slate-400 [&_.mat-select-trigger]:flex [&_.mat-select-trigger]:h-full [&_.mat-select-trigger]:w-full [&_.mat-select-trigger]:items-center [&_.mat-select-trigger]:pl-2.5 [&_.mat-select-trigger]:pr-1.5 [&_.mat-select-value]:min-w-0 [&_.mat-select-value]:max-w-none [&_.mat-select:focus]:ring-2 [&_.mat-select:focus]:ring-brand-700 [&_.mat-select]:flex [&_.mat-select]:h-8 [&_.mat-select]:items-center [&_.mat-select]:rounded-md [&_.mat-select]:bg-white [&_.mat-select]:text-xs [&_.mat-select]:shadow-sm [&_.mat-select]:ring-1 [&_.mat-select]:ring-inset [&_.mat-select]:ring-slate-300">
+          </mat-paginator>
+    </div>
+  </section>
 </div>

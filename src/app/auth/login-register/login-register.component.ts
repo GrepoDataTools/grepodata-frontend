@@ -12,7 +12,6 @@ import {Globals} from '../../globals';
 @Component({
   selector: 'app-login-register',
   templateUrl: './login-register.component.html',
-  styleUrls: ['./login-register.component.scss'],
   providers: [IndexAuthService]
 })
 export class LoginRegisterComponent implements OnInit, AfterViewInit {
@@ -20,6 +19,7 @@ export class LoginRegisterComponent implements OnInit, AfterViewInit {
 
   @Input() useCallback: boolean;
   @Input() require_explicit_action = false; // Require interaction with form before redirecting
+  @Input() tabs = false;
 
   @Output() onEmbeddedCallback: EventEmitter<any> = new EventEmitter();
 
@@ -45,6 +45,7 @@ export class LoginRegisterComponent implements OnInit, AfterViewInit {
   execute_login = false;
   execute_register = false;
   forgotPassswordForm = false;
+  tab = 'register';
 
   constructor(
     private router: Router,

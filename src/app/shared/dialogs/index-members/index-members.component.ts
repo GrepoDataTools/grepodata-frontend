@@ -11,7 +11,6 @@ import {ShareIndexDialog} from '../share-index/share-index.component';
 @Component({
   selector: 'app-index-members',
   templateUrl: './index-members.component.html',
-  styleUrls: ['./index-members.component.scss'],
   providers: [IndexAuthService]
 })
 export class IndexMembersDialog {
@@ -33,6 +32,12 @@ export class IndexMembersDialog {
   readonly ROLE_OWNER = environment.ROLE_OWNER;
   readonly ROLE_READ = environment.ROLE_READ;
   readonly ROLE_WRITE = environment.ROLE_WRITE;
+  readonly roleOptions = [
+    {role: this.ROLE_READ, label: 'Read only', description: 'Can browse the intel in this team. Users with read access can also contribute to operations.'},
+    {role: this.ROLE_WRITE, label: 'Member', description: 'Default role for new members: can index new reports and add town notes.'},
+    {role: this.ROLE_ADMIN, label: 'Admin', description: 'Can change the team settings, share the team with new users and remove users from the team.'},
+    {role: this.ROLE_OWNER, label: 'Owner', description: 'Full control over the team and its settings.'},
+  ];
 
   constructor(
     public dialogRef: MatDialogRef<IndexMembersDialog>,
@@ -42,6 +47,7 @@ export class IndexMembersDialog {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
 
+    dialogRef.addPanelClass('team-dialog');
     console.log(data.index);
     this.index = data.index;
 
@@ -116,14 +122,29 @@ export class IndexMembersDialog {
     });
   }
 
+  isRoleLocked(user): boolean {
+    return user.user_id === this.my_id || ((user.role == this.ROLE_ADMIN || user.role == this.ROLE_OWNER) && this.my_role != '' && this.my_role != this.ROLE_OWNER);
+  }
+
+  setUserRole(user, role) {
+    const roles = [this.ROLE_READ, this.ROLE_WRITE, this.ROLE_ADMIN, this.ROLE_OWNER];
+    const current = roles.indexOf(user.role);
+    const target = roles.indexOf(role);
+    if (target !== current) {
+      this.toggleUserRole(user, target > current ? role : roles[target + 1]);
+    }
+  }
+
   public showConfirmDialog(user): void {
     const dialogRef = this.dialog.open(BasicDialog, {
       // minWidth: '40%',
       autoFocus: false,
       data: {
-        title: '',
+        title: 'Remove user?',
         show_close: false,
-        messageHtml: '<div class="text-center"><h3>Are you sure you want to remove user <span class="gd-primary">' + user.username + '</span> from team <span class="gd-primary">' + this.index.name + '</span>?</h3></div>',
+        icon: 'user-minus',
+        messageHtml: '<p class="m-0">Are you sure you want to remove user <strong class="font-semibold text-slate-900">' + user.username + '</strong> from team <strong class="font-semibold text-slate-900">' + this.index.name + '</strong>?</p>' +
+          '<p class="mt-1 text-slate-500">They will no longer be able to read the intel in this team.</p>',
         cancel_action: 'Cancel',
         action_type: 'danger',
         action: 'Remove user',

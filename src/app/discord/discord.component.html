@@ -1,113 +1,96 @@
-<div class="container" style="margin-top: 30px;">
-    <div class="row">
-        <div class="col-lg-10 col-md-10 col-sm-12" style="float: none; margin: auto;">
-            <div class=" alert alert-default alert-gd-1" style="padding: 0;">
-                <div>
-                    <div class="header" style="background:#2C3E50">
-                        <div class="logo" style="background-image:url(../../assets/images/favicon_lg_white.png)"></div>
-                        <div class="name-and-links">
-	                        <h2 style="color: #dde6e4;">GrepoData Bot</h2>
-	                        <span style="color: #dde6e4; !important;">Add GrepoData commands to your Discord server!</span>
-                        </div>
-                        <a target="_blank" rel="nofollow" href="https://discord.com/oauth2/authorize?client_id=1519745274996723813&permissions=2147502080&scope=applications.commands%20bot" alt="Add GrepoData Bot to Your Discord" class="button">
-	                        Add to Discord
-                        </a>
-                    </div>
-                    <!--<div class="text-center"><h2 style=""> GrepoData Discord bot</h2>-->
-                        <!--<h4><a href="https://discordapp.com/api/oauth2/authorize?client_id=652263344429858872&permissions=18432&scope=bot" target="_blank">-->
-                            <!--Add GrepoBot to your server!-->
-                        <!--</a></h4>-->
-                    <!--</div>-->
-                </div>
-
-                <div style="padding: 30px 30px 50px 30px;">
-
-                    <h1>List of commands</h1>
-
-<!--                  <app-alert type="error" title="Discord bot temporarily offline" [dismissible]="false">-->
-<!--                    <p>-->
-<!--                      The GrepoData Discord bot is currently offline because it has exceeded the number of discord servers it can join.<br/>-->
-<!--                      <strong>Please help us by removing the bot from your old inactive Discord servers</strong>; this is a short term fix while we implement bot sharding as a permanent fix.-->
-<!--                    </p>-->
-<!--                  </app-alert>-->
-
-<!--                    <app-alert [type]="'warning'" [title]="'Slash commands'" [dismissible]="false">-->
-<!--                      <h5>As of <strong>August 31 2022</strong>, the GrepoData discord bot will only respond to slash commands due to a <a href="https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Privileged-Intent-for-Verified-Bots" target="_blank">change in Discord's policy</a>. The old commands using the '!gd' prefix will no longer trigger a response because the bot will not see those messages. Please use these slash commands if you want to keep using the bot.</h5>-->
-<!--                    </app-alert>-->
-
-                    <hr>
-
-                    <app-alert type="info" title="" [dismissible]="false" [iconOverride]="'discord'">
-                        <div>
-                            <h5>
-                            NOTE: We had to migrate the bot to a new Discord application. If you have previously added the bot to your server, please remove it and add it again using the button above. The old bot will no longer respond to commands.
-                            </h5>
-                        </div>
-                    </app-alert>
-
-                    <app-server-alert></app-server-alert>
-                    <br/>
-
-                    <h3>Configuration</h3>
-                    <div class="row">
-                      <div class="col-xs-5 vcenter"><pre>/help</pre></div>
-                      <div class="col-xs-7 vcenter">Shows a list of all commands</div>
-                    </div>
-                    <div class="row">
-                      <div class="col-xs-5 vcenter"><pre>/world [world]</pre></div>
-                      <div class="col-xs-7 vcenter">Set the <strong>default world</strong> for your discord to [world] <br/>e.g. <span style="font-style: italic;">/world en141</span> will change the default world to en141</div>
-                    </div>
-
-                    <hr>
-
-                    <h3>Daily scoreboard</h3>
-                    <div class="row">
-                        <div class="col-xs-5 vcenter"><pre>/today</pre></div>
-	                    <div class="col-xs-7 vcenter">Shows today's <strong>scoreboard</strong> for the default world</div>
-                    </div>
-		                <div class="row">
-			                <div class="col-xs-5 vcenter"><pre>/today [world]</pre></div>
-			                <div class="col-xs-7 vcenter">Shows today's <strong>scoreboard</strong> for the given world <br/>E.g. '/today nl74' will show the scoreboard for nl74</div>
-		                </div>
-
-                    <br/>
-
-                    <div class="row">
-                        <div class="col-xs-5 vcenter"><pre>/yesterday</pre></div>
-                        <div class="col-xs-7 vcenter">Shows yesterday's <strong>scoreboard</strong> for the default world</div>
-                    </div>
-                    <div class="row">
-                      <div class="col-xs-5 vcenter"><pre>/yesterday [world]</pre></div>
-                      <div class="col-xs-7 vcenter">Shows yesterday's <strong>scoreboard</strong> for the given world <br/>E.g. '/yesterday nl74' will show yesterday's scoreboard for nl74</div>
-                    </div>
-
-                    <br/>
-
-                    <div class="row">
-                        <div class="col-xs-5 vcenter"><pre>/alliance</pre></div>
-                        <div class="col-xs-7 vcenter">Shows today's <strong>alliance scoreboard</strong> for the default world</div>
-                    </div>
-                    <div class="row">
-                      <div class="col-xs-5 vcenter"><pre>/alliance [world]</pre></div>
-                      <div class="col-xs-7 vcenter">Shows today's <strong>alliance scoreboard</strong> for the given world <br/>E.g. '/alliance nl74' will show today's alliance scoreboard for nl74</div>
-                    </div>
-                    <div class="row">
-                      <div class="col-xs-5 vcenter"><pre>/alliance [world] [day]</pre></div>
-                      <div class="col-xs-7 vcenter">Shows today's <strong>alliance scoreboard</strong> for the given world <br/>[day] can be 'today' or 'yesterday'<br/>E.g. '/alliance nl74 yesterday' will show yesterday's alliance scoreboard for nl74</div>
-                    </div>
-
-                    <hr>
-
-                    <h3>Player search</h3>
-
-                    <div class="row">
-                        <div class="col-xs-5 vcenter"><pre>/search [name]</pre></div>
-                        <div class="col-xs-7 vcenter">Search for <strong>players</strong> by name</div>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
+<div class="mx-auto flex max-w-[1072px] flex-col gap-6 px-6 pb-12 pt-6 text-left font-normal text-slate-900 max-sm:gap-4 max-sm:px-4 max-sm:pb-8 max-sm:pt-4">
+  <section aria-labelledby="discord-title" class="flex items-center gap-6 rounded-xl bg-navy-800 px-8 py-7 shadow-sm max-md:flex-wrap max-sm:gap-4 max-sm:p-5">
+    <span class="flex size-20 flex-none items-center justify-center rounded-2xl bg-white ring-1 ring-slate-900/[.08] max-sm:size-14 max-sm:rounded-xl"><img src="../../assets/images/favicon_lg_white.png" alt="" class="block size-16 max-sm:size-11"></span>
+    <div class="min-w-0 flex-1">
+      <h1 id="discord-title" class="m-0 text-[28px] font-bold leading-9 tracking-[-0.02em] text-white max-sm:text-2xl">GrepoData Bot</h1>
+      <p class="mb-0 mt-1.5 text-base text-slate-300 max-sm:text-sm">Add GrepoData commands to your Discord server!</p>
     </div>
+    <a target="_blank" rel="nofollow" href="https://discord.com/oauth2/authorize?client_id=1519745274996723813&permissions=2147502080&scope=applications.commands%20bot" class="inline-flex flex-none items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-brand-500 px-4 py-2.5 text-[15px] font-semibold leading-5 text-slate-900 no-underline hover:bg-brand-600 hover:text-slate-900 hover:no-underline focus:text-slate-900 focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white max-md:w-full"><svg appIcon="discord" variant="game" class="size-5 flex-none"></svg>Add to Discord<svg appIcon="arrow-top-right-on-square" class="size-4 flex-none"></svg></a>
+  </section>
+
+  <div class="flex flex-col gap-3">
+    <div role="note" class="flex items-start gap-3 rounded-lg bg-sky-50 px-4 py-3 ring-1 ring-inset ring-sky-200">
+      <svg appIcon="discord" variant="game" class="size-6 flex-none text-sky-700"></svg>
+      <div class="min-w-0 flex-1 text-sm text-sky-800">
+        <p class="m-0 font-semibold">We had to move the bot to a new Discord application</p>
+        <p class="mb-0 mt-0.5">If you added the bot to your server before, remove it and add it again with the Add to Discord button. The old bot no longer responds to commands.</p>
+      </div>
+    </div>
+    <app-server-alert></app-server-alert>
+  </div>
+
+  <section aria-labelledby="discord-commands" class="overflow-hidden rounded-xl bg-white pb-2 shadow-sm ring-1 ring-slate-900/[.08]">
+    <div class="flex min-h-[61px] items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 px-5 py-4">
+      <h2 id="discord-commands" class="m-0 text-base font-semibold leading-6 text-slate-900">List of commands</h2>
+      <span class="text-xs text-slate-500">10 slash commands</span>
+    </div>
+    <h3 class="m-0 flex items-center gap-2 px-5 pb-2 pt-5 text-[13px] font-semibold leading-5 text-slate-900"><svg appIcon="cog-6-tooth" class="size-[18px] flex-none text-slate-400"></svg>Configuration</h3>
+    <div class="grid border-0 border-t border-solid border-slate-100 hover:bg-slate-50 md:grid-cols-[332px_minmax(0,1fr)]">
+      <div class="py-3 pl-5 pr-3 max-md:pb-1 max-md:pr-5"><code class="inline-flex gap-1.5 whitespace-nowrap rounded-md bg-slate-50 px-2 py-1 font-mono text-[13px] font-medium leading-5 text-slate-900 ring-1 ring-inset ring-slate-200">/help</code></div>
+      <div class="py-3.5 pl-3 pr-5 text-sm text-slate-700 max-md:pl-5 max-md:pt-1.5">
+        <p class="m-0">Shows a list of all commands</p>
+      </div>
+    </div>
+    <div class="grid border-0 border-t border-solid border-slate-100 hover:bg-slate-50 md:grid-cols-[332px_minmax(0,1fr)]">
+      <div class="py-3 pl-5 pr-3 max-md:pb-1 max-md:pr-5"><code class="inline-flex gap-1.5 whitespace-nowrap rounded-md bg-slate-50 px-2 py-1 font-mono text-[13px] font-medium leading-5 text-slate-900 ring-1 ring-inset ring-slate-200">/world<span class="text-slate-500">[world]</span></code></div>
+      <div class="py-3.5 pl-3 pr-5 text-sm text-slate-700 max-md:pl-5 max-md:pt-1.5">
+        <p class="m-0">Sets the <strong class="font-semibold text-slate-900">default world</strong> for your Discord to [world]</p>
+        <p class="mb-0 mt-1 text-[13px] leading-5 text-slate-500">e.g. <code class="rounded bg-slate-100 px-[5px] py-px font-mono text-xs leading-[18px] text-slate-800">/world en141</code> changes the default world to en141</p>
+      </div>
+    </div>
+    <h3 class="m-0 flex items-center gap-2 px-5 pb-2 pt-5 text-[13px] font-semibold leading-5 text-slate-900"><svg appIcon="trophy" class="size-[18px] flex-none text-slate-400"></svg>Daily scoreboard</h3>
+    <div class="grid border-0 border-t border-solid border-slate-100 hover:bg-slate-50 md:grid-cols-[332px_minmax(0,1fr)]">
+      <div class="py-3 pl-5 pr-3 max-md:pb-1 max-md:pr-5"><code class="inline-flex gap-1.5 whitespace-nowrap rounded-md bg-slate-50 px-2 py-1 font-mono text-[13px] font-medium leading-5 text-slate-900 ring-1 ring-inset ring-slate-200">/today</code></div>
+      <div class="py-3.5 pl-3 pr-5 text-sm text-slate-700 max-md:pl-5 max-md:pt-1.5">
+        <p class="m-0">Shows today's <strong class="font-semibold text-slate-900">scoreboard</strong> for the default world</p>
+      </div>
+    </div>
+    <div class="grid border-0 border-t border-solid border-slate-100 hover:bg-slate-50 md:grid-cols-[332px_minmax(0,1fr)]">
+      <div class="py-3 pl-5 pr-3 max-md:pb-1 max-md:pr-5"><code class="inline-flex gap-1.5 whitespace-nowrap rounded-md bg-slate-50 px-2 py-1 font-mono text-[13px] font-medium leading-5 text-slate-900 ring-1 ring-inset ring-slate-200">/today<span class="text-slate-500">[world]</span></code></div>
+      <div class="py-3.5 pl-3 pr-5 text-sm text-slate-700 max-md:pl-5 max-md:pt-1.5">
+        <p class="m-0">Shows today's <strong class="font-semibold text-slate-900">scoreboard</strong> for the given world</p>
+        <p class="mb-0 mt-1 text-[13px] leading-5 text-slate-500">e.g. <code class="rounded bg-slate-100 px-[5px] py-px font-mono text-xs leading-[18px] text-slate-800">/today nl74</code> shows the scoreboard for nl74</p>
+      </div>
+    </div>
+    <div class="grid border-0 border-t border-solid border-slate-100 hover:bg-slate-50 md:grid-cols-[332px_minmax(0,1fr)]">
+      <div class="py-3 pl-5 pr-3 max-md:pb-1 max-md:pr-5"><code class="inline-flex gap-1.5 whitespace-nowrap rounded-md bg-slate-50 px-2 py-1 font-mono text-[13px] font-medium leading-5 text-slate-900 ring-1 ring-inset ring-slate-200">/yesterday</code></div>
+      <div class="py-3.5 pl-3 pr-5 text-sm text-slate-700 max-md:pl-5 max-md:pt-1.5">
+        <p class="m-0">Shows yesterday's <strong class="font-semibold text-slate-900">scoreboard</strong> for the default world</p>
+      </div>
+    </div>
+    <div class="grid border-0 border-t border-solid border-slate-100 hover:bg-slate-50 md:grid-cols-[332px_minmax(0,1fr)]">
+      <div class="py-3 pl-5 pr-3 max-md:pb-1 max-md:pr-5"><code class="inline-flex gap-1.5 whitespace-nowrap rounded-md bg-slate-50 px-2 py-1 font-mono text-[13px] font-medium leading-5 text-slate-900 ring-1 ring-inset ring-slate-200">/yesterday<span class="text-slate-500">[world]</span></code></div>
+      <div class="py-3.5 pl-3 pr-5 text-sm text-slate-700 max-md:pl-5 max-md:pt-1.5">
+        <p class="m-0">Shows yesterday's <strong class="font-semibold text-slate-900">scoreboard</strong> for the given world</p>
+        <p class="mb-0 mt-1 text-[13px] leading-5 text-slate-500">e.g. <code class="rounded bg-slate-100 px-[5px] py-px font-mono text-xs leading-[18px] text-slate-800">/yesterday nl74</code> shows yesterday's scoreboard for nl74</p>
+      </div>
+    </div>
+    <div class="grid border-0 border-t border-solid border-slate-100 hover:bg-slate-50 md:grid-cols-[332px_minmax(0,1fr)]">
+      <div class="py-3 pl-5 pr-3 max-md:pb-1 max-md:pr-5"><code class="inline-flex gap-1.5 whitespace-nowrap rounded-md bg-slate-50 px-2 py-1 font-mono text-[13px] font-medium leading-5 text-slate-900 ring-1 ring-inset ring-slate-200">/alliance</code></div>
+      <div class="py-3.5 pl-3 pr-5 text-sm text-slate-700 max-md:pl-5 max-md:pt-1.5">
+        <p class="m-0">Shows today's <strong class="font-semibold text-slate-900">alliance scoreboard</strong> for the default world</p>
+      </div>
+    </div>
+    <div class="grid border-0 border-t border-solid border-slate-100 hover:bg-slate-50 md:grid-cols-[332px_minmax(0,1fr)]">
+      <div class="py-3 pl-5 pr-3 max-md:pb-1 max-md:pr-5"><code class="inline-flex gap-1.5 whitespace-nowrap rounded-md bg-slate-50 px-2 py-1 font-mono text-[13px] font-medium leading-5 text-slate-900 ring-1 ring-inset ring-slate-200">/alliance<span class="text-slate-500">[world]</span></code></div>
+      <div class="py-3.5 pl-3 pr-5 text-sm text-slate-700 max-md:pl-5 max-md:pt-1.5">
+        <p class="m-0">Shows today's <strong class="font-semibold text-slate-900">alliance scoreboard</strong> for the given world</p>
+        <p class="mb-0 mt-1 text-[13px] leading-5 text-slate-500">e.g. <code class="rounded bg-slate-100 px-[5px] py-px font-mono text-xs leading-[18px] text-slate-800">/alliance nl74</code> shows today's alliance scoreboard for nl74</p>
+      </div>
+    </div>
+    <div class="grid border-0 border-t border-solid border-slate-100 hover:bg-slate-50 md:grid-cols-[332px_minmax(0,1fr)]">
+      <div class="py-3 pl-5 pr-3 max-md:pb-1 max-md:pr-5"><code class="inline-flex gap-1.5 whitespace-nowrap rounded-md bg-slate-50 px-2 py-1 font-mono text-[13px] font-medium leading-5 text-slate-900 ring-1 ring-inset ring-slate-200">/alliance<span class="text-slate-500">[world] [day]</span></code></div>
+      <div class="py-3.5 pl-3 pr-5 text-sm text-slate-700 max-md:pl-5 max-md:pt-1.5">
+        <p class="m-0">Shows the <strong class="font-semibold text-slate-900">alliance scoreboard</strong> for the given world · [day] can be today or yesterday</p>
+        <p class="mb-0 mt-1 text-[13px] leading-5 text-slate-500">e.g. <code class="rounded bg-slate-100 px-[5px] py-px font-mono text-xs leading-[18px] text-slate-800">/alliance nl74 yesterday</code> shows yesterday's alliance scoreboard for nl74</p>
+      </div>
+    </div>
+    <h3 class="m-0 flex items-center gap-2 px-5 pb-2 pt-5 text-[13px] font-semibold leading-5 text-slate-900"><svg appIcon="magnifying-glass" class="size-[18px] flex-none text-slate-400"></svg>Player search</h3>
+    <div class="grid border-0 border-t border-solid border-slate-100 hover:bg-slate-50 md:grid-cols-[332px_minmax(0,1fr)]">
+      <div class="py-3 pl-5 pr-3 max-md:pb-1 max-md:pr-5"><code class="inline-flex gap-1.5 whitespace-nowrap rounded-md bg-slate-50 px-2 py-1 font-mono text-[13px] font-medium leading-5 text-slate-900 ring-1 ring-inset ring-slate-200">/search<span class="text-slate-500">[name]</span></code></div>
+      <div class="py-3.5 pl-3 pr-5 text-sm text-slate-700 max-md:pl-5 max-md:pt-1.5">
+        <p class="m-0">Search for <strong class="font-semibold text-slate-900">players</strong> by name</p>
+      </div>
+    </div>
+  </section>
 </div>

@@ -1,14 +1,3 @@
-<div *ngIf="hours_inactive>=0" style="display: inline-block; vertical-align: text-top;">
-  <div *ngIf="hours_inactive<24 && show_active">
-    <div *ngIf="tooltip=='material'" class="btn-success btn-xs" matTooltip="{{player_name?player_name+'\'s l':'L'}}ast activity: {{inactive_readable}}">Active</div>
-    <div *ngIf="tooltip!='material'" class="btn-success btn-xs" title="{{player_name?player_name+'\'s l':'L'}}ast activity: {{inactive_readable}}">Active</div>
-  </div>
-  <div *ngIf="hours_inactive>=24 && hours_inactive<72">
-    <div *ngIf="tooltip=='material'" class="btn-warning btn-xs" matTooltip="{{player_name?player_name+'\'s l':'L'}}ast activity: {{inactive_readable}}">Inactive</div>
-    <div *ngIf="tooltip!='material'" class="btn-warning btn-xs" title="{{player_name?player_name+'\'s l':'L'}}ast activity: {{inactive_readable}}">Inactive</div>
-  </div>
-  <div *ngIf="hours_inactive>=72">
-    <div *ngIf="tooltip=='material'" class="btn-danger btn-xs" matTooltip="{{player_name?player_name+'\'s l':'L'}}ast activity: {{inactive_readable}}">Inactive</div>
-    <div *ngIf="tooltip!='material'" class="btn-danger btn-xs" title="{{player_name?player_name+'\'s l':'L'}}ast activity: {{inactive_readable}}">Inactive</div>
-  </div>
-</div>
+<span *ngIf="hours_inactive>=0 && (hours_inactive>=24 || show_active)" [matTooltip]="tooltip=='material' ? (player_name ? player_name + '\'s l' : 'L') + 'ast activity: ' + inactive_readable : ''" [attr.title]="tooltip!='material' ? (player_name ? player_name + '\'s l' : 'L') + 'ast activity: ' + inactive_readable : null" class="inline-flex flex-none items-center gap-1.5 whitespace-nowrap rounded-full px-2 py-0.5 align-middle text-xs font-medium ring-1 ring-inset" [ngClass]="hours_inactive<24 ? 'bg-emerald-50 text-emerald-700 ring-emerald-600/25' : hours_inactive<72 ? 'bg-amber-50 text-amber-700 ring-amber-600/25' : 'bg-rose-50 text-rose-700 ring-rose-600/20'">
+  <span aria-hidden="true" class="size-1.5 rounded-full bg-current"></span>{{hours_inactive<24 ? 'Active' : 'Inactive'}}
+</span>

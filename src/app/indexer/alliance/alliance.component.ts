@@ -12,7 +12,6 @@ import {Subscription} from 'rxjs';
 @Component({
   selector: 'app-index-alliance',
   templateUrl: './alliance.component.html',
-  styleUrls: ['./alliance.component.scss'],
   providers: [AllianceService, IndexerService, WorldService]
 })
 export class IndexAllianceComponent implements AfterViewInit, OnDestroy {
@@ -45,6 +44,7 @@ export class IndexAllianceComponent implements AfterViewInit, OnDestroy {
 	playerNameFilter = '';
   tabsSeaIndex = 0;
   tabsLandIndex = 0;
+  activeTab = 0;
   viewIsLimited = false;
 
   routeParams: any;
@@ -140,6 +140,7 @@ export class IndexAllianceComponent implements AfterViewInit, OnDestroy {
     // Reset
     this.allianceName = 'Loading..';
     this.loading = true;
+    this.activeTab = 0;
     this.noIntel = false;
     this.allPlayers = '';
     this.firePlayers = '';
@@ -284,6 +285,19 @@ export class IndexAllianceComponent implements AfterViewInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe(result => {});
+  }
+
+  showPanels(): boolean {
+    return this.err == '' && !this.noIntel && !this.loading;
+  }
+
+  playerCount(players): number {
+    return Object.keys(players || {}).length;
+  }
+
+  setActiveTab(tab: number) {
+    this.activeTab = tab;
+    this.cdr.detectChanges();
   }
 
   setSeaIndex(number: number) {

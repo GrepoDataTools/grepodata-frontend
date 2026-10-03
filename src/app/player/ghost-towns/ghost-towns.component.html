@@ -1,114 +1,123 @@
-<mat-card-title class="m-t-15">
-  <app-alert title="This player has reset their account. All their towns are now ghost towns." type="warning" [dismissible]="false">
-    <p>Below is an overview of all ghost towns that this player has left behind.
-    <span *ngIf="ghost_time">Player reset was around {{ ghost_time | Datex : "HH:00 on D MMM YYYY" }}</span></p>
-  </app-alert>
-  <mat-progress-bar *ngIf="loading_ghost_towns" mode="indeterminate"></mat-progress-bar>
-</mat-card-title>
+<div class="flex flex-col">
+  <div class="px-5 pt-5 max-sm:px-4 max-sm:pt-4" [ngClass]="{'pb-5 max-sm:pb-4': loading_ghost_towns}">
+    <div role="status" class="flex gap-3 rounded-lg bg-amber-50 px-4 py-3 ring-1 ring-inset ring-amber-200">
+      <svg appIcon="exclamation-triangle" class="size-5 flex-none text-amber-600"></svg>
+      <div class="min-w-0 text-sm text-amber-800">
+        <p class="m-0 font-semibold">This player has reset their account. All their towns are now ghost towns.</p>
+        <p class="mb-0 mt-0.5">Below is an overview of all ghost towns that this player has left behind.<span *ngIf="ghost_time"> Player reset was around {{ ghost_time | Datex : "HH:00 on D MMM YYYY" }}.</span></p>
+      </div>
+    </div>
+  </div>
 
-<mat-card-content style="overflow: hidden !important;" *ngIf="!loading_ghost_towns">
-  <div>
-    <mat-tab-group mat-stretch-tabs>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon style="opacity: 1; vertical-align: bottom;">list</mat-icon>&nbsp;Ghost towns
-        </ng-template>
+  <div *ngIf="loading_ghost_towns" class="relative border-0 border-t border-solid border-slate-100">
+    <mat-progress-bar mode="indeterminate" class="!absolute inset-x-0 top-0 z-10 !h-0.5"></mat-progress-bar>
+    <p class="m-0 px-6 py-8 text-center text-sm text-slate-500">Loading ghost towns…</p>
+  </div>
 
-        <div class="table-container m-t-20">
-          <div class="table ghost-towns-table" id="ghost_towns_table">
-            <div class="row_custom header default">
-              <div class="cell">Town</div>
-              <div class="cell">Points</div>
-              <div class="cell">Ocean</div>
-              <div class="cell" *ngIf="has_ghost_details">New owner</div>
-            </div>
+  <ng-container *ngIf="!loading_ghost_towns">
+    <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-0 border-b border-solid border-slate-200 px-5 py-4 max-sm:px-4">
+      <div role="tablist" aria-label="Ghost towns view" class="inline-flex gap-0.5 rounded-lg bg-slate-100 p-[3px]">
+        <button type="button" role="tab" [attr.aria-selected]="tab == 0" (click)="tab = 0" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 px-3 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tab == 0 ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">
+          <svg appIcon="list-bullet" class="size-4 flex-none text-slate-400"></svg>Ghost towns<span class="tabular-nums text-slate-500">{{ghost_town_data.length}}</span>
+        </button>
+        <button type="button" role="tab" [attr.aria-selected]="tab == 1" (click)="tab = 1" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 px-3 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tab == 1 ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">
+          <svg appIcon="code-bracket" class="size-4 flex-none text-slate-400"></svg>BB code
+        </button>
+      </div>
+      <div *ngIf="tab == 0 && has_ghost_details && !!ghost_alliance" class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-600">
+        <span class="inline-flex items-center gap-1.5"><span aria-hidden="true" class="size-2 flex-none rounded-full bg-emerald-500"></span>Taken over by their former alliance</span>
+        <span class="inline-flex items-center gap-1.5"><span aria-hidden="true" class="size-2 flex-none rounded-full bg-rose-500"></span>Taken over by another alliance</span>
+      </div>
+    </div>
 
-            <div class="row_custom" *ngFor="let town of ghost_town_data; let i = index;" [ngClass]="{'ghost-lost': (!!ghost_alliance && town.n_a_id>0 && ghost_alliance != town.n_a_id), 'ghost-won': (!!ghost_alliance && town.n_a_id>0 && ghost_alliance == town.n_a_id)}">
-              <div class="cell">
-                <a routerLink="/conquest/town/{{ world }}/{{ town.town_id }}">
-                  <img style="height: 18px; margin-top: -5px;" src="../../assets/images/town_ico.png"/>&nbsp;
-                  {{ town.town_name }}
-                </a>
-              </div>
-              <div class="cell">
-                {{ town.points }}
-              </div>
-              <div class="cell">
-                {{ town.ocean }}
-              </div>
-              <div class="cell" *ngIf="has_ghost_details">
-                <span *ngIf="town.n_p_id>0">
-                  <a routerLink="/player" [queryParams]="{world: world, id: town.n_p_id}">
-                    <img style="height: 18px; margin-top: -5px;" src="../../assets/images/player_ico.png"/>&nbsp;
-                    {{ town.n_p_name }}
+    <div *ngIf="tab == 0" role="tabpanel" class="overflow-x-auto">
+      <table class="w-full border-separate border-spacing-0 text-left font-normal">
+        <thead>
+          <tr>
+            <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-5 pr-3 max-sm:pl-4">Town</th>
+            <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 w-24 px-3 text-right">Points</th>
+            <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 w-20 px-3">Ocean</th>
+            <th *ngIf="has_ghost_details" scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 px-3 max-sm:pr-4">New owner</th>
+            <th *ngIf="has_ghost_details" scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 w-40 pl-3 pr-5 text-right max-sm:[display:none]"><span class="sr-only">Status</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let town of ghost_town_data; let i = index;" class="group" [ngClass]="(!!ghost_alliance && town.n_a_id>0 && ghost_alliance != town.n_a_id) ? 'bg-rose-50/70' : (!!ghost_alliance && town.n_a_id>0 && ghost_alliance == town.n_a_id) ? 'bg-emerald-50/70' : 'hover:bg-slate-50'">
+            <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 max-w-[220px] pl-5 pr-3 max-sm:pl-4">
+              <a routerLink="/conquest/town/{{ world }}/{{ town.town_id }}" title="Conquest history of this town" class="inline-flex max-w-full items-center gap-1.5 font-medium text-slate-900 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+                <svg appIcon="town_ico" variant="game" class="size-4 flex-none text-slate-400"></svg><span class="truncate">{{ town.town_name }}</span>
+              </a>
+            </td>
+            <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 px-3 text-right tabular-nums text-slate-900">{{ town.points | NumberFilter }}</td>
+            <td class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 px-3 tabular-nums text-slate-700">{{ town.ocean }}</td>
+            <td *ngIf="has_ghost_details" class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 px-3 max-sm:pr-4">
+              <ng-container *ngIf="town.n_p_id>0 || town.n_a_id>0">
+                <div class="flex min-w-0 flex-wrap items-center gap-x-1.5">
+                  <a *ngIf="town.n_p_id>0" routerLink="/player" [queryParams]="{world: world, id: town.n_p_id}" class="inline-flex items-center gap-1.5 font-medium text-slate-900 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+                    <svg appIcon="player_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>{{ town.n_p_name }}
                   </a>
-                </span>
-                <span *ngIf="town.n_a_id>0">
-                  (
-                    <a routerLink="/alliance" [queryParams]="{world: world, id: town.n_a_id}">
-                      <img style="height: 18px; margin-top: -5px;" src="../../assets/images/ally_ico.png"/>&nbsp;
-                      {{ town.n_a_name }}
-                    </a>
-                  )
-                </span>
-                <span *ngIf="!!town.conquest_time"> - {{ town.conquest_time | Datex : "D MMM YYYY HH:mm" }}</span>
-              </div>
-            </div>
+                  <span *ngIf="town.n_p_id>0 && town.n_a_id>0" aria-hidden="true" class="text-slate-300">·</span>
+                  <a *ngIf="town.n_a_id>0" routerLink="/alliance" [queryParams]="{world: world, id: town.n_a_id}" class="inline-flex items-center gap-1.5 text-slate-600 no-underline hover:text-slate-900 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+                    <svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>{{ town.n_a_name }}
+                  </a>
+                </div>
+                <div *ngIf="!!town.conquest_time" class="mt-0.5 text-xs tabular-nums text-slate-500">{{ town.conquest_time | Datex : "D MMM YYYY HH:mm" }}</div>
+              </ng-container>
+              <span *ngIf="!(town.n_p_id>0) && !(town.n_a_id>0)" class="text-slate-300">—</span>
+            </td>
+            <td *ngIf="has_ghost_details" class="border-0 border-t border-solid border-slate-100 py-2.5 align-middle text-sm group-first:border-t-0 pl-3 pr-5 text-right max-sm:[display:none]">
+              <span *ngIf="!!ghost_alliance && town.n_a_id>0 && ghost_alliance == town.n_a_id" class="inline-flex whitespace-nowrap rounded-full bg-white px-2 py-0.5 text-xs font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/25">Former alliance</span>
+              <span *ngIf="!!ghost_alliance && town.n_a_id>0 && ghost_alliance != town.n_a_id" class="inline-flex whitespace-nowrap rounded-full bg-white px-2 py-0.5 text-xs font-medium text-rose-700 ring-1 ring-inset ring-rose-600/20">Other alliance</span>
+              <span *ngIf="town.n_p_id>0 && !(!!ghost_alliance && town.n_a_id>0 && ghost_alliance == town.n_a_id) && !(!!ghost_alliance && town.n_a_id>0 && ghost_alliance != town.n_a_id)" class="whitespace-nowrap text-xs text-slate-500">Taken</span>
+              <span *ngIf="!(town.n_p_id>0) && !(!!ghost_alliance && town.n_a_id>0 && ghost_alliance == town.n_a_id) && !(!!ghost_alliance && town.n_a_id>0 && ghost_alliance != town.n_a_id)" class="whitespace-nowrap text-xs text-slate-400">Not taken yet</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="tab == 1" role="tabpanel">
+      <div [formGroup]="bbConfiguration" class="flex flex-wrap items-end gap-x-5 gap-y-3 border-0 border-b border-solid border-slate-200 bg-slate-50 px-5 py-4 max-sm:px-4">
+        <div class="w-44">
+          <span id="ghost-sort-label" class="mb-1.5 block text-xs font-medium text-slate-700">Sort towns</span>
+          <div class="relative">
+            <mat-select aria-labelledby="ghost-sort-label" formControlName="sortBy" (ngModelChange)="sortBBTowns($event)" panelClass="!rounded-lg !p-1 !shadow-lg [&_.mat-option-text]:flex [&_.mat-option-text]:items-center [&_.mat-option-text]:gap-2 [&_.mat-option.mat-selected]:!bg-brand-50 [&_.mat-option.mat-selected]:!text-slate-900 [&_.mat-option]:!h-9 [&_.mat-option]:!rounded-md [&_.mat-option]:!px-2.5 [&_.mat-option]:!text-sm [&_.mat-option]:!leading-9 [&_.mat-option]:!text-slate-900" class="h-9 w-full rounded-md bg-white text-sm text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-700 [&_.mat-select-arrow-wrapper]:hidden [&_.mat-select-trigger]:flex [&_.mat-select-trigger]:h-full [&_.mat-select-trigger]:w-full [&_.mat-select-trigger]:items-center [&_.mat-select-trigger]:pl-3 [&_.mat-select-trigger]:pr-8 [&_.mat-select-value]:min-w-0 [&_.mat-select-value]:max-w-none">
+              <mat-option value="alphabetically">Alphabetically</mat-option>
+              <mat-option value="ocean">Ocean</mat-option>
+              <mat-option value="points">Points</mat-option>
+            </mat-select>
+            <svg appIcon="chevron-down" class="pointer-events-none absolute right-2.5 top-2.5 size-4 text-slate-400"></svg>
           </div>
         </div>
-      </mat-tab>
-
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon style="opacity: 1; vertical-align: bottom;">code</mat-icon>&nbsp;BB code
-        </ng-template>
-        <br/>
-
-        <mat-accordion>
-          <mat-expansion-panel (closed)="bbConfigurationVisible = false" (opened)="bbConfigurationVisible = true">
-            <mat-expansion-panel-header>
-              <mat-panel-title *ngIf="bbConfigurationVisible">
-                <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">settings</mat-icon> Close configuration section
-              </mat-panel-title>
-              <mat-panel-title *ngIf="!bbConfigurationVisible">
-                <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">settings</mat-icon> Open BB code configuration
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-
-            <div [formGroup]="bbConfiguration">
-              <mat-form-field>
-                <mat-select placeholder="Sort towns" formControlName="sortBy" (ngModelChange)="sortBBTowns($event)">
-                  <mat-option value="alphabetically">Alphabetically</mat-option>
-                  <mat-option value="ocean">Ocean</mat-option>
-                  <mat-option value="points">Points</mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-slide-toggle formControlName="keepConqueredTowns" (change)="onKeepConqueredTownsChange()" class="m-l-40">
-                Keep already conquered towns
-              </mat-slide-toggle>
-
-              <mat-form-field class="m-l-40">
-                <mat-label>Visible oceans</mat-label>
-                <mat-select formControlName="oceans" (selectionChange)="applyBBConfiguration()" multiple>
-                  <mat-option *ngFor="let ocean of ghostTownOceans" [value]="ocean">
-                    {{ ocean }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-          </mat-expansion-panel>
-        </mat-accordion>
-
-        <div style="font-size: 18px;">
-          <div>
-            <div class="container-fluid" style="padding: 0px;">
-              <button class="btn btn-success" style="margin-bottom: 5px; width: 100%; margin-top: 5px;" (click)="copyBB()">
-                <i class="fa fa-clipboard" aria-hidden="true"></i>&nbsp;<span *ngIf="!copied">copy to clipboard</span><span *ngIf="copied">Copied to clipboard!</span>
-              </button>
-            </div>
-
-            <pre id="bb_code" style="min-width: unset !important; height: unset !important;">[quote]
+        <div class="w-56 max-sm:w-full">
+          <span id="ghost-oceans-label" class="mb-1.5 block text-xs font-medium text-slate-700">Visible oceans</span>
+          <div class="relative">
+            <mat-select aria-labelledby="ghost-oceans-label" formControlName="oceans" (selectionChange)="applyBBConfiguration()" multiple panelClass="!rounded-lg !p-1 !shadow-lg [&_.mat-option-text]:flex [&_.mat-option-text]:items-center [&_.mat-option-text]:gap-2 [&_.mat-option.mat-selected]:!bg-brand-50 [&_.mat-option.mat-selected]:!text-slate-900 [&_.mat-option]:!h-9 [&_.mat-option]:!rounded-md [&_.mat-option]:!px-2.5 [&_.mat-option]:!text-sm [&_.mat-option]:!leading-9 [&_.mat-option]:!text-slate-900" class="h-9 w-full rounded-md bg-white text-sm text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-700 [&_.mat-select-arrow-wrapper]:hidden [&_.mat-select-trigger]:flex [&_.mat-select-trigger]:h-full [&_.mat-select-trigger]:w-full [&_.mat-select-trigger]:items-center [&_.mat-select-trigger]:pl-3 [&_.mat-select-trigger]:pr-8 [&_.mat-select-value]:min-w-0 [&_.mat-select-value]:max-w-none">
+              <mat-select-trigger>
+                <span class="flex min-w-0 items-center gap-1 overflow-hidden">
+                  <span *ngFor="let ocean of bbConfiguration.get('oceans').value" class="flex-none rounded bg-brand-50 px-1.5 text-xs font-medium leading-5 tabular-nums text-brand-700 ring-1 ring-inset ring-brand-700/20">{{ ocean }}</span>
+                </span>
+              </mat-select-trigger>
+              <mat-option *ngFor="let ocean of ghostTownOceans" [value]="ocean">{{ ocean }}</mat-option>
+            </mat-select>
+            <svg appIcon="chevron-down" class="pointer-events-none absolute right-2.5 top-2.5 size-4 text-slate-400"></svg>
+          </div>
+        </div>
+        <label class="m-0 inline-flex h-9 cursor-pointer items-center gap-2 text-[13px] font-normal leading-5 text-slate-700">
+          <input type="checkbox" formControlName="keepConqueredTowns" (ngModelChange)="onKeepConqueredTownsChange()" class="peer sr-only">
+          <span aria-hidden="true" class="flex h-[18px] w-8 flex-none items-center rounded-full bg-slate-200 p-0.5 transition-colors after:block after:size-3.5 after:rounded-full after:bg-white after:shadow after:transition-transform after:content-[''] peer-checked:bg-brand-700 peer-checked:after:translate-x-3.5 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand-700"></span>
+          Keep already conquered towns
+        </label>
+      </div>
+      <div class="px-5 py-4 max-sm:px-4">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <p class="m-0 text-[13px] leading-5 text-slate-600"><span class="tabular-nums">{{ ghost_town_bb_data.length }} of {{ ghost_town_data.length }}</span> towns in the table</p>
+          <button type="button" (click)="copyBB()" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="copied ? 'bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-600/25 hover:bg-emerald-100' : 'bg-brand-700 text-white shadow-sm hover:bg-brand-800'">
+            <svg [appIcon]="copied ? 'check' : 'clipboard-document'" variant="mini" class="size-4 flex-none"></svg>
+            <span *ngIf="!copied">Copy BB code</span><span *ngIf="copied">Copied to clipboard</span>
+          </button>
+        </div>
+        <pre id="bb_code" class="mb-0 mt-3 !h-auto !max-h-[min(480px,60vh)] !min-w-0 overflow-auto whitespace-pre-wrap rounded-lg border-0 bg-slate-50 px-4 py-3.5 font-mono text-xs leading-[18px] text-slate-800 ring-1 ring-inset ring-slate-200 [overflow-wrap:anywhere] [word-break:normal]">[quote]
   [table]
     [**]#[||]Town[||]Points[||]Ocean[||]New Owner[/**]<span *ngFor="let town of ghost_town_bb_data; let i = index;">
     [*]{{ i+1 }}[|][town]{{ town.town_id }}[/town][|]{{ town.points }}[|]{{ town.ocean }}[|]<span *ngIf="town.n_p_id>0">[player]{{ town.n_p_name }}[/player]<span *ngIf="town.n_a_id>0"> ([ally]{{ town.n_a_name }}[/ally])</span></span>[/*]</span>
@@ -118,10 +127,7 @@
     [url=https://grepodata.com/player?world={{ world }}&id={{ id }}]View updated version on grepodata.com[/url]
   [/i]
 [/quote]</pre>
-
-          </div>
-        </div>
-      </mat-tab>
-    </mat-tab-group>
-  </div>
-</mat-card-content>
+      </div>
+    </div>
+  </ng-container>
+</div>

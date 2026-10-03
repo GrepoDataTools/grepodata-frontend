@@ -13,6 +13,7 @@ import {JwtService} from '../../auth/services/jwt.service';
 })
 export class SiegeComponent implements AfterViewInit, OnChanges {
   @Input() isCard: boolean;
+  @Input() newDesign: boolean = false;
   @Input() isAdmin: boolean;
   @Input() isReader: boolean = true;
   @Input() embedded: boolean;
@@ -117,7 +118,7 @@ export class SiegeComponent implements AfterViewInit, OnChanges {
 
   public loadConquestDetails(): void {
     let dialogRef = this.dialog.open(ConquestReportDialog, {
-      panelClass: ['tight-dialog-container'],
+      panelClass: ['siege-report-dialog'],
       autoFocus: false,
       data: {
         key: this.key,
@@ -126,6 +127,15 @@ export class SiegeComponent implements AfterViewInit, OnChanges {
         conquest_id: this.conquestId
       }
     });
+  }
+
+  public wallLevel(wall): string {
+    return wall == null ? '' : String(wall).split('(')[0].trim();
+  }
+
+  public wallLoss(wall): string {
+    const loss = wall == null ? '' : String(wall).replace('(-0)', '').split('(')[1];
+    return loss ? loss.split(')')[0].replace('-', '−').trim() : '';
   }
 
   public publishConquest(): void {

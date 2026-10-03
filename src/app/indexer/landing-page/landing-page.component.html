@@ -1,148 +1,151 @@
-<div id="pagehead" style="height: 100%;">
+<div id="pagehead" class="mx-auto flex max-w-[1248px] flex-col gap-12 px-6 pb-12 pt-10 text-left font-normal text-slate-900 max-sm:gap-10 max-sm:px-4 max-sm:pt-6">
 
-	<div class="no-index-container">
-		<mat-card class="no-index-card decorated-card main-card">
-			<mat-card-title class='decorated-card-header-secondary decorated-title header'>
-				<h1 class="title">
-					<strong class="gd-secondary">USERSCRIPT:</strong>
-          ENEMY CITY INDEXER
-				</h1>
-				<h4 class="gd-tertiary hidden-xs subtitle">Collect and share intelligence with your own private team</h4>
-			</mat-card-title>
-			<mat-card-content>
+  <section class="flex flex-col items-center gap-7">
+    <div class="text-center">
+      <span class="inline-flex items-center gap-1.5 rounded-full bg-brand-50 py-1 pl-2 pr-2.5 text-xs font-semibold text-brand-700 ring-1 ring-inset ring-brand-700/20">
+        <svg appIcon="puzzle-piece" class="size-3.5 flex-none"></svg>
+        Userscript
+      </span>
+      <h1 class="mb-0 mt-4 text-4xl font-bold tracking-tight text-slate-900 max-sm:text-3xl">Enemy city indexer</h1>
+      <p class="mb-0 mt-2 text-lg text-slate-600 max-sm:text-base">Collect and share intelligence with your own private team</p>
+    </div>
 
-        <div style="margin-top: -110px;">
-          <app-login-register></app-login-register>
+    <div #databaseStats *ngIf="stats != '' && show_stats">
+      <div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+        <button type="button" (click)="viewDetails()" [title]="'Registered users: +' + stats_data[0].extra + ' in the last 24 hours'" class="group inline-flex items-baseline gap-1.5 border-0 bg-transparent p-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+          <span class="text-base font-bold tabular-nums text-slate-900">{{stats_data[0].value | number}}</span>
+          <span class="text-sm text-slate-600 group-hover:text-slate-900 group-hover:underline">registered users</span>
+          <span *ngIf="stats_data[0].extra !== null" class="inline-flex items-center gap-0.5 self-center text-[13px] font-semibold tabular-nums text-emerald-700"><svg appIcon="arrow-trending-up" class="size-3.5 flex-none"></svg>+{{stats_data[0].extra | number}}</span>
+        </button>
+        <span aria-hidden="true" class="h-5 w-px bg-slate-300 max-sm:hidden"></span>
+        <button type="button" (click)="viewDetails()" [title]="'Teams created: +' + stats_data[1].extra + ' in the last 24 hours'" class="group inline-flex items-baseline gap-1.5 border-0 bg-transparent p-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+          <span class="text-base font-bold tabular-nums text-slate-900">{{stats_data[1].value | number}}</span>
+          <span class="text-sm text-slate-600 group-hover:text-slate-900 group-hover:underline">teams created</span>
+          <span *ngIf="stats_data[1].extra !== null" class="inline-flex items-center gap-0.5 self-center text-[13px] font-semibold tabular-nums text-emerald-700"><svg appIcon="arrow-trending-up" class="size-3.5 flex-none"></svg>+{{stats_data[1].extra | number}}</span>
+        </button>
+        <span aria-hidden="true" class="h-5 w-px bg-slate-300 max-sm:hidden"></span>
+        <button type="button" (click)="viewDetails()" [title]="'Reports indexed: +' + stats_data[2].extra + ' in the last 24 hours'" class="group inline-flex items-baseline gap-1.5 border-0 bg-transparent p-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+          <span class="text-base font-bold tabular-nums text-slate-900">{{stats_data[2].value | number}}</span>
+          <span class="text-sm text-slate-600 group-hover:text-slate-900 group-hover:underline">reports indexed</span>
+          <span *ngIf="stats_data[2].extra !== null" class="inline-flex items-center gap-0.5 self-center text-[13px] font-semibold tabular-nums text-emerald-700"><svg appIcon="arrow-trending-up" class="size-3.5 flex-none"></svg>+{{stats_data[2].extra | number}}</span>
+        </button>
+        <span aria-hidden="true" class="h-5 w-px bg-slate-300 max-sm:hidden"></span>
+        <button type="button" (click)="viewDetails()" [title]="'Commands shared: +' + stats_data[3].extra + ' in the last 24 hours'" class="group inline-flex items-baseline gap-1.5 border-0 bg-transparent p-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+          <span class="text-base font-bold tabular-nums text-slate-900">{{stats_data[3].value | number}}</span>
+          <span class="text-sm text-slate-600 group-hover:text-slate-900 group-hover:underline">commands shared</span>
+          <span *ngIf="stats_data[3].extra !== null" class="inline-flex items-center gap-0.5 self-center text-[13px] font-semibold tabular-nums text-emerald-700"><svg appIcon="arrow-trending-up" class="size-3.5 flex-none"></svg>+{{stats_data[3].extra | number}}</span>
+        </button>
+      </div>
+      <p class="mb-0 mt-2 text-center text-xs text-slate-500">
+        Green numbers: change in the last 24 hours ·
+        <button type="button" (click)="viewDetails()" class="border-0 bg-transparent p-0 font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">View usage statistics</button>
+      </p>
+    </div>
+
+    <app-login-register class="block w-full"></app-login-register>
+  </section>
+
+  <section class="flex flex-col gap-5">
+    <h2 class="m-0 text-xl font-semibold text-slate-900">How it works</h2>
+    <ol aria-label="How it works" class="m-0 grid list-none grid-cols-1 gap-6 p-0 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0">
+      <li class="m-0 flex min-w-0 flex-col gap-3">
+        <div class="flex items-center">
+          <span class="flex size-8 flex-none items-center justify-center rounded-full bg-brand-700 text-sm font-bold tabular-nums text-white ring-4 ring-brand-50">1</span>
+          <span aria-hidden="true" class="mx-3 h-0.5 flex-1 rounded-sm bg-slate-200 max-lg:hidden"></span>
         </div>
-
-        <div class="container hidden-xs hidden-sm">
-          <br/>
-          <br/>
-
-          <div class="row bs-wizard" style="border-bottom:0;">
-
-            <div class="col-xs-3 bs-wizard-step complete" matTooltip="An account is required to collect and share enemy city intelligence">
-              <div class="text-center bs-wizard-stepnum">Step 1</div>
-              <div class="progress"><div class="progress-bar"></div></div>
-              <a class="bs-wizard-dot"></a>
-              <a class="bs-wizard-pulsate"></a>
-              <div class="bs-wizard-info text-center"><strong>Create</strong><span class="hidden-xs hidden-sm hidden-md"> a GrepoData account</span><span class="hidden-lg"> an account</span></div>
-            </div>
-
-            <div class="col-xs-3 bs-wizard-step" matTooltip="The userscript adds in-game functionality and links to your GrepoData account"><!-- complete -->
-              <div class="text-center bs-wizard-stepnum">Step 2</div>
-              <div class="progress"><div class="progress-bar"></div></div>
-              <a class="bs-wizard-dot inactive"></a>
-              <div class="bs-wizard-info text-center"><strong>Join</strong> a <span class="hidden-xs hidden-sm hidden-md">GrepoData </span><strong>Team</strong></div>
-            </div>
-
-            <div class="col-xs-3 bs-wizard-step" matTooltip="Upload new reports while playing the game by clicking the 'Index +' button on forum and inbox reports"><!-- complete -->
-              <div class="text-center bs-wizard-stepnum">Step 3</div>
-              <div class="progress"><div class="progress-bar"></div></div>
-              <a class="bs-wizard-dot inactive"></a>
-              <div class="bs-wizard-info text-center"><strong>Install</strong> the <a routerLink="/userscript">userscript <span class="fa fa-download"></span></a></div>
-            </div>
-
-            <div class="col-xs-3 bs-wizard-step" matTooltip="Create a team and invite your allies to share the collected intel"><!-- complete -->
-              <div class="text-center bs-wizard-stepnum">Step 4</div>
-              <div class="progress"><div class="progress-bar"></div></div>
-              <a class="bs-wizard-dot inactive"></a>
-              <div class="bs-wizard-info text-center">Index <strong>reports</strong> or share <strong>commands</strong></div>
-            </div>
-
-          </div>
+        <div class="lg:pr-6">
+          <p class="m-0 text-base font-semibold text-slate-900">Create a GrepoData account</p>
+          <p class="mb-0 mt-1 text-sm text-slate-600">An account is required to collect and share enemy city intelligence.</p>
         </div>
-
-				<br/>
-				<br/>
-				<br/>
-
-
-        <div class="container" *ngIf="stats != '' && show_stats">
-          <div class="col-xs-12 text-center">
-            <h2 #databaseStats style="font-family: Montserrat !important;" class="gd-secondary">
-              Usage Statistics 📈
-            </h2>
-            <div class="" *ngIf="show_stats">
-              <div class="">
-                <div class="col-xs-12" style="margin-left: -12px;">
-                  <ngx-charts-number-card
-                    [scheme]="colorScheme"
-                    [results]="stats_data"
-                    [cardColor]="cardColor"
-                    [valueFormatting]="formatStatValue"
-                    (select)="viewDetails()"
-                  >
-                  </ngx-charts-number-card>
-                </div>
-              </div>
-            </div>
-          </div>
+      </li>
+      <li class="m-0 flex min-w-0 flex-col gap-3">
+        <div class="flex items-center">
+          <span class="flex size-8 flex-none items-center justify-center rounded-full bg-white text-sm font-bold tabular-nums text-slate-600 ring-1 ring-inset ring-slate-300">2</span>
+          <span aria-hidden="true" class="mx-3 h-0.5 flex-1 rounded-sm bg-slate-200 max-lg:hidden"></span>
         </div>
-        <br/>
-        <br/>
-
-        <div class="container">
-          <div class="col-xs-12 text-center">
-            <br/>
-            <h2 style="font-family: Montserrat !important;" class="gd-secondary">
-              City Indexer Preview 👀
-            </h2>
-            <img class="img-thumbnail" src="../../assets/images/indexer_overview.png?v=1" alt="GrepoData City Indexer Team Overview">
-            <img class="img-thumbnail" src="../../assets/images/indexer_operations.jpg?v=1" alt="GrepoData City Indexer Team Operations">
-<!--            <img class="img-thumbnail" src="../../assets/images/indexer.png?v=1" alt="GrepoData City Indexer My Intel">-->
-          </div>
+        <div class="lg:pr-6">
+          <p class="m-0 text-base font-semibold text-slate-900">Join a GrepoData team</p>
+          <p class="mb-0 mt-1 text-sm text-slate-600">Create a team and invite your allies to share the collected intel.</p>
         </div>
-
-        <div class="container hidden-xs hidden-sm">
-
-          <br/>
-          <br/>
-          <br/>
-          <div class="col-xs-12" style="margin: -12px;">
-            <app-userscript></app-userscript>
-          </div>
+      </li>
+      <li class="m-0 flex min-w-0 flex-col gap-3">
+        <div class="flex items-center">
+          <span class="flex size-8 flex-none items-center justify-center rounded-full bg-white text-sm font-bold tabular-nums text-slate-600 ring-1 ring-inset ring-slate-300">3</span>
+          <span aria-hidden="true" class="mx-3 h-0.5 flex-1 rounded-sm bg-slate-200 max-lg:hidden"></span>
         </div>
+        <div class="lg:pr-6">
+          <p class="m-0 text-base font-semibold text-slate-900">Install the <a routerLink="/userscript" class="font-semibold text-brand-700 no-underline hover:text-brand-800 hover:underline">userscript</a></p>
+          <p class="mb-0 mt-1 text-sm text-slate-600">The userscript adds in-game functionality and links to your GrepoData account.</p>
+        </div>
+      </li>
+      <li class="m-0 flex min-w-0 flex-col gap-3">
+        <div class="flex items-center">
+          <span class="flex size-8 flex-none items-center justify-center rounded-full bg-white text-sm font-bold tabular-nums text-slate-600 ring-1 ring-inset ring-slate-300">4</span>
+        </div>
+        <div class="lg:pr-6">
+          <p class="m-0 text-base font-semibold text-slate-900">Index reports or share commands</p>
+          <p class="mb-0 mt-1 text-sm text-slate-600">Upload new reports while playing the game by clicking the 'Index +' button on forum and inbox reports.</p>
+        </div>
+      </li>
+    </ol>
+  </section>
 
-				<!--FaQ-->
-        <div class="container">
+  <section class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+    <div class="px-6 pt-1 max-sm:px-4">
+      <div role="tablist" class="flex gap-6 border-0 border-b border-solid border-slate-200 max-sm:gap-4">
+        <button type="button" role="tab" [attr.aria-selected]="activeTab === 0" (click)="activeTab = 0" class="-mb-px inline-flex items-center gap-2 whitespace-nowrap border-0 border-b-2 border-solid bg-transparent px-1 py-3 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="activeTab === 0 ? 'border-brand-700 font-semibold text-brand-700' : 'border-transparent font-medium text-slate-500 hover:border-slate-300 hover:text-slate-900'">
+          <svg appIcon="photo" class="size-[18px] flex-none max-sm:hidden" [ngClass]="activeTab === 0 ? 'text-brand-700' : 'text-slate-400'"></svg>
+          Preview
+        </button>
+        <button type="button" role="tab" [attr.aria-selected]="activeTab === 1" (click)="activeTab = 1" class="-mb-px inline-flex items-center gap-2 whitespace-nowrap border-0 border-b-2 border-solid bg-transparent px-1 py-3 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="activeTab === 1 ? 'border-brand-700 font-semibold text-brand-700' : 'border-transparent font-medium text-slate-500 hover:border-slate-300 hover:text-slate-900'">
+          <svg appIcon="arrow-down-tray" class="size-[18px] flex-none max-sm:hidden" [ngClass]="activeTab === 1 ? 'text-brand-700' : 'text-slate-400'"></svg>
+          <span class="max-sm:hidden">Install the userscript</span><span class="sm:hidden">Install</span>
+        </button>
+        <button type="button" role="tab" [attr.aria-selected]="activeTab === 2" (click)="activeTab = 2" class="-mb-px inline-flex items-center gap-2 whitespace-nowrap border-0 border-b-2 border-solid bg-transparent px-1 py-3 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="activeTab === 2 ? 'border-brand-700 font-semibold text-brand-700' : 'border-transparent font-medium text-slate-500 hover:border-slate-300 hover:text-slate-900'">
+          <svg appIcon="sparkles" class="size-[18px] flex-none max-sm:hidden" [ngClass]="activeTab === 2 ? 'text-brand-700' : 'text-slate-400'"></svg>
+          <span class="max-sm:hidden">Userscript features</span><span class="sm:hidden">Features</span>
+        </button>
+        <button type="button" role="tab" [attr.aria-selected]="activeTab === 3" (click)="activeTab = 3" class="-mb-px inline-flex items-center gap-2 whitespace-nowrap border-0 border-b-2 border-solid bg-transparent px-1 py-3 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="activeTab === 3 ? 'border-brand-700 font-semibold text-brand-700' : 'border-transparent font-medium text-slate-500 hover:border-slate-300 hover:text-slate-900'">
+          <svg appIcon="question-mark-circle" class="size-[18px] flex-none max-sm:hidden" [ngClass]="activeTab === 3 ? 'text-brand-700' : 'text-slate-400'"></svg>
+          <span class="max-sm:hidden">Frequently asked questions</span><span class="sm:hidden">FAQ</span>
+        </button>
+      </div>
+    </div>
 
-          <br/>
-          <br/>
-          <br/>
-          <div class="row">
-            <div class="col-xs-12 col-sm-12">
-							<mat-card class="decorated-card">
-								<mat-card-title class='decorated-card-header-secondary decorated-title text-center' style="margin-bottom: 0px;">
-									<h2>📋 Frequently asked questions</h2>
-								</mat-card-title>
-								<mat-card-content class="decorated-card-content" style="border: 1px solid #138F77;">
-                  <br/>
-                  <app-server-alert></app-server-alert>
-									<br/>
-									<app-faq></app-faq>
-								</mat-card-content>
-							</mat-card>
-						</div>
-					</div>
-				</div>
+    <div class="bg-slate-50 p-6 max-sm:p-4">
+      <div role="tabpanel" [hidden]="activeTab !== 0">
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <figure class="m-0 flex flex-col gap-2 rounded-xl bg-white p-2 shadow-sm ring-1 ring-slate-900/[.08]">
+            <img class="block h-auto w-full rounded-md ring-1 ring-slate-900/[.08]" src="../../assets/images/indexer_overview.png?v=1" alt="GrepoData City Indexer Team Overview">
+            <figcaption class="px-1.5 pb-1 text-sm font-medium text-slate-700">Team overview</figcaption>
+          </figure>
+          <figure class="m-0 flex flex-col gap-2 rounded-xl bg-white p-2 shadow-sm ring-1 ring-slate-900/[.08]">
+            <img class="block h-auto w-full rounded-md ring-1 ring-slate-900/[.08]" src="../../assets/images/indexer_operations.jpg?v=1" alt="GrepoData City Indexer Team Operations">
+            <figcaption class="px-1.5 pb-1 text-sm font-medium text-slate-700">Team operations</figcaption>
+          </figure>
+        </div>
+      </div>
+      <div role="tabpanel" [hidden]="activeTab !== 1">
+        <app-userscript section="install"></app-userscript>
+      </div>
+      <div role="tabpanel" [hidden]="activeTab !== 2">
+        <app-userscript section="features"></app-userscript>
+      </div>
+      <div role="tabpanel" [hidden]="activeTab !== 3">
+        <div class="flex flex-col gap-5">
+          <app-server-alert></app-server-alert>
+          <app-faq></app-faq>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        <br/>
-
-				<br/>
-				<br/>
-				<div class="container text-center">
-					<div class="col-xs-12 col-xs-offset-0 col-sm-6 col-sm-offset-3">
-						<button (click)="scrollTop()" style="font-size: 30px; padding: 10px; width: 100%;" mat-button class="mat-raised-button mat-primary btn-no-index">
-							Sign up today!
-						</button>
-					</div>
-				</div>
-				<br/>
-				<br/>
-
-			</mat-card-content>
-		</mat-card>
-	</div>
+  <div class="flex flex-wrap items-center justify-center gap-4 text-center text-sm text-slate-600">
+    Start collecting and sharing enemy intelligence
+    <button type="button" (click)="scrollTop()" class="inline-flex items-center gap-1.5 rounded-md border-0 bg-brand-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+      <svg appIcon="arrow-up" class="size-[18px] flex-none"></svg>
+      Sign up today
+    </button>
+  </div>
 
 </div>

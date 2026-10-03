@@ -1,8 +1,10 @@
-<div class="snackbar {{type}}">
-  <mat-icon class="snackbar__icon {{ type }} material-icons" color="accent">{{ selectIcon() }}</mat-icon>
-  <div class="snackbar__message">
-    <div class="snackbar__title {{ type }}" *ngIf="!!data.title">{{ data.title }}</div>
+<div role="status" class="flex items-center gap-3 text-left font-normal">
+  <svg [appIcon]="type === 'error' ? 'exclamation-circle' : type === 'info' ? 'information-circle' : type === 'warning' ? 'exclamation-triangle' : 'check-circle'" class="size-5 flex-none" [ngClass]="type === 'error' ? 'text-rose-600' : type === 'info' ? 'text-sky-600' : type === 'warning' ? 'text-amber-600' : 'text-emerald-600'"></svg>
+  <div class="min-w-0 flex-1 text-sm font-medium text-slate-900 [&_.gd-primary]:text-brand-700 [&_h1]:m-0 [&_h1]:text-sm [&_h1]:font-medium [&_h2]:m-0 [&_h2]:text-sm [&_h2]:font-medium [&_h3]:m-0 [&_h3]:text-sm [&_h3]:font-medium [&_h4]:m-0 [&_h4]:text-sm [&_h4]:font-medium [&_h4]:leading-5 [&_h5]:m-0 [&_h5]:text-sm [&_h5]:font-normal [&_p]:m-0">
+    <p *ngIf="!!data.title" class="mb-0.5 mt-0 font-semibold">{{ data.title }}</p>
     <div [outerHTML]="data.message"></div>
   </div>
-  <mat-icon *ngIf="data.dismissible" class="snackbar__close material-icons" (click)="hideSnackbar()">close</mat-icon>
+  <button *ngIf="data.dismissible" type="button" (click)="hideSnackbar()" aria-label="Dismiss" class="-mr-1 inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+    <svg appIcon="x-mark" class="size-5"></svg>
+  </button>
 </div>

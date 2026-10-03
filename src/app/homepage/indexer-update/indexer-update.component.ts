@@ -4,8 +4,7 @@ import {ContactDialog} from '../../header/header.component';
 
 @Component({
   selector: 'app-indexer-update',
-  templateUrl: './indexer-update.component.html',
-  styleUrls: ['./indexer-update.component.scss']
+  templateUrl: './indexer-update.component.html'
 })
 export class IndexerUpdateComponent implements OnInit {
 

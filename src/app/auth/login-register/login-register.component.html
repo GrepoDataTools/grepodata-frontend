@@ -1,194 +1,222 @@
+<section aria-label="Create an account or sign in" class="mx-auto w-[960px] max-w-full overflow-hidden rounded-xl bg-white text-left font-normal text-slate-900 ring-1 ring-slate-900/[.08] [container-type:inline-size]" [ngClass]="tabs ? 'shadow-xl' : 'shadow-sm'">
+  <div *ngIf="tabs" role="tablist" aria-label="Sign in or create an account" class="flex gap-2 border-0 border-b border-solid border-slate-200 px-5">
+    <button type="button" role="tab" [attr.aria-selected]="tab == 'signin'" (click)="tab = 'signin'" class="-mb-px inline-flex flex-1 items-center justify-center gap-2 border-0 border-b-2 border-solid bg-transparent px-2 pb-3 pt-3.5 text-sm leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tab == 'signin' ? 'border-brand-700 font-semibold text-brand-700' : 'border-transparent font-medium text-slate-500 hover:text-slate-900'">
+      <svg appIcon="arrow-right-end-on-rectangle" class="size-[18px] flex-none" [ngClass]="tab == 'signin' ? 'text-brand-700' : 'text-slate-400'"></svg>Sign in
+    </button>
+    <button type="button" role="tab" [attr.aria-selected]="tab == 'register'" (click)="tab = 'register'" class="-mb-px inline-flex flex-1 items-center justify-center gap-2 border-0 border-b-2 border-solid bg-transparent px-2 pb-3 pt-3.5 text-sm leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tab == 'register' ? 'border-brand-700 font-semibold text-brand-700' : 'border-transparent font-medium text-slate-500 hover:text-slate-900'">
+      <svg appIcon="user-plus" class="size-[18px] flex-none" [ngClass]="tab == 'register' ? 'text-brand-700' : 'text-slate-400'"></svg>Create account
+    </button>
+  </div>
+  <div class="grid grid-cols-1" [ngClass]="{'[@container(min-width:720px)]:grid-cols-2': !tabs}">
 
-<div class="container">
-  <div class="row">
-
-    <div class="col-xs-12 index-input-container">
-      <div class="row flex-row login-row-container">
-        <div class="col-xs-12 col-sm-6 index-input index-input-left">
-          <div class="form-panel register">
-            <div class="form-header">
-              <h1 style="margin-top: 3px;"><mat-icon style="vertical-align: text-top; padding-top: 2px;">perm_identity</mat-icon>&nbsp;Register</h1>
-              <h5>Start collecting and sharing enemy intelligence</h5>
-            </div>
-            <div class="form-content">
-              <form autocomplete="off" [formGroup]="registerForm" (ngSubmit)="doRegister()">
-                <div class="form-group" [ngClass]="{ 'is-invalid-input': register_submitted && rf.newusername.errors }">
-                  <mat-icon *ngIf="register_submitted && rf.newusername.errors" class="error-icon inside">error_outline</mat-icon>
-                  <label for="newusername">Username&nbsp;(PUBLIC)&nbsp;
-                    <i class="fa fa-question-circle-o info-tooltip" matTooltip="Your username is public and can be seen by other GrepoData users."></i>
-                  </label>
-                  <input autocomplete="new-username" type="text" id="newusername" name="newusername"
-                         required="required" formControlName="newusername"/>
-                  <div *ngIf="register_submitted && rf.newusername.errors" class="invalid-form-text">
-                    <div *ngIf="rf.newusername.errors.required">Username is required</div>
-                    <div *ngIf="rf.newusername.errors.custom">{{rf.newusername.errors.custom}}</div>
-                  </div>
-                </div>
-                <div class="form-group" [ngClass]="{ 'is-invalid-input': register_submitted && rf.mail.errors }">
-                  <mat-icon *ngIf="register_submitted && rf.mail.errors" class="error-icon inside">error_outline</mat-icon>
-                  <label for="mail">Email Adress&nbsp;(PRIVATE)&nbsp;
-                    <i class="fa fa-question-circle-o info-tooltip" matTooltip="Your email address will remain private. We will only use your email address to authenticate you."></i>
-                  </label>
-                  <input autocomplete="off" type="text" id="mail" name="mail"
-                         required="required" formControlName="mail"/>
-                  <div *ngIf="register_submitted && rf.mail.errors" class="invalid-form-text">
-                    <div *ngIf="rf.mail.errors.required">Email address is required</div>
-                    <div *ngIf="rf.mail.errors.custom">{{rf.mail.errors.custom}}</div>
-                  </div>
-                </div>
-                <div class="form-group" [ngClass]="{ 'is-invalid-input': register_submitted && rf.newpassword.errors }">
-                  <mat-icon *ngIf="register_submitted && rf.newpassword.errors" class="error-icon inside">error_outline</mat-icon>
-                  <label for="newpassword">Password</label>
-                  <input autocomplete="new-password" type="password" id="newpassword" name="newpassword"
-                         required="required" formControlName="newpassword"/>
-                  <div *ngIf="register_submitted && rf.newpassword.errors" class="invalid-form-text">
-                    <div *ngIf="rf.newpassword.errors.required">Password is required</div>
-                    <div *ngIf="rf.newpassword.errors.custom">{{rf.newpassword.errors.custom}}</div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <mat-checkbox formControlName="privacy" style="font-size: 16px;">
-                    By submitting this form you agree to our <a routerLink="/privacy" target="_blank">Privacy Policy</a>
-                  </mat-checkbox>
-                  <div *ngIf="register_submitted && rf.privacy.errors" class="invalid-form-text">
-                    <mat-icon class="error-icon">error_outline</mat-icon>Accept our privacy policy to continue
-                  </div>
-                </div>
-                <p class="invalid-feedback" *ngIf="register_error!=''" style="color: #a94442 !important;">{{register_error}}</p>
-                <div class="form-group" style="padding-top: 30px;">
-                  <button class="login-submit" type="submit" [disabled]="register_loading">Register</button>
-                  <mat-progress-bar *ngIf="register_loading" class="btn-progress-bar" mode="indeterminate"></mat-progress-bar>
-                </div>
-              </form>
-
-
-            </div>
-          </div>
-
+    <div *ngIf="!tabs || tab == 'register'" [attr.role]="tabs ? 'tabpanel' : null" class="flex min-w-0 flex-col gap-5 p-6 [@container(min-width:720px)]:px-8 [@container(min-width:720px)]:py-7">
+      <p *ngIf="tabs" class="m-0 text-sm text-slate-600">Start collecting and sharing enemy intelligence</p>
+      <div *ngIf="!tabs" class="flex items-center gap-3">
+        <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-full bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-700/15">
+          <svg appIcon="user-plus" class="size-5"></svg>
+        </span>
+        <div class="min-w-0">
+          <h2 class="m-0 text-lg font-semibold leading-7 text-slate-900">Create an account</h2>
+          <p class="m-0 text-sm text-slate-600">Start collecting and sharing enemy intelligence</p>
         </div>
-        <div class="col-xs-12 col-sm-6 index-input index-input-right" *ngIf="!forgotPassswordForm">
+      </div>
 
-          <div class="form-panel login">
-
-            <div class="gd-login-logo">
-              <span style="color: rgb(103, 103, 103)">GREPO</span>
-              <span style="color: rgb(24, 188, 156)">DATA</span>
-            </div>
-
-            <div class="form-header">
-              <h1>Login</h1>
-              <h5>Sign in using an existing GrepoData account</h5>
-            </div>
-            <div class="form-content">
-              <form [formGroup]="loginForm" (ngSubmit)="doLogin()">
-                <div class="form-group" [ngClass]="{ 'is-invalid-input': login_submitted && lf.username.errors }">
-                  <mat-icon *ngIf="login_submitted && lf.username.errors" class="error-icon inside">error_outline</mat-icon>
-                  <label for="username">Username or Email Address</label>
-                  <input type="text" id="username" name="username" required="required"
-                         formControlName="username"/>
-                  <div *ngIf="login_submitted && lf.username.errors" class="invalid-form-text">
-                    <div *ngIf="lf.username.errors.required">Username or email address is required</div>
-                    <div *ngIf="lf.username.errors.custom">{{lf.username.errors.custom}}</div>
-                  </div>
-                </div>
-                <div class="form-group" [ngClass]="{ 'is-invalid-input': login_submitted && lf.password.errors }">
-                  <mat-icon *ngIf="login_submitted && lf.password.errors" class="error-icon inside">error_outline</mat-icon>
-                  <label for="password">Password</label>
-                  <input type="password" id="password" name="password" required="required"
-                         formControlName="password"/>
-                  <div *ngIf="login_submitted && lf.password.errors" class="invalid-form-text">
-                    <div *ngIf="lf.password.errors.required">Password is required</div>
-                    <div *ngIf="lf.password.errors.custom">{{lf.password.errors.custom}}</div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <a class="form-recovery" (click)="togglePasswordForm()">Forgot Your Password? <mat-icon class="mat-icon-title-inline" style="vertical-align: sub;">mail_outline</mat-icon></a>
-                </div>
-                <div *ngIf="lf.password.errors || lf.username.errors || login_error" style="margin-top: 10px;">
-                  <br/>
-                  <br/>
-                  <br/>
-                </div>
-                <p class="invalid-feedback" *ngIf="login_error!=''" style="color: #a94442 !important;">{{login_error}}</p>
-                <div class="form-group">
-                  <button class="login-submit" type="submit" [disabled]="login_loading">Log In</button>
-                  <mat-progress-bar *ngIf="login_loading" class="btn-progress-bar" mode="indeterminate"></mat-progress-bar>
-                </div>
-              </form>
-
-
-            </div>
+      <form autocomplete="off" [formGroup]="registerForm" (ngSubmit)="doRegister()" class="m-0 flex flex-col gap-5">
+        <div>
+          <div class="mb-1.5 flex items-center justify-between gap-2">
+            <label for="newusername" class="m-0 text-sm font-medium text-slate-900">Username</label>
+            <span class="flex-none rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-700 ring-1 ring-inset ring-slate-600/[.12]">Public</span>
           </div>
-
+          <div class="relative">
+            <input autocomplete="new-username" type="text" id="newusername" name="newusername"
+                   required="required" formControlName="newusername" class="h-9 w-full rounded-md border border-solid border-slate-300 bg-white px-3 text-sm text-slate-900 shadow-sm focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700" [ngClass]="{ '!border-rose-500 pr-9 focus:!border-rose-500 focus:!ring-rose-500': register_submitted && rf.newusername.errors }"/>
+            <svg *ngIf="register_submitted && rf.newusername.errors" appIcon="exclamation-circle" class="pointer-events-none absolute right-2.5 top-[9px] size-[18px] text-rose-500"></svg>
+          </div>
+          <div *ngIf="register_submitted && rf.newusername.errors" class="mt-1.5 text-sm text-rose-600">
+            <div *ngIf="rf.newusername.errors.required">Username is required</div>
+            <div *ngIf="rf.newusername.errors.custom">{{rf.newusername.errors.custom}}</div>
+          </div>
+          <p *ngIf="!(register_submitted && rf.newusername.errors)" class="mb-0 mt-1.5 text-xs text-slate-500">Other GrepoData users can see your username.</p>
         </div>
 
-        <div class="col-xs-12 col-sm-6 index-input index-input-right" *ngIf="forgotPassswordForm">
-
-          <div class="form-panel login">
-
-            <div style="text-align: center; font-weight: 800; font-size: 50px">
-              <span style="color: rgb(103, 103, 103)">GREPO</span>
-              <span style="color: rgb(24, 188, 156)">DATA</span>
-            </div>
-
-            <div class="form-header">
-              <h1>Reset your password</h1>
-              <h5 *ngIf="!reset_success">Enter your email address to reset your password</h5>
-            </div>
-            <div class="form-content">
-              <form [formGroup]="resetForm" (ngSubmit)="doForgot()" *ngIf="!reset_success">
-                <br/>
-                <br/>
-                <div class="form-group" [ngClass]="{ 'is-invalid-input': reset_submitted && resetf.resetmail.errors }">
-                  <mat-icon *ngIf="reset_submitted && resetf.resetmail.errors" class="error-icon inside">error_outline</mat-icon>
-                  <label for="resetmail">Email Address</label>
-                  <input autocomplete="email" type="text" id="resetmail" name="resetmail" required="required"
-                         formControlName="resetmail"/>
-                  <div *ngIf="reset_submitted && resetf.resetmail.errors" class="invalid-form-text">
-                    <div *ngIf="resetf.resetmail.errors.required">Email address is required</div>
-                    <div *ngIf="resetf.resetmail.errors.custom">{{resetf.resetmail.errors.custom}}</div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <a class="form-recovery" (click)="togglePasswordForm()">
-                    Back to sign in <mat-icon class="mat-icon-title-inline" style="vertical-align: sub;">login</mat-icon>
-                  </a>
-                </div>
-                <p class="invalid-feedback" *ngIf="reset_error!=''" style="color: #a94442 !important;"><br/><br/>{{reset_error}}</p>
-                <div class="form-group">
-                  <button class="login-submit" type="submit" [disabled]="reset_loading">Request new password</button>
-                  <mat-progress-bar *ngIf="reset_loading" class="btn-progress-bar" mode="indeterminate"></mat-progress-bar>
-                </div>
-              </form>
-
-              <div *ngIf="reset_success">
-
-                <app-alert type="success" title="Password reset link sent" [dismissible]="false">
-                  <h5 class="gd-secondary">You received an email from admin@grepodata.com<br/>(check your spam folder!)</h5>
-                  <h4><strong>Click on the link in the email to continue</strong></h4>
-                </app-alert>
-
-
-                <div style="margin-top: 70px;">
-                  <div class="form-group" style="float: right;">
-                    <a class="form-recovery" (click)="togglePasswordForm()" style="position: inherit !important;">
-                      Back to sign in <mat-icon class="mat-icon-title-inline" style="vertical-align: sub;">login</mat-icon>
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-
-            </div>
+        <div>
+          <div class="mb-1.5 flex items-center justify-between gap-2">
+            <label for="mail" class="m-0 text-sm font-medium text-slate-900">Email address</label>
+            <span class="flex-none rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-700 ring-1 ring-inset ring-slate-600/[.12]">Private</span>
           </div>
-
+          <div class="relative">
+            <input autocomplete="off" type="text" id="mail" name="mail"
+                   required="required" formControlName="mail" class="h-9 w-full rounded-md border border-solid border-slate-300 bg-white px-3 text-sm text-slate-900 shadow-sm focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700" [ngClass]="{ '!border-rose-500 pr-9 focus:!border-rose-500 focus:!ring-rose-500': register_submitted && rf.mail.errors }"/>
+            <svg *ngIf="register_submitted && rf.mail.errors" appIcon="exclamation-circle" class="pointer-events-none absolute right-2.5 top-[9px] size-[18px] text-rose-500"></svg>
+          </div>
+          <div *ngIf="register_submitted && rf.mail.errors" class="mt-1.5 text-sm text-rose-600">
+            <div *ngIf="rf.mail.errors.required">Email address is required</div>
+            <div *ngIf="rf.mail.errors.custom">{{rf.mail.errors.custom}}</div>
+          </div>
+          <p *ngIf="!(register_submitted && rf.mail.errors)" class="mb-0 mt-1.5 text-xs text-slate-500">We only use it to authenticate you.</p>
         </div>
 
+        <div>
+          <label for="newpassword" class="mb-1.5 block text-sm font-medium text-slate-900">Password</label>
+          <div class="relative">
+            <input autocomplete="new-password" type="password" id="newpassword" name="newpassword"
+                   required="required" formControlName="newpassword" class="h-9 w-full rounded-md border border-solid border-slate-300 bg-white px-3 text-sm text-slate-900 shadow-sm focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700" [ngClass]="{ '!border-rose-500 pr-9 focus:!border-rose-500 focus:!ring-rose-500': register_submitted && rf.newpassword.errors }"/>
+            <svg *ngIf="register_submitted && rf.newpassword.errors" appIcon="exclamation-circle" class="pointer-events-none absolute right-2.5 top-[9px] size-[18px] text-rose-500"></svg>
+          </div>
+          <div *ngIf="register_submitted && rf.newpassword.errors" class="mt-1.5 text-sm text-rose-600">
+            <div *ngIf="rf.newpassword.errors.required">Password is required</div>
+            <div *ngIf="rf.newpassword.errors.custom">{{rf.newpassword.errors.custom}}</div>
+          </div>
+          <p *ngIf="!(register_submitted && rf.newpassword.errors)" class="mb-0 mt-1.5 text-xs text-slate-500">At least 8 characters.</p>
+        </div>
+
+        <div>
+          <label class="m-0 flex cursor-pointer gap-2.5 text-sm font-normal text-slate-700">
+            <input type="checkbox" formControlName="privacy" class="peer sr-only">
+            <span aria-hidden="true" class="mt-0.5 flex size-4 flex-none items-center justify-center rounded border border-solid bg-white text-transparent shadow-sm peer-checked:border-brand-700 peer-checked:bg-brand-700 peer-checked:text-white peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand-700" [ngClass]="register_submitted && rf.privacy.errors ? 'border-rose-500' : 'border-slate-300'">
+              <svg appIcon="check" variant="micro" class="size-3"></svg>
+            </span>
+            <span>By submitting this form you agree to our <a routerLink="/privacy" target="_blank" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline">Privacy Policy</a></span>
+          </label>
+          <div *ngIf="register_submitted && rf.privacy.errors" class="ml-[26px] mt-1.5 text-sm text-rose-600">Accept our privacy policy to continue</div>
+        </div>
+
+        <div *ngIf="register_error!=''" role="alert" class="flex gap-3 rounded-lg bg-rose-50 px-4 py-3 text-sm text-rose-700 ring-1 ring-inset ring-rose-200">
+          <svg appIcon="exclamation-circle" class="size-5 flex-none text-rose-600"></svg>
+          <p class="m-0 min-w-0">{{register_error}}</p>
+        </div>
+
+        <button type="submit" [disabled]="register_loading" class="inline-flex w-full items-center justify-center gap-1.5 rounded-md border-0 bg-brand-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-default disabled:bg-brand-700 disabled:opacity-70">
+          <span *ngIf="register_loading" class="size-4 flex-none animate-spin rounded-full border-2 border-solid border-white/35 border-t-white"></span>
+          <span *ngIf="!register_loading">Create account</span>
+          <span *ngIf="register_loading">Creating account…</span>
+        </button>
+      </form>
+    </div>
+
+    <div *ngIf="!forgotPassswordForm && (!tabs || tab == 'signin')" [attr.role]="tabs ? 'tabpanel' : null" class="flex min-w-0 flex-col gap-5 p-6 [@container(min-width:720px)]:px-8 [@container(min-width:720px)]:py-7" [ngClass]="{'border-0 border-t border-solid border-slate-200 bg-slate-50 [@container(min-width:720px)]:border-l [@container(min-width:720px)]:border-t-0': !tabs}">
+      <p *ngIf="tabs" class="m-0 text-sm text-slate-600">Sign in using an existing GrepoData account</p>
+      <div *ngIf="!tabs" class="flex items-center gap-3">
+        <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-full bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-700/15">
+          <svg appIcon="arrow-right-end-on-rectangle" class="size-5"></svg>
+        </span>
+        <div class="min-w-0">
+          <h2 class="m-0 text-lg font-semibold leading-7 text-slate-900">Sign in</h2>
+          <p class="m-0 text-sm text-slate-600">Sign in using an existing GrepoData account</p>
+        </div>
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="doLogin()" class="m-0 flex flex-col gap-5">
+        <div>
+          <label for="username" class="mb-1.5 block text-sm font-medium text-slate-900">Username or email address</label>
+          <div class="relative">
+            <input type="text" id="username" name="username" required="required"
+                   formControlName="username" class="h-9 w-full rounded-md border border-solid border-slate-300 bg-white px-3 text-sm text-slate-900 shadow-sm focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700" [ngClass]="{ '!border-rose-500 pr-9 focus:!border-rose-500 focus:!ring-rose-500': login_submitted && lf.username.errors }"/>
+            <svg *ngIf="login_submitted && lf.username.errors" appIcon="exclamation-circle" class="pointer-events-none absolute right-2.5 top-[9px] size-[18px] text-rose-500"></svg>
+          </div>
+          <div *ngIf="login_submitted && lf.username.errors" class="mt-1.5 text-sm text-rose-600">
+            <div *ngIf="lf.username.errors.required">Username or email address is required</div>
+            <div *ngIf="lf.username.errors.custom">{{lf.username.errors.custom}}</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="mb-1.5 flex items-center justify-between gap-2">
+            <label for="password" class="m-0 text-sm font-medium text-slate-900">Password</label>
+            <button type="button" (click)="togglePasswordForm()" class="border-0 bg-transparent p-0 text-sm font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Forgot your password?</button>
+          </div>
+          <div class="relative">
+            <input type="password" id="password" name="password" required="required"
+                   formControlName="password" class="h-9 w-full rounded-md border border-solid border-slate-300 bg-white px-3 text-sm text-slate-900 shadow-sm focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700" [ngClass]="{ '!border-rose-500 pr-9 focus:!border-rose-500 focus:!ring-rose-500': login_submitted && lf.password.errors }"/>
+            <svg *ngIf="login_submitted && lf.password.errors" appIcon="exclamation-circle" class="pointer-events-none absolute right-2.5 top-[9px] size-[18px] text-rose-500"></svg>
+          </div>
+          <div *ngIf="login_submitted && lf.password.errors" class="mt-1.5 text-sm text-rose-600">
+            <div *ngIf="lf.password.errors.required">Password is required</div>
+            <div *ngIf="lf.password.errors.custom">{{lf.password.errors.custom}}</div>
+          </div>
+        </div>
+
+        <div *ngIf="login_error!=''" role="alert" class="flex gap-3 rounded-lg bg-rose-50 px-4 py-3 text-sm text-rose-700 ring-1 ring-inset ring-rose-200">
+          <svg appIcon="exclamation-circle" class="size-5 flex-none text-rose-600"></svg>
+          <p class="m-0 min-w-0">{{login_error}}</p>
+        </div>
+
+        <button type="submit" [disabled]="login_loading" class="inline-flex w-full items-center justify-center gap-1.5 rounded-md border-0 bg-brand-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-default disabled:bg-brand-700 disabled:opacity-70">
+          <span *ngIf="login_loading" class="size-4 flex-none animate-spin rounded-full border-2 border-solid border-white/35 border-t-white"></span>
+          <span *ngIf="!login_loading">Sign in</span>
+          <span *ngIf="login_loading">Signing in…</span>
+        </button>
+      </form>
+    </div>
+
+    <div *ngIf="forgotPassswordForm && (!tabs || tab == 'signin')" [attr.role]="tabs ? 'tabpanel' : null" class="flex min-w-0 flex-col gap-5 p-6 [@container(min-width:720px)]:px-8 [@container(min-width:720px)]:py-7" [ngClass]="{'border-0 border-t border-solid border-slate-200 bg-slate-50 [@container(min-width:720px)]:border-l [@container(min-width:720px)]:border-t-0': !tabs}">
+      <div *ngIf="!reset_success" class="flex items-center gap-3">
+        <span *ngIf="!tabs" aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-full bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-700/15">
+          <svg appIcon="key" class="size-5"></svg>
+        </span>
+        <div class="min-w-0">
+          <h2 class="m-0 text-lg font-semibold leading-7 text-slate-900">Reset your password</h2>
+          <p class="m-0 text-sm text-slate-600">Enter your email address to reset your password</p>
+        </div>
+      </div>
+
+      <form [formGroup]="resetForm" (ngSubmit)="doForgot()" *ngIf="!reset_success" class="m-0 flex flex-col gap-5">
+        <div>
+          <label for="resetmail" class="mb-1.5 block text-sm font-medium text-slate-900">Email address</label>
+          <div class="relative">
+            <input autocomplete="email" type="text" id="resetmail" name="resetmail" required="required"
+                   formControlName="resetmail" class="h-9 w-full rounded-md border border-solid border-slate-300 bg-white px-3 text-sm text-slate-900 shadow-sm focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700" [ngClass]="{ '!border-rose-500 pr-9 focus:!border-rose-500 focus:!ring-rose-500': reset_submitted && resetf.resetmail.errors }"/>
+            <svg *ngIf="reset_submitted && resetf.resetmail.errors" appIcon="exclamation-circle" class="pointer-events-none absolute right-2.5 top-[9px] size-[18px] text-rose-500"></svg>
+          </div>
+          <div *ngIf="reset_submitted && resetf.resetmail.errors" class="mt-1.5 text-sm text-rose-600">
+            <div *ngIf="resetf.resetmail.errors.required">Email address is required</div>
+            <div *ngIf="resetf.resetmail.errors.custom">{{resetf.resetmail.errors.custom}}</div>
+          </div>
+        </div>
+
+        <div *ngIf="reset_error!=''" role="alert" class="flex gap-3 rounded-lg bg-rose-50 px-4 py-3 text-sm text-rose-700 ring-1 ring-inset ring-rose-200">
+          <svg appIcon="exclamation-circle" class="size-5 flex-none text-rose-600"></svg>
+          <p class="m-0 min-w-0">{{reset_error}}</p>
+        </div>
+
+        <button type="submit" [disabled]="reset_loading" class="inline-flex w-full items-center justify-center gap-1.5 rounded-md border-0 bg-brand-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-default disabled:bg-brand-700 disabled:opacity-70">
+          <span *ngIf="reset_loading" class="size-4 flex-none animate-spin rounded-full border-2 border-solid border-white/35 border-t-white"></span>
+          <span *ngIf="!reset_loading">Send reset link</span>
+          <span *ngIf="reset_loading">Sending reset link…</span>
+        </button>
+
+        <div class="flex justify-center">
+          <button type="button" (click)="togglePasswordForm()" class="inline-flex items-center gap-1 border-0 bg-transparent p-0 text-sm font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+            <svg appIcon="arrow-left" class="size-4 flex-none"></svg>
+            Back to sign in
+          </button>
+        </div>
+      </form>
+
+      <div *ngIf="reset_success" class="flex flex-col gap-5">
+        <div role="status" class="flex flex-col items-center pb-1 pt-2 text-center">
+          <span aria-hidden="true" class="flex size-12 flex-none items-center justify-center rounded-full bg-emerald-50 text-emerald-600 ring-1 ring-inset ring-emerald-100">
+            <svg appIcon="envelope" class="size-6"></svg>
+          </span>
+          <h3 class="mb-0 mt-3 text-base font-semibold text-slate-900">Password reset link sent</h3>
+          <p class="mb-0 mt-1 text-sm text-slate-600">You received an email from <strong class="font-semibold text-slate-900">admin@grepodata.com</strong><br/>(check your spam folder!)</p>
+          <p class="mb-0 mt-3 text-sm font-semibold text-slate-900">Click on the link in the email to continue</p>
+        </div>
+        <div class="flex justify-center">
+          <button type="button" (click)="togglePasswordForm()" class="inline-flex items-center gap-1 border-0 bg-transparent p-0 text-sm font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+            <svg appIcon="arrow-left" class="size-4 flex-none"></svg>
+            Back to sign in
+          </button>
+        </div>
       </div>
     </div>
 
   </div>
-</div>
+
+  <div class="border-0 border-t border-solid px-6 py-3" [ngClass]="tabs ? 'border-slate-100 bg-slate-50' : 'border-slate-200 bg-white'">
+    <p class="m-0 text-center text-xs text-slate-500">This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy" target="_blank" class="text-slate-600 underline decoration-slate-300 hover:text-slate-900">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank" class="text-slate-600 underline decoration-slate-300 hover:text-slate-900">Terms of Service</a> apply.</p>
+  </div>
+</section>
 
 <re-captcha
   size="invisible"

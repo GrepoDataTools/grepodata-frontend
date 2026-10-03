@@ -1,48 +1,49 @@
-<div class="index-events-container">
-  <div *ngIf="loading">
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-  </div>
+<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
 <!--  <div *ngIf="error">{{error}}</div>-->
-  <div *ngIf="!error && !loading && (events.length > 1 || event_type == 'user')" class="text-left">
-    <div class="event-header">
-      <h3 *ngIf="event_type=='team'">Team Events</h3>
-      <h3 *ngIf="event_type=='user'">Your GrepoData Team Events</h3>
+<section *ngIf="!error && !loading && (events.length > 1 || event_type == 'user')" class="overflow-hidden rounded-xl bg-white text-left font-normal shadow-sm ring-1 ring-slate-900/[.08]">
+  <div class="flex min-h-[61px] flex-wrap items-center justify-between gap-x-3 border-0 border-b border-solid border-slate-200 px-5 py-2">
+    <h3 *ngIf="event_type=='team'" class="m-0 text-base font-medium text-slate-900">Team Events</h3>
+    <h3 *ngIf="event_type=='user'" class="m-0 text-base font-medium text-slate-900">Your GrepoData Team Events</h3>
 
-      <mat-paginator *ngIf="total_events > size"
-                     [length]="total_events"
-                     [pageSize]="size"
-                     [hidePageSize]="true"
-                     [pageIndex]="from/size"
-                     (page)="paginatorEvent($event)"
-                     [disabled]="paging">
-      </mat-paginator>
-    </div>
+    <mat-paginator *ngIf="total_events > size"
+                   [length]="total_events"
+                   [pageSize]="size"
+                   [hidePageSize]="true"
+                   [pageIndex]="from/size"
+                   (page)="paginatorEvent($event)"
+                   [disabled]="paging">
+    </mat-paginator>
+  </div>
 
-    <div class="spinner-overlay" *ngIf="paging">
+  <div class="relative">
+    <div *ngIf="paging" class="absolute inset-0 z-10 flex items-center justify-center">
       <mat-spinner [diameter]="50"></mat-spinner>
     </div>
 
-    <div class="events-list" [ngClass]="{'loading-overlay':paging}">
-      <div class="event" [ngClass]="{'odd':i%2==1}" *ngFor="let event of events; let i = index">
-        <div class="event-date">
-          {{event.local_time | Datex : 'D MMM YYYY'}}<br/>
-          {{event.local_time | Datex : 'HH:mm'}}
+    <div class="pl-5 [container-type:inline-size]" [ngClass]="{'opacity-40': paging}">
+      <div *ngFor="let event of events" class="grid grid-cols-[96px_minmax(0,1fr)] items-start gap-x-4 gap-y-1 border-0 border-b border-solid border-slate-100 py-3 pr-5 text-sm last:border-b-0 [@container(min-width:600px)]:flex [@container(min-width:600px)]:gap-4">
+        <div class="w-24 flex-none tabular-nums">
+          <div class="text-slate-700">{{event.local_time | Datex : 'D MMM YYYY'}}</div>
+          <div class="text-xs text-slate-500">{{event.local_time | Datex : 'HH:mm'}}</div>
         </div>
-        <div class="event-parts">
+        <div class="min-w-0 flex-1 text-slate-600">
           <ng-container *ngFor="let part of event['json'];">
-            <span class="event-part" *ngIf="part.type == 'text'">{{part.text}}</span>
-            <span class="event-part" *ngIf="part.type == 'bold'"><strong>{{part.text}}</strong></span>
-            <span class="event-part entity" *ngIf="part.type == 'user'"><mat-icon>perm_identity</mat-icon> {{part.text}}</span>
-            <span class="event-part entity" *ngIf="part.type == 'alliance'"><img style="height: 18px; margin-top: 0;" src="../../assets/images/ally_ico.png"/> {{part.text}}</span>
-            <span class="event-part entity" *ngIf="part.type == 'player'"><img style="height: 18px; margin-top: 0;" src="../../assets/images/player_ico.png"/> {{part.text}}</span>
-            <span class="event-part entity" *ngIf="part.type == 'town'"><img style="height: 18px; margin-top: 0;" src="../../assets/images/town_ico.png"/> {{part.text}}</span>
-            <span class="event-part entity" *ngIf="part.type == 'team'"><mat-icon>group</mat-icon> {{part.text}}</span>
+            <span *ngIf="part.type == 'text'">{{part.text}}</span>
+            <span *ngIf="part.type == 'bold'"><strong class="font-medium text-slate-900">{{part.text}}</strong></span>
+            <span *ngIf="part.type == 'user'" class="font-medium text-brand-700"><svg appIcon="user" class="inline-block size-4 align-middle"></svg> {{part.text}}</span>
+            <span *ngIf="part.type == 'alliance'" class="font-medium text-brand-700"><svg appIcon="ally_ico" variant="game" class="inline-block size-4 align-middle"></svg> {{part.text}}</span>
+            <span *ngIf="part.type == 'player'" class="font-medium text-brand-700"><svg appIcon="player_ico" variant="game" class="inline-block size-4 align-middle"></svg> {{part.text}}</span>
+            <span *ngIf="part.type == 'town'" class="font-medium text-brand-700"><svg appIcon="town_ico" variant="game" class="inline-block size-4 align-middle"></svg> {{part.text}}</span>
+            <span *ngIf="part.type == 'team'" class="font-medium text-brand-700"><svg appIcon="user-group" class="inline-block size-4 align-middle"></svg> {{part.text}}</span>
           </ng-container>
         </div>
-        <div class="event-teamlink" *ngIf="event_type=='user'">
-          <button routerLink="/profile/team/{{event.index_key}}" class="btn btn-link mr-1 index-btn-browse">Team: {{event.index_key | IndexNamePipe}} <mat-icon>launch</mat-icon></button>
+        <div *ngIf="event_type=='user'" class="col-start-2 flex-none">
+          <button type="button" routerLink="/profile/team/{{event.index_key}}" class="inline-flex items-center gap-1 border-0 bg-transparent p-0 text-sm font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+            Team: {{event.index_key | IndexNamePipe}}
+            <svg appIcon="arrow-top-right-on-square" class="size-4 flex-none"></svg>
+          </button>
         </div>
       </div>
     </div>
   </div>
-</div>
+</section>

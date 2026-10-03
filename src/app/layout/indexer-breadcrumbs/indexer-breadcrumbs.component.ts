@@ -2,8 +2,7 @@ import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-indexer-breadcrumbs',
-  templateUrl: './indexer-breadcrumbs.component.html',
-  styleUrls: ['./indexer-breadcrumbs.component.scss']
+  templateUrl: './indexer-breadcrumbs.component.html'
 })
 export class IndexerBreadcrumbsComponent implements OnInit {
 

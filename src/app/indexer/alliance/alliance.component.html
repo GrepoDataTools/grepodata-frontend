@@ -1,326 +1,430 @@
-<div style="overflow-x: hidden; min-height: 100%;">
+<div [ngClass]="embedded ? 'h-full bg-white' : 'min-h-full'">
+  <div [ngClass]="embedded ? 'h-full overflow-y-auto bg-slate-50' : 'm-[22px] space-y-6 max-[1000px]:m-3'">
 
-	<mat-card [ngClass]="embedded?'embedded-intel-card':'index-card'">
-		<div [ngClass]="{'embedded-padding': embedded}">
-			<div class="card-header bg-gd-1 text-center text-white" style="margin-bottom: 0; padding: 20px 0 0 !important;" [ngClass]="{ 'embedded-intel': embedded }">
-
-				<h2 style="cursor: pointer; margin: 0;" *ngIf="!embedded">
-          <span class="hidden-xs hidden-sm">Showing your combined intel for:&nbsp;</span>
-					<div class="name-circle">
-						<img style="height: 25px; margin-top: -5px;" src="../../assets/images/ally_ico.png"/>&nbsp;
-						<span class="gd-brown">{{allianceName}}</span>
-					</div>
-				</h2>
-        <br *ngIf="!embedded" />
-        <app-indexer-breadcrumbs [data]="breadcrumb_data"></app-indexer-breadcrumbs>
-
-			</div>
-
-    <mat-card-content class="decorated-card-content" [ngClass]="{'embedded-padding': embedded}" style="padding: 0 !important;">
-
-      <div *ngIf="err != ''">
-        <br/>
-        <br/>
-        <div class="alert alert-gd-1 text-center">
-          <h2 class="gd-primary">No alliance intel available</h2>
-          <h4>
-            You have not yet gained any intel on this alliance. Note: Intel about your allies (index owners) is unavailable.
-          </h4>
+  <section class="bg-white" [ngClass]="embedded ? 'sticky top-0 z-20 border-0 border-b border-solid border-slate-200' : 'overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]'">
+    <div class="flex flex-col px-6 pt-5 max-sm:px-4" [ngClass]="(mobile && showPanels() ? 'pb-0 ' : 'pb-5 ') + (embedded ? 'gap-2 pr-14' : 'gap-3.5')">
+      <app-indexer-breadcrumbs *ngIf="!embedded" class="block" [data]="breadcrumb_data"></app-indexer-breadcrumbs>
+      <div class="flex items-center gap-4 max-sm:gap-3">
+        <span class="flex flex-none items-center justify-center bg-navy-800 text-brand-500" [ngClass]="embedded ? 'size-10 rounded-lg' : 'size-12 rounded-[10px] max-sm:size-10'">
+          <svg appIcon="ally_ico" variant="game" class="size-6"></svg>
+        </span>
+        <div class="min-w-0 flex-1">
+          <h1 *ngIf="!embedded" class="my-0 truncate text-2xl font-bold tracking-tight text-slate-900 max-sm:text-xl">{{allianceName}}</h1>
+          <h2 *ngIf="embedded" class="my-0 truncate text-xl font-bold tracking-tight text-slate-900">{{allianceName}}</h2>
+          <p *ngIf="!embedded" class="mb-0 mt-0.5 text-sm text-slate-500">Your combined intel from all your teams<span *ngIf="playerCount(allPlayers) > 0"> · {{playerCount(allPlayers)}} players</span></p>
+          <app-indexer-breadcrumbs *ngIf="embedded" class="mt-0.5 block" [data]="breadcrumb_data"></app-indexer-breadcrumbs>
         </div>
       </div>
-      <div *ngIf="err == ''">
+    </div>
+    <div *ngIf="mobile && showPanels()" role="tablist" class="mt-2.5 flex gap-6 px-6 max-sm:gap-4 max-sm:px-4">
+      <button type="button" role="tab" [attr.aria-selected]="activeTab === 0" (click)="setActiveTab(0)" class="-mb-px inline-flex items-center gap-2 whitespace-nowrap border-0 border-b-2 border-solid bg-transparent px-1 py-3 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="activeTab === 0 ? 'border-brand-700 font-semibold text-brand-700' : 'border-transparent font-medium text-slate-500 hover:border-slate-300 hover:text-slate-900'">
+        <span class="block size-5 flex-none overflow-hidden rounded-full"><span class="unit_icon40x40 unknown_naval block border-0 [zoom:0.5]"></span></span>
+        Sea units
+      </button>
+      <button type="button" role="tab" [attr.aria-selected]="activeTab === 1" (click)="setActiveTab(1)" class="-mb-px inline-flex items-center gap-2 whitespace-nowrap border-0 border-b-2 border-solid bg-transparent px-1 py-3 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="activeTab === 1 ? 'border-brand-700 font-semibold text-brand-700' : 'border-transparent font-medium text-slate-500 hover:border-slate-300 hover:text-slate-900'">
+        <span class="block size-5 flex-none overflow-hidden rounded-full"><span class="unit_icon40x40 unknown block border-0 [zoom:0.5]"></span></span>
+        Land units
+      </button>
+    </div>
+  </section>
 
-	      <!--<app-advertorial *ngIf="!loading && !embedded && (firePlayers | ValuesPipe).length>2"></app-advertorial>-->
+  <div [ngClass]="embedded ? 'space-y-5 p-5 max-sm:p-3' : 'space-y-6'">
+    <section *ngIf="err != ''" class="flex flex-col items-center px-6 py-10 text-center rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+      <span class="flex size-12 items-center justify-center rounded-full bg-amber-50 text-amber-600">
+        <svg appIcon="eye-slash" class="size-6"></svg>
+      </span>
+      <h2 class="mb-0 mt-3 text-base font-semibold text-slate-900">No alliance intel available</h2>
+      <p class="mb-0 mt-1 max-w-md text-sm text-slate-600">You have not yet gained any intel on this alliance. Note: Intel about your allies (index owners) is unavailable.</p>
+    </section>
 
-	      <!--<div style="width: calc(100vw - 68px); margin: auto;">-->
-		      <!--<app-index-version *ngIf="!embedded && !loading" [version]="version" [message]="message" [key]="key"></app-index-version>-->
-	      <!--</div>-->
+    <section *ngIf="err == '' && loading" class="px-6 py-10 text-center rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+      <p class="my-0 text-sm font-medium text-slate-600">Loading alliance intel...</p>
+      <mat-progress-bar class="mx-auto mt-3 max-w-md" mode="indeterminate"></mat-progress-bar>
+    </section>
 
-	      <div *ngIf="loading" class="text-center">
-		      <div class="align-middle" style="position: relative; top: 250px; left: 25%; width: 50%;">
-			      <h3 class="gd-primary"><strong>Loading alliance intel...</strong></h3>
-			      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-		      </div>
-	      </div>
-
-        <div class="container-fluid" *ngIf="!noIntel && !loading" style="padding: 0 !important;">
-
-          <app-alert *ngIf="viewIsLimited" type="warning" title="Showing partial overview" [dismissible]="false">
-            You have too much intel about this alliance to show in a single overview. The intel you see here is limited to only the 3000 most recent reports.
-          </app-alert>
-
-	        <div *ngIf="mobile">
-		        <mat-tab-group mat-stretch-tabs (click)="cdr.detectChanges();">
-			        <mat-tab>
-				        <ng-template mat-tab-label>
-					        <div class="unit_icon40x40 unknown_naval" style="border-radius: 30px;"></div>&nbsp;&nbsp;Sea units
-				        </ng-template>
-				        <ng-container *ngTemplateOutlet="seaunits"></ng-container>
-			        </mat-tab>
-			        <mat-tab>
-				        <ng-template mat-tab-label>
-					        <div class="unit_icon40x40 unknown" style="border-radius: 30px;"></div>&nbsp;&nbsp;Land units
-				        </ng-template>
-				        <ng-container *ngTemplateOutlet="landunits"></ng-container>
-			        </mat-tab>
-		        </mat-tab-group>
-	        </div>
-
-	        <div *ngIf="!mobile" fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="5px" style="max-width: 1700px; margin: auto;">
-		        <div fxFlex="50">
-			        <ng-container *ngTemplateOutlet="seaunits"></ng-container>
-		        </div>
-		        <div fxFlex="50">
-			        <ng-container *ngTemplateOutlet="landunits"></ng-container>
-		        </div>
-	        </div>
-
+    <ng-container *ngIf="showPanels()">
+      <div *ngIf="viewIsLimited" role="status" class="flex gap-3 rounded-xl bg-amber-50 px-5 py-4 ring-1 ring-inset ring-amber-200">
+        <svg appIcon="exclamation-triangle" class="size-5 flex-none text-amber-600"></svg>
+        <div class="min-w-0 text-sm text-amber-800">
+          <h2 class="my-0 text-sm font-semibold">Showing partial overview</h2>
+          <p class="mb-0 mt-1">You have too much intel about this alliance to show in a single overview. The intel you see here is limited to only the 3000 most recent reports.</p>
         </div>
-
-        <div *ngIf="noIntel && !loading">
-          <div class="container">
-            <div class="row">
-              <br/>
-              <br/>
-              <div class="alert alert-danger text-center">
-                <h3>You have not yet gained any intel on alliance <strong>{{allianceName}}</strong></h3>
-              </div>
-            </div>
-          </div>
-        </div>
-
       </div>
+      <div *ngIf="mobile">
+        <div role="tabpanel" [hidden]="activeTab !== 0">
+          <ng-container *ngTemplateOutlet="seaunits"></ng-container>
+        </div>
+        <div role="tabpanel" [hidden]="activeTab !== 1">
+          <ng-container *ngTemplateOutlet="landunits"></ng-container>
+        </div>
+      </div>
+      <div *ngIf="!mobile" class="[container-type:inline-size]">
+        <div class="grid grid-cols-1 items-start gap-6 [@container(min-width:880px)]:grid-cols-2">
+          <ng-container *ngTemplateOutlet="seaunits"></ng-container>
+          <ng-container *ngTemplateOutlet="landunits"></ng-container>
+        </div>
+      </div>
+    </ng-container>
 
-    </mat-card-content>
+    <section *ngIf="err == '' && noIntel && !loading" class="flex flex-col items-center px-6 py-10 text-center rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+      <span class="flex size-12 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+        <svg appIcon="document-magnifying-glass" class="size-6"></svg>
+      </span>
+      <h2 class="mb-0 mt-3 text-base font-semibold text-slate-900">You have not yet gained any intel on alliance <strong class="font-semibold">{{allianceName}}</strong></h2>
+    </section>
   </div>
-	</mat-card>
 
+  </div>
 </div>
 
-<!--sea units-->
 <ng-template #seaunits>
-	<mat-card class="index-card text-center sub-card">
+  <section class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+    <div *ngIf="!mobile" class="flex items-center gap-2.5 border-0 border-b border-solid border-slate-200 px-5 py-3.5 max-sm:px-3">
+      <span class="block size-6 flex-none overflow-hidden rounded-md"><span class="unit_icon40x40 unknown_naval block border-0 [zoom:0.6]"></span></span>
+      <h2 class="my-0 text-base font-semibold text-slate-900">Sea units</h2>
+    </div>
+    <div class="px-5 pb-3 pt-4 max-sm:px-3">
+      <div role="group" aria-label="Sea unit type" class="flex gap-0.5 rounded-lg bg-slate-100 p-[3px]">
+        <button type="button" [attr.aria-pressed]="tabsSeaIndex===0" (click)="setSeaIndex(0)" class="inline-flex min-w-0 flex-1 items-center justify-center gap-2 rounded-md border-0 px-2 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tabsSeaIndex===0 ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">
+          <span class="block size-5 flex-none overflow-hidden rounded max-sm:hidden"><span class="unit_icon40x40 attack_ship block border-0 [zoom:0.5]"></span></span>
+          <span class="truncate">{{world.substring(0, 2)=='en'?'Light ships':'Fireships'}}</span>
+          <span class="flex-none rounded-full px-1.5 text-[11px] font-semibold leading-4 tabular-nums" [ngClass]="tabsSeaIndex===0 ? 'bg-brand-50 text-brand-700' : 'bg-slate-200 text-slate-600'">{{playerCount(firePlayers)}}</span>
+        </button>
+        <button type="button" [attr.aria-pressed]="tabsSeaIndex===1" (click)="setSeaIndex(1)" class="inline-flex min-w-0 flex-1 items-center justify-center gap-2 rounded-md border-0 px-2 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tabsSeaIndex===1 ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">
+          <span class="block size-5 flex-none overflow-hidden rounded max-sm:hidden"><span class="unit_icon40x40 bireme block border-0 [zoom:0.5]"></span></span>
+          <span class="truncate">Biremes</span>
+          <span class="flex-none rounded-full px-1.5 text-[11px] font-semibold leading-4 tabular-nums" [ngClass]="tabsSeaIndex===1 ? 'bg-brand-50 text-brand-700' : 'bg-slate-200 text-slate-600'">{{playerCount(birPlayers)}}</span>
+        </button>
+        <button type="button" [attr.aria-pressed]="tabsSeaIndex===2" (click)="setSeaIndex(2)" class="inline-flex min-w-0 flex-1 items-center justify-center gap-2 rounded-md border-0 px-2 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tabsSeaIndex===2 ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">
+          <span class="block size-5 flex-none overflow-hidden rounded max-sm:hidden"><span class="unit_icon40x40 trireme block border-0 [zoom:0.5]"></span></span>
+          <span class="truncate">Triremes</span>
+          <span class="flex-none rounded-full px-1.5 text-[11px] font-semibold leading-4 tabular-nums" [ngClass]="tabsSeaIndex===2 ? 'bg-brand-50 text-brand-700' : 'bg-slate-200 text-slate-600'">{{playerCount(trirPlayers)}}</span>
+        </button>
+      </div>
+    </div>
 
-		<mat-card-title>
-			<div class="form-group row" style='margin: 0px;'>
-				<h1 style='font-weight: 300; color: #304357; margin: 0;'>
-					<span *ngIf="!mobile" class='world-title' style='color: #18BC9C;'>Sea units</span>
-					<span class="hidden-xs" *ngIf="!embedded">
-            &nbsp;<img src="../../assets/images/ally_ico.png" style="height: 28px; margin-top: -5px;"/>&nbsp;<span>{{allianceName}}</span>
-          </span>
-				</h1>
-			</div>
-		</mat-card-title>
-
-		<div class="chip-list-wrapper">
-			<mat-chip-list>
-				<mat-chip class="gd-chip gd-chip-lg" [selected]="tabsSeaIndex===0" (click)="setSeaIndex(0)"><div class="gd-icon icon-fireship"></div> {{world.substring(0, 2)=='en'?'Light ships':'Fireships'}}</mat-chip>
-				<mat-chip class="gd-chip gd-chip-lg" [selected]="tabsSeaIndex===1" (click)="setSeaIndex(1)"><div class="gd-icon icon-bireme"></div> Biremes</mat-chip>
-				<mat-chip class="gd-chip gd-chip-lg" [selected]="tabsSeaIndex===2" (click)="setSeaIndex(2)"><div class="gd-icon icon-trireme"></div> Triremes</mat-chip>
-			</mat-chip-list>
-		</div>
-
-		<div *ngIf="tabsSeaIndex===0">
-			<br/>
-			<mat-card-title *ngIf="(firePlayers | ValuesPipe).length>3">
-				<form class="form-inline" style="font-size: 18px; font-weight: 300;">
-					<label class="gd-secondary" style="margin-right: 5px;">Filter by player name:</label>
-					<input type="text" autocomplete="off" class="form-control filter-input" name="playerNameFilter" placeholder="Enter player name"
-					       [(ngModel)]="playerNameFilterSea" (keyup)="filterPlayers('sea');" style="margin-right: 5px;"/>
-					<label *ngIf="playerNameFilterSea != ''" class="fa fa-times" (click)="clearFilter()"></label>
-				</form>
-			</mat-card-title>
-			<mat-card-content>
-				<div *ngIf="firePlayers.length<=0" class="alert alert-warning text-center alert-gd-1">
-					<h3>No fireship intel available</h3>
-					<p>Index more reports to collect intel</p>
-				</div>
-				<div *ngFor="let player of firePlayers | ValuesPipe; trackBy: null">
-					<span *ngIf="filterMatch(player.name, 'sea')">
-						<br/>
-						<intel-table [type]="'fire'" [containsDuplicates]="player.contains_duplicates" [seaTowns]="player.towns" [key]="key" [world]="world" [id]="player.id"
-						             [playerName]="player.name" [allianceName]="allianceName" [parentType]="'alliance'"></intel-table>
-					</span>
-				</div>
-				<div *ngIf="playerNameFilterSea!=''&&hasMatch==false&&showNoResults" class="alert alert-warning text-center alert-gd-1">
-					<h3 class="gd-secondary">No intel found for <span class="gd-primary">{{playerNameFilter}}</span> in this alliance.</h3>
-					<p><a class="a-link-dialog" (click)="clearFilter()">
-						Clear</a> your search or try a different name.</p>
-				</div>
-			</mat-card-content>
-		</div>
-		<div *ngIf="tabsSeaIndex===1">
-			<br/>
-			<mat-card-title *ngIf="(birPlayers | ValuesPipe).length>3">
-				<form class="form-inline" style="font-size: 18px; font-weight: 300;">
-					<label class="gd-secondary" style="margin-right: 5px;">Filter by player name:</label>
-					<input type="text" autocomplete="off" class="form-control filter-input" name="playerNameFilter" placeholder="Enter player name"
-					       [(ngModel)]="playerNameFilterSea" (keyup)="filterPlayers('sea');" style="margin-right: 5px;"/>
-					<label *ngIf="playerNameFilterSea != ''" class="fa fa-times" (click)="clearFilter()"></label>
-				</form>
-			</mat-card-title>
-			<mat-card-content>
-				<div *ngIf="birPlayers.length<=0" class="alert alert-warning text-center alert-gd-1">
-					<h3>No bireme intel available</h3>
-					<p>Index more reports to collect intel</p>
-				</div>
-				<div *ngFor="let player of birPlayers | ValuesPipe; trackBy: null">
-					<span *ngIf="filterMatch(player.name, 'sea')">
-						<br/>
-						<intel-table [type]="'bir'" [containsDuplicates]="player.contains_duplicates" [seaTowns]="player.towns" [key]="key" [world]="world" [id]="player.id"
-						             [playerName]="player.name" [allianceName]="allianceName" [parentType]="'alliance'"></intel-table>
-					</span>
-				</div>
-				<div *ngIf="playerNameFilterSea!=''&&hasMatch==false&&showNoResults" class="alert alert-warning text-center alert-gd-1">
-					<h3 class="gd-secondary">No intel found for <span class="gd-primary">{{playerNameFilter}}</span> in this alliance.</h3>
-					<p><a class="a-link-dialog" (click)="clearFilter()">
-						Clear</a> your search or try a different name.</p>
-				</div>
-			</mat-card-content>
-		</div>
-		<div *ngIf="tabsSeaIndex===2">
-			<br/>
-			<mat-card-title *ngIf="(trirPlayers | ValuesPipe).length>3">
-				<form class="form-inline" style="font-size: 18px; font-weight: 300;">
-					<label class="gd-secondary" style="margin-right: 5px;">Filter by player name:</label>
-					<input type="text" autocomplete="off" class="form-control filter-input" name="playerNameFilter" placeholder="Enter player name"
-					       [(ngModel)]="playerNameFilterSea" (keyup)="filterPlayers('sea');" style="margin-right: 5px;"/>
-					<label *ngIf="playerNameFilterSea != ''" class="fa fa-times" (click)="clearFilter()"></label>
-				</form>
-			</mat-card-title>
-			<mat-card-content>
-				<div *ngIf="trirPlayers.length<=0" class="alert alert-warning text-center alert-gd-1">
-					<h3>No trireme intel available</h3>
-					<p>Index more reports to collect intel</p>
-				</div>
-				<div *ngFor="let player of trirPlayers | ValuesPipe; trackBy: null">
-					<span *ngIf="filterMatch(player.name, 'sea')">
-						<br/>
-						<intel-table [type]="'trir'" [containsDuplicates]="player.contains_duplicates" [seaTowns]="player.towns" [key]="key" [world]="world" [id]="player.id"
-						             [playerName]="player.name" [allianceName]="allianceName" [parentType]="'alliance'"></intel-table>
-					</span>
-				</div>
-				<div *ngIf="playerNameFilterSea!=''&&hasMatch==false&&showNoResults" class="alert alert-warning text-center alert-gd-1">
-					<h3 class="gd-secondary">No intel found for <span class="gd-primary">{{playerNameFilter}}</span> in this alliance.</h3>
-					<p><a class="a-link-dialog" (click)="clearFilter()">
-						Clear</a> your search or try a different name.</p>
-				</div>
-			</mat-card-content>
-		</div>
-
-	</mat-card>
+    <div *ngIf="tabsSeaIndex===0">
+      <div *ngIf="(firePlayers | ValuesPipe).length>3" class="px-5 pb-3 max-sm:px-3">
+        <form class="m-0">
+          <div class="relative">
+            <svg appIcon="magnifying-glass" variant="mini" class="pointer-events-none absolute left-2.5 top-2.5 size-4 text-slate-400"></svg>
+            <input type="text" autocomplete="off" name="playerNameFilter" placeholder="Filter by player name" aria-label="Filter by player name" [(ngModel)]="playerNameFilterSea" (keyup)="filterPlayers('sea');" class="h-9 w-full rounded-md border-0 bg-white pl-8 pr-8 text-sm font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700"/>
+            <button *ngIf="playerNameFilterSea != ''" type="button" (click)="clearFilter()" aria-label="Clear filter" class="absolute right-1.5 top-1.5 inline-flex size-6 items-center justify-center rounded border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-700">
+              <svg appIcon="x-mark" variant="micro" class="size-4"></svg>
+            </button>
+          </div>
+        </form>
+      </div>
+      <div *ngIf="firePlayers.length<=0" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center">
+        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+          <svg appIcon="document-magnifying-glass" class="size-5"></svg>
+        </span>
+        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900">No fireship intel available</h3>
+        <p class="mb-0 mt-1 text-sm text-slate-600">Index more reports to collect intel</p>
+      </div>
+      <div *ngIf="(firePlayers | ValuesPipe).length>0" aria-hidden="true" class="gd-scrollbar overflow-x-auto">
+        <table class="w-full min-w-[360px] table-fixed border-separate border-spacing-0 text-left font-normal">
+          <colgroup>
+            <col class="w-[38%]">
+            <col>
+            <col class="w-28">
+          </colgroup>
+          <thead>
+            <tr>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-5 pr-3 text-left max-sm:pl-3">Town</th>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 truncate px-3 text-left">Attack ships</th>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-3 pr-5 text-right max-sm:pr-3">Date</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <div *ngFor="let player of firePlayers | ValuesPipe; trackBy: null">
+        <div *ngIf="filterMatch(player.name, 'sea')">
+          <intel-table [type]="'fire'" [containsDuplicates]="player.contains_duplicates" [seaTowns]="player.towns" [key]="key" [world]="world" [id]="player.id"
+                       [playerName]="player.name" [allianceName]="allianceName" [parentType]="'alliance'"></intel-table>
+        </div>
+      </div>
+      <div *ngIf="playerNameFilterSea!=''&&hasMatch==false&&showNoResults" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center">
+        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+          <svg appIcon="user" class="size-5"></svg>
+        </span>
+        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900">No intel found for <span class="text-brand-700">{{playerNameFilter}}</span> in this alliance.</h3>
+        <p class="mb-0 mt-1 text-sm text-slate-600"><button type="button" (click)="clearFilter()" class="border-0 bg-transparent p-0 font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Clear</button> your search or try a different name.</p>
+      </div>
+    </div>
+    <div *ngIf="tabsSeaIndex===1">
+      <div *ngIf="(birPlayers | ValuesPipe).length>3" class="px-5 pb-3 max-sm:px-3">
+        <form class="m-0">
+          <div class="relative">
+            <svg appIcon="magnifying-glass" variant="mini" class="pointer-events-none absolute left-2.5 top-2.5 size-4 text-slate-400"></svg>
+            <input type="text" autocomplete="off" name="playerNameFilter" placeholder="Filter by player name" aria-label="Filter by player name" [(ngModel)]="playerNameFilterSea" (keyup)="filterPlayers('sea');" class="h-9 w-full rounded-md border-0 bg-white pl-8 pr-8 text-sm font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700"/>
+            <button *ngIf="playerNameFilterSea != ''" type="button" (click)="clearFilter()" aria-label="Clear filter" class="absolute right-1.5 top-1.5 inline-flex size-6 items-center justify-center rounded border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-700">
+              <svg appIcon="x-mark" variant="micro" class="size-4"></svg>
+            </button>
+          </div>
+        </form>
+      </div>
+      <div *ngIf="birPlayers.length<=0" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center">
+        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+          <svg appIcon="document-magnifying-glass" class="size-5"></svg>
+        </span>
+        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900">No bireme intel available</h3>
+        <p class="mb-0 mt-1 text-sm text-slate-600">Index more reports to collect intel</p>
+      </div>
+      <div *ngIf="(birPlayers | ValuesPipe).length>0" aria-hidden="true" class="gd-scrollbar overflow-x-auto">
+        <table class="w-full min-w-[360px] table-fixed border-separate border-spacing-0 text-left font-normal">
+          <colgroup>
+            <col class="w-[38%]">
+            <col>
+            <col class="w-28">
+          </colgroup>
+          <thead>
+            <tr>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-5 pr-3 text-left max-sm:pl-3">Town</th>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 truncate px-3 text-left">Biremes</th>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-3 pr-5 text-right max-sm:pr-3">Date</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <div *ngFor="let player of birPlayers | ValuesPipe; trackBy: null">
+        <div *ngIf="filterMatch(player.name, 'sea')">
+          <intel-table [type]="'bir'" [containsDuplicates]="player.contains_duplicates" [seaTowns]="player.towns" [key]="key" [world]="world" [id]="player.id"
+                       [playerName]="player.name" [allianceName]="allianceName" [parentType]="'alliance'"></intel-table>
+        </div>
+      </div>
+      <div *ngIf="playerNameFilterSea!=''&&hasMatch==false&&showNoResults" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center">
+        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+          <svg appIcon="user" class="size-5"></svg>
+        </span>
+        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900">No intel found for <span class="text-brand-700">{{playerNameFilter}}</span> in this alliance.</h3>
+        <p class="mb-0 mt-1 text-sm text-slate-600"><button type="button" (click)="clearFilter()" class="border-0 bg-transparent p-0 font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Clear</button> your search or try a different name.</p>
+      </div>
+    </div>
+    <div *ngIf="tabsSeaIndex===2">
+      <div *ngIf="(trirPlayers | ValuesPipe).length>3" class="px-5 pb-3 max-sm:px-3">
+        <form class="m-0">
+          <div class="relative">
+            <svg appIcon="magnifying-glass" variant="mini" class="pointer-events-none absolute left-2.5 top-2.5 size-4 text-slate-400"></svg>
+            <input type="text" autocomplete="off" name="playerNameFilter" placeholder="Filter by player name" aria-label="Filter by player name" [(ngModel)]="playerNameFilterSea" (keyup)="filterPlayers('sea');" class="h-9 w-full rounded-md border-0 bg-white pl-8 pr-8 text-sm font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700"/>
+            <button *ngIf="playerNameFilterSea != ''" type="button" (click)="clearFilter()" aria-label="Clear filter" class="absolute right-1.5 top-1.5 inline-flex size-6 items-center justify-center rounded border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-700">
+              <svg appIcon="x-mark" variant="micro" class="size-4"></svg>
+            </button>
+          </div>
+        </form>
+      </div>
+      <div *ngIf="trirPlayers.length<=0" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center">
+        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+          <svg appIcon="document-magnifying-glass" class="size-5"></svg>
+        </span>
+        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900">No trireme intel available</h3>
+        <p class="mb-0 mt-1 text-sm text-slate-600">Index more reports to collect intel</p>
+      </div>
+      <div *ngIf="(trirPlayers | ValuesPipe).length>0" aria-hidden="true" class="gd-scrollbar overflow-x-auto">
+        <table class="w-full min-w-[360px] table-fixed border-separate border-spacing-0 text-left font-normal">
+          <colgroup>
+            <col class="w-[38%]">
+            <col>
+            <col class="w-28">
+          </colgroup>
+          <thead>
+            <tr>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-5 pr-3 text-left max-sm:pl-3">Town</th>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 truncate px-3 text-left">Triremes</th>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-3 pr-5 text-right max-sm:pr-3">Date</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <div *ngFor="let player of trirPlayers | ValuesPipe; trackBy: null">
+        <div *ngIf="filterMatch(player.name, 'sea')">
+          <intel-table [type]="'trir'" [containsDuplicates]="player.contains_duplicates" [seaTowns]="player.towns" [key]="key" [world]="world" [id]="player.id"
+                       [playerName]="player.name" [allianceName]="allianceName" [parentType]="'alliance'"></intel-table>
+        </div>
+      </div>
+      <div *ngIf="playerNameFilterSea!=''&&hasMatch==false&&showNoResults" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center">
+        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+          <svg appIcon="user" class="size-5"></svg>
+        </span>
+        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900">No intel found for <span class="text-brand-700">{{playerNameFilter}}</span> in this alliance.</h3>
+        <p class="mb-0 mt-1 text-sm text-slate-600"><button type="button" (click)="clearFilter()" class="border-0 bg-transparent p-0 font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Clear</button> your search or try a different name.</p>
+      </div>
+    </div>
+  </section>
 </ng-template>
 
-<!--land units-->
 <ng-template #landunits>
-	<mat-card class="index-card text-center sub-card">
+  <section class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+    <div *ngIf="!mobile" class="flex items-center gap-2.5 border-0 border-b border-solid border-slate-200 px-5 py-3.5 max-sm:px-3">
+      <span class="block size-6 flex-none overflow-hidden rounded-md"><span class="unit_icon40x40 unknown block border-0 [zoom:0.6]"></span></span>
+      <h2 class="my-0 text-base font-semibold text-slate-900">Land units</h2>
+    </div>
+    <div class="px-5 pb-3 pt-4 max-sm:px-3">
+      <div role="group" aria-label="Land unit type" class="flex gap-0.5 rounded-lg bg-slate-100 p-[3px]">
+        <button type="button" [attr.aria-pressed]="tabsLandIndex===0" (click)="setLandIndex(0)" class="inline-flex min-w-0 flex-1 items-center justify-center gap-2 rounded-md border-0 px-2 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tabsLandIndex===0 ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">
+          <span class="block size-5 flex-none overflow-hidden rounded max-sm:hidden"><span class="unit_icon40x40 manticore block border-0 [zoom:0.5]"></span></span>
+          <span class="truncate">Mythical units</span>
+          <span class="flex-none rounded-full px-1.5 text-[11px] font-semibold leading-4 tabular-nums" [ngClass]="tabsLandIndex===0 ? 'bg-brand-50 text-brand-700' : 'bg-slate-200 text-slate-600'">{{playerCount(mythPlayers)}}</span>
+        </button>
+        <button type="button" [attr.aria-pressed]="tabsLandIndex===1" (click)="setLandIndex(1)" class="inline-flex min-w-0 flex-1 items-center justify-center gap-2 rounded-md border-0 px-2 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tabsLandIndex===1 ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">
+          <span class="block size-5 flex-none overflow-hidden rounded max-sm:hidden"><span class="unit_icon40x40 slinger block border-0 [zoom:0.5]"></span></span>
+          <span class="truncate">Offensive</span>
+          <span class="flex-none rounded-full px-1.5 text-[11px] font-semibold leading-4 tabular-nums" [ngClass]="tabsLandIndex===1 ? 'bg-brand-50 text-brand-700' : 'bg-slate-200 text-slate-600'">{{playerCount(offPlayers)}}</span>
+        </button>
+        <button type="button" [attr.aria-pressed]="tabsLandIndex===2" (click)="setLandIndex(2)" class="inline-flex min-w-0 flex-1 items-center justify-center gap-2 rounded-md border-0 px-2 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tabsLandIndex===2 ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">
+          <span class="block size-5 flex-none overflow-hidden rounded max-sm:hidden"><span class="unit_icon40x40 sword block border-0 [zoom:0.5]"></span></span>
+          <span class="truncate">Defensive</span>
+          <span class="flex-none rounded-full px-1.5 text-[11px] font-semibold leading-4 tabular-nums" [ngClass]="tabsLandIndex===2 ? 'bg-brand-50 text-brand-700' : 'bg-slate-200 text-slate-600'">{{playerCount(defPlayers)}}</span>
+        </button>
+      </div>
+    </div>
 
-		<mat-card-title>
-			<div class="form-group row" style='margin: 0px;'>
-				<h1 style='font-weight: 300; color: #304357; margin: 0;'>
-					<span *ngIf="!mobile" class='world-title' style='color: #18BC9C;'>Land units</span>
-					<span class="hidden-xs" *ngIf="!embedded">
-            &nbsp;<img src="../../assets/images/ally_ico.png" style="height: 28px; margin-top: -5px;"/>&nbsp;<span>{{allianceName}}</span>
-          </span>
-				</h1>
-			</div>
-		</mat-card-title>
-
-		<div class="chip-list-wrapper">
-			<mat-chip-list>
-				<mat-chip class="gd-chip gd-chip-lg" [selected]="tabsLandIndex===0" (click)="setLandIndex(0)"><div class="gd-icon icon-manti"></div> Mythical units</mat-chip>
-				<mat-chip class="gd-chip gd-chip-lg" [selected]="tabsLandIndex===1" (click)="setLandIndex(1)"><div class="gd-icon icon-slinger"></div> Offensive</mat-chip>
-				<mat-chip class="gd-chip gd-chip-lg" [selected]="tabsLandIndex===2" (click)="setLandIndex(2)"><div class="gd-icon icon-sword"></div> Defensive</mat-chip>
-			</mat-chip-list>
-		</div>
-
-		<div *ngIf="tabsLandIndex===0">
-			<br/>
-			<mat-card-title *ngIf="(mythPlayers | ValuesPipe).length>3">
-				<form class="form-inline" style="font-size: 18px; font-weight: 300;">
-					<label class="gd-secondary" style="margin-right: 5px;">Filter by player name:</label>
-					<input type="text" autocomplete="off" class="form-control filter-input" name="playerNameFilter" placeholder="Enter player name"
-					       [(ngModel)]="playerNameFilterLand" (keyup)="filterPlayers('land');" style="margin-right: 5px;"/>
-					<label *ngIf="playerNameFilterLand != ''" class="fa fa-times" (click)="clearFilter()"></label>
-				</form>
-			</mat-card-title>
-			<mat-card-content>
-				<div *ngIf="mythPlayers.length<=0" class="alert alert-warning text-center alert-gd-1">
-					<h3>No mythical unit intel available</h3>
-					<p>Index more reports to collect intel</p>
-				</div>
-				<div *ngFor="let player of mythPlayers | ValuesPipe; trackBy: null">
-					<span *ngIf="filterMatch(player.name, 'land')">
-						<br/>
-						<intel-table [type]="'myth'" [containsDuplicates]="player.contains_duplicates" [landTowns]="player.towns" [key]="key" [world]="world" [id]="player.id"
-						             [playerName]="player.name" [allianceName]="allianceName" [parentType]="'alliance'"></intel-table>
-					</span>
-				</div>
-				<div *ngIf="playerNameFilter!=''&&hasMatch==false&&showNoResults" class="alert alert-warning text-center alert-gd-1">
-					<h3 class="gd-secondary">No intel found for <span class="gd-primary">{{playerNameFilter}}</span> in this alliance.</h3>
-					<p><a class="a-link-dialog" (click)="playerNameFilter=''; hasMatch=true; cdr.detectChanges();">
-						Clear</a> your search or try a different name.</p>
-				</div>
-			</mat-card-content>
-		</div>
-		<div *ngIf="tabsLandIndex===1">
-			<br/>
-			<mat-card-title *ngIf="(offPlayers | ValuesPipe).length>3">
-				<form class="form-inline" style="font-size: 18px; font-weight: 300;">
-					<label class="gd-secondary" style="margin-right: 5px;">Filter by player name:</label>
-					<input type="text" autocomplete="off" class="form-control filter-input" name="playerNameFilter" placeholder="Enter player name"
-					       [(ngModel)]="playerNameFilterLand" (keyup)="filterPlayers('land');" style="margin-right: 5px;"/>
-					<label *ngIf="playerNameFilterLand != ''" class="fa fa-times" (click)="clearFilter()"></label>
-				</form>
-			</mat-card-title>
-			<mat-card-content>
-				<div *ngIf="offPlayers.length<=0" class="alert alert-warning text-center alert-gd-1">
-					<h3>No offensive unit intel available</h3>
-					<p>Index more reports to collect intel</p>
-				</div>
-				<div *ngFor="let player of offPlayers | ValuesPipe; trackBy: null">
-					<span *ngIf="filterMatch(player.name, 'land')">
-						<br/>
-						<intel-table [type]="'off'" [containsDuplicates]="player.contains_duplicates" [landTowns]="player.towns" [key]="key" [world]="world" [id]="player.id"
-						             [playerName]="player.name" [allianceName]="allianceName" [parentType]="'alliance'"></intel-table>
-					</span>
-				</div>
-				<div *ngIf="playerNameFilter!=''&&hasMatch==false&&showNoResults" class="alert alert-warning text-center alert-gd-1">
-					<h3 class="gd-secondary">No intel found for <span class="gd-primary">{{playerNameFilter}}</span> in this alliance.</h3>
-					<p><a class="a-link-dialog" (click)="playerNameFilter=''; hasMatch=true; cdr.detectChanges();">
-						Clear</a> your search or try a different name.</p>
-				</div>
-			</mat-card-content>
-		</div>
-		<div *ngIf="tabsLandIndex===2">
-			<br/>
-			<mat-card-title *ngIf="(defPlayers | ValuesPipe).length>3">
-				<form class="form-inline" style="font-size: 18px; font-weight: 300;">
-					<label class="gd-secondary" style="margin-right: 5px;">Filter by player name:</label>
-					<input type="text" autocomplete="off" class="form-control filter-input" name="playerNameFilter" placeholder="Enter player name"
-					       [(ngModel)]="playerNameFilterLand" (keyup)="filterPlayers('land');" style="margin-right: 5px;"/>
-					<label *ngIf="playerNameFilterLand != ''" class="fa fa-times" (click)="clearFilter()"></label>
-				</form>
-			</mat-card-title>
-			<mat-card-content>
-				<div *ngIf="defPlayers.length<=0" class="alert alert-warning text-center alert-gd-1">
-					<h3>No defensive unit intel available</h3>
-					<p>Index more reports to collect intel</p>
-				</div>
-				<div *ngFor="let player of defPlayers | ValuesPipe; trackBy: null">
-					<span *ngIf="filterMatch(player.name, 'land')">
-						<br/>
-						<intel-table [type]="'def'" [containsDuplicates]="player.contains_duplicates" [landTowns]="player.towns" [key]="key" [world]="world" [id]="player.id"
-						             [playerName]="player.name" [allianceName]="allianceName" [parentType]="'alliance'"></intel-table>
-					</span>
-				</div>
-				<div *ngIf="playerNameFilter!=''&&hasMatch==false&&showNoResults" class="alert alert-warning text-center alert-gd-1">
-					<h3 class="gd-secondary">No intel found for <span class="gd-primary">{{playerNameFilter}}</span> in this alliance.</h3>
-					<p><a class="a-link-dialog" (click)="playerNameFilter=''; hasMatch=true; cdr.detectChanges();">
-						Clear</a> your search or try a different name.</p>
-				</div>
-			</mat-card-content>
-		</div>
-
-	</mat-card>
+    <div *ngIf="tabsLandIndex===0">
+      <div *ngIf="(mythPlayers | ValuesPipe).length>3" class="px-5 pb-3 max-sm:px-3">
+        <form class="m-0">
+          <div class="relative">
+            <svg appIcon="magnifying-glass" variant="mini" class="pointer-events-none absolute left-2.5 top-2.5 size-4 text-slate-400"></svg>
+            <input type="text" autocomplete="off" name="playerNameFilter" placeholder="Filter by player name" aria-label="Filter by player name" [(ngModel)]="playerNameFilterLand" (keyup)="filterPlayers('land');" class="h-9 w-full rounded-md border-0 bg-white pl-8 pr-8 text-sm font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700"/>
+            <button *ngIf="playerNameFilterLand != ''" type="button" (click)="clearFilter()" aria-label="Clear filter" class="absolute right-1.5 top-1.5 inline-flex size-6 items-center justify-center rounded border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-700">
+              <svg appIcon="x-mark" variant="micro" class="size-4"></svg>
+            </button>
+          </div>
+        </form>
+      </div>
+      <div *ngIf="mythPlayers.length<=0" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center">
+        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+          <svg appIcon="document-magnifying-glass" class="size-5"></svg>
+        </span>
+        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900">No mythical unit intel available</h3>
+        <p class="mb-0 mt-1 text-sm text-slate-600">Index more reports to collect intel</p>
+      </div>
+      <div *ngIf="(mythPlayers | ValuesPipe).length>0" aria-hidden="true" class="gd-scrollbar overflow-x-auto">
+        <table class="w-full min-w-[360px] table-fixed border-separate border-spacing-0 text-left font-normal">
+          <colgroup>
+            <col class="w-[38%]">
+            <col>
+            <col class="w-28">
+          </colgroup>
+          <thead>
+            <tr>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-5 pr-3 text-left max-sm:pl-3">Town</th>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 truncate px-3 text-left">Mythical units</th>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-3 pr-5 text-right max-sm:pr-3">Date</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <div *ngFor="let player of mythPlayers | ValuesPipe; trackBy: null">
+        <div *ngIf="filterMatch(player.name, 'land')">
+          <intel-table [type]="'myth'" [containsDuplicates]="player.contains_duplicates" [landTowns]="player.towns" [key]="key" [world]="world" [id]="player.id"
+                       [playerName]="player.name" [allianceName]="allianceName" [parentType]="'alliance'"></intel-table>
+        </div>
+      </div>
+      <div *ngIf="playerNameFilter!=''&&hasMatch==false&&showNoResults" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center">
+        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+          <svg appIcon="user" class="size-5"></svg>
+        </span>
+        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900">No intel found for <span class="text-brand-700">{{playerNameFilter}}</span> in this alliance.</h3>
+        <p class="mb-0 mt-1 text-sm text-slate-600"><button type="button" (click)="playerNameFilter=''; hasMatch=true; cdr.detectChanges();" class="border-0 bg-transparent p-0 font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Clear</button> your search or try a different name.</p>
+      </div>
+    </div>
+    <div *ngIf="tabsLandIndex===1">
+      <div *ngIf="(offPlayers | ValuesPipe).length>3" class="px-5 pb-3 max-sm:px-3">
+        <form class="m-0">
+          <div class="relative">
+            <svg appIcon="magnifying-glass" variant="mini" class="pointer-events-none absolute left-2.5 top-2.5 size-4 text-slate-400"></svg>
+            <input type="text" autocomplete="off" name="playerNameFilter" placeholder="Filter by player name" aria-label="Filter by player name" [(ngModel)]="playerNameFilterLand" (keyup)="filterPlayers('land');" class="h-9 w-full rounded-md border-0 bg-white pl-8 pr-8 text-sm font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700"/>
+            <button *ngIf="playerNameFilterLand != ''" type="button" (click)="clearFilter()" aria-label="Clear filter" class="absolute right-1.5 top-1.5 inline-flex size-6 items-center justify-center rounded border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-700">
+              <svg appIcon="x-mark" variant="micro" class="size-4"></svg>
+            </button>
+          </div>
+        </form>
+      </div>
+      <div *ngIf="offPlayers.length<=0" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center">
+        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+          <svg appIcon="document-magnifying-glass" class="size-5"></svg>
+        </span>
+        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900">No offensive unit intel available</h3>
+        <p class="mb-0 mt-1 text-sm text-slate-600">Index more reports to collect intel</p>
+      </div>
+      <div *ngIf="(offPlayers | ValuesPipe).length>0" aria-hidden="true" class="gd-scrollbar overflow-x-auto">
+        <table class="w-full min-w-[360px] table-fixed border-separate border-spacing-0 text-left font-normal">
+          <colgroup>
+            <col class="w-[38%]">
+            <col>
+            <col class="w-28">
+          </colgroup>
+          <thead>
+            <tr>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-5 pr-3 text-left max-sm:pl-3">Town</th>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 truncate px-3 text-left">Offensive units</th>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-3 pr-5 text-right max-sm:pr-3">Date</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <div *ngFor="let player of offPlayers | ValuesPipe; trackBy: null">
+        <div *ngIf="filterMatch(player.name, 'land')">
+          <intel-table [type]="'off'" [containsDuplicates]="player.contains_duplicates" [landTowns]="player.towns" [key]="key" [world]="world" [id]="player.id"
+                       [playerName]="player.name" [allianceName]="allianceName" [parentType]="'alliance'"></intel-table>
+        </div>
+      </div>
+      <div *ngIf="playerNameFilter!=''&&hasMatch==false&&showNoResults" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center">
+        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+          <svg appIcon="user" class="size-5"></svg>
+        </span>
+        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900">No intel found for <span class="text-brand-700">{{playerNameFilter}}</span> in this alliance.</h3>
+        <p class="mb-0 mt-1 text-sm text-slate-600"><button type="button" (click)="playerNameFilter=''; hasMatch=true; cdr.detectChanges();" class="border-0 bg-transparent p-0 font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Clear</button> your search or try a different name.</p>
+      </div>
+    </div>
+    <div *ngIf="tabsLandIndex===2">
+      <div *ngIf="(defPlayers | ValuesPipe).length>3" class="px-5 pb-3 max-sm:px-3">
+        <form class="m-0">
+          <div class="relative">
+            <svg appIcon="magnifying-glass" variant="mini" class="pointer-events-none absolute left-2.5 top-2.5 size-4 text-slate-400"></svg>
+            <input type="text" autocomplete="off" name="playerNameFilter" placeholder="Filter by player name" aria-label="Filter by player name" [(ngModel)]="playerNameFilterLand" (keyup)="filterPlayers('land');" class="h-9 w-full rounded-md border-0 bg-white pl-8 pr-8 text-sm font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700"/>
+            <button *ngIf="playerNameFilterLand != ''" type="button" (click)="clearFilter()" aria-label="Clear filter" class="absolute right-1.5 top-1.5 inline-flex size-6 items-center justify-center rounded border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-700">
+              <svg appIcon="x-mark" variant="micro" class="size-4"></svg>
+            </button>
+          </div>
+        </form>
+      </div>
+      <div *ngIf="defPlayers.length<=0" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center">
+        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+          <svg appIcon="document-magnifying-glass" class="size-5"></svg>
+        </span>
+        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900">No defensive unit intel available</h3>
+        <p class="mb-0 mt-1 text-sm text-slate-600">Index more reports to collect intel</p>
+      </div>
+      <div *ngIf="(defPlayers | ValuesPipe).length>0" aria-hidden="true" class="gd-scrollbar overflow-x-auto">
+        <table class="w-full min-w-[360px] table-fixed border-separate border-spacing-0 text-left font-normal">
+          <colgroup>
+            <col class="w-[38%]">
+            <col>
+            <col class="w-28">
+          </colgroup>
+          <thead>
+            <tr>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-5 pr-3 text-left max-sm:pl-3">Town</th>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 truncate px-3 text-left">Defensive units</th>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-3 pr-5 text-right max-sm:pr-3">Date</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <div *ngFor="let player of defPlayers | ValuesPipe; trackBy: null">
+        <div *ngIf="filterMatch(player.name, 'land')">
+          <intel-table [type]="'def'" [containsDuplicates]="player.contains_duplicates" [landTowns]="player.towns" [key]="key" [world]="world" [id]="player.id"
+                       [playerName]="player.name" [allianceName]="allianceName" [parentType]="'alliance'"></intel-table>
+        </div>
+      </div>
+      <div *ngIf="playerNameFilter!=''&&hasMatch==false&&showNoResults" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center">
+        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+          <svg appIcon="user" class="size-5"></svg>
+        </span>
+        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900">No intel found for <span class="text-brand-700">{{playerNameFilter}}</span> in this alliance.</h3>
+        <p class="mb-0 mt-1 text-sm text-slate-600"><button type="button" (click)="playerNameFilter=''; hasMatch=true; cdr.detectChanges();" class="border-0 bg-transparent p-0 font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Clear</button> your search or try a different name.</p>
+      </div>
+    </div>
+  </section>
 </ng-template>

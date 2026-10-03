@@ -15,7 +15,6 @@ import {Subscription} from 'rxjs';
 @Component({
   selector: 'app-index-town',
   templateUrl: './town.component.html',
-  styleUrls: ['./town.component.scss'],
   providers: [IndexerService, WorldService, LocalCacheService]
 })
 export class IndexTownComponent implements AfterViewInit, OnDestroy, OnInit {
@@ -51,6 +50,18 @@ export class IndexTownComponent implements AfterViewInit, OnDestroy, OnInit {
   hasConquest = false;
   hasSharingDetails = false;
   hasOldIntel = false;
+  activeTab = 0;
+
+  treeRows = [['lumber', 'farm', 'stoner', 'storage'], ['ironer', 'barracks', 'temple', 'market'], ['docks', 'academy', 'wall', 'hide']];
+  specialLeft = ['theater', 'thermal', 'library', 'lighthouse'];
+  specialRight = ['tower', 'statue', 'oracle', 'trade_office'];
+  treeBuildings = ['main', 'lumber', 'farm', 'stoner', 'storage', 'ironer', 'barracks', 'temple', 'market', 'docks', 'academy', 'wall', 'hide', 'theater', 'thermal', 'library', 'lighthouse', 'tower', 'statue', 'oracle', 'trade_office', 'place'];
+  buildingNames = {
+    main: "Senate", lumber: "Timber camp", farm: "Farm", stoner: "Quarry", storage: "Warehouse", ironer: "Silver mine", barracks: "Barracks",
+    temple: "Temple", market: "Marketplace", docks: "Harbor", academy: "Academy", wall: "City wall", hide: "Cave", theater: "Theater",
+    thermal: "Thermal baths", library: "Library", lighthouse: "Lighthouse", tower: "Tower", statue: "Divine statue", oracle: "Oracle",
+    trade_office: "Merchant's shop"
+  };
 
   routeParams: any;
 
@@ -107,6 +118,7 @@ export class IndexTownComponent implements AfterViewInit, OnDestroy, OnInit {
     // Reset
     this.townName = 'Loading..';
     this.loading = true;
+    this.activeTab = 0;
     this.noIntel = false;
     this.allCities = [];
     this.notes = [];
@@ -123,6 +135,26 @@ export class IndexTownComponent implements AfterViewInit, OnDestroy, OnInit {
           );
       });
     }
+  }
+
+  building(name: string) {
+    return this.build.find(building => building.name === name);
+  }
+
+  specialBuilding(names: string[]) {
+    return this.build.find(building => names.indexOf(building.name) >= 0);
+  }
+
+  otherBuildings() {
+    return this.build.filter(building => this.treeBuildings.indexOf(building.name) < 0);
+  }
+
+  sharedCount(town): number {
+    return (town.shared_via_indexes || '').split(', ').length;
+  }
+
+  showTabs(): boolean {
+    return this.err == '' && !this.noIntel && !this.loading;
   }
 
   softNotification(message, title = '', lifetime=5000) {
@@ -246,7 +278,7 @@ export class IndexTownComponent implements AfterViewInit, OnDestroy, OnInit {
 
   public loadConquestDetails(conquest_id): void {
     let dialogRef = this.dialog.open(ConquestReportDialog, {
-      panelClass: ['tight-dialog-container'],
+      panelClass: ['siege-report-dialog'],
       autoFocus: false,
       data: {
         key: this.key,
@@ -270,7 +302,7 @@ export class IndexTownComponent implements AfterViewInit, OnDestroy, OnInit {
       let indexes = shared_list.split(', ')
       if (shared_list.length > 0 && indexes.length > 0) {
         let dialogRef = this.dialog.open(IntelSourceDialog, {
-          width: '70%',
+          width: '760px',
           autoFocus: false,
           disableClose: false,
           data: {

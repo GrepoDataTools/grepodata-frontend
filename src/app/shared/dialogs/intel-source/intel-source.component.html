@@ -1,183 +1,134 @@
-<div mat-dialog-content style="min-width: 90%; min-height: 70%;">
+<div class="flex max-h-[95vh] w-full flex-col text-left font-normal text-slate-900">
+  <div class="flex flex-none items-start gap-4 border-0 border-b border-solid border-slate-200 px-6 py-5 max-sm:gap-3 max-sm:px-4">
+    <span class="flex-none" matTooltip="{{intel_record.type}}">
+      <img src="../../assets/images/game/towninfo/attack.png" *ngIf="intel_record.type === 'friendly_attack'" class="block size-10 rounded-lg ring-1 ring-slate-900/10">
+      <img src="../../assets/images/game/towninfo/attack.png" *ngIf="intel_record.type === 'enemy_attack'" class="block size-10 -scale-x-100 rounded-lg ring-1 ring-slate-900/10">
+      <img src="../../assets/images/game/towninfo/wisdom.png" *ngIf="intel_record.type === 'wisdom'" class="block size-10 rounded-lg ring-1 ring-slate-900/10">
+      <img src="../../assets/images/game/towninfo/support.png" *ngIf="intel_record.type === 'support'" class="block size-10 rounded-lg ring-1 ring-slate-900/10">
+      <img src="../../assets/images/game/towninfo/conquer.png" *ngIf="intel_record.type === 'attack_on_conquest'" class="block size-10 rounded-lg ring-1 ring-slate-900/10">
+      <img src="../../assets/images/game/towninfo/espionage_2.67.png" *ngIf="intel_record.type === 'spy'" class="block size-10 rounded-lg ring-1 ring-slate-900/10">
+    </span>
+    <div class="min-w-0 flex-1">
+      <h2 mat-dialog-title class="m-0 text-xl font-semibold leading-7 text-slate-900">Report details</h2>
+      <app-indexer-breadcrumbs class="mt-1 block" [data]="breadcrumb_data"></app-indexer-breadcrumbs>
+    </div>
+    <button type="button" (click)="close()" aria-label="Close" class="-mr-2 -mt-1 inline-flex size-8 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+      <svg appIcon="x-mark" class="size-5"></svg>
+    </button>
+  </div>
 
-  <a (click)="close()" class="close"></a>
-  <h2 class="gd-secondary" style="margin-top: 0;">Report details</h2>
-  <hr/>
-
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-xs-12">
-
-        <div class="intel-record">
-
-          <app-indexer-breadcrumbs [data]="breadcrumb_data"></app-indexer-breadcrumbs>
-
-          <div style="overflow: auto;">
-            <div class="table intel-table" id="table_all" style="">
-
-              <div class="row_custom header bg-gd-2" >
-                <div class="cell" style="max-width: 10% !important; width: 10%;">
-                  Type
-                </div>
-                <div class="cell" style="max-width: 20% !important; width: 20%;">
-                  Date
-                </div>
-                <div class="cell text-left">
-                  Units
-                </div>
-                <div class="cell text-left" *ngIf="!!intel_record?.hero">
-                  Hero
-                </div>
-                <div class="cell text-left" *ngIf="!!intel_record?.god">
-                  God
-                </div>
-                <div class="cell" *ngIf="!!intel_record?.wall">
-                  Wall
-                </div>
-                <div class="cell" *ngIf="!!intel_record?.stonehail">
-                  Stonehail
-                </div>
-                <div class="cell" *ngIf="!!intel_record?.silver">
-                  Silver
-                </div>
-<!--                <div class="cell hidden-xs hidden-sm" *ngIf="!!intel_record?.conquest_id" style="max-width: 15vw !important; width: 15vw;">-->
-<!--                  Siege report-->
-<!--                </div>-->
+  <div class="min-h-0 flex-1 space-y-6 overflow-y-auto px-6 py-5 max-sm:px-4">
+    <dl class="m-0 rounded-xl px-5 ring-1 ring-inset ring-slate-200 max-sm:px-4">
+      <div class="grid grid-cols-[112px_minmax(0,1fr)] items-center gap-4 border-0 border-t border-solid border-slate-100 py-3 first:border-t-0 max-sm:grid-cols-[88px_minmax(0,1fr)] max-sm:gap-3">
+        <dt class="text-sm font-normal text-slate-500">Type</dt>
+        <dd class="m-0 text-sm font-medium text-slate-900">
+          <span *ngIf="intel_record.type === 'friendly_attack'">Friendly attack</span>
+          <span *ngIf="intel_record.type === 'enemy_attack'">Enemy attack</span>
+          <span *ngIf="intel_record.type === 'wisdom'">Wisdom</span>
+          <span *ngIf="intel_record.type === 'support'">Support</span>
+          <span *ngIf="intel_record.type === 'attack_on_conquest'">Conquest attack</span>
+          <span *ngIf="intel_record.type === 'spy'">Spy report</span>
+        </dd>
+      </div>
+      <div class="grid grid-cols-[112px_minmax(0,1fr)] items-center gap-4 border-0 border-t border-solid border-slate-100 py-3 first:border-t-0 max-sm:grid-cols-[88px_minmax(0,1fr)] max-sm:gap-3">
+        <dt class="text-sm font-normal text-slate-500">Date</dt>
+        <dd class="m-0 text-sm tabular-nums text-slate-900">{{intel_record.date | IndexDate}}</dd>
+      </div>
+      <div class="grid grid-cols-[112px_minmax(0,1fr)] items-center gap-4 border-0 border-t border-solid border-slate-100 py-3 first:border-t-0 max-sm:grid-cols-[88px_minmax(0,1fr)] max-sm:gap-3 !items-start">
+        <dt class="text-sm font-normal text-slate-500 pt-2.5">Units</dt>
+        <dd class="m-0">
+          <ul class="m-0 flex list-none flex-wrap gap-1.5 p-0">
+            <li class="min-w-10 flex-none" *ngFor="let unit of intel_record.units | ValuesPipe; let i = index;"
+                matTooltip="{{(unit?.name == 'unknown' || unit?.name == 'unknown_naval'?'This attack killed roughly '+unit?.killed+' '+(unit?.name == 'unknown'?'land':'sea')+' population (this is estimated based on the battle points gained)':unit?.name?.replace('_',' '))}}">
+              <div class="unit_icon40x40 {{unit?.name}} relative rounded-md border-0 ring-1 ring-inset ring-slate-900/[.18]">
+                <span class="absolute bottom-0 right-0 rounded-br-md rounded-tl bg-slate-900/[.78] px-[3px] text-[11px] font-medium leading-[14px] tabular-nums text-white">{{unit?.count}}</span>
               </div>
+              <div class="mt-0.5 text-center text-xs font-medium tabular-nums text-rose-700" *ngIf="unit.name != 'unknown' && unit.name != 'unknown_naval' && unit?.killed && unit?.killed!=0">-{{unit?.killed}}</div>
+              <div class="mt-0.5 flex items-center justify-center gap-0.5 whitespace-nowrap text-xs font-medium tabular-nums text-rose-700" *ngIf="(unit.name == 'unknown' || unit.name == 'unknown_naval') && unit?.killed">
+                <img src="../../assets/images/icons/bp_ico.png" class="block size-3"/>~{{unit?.killed}}
+              </div>
+            </li>
+          </ul>
+        </dd>
+      </div>
+      <div *ngIf="!!intel_record?.hero" class="grid grid-cols-[112px_minmax(0,1fr)] items-center gap-4 border-0 border-t border-solid border-slate-100 py-3 first:border-t-0 max-sm:grid-cols-[88px_minmax(0,1fr)] max-sm:gap-3">
+        <dt class="text-sm font-normal text-slate-500">Hero</dt>
+        <dd class="m-0 flex min-w-0 items-center gap-2.5 text-sm capitalize text-slate-900">
+          <span class="flex-none" matTooltip="{{intel_record?.hero?.replace('_',' ')}}">
+            <div class="unit_icon40x40 no-border {{intel_record?.hero}} rounded-md border-0 ring-1 ring-inset ring-slate-900/[.18]"></div>
+          </span>
+          <span class="truncate">{{intel_record?.hero?.replace('_',' ')}}</span>
+        </dd>
+      </div>
+      <div *ngIf="!!intel_record?.god" class="grid grid-cols-[112px_minmax(0,1fr)] items-center gap-4 border-0 border-t border-solid border-slate-100 py-3 first:border-t-0 max-sm:grid-cols-[88px_minmax(0,1fr)] max-sm:gap-3">
+        <dt class="text-sm font-normal text-slate-500">God</dt>
+        <dd class="m-0 flex min-w-0 items-center gap-2.5 text-sm capitalize text-slate-900">
+          <span class="flex-none" matTooltip="{{intel_record.god}}">
+            <div class="unit_icon40x40 no-border {{intel_record.god}} rounded-md border-0 ring-1 ring-inset ring-slate-900/[.18]"></div>
+          </span>
+          <span class="truncate">{{intel_record.god}}</span>
+        </dd>
+      </div>
+      <div *ngIf="!!intel_record?.wall" class="grid grid-cols-[112px_minmax(0,1fr)] items-center gap-4 border-0 border-t border-solid border-slate-100 py-3 first:border-t-0 max-sm:grid-cols-[88px_minmax(0,1fr)] max-sm:gap-3">
+        <dt class="text-sm font-normal text-slate-500">Wall</dt>
+        <dd class="m-0">
+          <span *ngIf="intel_record.wall!=null && intel_record.wall!=''" class="flex items-center gap-2.5 text-sm font-semibold tabular-nums text-slate-900 [&_.diff-neg]:!text-rose-700">
+            <div class="building_icon40x40 wall flex-none rounded-md border-0 ring-1 ring-inset ring-slate-900/[.18]" matTooltip="Wall: {{intel_record.wall}}"></div>
+            <span [outerHTML]="intel_record.wall | HideNoLossPipe"></span>
+          </span>
+        </dd>
+      </div>
+      <div *ngIf="!!intel_record?.stonehail" class="grid grid-cols-[112px_minmax(0,1fr)] items-center gap-4 border-0 border-t border-solid border-slate-100 py-3 first:border-t-0 max-sm:grid-cols-[88px_minmax(0,1fr)] max-sm:gap-3">
+        <dt class="text-sm font-normal text-slate-500">Stonehail</dt>
+        <dd class="m-0">
+          <span *ngIf="intel_record.stonehail!=null && intel_record.stonehail!=''" class="flex items-center gap-2.5 text-sm font-semibold tabular-nums text-slate-900 [&_.diff-neg]:!text-rose-700">
+            <div class="building_icon40x40 {{intel_record.stonehail.building}} flex-none rounded-md border-0 ring-1 ring-inset ring-slate-900/[.18]" matTooltip="Stonehail: {{intel_record.stonehail.building}} {{intel_record.stonehail.value}}"></div>
+            <span [outerHTML]="intel_record.stonehail.value | HideNoLossPipe"></span>
+          </span>
+        </dd>
+      </div>
+      <div *ngIf="!!intel_record?.silver" class="grid grid-cols-[112px_minmax(0,1fr)] items-center gap-4 border-0 border-t border-solid border-slate-100 py-3 first:border-t-0 max-sm:grid-cols-[88px_minmax(0,1fr)] max-sm:gap-3">
+        <dt class="text-sm font-normal text-slate-500">Silver</dt>
+        <dd class="m-0 text-sm tabular-nums text-slate-900">
+          <span *ngIf="intel_record?.silver">{{intel_record?.silver?.replace('(+',' (+')}}</span>
+        </dd>
+      </div>
+    </dl>
 
-              <ng-container>
+    <section class="space-y-3">
+      <div *ngIf="intel_type=='outgoing'">
+        <h3 class="m-0 text-base font-semibold text-slate-900">Who was this intel shared with?</h3>
+        <p class="mb-0 mt-1 text-sm font-normal text-slate-600">Intel you collect is shared with all teams you are contributing to (on that game world).
+        <strong class="font-semibold text-slate-900">This specific report was shared with the following team<span *ngIf="index_list.length > 1">s</span>:</strong></p>
+      </div>
+      <div *ngIf="intel_type!='outgoing'">
+        <h3 class="m-0 text-base font-semibold text-slate-900">How was this intel shared with you?</h3>
+        <p class="mb-0 mt-1 text-sm font-normal text-slate-600">This report is available to you because it was shared via the following team<span *ngIf="index_list.length > 1">s</span>:</p>
+      </div>
 
-                <div class='row_custom'>
-                  <div class="cell" matTooltip="{{intel_record.type}}">
-                    <img src="../../assets/images/game/towninfo/attack.png" *ngIf="intel_record.type === 'friendly_attack'">
-                    <div *ngIf="intel_record.type === 'enemy_attack'" style="-moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); filter: FlipH; -ms-filter: ;">
-                      <img src="../../assets/images/game/towninfo/attack.png">
-                    </div>
-                    <img src="../../assets/images/game/towninfo/wisdom.png" *ngIf="intel_record.type === 'wisdom'">
-                    <img src="../../assets/images/game/towninfo/support.png" *ngIf="intel_record.type === 'support'">
-                    <img src="../../assets/images/game/towninfo/conquer.png" *ngIf="intel_record.type === 'attack_on_conquest'">
-                    <img src="../../assets/images/game/towninfo/espionage_2.67.png" *ngIf="intel_record.type === 'spy'">
-                  </div>
-                  <div class="cell">
-                    {{intel_record.date | IndexDate}}
-                  </div>
-                  <div class="cell" style="display: flex; margin-bottom: 8px;">
-                                    <span style="transform: scale(1.05); float: left; margin: 8px 12px 0 0;" *ngFor="let unit of intel_record.units | ValuesPipe; let i = index;"
-                                          matTooltip="{{(unit?.name == 'unknown' || unit?.name == 'unknown_naval'?'This attack killed roughly '+unit?.killed+' '+(unit?.name == 'unknown'?'land':'sea')+' population (this is estimated based on the battle points gained)':unit?.name?.replace('_',' '))}}">
-                                      <div class="unit_icon40x40 {{unit?.name}}"><span class="unit-val" [ngClass]="{'unknown-unit-val': unit.name == 'unknown' || unit.name == 'unknown_naval'}">{{unit?.count}}</span></div>
-                                      <span style="color: #d00;" *ngIf="unit.name != 'unknown' && unit.name != 'unknown_naval' && unit?.killed && unit?.killed!=0">-{{unit?.killed}}</span>
-                                      <span style="color: #d00;" *ngIf="(unit.name == 'unknown' || unit.name == 'unknown_naval') && unit?.killed">
-                                        <img src="../../assets/images/icons/bp_ico.png"/>~{{unit?.killed}}
-                                      </span>
-                                    </span>
-                  </div>
-                  <div class="cell" *ngIf="!!intel_record?.hero" style="min-width: 50px;">
-                                    <span style="transform: scale(1.05); float: left; margin: -19px 0 0 0;"
-                                          matTooltip="{{intel_record?.hero?.replace('_',' ')}}">
-                                      <div class="unit_icon40x40 no-border {{intel_record?.hero}}"></div>
-                                    </span>
-                  </div>
-                  <div class="cell" *ngIf="!!intel_record?.god" style="min-width: 50px;">
-                                    <span style="transform: scale(1.05); float: left; margin: -5px 0 0 0;"
-                                          matTooltip="{{intel_record.god}}">
-                                      <div class="unit_icon40x40 no-border {{intel_record.god}}"></div>
-                                    </span>
-                  </div>
-                  <div class="cell" *ngIf="!!intel_record?.wall" style="padding-top: 7px;">
-                    <!--<span [outerHTML]="intel_record.wall | HideNoLossPipe"></span>-->
-                    <span *ngIf="intel_record.wall!=null && intel_record.wall!=''" class="build-cell" style="min-width: 70px;">
-                                      <div class="building_icon40x40 wall" matTooltip="Wall: {{intel_record.wall}}"></div>
-                                      <div>
-                                        <span [outerHTML]="intel_record.wall | HideNoLossPipe"></span>
-                                      </div>
-                                    </span>
-                  </div>
-                  <div class="cell" *ngIf="!!intel_record?.stonehail" style="padding-top: 7px;">
-                                    <span *ngIf="intel_record.stonehail!=null && intel_record.stonehail!=''" class="build-cell" style="">
-                                      <div class="building_icon40x40 {{intel_record.stonehail.building}}" matTooltip="Stonehail: {{intel_record.stonehail.building}} {{intel_record.stonehail.value}}"></div>
-                                      <div>
-                                        <span [outerHTML]="intel_record.stonehail.value | HideNoLossPipe"></span>
-                                      </div>
-                                    </span>
-                  </div>
-                  <div class="cell" *ngIf="!!intel_record?.silver">
-                    <span *ngIf="intel_record?.silver">{{intel_record?.silver?.replace('(+',' (+')}}</span>
-                  </div>
-<!--                  <div class="cell hidden-xs hidden-sm" *ngIf="!!intel_record?.conquest_id">-->
-<!--                    <div *ngIf="intel_record?.conquest_id && intel_record?.conquest_id > 0">-->
-<!--                      &lt;!&ndash;<a class="a-link-dialog" (click)="loadConquestDetails(intel_record?.conquest_id)">View report <mat-icon style="opacity: 1; vertical-align: bottom;">launch</mat-icon></a>&ndash;&gt;-->
-<!--                      <button class="gd-btn-2" (click)="loadConquestDetails(intel_record?.conquest_id)">View report <mat-icon style="opacity: 1; vertical-align: bottom;">launch</mat-icon></button>-->
-<!--                    </div>-->
-<!--                  </div>-->
-                  <!--<div class="cell" style="">-->
-                  <!--<button *ngIf="!town.deleted || town?.deleted==false" name="open_bb" class="btn btn-danger" style=""-->
-                  <!--(click)="deleteIntel(town?.id); town.deleted = true;">-->
-                  <!--<i class="fa fa-close"></i>&nbsp;Delete-->
-                  <!--</button>-->
-                  <!--<span *ngIf="town.deleted && town?.deleted==true" title="This record will be deleted within 24 hours.">-->
-                  <!--<p style="font-size: 17px; margin: 0;" class="gd-secondary">Marked for deletion</p>-->
-                  <!--<button name="open_bb" class="btn btn-primary btn-xs" style="margin-top: -6px;"-->
-                  <!--(click)="deleteIntelUndo(town?.id); town.deleted = false;">-->
-                  <!--<i class="fa fa-arrow-left"></i>&nbsp;Undo-->
-                  <!--</button>-->
-                  <!--</span>-->
-                  <!--</div>-->
-
-                </div>
-
-              </ng-container>
-
+      <ul class="m-0 list-none rounded-xl p-0 ring-1 ring-inset ring-slate-200">
+        <li *ngFor="let index of index_info" class="flex items-center gap-3 border-0 border-t border-solid border-slate-100 px-4 py-3 first:border-t-0 max-sm:px-3">
+          <span class="flex size-9 flex-none items-center justify-center rounded-lg bg-navy-800 text-brand-500">
+            <svg appIcon="user-group" class="size-5"></svg>
+          </span>
+          <div class="min-w-0 flex-1">
+            <a *ngIf="!expanded_info_available" routerLink="/profile/team/{{index.key}}" class="block truncate text-sm font-semibold text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{index.key}}</a>
+            <a *ngIf="expanded_info_available" routerLink="/profile/team/{{index.key}}" class="block truncate text-sm font-semibold text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><span *ngIf="index.name">{{index.name}}</span><span *ngIf="!index.name">{{index.key}}</span></a>
+            <div *ngIf="expanded_info_available && index.stats && index.stats.owners" class="mt-0.5 flex min-w-0 items-center gap-1.5 text-xs text-slate-500">
+              <svg appIcon="ally_ico" variant="game" class="size-3.5 flex-none text-slate-400"></svg>
+              <span class="truncate"><span *ngFor="let owner of index.stats.owners; let i = index;">{{owner.alliance_name}}<span *ngIf="i < index.stats.owners.length - 1">, </span></span></span>
             </div>
           </div>
-        </div>
+          <a *ngIf="expanded_info_available" routerLink="/profile/team/{{index.key}}" class="inline-flex flex-none items-center gap-1.5 whitespace-nowrap rounded-md bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 hover:text-slate-900 hover:no-underline focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+            Team overview
+            <svg appIcon="arrow-right" variant="micro" class="size-3.5 flex-none text-slate-400"></svg>
+          </a>
+        </li>
+      </ul>
+    </section>
+  </div>
 
-        <div class="share-info">
-          <span *ngIf="intel_type=='outgoing'">
-            <h3 style="margin-top: 0;" class="gd-primary">Who was this intel shared with?</h3>
-            <h5>Intel you collect is shared with all teams you are contributing to (on that game world).
-            <strong>This specific report was shared with the following team<span *ngIf="index_list.length > 1">s</span>:</strong></h5>
-          </span>
-            <span *ngIf="intel_type!='outgoing'">
-            <h3 style="margin-top: 0;" class="gd-primary">How was this intel shared with you?</h3>
-            <h5>This report is available to you because it was shared via the following team<span *ngIf="index_list.length > 1">s</span>:</h5>
-          </span>
-
-          <div class="table">
-            <div class="row_custom header default">
-              <div class="cell" *ngIf="!expanded_info_available">Team</div>
-              <div class="cell" *ngIf="expanded_info_available">Team name</div>
-              <div class="cell" *ngIf="expanded_info_available">Team owners</div>
-              <div class="cell" *ngIf="expanded_info_available">Team overview</div>
-            </div>
-
-            <div *ngFor="let index of index_info" class="row_custom">
-              <div class="cell" *ngIf="!expanded_info_available">
-                <a routerLink="/profile/team/{{index.key}}">{{index.key}} <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon></a>
-              </div>
-              <div class="cell" *ngIf="expanded_info_available">
-                <a routerLink="/profile/team/{{index.key}}"><span *ngIf="index.name">{{index.name}}</span><span *ngIf="!index.name">{{index.key}}</span> <mat-icon style="opacity: 1; vertical-align: sub;" class="hidden-xs">launch</mat-icon></a>
-              </div>
-              <div class="cell" style="padding: 0 !important; font-size: 14px; vertical-align: middle;" *ngIf="expanded_info_available">
-              <span *ngIf="index.stats && index.stats.owners">
-                <div *ngFor="let owner of index.stats.owners; let i = index;">
-                  <img src="../../assets/images/ally_ico.png"/> {{owner.alliance_name}}
-                </div>
-              </span>
-              </div>
-              <div class="cell" *ngIf="expanded_info_available" style="padding: 6px;">
-                <button class="btn btn-default mr-1" routerLink="/profile/team/{{index.key}}">
-                  Team overview <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">launch</mat-icon>
-                </button>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-
-			</div>
-
-		</div>
-	</div>
+  <div class="flex flex-none items-center justify-end gap-3 border-0 border-t border-solid border-slate-200 bg-slate-50 px-6 py-4 max-sm:px-4">
+    <button type="button" (click)="close()" class="inline-flex items-center justify-center rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Close</button>
+  </div>
 </div>
-

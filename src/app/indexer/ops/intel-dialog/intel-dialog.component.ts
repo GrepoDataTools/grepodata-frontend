@@ -4,7 +4,7 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog
 @Component({
   selector: 'ops-intel-dialog',
   templateUrl: './intel-dialog.component.html',
-  styleUrls: ['./intel-dialog.component.scss']
+  host: {class: 'block h-full'}
 })
 export class OpsIntelDialog {
 
@@ -18,6 +18,7 @@ export class OpsIntelDialog {
     public dialogRef: MatDialogRef<OpsIntelDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    dialogRef.addPanelClass('team-dialog');
     this.id = data.id;
     this.type = data.type;
     this.world = data.world;

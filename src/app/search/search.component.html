@@ -1,337 +1,374 @@
-<!--<div *ngIf="hide_search" class="show-search-btn" (click)="showSearch()">-->
-<!--<div class="show-search-btn" (click)="showSearch()">-->
-  <!--<span class="fa fa-search gd-primary" aria-hidden="true"></span> Search-->
-<!--</div>-->
-
-<!--Search-->
-<div class="top-container" *ngIf="!hide_search" (click)="cdr.detectChanges()" [ngClass]="{'search-shadow': !homepage && !searching_players && !searching_alliances}">
-  <div style="width: 100% !important;">
-    <mat-card [ngClass]="(secondary==true)?'search-secondary search':'search'" style="box-shadow: none !important;">
-      <mat-card-content>
-
-        <div [ngClass]="(secondary==true)?'container':'container-fluid'">
-
-          <div class="row">
-            <!--<div *ngIf="compare" class="col-xs-12 text-center">-->
-              <!--<h2 style='font-weight: 300; color: #304357;'>-->
-                <!--<i class="fa fa-compress" aria-hidden="true"></i>-->
-                <!--Search players or alliances to compare them-->
-              <!--</h2>-->
-            <!--</div>-->
-            <div class="col-xs-6 search-group" *ngIf="!(mobile && searching_alliances)">
-              <div id="sb-search-players" class="sb-search">
-                <form>
-                  <input autocomplete="off" class="sb-search-input" placeholder="Search players..." type="search" value="" name="search" id="search-players" (keyup)="searchPlayers($event)">
-                  <input class="sb-search-submit" type="button" value="">
-                  <span class="sb-icon-search" (click)="doSearchPlayers()"><mat-icon class="search-icon">person_search</mat-icon></span>
-                  <mat-progress-bar *ngIf="!mobile && searching_players && loading" class="searching-loading" mode="indeterminate"></mat-progress-bar>
-                </form>
-              </div>
-            </div>
-            <div class="col-xs-6 search-group" *ngIf="!(mobile && searching_players)">
-              <div id="sb-search-alliances" class="sb-search">
-                <form>
-                  <input autocomplete="off" class="sb-search-input" placeholder="Search alliances..." type="search" value="" name="search" id="search-alliances" (keyup)="searchAlliances($event)">
-                  <input class="sb-search-submit" type="button" value="">
-                  <span class="sb-icon-search" (click)="doSearchAlliances()"><mat-icon class="search-icon">groups</mat-icon></span>
-                  <mat-progress-bar *ngIf="!mobile && searching_alliances && loading" class="searching-loading" mode="indeterminate"></mat-progress-bar>
-                </form>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-      </mat-card-content>
-    </mat-card>
+<section *ngIf="!hide_search" aria-label="Search" (click)="cdr.detectChanges()" class="text-left font-normal text-slate-900" [ngClass]="homepage ? 'p-6 max-sm:p-3' : 'rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-900/[.08] max-sm:p-3 min-[1200px]:sticky min-[1200px]:top-16 min-[1200px]:z-[999]'">
+  <div class="grid grid-cols-2 gap-6 max-sm:grid-cols-1 max-sm:gap-3">
+    <div *ngIf="!(mobile && searching_alliances)">
+      <form class="relative m-0 flex overflow-hidden border border-solid border-slate-300 bg-white shadow-sm focus-within:border-brand-700 focus-within:ring-1 focus-within:ring-brand-700" [ngClass]="homepage ? 'h-12 rounded-lg' : 'h-9 rounded-md'">
+        <label class="m-0 flex min-w-0 flex-1 items-center" [ngClass]="homepage ? 'gap-2.5 pl-3.5 pr-3' : 'gap-2 px-3'">
+          <svg appIcon="player_ico" variant="game" class="flex-none text-slate-400" [ngClass]="homepage ? 'size-[18px]' : 'size-4'"></svg>
+          <input autocomplete="off" placeholder="Search players..." aria-label="Search players" type="search" value="" name="search" id="search-players" (keyup)="searchPlayers($event)" class="h-full min-w-0 flex-1 border-0 bg-transparent p-0 font-normal text-slate-900 placeholder:text-slate-500 focus:outline-none" [ngClass]="homepage ? 'text-base' : 'text-sm'">
+        </label>
+        <button type="button" aria-label="Search players" (click)="doSearchPlayers()" class="flex flex-none items-center justify-center border-0 border-l border-solid border-slate-300 bg-slate-50 p-0 text-slate-500 hover:bg-slate-100 hover:text-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="homepage ? 'w-[52px]' : 'w-11'">
+          <svg appIcon="magnifying-glass" class="size-5 flex-none"></svg>
+        </button>
+        <mat-progress-bar *ngIf="!mobile && searching_players && loading" mode="indeterminate" class="!absolute inset-x-0 bottom-0 z-10 !h-0.5"></mat-progress-bar>
+      </form>
+    </div>
+    <div *ngIf="!(mobile && searching_players)">
+      <form class="relative m-0 flex overflow-hidden border border-solid border-slate-300 bg-white shadow-sm focus-within:border-brand-700 focus-within:ring-1 focus-within:ring-brand-700" [ngClass]="homepage ? 'h-12 rounded-lg' : 'h-9 rounded-md'">
+        <label class="m-0 flex min-w-0 flex-1 items-center" [ngClass]="homepage ? 'gap-2.5 pl-3.5 pr-3' : 'gap-2 px-3'">
+          <svg appIcon="ally_ico" variant="game" class="flex-none text-slate-400" [ngClass]="homepage ? 'size-[18px]' : 'size-4'"></svg>
+          <input autocomplete="off" placeholder="Search alliances..." aria-label="Search alliances" type="search" value="" name="search" id="search-alliances" (keyup)="searchAlliances($event)" class="h-full min-w-0 flex-1 border-0 bg-transparent p-0 font-normal text-slate-900 placeholder:text-slate-500 focus:outline-none" [ngClass]="homepage ? 'text-base' : 'text-sm'">
+        </label>
+        <button type="button" aria-label="Search alliances" (click)="doSearchAlliances()" class="flex flex-none items-center justify-center border-0 border-l border-solid border-slate-300 bg-slate-50 p-0 text-slate-500 hover:bg-slate-100 hover:text-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="homepage ? 'w-[52px]' : 'w-11'">
+          <svg appIcon="magnifying-glass" class="size-5 flex-none"></svg>
+        </button>
+        <mat-progress-bar *ngIf="!mobile && searching_alliances && loading" mode="indeterminate" class="!absolute inset-x-0 bottom-0 z-10 !h-0.5"></mat-progress-bar>
+      </form>
+    </div>
   </div>
-</div>
+</section>
 
-<!--Results-->
-<div class="" *ngIf="!hide_search && (searching_players || searching_alliances)" (click)="cdr.detectChanges()">
-  <div fxLayout="column" fxLayout.gt-xs="row" fxLayoutGap="5px">
-    <mat-card fxFlex [ngClass]="{'search-secondary':secondary==true, 'no-shadow':homepage}" style="padding: 0 20px 20px 20px !important;" >
-      <mat-card-content>
+<ng-container *ngIf="!hide_search && (searching_players || searching_alliances)">
+<div (click)="cdr.detectChanges()" class="text-left font-normal text-slate-900" [ngClass]="{'px-6 pb-6 max-sm:px-3 max-sm:pb-3 [&>section]:mt-0': homepage}">
 
-        <div [ngClass]="{'container':secondary, 'container-fluid':!secondary, 'search-container':!mobile}">
-
-          <div class="row">
-
-            <!--Player results-->
-            <div *ngIf="!mobile && searching_players" class="container-fluid">
-<!--              <div class="row" *ngIf="hide_results">-->
-<!--                <div class="btn-group" role="group" style="margin-top: 10px;">-->
-<!--                  <button type="button" class="btn btn-link search-control" (click)="hide_results = false; cdr.detectChanges();">-->
-<!--                    Show results <i class="fa fa-caret-down"></i>-->
-<!--                  </button>-->
-<!--                  <button type="button" class="btn btn-link search-control" (click)="hide_results = true; searching_players = false; cdr.detectChanges();">-->
-<!--                    Close results <i class="fa fa-close"></i>-->
-<!--                  </button>-->
-<!--                </div>-->
-<!--              </div>-->
-
-              <div *ngIf="players?.length < 1 && !loading" class="text-center">
-                <hr>
-                <h3>No players found matching your search <span class="gd-primary">'{{playerInput}}'</span></h3>
-              </div>
-
-              <div *ngIf="!hide_results && num_results > 0" id="search_output"  [ngClass]="{'loading-results-overlay':loading}">
-
-	              <div class="row">
-
-		              <!--Filters-->
-<!--		              <div class="col-xs-12" *ngIf="filters_active && showFilter">-->
-
-<!--			              <h1 class="gd-primary">Filters:</h1>-->
-
-<!--                    <mat-form-field style="margin-right: 10px;" (click)="cdr.detectChanges();" >-->
-<!--                      <mat-select placeholder="Server" [ngModel]="server" (ngModelChange)="setServer($event)" #select>-->
-<!--	                      <mat-option value="" (click)="cdr.detectChanges();">All servers</mat-option>-->
-<!--                        <mat-option *ngFor="let s of form.servers" value="{{s.key}}" (click)="cdr.detectChanges();">-->
-<!--	                        <div class="bg-flag flag-inline flag-{{s.key}}"></div>&nbsp;{{s.key}} [{{s.doc_count}} results]-->
-<!--                        </mat-option>-->
-<!--                      </mat-select>-->
-<!--                    </mat-form-field>-->
-<!--                    <mat-form-field style="margin-right: 10px;" (click)="cdr.detectChanges();">-->
-<!--                      <mat-select placeholder="World" [ngModel]="world" (ngModelChange)="setWorld($event)">-->
-<!--	                      <mat-option value="" (click)="cdr.detectChanges();">All worlds</mat-option>-->
-<!--                        <mat-option *ngFor="let w of form.worlds" value="{{w.key}}" (click)="cdr.detectChanges();">{{w.key}} [{{w.doc_count}} results]</mat-option>-->
-<!--                      </mat-select>-->
-<!--                    </mat-form-field>-->
-<!--											<br/>-->
-<!--                    <button type="button" class="btn btn-link search-control" (click)="clearFilter()">-->
-<!--                      Clear filters <i class="fa fa-filter"></i>-->
-<!--                    </button>-->
-<!--                    <button type="button" class="btn btn-link search-control" (click)="toggleFilter()">-->
-<!--                      Hide filters <i class="fa fa-caret-up"></i>-->
-<!--                    </button>-->
-<!--		              </div>-->
-
-		              <!--Result table-->
-		              <div class="col-xs-12">
-			              <div class="row" *ngIf="players?.length > 0" [ngClass]="(hide_results==true)?'hidden-search-control':''">
-				              <div class="col-sm-12 col-md-12 col-lg-6 text-left">
-<!--					              <h3 style="margin:3px;">-->
-<!--						              Found {{num_results}} <span style='color: #18BC9C;'>player{{num_results!=1? 's':''}}</span> for '<span style='color: #18BC9C;'>{{playerInputSearching}}</span>'-->
-<!--						              <button *ngIf="filters_active && !showFilter" type="button" class="btn btn-link search-control" (click)="toggleFilter()">-->
-<!--							              Show filters <i class="fa fa-caret-down"></i>-->
-<!--						              </button>-->
-<!--						              <button type="button" class="btn btn-link search-control" (click)="clearFilter()" *ngIf="world != '' || server != ''">-->
-<!--							              Clear filters <i class="fa fa-close"></i>-->
-<!--						              </button>-->
-<!--						              <button *ngIf="!secondary" type="button" class="btn btn-link search-control" (click)="hide_results = true; cdr.detectChanges();">-->
-<!--							              Hide results <i class="fa fa-caret-up"></i>-->
-<!--						              </button>-->
-<!--						              <button type="button" class="btn btn-link search-control" (click)="hide_results = true; searching_players = false; cdr.detectChanges();">-->
-<!--							              Close results <i class="fa fa-close"></i>-->
-<!--						              </button>-->
-<!--					              </h3>-->
-
-                        <mat-form-field *ngIf="filters_active && showFilter" style="margin-right: 10px; font-size: unset !important; width: unset !important;" (click)="cdr.detectChanges();" >
-                          <mat-select placeholder="Server" [ngModel]="server" (ngModelChange)="setServer($event)" #select>
-                            <mat-option value="" (click)="cdr.detectChanges();">All servers</mat-option>
-                            <mat-option *ngFor="let s of form.servers" value="{{s.key}}" (click)="cdr.detectChanges();">
-                              <div class="bg-flag flag-inline flag-{{s.key}}"></div>&nbsp;{{s.key}} [{{s.doc_count}} results]
-                            </mat-option>
-                          </mat-select>
-                        </mat-form-field>
-
-                        <mat-form-field *ngIf="filters_active && showFilter" style="margin-right: 10px; font-size: unset !important; width: unset !important;" (click)="cdr.detectChanges();">
-                          <mat-select placeholder="World" [ngModel]="world" (ngModelChange)="setWorld($event)">
-                            <mat-option value="" (click)="cdr.detectChanges();">All worlds</mat-option>
-                            <mat-option *ngFor="let w of form.worlds" value="{{w.key}}" (click)="cdr.detectChanges();">{{w.key}} [{{w.doc_count}} results]</mat-option>
-                          </mat-select>
-                        </mat-form-field>
-
-				              </div>
-				              <div class="col-sm-12 col-md-12 col-lg-6 text-right" *ngIf="players?.length >= size" style="padding-top: 12px;">
-					              <mat-paginator [length]="num_results"
-					                             [pageSize]="size"
-					                             [pageSizeOptions]="[10, 30, 50, 100, 200]"
-					                             (page)="paginatorEvent($event)"
-					                             (click)="cdr.detectChanges()"
-					              style="max-height: 40px; margin-top: -18px; background: none;">
-					              </mat-paginator>
-				              </div>
-			              </div>
-			              <div class="row">
-				              <div class="table">
-					              <div class="row_custom header default">
-						              <div class="cell custom-cell">Player name</div>
-						              <div class="cell">World</div>
-						              <div class="cell">Alliance</div>
-						              <div class="cell hidden-xs hidden-sm">Rank</div>
-						              <div class="cell">Points</div>
-						              <div class="cell hidden-xs hidden-sm">Towns</div>
-						              <div class="cell" *ngIf="compare">Action</div>
-					              </div>
-
-					              <div *ngFor="let player of players" class="row_custom">
-						              <div class="cell custom-cell">
-							              <a routerLink="/player" [queryParams]="{world: player?.world, id: player?.id}" (click)="hide_results = true; cdr.detectChanges();">{{player?.name}}</a>
-						              </div>
-						              <div class="cell">
-							              <a routerLink="/points" [queryParams]="{world: player?.world}"><div [outerHTML]="player?.world | WorldNamePipe"></div></a>
-						              </div>
-						              <div class="cell">
-							              <a routerLink="/alliance" [queryParams]="{world: player?.world, id: player?.alliance_id}" (click)="hide_results = true; cdr.detectChanges();">{{player?.alliance_name}}</a>
-						              </div>
-						              <div class="cell hidden-xs hidden-sm">
-							              {{player?.rank}}
-						              </div>
-						              <div class="cell">
-							              {{player?.points | NumberFilter}}
-						              </div>
-						              <div class="cell hidden-xs hidden-sm">
-							              {{player?.towns}}
-						              </div>
-						              <div class="cell" *ngIf="compare">
-							              <div class="form-group row" style="margin: 0px !important;">
-								              <button style="width: 48%; margin-right: 4%;" name="add_compare" class="btn btn-success btn-xs" (click)="compareService.addPlayer(player?.id, player?.name, player?.world)">
-									              <i class="fa fa-plus"></i>&nbsp;<span class="hidden-xs">Compare</span><span class="hidden-sm hidden-md hidden-lg">Compare</span>
-								              </button>
-								              <button style="width: 48%;" name="add_compare" class="btn btn-info btn-xs" routerLink="/player" [queryParams]="{world: player?.world, id: player?.id}">
-									              <i class="fa fa-arrow-circle-right"></i>&nbsp;View
-								              </button>
-							              </div>
-						              </div>
-					              </div>
-				              </div>
-			              </div>
-		              </div>
-
-	              </div>
-
-              </div>
-            </div>
-
-            <!--Alliance results-->
-            <div *ngIf="!mobile && searching_alliances && !hide_results">
-              <div *ngIf="alliances?.length < 1 && !loading" class="text-center">
-                <h3>No alliances found for your search <span class="gd-primary">'{{allianceInput}}'</span></h3>
-              </div>
-              <div *ngIf="alliances?.length > 0 && !loading" class="row">
-	              <div class="col-xs-12">
-		              <h3>
-			              Found {{num_results}} <span style='color: #18BC9C;'>alliance{{num_results!=1? 's':''}}</span> for '<span style='color: #18BC9C;'>{{allianceInput}}</span>'
-<!--			              <button *ngIf="hide_results" type="button" class="btn btn-link search-control" (click)="hide_results = false;">-->
-<!--				              Show results <i class="fa fa-caret-down"></i>-->
-<!--			              </button>-->
-			              <button *ngIf="!hide_results" type="button" class="btn btn-link search-control" (click)="hide_results = true;">
-				              Hide results <i class="fa fa-caret-up"></i>
-			              </button>
-<!--			              <button type="button" class="btn btn-link search-control" (click)="searching_alliances = false;">-->
-<!--				              Close results <i class="fa fa-close"></i>-->
-<!--			              </button>-->
-		              </h3>
-		              <mat-spinner class="search-control" *ngIf="loading" strokeWidth="4" [diameter]="40"></mat-spinner>
-	              </div>
-              </div>
-              <div *ngIf="!hide_results && num_results > 0" class="table" id="search_output_alliances" style="">
-                <div class="row_custom header default">
-                  <div class="cell custom-cell">Alliance name</div>
-                  <div class="cell">World</div>
-                  <div class="cell hidden-sm">Rank</div>
-                  <div class="cell hidden-sm">Members</div>
-                  <div class="cell">Points</div>
-                  <div class="cell hidden-sm">Towns</div>
-                  <div class="cell" *ngIf="compare">Action</div>
-                </div>
-
-                <div *ngFor="let alliance of alliances" class="row_custom">
-                  <div class="cell custom-cell">
-                    <a routerLink="/alliance" [queryParams]="{world: alliance?.world, id: alliance?.id}" (click)="hide_results = true; cdr.detectChanges();">{{alliance?.name}}</a>
-                  </div>
-                  <div class="cell">
-                    <a routerLink="/points" [queryParams]="{world: alliance?.world}"><div [outerHTML]="alliance?.world | WorldNamePipe"></div></a>
-                  </div>
-                  <div class="cell hidden-sm">
-	                  {{alliance?.rank}}
-                  </div>
-                  <div class="cell hidden-sm">
-	                  {{alliance?.members}}
-                  </div>
-                  <div class="cell">
-                    {{alliance?.points | NumberFilter}}
-                  </div>
-                  <div class="cell hidden-sm">
-                    {{alliance?.towns}}
-                  </div>
-                  <div class="cell" *ngIf="compare">
-                    <div class="form-group row" style="margin: 0px !important;">
-                      <button style="width: 48%; margin-right: 4%;"  name="add_compare" class="btn btn-success btn-xs" (click)="compareService.addAlliance(alliance?.id, alliance?.name, alliance?.world)">
-                        <i class="fa fa-plus"></i>&nbsp;<span class="hidden-xs">Compare</span><span class="hidden-sm hidden-md hidden-lg">Compare</span>
-                      </button>
-                      <button style="width: 48%;"  name="add_compare" class="btn btn-info btn-xs" routerLink="/alliance" [queryParams]="{world: alliance?.world, id: alliance?.id}">
-	                      <i class="fa fa-arrow-circle-right"></i>&nbsp;View
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-
-              </div>
-            </div>
-
-	          <!--Mobile results-->
-	          <div *ngIf="mobile && (searching_alliances || searching_players) && !hide_results">
-		          <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
-
-		          <div *ngIf="searching_players && players?.length < 1 && !loading" class="text-center">
-			          <h3>No players found for <span class="gd-primary">'{{playerInput}}'</span></h3>
-		          </div>
-		          <div *ngIf="searching_alliances && alliances?.length < 1 && !loading" class="text-center">
-			          <h3>No alliances found for <span class="gd-primary">'{{allianceInput}}'</span></h3>
-		          </div>
-
-		          <div *ngIf="((searching_players && players?.length > 0) || (searching_alliances && alliances?.length) > 0) && !loading"
-		               class="mobile-hide-search text-center">
-			          <a (click)="hideMobileResults();">
-				          Hide search results&nbsp;<i class="fa fa-caret-up"></i>
-			          </a>
-		          </div>
-
-		          <div class="table" *ngIf="players?.length > 0 && !loading && searching_players">
-			          <div *ngFor="let player of players" class="row_custom">
-				          <div class="cell custom-cell">
-					          <a routerLink="/player" [queryParams]="{world: player?.world, id: player?.id}" (click)="hide_results = true; cdr.detectChanges();">{{player?.name}}</a>
-				          </div>
-				          <div class="cell">
-					          {{player?.points | NumberFilter}}
-				          </div>
-				          <div class="cell">
-					          <div class="bg-flag flag-inline-middle flag-{{player?.server}}"></div>&nbsp;<a routerLink="/points" [queryParams]="{world: player?.world}">{{player?.world}}</a>
-				          </div>
-			          </div>
-		          </div>
-
-		          <div class="table" *ngIf="alliances?.length > 0 && !loading && searching_alliances">
-			          <div *ngFor="let alliance of alliances" class="row_custom">
-				          <div class="cell custom-cell">
-					          <a routerLink="/alliance" [queryParams]="{world: alliance?.world, id: alliance?.id}" (click)="hide_results = true; cdr.detectChanges();">{{alliance?.name}}</a>
-				          </div>
-				          <div class="cell">
-					          {{alliance?.points | NumberFilter}}
-				          </div>
-				          <div class="cell">
-					          <div class="bg-flag flag-inline-middle flag-{{alliance?.server}}"></div>&nbsp;<a routerLink="/points" [queryParams]="{world: player?.world}">{{alliance?.world}}</a>
-				          </div>
-			          </div>
-		          </div>
-
-	          </div>
-
-            <div class="text-center" *ngIf="!mobile">
-              <button *ngIf="num_results > 0 && !hide_results" type="button" class="btn btn-link search-control" (click)="hide_results = true; cdr.detectChanges(); scrollTop();">
-                Hide search results <i class="fa fa-caret-up"></i>
-              </button>
-            </div>
-
-          </div>
-
-        </div>
-
-      </mat-card-content>
-    </mat-card>
+<section *ngIf="!mobile && searching_players && loading && !(num_results > 0)" aria-busy="true" aria-label="Player search results" class="mt-6 overflow-hidden rounded-xl bg-white ring-1 ring-slate-900/[.08]" [ngClass]="homepage ? 'shadow-none' : 'shadow-sm'">
+  <div class="flex items-center justify-between gap-4 border-0 border-b border-solid border-slate-200 px-5 py-3.5">
+    <div class="flex min-w-0 items-center gap-3">
+      <span aria-hidden="true" class="flex size-9 flex-none items-center justify-center rounded-lg bg-slate-100 text-slate-400"><svg appIcon="player_ico" variant="game" class="size-5"></svg></span>
+      <div class="min-w-0">
+        <h2 class="m-0 truncate text-base font-semibold text-slate-900">Players matching <span class="text-brand-700">“{{playerInput}}”</span></h2>
+        <p aria-hidden="true" class="mb-0 mt-1.5 h-2 w-28 rounded-full bg-slate-200"></p>
+      </div>
+    </div>
   </div>
+  <mat-progress-bar mode="indeterminate" class="!h-0.5"></mat-progress-bar>
+  <div aria-hidden="true">
+    <div class="flex items-center gap-6 border-0 border-solid border-slate-100 px-5 py-3.5">
+      <span class="h-2.5 w-[160px] rounded-full bg-slate-200"></span>
+      <span class="h-2.5 w-36 rounded-full bg-slate-100"></span>
+      <span class="h-2.5 w-28 rounded-full bg-slate-100"></span>
+      <span class="flex-1"></span>
+      <span class="h-2.5 w-16 rounded-full bg-slate-200"></span>
+    </div>
+    <div class="flex items-center gap-6 border-0 border-solid border-slate-100 px-5 py-3.5 border-t">
+      <span class="h-2.5 w-[148px] rounded-full bg-slate-200"></span>
+      <span class="h-2.5 w-36 rounded-full bg-slate-100"></span>
+      <span class="h-2.5 w-28 rounded-full bg-slate-100"></span>
+      <span class="flex-1"></span>
+      <span class="h-2.5 w-16 rounded-full bg-slate-200"></span>
+    </div>
+    <div class="flex items-center gap-6 border-0 border-solid border-slate-100 px-5 py-3.5 border-t">
+      <span class="h-2.5 w-[136px] rounded-full bg-slate-200"></span>
+      <span class="h-2.5 w-36 rounded-full bg-slate-100"></span>
+      <span class="h-2.5 w-28 rounded-full bg-slate-100"></span>
+      <span class="flex-1"></span>
+      <span class="h-2.5 w-16 rounded-full bg-slate-200"></span>
+    </div>
+    <div class="flex items-center gap-6 border-0 border-solid border-slate-100 px-5 py-3.5 border-t">
+      <span class="h-2.5 w-[124px] rounded-full bg-slate-200"></span>
+      <span class="h-2.5 w-36 rounded-full bg-slate-100"></span>
+      <span class="h-2.5 w-28 rounded-full bg-slate-100"></span>
+      <span class="flex-1"></span>
+      <span class="h-2.5 w-16 rounded-full bg-slate-200"></span>
+    </div>
+  </div>
+</section>
+
+<section *ngIf="!mobile && searching_players && players?.length < 1 && !loading" aria-label="Player search results" class="mt-6 overflow-hidden rounded-xl bg-white ring-1 ring-slate-900/[.08]" [ngClass]="homepage ? 'shadow-none' : 'shadow-sm'">
+  <div class="flex items-center justify-between gap-4 border-0 border-b border-solid border-slate-200 px-5 py-3.5">
+    <div class="flex min-w-0 items-center gap-3">
+      <span aria-hidden="true" class="flex size-9 flex-none items-center justify-center rounded-lg bg-slate-100 text-slate-400"><svg appIcon="player_ico" variant="game" class="size-5"></svg></span>
+      <div class="min-w-0">
+        <h2 class="m-0 truncate text-base font-semibold text-slate-900">Players matching <span class="text-brand-700">“{{playerInput}}”</span></h2>
+        <p class="m-0 text-xs text-slate-500">No results</p>
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-col items-center px-6 py-10 text-center">
+    <span aria-hidden="true" class="flex size-12 items-center justify-center rounded-full bg-slate-100 text-slate-500"><svg appIcon="magnifying-glass" class="size-6"></svg></span>
+    <h3 class="mb-0 mt-3 text-base font-semibold text-slate-900">No players found matching your search</h3>
+    <p class="mb-0 mt-1 max-w-[440px] text-sm text-slate-600">“{{playerInput}}” did not match any player. Check the spelling or search with fewer letters.</p>
+  </div>
+</section>
+
+<section *ngIf="!mobile && searching_players && !hide_results && num_results > 0" id="search_output" aria-label="Player search results" class="mt-6 overflow-hidden rounded-xl bg-white ring-1 ring-slate-900/[.08]" [ngClass]="homepage ? 'shadow-none' : 'shadow-sm'">
+  <div class="flex items-center justify-between gap-4 border-0 border-b border-solid border-slate-200 px-5 py-3.5">
+    <div class="flex min-w-0 items-center gap-3">
+      <span aria-hidden="true" class="flex size-9 flex-none items-center justify-center rounded-lg bg-slate-100 text-slate-400"><svg appIcon="player_ico" variant="game" class="size-5"></svg></span>
+      <div class="min-w-0">
+        <h2 class="m-0 truncate text-base font-semibold text-slate-900">Players matching <span class="text-brand-700">“{{playerInputSearching}}”</span></h2>
+        <p class="m-0 text-xs text-slate-500"><span class="tabular-nums">{{num_results}}</span> {{num_results == 1 ? 'result' : 'results'}} on {{world != '' ? world : (server != '' ? 'server ' + server : 'all servers')}}</p>
+      </div>
+    </div>
+    <button type="button" (click)="hide_results = true; cdr.detectChanges();" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="chevron-up" variant="micro" class="size-3.5 flex-none text-slate-500"></svg>Hide results</button>
+  </div>
+  <div *ngIf="players?.length > 0 && ((filters_active && showFilter) || players?.length >= size)" class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-0 border-b border-solid border-slate-200 py-2 pl-5 pr-3" [ngClass]="{'pointer-events-none opacity-60': loading}">
+    <div *ngIf="filters_active && showFilter" class="flex min-w-0 flex-wrap items-center gap-2">
+      <div class="relative flex-none" [ngClass]="'w-44'" (click)="cdr.detectChanges();">
+        <mat-select aria-label="Server" placeholder="Server" [ngModel]="server" (ngModelChange)="setServer($event)" panelClass="!rounded-lg !p-1 !shadow-lg [&_.mat-option-text]:flex [&_.mat-option-text]:items-center [&_.mat-option-text]:gap-2 [&_.mat-option.mat-selected]:!bg-brand-50 [&_.mat-option.mat-selected]:!text-slate-900 [&_.mat-option]:!h-9 [&_.mat-option]:!rounded-md [&_.mat-option]:!px-2.5 [&_.mat-option]:!text-sm [&_.mat-option]:!leading-9 [&_.mat-option]:!text-slate-900" class="h-8 w-full rounded-md bg-white text-[13px] text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-700 [&_.mat-select-arrow-wrapper]:hidden [&_.mat-select-trigger]:flex [&_.mat-select-trigger]:h-full [&_.mat-select-trigger]:w-full [&_.mat-select-trigger]:items-center [&_.mat-select-trigger]:pl-2.5 [&_.mat-select-trigger]:pr-7 [&_.mat-select-value]:min-w-0 [&_.mat-select-value]:max-w-none">
+          <mat-select-trigger>
+            <span class="flex min-w-0 items-center gap-1.5 whitespace-nowrap">
+              <span class="text-slate-500">Server</span>
+              <ng-container *ngIf="server != ''"><span class="bg-flag flag-{{server}} flex-none [zoom:0.625]"></span><span class="font-medium">{{server}}</span></ng-container>
+              <span *ngIf="server == ''" class="font-medium">All servers</span>
+            </span>
+          </mat-select-trigger>
+          <mat-option value="" (click)="cdr.detectChanges();">
+            All servers
+            <span class="ml-auto flex size-4 flex-none"><svg *ngIf="server == ''" appIcon="check" class="size-4 text-brand-700"></svg></span>
+          </mat-option>
+          <mat-option *ngFor="let s of form.servers" value="{{s.key}}" (click)="cdr.detectChanges();">
+            <span class="bg-flag flag-{{s.key}} flex-none [zoom:0.625]"></span><span class="truncate">{{s.key}}</span>
+            <span class="ml-auto whitespace-nowrap pl-3 text-xs tabular-nums text-slate-500">{{s.doc_count}} results</span>
+            <span class="flex size-4 flex-none"><svg *ngIf="s.key == server" appIcon="check" class="size-4 text-brand-700"></svg></span>
+          </mat-option>
+        </mat-select>
+        <svg appIcon="chevron-down" class="pointer-events-none absolute right-2 top-2 size-4 text-slate-400"></svg>
+      </div>
+      <div class="relative flex-none" [ngClass]="'w-60'" (click)="cdr.detectChanges();">
+        <mat-select aria-label="World" placeholder="World" [ngModel]="world" (ngModelChange)="setWorld($event)" panelClass="!rounded-lg !p-1 !shadow-lg [&_.mat-option-text]:flex [&_.mat-option-text]:items-center [&_.mat-option-text]:gap-2 [&_.mat-option.mat-selected]:!bg-brand-50 [&_.mat-option.mat-selected]:!text-slate-900 [&_.mat-option]:!h-9 [&_.mat-option]:!rounded-md [&_.mat-option]:!px-2.5 [&_.mat-option]:!text-sm [&_.mat-option]:!leading-9 [&_.mat-option]:!text-slate-900" class="h-8 w-full rounded-md bg-white text-[13px] text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-700 [&_.mat-select-arrow-wrapper]:hidden [&_.mat-select-trigger]:flex [&_.mat-select-trigger]:h-full [&_.mat-select-trigger]:w-full [&_.mat-select-trigger]:items-center [&_.mat-select-trigger]:pl-2.5 [&_.mat-select-trigger]:pr-7 [&_.mat-select-value]:min-w-0 [&_.mat-select-value]:max-w-none">
+          <mat-select-trigger>
+            <span class="flex min-w-0 items-center gap-1.5 whitespace-nowrap">
+              <span class="text-slate-500">World</span>
+              <span *ngIf="world != ''" class="truncate font-medium">{{world | WorldNamePipe : false}}</span>
+              <span *ngIf="world == ''" class="font-medium">All worlds</span>
+            </span>
+          </mat-select-trigger>
+          <mat-option value="" (click)="cdr.detectChanges();">
+            All worlds
+            <span class="ml-auto flex size-4 flex-none"><svg *ngIf="world == ''" appIcon="check" class="size-4 text-brand-700"></svg></span>
+          </mat-option>
+          <mat-option *ngFor="let w of form.worlds" value="{{w.key}}" (click)="cdr.detectChanges();">
+            <span class="truncate">{{w.key | WorldNamePipe : false}}</span>
+            <span class="ml-auto whitespace-nowrap pl-3 text-xs tabular-nums text-slate-500">{{w.doc_count}} results</span>
+            <span class="flex size-4 flex-none"><svg *ngIf="w.key == world" appIcon="check" class="size-4 text-brand-700"></svg></span>
+          </mat-option>
+        </mat-select>
+        <svg appIcon="chevron-down" class="pointer-events-none absolute right-2 top-2 size-4 text-slate-400"></svg>
+      </div>
+    </div>
+    <div *ngIf="players?.length >= size" class="ml-auto">
+      <mat-paginator [length]="num_results"
+                     [pageSize]="size"
+                     [pageSizeOptions]="[10, 30, 50, 100, 200]"
+                     (page)="paginatorEvent($event)"
+                     (click)="cdr.detectChanges()"
+                     class="block bg-transparent !text-xs !font-normal text-slate-600 [&_.mat-button-wrapper]:flex [&_.mat-form-field-infix]:!w-16 [&_.mat-form-field-infix]:!p-0 [&_.mat-form-field-subscript-wrapper]:hidden [&_.mat-form-field-underline]:hidden [&_.mat-form-field-wrapper]:!m-0 [&_.mat-form-field-wrapper]:!p-0 [&_.mat-icon-button:not(.mat-button-disabled):hover]:bg-slate-100 [&_.mat-icon-button]:inline-flex [&_.mat-icon-button]:size-8 [&_.mat-icon-button]:items-center [&_.mat-icon-button]:justify-center [&_.mat-icon-button]:rounded-md [&_.mat-icon-button]:leading-8 [&_.mat-paginator-container]:min-h-0 [&_.mat-paginator-container]:flex-nowrap [&_.mat-paginator-container]:gap-3 [&_.mat-paginator-container]:p-0 [&_.mat-paginator-icon]:w-5 [&_.mat-paginator-page-size-label]:m-0 [&_.mat-paginator-page-size]:m-0 [&_.mat-paginator-page-size]:items-center [&_.mat-paginator-page-size]:gap-2 [&_.mat-paginator-page-size]:!pt-0 [&_.mat-paginator-range-actions]:gap-1 [&_.mat-paginator-range-label]:m-0 [&_.mat-paginator-range-label]:mr-1 [&_.mat-paginator-range-label]:tabular-nums [&_.mat-select-arrow-wrapper]:![transform:none] [&_.mat-select-arrow]:text-slate-400 [&_.mat-select-trigger]:flex [&_.mat-select-trigger]:h-full [&_.mat-select-trigger]:w-full [&_.mat-select-trigger]:items-center [&_.mat-select-trigger]:pl-2.5 [&_.mat-select-trigger]:pr-1.5 [&_.mat-select-value]:min-w-0 [&_.mat-select-value]:max-w-none [&_.mat-select:focus]:ring-2 [&_.mat-select:focus]:ring-brand-700 [&_.mat-select]:flex [&_.mat-select]:h-8 [&_.mat-select]:items-center [&_.mat-select]:rounded-md [&_.mat-select]:bg-white [&_.mat-select]:text-xs [&_.mat-select]:shadow-sm [&_.mat-select]:ring-1 [&_.mat-select]:ring-inset [&_.mat-select]:ring-slate-300">
+      </mat-paginator>
+    </div>
+  </div>
+  <div class="relative">
+    <mat-progress-bar *ngIf="loading" mode="indeterminate" class="!absolute inset-x-0 top-0 z-10 !h-0.5"></mat-progress-bar>
+    <div class="gd-scrollbar overflow-x-auto">
+      <table class="w-full min-w-[720px] table-fixed border-separate border-spacing-0 text-left font-normal">
+        <colgroup>
+          <col>
+          <col [ngClass]="compare ? 'w-[200px]' : 'w-[220px]'">
+          <col [ngClass]="compare ? 'w-[21%]' : 'w-[24%]'">
+          <col class="max-[1199px]:[display:none]" [ngClass]="compare ? 'w-[88px]' : 'w-24'">
+          <col [ngClass]="compare ? 'w-[120px]' : 'w-32'">
+          <col class="max-[1199px]:[display:none]" [ngClass]="compare ? 'w-20' : 'w-[88px]'">
+          <col *ngIf="compare" class="w-[196px]">
+        </colgroup>
+        <thead>
+          <tr>
+            <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700 pl-5">Player</th>
+            <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700">World</th>
+            <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700">Alliance</th>
+            <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700 text-right max-[1199px]:[display:none]">Rank</th>
+            <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700 text-right">Points</th>
+            <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700 text-right max-[1199px]:[display:none]" [ngClass]="{'pr-5': !compare}">Towns</th>
+            <th *ngIf="compare" scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700 pr-5"><span class="sr-only">Actions</span></th>
+          </tr>
+        </thead>
+        <tbody [ngClass]="{'opacity-45': loading}">
+          <tr *ngFor="let player of players; let i = index" class="hover:bg-slate-50">
+            <td class="border-0 border-solid border-slate-100 px-3 py-2.5 align-middle text-sm max-w-0 pl-5" [ngClass]="{'border-t': i > 0}">
+              <a routerLink="/player" [queryParams]="{world: player?.world, id: player?.id}" (click)="hide_results = true; cdr.detectChanges();" class="inline-flex max-w-full items-center gap-1.5 font-medium text-slate-900 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="player_ico" variant="game" class="size-4 flex-none text-slate-400"></svg><span class="truncate">{{player?.name}}</span></a>
+            </td>
+            <td class="border-0 border-solid border-slate-100 px-3 py-2.5 align-middle text-sm max-w-0" [ngClass]="{'border-t': i > 0}">
+              <a routerLink="/points" [queryParams]="{world: player?.world}" class="inline-flex max-w-full items-center gap-1.5 text-slate-700 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><span class="bg-flag flag-{{player?.world?.substr(0,2)}} flex-none [zoom:0.625]"></span><span class="truncate">{{player?.world | WorldNamePipe : false}}</span></a>
+            </td>
+            <td class="border-0 border-solid border-slate-100 px-3 py-2.5 align-middle text-sm max-w-0" [ngClass]="{'border-t': i > 0}">
+              <a *ngIf="player?.alliance_name" routerLink="/alliance" [queryParams]="{world: player?.world, id: player?.alliance_id}" (click)="hide_results = true; cdr.detectChanges();" class="inline-flex max-w-full items-center gap-1.5 text-slate-600 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg><span class="truncate">{{player?.alliance_name}}</span></a>
+              <span *ngIf="!player?.alliance_name" class="text-slate-400">—</span>
+            </td>
+            <td class="border-0 border-solid border-slate-100 px-3 py-2.5 align-middle text-sm text-right tabular-nums text-slate-700 max-[1199px]:[display:none]" [ngClass]="{'border-t': i > 0}">{{player?.rank}}</td>
+            <td class="border-0 border-solid border-slate-100 px-3 py-2.5 align-middle text-sm text-right font-semibold tabular-nums text-slate-900" [ngClass]="{'border-t': i > 0}">{{player?.points | NumberFilter}}</td>
+            <td class="border-0 border-solid border-slate-100 px-3 py-2.5 align-middle text-sm text-right tabular-nums text-slate-700 max-[1199px]:[display:none]" [ngClass]="{'border-t': i > 0, 'pr-5': !compare}">{{player?.towns}}</td>
+            <td *ngIf="compare" class="border-0 border-solid border-slate-100 px-3 py-2.5 align-middle text-sm pr-5" [ngClass]="{'border-t': i > 0}">
+              <div class="flex justify-end gap-2">
+                <button type="button" (click)="compareService.addPlayer(player?.id, player?.name, player?.world)" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="plus" variant="micro" class="size-3.5 flex-none text-slate-500"></svg>Compare</button>
+                <a routerLink="/player" [queryParams]="{world: player?.world, id: player?.id}" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 no-underline hover:text-slate-900 hover:no-underline focus:text-slate-900 focus:no-underline">View<svg appIcon="arrow-right" variant="micro" class="size-3.5 flex-none text-slate-400"></svg></a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="flex justify-center border-0 border-t border-solid border-slate-200 bg-slate-50 px-5 py-2">
+    <button type="button" (click)="hide_results = true; cdr.detectChanges(); scrollTop();" class="inline-flex items-center gap-1.5 rounded-md border-0 bg-transparent px-2 py-1 text-[13px] font-medium leading-5 text-slate-600 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+      <svg appIcon="chevron-up" variant="mini" class="size-4 flex-none text-slate-400"></svg>Hide search results
+    </button>
+  </div>
+</section>
+
+<section *ngIf="!mobile && searching_alliances && !hide_results && loading" aria-busy="true" aria-label="Alliance search results" class="mt-6 overflow-hidden rounded-xl bg-white ring-1 ring-slate-900/[.08]" [ngClass]="homepage ? 'shadow-none' : 'shadow-sm'">
+  <div class="flex items-center justify-between gap-4 border-0 border-b border-solid border-slate-200 px-5 py-3.5">
+    <div class="flex min-w-0 items-center gap-3">
+      <span aria-hidden="true" class="flex size-9 flex-none items-center justify-center rounded-lg bg-slate-100 text-slate-400"><svg appIcon="ally_ico" variant="game" class="size-5"></svg></span>
+      <div class="min-w-0">
+        <h2 class="m-0 truncate text-base font-semibold text-slate-900">Alliances matching <span class="text-brand-700">“{{allianceInput}}”</span></h2>
+        <p aria-hidden="true" class="mb-0 mt-1.5 h-2 w-28 rounded-full bg-slate-200"></p>
+      </div>
+    </div>
+  </div>
+  <mat-progress-bar mode="indeterminate" class="!h-0.5"></mat-progress-bar>
+  <div aria-hidden="true">
+    <div class="flex items-center gap-6 border-0 border-solid border-slate-100 px-5 py-3.5">
+      <span class="h-2.5 w-[160px] rounded-full bg-slate-200"></span>
+      <span class="h-2.5 w-36 rounded-full bg-slate-100"></span>
+      <span class="h-2.5 w-28 rounded-full bg-slate-100"></span>
+      <span class="flex-1"></span>
+      <span class="h-2.5 w-16 rounded-full bg-slate-200"></span>
+    </div>
+    <div class="flex items-center gap-6 border-0 border-solid border-slate-100 px-5 py-3.5 border-t">
+      <span class="h-2.5 w-[148px] rounded-full bg-slate-200"></span>
+      <span class="h-2.5 w-36 rounded-full bg-slate-100"></span>
+      <span class="h-2.5 w-28 rounded-full bg-slate-100"></span>
+      <span class="flex-1"></span>
+      <span class="h-2.5 w-16 rounded-full bg-slate-200"></span>
+    </div>
+    <div class="flex items-center gap-6 border-0 border-solid border-slate-100 px-5 py-3.5 border-t">
+      <span class="h-2.5 w-[136px] rounded-full bg-slate-200"></span>
+      <span class="h-2.5 w-36 rounded-full bg-slate-100"></span>
+      <span class="h-2.5 w-28 rounded-full bg-slate-100"></span>
+      <span class="flex-1"></span>
+      <span class="h-2.5 w-16 rounded-full bg-slate-200"></span>
+    </div>
+    <div class="flex items-center gap-6 border-0 border-solid border-slate-100 px-5 py-3.5 border-t">
+      <span class="h-2.5 w-[124px] rounded-full bg-slate-200"></span>
+      <span class="h-2.5 w-36 rounded-full bg-slate-100"></span>
+      <span class="h-2.5 w-28 rounded-full bg-slate-100"></span>
+      <span class="flex-1"></span>
+      <span class="h-2.5 w-16 rounded-full bg-slate-200"></span>
+    </div>
+  </div>
+</section>
+
+<section *ngIf="!mobile && searching_alliances && !hide_results && alliances?.length < 1 && !loading" aria-label="Alliance search results" class="mt-6 overflow-hidden rounded-xl bg-white ring-1 ring-slate-900/[.08]" [ngClass]="homepage ? 'shadow-none' : 'shadow-sm'">
+  <div class="flex items-center justify-between gap-4 border-0 border-b border-solid border-slate-200 px-5 py-3.5">
+    <div class="flex min-w-0 items-center gap-3">
+      <span aria-hidden="true" class="flex size-9 flex-none items-center justify-center rounded-lg bg-slate-100 text-slate-400"><svg appIcon="ally_ico" variant="game" class="size-5"></svg></span>
+      <div class="min-w-0">
+        <h2 class="m-0 truncate text-base font-semibold text-slate-900">Alliances matching <span class="text-brand-700">“{{allianceInput}}”</span></h2>
+        <p class="m-0 text-xs text-slate-500">No results</p>
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-col items-center px-6 py-10 text-center">
+    <span aria-hidden="true" class="flex size-12 items-center justify-center rounded-full bg-slate-100 text-slate-500"><svg appIcon="magnifying-glass" class="size-6"></svg></span>
+    <h3 class="mb-0 mt-3 text-base font-semibold text-slate-900">No alliances found for your search</h3>
+    <p class="mb-0 mt-1 max-w-[440px] text-sm text-slate-600">“{{allianceInput}}” did not match any alliance.</p>
+  </div>
+</section>
+
+<section *ngIf="!mobile && searching_alliances && !hide_results && alliances?.length > 0 && !loading" id="search_output_alliances" aria-label="Alliance search results" class="mt-6 overflow-hidden rounded-xl bg-white ring-1 ring-slate-900/[.08]" [ngClass]="homepage ? 'shadow-none' : 'shadow-sm'">
+  <div class="flex items-center justify-between gap-4 border-0 border-b border-solid border-slate-200 px-5 py-3.5">
+    <div class="flex min-w-0 items-center gap-3">
+      <span aria-hidden="true" class="flex size-9 flex-none items-center justify-center rounded-lg bg-slate-100 text-slate-400"><svg appIcon="ally_ico" variant="game" class="size-5"></svg></span>
+      <div class="min-w-0">
+        <h2 class="m-0 truncate text-base font-semibold text-slate-900">Alliances matching <span class="text-brand-700">“{{allianceInput}}”</span></h2>
+        <p class="m-0 text-xs text-slate-500">Found <span class="tabular-nums">{{num_results}}</span> {{num_results != 1 ? 'alliances' : 'alliance'}}</p>
+      </div>
+    </div>
+    <button type="button" (click)="hide_results = true;" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="chevron-up" variant="micro" class="size-3.5 flex-none text-slate-500"></svg>Hide results</button>
+  </div>
+  <ng-container *ngIf="num_results > 0">
+    <div class="gd-scrollbar overflow-x-auto">
+      <table class="w-full min-w-[720px] table-fixed border-separate border-spacing-0 text-left font-normal">
+        <colgroup>
+          <col>
+          <col class="w-[220px]">
+          <col class="w-[88px] max-[1199px]:[display:none]">
+          <col class="w-[104px] max-[1199px]:[display:none]">
+          <col class="w-[136px]">
+          <col class="w-[88px] max-[1199px]:[display:none]">
+          <col *ngIf="compare" class="w-[196px]">
+        </colgroup>
+        <thead>
+          <tr>
+            <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700 pl-5">Alliance</th>
+            <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700">World</th>
+            <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700 text-right max-[1199px]:[display:none]">Rank</th>
+            <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700 text-right max-[1199px]:[display:none]">Members</th>
+            <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700 text-right">Points</th>
+            <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700 text-right max-[1199px]:[display:none]" [ngClass]="{'pr-5': !compare}">Towns</th>
+            <th *ngIf="compare" scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-700 pr-5"><span class="sr-only">Actions</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let alliance of alliances; let i = index" class="hover:bg-slate-50">
+            <td class="border-0 border-solid border-slate-100 px-3 py-2.5 align-middle text-sm max-w-0 pl-5" [ngClass]="{'border-t': i > 0}">
+              <a routerLink="/alliance" [queryParams]="{world: alliance?.world, id: alliance?.id}" (click)="hide_results = true; cdr.detectChanges();" class="inline-flex max-w-full items-center gap-1.5 font-medium text-slate-900 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg><span class="truncate">{{alliance?.name}}</span></a>
+            </td>
+            <td class="border-0 border-solid border-slate-100 px-3 py-2.5 align-middle text-sm max-w-0" [ngClass]="{'border-t': i > 0}">
+              <a routerLink="/points" [queryParams]="{world: alliance?.world}" class="inline-flex max-w-full items-center gap-1.5 text-slate-700 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><span class="bg-flag flag-{{alliance?.world?.substr(0,2)}} flex-none [zoom:0.625]"></span><span class="truncate">{{alliance?.world | WorldNamePipe : false}}</span></a>
+            </td>
+            <td class="border-0 border-solid border-slate-100 px-3 py-2.5 align-middle text-sm text-right tabular-nums text-slate-700 max-[1199px]:[display:none]" [ngClass]="{'border-t': i > 0}">{{alliance?.rank}}</td>
+            <td class="border-0 border-solid border-slate-100 px-3 py-2.5 align-middle text-sm text-right tabular-nums text-slate-700 max-[1199px]:[display:none]" [ngClass]="{'border-t': i > 0}">{{alliance?.members}}</td>
+            <td class="border-0 border-solid border-slate-100 px-3 py-2.5 align-middle text-sm text-right font-semibold tabular-nums text-slate-900" [ngClass]="{'border-t': i > 0}">{{alliance?.points | NumberFilter}}</td>
+            <td class="border-0 border-solid border-slate-100 px-3 py-2.5 align-middle text-sm text-right tabular-nums text-slate-700 max-[1199px]:[display:none]" [ngClass]="{'border-t': i > 0, 'pr-5': !compare}">{{alliance?.towns}}</td>
+            <td *ngIf="compare" class="border-0 border-solid border-slate-100 px-3 py-2.5 align-middle text-sm pr-5" [ngClass]="{'border-t': i > 0}">
+              <div class="flex justify-end gap-2">
+                <button type="button" (click)="compareService.addAlliance(alliance?.id, alliance?.name, alliance?.world)" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="plus" variant="micro" class="size-3.5 flex-none text-slate-500"></svg>Compare</button>
+                <a routerLink="/alliance" [queryParams]="{world: alliance?.world, id: alliance?.id}" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 no-underline hover:text-slate-900 hover:no-underline focus:text-slate-900 focus:no-underline">View<svg appIcon="arrow-right" variant="micro" class="size-3.5 flex-none text-slate-400"></svg></a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
+  <div class="flex justify-center border-0 border-t border-solid border-slate-200 bg-slate-50 px-5 py-2">
+    <button type="button" (click)="hide_results = true; cdr.detectChanges(); scrollTop();" class="inline-flex items-center gap-1.5 rounded-md border-0 bg-transparent px-2 py-1 text-[13px] font-medium leading-5 text-slate-600 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+      <svg appIcon="chevron-up" variant="mini" class="size-4 flex-none text-slate-400"></svg>Hide search results
+    </button>
+  </div>
+</section>
+
+<section *ngIf="mobile && (searching_alliances || searching_players) && !hide_results" aria-label="Search results" class="mt-4 rounded-xl bg-white ring-1 ring-slate-900/[.08]" [ngClass]="homepage ? 'shadow-none' : 'shadow-sm'">
+  <mat-progress-bar *ngIf="loading" mode="indeterminate" class="!h-0.5 rounded-t-xl"></mat-progress-bar>
+  <div *ngIf="searching_players && players?.length < 1 && !loading" class="px-4 py-7 text-center">
+    <p class="m-0 text-sm font-semibold text-slate-900">No players found for “{{playerInput}}”</p>
+    <p class="mb-0 mt-1 text-[13px] leading-5 text-slate-600">Check the spelling or search with fewer letters.</p>
+  </div>
+  <div *ngIf="searching_alliances && alliances?.length < 1 && !loading" class="px-4 py-7 text-center">
+    <p class="m-0 text-sm font-semibold text-slate-900">No alliances found for “{{allianceInput}}”</p>
+    <p class="mb-0 mt-1 text-[13px] leading-5 text-slate-600">Check the spelling or search with fewer letters.</p>
+  </div>
+  <div *ngIf="((searching_players && players?.length > 0) || (searching_alliances && alliances?.length) > 0) && !loading" class="sticky top-0 z-10 flex justify-center rounded-t-xl border-0 border-b border-solid border-slate-200 bg-white p-1.5">
+    <button type="button" (click)="hideMobileResults();" class="inline-flex items-center gap-1.5 rounded-md border-0 bg-transparent px-2 py-1 text-[13px] font-medium leading-5 text-brand-700 hover:text-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+      <svg appIcon="chevron-up" variant="mini" class="size-4 flex-none"></svg>Hide search results
+    </button>
+  </div>
+  <ul *ngIf="players?.length > 0 && !loading && searching_players" class="m-0 list-none p-0">
+    <li *ngFor="let player of players; let i = index" class="grid grid-cols-[minmax(0,1fr)_auto] gap-x-3 gap-y-0.5 border-0 border-solid border-slate-100 px-4 py-2.5" [ngClass]="{'border-t': i > 0}">
+      <a routerLink="/player" [queryParams]="{world: player?.world, id: player?.id}" (click)="hide_results = true; cdr.detectChanges();" class="inline-flex min-w-0 items-center gap-1.5 text-sm font-medium text-slate-900 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="player_ico" variant="game" class="size-4 flex-none text-slate-400"></svg><span class="truncate">{{player?.name}}</span></a>
+      <span class="text-right text-sm font-semibold tabular-nums text-slate-900">{{player?.points | NumberFilter}}</span>
+      <a routerLink="/points" [queryParams]="{world: player?.world}" class="inline-flex min-w-0 items-center gap-1.5 text-xs text-slate-500 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><span class="bg-flag flag-{{player?.server}} flex-none [zoom:0.5]"></span><span class="truncate">{{player?.world | WorldNamePipe : false}}</span></a>
+      <span class="text-right text-xs text-slate-500">points</span>
+    </li>
+  </ul>
+  <ul *ngIf="alliances?.length > 0 && !loading && searching_alliances" class="m-0 list-none p-0">
+    <li *ngFor="let alliance of alliances; let i = index" class="grid grid-cols-[minmax(0,1fr)_auto] gap-x-3 gap-y-0.5 border-0 border-solid border-slate-100 px-4 py-2.5" [ngClass]="{'border-t': i > 0}">
+      <a routerLink="/alliance" [queryParams]="{world: alliance?.world, id: alliance?.id}" (click)="hide_results = true; cdr.detectChanges();" class="inline-flex min-w-0 items-center gap-1.5 text-sm font-medium text-slate-900 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg><span class="truncate">{{alliance?.name}}</span></a>
+      <span class="text-right text-sm font-semibold tabular-nums text-slate-900">{{alliance?.points | NumberFilter}}</span>
+      <a routerLink="/points" [queryParams]="{world: player?.world}" class="inline-flex min-w-0 items-center gap-1.5 text-xs text-slate-500 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><span class="bg-flag flag-{{alliance?.server}} flex-none [zoom:0.5]"></span><span class="truncate">{{alliance?.world | WorldNamePipe : false}}</span></a>
+      <span class="text-right text-xs text-slate-500">points</span>
+    </li>
+  </ul>
+</section>
+
 </div>
+</ng-container>

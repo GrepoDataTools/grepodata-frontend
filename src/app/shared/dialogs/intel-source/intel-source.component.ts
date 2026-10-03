@@ -9,7 +9,6 @@ import {LocalCacheService} from '../../../services/local-cache.service';
 @Component({
   selector: 'app-index-settings',
   templateUrl: './intel-source.component.html',
-  styleUrls: ['./intel-source.component.scss'],
   providers: [IndexerService, WorldService, LocalCacheService]
 })
 export class IntelSourceDialog {
@@ -27,6 +26,7 @@ export class IntelSourceDialog {
     public dialogRef: MatDialogRef<IntelSourceDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    dialogRef.addPanelClass('team-dialog');
     this.intel_record = data.intel;
     this.index_list = data.index_list;
     this.intel_type = data.intel_type;

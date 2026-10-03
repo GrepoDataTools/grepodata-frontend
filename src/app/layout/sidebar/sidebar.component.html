@@ -1,134 +1,48 @@
-<div class="user-profile" *ngIf="mobileQuery.matches">
-  <div class="profile-img">
-    <img src="../../../assets/images/zeus.png"  alt="Menu background"/>
+<div class="flex min-h-full flex-col bg-white text-left font-normal text-slate-900">
+  <div class="relative h-[120px] flex-none bg-cover bg-[center_30%]" style="background-image: url('assets/images/menu-background.jpg')">
+    <button type="button" [matMenuTriggerFor]="sdprofile" class="absolute inset-x-0 bottom-0 flex w-full items-center gap-3 border-0 bg-slate-900/60 py-2.5 pl-6 pr-4 text-left hover:bg-slate-900/70 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-white">
+      <img src="../../../assets/images/zeus.png" alt="" class="size-10 flex-none rounded-full bg-slate-100 ring-2 ring-white"/>
+      <span *ngIf="username" class="min-w-0 flex-1 truncate text-sm font-semibold text-white">{{ username }}</span>
+      <span *ngIf="!username" class="min-w-0 flex-1"><span aria-hidden="true" class="block h-2.5 w-24 rounded-full bg-white/40"></span></span>
+      <svg appIcon="chevron-down" variant="mini" class="size-4 flex-none text-white/70"></svg>
+    </button>
+    <mat-menu #sdprofile="matMenu" class="!min-w-[200px] !rounded-lg">
+      <button mat-menu-item type="button" (click)="logout()" class="!flex !h-10 !items-center !gap-2.5 !px-3 !text-sm !font-medium !leading-5 !text-slate-900">
+        <svg appIcon="arrow-right-on-rectangle" class="size-5 flex-none text-slate-400"></svg>
+        Sign out
+      </button>
+    </mat-menu>
   </div>
-  <div class="profile-text">
-    <a [matMenuTriggerFor]="sdprofile" class="">{{ username }}<i class="ti-angle-down font-12 m-l-5"></i></a>
-  </div>
-  <mat-menu #sdprofile="matMenu" class="mymegamenu">
-    <!--<button mat-menu-item><mat-icon>settings</mat-icon> Settings</button>-->
-    <!--<button mat-menu-item><mat-icon>account_box</mat-icon> Profile</button>-->
-    <!--<button mat-menu-item><mat-icon>notifications_off</mat-icon> Disable notifications</button>-->
-    <button mat-menu-item (click)="logout()"><mat-icon>exit_to_app</mat-icon> Sign Out</button>
-  </mat-menu>
-</div>
-<div *ngIf="!mobileQuery.matches" style="padding-top: 20px; text-align: center">
-  Logged in as: <span class="gd-primary">{{ username }}</span>
-</div>
-<mat-nav-list appAccordion>
 
-  <ng-container *ngFor="let menuItem of loadMenuItems()">
-    <mat-list-item
-      appAccordionLink
-      *ngIf="!menuItem.mobileOnly || !mobileQuery.matches"
-      routerLinkActive="selected"
-      group="{{ menuItem.state }}"
-      class="sidebar-list-item"
-      [ngClass]="activePath.indexOf(menuItem?.active)>=0 ? 'custom-selected' : ''"
-      (click)="handleMenuAction(menuItem.action)"
-    >
-      <!--[ngClass]=" ? 'selected' : ''"-->
-      <a
-        class="a-menu-item"
-        appAccordionAnchor
-        [routerLink]="['/' + menuItem.state]"
-        *ngIf="menuItem.type === 'link'"
-        (click)="clickedLink()"
-      >
-        <mat-icon *ngIf="menuItem.iconType === 'material' || menuItem.iconType === undefined">{{ menuItem.icon }}</mat-icon>
-        <fa-icon [classes]="['fa-icon']" [icon]="menuItem.icon" *ngIf="menuItem.iconType === 'fontawesome'"></fa-icon>
-        <span class="unicode-icon" *ngIf="menuItem.iconType === 'unicode'">{{ menuItem.icon }}</span>
-        <span>{{ menuItem.name }}</span>
-        <span fxFlex></span>
-        <span *ngIf="menuItem.name === 'Changelog' && new_updates" class="label label-success">New!</span>
-<!--        <span *ngIf="menuItem.name === 'Team Ops'" class="label label-success">BETA</span>-->
-        <span class="label label-{{ badge.type }}" *ngFor="let badge of menuItem.badge">{{ badge.value }}</span>
-      </a>
+  <nav aria-label="Indexer menu" class="flex flex-col px-4 py-5">
+    <ng-container *ngFor="let menuItem of loadMenuItems()">
+      <div *ngIf="!menuItem.mobileOnly || !mobileQuery.matches" (click)="handleMenuAction(menuItem.action)" [ngClass]="menuItem.type === 'separator' ? 'mb-1 mt-6 first:mt-0' : 'mt-0.5'">
+        <p *ngIf="menuItem.type === 'separator'" class="m-0 px-2 text-xs font-semibold leading-6 text-slate-500">{{ menuItem.name }}</p>
 
-      <a
-        class="a-menu-item"
-        appAccordionAnchor
-        *ngIf="menuItem.type === 'action'"
-      >
-        <mat-icon *ngIf="menuItem.iconType === 'material' || menuItem.iconType === undefined">{{ menuItem.icon }}</mat-icon>
-        <fa-icon [classes]="['fa-icon']" [icon]="menuItem.icon" *ngIf="menuItem.iconType === 'fontawesome'"></fa-icon>
-        <span class="unicode-icon" *ngIf="menuItem.iconType === 'unicode'">{{ menuItem.icon }}</span>
-        <span>{{ menuItem.name }}</span>
-        <span fxFlex></span>
-<!--        <span *ngIf="menuItem.name === 'Discord Server'" class="label label-success">New!</span>-->
-        <span class="label label-{{ badge.type }}" *ngFor="let badge of menuItem.badge">{{ badge.value }}</span>
-      </a>
-
-      <a class="a-menu-item" appAccordionAnchor href="{{ menuItem.state }}" *ngIf="menuItem.type === 'extLink'">
-        <mat-icon *ngIf="menuItem.iconType === 'material' || menuItem.iconType === undefined">{{ menuItem.icon }}</mat-icon>
-        <fa-icon [classes]="['fa-icon']" [icon]="menuItem.icon" *ngIf="menuItem.iconType === 'fontawesome'"></fa-icon>
-        <span>{{ menuItem.name }}</span>
-        <span fxFlex></span>
-        <span class="label label-{{ badge.type }}" *ngFor="let badge of menuItem.badge">{{ badge.value }}</span>
-      </a>
-      <a
-        class="a-menu-item"
-        appAccordionAnchor
-        href="{{ menuItem.state }}"
-        target="_blank"
-        *ngIf="menuItem.type === 'extTabLink'"
-      >
-        <mat-icon *ngIf="menuItem.iconType === 'material' || menuItem.iconType === undefined">{{ menuItem.icon }}</mat-icon>
-        <fa-icon [classes]="['fa-icon']" [icon]="menuItem.icon" *ngIf="menuItem.iconType === 'fontawesome'"></fa-icon>
-        <span>{{ menuItem.name }}</span>
-        <span fxFlex></span>
-        <span class="label label-{{ badge.type }}" *ngFor="let badge of menuItem.badge">{{ badge.value }}</span>
-      </a>
-
-      <a class="a-menu-item" appAccordionAnchor *ngIf="menuItem.type === 'sub'">
-        <mat-icon *ngIf="menuItem.iconType === 'material' || menuItem.iconType === undefined">{{ menuItem.icon }}</mat-icon>
-        <fa-icon [classes]="['fa-icon']" [icon]="menuItem.icon" *ngIf="menuItem.iconType === 'fontawesome'"></fa-icon>
-        <span>{{ menuItem.name }}</span>
-        <span fxFlex></span>
-        <span class="label label-{{ badge.type }}" *ngFor="let badge of menuItem.badge">{{ badge.value }}</span>
-        <mat-icon class="dd-icon">keyboard_arrow_down</mat-icon>
-      </a>
-      <mat-nav-list class="sub-item" *ngIf="menuItem.type === 'sub'">
-        <mat-list-item
-          *ngFor="let childItem of menuItem.children; let j = index; let i = childItem"
-          routerLinkActive="selected"
+        <a
+          *ngIf="menuItem.type === 'link'"
+          [routerLink]="['/' + menuItem.state]"
+          routerLinkActive="is-active"
+          [ngClass]="activePath?.indexOf(menuItem?.active)>=0 ? 'is-active' : ''"
+          (click)="clickedLink()"
+          class="group flex w-full items-center gap-3 rounded-md px-2 py-1.5 text-sm font-medium leading-6 text-slate-700 no-underline hover:bg-slate-50 hover:text-slate-900 hover:no-underline focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-700 [&.is-active]:bg-brand-50 [&.is-active]:font-semibold [&.is-active]:text-brand-700"
         >
-          <a
-            [routerLink]="['/' + menuItem.state + '/' + childItem.state]"
-            *ngIf="childItem.type === 'link'"
-            class="relative"
-            routerLinkActive="selected"
-            (click)="itemSelect[i] = j"
-          >{{ childItem.name }}</a
-          >
-        </mat-list-item>
-        <mat-list-item *ngFor="let childItem of menuItem.children; let j = index; let i = childItem">
-          <a
-            class=""
-            href="javascript: void(0);"
-            *ngIf="childItem.type === 'subchild'"
-            (click)="itemSelect[i] = j"
-            [ngClass]="j == itemSelect[i] ? 'selected' : ''"
-          >
-            <span>{{ childItem.name }}</span>
-            <span fxFlex></span>
-            <mat-icon class="dd-icon">keyboard_arrow_down</mat-icon>
-          </a>
-          <mat-nav-list class="child-sub-item" *ngIf="childItem.type === 'subchild'">
-            <mat-list-item *ngFor="let child of childItem.subchildren" routerLinkActive="selected">
-              <a
-                [routerLink]="['/' + menuItem.state + '/' + childItem.state + '/' + child.state]"
-                routerLinkActive="selected"
-              >{{ child.name }}</a
-              >
-            </mat-list-item>
-          </mat-nav-list>
-        </mat-list-item>
-      </mat-nav-list>
+          <svg [appIcon]="menuItem.icon" [variant]="menuItem.iconVariant || 'outline'" class="size-5 flex-none text-slate-400 group-[.is-active]:text-brand-700"></svg>
+          <span class="min-w-0 flex-1 truncate">{{ menuItem.name }}</span>
+          <span *ngIf="menuItem.name === 'Changelog' && new_updates" class="flex-none rounded-full bg-brand-50 px-2 text-xs font-medium leading-5 text-brand-700 ring-1 ring-inset ring-brand-700/20">New</span>
+        </a>
 
-      <div class="separator text-muted" *ngIf="menuItem.type === 'separator'">
-        <span>{{ menuItem.name }}</span>
+        <button
+          *ngIf="menuItem.type === 'action'"
+          type="button"
+          class="flex w-full items-center gap-3 rounded-md border-0 bg-transparent px-2 py-1.5 text-left text-sm font-medium leading-6 text-slate-700 hover:bg-slate-50 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-700"
+        >
+          <svg [appIcon]="menuItem.icon" [variant]="menuItem.iconVariant || 'outline'" class="size-5 flex-none text-slate-400"></svg>
+          <span class="min-w-0 flex-1 truncate">{{ menuItem.name }}</span>
+          <span *ngIf="menuItem.name === 'Donate'" class="flex-none rounded-full px-2 text-xs font-medium leading-5" [ngClass]="donationBadgeClasses">{{donationPercent}}%</span>
+          <svg *ngIf="menuItem.external" appIcon="arrow-top-right-on-square" variant="micro" class="size-3.5 flex-none text-slate-300"></svg>
+        </button>
       </div>
-    </mat-list-item>
-  </ng-container>
-</mat-nav-list>
+    </ng-container>
+  </nav>
+</div>

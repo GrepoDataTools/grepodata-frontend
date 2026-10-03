@@ -1,429 +1,333 @@
-<div style="min-height: calc(100vh - 160px);">
+<div [ngClass]="embedded ? 'h-full bg-white' : 'min-h-[calc(100vh-160px)]'">
+  <div [ngClass]="embedded ? 'h-full overflow-y-auto' : 'm-[22px] space-y-6 max-[1000px]:m-3'">
 
-	<mat-card class="index-card index-intel-card">
-		<div class="card-header bg-gd-1 text-center text-white" style="margin-bottom: 0;" [ngClass]="{ 'embedded-intel': embedded }">
-
-      <h2 style="cursor: pointer; margin: 0;" *ngIf="!embedded">
-        <span class="hidden-xs hidden-sm hidden-md">Showing your combined intel for:&nbsp;</span>
-        <span class="hidden-xs hidden-sm hidden-lg">Combined intel for:&nbsp;</span>
-	      <div class="name-circle" (click)="copyBB()">
-		      <img style="height: 25px; margin-top: -5px;" src="../../assets/images/town_ico.png"/>&nbsp;
-		      <span class="gd-brown">{{townName}}</span>
-	      </div>
-	      &nbsp;<button name="open_bb" class="btn btn-secondary" (click)="copyBB()" style="vertical-align: text-top;">
-	        <i class="fa fa-clipboard"></i>&nbsp;<span *ngIf="!copied">Copy BB</span><span *ngIf="copied">Copied!&nbsp;</span>
+  <section class="bg-white" [ngClass]="embedded ? 'sticky top-0 z-20 border-0 border-b border-solid border-slate-200' : 'overflow-hidden rounded-xl shadow-sm ring-1 ring-slate-900/[.08]'">
+    <div class="flex flex-col px-6 pt-5 max-sm:px-4" [ngClass]="(showTabs() ? 'pb-0 ' : 'pb-5 ') + (embedded ? 'gap-2 pr-14' : 'gap-3.5')">
+      <app-indexer-breadcrumbs *ngIf="!embedded" class="block" [data]="breadcrumb_data"></app-indexer-breadcrumbs>
+      <div class="flex items-center gap-4 max-sm:gap-3">
+        <span class="flex flex-none items-center justify-center bg-navy-800 text-brand-500" [ngClass]="embedded ? 'size-10 rounded-lg' : 'size-12 rounded-[10px] max-sm:size-10'">
+          <svg appIcon="town_ico" variant="game" class="size-6"></svg>
+        </span>
+        <div class="min-w-0 flex-1">
+          <h1 (click)="copyBB()" title="Copy BB code" class="my-0 cursor-pointer truncate font-bold tracking-tight text-slate-900 hover:text-brand-800" [ngClass]="embedded ? 'text-xl' : 'text-2xl max-sm:text-xl'">{{townName}}</h1>
+          <p *ngIf="!embedded" class="mb-0 mt-0.5 text-sm text-slate-500">Your combined intel from all your teams<span *ngIf="allCities.length > 0"> · {{allCities.length}} reports</span></p>
+          <app-indexer-breadcrumbs *ngIf="embedded" class="mt-0.5 block" [data]="breadcrumb_data"></app-indexer-breadcrumbs>
+        </div>
+        <button type="button" name="open_bb" (click)="copyBB()" [title]="'Copy [town]' + id + '[/town] to the clipboard'" class="inline-flex flex-none items-center gap-1.5 rounded-md border-0 font-semibold shadow-sm ring-1 ring-inset focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="(embedded ? 'px-2.5 py-1.5 text-xs ' : 'px-3 py-2 text-sm ') + (copied ? 'bg-emerald-50 text-emerald-700 ring-emerald-200' : 'bg-white text-slate-900 ring-slate-300 hover:bg-slate-50')">
+          <svg [appIcon]="copied ? 'check' : 'clipboard-document'" class="flex-none" [ngClass]="(embedded ? 'size-4 ' : 'size-[18px] ') + (copied ? 'text-emerald-600' : 'text-slate-400')"></svg>
+          <span *ngIf="!copied">Copy BB</span><span *ngIf="copied">Copied!</span>
         </button>
-      </h2>
-      <br *ngIf="!embedded" />
-      <app-indexer-breadcrumbs [data]="breadcrumb_data"></app-indexer-breadcrumbs>
-
+      </div>
     </div>
-    <mat-card-content class="decorated-card-content" style="padding: 0 !important;">
+    <div *ngIf="showTabs()" role="tablist" class="mt-2.5 flex gap-6 px-6 max-sm:gap-4 max-sm:px-4">
+      <button type="button" role="tab" [attr.aria-selected]="activeTab === 0" (click)="activeTab = 0" class="-mb-px inline-flex items-center gap-2 whitespace-nowrap border-0 border-b-2 border-solid bg-transparent px-1 py-3 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="activeTab === 0 ? 'border-brand-700 font-semibold text-brand-700' : 'border-transparent font-medium text-slate-500 hover:border-slate-300 hover:text-slate-900'">
+        <svg appIcon="building-library" class="size-[18px] flex-none" [ngClass]="activeTab === 0 ? 'text-brand-700' : 'text-slate-400'"></svg>
+        <span class="max-[991px]:hidden">Town intelligence</span><span class="min-[992px]:hidden">Units</span>
+      </button>
+      <button type="button" role="tab" [attr.aria-selected]="activeTab === 1" (click)="activeTab = 1" class="-mb-px inline-flex items-center gap-2 whitespace-nowrap border-0 border-b-2 border-solid bg-transparent px-1 py-3 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="activeTab === 1 ? 'border-brand-700 font-semibold text-brand-700' : 'border-transparent font-medium text-slate-500 hover:border-slate-300 hover:text-slate-900'">
+        <svg appIcon="chat-bubble-bottom-center-text" class="size-[18px] flex-none" [ngClass]="activeTab === 1 ? 'text-brand-700' : 'text-slate-400'"></svg>
+        Notes
+        <span class="rounded-full px-[7px] text-xs font-semibold leading-[18px] tabular-nums" [ngClass]="activeTab === 1 ? 'bg-brand-50 text-brand-700' : 'bg-slate-100 text-slate-600'">{{notes.length}}</span>
+      </button>
+      <ng-container *ngIf="!embedded">
+        <button type="button" role="tab" [attr.aria-selected]="activeTab === 2" (click)="activeTab = 2" class="-mb-px inline-flex items-center gap-2 whitespace-nowrap border-0 border-b-2 border-solid bg-transparent px-1 py-3 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="activeTab === 2 ? 'border-brand-700 font-semibold text-brand-700' : 'border-transparent font-medium text-slate-500 hover:border-slate-300 hover:text-slate-900'">
+          <svg appIcon="flag" class="size-[18px] flex-none" [ngClass]="activeTab === 2 ? 'text-brand-700' : 'text-slate-400'"></svg>
+          Conquests
+        </button>
+      </ng-container>
+    </div>
+  </section>
 
-      <div *ngIf="err != ''" class="alert alert-danger text-center">
-        {{err}}
-      </div>
-      <div *ngIf="err == ''">
+  <mat-progress-bar *ngIf="err == '' && loading" mode="indeterminate"></mat-progress-bar>
 
-	      <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+  <section *ngIf="err != ''" role="alert" class="flex flex-col items-center bg-white px-6 py-10 text-center" [ngClass]="embedded ? '' : 'rounded-xl shadow-sm ring-1 ring-slate-900/[.08]'">
+    <span class="flex size-12 items-center justify-center rounded-full bg-rose-50 text-rose-600">
+      <svg appIcon="exclamation-circle" class="size-6"></svg>
+    </span>
+    <h2 class="mb-0 mt-3 text-base font-semibold text-slate-900">{{err}}</h2>
+  </section>
 
-        <div *ngIf="!noIntel && !loading">
-          <div>
+  <ng-container *ngIf="showTabs()">
+    <div role="tabpanel" [hidden]="activeTab !== 0" [ngClass]="embedded ? '' : 'space-y-6'">
+                <section *ngIf="build.length > 0" class="overflow-hidden bg-white" [ngClass]="embedded ? 'border-0 border-b border-solid border-slate-200' : 'rounded-xl shadow-sm ring-1 ring-slate-900/[.08]'">
+                  <div *ngIf="!embedded" class="border-0 border-b border-solid border-slate-200 px-5 py-4">
+                    <h2 class="my-0 text-base font-semibold text-slate-900">Latest building intelligence</h2>
+                    <p class="mb-0 mt-0.5 text-xs text-slate-500">Each building at its latest known level, laid out like the in-game Senate. Hover a building for the full report date.</p>
+                  </div>
+                  <div class="bg-gradient-to-b from-slate-50 to-white px-5 pb-7 pt-6 [container-type:inline-size] max-sm:px-3">
+                    <div class="relative">
+                      <div class="absolute top-7 h-[66px] rounded-t-lg border-0 border-x-[1.5px] border-t-[1.5px] border-solid border-slate-300 [left:calc((100%-72px)/4-108px)] [right:calc((100%-72px)/4-108px)] [display:none] [@container(min-width:880px)]:[display:block]"></div>
+                      <div class="absolute top-7 h-[66px] w-0 border-0 border-l-[1.5px] border-solid border-slate-300 [left:calc((100%-72px)/4+132px)] [display:none] [@container(min-width:880px)]:[display:block]"></div>
+                      <div class="absolute top-7 h-[66px] w-0 border-0 border-r-[1.5px] border-solid border-slate-300 [right:calc((100%-72px)/4+132px)] [display:none] [@container(min-width:880px)]:[display:block]"></div>
+                      <div class="absolute top-[94px] h-1.5 w-[9px] [left:calc((100%-72px)/4-112.5px)] [display:none] [@container(min-width:880px)]:[display:block]"><span class="absolute bottom-0 left-1/2 -translate-x-1/2 border-0 border-x-[4.5px] border-t-[6px] border-solid border-x-transparent border-t-slate-400"></span></div>
+                      <div class="absolute top-[94px] h-1.5 w-[9px] [left:calc((100%-72px)/4+127.5px)] [display:none] [@container(min-width:880px)]:[display:block]"><span class="absolute bottom-0 left-1/2 -translate-x-1/2 border-0 border-x-[4.5px] border-t-[6px] border-solid border-x-transparent border-t-slate-400"></span></div>
+                      <div class="absolute top-[94px] h-1.5 w-[9px] [right:calc((100%-72px)/4+127.5px)] [display:none] [@container(min-width:880px)]:[display:block]"><span class="absolute bottom-0 left-1/2 -translate-x-1/2 border-0 border-x-[4.5px] border-t-[6px] border-solid border-x-transparent border-t-slate-400"></span></div>
+                      <div class="absolute top-[94px] h-1.5 w-[9px] [right:calc((100%-72px)/4-112.5px)] [display:none] [@container(min-width:880px)]:[display:block]"><span class="absolute bottom-0 left-1/2 -translate-x-1/2 border-0 border-x-[4.5px] border-t-[6px] border-solid border-x-transparent border-t-slate-400"></span></div>
+                      <div class="relative z-10 mx-auto w-full [@container(min-width:480px)]:max-w-[260px]">
+                        <ng-container *ngTemplateOutlet="buildingNode; context: {$implicit: 'main'}"></ng-container>
+                      </div>
+                      <div class="mt-4 grid grid-cols-2 gap-x-6 gap-y-3 [@container(max-width:479px)]:grid-cols-1 [@container(min-width:880px)]:mt-11 [@container(min-width:880px)]:grid-cols-4 [@container(min-width:880px)]:gap-y-8">
+                        <ng-container *ngFor="let row of treeRows; let r = index">
+                          <div *ngFor="let key of row; let c = index" class="relative">
+                            <ng-container *ngTemplateOutlet="buildingNode; context: {$implicit: key}"></ng-container>
+                            <div class="absolute top-full w-[9px] [display:none] [@container(min-width:880px)]:[display:block]" [ngClass]="(r < 2 ? 'h-8 ' : 'h-11 ') + (c % 2 == 0 ? 'right-[103.5px]' : 'left-[103.5px]')">
+                              <span class="absolute bottom-1.5 left-1/2 top-0 w-0 -translate-x-1/2 border-0 border-l-[1.5px] border-solid border-slate-300"></span>
+                              <span class="absolute bottom-0 left-1/2 -translate-x-1/2 border-0 border-x-[4.5px] border-t-[6px] border-solid border-x-transparent border-t-slate-400"></span>
+                            </div>
+                          </div>
+                        </ng-container>
+                      </div>
+                      <div class="mt-3 grid grid-cols-2 gap-x-6 gap-y-3 [@container(max-width:479px)]:grid-cols-1 [@container(min-width:880px)]:mt-11">
+                        <div class="mx-auto w-full [@container(min-width:480px)]:max-w-[320px]">
+                          <ng-container *ngTemplateOutlet="specialNode; context: {$implicit: specialLeft}"></ng-container>
+                        </div>
+                        <div class="mx-auto w-full [@container(min-width:480px)]:max-w-[320px]">
+                          <ng-container *ngTemplateOutlet="specialNode; context: {$implicit: specialRight}"></ng-container>
+                        </div>
+                      </div>
+                      <div *ngIf="otherBuildings().length > 0" class="mt-8 grid grid-cols-2 gap-x-6 gap-y-3 [@container(max-width:479px)]:grid-cols-1 [@container(min-width:880px)]:grid-cols-4">
+                        <ng-container *ngFor="let other of otherBuildings()">
+                          <ng-container *ngTemplateOutlet="buildingNode; context: {$implicit: other.name}"></ng-container>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                <section *ngIf="!allCities.length || allCities.length <= 0" class="flex flex-col items-center bg-white px-6 py-10 text-center" [ngClass]="embedded ? '' : 'rounded-xl shadow-sm ring-1 ring-slate-900/[.08]'">
+                  <span class="flex size-12 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+                    <svg appIcon="document-magnifying-glass" class="size-6"></svg>
+                  </span>
+                  <h2 class="mb-0 mt-3 text-base font-semibold text-slate-900">No intel available</h2>
+                  <p class="mb-0 mt-1 max-w-md text-sm text-slate-600">Index more reports about this town. Note: intel about allies (team owners) is hidden by default.</p>
+                </section>
 
-            <div>
-              <div>
+                <section *ngIf="allCities.length > 0" class="overflow-hidden bg-white" [ngClass]="embedded ? '' : 'rounded-xl shadow-sm ring-1 ring-slate-900/[.08]'">
+                  <div *ngIf="!embedded" class="border-0 border-b border-solid border-slate-200 px-5 py-4">
+                    <h2 class="my-0 text-base font-semibold text-slate-900">Unit intelligence history</h2>
+                    <p class="mb-0 mt-0.5 text-xs text-slate-500">Newest first · units lost in a battle are shown in red</p>
+                  </div>
+                  <ng-container *ngTemplateOutlet="intelTable; context: {expired: false}"></ng-container>
+                </section>
 
-                <div *ngIf="embedded" class="embedded-bb-copy">
-                  &nbsp;<button name="open_bb" class="btn btn-secondary" (click)="copyBB()" style="vertical-align: text-top;">
-                    <i class="fa fa-clipboard"></i>&nbsp;<span *ngIf="!copied">Copy BB</span><span *ngIf="copied">Copied!&nbsp;</span>
-                  </button>
-                </div>
+                <section *ngIf="hasOldIntel" class="overflow-hidden bg-white" [ngClass]="embedded ? 'border-0 border-t border-solid border-slate-200' : 'rounded-xl shadow-sm ring-1 ring-slate-900/[.08]'">
+                  <div class="border-0 border-b border-solid border-slate-200 px-5 py-4">
+                    <h2 class="my-0 text-base font-semibold text-slate-900">Expired town intelligence</h2>
+                    <p class="mb-0 mt-0.5 text-xs text-slate-500">Collected before the last change of owner</p>
+                  </div>
+                  <div class="px-5 pb-4 pt-4">
+                    <div class="flex gap-3 rounded-lg bg-sky-50 px-4 py-3 text-sm text-sky-800 ring-1 ring-inset ring-sky-200">
+                      <svg appIcon="information-circle" class="size-5 flex-none text-sky-700"></svg>
+                      <p class="my-0">The town intel in the table below was collected when the town had a different owner. <strong class="font-semibold">Due to the town ownership change, it is likely that this intel is no longer accurate.</strong></p>
+                    </div>
+                  </div>
+                  <ng-container *ngTemplateOutlet="intelTable; context: {expired: true}"></ng-container>
+                </section>
+    </div>
 
-	              <div class="container-fluid" [ngClass]="{ 'embedded-container': embedded }">
-		              <div class="row">
-			              <mat-tab-group mat-stretch-tabs>
-				              <mat-tab class="history-chart" style="padding: 20px 0; overflow: hidden !important;">
-					              <ng-template mat-tab-label>
-						              <mat-icon style="opacity: 1; vertical-align: bottom;">account_balance</mat-icon>&nbsp;<span class="hidden-xs hidden-sm">Town intelligence</span><span class="hidden-lg hidden-md">Units</span>
-					              </ng-template>
-
-					              <div *ngIf="build.length > 0">
-						              <h3 class="gd-secondary" *ngIf="!embedded">
-							              <span class='world-title'>Latest building intelligence</span>
-						              </h3>
-						              <span class="build-cell" style="transform: scale(1.4); float: left; margin: 15px;" *ngFor="let building of build" >
-			                      <div class="building_icon40x40 {{building.name}}" matTooltip="{{building.name}}: {{building.val}} ({{building.date}})">
-			                        <span class="unit-val">{{building.val}}</span>
-			                      </div>
-			                    </span>
-						              <br/><br/><br/>
-					              </div>
-					              <div *ngIf="!allCities.length || allCities.length <= 0">
-						              <br/>
-						              <br/>
-						              <div class="alert alert-warning text-center alert-gd-1">
-							              <h2><strong>No intel available.</strong> Index more reports about this town.</h2>
-							              <p>Note: intel about allies (team owners) is hidden by default.</p>
-						              </div>
-					              </div>
-					              <div *ngIf="allCities.length > 0">
-						              <h3 class="gd-secondary" *ngIf="!embedded">
-							              <span class='world-title'>Unit intelligence history</span>
-						              </h3>
-						              <div style="overflow: auto;">
-							              <div class="table intel-table" id="table_all" style="">
-
-								              <div class="row_custom header bg-gd-2" >
-									              <div class="cell" style="max-width: 10% !important; width: 10%;">
-										              Type
-									              </div>
-									              <div class="cell" style="max-width: 20% !important; width: 20%;">
-										              Date
-									              </div>
-									              <div class="cell text-left">
-										              Units
-									              </div>
-									              <div class="cell text-left" *ngIf="hasHero">
-										              Hero
-									              </div>
-									              <div class="cell text-left" *ngIf="hasGod">
-										              God
-									              </div>
-									              <div class="cell" *ngIf="hasWall && !embedded">
-										              Wall
-									              </div>
-									              <div class="cell" *ngIf="hasStonehail && !embedded">
-										              Stonehail
-									              </div>
-									              <div class="cell" *ngIf="hasSilver && !embedded">
-										              Silver
-									              </div>
-									              <div class="cell hidden-xs hidden-sm" *ngIf="hasConquest && !embedded" style="max-width: 15vw !important; width: 15vw;">
-										              Siege report
-									              </div>
-									              <div class="cell" *ngIf="hasSharingDetails && !embedded"></div>
-								              </div>
-
-                              <ng-container *ngFor="let town of allCities">
-
-                                <div class='row_custom' *ngIf="!town.is_previous_owner_intel">
-                                  <div class="cell" matTooltip="{{town.type}}">
-                                    <img src="../../assets/images/game/towninfo/attack.png" *ngIf="town.type === 'friendly_attack'">
-                                    <div *ngIf="town.type === 'enemy_attack'" style="-moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); filter: FlipH; -ms-filter: ;">
-                                      <img src="../../assets/images/game/towninfo/attack.png">
-                                    </div>
-                                    <img src="../../assets/images/game/towninfo/wisdom.png" *ngIf="town.type === 'wisdom'">
-                                    <img src="../../assets/images/game/towninfo/support.png" *ngIf="town.type === 'support'">
-                                    <img src="../../assets/images/game/towninfo/conquer.png" *ngIf="town.type === 'attack_on_conquest'">
-                                    <img src="../../assets/images/game/towninfo/espionage_2.67.png" *ngIf="town.type === 'spy'">
-                                  </div>
-                                  <div class="cell">
-                                    {{town.date | IndexDate}}
-                                  </div>
-                                  <div class="cell" style="display: flex; margin-bottom: 8px;">
-                                    <span style="transform: scale(1.05); float: left; margin: 8px 12px 0 0;" *ngFor="let unit of town.units | ValuesPipe; let i = index;"
-                                          matTooltip="{{(unit?.name == 'unknown' || unit?.name == 'unknown_naval'?'This attack killed roughly '+unit?.killed+' '+(unit?.name == 'unknown'?'land':'sea')+' population (this is estimated based on the battle points gained)':unit?.name?.replace('_',' '))}}">
-                                      <div class="unit_icon40x40 {{unit?.name}}"><span class="unit-val" [ngClass]="{'unknown-unit-val': unit.name == 'unknown' || unit.name == 'unknown_naval'}">{{unit?.count}}</span></div>
-                                      <span style="color: #d00;" *ngIf="unit.name != 'unknown' && unit.name != 'unknown_naval' && unit?.killed && unit?.killed!=0">-{{unit?.killed}}</span>
-                                      <span style="color: #d00;" *ngIf="(unit.name == 'unknown' || unit.name == 'unknown_naval') && unit?.killed && unit?.killed!=0">
-                                        <img src="../../assets/images/icons/bp_ico.png"/>~{{unit?.killed}}
-                                      </span>
-                                    </span>
-                                  </div>
-                                  <div class="cell" *ngIf="hasHero" style="min-width: 50px;">
-                                    <span *ngIf="town?.hero" style="transform: scale(1.05); float: left; margin: -19px 0 0 0;"
-                                          matTooltip="{{town.hero?.replace('_',' ')}}">
-                                      <div class="unit_icon40x40 {{town.hero}}"></div>
-                                    </span>
-                                  </div>
-                                  <div class="cell" *ngIf="hasGod" style="min-width: 50px;">
-                                    <span *ngIf="town?.god" style="transform: scale(1.05); float: left; margin: -5px 0 0 0;"
-                                          matTooltip="{{town.god}}">
-                                      <div class="unit_icon40x40 no-border {{town.god}}"></div>
-                                    </span>
-                                  </div>
-                                  <div class="cell" *ngIf="hasWall && !embedded" style="padding-top: 7px;">
-                                    <!--<span [outerHTML]="town.wall | HideNoLossPipe"></span>-->
-                                    <span *ngIf="town.wall!=null && town.wall!=''" class="build-cell" style="min-width: 70px;">
-                                      <div class="building_icon40x40 wall" matTooltip="Wall: {{town.wall}}"></div>
-                                      <div>
-                                        <span [outerHTML]="town.wall | HideNoLossPipe"></span>
-                                      </div>
-                                    </span>
-                                  </div>
-                                  <div class="cell" *ngIf="hasStonehail && !embedded" style="padding-top: 7px;">
-                                    <span *ngIf="town.stonehail!=null && town.stonehail!=''" class="build-cell" style="">
-                                      <div class="building_icon40x40 {{town.stonehail.building}}" matTooltip="Stonehail: {{town.stonehail.building}} {{town.stonehail.value}}"></div>
-                                      <div>
-                                        <span [outerHTML]="town.stonehail.value | HideNoLossPipe"></span>
-                                      </div>
-                                    </span>
-                                  </div>
-                                  <div class="cell" *ngIf="hasSilver && !embedded">
-                                    <span *ngIf="town?.silver">{{town?.silver?.replace('(+',' (+')}}</span>
-                                  </div>
-                                  <div class="cell hidden-xs hidden-sm" *ngIf="hasConquest && !embedded">
-                                    <div *ngIf="town?.conquest_id && town?.conquest_id > 0">
-                                      <!--<a class="a-link-dialog" (click)="loadConquestDetails(town?.conquest_id)">View report <mat-icon style="opacity: 1; vertical-align: bottom;">launch</mat-icon></a>-->
-                                      <button class="gd-btn-2" (click)="loadConquestDetails(town?.conquest_id)">View report <mat-icon style="opacity: 1; vertical-align: bottom;">launch</mat-icon></button>
-                                    </div>
-                                  </div>
-                                  <!--<div class="cell" style="">-->
-                                    <!--<button *ngIf="!town.deleted || town?.deleted==false" name="open_bb" class="btn btn-danger" style=""-->
-                                            <!--(click)="deleteIntel(town?.id); town.deleted = true;">-->
-                                      <!--<i class="fa fa-close"></i>&nbsp;Delete-->
-                                    <!--</button>-->
-                                    <!--<span *ngIf="town.deleted && town?.deleted==true" title="This record will be deleted within 24 hours.">-->
-                                      <!--<p style="font-size: 17px; margin: 0;" class="gd-secondary">Marked for deletion</p>-->
-                                      <!--<button name="open_bb" class="btn btn-primary btn-xs" style="margin-top: -6px;"-->
-                                              <!--(click)="deleteIntelUndo(town?.id); town.deleted = false;">-->
-                                        <!--<i class="fa fa-arrow-left"></i>&nbsp;Undo-->
-                                      <!--</button>-->
-                                    <!--</span>-->
-                                  <!--</div>-->
-
-                                  <div *ngIf="town.shared_via_indexes && !embedded" class="cell gd-primary a-link-dialog" matTooltip="Click here to see how this intel was shared with you" (click)="openShareInfoDialog(town)">
-                                    <mat-icon>supervised_user_circle</mat-icon>
-                                  </div>
-                                  <div *ngIf="!town.shared_via_indexes && !embedded" class="cell"></div>
-
-
-                                </div>
-
-                              </ng-container>
-
-
-
-							              </div>
-						              </div>
-					              </div>
-
-					              <div *ngIf="hasOldIntel">
-                          <br/>
-						              <h3 style='font-weight: 300; color: #304357;'>
-							              <span class='world-title' style='color: #18BC9C;'>Expired town intelligence</span>
-						              </h3>
-                          <app-alert type="info" [dismissible]="false">
-                            The town intel in the table below was collected when the town had a different owner.
-                            <strong><br/>Due to the town ownership change, it is likely that this intel is no longer accurate.</strong>
-                          </app-alert>
-						              <div style="overflow: auto;">
-							              <div class="table intel-table" id="table_all_expired" style="">
-
-								              <div class="row_custom header" >
-									              <div class="cell" style="max-width: 10% !important; width: 10%;">
-										              Type
-									              </div>
-									              <div class="cell" style="max-width: 20% !important; width: 20%;">
-										              Date
-									              </div>
-									              <div class="cell text-left">
-										              Units
-									              </div>
-									              <div class="cell text-left" *ngIf="hasHero">
-										              Hero
-									              </div>
-									              <div class="cell text-left" *ngIf="hasGod">
-										              God
-									              </div>
-									              <div class="cell" *ngIf="hasWall && !embedded">
-										              Wall
-									              </div>
-									              <div class="cell" *ngIf="hasStonehail && !embedded">
-										              Stonehail
-									              </div>
-									              <div class="cell" *ngIf="hasSilver && !embedded">
-										              Silver
-									              </div>
-									              <div class="cell hidden-xs hidden-sm" *ngIf="hasConquest && !embedded" style="max-width: 15vw !important; width: 15vw;">
-										              Siege report
-									              </div>
-									              <div class="cell" *ngIf="hasSharingDetails && !embedded"></div>
-								              </div>
-
-                              <ng-container *ngFor="let town of allCities">
-
-                                <div class='row_custom' *ngIf="town.is_previous_owner_intel==true">
-                                  <div class="cell" matTooltip="{{town.type}}">
-                                    <img src="../../assets/images/game/towninfo/attack.png" *ngIf="town.type === 'friendly_attack'">
-                                    <div *ngIf="town.type === 'enemy_attack'" style="-moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); filter: FlipH; -ms-filter: ;">
-                                      <img src="../../assets/images/game/towninfo/attack.png">
-                                    </div>
-                                    <img src="../../assets/images/game/towninfo/wisdom.png" *ngIf="town.type === 'wisdom'">
-                                    <img src="../../assets/images/game/towninfo/support.png" *ngIf="town.type === 'support'">
-                                    <img src="../../assets/images/game/towninfo/conquer.png" *ngIf="town.type === 'attack_on_conquest'">
-                                    <img src="../../assets/images/game/towninfo/espionage_2.67.png" *ngIf="town.type === 'spy'">
-                                  </div>
-                                  <div class="cell">
-                                    {{town.date | IndexDate}}
-                                  </div>
-                                  <div class="cell" style="display: flex; margin-bottom: 8px;">
-                                    <span style="transform: scale(1.05); float: left; margin: 8px 12px 0 0;" *ngFor="let unit of town.units | ValuesPipe; let i = index;"
-                                          matTooltip="{{unit?.name?.replace('_',' ')}}">
-                                      <div class="unit_icon40x40 {{unit?.name}}"><span class="unit-val">{{unit?.count}}</span></div>
-                                      <span style="color: #d00;" *ngIf="unit?.killed>0">-{{unit?.killed}}</span>
-                                    </span>
-                                  </div>
-                                  <div class="cell" *ngIf="hasHero" style="min-width: 50px;">
-                                    <span *ngIf="town?.hero.length > 0" style="transform: scale(1.05); float: left; margin: -19px 0 0 0;"
-                                          matTooltip="{{town?.hero?.replace('_',' ')}}">
-                                      <div class="unit_icon40x40 {{town?.hero}}"></div>
-                                    </span>
-                                  </div>
-                                  <div class="cell" *ngIf="hasGod" style="min-width: 50px;">
-                                    <span *ngIf="town?.god.length > 0" style="transform: scale(1.05); float: left; margin: -5px 0 0 0;"
-                                          matTooltip="{{town.god}}">
-                                      <div class="unit_icon40x40 no-border {{town.god}}"></div>
-                                    </span>
-                                  </div>
-                                  <div class="cell" *ngIf="hasWall && !embedded" style="padding-top: 7px;">
-                                    <!--<span [outerHTML]="town.wall | HideNoLossPipe"></span>-->
-                                    <span *ngIf="town.wall!=null && town.wall!=''" class="build-cell" style="min-width: 70px;">
-                                      <div class="building_icon40x40 wall" matTooltip="Wall: {{town.wall}}"></div>
-                                      <div>
-                                        <span [outerHTML]="town.wall | HideNoLossPipe"></span>
-                                      </div>
-                                    </span>
-                                  </div>
-                                  <div class="cell" *ngIf="hasStonehail && !embedded" style="padding-top: 7px;">
-                                    <span *ngIf="town.stonehail!=null && town.stonehail!=''" class="build-cell" style="">
-                                      <div class="building_icon40x40 {{town.stonehail.building}}" matTooltip="Stonehail: {{town.stonehail.building}} {{town.stonehail.value}}"></div>
-                                      <div>
-                                        <span [outerHTML]="town.stonehail.value | HideNoLossPipe"></span>
-                                      </div>
-                                    </span>
-                                  </div>
-                                  <div class="cell" *ngIf="hasSilver && !embedded">
-                                    <span *ngIf="town?.silver">{{town?.silver?.replace('(+',' (+')}}</span>
-                                  </div>
-                                  <div class="cell hidden-xs hidden-sm" *ngIf="hasConquest && !embedded">
-                                    <div *ngIf="town?.conquest_id && town?.conquest_id > 0">
-                                      <!--<a class="a-link-dialog" (click)="loadConquestDetails(town?.conquest_id)">View report <mat-icon style="opacity: 1; vertical-align: bottom;">launch</mat-icon></a>-->
-                                      <button class="gd-btn-2" (click)="loadConquestDetails(town?.conquest_id)">View report <mat-icon style="opacity: 1; vertical-align: bottom;">launch</mat-icon></button>
-                                    </div>
-                                  </div>
-                                  <!--<div class="cell" style="">-->
-                                    <!--<button *ngIf="!town.deleted || town?.deleted==false" name="open_bb" class="btn btn-danger" style=""-->
-                                            <!--(click)="deleteIntel(town?.id); town.deleted = true;">-->
-                                      <!--<i class="fa fa-close"></i>&nbsp;Delete-->
-                                    <!--</button>-->
-                                    <!--<span *ngIf="town.deleted && town?.deleted==true" title="This record will be deleted within 24 hours.">-->
-                                      <!--<p style="font-size: 17px; margin: 0;" class="gd-secondary">Marked for deletion</p>-->
-                                      <!--<button name="open_bb" class="btn btn-primary btn-xs" style="margin-top: -6px;"-->
-                                              <!--(click)="deleteIntelUndo(town?.id); town.deleted = false;">-->
-                                        <!--<i class="fa fa-arrow-left"></i>&nbsp;Undo-->
-                                      <!--</button>-->
-                                    <!--</span>-->
-                                  <!--</div>-->
-
-                                  <div *ngIf="town.shared_via_indexes && !embedded" class="cell gd-primary a-link-dialog" matTooltip="Click here to see how this intel was shared with you" (click)="openShareInfoDialog(town)">
-                                    <mat-icon>supervised_user_circle</mat-icon>
-                                  </div>
-                                  <div *ngIf="!town.shared_via_indexes && !embedded" class="cell"></div>
-
-
-                                </div>
-
-                              </ng-container>
-
-
-
-							              </div>
-						              </div>
-					              </div>
-
-
-				              </mat-tab>
-
-
-				              <mat-tab class="history-chart" style="padding: 20px 0; overflow: hidden !important;">
-					              <ng-template mat-tab-label>
-						              <mat-icon style="opacity: 1; vertical-align: bottom;">speaker_notes</mat-icon>&nbsp;Notes &nbsp;
-						              <div class="note-count">{{notes.length}}</div>
-					              </ng-template>
-					              <br/>
-					              <div>
-						              <h3 style='font-weight: 300; color: #304357;'>
-							              <span class='world-title' style='color: #18BC9C;'>Town notes</span>
-						              </h3>
-						              <br/>
-						              <div *ngIf="!notes.length || notes.length <= 0">
-							              <div class="alert alert-warning text-center alert-gd-1">
-								              <h2>There are no notes about this town</h2>
-							              </div>
-						              </div>
-						              <div *ngIf="notes.length > 0" class="table intel-table" id="table_notes" style="text-align: left;">
-
-							              <div class="row_custom header bg-gd-2" >
-								              <div class="cell" style="width: 20%;">
-									              Date
-								              </div>
-								              <div class="cell" style="width: 30%;">
-									              Poster
-								              </div>
-								              <div class="cell" style="width: 50%;">
-									              Note
-								              </div>
-								              <!--<div class="cell">-->
-									              <!--Action-->
-								              <!--</div>-->
-							              </div>
-
-							              <div class='row_custom' *ngFor="let note of notes" [style.opacity]="note.deleted?'0.3':'1'">
-								              <div class="cell">
-									              {{note.date}}
-								              </div>
-								              <div class="cell">
-									              {{note.poster_name}}
-								              </div>
-								              <div class="cell">
-									              {{note.message}}
-								              </div>
-								              <!--<div class="cell" style="margin: 5px 0;">-->
-									              <!--<button name="open_bb" class="btn btn-danger btn-xs" style="" *ngIf="!note.deleted"-->
-									                      <!--(click)="deleteNote(note?.note_id); note.deleted = true;">-->
-										              <!--<i class="fa fa-close"></i>&nbsp;Delete-->
-									              <!--</button>-->
-									              <!--<span *ngIf="note.deleted">Deleted</span>-->
-								              <!--</div>-->
-							              </div>
-						              </div>
-
-					              </div>
-				              </mat-tab>
-
-
-				              <mat-tab class="history-chart" style="padding: 20px 0; overflow: hidden !important;" *ngIf="!embedded">
-					              <ng-template mat-tab-label>
-						              <mat-icon style="opacity: 1; margin-top: -8px; font-weight: 900;">⚔</mat-icon>&nbsp;Conquests
-					              </ng-template>
-
-					              <app-conquest [embedded]="true" [params]="{type: 'town', world: world, id: id}"></app-conquest>
-
-				              </mat-tab>
-			              </mat-tab-group>
-		              </div>
-	              </div>
-
-              </div>
-            </div>
-          </div>
+    <div role="tabpanel" [hidden]="activeTab !== 1">
+      <section class="overflow-hidden bg-white" [ngClass]="embedded ? '' : 'rounded-xl shadow-sm ring-1 ring-slate-900/[.08]'">
+        <div class="border-0 border-b border-solid border-slate-200 px-5 py-4">
+          <h2 class="my-0 text-base font-semibold text-slate-900">Town notes <span class="font-normal text-slate-500">· {{notes.length}}</span></h2>
         </div>
-        <div *ngIf="noIntel && !loading">
-          <div class="container">
-            <div class="row">
-              <br/>
-              <br/>
-              <div class="alert alert-danger text-center">
-                <h3>No intel available for town <strong>{{townName}}</strong></h3>
-              </div>
-            </div>
-          </div>
+        <div *ngIf="!notes.length || notes.length <= 0" class="flex flex-col items-center px-6 py-10 text-center">
+          <span class="flex size-12 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+            <svg appIcon="chat-bubble-bottom-center-text" class="size-6"></svg>
+          </span>
+          <h3 class="mb-0 mt-3 text-base font-semibold text-slate-900">There are no notes about this town</h3>
         </div>
+        <div *ngIf="notes.length > 0" class="gd-scrollbar overflow-x-auto">
+          <table id="table_notes" class="w-full min-w-[640px] table-fixed border-separate border-spacing-0 text-left font-normal">
+            <colgroup>
+              <col class="w-[180px]">
+              <col class="w-[220px]">
+              <col>
+            </colgroup>
+            <thead>
+              <tr>
+                <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700 pl-5">Date</th>
+                <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700">Poster</th>
+                <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700 pr-5">Note</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let note of notes" [style.opacity]="note.deleted?'0.3':'1'" class="hover:bg-slate-50">
+                <td class="border-0 border-b border-solid border-slate-100 px-3 py-3 align-top text-sm whitespace-nowrap pl-5 tabular-nums text-slate-700">{{note.date}}</td>
+                <td class="border-0 border-b border-solid border-slate-100 px-3 py-3 align-top text-sm">
+                  <span class="flex min-w-0 items-center gap-1.5 font-medium text-slate-900">
+                    <svg appIcon="player_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+                    <span class="truncate">{{note.poster_name}}</span>
+                  </span>
+                </td>
+                <td class="border-0 border-b border-solid border-slate-100 px-3 py-3 align-top text-sm pr-5 text-slate-900">{{note.message}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
 
-      </div>
+    <div *ngIf="!embedded" role="tabpanel" [hidden]="activeTab !== 2">
+      <section class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+        <app-conquest [embedded]="true" [params]="{type: 'town', world: world, id: id}"></app-conquest>
+      </section>
+    </div>
+  </ng-container>
 
-    </mat-card-content>
-  </mat-card>
+  <section *ngIf="err == '' && noIntel && !loading" class="flex flex-col items-center bg-white px-6 py-10 text-center" [ngClass]="embedded ? '' : 'rounded-xl shadow-sm ring-1 ring-slate-900/[.08]'">
+    <span class="flex size-12 items-center justify-center rounded-full bg-amber-50 text-amber-600">
+      <svg appIcon="eye-slash" class="size-6"></svg>
+    </span>
+    <h2 class="mb-0 mt-3 text-base font-semibold text-slate-900">No intel available for town <strong class="font-semibold">{{townName}}</strong></h2>
+  </section>
 
+  </div>
 </div>
+
+<ng-template #buildingNode let-key let-special="special">
+  <ng-container *ngIf="building(key) as b; else missingBuilding">
+    <div matTooltip="{{buildingNames[b.name] || b.name}}: {{b.val}} ({{b.date | IndexDate}})" class="flex h-14 items-center gap-2.5 rounded-lg bg-white pl-2 pr-3 shadow-sm ring-1 ring-slate-900/10">
+      <div class="building_icon40x40 {{b.name}} flex-none rounded-md border-0 ring-1 ring-inset ring-slate-900/[.18]"></div>
+      <div class="min-w-0 flex-1">
+        <div class="truncate text-sm font-semibold text-slate-900">{{buildingNames[b.name] || b.name}}</div>
+        <div class="flex min-w-0 items-center gap-1.5 text-xs tabular-nums text-slate-500">
+          <span *ngIf="special" class="flex-none rounded-full bg-violet-50 px-2 font-medium leading-4 text-violet-700 ring-1 ring-inset ring-violet-700/20">Special</span>
+          <span class="truncate">{{b.date | IndexDate}}</span>
+        </div>
+      </div>
+      <span class="flex-none text-xl font-bold tabular-nums" [ngClass]="b.val == 0 ? 'text-slate-400' : 'text-slate-900'">{{b.val}}</span>
+    </div>
+  </ng-container>
+  <ng-template #missingBuilding>
+    <div matTooltip="{{buildingNames[key]}}: no intel yet" class="flex h-14 items-center gap-2.5 rounded-lg bg-slate-50 pl-2 pr-3 ring-1 ring-inset ring-slate-200">
+      <div class="building_icon40x40 {{key}} flex-none rounded-md border-0 opacity-35 grayscale"></div>
+      <div class="min-w-0 flex-1">
+        <div class="truncate text-sm font-semibold text-slate-400">{{buildingNames[key]}}</div>
+        <div class="text-xs text-slate-400">No intel</div>
+      </div>
+      <span class="flex-none text-xl font-semibold text-slate-300">—</span>
+    </div>
+  </ng-template>
+</ng-template>
+
+<ng-template #specialNode let-keys>
+  <ng-container *ngIf="specialBuilding(keys) as special; else noSpecial">
+    <ng-container *ngTemplateOutlet="buildingNode; context: {$implicit: special.name, special: true}"></ng-container>
+  </ng-container>
+  <ng-template #noSpecial>
+    <div class="flex h-14 items-center gap-2.5 rounded-lg border border-dashed border-slate-300 bg-slate-50 pl-2 pr-3">
+      <span class="flex size-10 flex-none items-center justify-center rounded-md bg-slate-100 text-slate-400">
+        <svg appIcon="sparkles" class="size-5"></svg>
+      </span>
+      <div class="min-w-0 flex-1">
+        <div class="truncate text-sm font-semibold text-slate-500">Special building</div>
+        <div class="truncate text-xs text-slate-400">None built or no intel</div>
+      </div>
+    </div>
+  </ng-template>
+</ng-template>
+
+<ng-template #intelTable let-expired="expired">
+  <div class="gd-scrollbar overflow-x-auto">
+    <table [attr.id]="expired ? 'table_all_expired' : 'table_all'" class="w-full table-fixed border-separate border-spacing-0 text-left font-normal" [ngClass]="embedded ? 'min-w-[640px]' : 'min-w-[900px]'">
+      <colgroup>
+        <col class="w-[184px]">
+        <col class="w-[124px]">
+        <col>
+        <col *ngIf="hasHero || hasGod || (!embedded && (hasWall || hasStonehail || hasSilver))" class="w-[250px]">
+        <col *ngIf="!embedded && (hasConquest || hasSharingDetails)" class="w-[150px]">
+      </colgroup>
+      <thead>
+        <tr>
+          <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700 pl-5">Report</th>
+          <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700">Date</th>
+          <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700">Units</th>
+          <th *ngIf="hasHero || hasGod || (!embedded && (hasWall || hasStonehail || hasSilver))" scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700"><span *ngIf="!embedded">Details</span><span *ngIf="embedded">Hero &amp; god</span></th>
+          <th *ngIf="!embedded && (hasConquest || hasSharingDetails)" scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700 pr-5"><span class="sr-only">Actions</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let town of allCities">
+          <tr *ngIf="expired ? town.is_previous_owner_intel == true : !town.is_previous_owner_intel" class="hover:bg-slate-50">
+            <td class="border-0 border-b border-solid border-slate-100 align-top py-3.5 pl-5 pr-3">
+              <div class="flex min-w-0 items-center gap-2.5">
+                <img src="../../assets/images/game/towninfo/attack.png" *ngIf="town.type === 'friendly_attack'" class="block size-8 flex-none rounded-md ring-1 ring-slate-900/10">
+                <img src="../../assets/images/game/towninfo/attack.png" *ngIf="town.type === 'enemy_attack'" class="block size-8 flex-none -scale-x-100 rounded-md ring-1 ring-slate-900/10">
+                <img src="../../assets/images/game/towninfo/wisdom.png" *ngIf="town.type === 'wisdom'" class="block size-8 flex-none rounded-md ring-1 ring-slate-900/10">
+                <img src="../../assets/images/game/towninfo/support.png" *ngIf="town.type === 'support'" class="block size-8 flex-none rounded-md ring-1 ring-slate-900/10">
+                <img src="../../assets/images/game/towninfo/conquer.png" *ngIf="town.type === 'attack_on_conquest'" class="block size-8 flex-none rounded-md ring-1 ring-slate-900/10">
+                <img src="../../assets/images/game/towninfo/espionage_2.67.png" *ngIf="town.type === 'spy'" class="block size-8 flex-none rounded-md ring-1 ring-slate-900/10">
+                <span class="min-w-0 truncate text-sm font-medium text-slate-900">
+                  <span *ngIf="town.type === 'friendly_attack'">Friendly attack</span>
+                  <span *ngIf="town.type === 'enemy_attack'">Enemy attack</span>
+                  <span *ngIf="town.type === 'wisdom'">Wisdom</span>
+                  <span *ngIf="town.type === 'support'">Support</span>
+                  <span *ngIf="town.type === 'attack_on_conquest'">Conquest attack</span>
+                  <span *ngIf="town.type === 'spy'">Spy report</span>
+                </span>
+              </div>
+            </td>
+            <td class="border-0 border-b border-solid border-slate-100 align-top whitespace-nowrap px-3 py-3.5 tabular-nums">
+              <div class="text-sm text-slate-900">{{town.date | IndexDate | slice:0:-6}}</div>
+              <div class="text-xs text-slate-500">{{town.date | IndexDate | slice:-5}}</div>
+            </td>
+            <td class="border-0 border-b border-solid border-slate-100 align-top px-3 py-3">
+              <ul class="m-0 flex list-none flex-wrap gap-1.5 p-0">
+                <li class="min-w-10 flex-none" *ngFor="let unit of town.units | ValuesPipe; let i = index;"
+                    matTooltip="{{(!expired && (unit?.name == 'unknown' || unit?.name == 'unknown_naval')?'This attack killed roughly '+unit?.killed+' '+(unit?.name == 'unknown'?'land':'sea')+' population (this is estimated based on the battle points gained)':unit?.name?.replace('_',' '))}}">
+                  <div class="unit_icon40x40 {{unit?.name}} relative rounded-md border-0 ring-1 ring-inset ring-slate-900/[.18]">
+                    <span class="absolute bottom-0 right-0 rounded-br-md rounded-tl bg-slate-900/[.78] px-[3px] text-[11px] font-medium leading-[14px] tabular-nums text-white">{{unit?.count}}</span>
+                  </div>
+                  <ng-container *ngIf="!expired">
+                    <div class="mt-0.5 text-center text-xs font-medium tabular-nums text-rose-700" *ngIf="unit.name != 'unknown' && unit.name != 'unknown_naval' && unit?.killed && unit?.killed!=0">-{{unit?.killed}}</div>
+                    <div class="mt-0.5 flex items-center justify-center gap-0.5 whitespace-nowrap text-xs font-medium tabular-nums text-rose-700" *ngIf="(unit.name == 'unknown' || unit.name == 'unknown_naval') && unit?.killed && unit?.killed!=0">
+                      <img src="../../assets/images/icons/bp_ico.png" class="block size-3"/>~{{unit?.killed}}
+                    </div>
+                  </ng-container>
+                  <div *ngIf="expired && unit?.killed>0" class="mt-0.5 text-center text-xs font-medium tabular-nums text-rose-700">-{{unit?.killed}}</div>
+                </li>
+              </ul>
+            </td>
+            <td *ngIf="hasHero || hasGod || (!embedded && (hasWall || hasStonehail || hasSilver))" class="border-0 border-b border-solid border-slate-100 align-top px-3 py-3">
+              <div class="flex flex-col gap-1.5 text-[13px] leading-[18px] text-slate-600 [&_.diff-neg]:font-semibold [&_.diff-neg]:!text-rose-700">
+                <div *ngIf="hasGod && town?.god" class="flex min-w-0 items-center gap-2" matTooltip="{{town.god}}">
+                  <div class="unit_icon40x40 no-border {{town.god}} flex-none rounded-md border-0 [zoom:0.6]"></div>
+                  <span class="truncate font-medium capitalize text-slate-900">{{town.god}}</span>
+                </div>
+                <div *ngIf="hasHero && town?.hero" class="flex min-w-0 items-center gap-2" matTooltip="{{town.hero?.replace('_',' ')}}">
+                  <div class="unit_icon40x40 no-border {{town.hero}} flex-none rounded-md border-0 [zoom:0.6]"></div>
+                  <span class="truncate font-medium capitalize text-slate-900">{{town.hero?.replace('_',' ')}}</span>
+                </div>
+                <div *ngIf="!embedded && hasWall && town.wall!=null && town.wall!=''" class="flex min-w-0 items-center gap-2">
+                  <div class="building_icon40x40 wall flex-none rounded-md border-0 [zoom:0.6]" matTooltip="Wall: {{town.wall}}"></div>
+                  <span>Wall <span class="font-semibold tabular-nums text-slate-900"><span [outerHTML]="town.wall | HideNoLossPipe"></span></span></span>
+                </div>
+                <div *ngIf="!embedded && hasStonehail && town.stonehail!=null && town.stonehail!=''" class="flex min-w-0 items-center gap-2">
+                  <div class="building_icon40x40 {{town.stonehail.building}} flex-none rounded-md border-0 [zoom:0.6]" matTooltip="Stonehail: {{town.stonehail.building}} {{town.stonehail.value}}"></div>
+                  <span>Stonehail · <span class="capitalize">{{buildingNames[town.stonehail.building] || town.stonehail.building}}</span>&nbsp;<span class="font-semibold tabular-nums text-slate-900"><span [outerHTML]="town.stonehail.value | HideNoLossPipe"></span></span></span>
+                </div>
+                <div *ngIf="!embedded && hasSilver && town?.silver" class="flex min-w-0 items-center gap-2">
+                  <span class="flex size-6 flex-none items-center justify-center rounded-md bg-slate-100 text-slate-500">
+                    <svg appIcon="banknotes" class="size-4"></svg>
+                  </span>
+                  <span>Silver <span class="font-semibold tabular-nums text-slate-900">{{town?.silver?.replace('(+',' (+')}}</span></span>
+                </div>
+              </div>
+            </td>
+            <td *ngIf="!embedded && (hasConquest || hasSharingDetails)" class="border-0 border-b border-solid border-slate-100 align-top py-3 pl-3 pr-5 text-right">
+              <div class="flex flex-col items-end gap-1.5">
+                <button *ngIf="hasConquest && town?.conquest_id && town?.conquest_id > 0" type="button" (click)="loadConquestDetails(town?.conquest_id)" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 max-md:hidden">
+                  <svg appIcon="flag" variant="micro" class="size-4 flex-none text-slate-400"></svg>
+                  Siege report
+                </button>
+                <button *ngIf="town.shared_via_indexes" type="button" (click)="openShareInfoDialog(town)" matTooltip="Click here to see how this intel was shared with you" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+                  <svg appIcon="users" variant="micro" class="size-4 flex-none text-slate-400"></svg>
+                  Via {{sharedCount(town)}} {{sharedCount(town) === 1 ? 'team' : 'teams'}}
+                </button>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+</ng-template>

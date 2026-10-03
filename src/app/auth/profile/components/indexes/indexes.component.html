@@ -1,213 +1,277 @@
-<mat-card class="index-card">
-	<div class="container-fluid">
-			<div class="row">
-				<div class="col-xs-12">
-          <h2 style="margin-top: 0;">
-            My Teams
-
-            <button *ngIf="confirmed && indexes && !loading && (indexes.length - stopped_world_count) > 5" (click)="newIndex()" class="btn btn-success mr-1" style="margin-left: 3%;">
-              <span class="hidden-sm hidden-xs">Create a new team</span>
-              <span class="hidden-md hidden-lg">New team</span>
-              &nbsp;<mat-icon>library_add</mat-icon>
-            </button>
-
-          </h2>
-
-					<div *ngIf="!confirmed">
-            <h4 class="gd-error">Please confirm your email address to start sharing intel</h4>
-						<app-confirm></app-confirm>
-					</div>
-
-					<app-alert type="error" *ngIf="error">
-						<h5>{{error}}</h5>
-					</app-alert>
-
-					<app-alert type="error" title="Unable to leave team" *ngIf="leave_error">
-            <span [outerHTML]="leave_error"></span>
-					</app-alert>
-
-					<app-alert type="success" title="Team contribution settings updated" *ngIf="contribute_success">
-						<div [outerHTML]="contribute_success"></div>
-					</app-alert>
-
-					<app-alert type="success" title="Team left successfully" *ngIf="leave_success">
-						<div [outerHTML]="leave_success"></div>
-					</app-alert>
-
-					<app-alert type="success" title="New team created successfully!" *ngIf="created_index">
-						<h5>
-							<span *ngIf="created_index.name"><strong>Team name: </strong>{{created_index.name}}<br/></span>
-							<span *ngIf="created_index.world"><strong>World: </strong><span [outerHTML]="created_index.world | WorldNamePipe"></span><br/></span>
-						</h5>
-
-						<button *ngIf="created_index.key" class="btn btn-secondary mr-1" routerLink="/profile/team/{{created_index.key}}">Go to team overview <mat-icon>launch</mat-icon></button>
-					</app-alert>
-
-					<app-alert type="info" title="What is a team?" *ngIf="confirmed && !error && !leave_error && !created_index && !contribute_success && indexes.length <= 3" [dismissible]="false">
-						<p>
-							A team allows you to share a collection of enemy intelligence with other users.
-							You can create and share your own team, or you can contribute to an existing team.
-							<br/>For example, you and your alliance members can create a team and work together to collect enemy intel.
-						</p>
-					</app-alert>
-
-					<mat-progress-bar style="margin-top: -10px;" *ngIf="loading" mode="indeterminate"></mat-progress-bar>
-
-					<div *ngIf="confirmed && !loading && indexes.length <= 0">
-						<app-alert type="warning" title="You have not yet created or joined any indexes" [dismissible]="false">
-							<div style="min-height: 73px !important;">
-								<h4>You can create your own team and share it with your allies or you can join an existing team by asking your allies to invite you.</h4>
-								<p>You can still collect intelligence if you are not part of a team, but you will only be able to share this intel by joining a team.</p>
-							</div>
-						</app-alert>
-					</div>
-
-					<div *ngIf="indexes.length > 0">
-
-						<div class="indexes-table">
-							<table matSort (matSortChange)="sortData($event)" class="table">
-								<thead>
-								<tr>
-									<th mat-sort-header="name" scope="col">Team name</th>
-									<!--<th scope="col">Key (old)</th>-->
-									<th mat-sort-header="world" scope="col" class="hidden-xs hidden-sm hidden-md">World</th>
-									<th mat-sort-header="reports" scope="col" class="hidden-xs hidden-sm hidden-md">Total reports</th>
-									<th scope="col" class="hidden-xs hidden-sm">Contributors</th>
-									<th style="text-align: center !important;" scope="col" class="hidden-xs hidden-sm">
-										Contribute <mat-icon class="mat-icon-title-inline a-link" matTooltip="If you enable this toggle, your collected intell will be shared with this team. If you disable this option, you can still read the intel collected by the other team members but your own collected intel will not be shared with the other players in this team.">help_outline</mat-icon>
-									</th>
-									<th scope="col" class="hidden-xs hidden-sm hidden-md">
-										Your role <mat-icon class="mat-icon-title-inline a-link" matTooltip="Only the owners or admins of an team can change the team settings. Members can add new intel. And read only access means you can not add new intel but you can still browse the intel in this team.">help_outline</mat-icon>
-									</th>
-									<th scope="col" class="text-right btn-column-th settings">Settings</th>
-									<th scope="col" class="text-right btn-column-th actions hidden-xs">Actions</th>
-								</tr>
-								</thead>
-								<tbody>
-                <tr class="filter-row index-filters" *ngIf="indexes.length - stopped_world_count > 12">
-                  <td><input type="text" placeholder="Filter name" [(ngModel)]="filter_index_name"></td>
-                  <td class="hidden-xs hidden-sm hidden-md">
-                    <select [(ngModel)]="filter_world">
-                      <option value selected>All worlds</option>
-                      <option value="{{world}}" *ngFor="let world of uniqueWorlds()">{{world | WorldNamePipe : false}}</option>
-                    </select>
-                  </td>
-                  <td class="hidden-xs hidden-sm hidden-md"></td>
-                  <td class="hidden-xs hidden-sm"><input class="hidden-md" type="text" placeholder="Filter owners" [(ngModel)]="filter_index_owners"></td>
-                  <td class="hidden-xs hidden-sm"></td>
-                  <td class="hidden-xs hidden-sm hidden-md">
-                    <select [(ngModel)]="filter_role">
-                      <option value selected>All</option>
-                      <option value="owner">Owner</option>
-                      <option value="admin">Admin</option>
-                      <option value="write">Member</option>
-                      <option value="read">Read only</option>
-                    </select>
-                  </td>
-                  <td></td>
-                  <td style="text-align: right !important;" class="hidden-xs">
-                    <a *ngIf="filter_role || filter_world || filter_index_owners || filter_index_name" class="a-link-dialog" (click)="filter_role=''; filter_world = ''; filter_index_owners=''; filter_index_name='';">Clear filters <mat-icon style="vertical-align: middle;">close</mat-icon></a>
-                  </td>
-                </tr>
-								<tr *ngFor="let index of indexes; let i = index;" class="index-row" [ngClass]="{'inactive-index-row': index.world_stopped}">
-                  <ng-container *ngIf="
-                    (!filter_index_name || index.name.includes(filter_index_name)) &&
-                    (!filter_index_owners || hasOwnerFilter(index)) &&
-                    (!filter_world || index.world == filter_world) &&
-                    (!filter_role || index.role == filter_role) &&
-                    (!index.world_stopped || show_stopped_worlds)
-                  ">
-									<td style="text-align: left !important;" (click)="routing('/profile/team/' + index.key)">
-										<a><mat-icon style="opacity: 1; vertical-align: sub;">group</mat-icon> {{index.name || index.key}}</a>
-                    <div class="hidden-lg">
-                      <div [outerHTML]="index.world | WorldNamePipe"></div>
-                    </div>
-                    <div class="hidden-md hidden-lg">
-                      <div *ngFor="let owner of index.stats.owners; let i = index;">
-                        <img src="../../assets/images/ally_ico.png"/> {{owner.alliance_name}}
-                      </div>
-                    </div>
-									</td>
-									<td (click)="routing('/profile/team/' + index.key)" class="hidden-xs hidden-sm hidden-md">
-										<div *ngIf="!index.world_stopped" [outerHTML]="index.world | WorldNamePipe"></div>
-                    <span *ngIf="index.world_stopped">{{index.world}}&nbsp;<strong>(FINISHED)</strong></span>
-                  </td>
-									<td (click)="routing('/profile/team/' + index.key)" class="hidden-xs hidden-sm hidden-md">
-                    <div *ngIf="index.stats && index.stats.total_reports>=0">{{index.stats.total_reports}}</div>
-									</td>
-									<td style="padding: 0 !important; font-size: 14px; vertical-align: middle;" (click)="routing('/profile/team/' + index.key)" class="hidden-xs hidden-sm">
-										<div *ngFor="let owner of index.stats.owners; let i = index;">
-											<img src="../../assets/images/ally_ico.png"/> {{owner.alliance_name}}
-										</div>
-									</td>
-									<td style="text-align: center !important;" class="hidden-xs hidden-sm">
-										<!--<mat-slide-toggle [ngModel]="index.contribute" (ngModelChange)="enableContributions(index)">Share my intel with this index</mat-slide-toggle>-->
-										<mat-checkbox *ngIf="index.role!='read' && !index.world_stopped" [checked]="index.contribute" (click)="enableContributions(index)"></mat-checkbox>
-                    <span *ngIf="index.role=='read' && !index.world_stopped"><mat-checkbox [checked]="false" disabled="true"></mat-checkbox></span>
-									</td>
-									<td (click)="routing('/profile/team/' + index.key)" class="hidden-xs hidden-sm hidden-md">
-										{{index.role
-										.replace('read', 'Read only')
-										.replace('write', 'Member')
-										.replace('owner', 'Owner')
-										.replace('admin', 'Admin')
-										}}
-									</td>
-									<td style="text-align: right !important;">
-                    <div class="index-actions hidden-sm hidden-md hidden-lg">
-                      <button routerLink="/profile/team/{{index.key}}" class="btn btn-success mr-1 index-btn-browse">Browse <mat-icon>launch</mat-icon></button>
-                    </div>
-										<div class="index-actions" *ngIf="(index.role === ROLE_ADMIN || index.role === ROLE_OWNER) && !index.world_stopped">
-											<button class="btn btn-secondary mr-1 index-btn-users" (click)="openIndexMembers(index)">Users <mat-icon>admin_panel_settings</mat-icon></button>
-											<button class="btn btn-secondary mr-1 index-btn-settings" (click)="openIndexSettings(index)">Settings <mat-icon>settings</mat-icon></button>
-                      <button class="btn btn-primary mr-1 index-btn-share" (click)="openShareIndexDialog(index)">Share <mat-icon>group_add</mat-icon></button>
-										</div>
-                  </td>
-									<td style="text-align: right !important;" class="hidden-xs">
-										<div class="index-actions">
-											<button routerLink="/profile/team/{{index.key}}" class="btn btn-success mr-1 index-btn-browse">Browse <mat-icon>launch</mat-icon></button>
-											<button (click)="leaveIndex(index)" class="btn btn-danger mr-1 index-btn-leave">Leave <mat-icon>delete_forever</mat-icon></button>
-										</div>
-									</td>
-                  </ng-container>
-								</tr>
-								</tbody>
-							</table>
-						</div>
-
-					</div>
-
-          <div class="index-new" *ngIf="confirmed && !loading">
-
-            <button (click)="newIndex()" class="btn btn-success mr-1" style="margin-right: 10px;">
-              Create a new team <mat-icon>library_add</mat-icon>
-            </button>
-            <mat-slide-toggle *ngIf="stopped_world_count > 0" [(ngModel)]="show_stopped_worlds" style="margin: 0 30px;">
-              Show finished worlds ({{stopped_world_count}})
-            </mat-slide-toggle>
-
-          </div>
-
-				</div>
-			</div>
-
-		</div>
-</mat-card>
-
-<mat-card class="index-card" *ngIf="indexes.length > 0">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-xs-12" style="margin-top: -25px;">
-        <app-event-list [update]="true"></app-event-list>
-      </div>
+<div class="m-[22px] space-y-6 max-[1000px]:m-3">
+  <div class="flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
+    <div class="min-w-0">
+      <h1 class="my-0 text-2xl font-bold tracking-tight text-slate-900">My Teams</h1>
+      <p *ngIf="indexes.length > 0" class="mb-0 mt-1 text-sm text-slate-500">
+        {{indexes.length - stopped_world_count}} active {{indexes.length - stopped_world_count === 1 ? 'team' : 'teams'}}<span *ngIf="stopped_world_count > 0"> · {{stopped_world_count}} on {{stopped_world_count === 1 ? 'a finished world' : 'finished worlds'}}</span>
+      </p>
+    </div>
+    <div class="flex flex-wrap items-center gap-x-6 gap-y-3 max-sm:w-full max-sm:justify-between">
+      <label *ngIf="stopped_world_count > 0" class="m-0 inline-flex cursor-pointer items-center gap-2.5 whitespace-nowrap text-sm font-normal text-slate-700">
+        <input type="checkbox" role="switch" class="peer sr-only" [(ngModel)]="show_stopped_worlds">
+        <span class="relative h-5 w-9 flex-none rounded-full bg-slate-200 transition-colors after:absolute after:left-0.5 after:top-0.5 after:size-4 after:rounded-full after:bg-white after:shadow-sm after:transition-transform after:content-[''] peer-checked:bg-brand-700 peer-checked:after:translate-x-4 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand-700"></span>
+        Show finished worlds ({{stopped_world_count}})
+      </label>
+      <button *ngIf="confirmed && !loading && indexes.length > 0" type="button" (click)="newIndex()" class="inline-flex items-center gap-1.5 rounded-md border-0 bg-brand-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+        <svg appIcon="plus" variant="mini" class="size-5 flex-none"></svg>
+        <span class="max-sm:hidden">Create a new team</span>
+        <span class="sm:hidden">New team</span>
+      </button>
     </div>
   </div>
-</mat-card>
 
-<div *ngIf="indexes.length > 1" style="margin: 0 20px;">
-  <app-alert type="info text-center" [dismissible]="false">
-    <h5><strong>The GrepoData hosting costs are currently €70/month.</strong> If you like what we do, please consider <a class="a-link-dialog" (click)="donate()">donating</a>. Thank you! 🤗</h5>
+  <div *ngIf="!confirmed" class="space-y-3">
+    <h4 class="my-0 text-base font-medium text-rose-700">Please confirm your email address to start sharing intel</h4>
+    <app-confirm></app-confirm>
+  </div>
+
+  <app-alert class="block" type="error" *ngIf="error">
+    <h5>{{error}}</h5>
   </app-alert>
+
+  <app-alert class="block" type="error" title="Unable to leave team" *ngIf="leave_error">
+    <span [outerHTML]="leave_error"></span>
+  </app-alert>
+
+  <app-alert class="block" type="success" title="Team contribution settings updated" *ngIf="contribute_success">
+    <div [outerHTML]="contribute_success"></div>
+  </app-alert>
+
+  <app-alert class="block" type="success" title="Team left successfully" *ngIf="leave_success">
+    <div [outerHTML]="leave_success"></div>
+  </app-alert>
+
+  <app-alert class="block" type="success" title="New team created successfully!" *ngIf="created_index">
+    <h5>
+      <span *ngIf="created_index.name"><strong>Team name: </strong>{{created_index.name}}<br/></span>
+      <span *ngIf="created_index.world"><strong>World: </strong><span [outerHTML]="created_index.world | WorldNamePipe"></span><br/></span>
+    </h5>
+
+    <button *ngIf="created_index.key" class="btn btn-secondary mr-1" routerLink="/profile/team/{{created_index.key}}">Go to team overview <mat-icon>launch</mat-icon></button>
+  </app-alert>
+
+  <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
+  <section *ngIf="confirmed && !loading && indexes.length <= 0" class="flex flex-col items-center rounded-xl bg-white px-6 py-12 text-center shadow-sm ring-1 ring-slate-900/[.08]">
+    <span class="flex size-14 items-center justify-center rounded-full bg-brand-50 text-brand-700">
+      <svg appIcon="user-group" class="size-7"></svg>
+    </span>
+    <h2 class="mb-0 mt-4 text-lg font-semibold text-slate-900">You have not yet created or joined any teams</h2>
+    <p class="mb-0 mt-2 max-w-[600px] text-sm text-slate-600">You can create your own team and share it with your allies or you can join an existing team by asking your allies to invite you.</p>
+    <p class="mb-0 mt-2 max-w-[600px] text-sm text-slate-500">You can still collect intelligence if you are not part of a team, but you will only be able to share this intel by joining a team.</p>
+    <button type="button" (click)="newIndex()" class="mt-6 inline-flex items-center gap-1.5 rounded-md border-0 bg-brand-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+      <svg appIcon="plus" variant="mini" class="size-5 flex-none"></svg>
+      Create a new team
+    </button>
+  </section>
+
+  <div *ngIf="indexes.length - stopped_world_count > 12" class="flex flex-wrap items-center gap-3 rounded-xl bg-white p-3 shadow-sm ring-1 ring-slate-900/[.08]">
+    <label class="relative m-0 w-full font-normal sm:w-56">
+      <svg appIcon="magnifying-glass" variant="mini" class="pointer-events-none absolute left-2.5 top-2.5 size-4 text-slate-400"></svg>
+      <input type="text" placeholder="Filter name" aria-label="Filter name" [(ngModel)]="filter_index_name" class="h-9 w-full rounded-md border border-solid border-slate-300 bg-white text-sm font-normal text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700 pl-8 pr-3">
+    </label>
+    <select aria-label="Filter world" [(ngModel)]="filter_world" class="h-9 w-full rounded-md border border-solid border-slate-300 bg-white text-sm font-normal text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700 px-2.5 sm:w-44">
+      <option value selected>All worlds</option>
+      <option value="{{world}}" *ngFor="let world of uniqueWorlds()">{{world | WorldNamePipe : false}}</option>
+    </select>
+    <label class="relative m-0 w-full font-normal sm:w-52">
+      <svg appIcon="ally_ico" variant="game" class="pointer-events-none absolute left-2.5 top-2.5 size-4 text-slate-400"></svg>
+      <input type="text" placeholder="Filter owners" aria-label="Filter owners" [(ngModel)]="filter_index_owners" class="h-9 w-full rounded-md border border-solid border-slate-300 bg-white text-sm font-normal text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700 pl-8 pr-3">
+    </label>
+    <select aria-label="Filter role" [(ngModel)]="filter_role" class="h-9 w-full rounded-md border border-solid border-slate-300 bg-white text-sm font-normal text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700 px-2.5 sm:w-40">
+      <option value selected>All roles</option>
+      <option value="owner">Owner</option>
+      <option value="admin">Admin</option>
+      <option value="write">Member</option>
+      <option value="read">Read only</option>
+    </select>
+    <button *ngIf="filter_role || filter_world || filter_index_owners || filter_index_name" type="button" (click)="filter_role=''; filter_world = ''; filter_index_owners=''; filter_index_name='';" class="ml-auto inline-flex items-center gap-1 border-0 bg-transparent p-0 text-sm font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+      Clear filters
+      <svg appIcon="x-mark" variant="mini" class="size-4 flex-none"></svg>
+    </button>
+  </div>
+
+  <div *ngIf="indexes.length > 0" class="flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
+    <div matSort (matSortChange)="sortData($event)" class="flex flex-wrap items-center gap-1">
+      <span class="mr-2 text-sm text-slate-500 max-sm:hidden">Sort by</span>
+      <div *ngFor="let column of sortColumns" [mat-sort-header]="column.id" class="group rounded-md text-sm font-medium text-slate-600 hover:bg-white hover:text-slate-900 aria-[sort=ascending]:bg-white aria-[sort=ascending]:text-slate-900 aria-[sort=ascending]:shadow-sm aria-[sort=ascending]:ring-1 aria-[sort=ascending]:ring-slate-900/[.08] aria-[sort=descending]:bg-white aria-[sort=descending]:text-slate-900 aria-[sort=descending]:shadow-sm aria-[sort=descending]:ring-1 aria-[sort=descending]:ring-slate-900/[.08] [&_.mat-sort-header-arrow]:!hidden [&_.mat-sort-header-container]:rounded-md [&_.mat-sort-header-container]:px-2.5 [&_.mat-sort-header-container]:py-1.5 [&_.mat-sort-header-content]:gap-1 [&_.mat-sort-header-container:focus-visible]:outline [&_.mat-sort-header-container:focus-visible]:outline-2 [&_.mat-sort-header-container:focus-visible]:outline-offset-2 [&_.mat-sort-header-container:focus-visible]:outline-brand-700">
+        {{column.label}}
+        <svg appIcon="chevron-up-down" variant="micro" class="size-4 flex-none text-slate-400 group-aria-[sort=ascending]:[display:none] group-aria-[sort=descending]:[display:none]"></svg>
+        <svg appIcon="arrow-up" variant="micro" class="size-4 flex-none text-slate-700 [display:none] group-aria-[sort=ascending]:[display:block]"></svg>
+        <svg appIcon="arrow-down" variant="micro" class="size-4 flex-none text-slate-700 [display:none] group-aria-[sort=descending]:[display:block]"></svg>
+      </div>
+    </div>
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-slate-600">
+      <span class="text-slate-500 max-sm:hidden">Total reports split:</span>
+      <span class="inline-flex flex-none items-center gap-1.5 whitespace-nowrap"><span class="size-2.5 flex-none rounded-[3px] bg-report-friendly"></span>Our attacks</span>
+      <span class="inline-flex flex-none items-center gap-1.5 whitespace-nowrap"><span class="size-2.5 flex-none rounded-[3px] bg-report-enemy"></span>Attacks on us</span>
+      <span class="inline-flex flex-none items-center gap-1.5 whitespace-nowrap"><span class="size-2.5 flex-none rounded-[3px] bg-report-spy"></span>Spy reports</span>
+      <span class="inline-flex flex-none items-center gap-1.5 whitespace-nowrap"><span class="size-2.5 flex-none rounded-[3px] bg-report-other"></span>Other</span>
+    </div>
+  </div>
+
+  <div *ngIf="indexes.length > 0" class="grid grid-cols-[repeat(auto-fill,minmax(min(100%,320px),1fr))] gap-6 max-sm:gap-4">
+    <ng-container *ngFor="let index of indexes">
+      <ng-container *ngIf="
+        !index.world_stopped &&
+        (!filter_index_name || index.name.includes(filter_index_name)) &&
+        (!filter_index_owners || hasOwnerFilter(index)) &&
+        (!filter_world || index.world == filter_world) &&
+        (!filter_role || index.role == filter_role)
+      ">
+        <ng-container *ngTemplateOutlet="teamCard; context: {$implicit: index}"></ng-container>
+      </ng-container>
+    </ng-container>
+    <button *ngIf="confirmed && !loading" type="button" (click)="newIndex()" class="flex min-h-[200px] flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed border-slate-300 bg-transparent p-6 text-center hover:border-brand-600 hover:bg-brand-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+      <span class="flex size-12 items-center justify-center rounded-full bg-brand-50 text-brand-700">
+        <svg appIcon="plus" class="size-6"></svg>
+      </span>
+      <span class="text-sm font-semibold text-slate-900">Create a new team</span>
+      <span class="max-w-[240px] text-sm font-normal text-slate-500">Share a collection of enemy intel with your alliance, or ask your allies for an invite to theirs.</span>
+    </button>
+  </div>
+
+  <section *ngIf="show_stopped_worlds && stopped_world_count > 0" class="space-y-3">
+    <h2 class="my-0 flex items-center gap-2 text-sm font-semibold text-slate-500">
+      <svg appIcon="archive-box" class="size-4 flex-none text-slate-400"></svg>
+      Finished worlds · {{stopped_world_count}} {{stopped_world_count === 1 ? 'team' : 'teams'}}
+    </h2>
+    <div class="grid grid-cols-[repeat(auto-fill,minmax(min(100%,320px),1fr))] gap-6 max-sm:gap-4">
+      <ng-container *ngFor="let index of indexes">
+        <ng-container *ngIf="
+          index.world_stopped &&
+          (!filter_index_name || index.name.includes(filter_index_name)) &&
+          (!filter_index_owners || hasOwnerFilter(index)) &&
+          (!filter_world || index.world == filter_world) &&
+          (!filter_role || index.role == filter_role)
+        ">
+          <ng-container *ngTemplateOutlet="teamCard; context: {$implicit: index}"></ng-container>
+        </ng-container>
+      </ng-container>
+    </div>
+  </section>
+
+  <aside *ngIf="confirmed && !error && !leave_error && !created_index && !contribute_success && indexes.length <= 3" class="flex gap-3 rounded-xl bg-sky-50 px-5 py-4 ring-1 ring-inset ring-sky-200">
+    <svg appIcon="information-circle" class="mt-0.5 size-5 flex-none text-sky-700"></svg>
+    <div class="min-w-0 text-sm text-sky-800">
+      <h3 class="my-0 text-sm font-semibold">What is a team?</h3>
+      <p class="mb-0 mt-1">
+        A team allows you to share a collection of enemy intelligence with other users.
+        You can create and share your own team, or you can contribute to an existing team.
+        <br/>For example, you and your alliance members can create a team and work together to collect enemy intel.
+      </p>
+    </div>
+  </aside>
+
+  <app-event-list *ngIf="indexes.length > 0" class="block" [update]="true"></app-event-list>
+
+  <section *ngIf="indexes.length > 1" class="flex flex-col items-center justify-center gap-2 rounded-xl bg-white px-5 py-4 text-center shadow-sm ring-1 ring-slate-900/[.08] sm:flex-row sm:gap-3">
+    <svg appIcon="heart" class="size-5 flex-none text-rose-500"></svg>
+    <p class="my-0 text-sm text-slate-600"><strong class="font-semibold text-slate-900">The GrepoData hosting costs are currently €{{hostingCost}}/month.</strong> If you like what we do, please consider <button type="button" (click)="donate()" class="border-0 bg-transparent p-0 font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">donating</button>. Thank you! 🤗</p>
+    <app-donation-kpi class="ml-2 align-middle"></app-donation-kpi>
+  </section>
 </div>
 
-<br/>
+<ng-template #teamCard let-index>
+  <article class="flex flex-col overflow-hidden rounded-xl" [ngClass]="index.world_stopped ? 'bg-slate-50 ring-1 ring-inset ring-slate-200' : 'bg-white shadow-sm ring-1 ring-slate-900/[.08]'">
+    <div class="flex items-start gap-3 border-0 border-b border-solid border-slate-100 py-4 pl-5 pr-4">
+      <span class="flex size-10 flex-none items-center justify-center rounded-lg" [ngClass]="index.world_stopped ? 'bg-slate-100 text-slate-400' : 'bg-navy-800 text-brand-500'">
+        <svg appIcon="user-group" class="size-6"></svg>
+      </span>
+      <div class="min-w-0 flex-1">
+        <a routerLink="/profile/team/{{index.key}}" class="block truncate text-base font-semibold hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="index.world_stopped ? 'text-slate-500 hover:text-slate-700' : 'text-slate-900 hover:text-brand-800'">{{index.name || index.key}}</a>
+        <div *ngIf="!index.world_stopped" class="mt-0.5 truncate text-sm text-slate-600 [&_.bg-flag]:[zoom:0.625]"><span [outerHTML]="index.world | WorldNamePipe"></span></div>
+        <div *ngIf="index.world_stopped" class="mt-0.5 text-sm text-slate-500">{{index.world}}</div>
+      </div>
+      <span *ngIf="!index.world_stopped" matTooltip="Only the owners or admins of an team can change the team settings. Members can add new intel. And read only access means you can not add new intel but you can still browse the intel in this team." class="mt-0.5 inline-flex flex-none items-center rounded-md px-2 py-0.5 text-xs font-medium ring-1 ring-inset" [ngClass]="{'bg-brand-50 text-brand-700 ring-brand-700/20': index.role == 'owner', 'bg-sky-50 text-sky-800 ring-sky-700/20': index.role == 'admin', 'bg-slate-100 text-slate-700 ring-slate-600/[.16]': index.role == 'write', 'bg-amber-50 text-amber-800 ring-amber-600/25': index.role == 'read'}">
+        {{index.role.replace('read', 'Read only').replace('write', 'Member').replace('owner', 'Owner').replace('admin', 'Admin')}}
+      </span>
+      <span *ngIf="index.world_stopped" class="mt-0.5 inline-flex flex-none items-center gap-1 rounded-md bg-slate-100 px-1.5 py-0.5 text-xs font-medium text-slate-600 ring-1 ring-inset ring-slate-600/[.12]">
+        <svg appIcon="archive-box" variant="micro" class="size-3 flex-none"></svg>
+        Finished
+      </span>
+    </div>
+    <dl class="m-0 pl-5 text-sm">
+      <div class="flex min-h-11 items-center justify-between gap-4 py-2.5 pr-5">
+        <dt class="flex-none font-normal text-slate-500">Total reports</dt>
+        <dd class="m-0 flex min-w-0 items-center gap-2.5 font-medium tabular-nums" [ngClass]="index.world_stopped ? 'text-slate-500' : 'text-slate-900'">
+          <span *ngIf="index.stats?.total_reports > 0" role="img" [attr.aria-label]="reportSplit(index.stats)" title="{{reportSplit(index.stats)}}" class="flex h-1.5 w-16 flex-none gap-0.5 overflow-hidden rounded-full" [ngClass]="{'opacity-50': index.world_stopped}">
+            <span *ngIf="index.stats.friendly_attacks > 0" class="basis-0 bg-report-friendly" [style.flex-grow]="index.stats.friendly_attacks"></span>
+            <span *ngIf="index.stats.enemy_attacks > 0" class="basis-0 bg-report-enemy" [style.flex-grow]="index.stats.enemy_attacks"></span>
+            <span *ngIf="index.stats.spy_reports > 0" class="basis-0 bg-report-spy" [style.flex-grow]="index.stats.spy_reports"></span>
+            <span *ngIf="otherReports(index.stats) > 0" class="basis-0 bg-report-other" [style.flex-grow]="otherReports(index.stats)"></span>
+          </span>
+          <span *ngIf="index.stats && index.stats.total_reports>=0">{{index.stats.total_reports | NumberFilter}}</span>
+        </dd>
+      </div>
+      <div class="flex min-h-11 items-center justify-between gap-4 border-0 border-t border-solid border-slate-100 py-2.5 pr-5">
+        <dt class="flex-none font-normal text-slate-500">Last report</dt>
+        <dd class="m-0 min-w-0">
+          <span *ngIf="index.stats?.latest_report" title="Last report {{index.stats.latest_report}}" class="inline-flex items-center gap-1.5 whitespace-nowrap tabular-nums" [ngClass]="isStale(index) ? 'font-medium text-amber-700' : (index.world_stopped ? 'text-slate-500' : 'text-slate-700')">
+            <svg appIcon="clock" class="size-4 flex-none" [ngClass]="isStale(index) ? 'text-amber-500' : 'text-slate-400'"></svg>
+            {{index.world_stopped ? (index.stats.latest_report | Datex : 'D MMM YYYY') : reportAge(index)}}
+          </span>
+        </dd>
+      </div>
+      <div class="flex min-h-11 items-center justify-between gap-4 border-0 border-t border-solid border-slate-100 py-2.5 pr-5">
+        <dt class="flex-none font-normal text-slate-500">Contributors</dt>
+        <dd class="m-0 flex min-w-0 items-center gap-1.5" [ngClass]="index.world_stopped ? 'text-slate-500' : 'text-slate-700'">
+          <ng-container *ngIf="index.stats?.owners?.length > 0">
+            <svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+            <span class="truncate">{{index.stats.owners[0].alliance_name}}</span>
+            <span *ngIf="index.stats.owners.length > 1" [matTooltip]="otherOwners(index)" class="flex-none rounded-full bg-slate-100 px-1.5 text-xs font-medium leading-[18px] text-slate-600">+{{index.stats.owners.length - 1}}</span>
+          </ng-container>
+        </dd>
+      </div>
+      <div *ngIf="!index.world_stopped" class="flex min-h-11 items-center justify-between gap-4 border-0 border-t border-solid border-slate-100 py-2.5 pr-5">
+        <dt class="flex flex-none items-center gap-1 font-normal text-slate-500">
+          Contribute
+          <span class="inline-flex text-slate-400" matTooltip="If you enable this toggle, your collected intell will be shared with this team. If you disable this option, you can still read the intel collected by the other team members but your own collected intel will not be shared with the other players in this team.">
+            <svg appIcon="question-mark-circle" class="size-4"></svg>
+          </span>
+        </dt>
+        <dd class="m-0 flex">
+          <label *ngIf="index.role!='read'" class="relative m-0 inline-flex cursor-pointer">
+            <input type="checkbox" role="switch" class="peer sr-only" [attr.aria-label]="'Contribute to ' + index.name" [checked]="index.contribute" (click)="enableContributions(index)">
+            <span class="relative h-5 w-9 flex-none rounded-full bg-slate-200 transition-colors after:absolute after:left-0.5 after:top-0.5 after:size-4 after:rounded-full after:bg-white after:shadow-sm after:transition-transform after:content-[''] peer-checked:bg-brand-700 peer-checked:after:translate-x-4 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand-700"></span>
+          </label>
+          <label *ngIf="index.role=='read'" class="relative m-0 inline-flex cursor-not-allowed">
+            <input type="checkbox" role="switch" class="peer sr-only" [attr.aria-label]="'Contribute to ' + index.name" [checked]="false" disabled="true">
+            <span class="relative h-5 w-9 flex-none rounded-full bg-slate-100 after:absolute after:left-0.5 after:top-0.5 after:size-4 after:rounded-full after:bg-white after:shadow-sm after:content-['']"></span>
+          </label>
+        </dd>
+      </div>
+      <div *ngIf="index.world_stopped" class="flex min-h-11 items-center justify-between gap-4 border-0 border-t border-solid border-slate-100 py-2.5 pr-5">
+        <dt class="flex-none font-normal text-slate-500">Your role</dt>
+        <dd class="m-0">
+          <span class="inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-500 ring-1 ring-inset ring-slate-600/[.12]">
+            {{index.role.replace('read', 'Read only').replace('write', 'Member').replace('owner', 'Owner').replace('admin', 'Admin')}}
+          </span>
+        </dd>
+      </div>
+    </dl>
+    <div class="mt-auto flex items-center gap-2 border-0 border-t border-solid border-slate-200 py-3 pl-5 pr-3">
+      <a routerLink="/profile/team/{{index.key}}" class="inline-flex items-center gap-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 hover:text-slate-900 hover:no-underline focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+        Browse
+        <svg appIcon="arrow-right" variant="mini" class="size-4 flex-none text-slate-400"></svg>
+      </a>
+      <div class="ml-auto flex items-center gap-0.5">
+        <ng-container *ngIf="(index.role === ROLE_ADMIN || index.role === ROLE_OWNER) && !index.world_stopped">
+          <button type="button" (click)="openIndexMembers(index)" matTooltip="Users" aria-label="Users" class="inline-flex size-8 items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+            <svg appIcon="shield-check" class="size-5"></svg>
+          </button>
+          <button type="button" (click)="openIndexSettings(index)" matTooltip="Settings" aria-label="Settings" class="inline-flex size-8 items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+            <svg appIcon="cog-6-tooth" class="size-5"></svg>
+          </button>
+          <button type="button" (click)="openShareIndexDialog(index)" matTooltip="Share" aria-label="Share" class="inline-flex size-8 items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+            <svg appIcon="user-plus" class="size-5"></svg>
+          </button>
+          <span class="mx-1.5 h-5 w-px bg-slate-200"></span>
+        </ng-container>
+        <button type="button" (click)="leaveIndex(index)" matTooltip="Leave" aria-label="Leave" class="inline-flex size-8 items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-rose-50 hover:text-rose-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+          <svg appIcon="arrow-right-start-on-rectangle" class="size-5"></svg>
+        </button>
+      </div>
+    </div>
+  </article>
+</ng-template>

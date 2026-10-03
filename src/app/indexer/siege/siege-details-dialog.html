@@ -1,13 +1,15 @@
-<div style="font-size: 18px; width: auto; max-width: 70vw; min-width: 70vw; min-height: 40vh; max-height: 85vh; height: auto;">
-  <a (click)="dialogRef.close()" class="close" style="position: absolute; z-index: 10000; right: 15vw; margin: 5px; background-color: #fff;"></a>
-
+<div class="flex max-h-[85vh] w-[1024px] max-w-full flex-col">
 	<app-siege
+		class="flex min-h-0 flex-1 flex-col"
 		[embedded]="true"
 		[isCard]="false"
+		[newDesign]="true"
 		[key]="key"
 		[conquestId]="conquestId"
 		[conquest]="conquest"
 		[world]="world">
+		<button type="button" siege-report-close (click)="dialogRef.close()" aria-label="Close" class="-mr-2 -mt-1 inline-flex size-9 flex-none items-center justify-center rounded-lg border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+			<svg appIcon="x-mark" class="size-5 flex-none"></svg>
+		</button>
 	</app-siege>
-
 </div>

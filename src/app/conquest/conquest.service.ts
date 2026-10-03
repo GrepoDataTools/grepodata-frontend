@@ -67,6 +67,7 @@ export class ConquestDialog {
 		private conquestService: ConquestService,
 		public dialogRef: MatDialogRef<ConquestDialog>,
 		@Inject(MAT_DIALOG_DATA) public data: any) {
+		dialogRef.addPanelClass('team-dialog');
 		this.params = data.filters;
 		this.name = data.name
 	}

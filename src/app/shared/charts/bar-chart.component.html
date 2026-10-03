@@ -1,0 +1,22 @@
+<p *ngIf="axisLabel" aria-hidden="true" class="mb-3 mt-0 text-[11px] leading-[14px] text-slate-500">{{axisLabel}}</p>
+<div role="img" [attr.aria-label]="label" class="relative mb-6 ml-11 mt-2 h-[180px]">
+  <span *ngFor="let tick of yTicks; let first = first" aria-hidden="true" class="absolute inset-x-0 border-0 border-t border-solid" [ngClass]="first ? 'border-slate-300' : 'border-slate-100'" [style.top.%]="tick.y"></span>
+  <span *ngFor="let tick of yTicks" aria-hidden="true" class="absolute right-full mr-2 -translate-y-1/2 whitespace-nowrap text-[11px] leading-[14px] tabular-nums text-slate-500" [style.top.%]="tick.y">{{tick.value | compactNumber}}{{suffix}}</span>
+
+  <div class="absolute inset-0 flex items-end">
+    <div *ngFor="let bar of bars; let i = index" class="group relative flex h-full min-w-0 flex-1 flex-col items-center justify-end">
+      <span aria-hidden="true" class="absolute inset-x-px inset-y-0 rounded-t-md bg-slate-100 [display:none] group-hover:[display:block]"></span>
+      <span *ngIf="i == peakIndex" aria-hidden="true" class="relative mb-1 whitespace-nowrap text-[11px] font-semibold leading-[14px] tabular-nums text-slate-700">{{bar.value | number:'1.0-1'}}{{suffix}}</span>
+      <span aria-hidden="true" class="relative block w-[60%] max-w-6 rounded-t" [ngClass]="{'min-h-0.5': bar.value > 0}" [style.height.%]="bar.height" [style.background-color]="color"></span>
+      <span *ngIf="bar.label" aria-hidden="true" class="absolute top-full mt-1.5 whitespace-nowrap text-[11px] leading-[14px] tabular-nums text-slate-500 group-hover:font-semibold group-hover:text-slate-900">{{bar.label}}</span>
+      <div role="tooltip" class="pointer-events-none absolute top-2 z-10 w-max min-w-[152px] rounded-lg bg-white px-3 py-2.5 text-xs shadow-lg ring-1 ring-slate-900/5 [display:none] group-hover:[display:block]" [ngClass]="i < bars.length / 2 ? 'left-full ml-1' : 'right-full mr-1'">
+        <p class="mb-1.5 mt-0 text-[13px] font-semibold leading-[18px] text-slate-900">{{bar.title}}</p>
+        <div class="flex items-center gap-2 leading-5">
+          <span aria-hidden="true" class="h-[3px] w-3 flex-none rounded-sm" [style.background-color]="color"></span>
+          <span class="font-semibold tabular-nums text-slate-900">{{bar.value | number:(suffix ? '1.0-2' : '1.0-0')}}{{suffix}}</span>
+          <span *ngIf="unit" class="text-slate-500">{{unit}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

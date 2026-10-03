@@ -10,7 +10,6 @@ import {GoogleAnalyticsEventsService} from "../services/google-analytics-events.
 @Component({
   selector: 'app-compare',
   templateUrl: './compare.component.html',
-  styleUrls: ['./compare.component.scss'],
   providers: [AllianceService, PlayerService, WorldService]
 })
 export class CompareComponent implements OnInit {
@@ -57,6 +56,7 @@ export class CompareComponent implements OnInit {
   attChart = [];
   defChart = [];
   townChart = [];
+  historyTab = 'points';
 
   loadingStats = false;
   fightGauge = [];
@@ -69,6 +69,7 @@ export class CompareComponent implements OnInit {
   data_def_gauge: any[];
   polar_chart_data: any[];
   polar_chart_data_abs: any[];
+  playStyleTotal = false;
 
   //private vars
   comparedPlayers : any = [];
@@ -83,6 +84,7 @@ export class CompareComponent implements OnInit {
   allianceWorld = '';
 
   math = Math;
+  palette = ['#2A78D6', '#EB6834', '#1BAF7A', '#EDA100', '#E87BA4', '#008300', '#4A3AA7', '#E34948'];
 
   public showSearch$: any = new Subject();
 
@@ -126,6 +128,51 @@ export class CompareComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  get listCount() {
+    let count = 0;
+    Object.keys(this.comparedPlayers).forEach(world => count += this.comparedPlayers[world].length);
+    Object.keys(this.comparedAlliances).forEach(world => count += this.comparedAlliances[world].length);
+    return count;
+  }
+
+  activeList() {
+    if (this.comparingPlayers) {
+      return this.comparedPlayers[this.playerWorld] || [];
+    }
+    if (this.comparingAlliances) {
+      return this.comparedAlliances[this.allianceWorld] || [];
+    }
+    return [];
+  }
+
+  listPosition(value, field = 'name') {
+    const list = this.activeList();
+    for (let i = 0; i < list.length; i++) {
+      if (list[i][field] == value) {
+        return i;
+      }
+    }
+    return list.length;
+  }
+
+  inListOrder(items, key = 'name', field = 'name') {
+    return (items || []).slice().sort((a, b) => this.listPosition(a[key], field) - this.listPosition(b[key], field));
+  }
+
+  colorFor = (value, field = 'name') => this.palette[this.listPosition(value, field) % this.palette.length];
+
+  onColor(value, field = 'name') {
+    return [0, 5, 6, 7].indexOf(this.listPosition(value, field) % this.palette.length) >= 0 ? 'text-white' : 'text-slate-900';
+  }
+
+  total(items) {
+    return (items || []).reduce((sum, item) => sum + item.value, 0);
+  }
+
+  metricMax(items, index) {
+    return Math.max(1, ...(items || []).map(item => item.series[index].value).filter(value => isFinite(value)));
   }
 
   loadWorlds(doCompare) {

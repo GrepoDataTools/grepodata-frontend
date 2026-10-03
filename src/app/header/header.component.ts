@@ -7,12 +7,10 @@ import {RecaptchaComponent} from 'ng-recaptcha';
 import {environment} from '../../environments/environment';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {SidenavService} from '../layout/sidebar/sidenav-service';
-import {DonateDialog} from '../shared/dialogs/donate/donate.component';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
@@ -78,16 +76,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
   }
 
-  donate()
-  {
-    // window.open("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WYX6WW65KYQ5N&source=url", "_blank")
-    // this.routing('/donate');
-
-    const dialogRef = this.dialog.open(DonateDialog, {
-      autoFocus: false,
-    });
-  }
-
   toggleNav()
   {
     console.log(this.mobileQuery.matches)
@@ -129,7 +117,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 @Component({
   selector: 'contact-dialog',
   templateUrl: 'contact-dialog.html',
-  styleUrls: ['./contact.scss'],
   providers: [MessageService, CaptchaService, RecaptchaComponent]
 })
 export class ContactDialog {
@@ -153,6 +140,7 @@ export class ContactDialog {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private messageService : MessageService)
   {
+    dialogRef.addPanelClass('team-dialog');
     if (data && 'custom_title' in data) {
       this.custom_title = data.custom_title;
     }

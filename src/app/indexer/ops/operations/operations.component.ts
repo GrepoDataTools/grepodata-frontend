@@ -6,11 +6,11 @@ import {OpsHelpDialog} from '../help/help.component';
 import {IndexerService} from '../../indexer.service';
 import {WorldService} from '../../../services/world.service';
 import {NewIndexDialog} from '../../../shared/dialogs/new-index/new-index.component';
+import {LocalCacheService} from '../../../services/local-cache.service';
 
 @Component({
   selector: 'app-operations',
   templateUrl: './operations.component.html',
-  styleUrls: ['./operations.component.scss'],
   providers: [IndexerService, WorldService]
 })
 export class OperationsComponent implements OnInit, OnDestroy {
@@ -21,6 +21,7 @@ export class OperationsComponent implements OnInit, OnDestroy {
   timer_load_interval
   no_operations = false;
   no_teams = false;
+  infoHidden = LocalCacheService.get('alert_dismiss_ops_beta_info', true) == 1;
 
   constructor(
     public dialog: MatDialog,
@@ -92,6 +93,19 @@ export class OperationsComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       this.getActiveTeams();
     });
+  }
+
+  activeCount(): number {
+    return this.teams.filter(team => team.active).length;
+  }
+
+  otherPlayers(team): string {
+    return Object.keys(team.players).sort().slice(3).map(name => name + ' (' + team.players[name] + ')').join(', ');
+  }
+
+  hideInfo() {
+    this.infoHidden = true;
+    LocalCacheService.set('alert_dismiss_ops_beta_info', 1, 60 * 24 * 7);
   }
 
   showHelpDialog() {

@@ -100,6 +100,7 @@ export class MailListDialog {
     private globals: Globals,
     public dialogRef: MatDialogRef<MailListDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
+    dialogRef.addPanelClass('team-dialog');
     this.params = data;
     this.world = data.world;
     if ('id' in data.alliance) {

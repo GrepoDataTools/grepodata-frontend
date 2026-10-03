@@ -1,23 +1,28 @@
-<div mat-dialog-content style="min-width: 90%; min-height: 70%;">
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-xs-12">
-				<a (click)="close()" class="close"></a>
+<div class="flex max-h-[95vh] w-[600px] max-w-full flex-col text-left font-normal text-slate-900">
+  <div class="flex flex-none items-start gap-4 border-0 border-b border-solid border-slate-200 px-6 py-5">
+    <span class="flex size-10 flex-none items-center justify-center rounded-lg bg-navy-800 text-brand-500">
+      <svg appIcon="user-group" class="size-6"></svg>
+    </span>
+    <div class="min-w-0 flex-1">
+      <h2 mat-dialog-title class="m-0 text-xl font-semibold text-slate-900">Share team</h2>
+      <p class="mb-0 mt-0.5 flex min-w-0 items-center gap-1.5 text-sm text-slate-600">
+        <span class="truncate font-medium text-slate-700">{{index.name}}</span>
+        <ng-container *ngIf="index.world">
+          <span class="text-slate-300">·</span>
+          <span class="truncate [&_.bg-flag]:[zoom:0.625]"><span [outerHTML]="index.world | WorldNamePipe"></span></span>
+        </ng-container>
+      </p>
+    </div>
+    <button type="button" (click)="close()" aria-label="Close" class="-mr-2 -mt-1 inline-flex size-8 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+      <svg appIcon="x-mark" class="size-5"></svg>
+    </button>
+  </div>
 
-				<app-share *ngIf="index" [indexInput]="index"></app-share>
+  <div class="min-h-0 flex-1 overflow-y-auto px-6 py-5">
+    <app-share *ngIf="index" [indexInput]="index"></app-share>
+  </div>
 
-			</div>
-
-		</div>
-	</div>
-</div>
-
-<div mat-dialog-actions class="dialog-action">
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-xs-12">
-				<button mat-button class="mat-focus-indicator mat-raised-button bg-gd-1 text-white mat-button mat-button-base" (click)="close()" style="float: right;">Close</button>
-			</div>
-		</div>
-	</div>
+  <div class="flex flex-none items-center justify-end gap-3 border-0 border-t border-solid border-slate-200 bg-slate-50 px-6 py-4">
+    <button type="button" (click)="close()" class="inline-flex items-center justify-center gap-1.5 rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Close</button>
+  </div>
 </div>

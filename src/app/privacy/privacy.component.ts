@@ -5,9 +5,10 @@ import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-privacy',
   templateUrl: './privacy.component.html',
-  styleUrls: ['./privacy.component.scss']
 })
 export class PrivacyComponent implements OnInit {
+
+  language = 0;
 
   constructor(
     public dialog: MatDialog) { }
@@ -23,6 +24,15 @@ export class PrivacyComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {});
+  }
+
+  scroll(el: HTMLElement) {
+    const yOffset = -80;
+    const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+    window.scrollTo({
+      top: y,
+      behavior: 'smooth'
+    });
   }
 
 }

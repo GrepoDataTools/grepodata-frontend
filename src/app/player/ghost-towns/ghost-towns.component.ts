@@ -5,8 +5,7 @@ import { PlayerService } from '../player.service';
 
 @Component({
   selector: 'app-ghost-towns',
-  templateUrl: './ghost-towns.component.html',
-  styleUrls: ['./ghost-towns.component.scss']
+  templateUrl: './ghost-towns.component.html'
 })
 export class GhostTownsComponent implements OnInit {
 
@@ -28,6 +27,7 @@ export class GhostTownsComponent implements OnInit {
   ghost_alliance: string;
   has_ghost_details = false;
   loading_ghost_towns = true;
+  tab = 0;
 
   constructor(
     private globals: Globals,

@@ -11,7 +11,6 @@ import {BasicDialog} from '../../shared/dialogs/basic/basic.component';
 @Component({
   selector: 'app-invite',
   templateUrl: './invite.component.html',
-  styleUrls: ['./invite.component.scss'],
   providers: [IndexAuthService]
 })
 export class InviteComponent implements OnInit {
@@ -26,6 +25,7 @@ export class InviteComponent implements OnInit {
 
   verification_loading = true;
   error : string = '';
+  error_icon : string = 'exclamation-triangle';
   logged_in : boolean = false;
   read_more : boolean = false;
 
@@ -122,6 +122,7 @@ export class InviteComponent implements OnInit {
         } else {
           // script auth failed
           this.error = '<h2>Sorry, we were unable to link your account to the userscript</h2><h4>You can request a new token using the in-game script, try again later or contact us if this error persists.</h4>';
+          this.error_icon = 'link-slash';
           // this.snackBar.open('Sorry, we were unable to link your account to the userscript. Please request a new token using the in-game script.', 'Dismiss', {panelClass: 'script-auth-link-error'});
         }
         this.verifying_script = false;
@@ -132,12 +133,15 @@ export class InviteComponent implements OnInit {
         if (error.error.error_code && error.error.error_code === 3041) {
           // 3041 = script token does not exist
           this.error = '<h2>Sorry, your userscript token is <strong>invalid</strong></h2><h4>Request a new token using the in-game script.</h4>';
+          this.error_icon = 'no-symbol';
         } else if (error.error.error_code && error.error.error_code === 3042) {
           // 3042 = expired script token
           this.error = '<h2>Sorry, your userscript token has <strong>expired</strong></h2><h4>Request a new token using the in-game script.</h4>';
+          this.error_icon = 'clock';
         } else if (error.error.error_code && error.error.error_code === 3043) {
           // 3043 = invalid client address
-          this.error = '<h2>Sorry, your IP address has changed. <strong>If you use a VPN, you may need to disable it for a moment while you authenticate your userscript.</strong></h2><h4>Request a new token using the in-game script.</h4>';
+          this.error = '<h2>Sorry, your IP address has changed</h2><h4><strong>If you use a VPN, you may need to disable it for a moment while you authenticate your userscript.</strong> Request a new token using the in-game script.</h4>';
+          this.error_icon = 'globe-europe-africa';
         } else if (error.error.error_code && error.error.error_code === 3003) {
           // access token is not valid!
           this.authService.logout(false);
@@ -149,6 +153,7 @@ export class InviteComponent implements OnInit {
             <h4>You can request a new token using the in-game script. Please try again later or contact us if this error persists.<br/>When you contact us, add a screenshot of the information below:</h4>
             <pre class="pre-no-css">UNIX ${Date.now()} - ${JSON.stringify(error)}</pre>
         `;
+          this.error_icon = 'exclamation-triangle';
         }
         this.verifying_script = false;
         this.verification_loading = false;
@@ -176,23 +181,29 @@ export class InviteComponent implements OnInit {
             <h4>Please try again later or contact us if this error persists.<br/>When you contact us, add a screenshot of the information below:</h4>
             <pre class="pre-no-css">UNIX ${Date.now()} - ${JSON.stringify(response)}</pre>
         `;
+      this.error_icon = 'exclamation-triangle';
       if (response.error_code && response.error_code === 3008) {
         // Generic invalid invite link
         this.error = '<h2>Invalid invite link</h2><h4>Please ask the owner of the team for a new invite link</h4>';
+        this.error_icon = 'no-symbol';
       } else if (response.error_code && response.error_code === 7101) {
         // No index found for this key (?)
         if (this.v1_redirect) {
           this.error = '<h2>Unable to find this team</h2><h4>Please try again later or contact us if this error persists</h4>';
+          this.error_icon = 'magnifying-glass';
         } else {
           this.error = '<h2>Invalid invite link</h2><h4>Please ask the owner of the team for a new invite link</h4>';
+          this.error_icon = 'no-symbol';
         }
       } else if (response.error_code && response.error_code === 3009) {
         // Expired invite link
         this.error = '<h2>Sorry, this invite link has expired</h2><h4>Please ask the owner of the team for a new invite link</h4>';
+        this.error_icon = 'clock';
       } else if (response.error_code && response.error_code === 7601) {
         // V1 key joining is disabled
         this.error = '<h2>Sorry, the owner of this team has disabled backwards compatible redirects</h2>' +
           '<h4>Please ask the owner of this team for an invite link to get access to the team</h4>';
+        this.error_icon = 'lock-closed';
       } else if (
         response.error
         && response.error.error_code
@@ -256,15 +267,14 @@ export class InviteComponent implements OnInit {
       data: {
         title: '',
         show_close: false,
-        messageHtml: '<div class="text-center">' +
-          '<div class="gd-txt-icon-container">\n' +
-          '  <span class="gd-txt-icon-1">GREPO</span>\n' +
-          '  <span class="gd-txt-icon-2">DATA</span>\n' +
-          '</div>' +
-          '<h2 class="gd-primary">Userscript login complete. Happy indexing!</h2>' +
-          '<h4>You can now use the city indexer tool while playing Grepolis.</h4>' +
-          '<br/>' +
-          '<h5>Thank you for using GrepoData.</h5>' +
+        messageHtml: '<div class="flex flex-col items-center pb-1 pt-2 text-center">' +
+          '<p class="m-0 whitespace-nowrap text-[28px] font-extrabold leading-none tracking-tight"><span class="text-navy-800">GREPO</span><span class="text-brand-500">DATA</span></p>' +
+          '<span class="mt-5 flex size-12 items-center justify-center rounded-full bg-emerald-50 text-emerald-600 ring-1 ring-inset ring-emerald-100">' +
+          '<span class="block size-[26px] bg-current [mask:url(/assets/heroicons/24/outline/check-badge.svg)_center/contain_no-repeat]"></span>' +
+          '</span>' +
+          '<h2 class="pt-4 text-slate-900">Userscript login complete. Happy indexing!</h2>' +
+          '<p class="mt-1.5">You can now use the city indexer tool while playing Grepolis.</p>' +
+          '<p class="mt-3 text-slate-500">Thank you for using GrepoData.</p>' +
           '</div>',
         closeOnNavigation: false
       }

@@ -1,35 +1,30 @@
-<div class="hidden-push-div" *ngIf="!hideHeader"></div>
-<nav *ngIf="!hideHeader">
-  <span id="brand">
-    <a class="brand-text" routerLink="" routerLinkActive="active">Grepo<span style="color:#18BC9C;">data</span></a>
-    <!--<a class="navbar-brand" href="#page-top">Grepo<span style="color:#18BC9C;">data</span> <span class="fa fa-bar-chart"></span></a>-->
-  </span>
-  <!--suppress XmlDuplicatedId -->
-  <ul id="menu" class="menu-item-container">
-    <li (click)="routing('/points')" [ngClass]="{'nav-active': isScoreboard}">Scoreboard</li>
-    <li (click)="routing('/compare')" [ngClass]="{'nav-active': isCompare}">Compare</li>
-    <li (click)="routing('/ranking')" [ngClass]="{'nav-active': isRanking}">Ranking</li>
-    <li (click)="openIndexer()" [ngClass]="{'nav-active': isIndexer}">City Indexer</li>
-    <li (click)="showContactDialog()">Contact</li>
-    <a (click)="donate()" class="a-donate-link">DONATE</a>
-  </ul>
-
-  <div id="toggle" (click)="toggleNav()" [ngClass]="{'on': toggled}">
-    <div class="span" id="one"></div>
-    <div class="span" id="two"></div>
-    <div class="span" id="three"></div>
+<div *ngIf="!hideHeader" aria-hidden="true" class="h-16 max-[1199px]:[display:none]"></div>
+<header *ngIf="!hideHeader" class="relative z-[900] bg-navy-800 text-left font-normal min-[1200px]:fixed min-[1200px]:inset-x-0 min-[1200px]:top-0 min-[1200px]:z-[1010]">
+  <div class="flex h-16 items-center justify-between gap-4 px-6 max-md:h-14 max-[899px]:pl-4 max-[899px]:pr-2 min-[900px]:max-[1199px]:px-5">
+    <a routerLink="" aria-label="GrepoData home" class="whitespace-nowrap text-2xl font-extrabold leading-none tracking-tight no-underline hover:no-underline focus:no-underline max-md:text-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"><span class="text-white">GREPO</span><span class="text-brand-500">DATA</span></a>
+    <nav aria-label="Main" class="flex items-center gap-1 max-[899px]:[display:none] min-[900px]:max-[1199px]:gap-0.5">
+      <a routerLink="/points" (click)="routing('/points')" [attr.aria-current]="isScoreboard ? 'page' : null" class="inline-block whitespace-nowrap rounded-md border-0 px-3 py-2 text-sm font-medium leading-5 no-underline hover:no-underline focus:no-underline min-[900px]:max-[1199px]:px-2.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white" [ngClass]="isScoreboard ? 'bg-white/10 text-white hover:text-white focus:text-white' : 'bg-transparent text-slate-300 hover:bg-white/[.06] hover:text-white focus:text-slate-300'">Scoreboard</a>
+      <a routerLink="/compare" (click)="routing('/compare')" [attr.aria-current]="isCompare ? 'page' : null" class="inline-block whitespace-nowrap rounded-md border-0 px-3 py-2 text-sm font-medium leading-5 no-underline hover:no-underline focus:no-underline min-[900px]:max-[1199px]:px-2.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white" [ngClass]="isCompare ? 'bg-white/10 text-white hover:text-white focus:text-white' : 'bg-transparent text-slate-300 hover:bg-white/[.06] hover:text-white focus:text-slate-300'">Compare</a>
+      <a routerLink="/ranking" (click)="routing('/ranking')" [attr.aria-current]="isRanking ? 'page' : null" class="inline-block whitespace-nowrap rounded-md border-0 px-3 py-2 text-sm font-medium leading-5 no-underline hover:no-underline focus:no-underline min-[900px]:max-[1199px]:px-2.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white" [ngClass]="isRanking ? 'bg-white/10 text-white hover:text-white focus:text-white' : 'bg-transparent text-slate-300 hover:bg-white/[.06] hover:text-white focus:text-slate-300'">Ranking</a>
+      <a routerLink="/indexer" (click)="openIndexer()" [attr.aria-current]="isIndexer ? 'page' : null" class="inline-block whitespace-nowrap rounded-md border-0 px-3 py-2 text-sm font-medium leading-5 no-underline hover:no-underline focus:no-underline min-[900px]:max-[1199px]:px-2.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white" [ngClass]="isIndexer ? 'bg-white/10 text-white hover:text-white focus:text-white' : 'bg-transparent text-slate-300 hover:bg-white/[.06] hover:text-white focus:text-slate-300'">City Indexer</a>
+      <button type="button" aria-haspopup="dialog" (click)="showContactDialog()" class="inline-block whitespace-nowrap rounded-md border-0 px-3 py-2 text-sm font-medium leading-5 no-underline hover:no-underline focus:no-underline min-[900px]:max-[1199px]:px-2.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white bg-transparent text-slate-300 hover:bg-white/[.06] hover:text-white focus:text-slate-300">Contact</button>
+      <app-donation-kpi [dark]="true" class="ml-2"></app-donation-kpi>
+    </nav>
+    <button type="button" (click)="toggleNav()" [attr.aria-label]="toggled ? 'Close menu' : 'Open menu'" [attr.aria-expanded]="toggled" aria-controls="phone-menu" class="inline-flex size-10 flex-none items-center justify-center rounded-md border-0 p-0 min-[900px]:[display:none] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white" [ngClass]="toggled ? 'bg-white/10 text-white' : 'bg-transparent text-slate-300 hover:bg-white/[.06] hover:text-white'">
+      <svg [appIcon]="toggled ? 'x-mark' : 'bars-3'" class="size-6"></svg>
+    </button>
   </div>
 
-</nav>
-
-
-<div *ngIf="!hideHeader" id="resize" class="menu-small" [ngClass]="{'active': toggled}">
-  <!--suppress XmlDuplicatedId -->
-  <ul id="menu" class="mobile-nav">
-    <li><a (click)="routing('/points')" routerLink="/points" routerLinkActive="active">SCOREBOARD</a></li>
-    <li><a (click)="routing('/compare')" routerLink="/points" routerLinkActive="active">COMPARE</a></li>
-    <li><a (click)="routing('/ranking')" routerLink="/ranking" routerLinkActive="active">RANKINGS</a></li>
-    <li><a (click)="openIndexer()" routerLink="/indexer" routerLinkActive="active">CITY INDEXER</a></li>
-    <li><a (click)="headerContact()">CONTACT</a></li>
-  </ul>
-</div>
+  <nav *ngIf="toggled" id="phone-menu" aria-label="Main" class="absolute inset-x-0 top-full flex min-h-[calc(100vh-56px)] flex-col justify-between border-0 border-t border-solid border-white/[.08] bg-navy-800 px-3 pb-5 pt-3 min-[900px]:[display:none] md:min-h-[calc(100vh-64px)]">
+    <ul class="m-0 flex list-none flex-col gap-1 p-0">
+        <li class="m-0"><a routerLink="/points" (click)="routing('/points')" [attr.aria-current]="isScoreboard ? 'page' : null" class="flex h-12 w-full items-center gap-3 rounded-lg border-0 px-4 text-left text-base leading-6 no-underline hover:no-underline focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white" [ngClass]="isScoreboard ? 'bg-white/[.08] font-semibold text-white shadow-[inset_3px_0_0_#18BC9C] hover:text-white focus:text-white' : 'bg-transparent font-medium text-slate-300 hover:bg-white/[.06] hover:text-white focus:text-slate-300'"><svg appIcon="chart-bar" class="size-5 flex-none" [ngClass]="isScoreboard ? 'text-brand-500' : 'text-slate-400'"></svg>Scoreboard</a></li>
+        <li class="m-0"><a routerLink="/compare" (click)="routing('/compare')" [attr.aria-current]="isCompare ? 'page' : null" class="flex h-12 w-full items-center gap-3 rounded-lg border-0 px-4 text-left text-base leading-6 no-underline hover:no-underline focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white" [ngClass]="isCompare ? 'bg-white/[.08] font-semibold text-white shadow-[inset_3px_0_0_#18BC9C] hover:text-white focus:text-white' : 'bg-transparent font-medium text-slate-300 hover:bg-white/[.06] hover:text-white focus:text-slate-300'"><svg appIcon="arrows-right-left" class="size-5 flex-none" [ngClass]="isCompare ? 'text-brand-500' : 'text-slate-400'"></svg>Compare</a></li>
+        <li class="m-0"><a routerLink="/ranking" (click)="routing('/ranking')" [attr.aria-current]="isRanking ? 'page' : null" class="flex h-12 w-full items-center gap-3 rounded-lg border-0 px-4 text-left text-base leading-6 no-underline hover:no-underline focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white" [ngClass]="isRanking ? 'bg-white/[.08] font-semibold text-white shadow-[inset_3px_0_0_#18BC9C] hover:text-white focus:text-white' : 'bg-transparent font-medium text-slate-300 hover:bg-white/[.06] hover:text-white focus:text-slate-300'"><svg appIcon="trophy" class="size-5 flex-none" [ngClass]="isRanking ? 'text-brand-500' : 'text-slate-400'"></svg>Ranking</a></li>
+        <li class="m-0"><a routerLink="/indexer" (click)="openIndexer()" [attr.aria-current]="isIndexer ? 'page' : null" class="flex h-12 w-full items-center gap-3 rounded-lg border-0 px-4 text-left text-base leading-6 no-underline hover:no-underline focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white" [ngClass]="isIndexer ? 'bg-white/[.08] font-semibold text-white shadow-[inset_3px_0_0_#18BC9C] hover:text-white focus:text-white' : 'bg-transparent font-medium text-slate-300 hover:bg-white/[.06] hover:text-white focus:text-slate-300'"><svg appIcon="building-library" class="size-5 flex-none" [ngClass]="isIndexer ? 'text-brand-500' : 'text-slate-400'"></svg>City Indexer</a></li>
+      <li class="m-0"><button type="button" aria-haspopup="dialog" (click)="headerContact()" class="flex h-12 w-full items-center gap-3 rounded-lg border-0 px-4 text-left text-base leading-6 no-underline hover:no-underline focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white bg-transparent font-medium text-slate-300 hover:bg-white/[.06] hover:text-white focus:text-slate-300"><svg appIcon="chat-bubble-left-right" class="size-5 flex-none text-slate-400"></svg>Contact</button></li>
+    </ul>
+    <div class="px-1 pt-4" (click)="toggled = false">
+      <app-donation-kpi [dark]="false" class="flex w-full [&>button]:w-full [&>button]:justify-center [&>button]:rounded-lg [&>button]:py-3 [&>button]:text-[15px]"></app-donation-kpi>
+    </div>
+  </nav>
+</header>

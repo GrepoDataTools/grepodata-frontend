@@ -1,16 +1,13 @@
+<div class="relative h-full">
+  <button type="button" (click)="close()" aria-label="Close" class="absolute right-4 top-6 z-30 inline-flex size-8 items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+    <svg appIcon="x-mark" class="size-5"></svg>
+  </button>
 
-<div class="dialog-header">
-  <a (click)="close()" class="close" style="z-index: 10000;"></a>
+  <ng-container *ngIf="type=='player'">
+    <app-index-player class="block h-full" [world]="world" [id]="id" [key]="team" [embedded]="true"></app-index-player>
+  </ng-container>
+
+  <ng-container *ngIf="type=='town'">
+    <app-index-town class="block h-full" [world]="world" [id]="id" [key]="team" [embedded]="true"></app-index-town>
+  </ng-container>
 </div>
-
-<ng-container *ngIf="type=='player'">
-  <div class="intel-wrapper-player">
-    <app-index-player [world]="world" [id]="id" [key]="team" [embedded]="true"></app-index-player>
-  </div>
-</ng-container>
-
-<ng-container *ngIf="type=='town'">
-  <div class="intel-wrapper-town">
-    <app-index-town [world]="world" [id]="id" [key]="team" [embedded]="true"></app-index-town>
-  </div>
-</ng-container>

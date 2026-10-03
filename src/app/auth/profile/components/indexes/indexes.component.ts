@@ -19,13 +19,13 @@ import {MediaMatcher} from '@angular/cdk/layout';
 import {Sort} from '@angular/material/sort';
 import {HttpClient} from '@angular/common/http';
 import {DonateDialog} from '../../../../shared/dialogs/donate/donate.component';
+import {HOSTING_COST_PER_MONTH} from '../../../../shared/hosting-cost';
 
 const apiUrl = environment.apiUrl;
 
 @Component({
   selector: 'app-indexes',
   templateUrl: './indexes.component.html',
-  styleUrls: ['./indexes.component.scss'],
   providers: [IndexerService, WorldService, CaptchaService, IndexAuthService],
   encapsulation: ViewEncapsulation.None
 })
@@ -45,6 +45,11 @@ export class IndexesComponent implements OnInit, OnDestroy {
 
   readonly ROLE_ADMIN = environment.ROLE_ADMIN;
   readonly ROLE_OWNER = environment.ROLE_OWNER;
+  readonly sortColumns = [
+    {id: 'name', label: 'Team name'},
+    {id: 'world', label: 'World'},
+    {id: 'reports', label: 'Total reports'},
+  ];
 
   mobileQuery: MediaQueryList;
   private readonly _mediaQueryListener: () => void;
@@ -54,6 +59,10 @@ export class IndexesComponent implements OnInit, OnDestroy {
   filter_index_owners : any = '';
   filter_world : any = '';
   filter_role : any = '';
+
+  private timezones: {[server: string]: string} = null;
+
+  readonly hostingCost = HOSTING_COST_PER_MONTH;
 
   constructor(
     private globals: Globals,
@@ -244,9 +253,11 @@ export class IndexesComponent implements OnInit, OnDestroy {
       // minWidth: '40%',
       autoFocus: false,
       data: {
-        title: '',
+        title: 'Leave team?',
         show_close: false,
-        messageHtml: '<div class="text-center"><h3>Are you sure you want to leave team <span class="gd-primary">' + index.name + '</span>?</h3><p>You will have to be invited to join the team again.</p></div>',
+        icon: 'arrow-right-start-on-rectangle',
+        messageHtml: '<p class="m-0">Are you sure you want to leave team <strong class="font-semibold text-slate-900">' + index.name + '</strong>?</p>' +
+          '<p class="mt-1 text-slate-500">You will have to be invited to join the team again.</p>',
         cancel_action: 'Cancel',
         action_type: 'danger',
         action: 'Leave team',
@@ -381,6 +392,51 @@ export class IndexesComponent implements OnInit, OnDestroy {
 
   uniqueWorlds() {
     return [...new Set(this.indexes.map(item => item.world))];
+  }
+
+  otherOwners(index): string {
+    return index.stats.owners.slice(1).map(owner => owner.alliance_name).join(', ');
+  }
+
+  reportAge(index): string {
+    const minutes = this.minutesSinceLastReport(index);
+    if (minutes < 60) {
+      return minutes + 'm ago';
+    }
+    const hours = Math.floor(minutes / 60);
+    return hours < 24 ? hours + 'h ago' : Math.floor(hours / 24) + 'd ago';
+  }
+
+  isStale(index): boolean {
+    return !index.world_stopped && this.minutesSinceLastReport(index) > 1440;
+  }
+
+  otherReports(stats): number {
+    return Math.max(0, stats.total_reports - stats.friendly_attacks - stats.enemy_attacks - stats.spy_reports);
+  }
+
+  reportSplit(stats): string {
+    return [['Our attacks', stats.friendly_attacks], ['Attacks on us', stats.enemy_attacks], ['Spy reports', stats.spy_reports], ['Other', this.otherReports(stats)]]
+      .filter(([label, count]) => count > 0)
+      .map(([label, count]) => label + ' ' + Math.round(count / stats.total_reports * 100) + '%')
+      .join(' · ');
+  }
+
+  private minutesSinceLastReport(index): number {
+    const latest = new Date(index.stats.latest_report.replace(' ', 'T'));
+    return Math.max(0, Math.floor((this.serverTime(index.world).getTime() - latest.getTime()) / 60000));
+  }
+
+  private serverTime(world: string): Date {
+    if (!this.timezones) {
+      const servers: any = WorldService.getLocalWorlds();
+      if (servers) {
+        this.timezones = {};
+        servers.forEach(server => this.timezones[server.server] = server.timezone);
+      }
+    }
+    const timezone = this.timezones && this.timezones[world.substring(0, 2)];
+    return timezone ? new Date(new Date().toLocaleString('sv-SE', {timeZone: timezone}).replace(' ', 'T')) : new Date();
   }
 
   donate() {

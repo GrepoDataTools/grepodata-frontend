@@ -2,8 +2,7 @@ import {Component, Input, OnChanges, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-player-activity',
-  templateUrl: './player-activity.component.html',
-  styleUrls: ['./player-activity.component.scss']
+  templateUrl: './player-activity.component.html'
 })
 export class PlayerActivityComponent implements OnInit, OnChanges {
 

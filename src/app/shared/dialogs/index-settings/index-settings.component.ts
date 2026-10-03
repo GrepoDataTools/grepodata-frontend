@@ -7,7 +7,6 @@ import {SearchService} from '../../../search/search.service';
 @Component({
   selector: 'app-index-settings',
   templateUrl: './index-settings.component.html',
-  styleUrls: ['./index-settings.component.scss'],
   providers: [IndexAuthService, SearchService]
 })
 export class IndexSettingsDialog {
@@ -49,6 +48,7 @@ export class IndexSettingsDialog {
     private searchService: SearchService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    dialogRef.addPanelClass('team-dialog');
     console.log(data.index);
     this.index = data.index;
 

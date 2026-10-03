@@ -6,7 +6,6 @@ import * as moment from 'moment';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
 import {GoogleAnalyticsEventsService} from "../services/google-analytics-events.service";
 import {CompareService} from "../compare/compare.service";
-import { MatTabChangeEvent } from '@angular/material/tabs';
 import {WorldService} from "../services/world.service";
 import {Globals} from "../globals";
 import {Datex} from '../app.component';
@@ -15,7 +14,6 @@ import {JwtService} from '../auth/services/jwt.service';
 @Component({
   selector: 'app-player',
   templateUrl: './player.component.html',
-  styleUrls: ['./player.component.scss'],
   providers: [PlayerService, WorldService, Datex]
 })
 export class PlayerComponent implements OnInit {
@@ -71,8 +69,8 @@ export class PlayerComponent implements OnInit {
     console.log(event);
   }
 
-  onTabClick(event: MatTabChangeEvent) {
-  	switch (event.index) {
+  onTabClick(index: number) {
+  	switch (index) {
 			case 0:
 				this.bShowHistoryChart = true;
 				this.bShowHeatmapChart = false;
@@ -89,7 +87,7 @@ export class PlayerComponent implements OnInit {
         }, 2000);
 				break;
 		}
-    this.tabsIndex = event.index;
+    this.tabsIndex = index;
   }
 
   setActiveTab(type) {
@@ -114,6 +112,7 @@ export class PlayerComponent implements OnInit {
   playerAllianceChanges = [];
   playerHistoryData = [];
   playerHistoryChart = [];
+  historyColor = (name: string) => (name === 'Attack points' ? '#EB6834' : name === 'Defence points' ? '#2A78D6' : '#1BAF7A');
   ghost_town_data: any[] = [];
   playerName = '';
   points = '';
@@ -430,7 +429,8 @@ export class PlayerComponent implements OnInit {
         data: {
           id: this.id,
           name: this.playerName,
-          world: this.world
+          world: this.world,
+          worldName: this.worldName
         }
       });
 
@@ -452,20 +452,24 @@ export class TownDialog {
 
   name: string;
   world: string;
+  worldName: string;
   player_id: string;
   townData: any;
   loading: boolean = true;
   bbMode: boolean = true;
   generated_at : any;
   copied = false;
+  tab = 0;
 
   constructor(
     private globals: Globals,
     private playerService: PlayerService,
     public dialogRef: MatDialogRef<TownDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
+    dialogRef.addPanelClass('team-dialog');
     this.name = data.name;
     this.world = data.world;
+    this.worldName = data.worldName;
     this.player_id = data.id;
     this.playerService.getTowns(data.world, data.id)
       .subscribe(

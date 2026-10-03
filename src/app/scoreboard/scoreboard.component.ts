@@ -23,11 +23,11 @@ import { environment } from '../../environments/environment';
 import * as moment from 'moment';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {DonateDialog} from '../shared/dialogs/donate/donate.component';
+import {HOSTING_COST_PER_MONTH} from '../shared/hosting-cost';
 
 @Component({
   selector: 'app-scoreboard',
   templateUrl: './scoreboard.component.html',
-  styleUrls: ['./scoreboard.component.scss'],
   providers: [ScoreboardService, LocalCacheService, WorldService, SearchService, ConquestService],
 })
 export class ScoreboardComponent implements OnInit {
@@ -38,6 +38,8 @@ export class ScoreboardComponent implements OnInit {
   @ViewChild('worldMapContainer', { static: false }) worldMapContainer: ElementRef;
   @ViewChild('mapTooltipContainer', { static: false }) mapTooltipContainer: ElementRef;
   @ViewChild('mapTip', { static: false }) mapTip: ElementRef;
+
+  readonly hostingCost = HOSTING_COST_PER_MONTH;
 
   // API data
   playerData = '' as any;
@@ -820,6 +822,11 @@ export class ScoreboardComponent implements OnInit {
     );
   }
 
+  get tickerSeconds(): number {
+    const chips = (this.playerDiffs?.att?.length || 0) + (this.playerDiffs?.def?.length || 0);
+    return Math.max(36, chips * 4);
+  }
+
   renderAllianceScoreboard(json, date) {
     if (json == null) {
       this.noticeAlliance = 'We found no alliance scoreboard for ' + this.world + ' on ' + date + '. Use the world selector above to select another world.';
@@ -972,6 +979,7 @@ export class BBScoreboardDialog {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public googleAnalyticsEventsService: GoogleAnalyticsEventsService
   ) {
+    dialogRef.addPanelClass('team-dialog');
     this.type = data.type;
 
     if (
@@ -1024,7 +1032,6 @@ export class BBScoreboardDialog {
 @Component({
   selector: 'overview-dialog',
   templateUrl: 'overview.html',
-  styleUrls: ['./scoreboard.component.scss'],
   providers: [ScoreboardService],
 })
 export class OverviewDialog implements AfterViewInit {
@@ -1065,6 +1072,7 @@ export class OverviewDialog implements AfterViewInit {
     private scoreboardService: ScoreboardService,
     public dialog: MatDialog
   ) {
+    dialogRef.addPanelClass('team-dialog');
     this.world = dialogData.world;
     this.date = dialogData.date;
     this.hourRaw = dialogData.hour;
@@ -1100,6 +1108,18 @@ export class OverviewDialog implements AfterViewInit {
 
   toggleFilter() {
     this.filtering=!this.filtering;
+  }
+
+  seriesSum(player) {
+    return (player.series || []).reduce((sum, item) => sum + item.value, 0);
+  }
+
+  seriesMax(players) {
+    return Math.max(1, ...(players || []).map((player) => this.seriesSum(player)));
+  }
+
+  toggledCount(alliances) {
+    return (alliances || []).filter((alliance) => alliance.toggle).length;
   }
 
   onNoClick(): void {
@@ -1261,7 +1281,6 @@ export class OverviewDialog implements AfterViewInit {
 @Component({
   selector: 'player-overview-dialog',
   templateUrl: 'player-overview.html',
-  styleUrls: ['./scoreboard.component.scss'],
   providers: [ScoreboardService],
 })
 export class PlayerOverviewDialog implements AfterViewInit {
@@ -1284,6 +1303,7 @@ export class PlayerOverviewDialog implements AfterViewInit {
     private scoreboardService: ScoreboardService,
     public dialog: MatDialog
   ) {
+    dialogRef.addPanelClass('team-dialog');
     this.world = dialogData.world;
     this.date = dialogData.date;
     this.player_id = dialogData.id;
@@ -1334,6 +1354,13 @@ export class PlayerOverviewDialog implements AfterViewInit {
     setTimeout((_) => this.cdr.detectChanges(), 250);
   }
 
+  total(key) {
+    return (this.data || []).reduce((sum, group) => {
+      const item = (group.series || []).find((entry) => entry.name === key);
+      return sum + (item ? item.value : 0);
+    }, 0);
+  }
+
   onSelect(event) {
     if ('series' in event) {
       let hour = event.series;
@@ -1353,7 +1380,6 @@ export class PlayerOverviewDialog implements AfterViewInit {
 @Component({
   selector: 'alliance-overview-dialog',
   templateUrl: 'alliance-overview.html',
-  styleUrls: ['./scoreboard.component.scss'],
   providers: [ScoreboardService],
 })
 export class AllianceOverviewDialog implements AfterViewInit {
@@ -1376,6 +1402,7 @@ export class AllianceOverviewDialog implements AfterViewInit {
     private scoreboardService: ScoreboardService,
     public dialog: MatDialog
   ) {
+    dialogRef.addPanelClass('team-dialog');
     this.world = dialogData.world;
     this.date = dialogData.date;
     this.alliance_id = dialogData.id;
@@ -1415,6 +1442,13 @@ export class AllianceOverviewDialog implements AfterViewInit {
       },
     });
     dialogRef.afterClosed().subscribe((result) => {});
+  }
+
+  total(key) {
+    return (this.data || []).reduce((sum, group) => {
+      const item = (group.series || []).find((entry) => entry.name === key);
+      return sum + (item ? item.value : 0);
+    }, 0);
   }
 
   onSelect(event) {

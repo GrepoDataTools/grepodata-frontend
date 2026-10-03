@@ -1,88 +1,92 @@
-<div *ngIf="!loading">
-	<mat-card-title *ngIf="parentType=='alliance'">
-		<div class="form-group row" style='margin: 0px;'>
-			<h3 style='font-weight: 300; color: #304357; vertical-align: center;'>
-				<span>
-					<img src="../../assets/images/player_ico.png" style="height: 25px; margin-top: -5px; margin-right: 8px;"/>
-					<a class="a-link-dialog" routerLink="/intel/player/{{world}}/{{id}}">{{playerName}}</a>
-				</span>
-			</h3>
+<div *ngIf="!loading" class="text-left font-normal">
+	<div *ngIf="parentType=='alliance'" class="flex flex-wrap items-center gap-x-3 gap-y-2 border-0 border-t border-solid border-slate-200 bg-slate-50 px-5 py-2.5 max-sm:px-3">
+		<a routerLink="/intel/player/{{world}}/{{id}}" class="inline-flex min-w-0 items-center gap-1.5 text-sm font-semibold text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+			<svg appIcon="player_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+			<span class="truncate">{{playerName}}</span>
+		</a>
+		<div *ngIf="iterator.length>0" class="ml-auto flex items-center gap-3">
+			<ng-container *ngTemplateOutlet="tableActions"></ng-container>
 		</div>
-	</mat-card-title>
-	<mat-card-content>
-		<div *ngIf="iterator.length<=0" class="alert alert-warning text-center alert-gd-1">
-			<h3>No {{tableHeader.toLowerCase()}} intel available</h3>
-			<p>Index more reports about this player</p>
-		</div>
-		<div *ngIf="iterator.length>0" class="bb-fixed" [ngClass]="{'bb-fixed-lg':hideAvailable}">
-			<div *ngIf="hideAvailable" class="togglecontainer" style="position: absolute; left: 5px; margin-top: -5px;">
-				<mat-checkbox [(ngModel)]="showNonPriority" (change)="cdr.detectChanges(); saveDuplicateVisibility();">Show duplicate intel</mat-checkbox>
-				<!--<mat-slide-toggle [(ngModel)]="showNonPriority" (change)="cdr.detectChanges(); saveDuplicateVisibility();">Show duplicate intel</mat-slide-toggle>-->
-				<!--<label class="switch">-->
-					<!--<input type="checkbox" [(ngModel)]="showNonPriority" (change)="cdr.detectChanges(); saveDuplicateVisibility();">-->
-					<!--<span class="slider round"></span>-->
-				<!--</label>-->
-				<!--<span class="toggle-label" style="vertical-align: middle !important;">Show duplicate intel</span>-->
-				<!--<span class="toggle-label" style="vertical-align: middle !important;">Show all<span class="hidden-xs hidden-sm"> (only show 1 record per town)</span></span>-->
-			</div>
-			<button name="open_bb" class="btn btn-success btn-xs"
-			        (click)="openBBdialog()" style="position: absolute; right: 5px; margin-top: -27px;">
-				<i class="fa fa-code"></i> BB code
-			</button>
-		</div>
-		<div *ngIf="iterator.length>0" class="table intel-table">
+	</div>
 
-			<div class="row_custom header header_{{type}}">
+	<div *ngIf="parentType!='alliance' && iterator.length>0" class="flex items-center gap-3 px-5 pb-3 max-sm:px-3">
+		<ng-container *ngTemplateOutlet="tableActions"></ng-container>
+	</div>
 
-				<div class="cell" [ngClass]="{'name_cell':isSeaUnit||type=='myth'}">
-					Town
-				</div>
-				<div class="cell" [ngStyle]="{'text-align': isSeaUnit?'left':''}">
-					{{tableHeader}}
-				</div>
-				<div class="cell">
-					Date
-				</div>
-			</div>
+	<div *ngIf="iterator.length<=0" class="flex flex-col items-center px-6 py-8 text-center">
+		<span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+			<svg appIcon="document-magnifying-glass" class="size-5"></svg>
+		</span>
+		<h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900">No {{tableHeader.toLowerCase()}} intel available</h3>
+		<p class="mb-0 mt-1 text-sm text-slate-600">Index more reports about this player</p>
+	</div>
 
-			<ng-container *ngFor="let town of iterator; let i = index;">
-				<div class="row_spacer" *ngIf="hideAvailable && showNonPriority && i!=0 && town?.priority==true"></div>
-				<div class='row_custom' *ngIf="(showNonPriority || (town?.priority==true&&!showNonPriority))">
-					<div class="cell" [ngClass]="{'name_cell':isSeaUnit||type=='myth', 'town_sub_cell':hideAvailable && town?.priority==false}">
-						<a routerLink="/intel/town/{{world}}/{{town.town_id}}" [ngClass]="{'town_sub':hideAvailable && town?.priority==false}">
-							{{!hideAvailable || town?.priority==true?town.town_name:'↳'}}
-						</a>
-
-					</div>
-					<div class="cell" style="text-align: left;" *ngIf="isSeaUnit" title="{{tableHeader}}">
-		        <span class="unit-icon-xs hidden-xs">
-		          <div class="unit_icon40x40 {{typeActual}}"></div>
-		        </span>
-						<span [outerHTML]="town.units | HideNoLossPipe"></span>
-					</div>
-					<div class="cell" *ngIf="isLandUnit">
-						<div class="unit-row">
-							<div class="unit-icon-sm" *ngFor="let unit of town.units | ValuesPipe; let i = index;" title="{{unit?.name}}">
-								<div class="unit_icon40x40 {{unit.name}}"><span class="unit-val">{{unit.count}}</span></div>
-								<div style="color: #d00;" *ngIf="unit.killed && unit.killed!=0">-{{unit.killed}}</div>
+	<div *ngIf="iterator.length>0" class="gd-scrollbar overflow-x-auto">
+		<table class="w-full min-w-[360px] table-fixed border-separate border-spacing-0 text-left font-normal">
+			<colgroup>
+				<col class="w-[38%]">
+				<col>
+				<col class="w-28">
+			</colgroup>
+			<thead [ngClass]="{'sr-only': parentType=='alliance'}">
+				<tr>
+					<th scope="col" class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 pl-5 pr-3 text-left text-xs font-medium text-slate-700 max-sm:pl-3">Town</th>
+					<th scope="col" class="truncate whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700">{{tableHeader}}</th>
+					<th scope="col" class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 pl-3 pr-5 text-right text-xs font-medium text-slate-700 max-sm:pr-3">Date</th>
+				</tr>
+			</thead>
+			<tbody>
+				<ng-container *ngFor="let town of iterator; let i = index;">
+					<tr *ngIf="hideAvailable && showNonPriority && i!=0 && town?.priority==true" aria-hidden="true">
+						<td colspan="3" class="h-1.5 border-0 border-b border-solid border-slate-200 bg-slate-100 p-0"></td>
+					</tr>
+					<tr *ngIf="(showNonPriority || (town?.priority==true&&!showNonPriority))" class="hover:bg-slate-50" [ngClass]="{'bg-slate-50/70': hideAvailable && town?.priority==false}">
+						<td class="border-0 border-b border-solid border-slate-100 py-2.5 pl-5 pr-3 align-middle max-sm:pl-3">
+							<a routerLink="/intel/town/{{world}}/{{town.town_id}}" class="inline-flex max-w-full items-center gap-1.5 text-sm hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="!hideAvailable || town?.priority==true ? 'font-medium text-slate-900' : 'pl-1 text-slate-500'">
+								<svg *ngIf="!hideAvailable || town?.priority==true" appIcon="town_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+								<svg *ngIf="hideAvailable && town?.priority!=true" appIcon="arrow-turn-down-right" variant="micro" class="size-4 flex-none text-slate-300"></svg>
+								<span class="truncate">{{!hideAvailable || town?.priority==true?town.town_name:'Older report'}}</span>
+							</a>
+						</td>
+						<td class="border-0 border-b border-solid border-slate-100 px-3 py-2.5 align-middle" *ngIf="isSeaUnit" title="{{tableHeader}}">
+							<div class="flex items-center gap-2.5 text-sm font-semibold tabular-nums text-slate-900 [&_.diff-neg]:!text-rose-700">
+								<span class="size-7 flex-none overflow-hidden rounded-md ring-1 ring-slate-900/[.18] max-[767px]:hidden">
+									<div class="unit_icon40x40 {{typeActual}} border-0 [zoom:0.7]"></div>
+								</span>
+								<span [outerHTML]="town.units | HideNoLossPipe"></span>
 							</div>
-						</div>
-					</div>
-					<!--<div class="cell" style="width: 50%; display: flex;" *ngIf="isLandUnit">-->
-            <!--<span style="transform: scale(.8); margin-right: 32px;" *ngFor="let unit of town.units | ValuesPipe; let i = index;">-->
-              <!--<div class="unit_icon40x40 {{unit.name}}"></div>-->
-              <!--<div class="unit-val" style="margin-right: -40px; top: 0px; background: #9898986e; height: 40px; width: 40px;">-->
-                <!--<div>{{unit.count}}</div>-->
-                <!--<div style="color: #d00; margin-top: -6px; text-shadow: none;" *ngIf="unit.killed && unit.killed!=0">-{{unit.killed}}</div>-->
-              <!--</div>-->
-            <!--</span>-->
-					<!--</div>-->
-					<div class="cell date-cell">
-						<span [outerHTML]="town.date | IndexDate:'html'"></span>
-					</div>
-				</div>
-			</ng-container>
-
-		</div>
-	</mat-card-content>
+						</td>
+						<td class="border-0 border-b border-solid border-slate-100 px-3 py-2.5 align-middle" *ngIf="isLandUnit">
+							<ul class="m-0 flex list-none flex-wrap gap-1 p-0">
+								<li class="w-8 flex-none" *ngFor="let unit of town.units | ValuesPipe; let i = index;" title="{{unit?.name}}">
+									<div class="relative size-8 overflow-hidden rounded-md">
+										<div class="unit_icon40x40 {{unit.name}} border-0 [zoom:0.8]"></div>
+										<span class="absolute bottom-0 right-0 rounded-tl bg-slate-900/[.78] px-[3px] text-[10px] font-medium leading-[13px] tabular-nums text-white">{{unit.count}}</span>
+										<span class="pointer-events-none absolute inset-0 rounded-md ring-1 ring-inset ring-slate-900/[.18]"></span>
+									</div>
+									<div class="mt-0.5 text-center text-[11px] font-medium leading-4 tabular-nums text-rose-700" *ngIf="unit.killed && unit.killed!=0">-{{unit.killed}}</div>
+								</li>
+							</ul>
+						</td>
+						<td class="whitespace-nowrap border-0 border-b border-solid border-slate-100 py-2.5 pl-3 pr-5 text-right align-middle tabular-nums max-sm:pr-3">
+							<div class="text-sm text-slate-900">{{town.date | IndexDate | slice:0:-6}}</div>
+							<div class="text-xs text-slate-500">{{town.date | IndexDate | slice:-5}}</div>
+						</td>
+					</tr>
+				</ng-container>
+			</tbody>
+		</table>
+	</div>
 </div>
+
+<ng-template #tableActions>
+	<label *ngIf="hideAvailable" class="m-0 inline-flex cursor-pointer items-center gap-2 whitespace-nowrap text-[13px] font-normal leading-5 text-slate-700">
+		<input type="checkbox" class="peer sr-only" [(ngModel)]="showNonPriority" (change)="cdr.detectChanges(); saveDuplicateVisibility();">
+		<span class="flex h-[18px] w-8 flex-none items-center rounded-full bg-slate-200 p-0.5 transition-colors after:block after:size-3.5 after:rounded-full after:bg-white after:shadow after:transition-transform after:content-[''] peer-checked:bg-brand-700 peer-checked:after:translate-x-3.5 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand-700"></span>
+		Show duplicate intel
+	</label>
+	<button type="button" name="open_bb" (click)="openBBdialog()" class="ml-auto inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+		<svg appIcon="code-bracket" variant="micro" class="size-4 flex-none text-slate-400"></svg>
+		BB code
+	</button>
+</ng-template>

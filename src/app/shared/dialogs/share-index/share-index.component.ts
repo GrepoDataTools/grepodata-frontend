@@ -7,7 +7,6 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 @Component({
   selector: 'app-index-settings',
   templateUrl: './share-index.component.html',
-  styleUrls: ['./share-index.component.scss'],
   providers: [IndexerService]
 })
 export class ShareIndexDialog {
@@ -20,6 +19,7 @@ export class ShareIndexDialog {
     public dialogRef: MatDialogRef<ShareIndexDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    dialogRef.addPanelClass('team-dialog');
     console.log(data.index);
     this.index = data.index;
   }

@@ -1,24 +1,23 @@
-<div style="width: 100% !important; min-height: 0px; padding: 5px; text-align: center;" *ngIf="!mobile && !blocking && environment.production==true">
-	<ad-unit></ad-unit>
+<div *ngIf="!mobile && !blocking && environment.production==true" class="w-full py-1 text-center">
+  <span class="mb-1.5 block text-[11px] uppercase leading-[14px] tracking-wider text-slate-400">Advertisement</span>
+  <ad-unit></ad-unit>
 </div>
 
-<div class="blocked" *ngIf="!mobile && blocking && !hideBlockingMsg">
-  <div class="col-12 alert alert-warning text-center alert-gd-1" style="width: 100%;">
-    <div class="row">
-      <div class="col-xs-2">
-          <mat-icon class="icon-margin"><img src="../../assets/images/adblock.png" height="70"/></mat-icon>
-      </div>
-      <div class="col-xs-8">
-          <h3 style="color: #f44336;">We show ads to pay for our servers</h3>
-          <p style="font-size: 17px;">Please consider supporting us by disabling your adblocker on this site; <a target="_blank" href="https://help.getadblock.com/support/solutions/articles/6000082125-what-do-i-do-if-a-site-forces-me-to-disable-adblock-">learn how</a></p>
-      </div>
-      <div class="col-xs-2">
-        <a (click)="hideHelp()" class="close" style="top: 18px; color: #f44336 !important;"></a>
-      </div>
+<div *ngIf="!mobile && blocking && !hideBlockingMsg" class="w-full py-1">
+  <div role="note" class="mx-auto flex w-full max-w-[900px] items-center gap-4 rounded-[10px] bg-amber-50 py-3.5 pl-4 pr-3 text-left font-normal ring-1 ring-inset ring-amber-200">
+    <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-full bg-white text-amber-600 ring-1 ring-inset ring-amber-200">
+      <svg appIcon="hand-raised" class="size-[22px]"></svg>
+    </span>
+    <div class="min-w-0 flex-1">
+      <p class="m-0 text-[15px] font-semibold leading-[22px] text-amber-800">We show ads to pay for our servers</p>
+      <p class="mb-0 mt-0.5 text-sm text-amber-800">Please consider supporting us by disabling your adblocker on this site; <a target="_blank" href="https://help.getadblock.com/support/solutions/articles/6000082125-what-do-i-do-if-a-site-forces-me-to-disable-adblock-" class="font-semibold text-amber-800 underline underline-offset-2 hover:text-amber-900 focus:text-amber-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-700">learn how</a><svg appIcon="arrow-top-right-on-square" variant="micro" class="ml-[3px] inline-block size-3.5 align-[-2px] text-amber-700"></svg></p>
     </div>
+    <button type="button" (click)="hideHelp()" aria-label="Hide for 2 days" title="Hide for 2 days" class="inline-flex size-8 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-amber-700 hover:bg-amber-100 hover:text-amber-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-700">
+      <svg appIcon="x-mark" class="size-5"></svg>
+    </button>
   </div>
 </div>
 
-<div *ngIf="environment.production != true" class="dev-placeholder">
-  <img src="assets/dev/ad_placeholder.png">
+<div *ngIf="environment.production != true" class="flex w-full justify-center py-1">
+  <img src="assets/dev/ad_placeholder.png" alt="" class="block h-auto max-w-full">
 </div>

@@ -1,144 +1,120 @@
-<div class="container-fluid" style="margin-top: 30px;">
-  <div class="row">
-    <div class="col-lg-8 col-md-12 col-sm-12" style="float: none; margin: auto;">
-      <div class=" alert alert-default alert-gd-1" style="padding: 30px 30px 50px 30px;">
-
-        <!--<div style="float: left;">-->
-        <!--<a mat-button style="font-size: 18px; color: gray;" routerLink="/">-->
-        <!--<span class="fa fa-backward"></span> Homepage-->
-        <!--</a>-->
-        <!--</div>-->
-
-        <!--<div style="float: right;">-->
-        <!--<a mat-button style="font-size: 18px; color: gray;" routerLink="/indexer">-->
-        <!--<span class="fa fa-forward"></span> City Indexer-->
-        <!--</a>-->
-        <!--</div>-->
-        <!--<br/>-->
-
-        <div class="text-center"><h1 class="gd-secondary"> City Indexer Userscript Changelog</h1>
-          <h4>
-            <a href="https://github.com/GrepoDataTools/grepodata-backend/commits/master/Software/Application/Indexer/indexer.js" target="_blank">
-              <i class="fa fa-github" aria-hidden="true"></i> Full history (GitHub)
-            </a>
-          </h4>
-          <app-alert type="info2" [dismissible]="false">
-            <h5><strong>Note:</strong> You do not have to update the GrepoData userscript.
-              <br/>Your browser will automatically use the latest version.</h5>
-          </app-alert>
-        </div>
-        <br/>
-        <br/>
-
-        <app-script-version
-          [collapsable]="false"
-          [new]="true"
-          [title]="'08-01-2024 - Publish siege overviews to the daily scoreboard'">
-          <p>
-            Team owners and admins can now publish sieges. A published siege overview is visible to all grepodata users on the dialy scoreboard for that world (as shown below).
-            The individual attacks are not made public. The team admins can always unpublish a siege to make it hidden again.
-          </p>
-          <br/><img style="max-width: 70%;" src="../../assets/images/siege_publishing.jpg"><br/><br/>
-        </app-script-version>
-
-        <app-script-version
-          [collapsable]="false"
-          [new]="false"
-          [title]="'24-09-2023 - Team Operations: push notifications & sharing attack plans'"
-          [github_url]="'https://github.com/GrepoDataTools/grepodata-backend/commit/1fec172cc0dbf602d2fefd70834ac0bba64bc3da#diff-c99d467c47c572f6de633952fa1de8c54b36adb85d925f031b05dcad62e2d39e'">
-          <ul>
-            <li>We added a 'Team Ops' button to the game menu that shows your current active operations and recent notifications.</li>
-            <li>We added a 'Share with team' button to the attack planner that allows users to upload planned commands to Team Operations.</li>
-            <li>All team members will now get push notifications in-game when new commands are shared within the team.</li>
-          </ul>
-          <br/><img style="max-width: 70%;" src="../../assets/images/notifications.png"><br/><br/>
-        </app-script-version>
-
-        <hr/>
-
-        <app-script-version
-          [collapsable]="false"
-          [new]="false"
-          [title]="'12-03-2023 - Team Operations: Share Your Command Overview'"
-          [github_url]="'https://github.com/GrepoDataTools/grepodata-backend/commit/26a3f70c80bd4673a28c9f708e526a2d3140024b#diff-c99d467c47c572f6de633952fa1de8c54b36adb85d925f031b05dcad62e2d39e'">
-          <p>
-            We added a button the command overview that allows users to share their commands with their GrepoData teams.
-            Team members can upload their commands and can browse a combined real-time command overview together with the entire team.
-          </p>
-          <br/><img style="max-width: 70%;" src="../../assets/images/share_commands.jpg"><br/><br/>
-        </app-script-version>
-
-        <hr/>
-
-        <app-script-version
-          [collapsable]="false"
-          [new]="false"
-          [title]="'29-03-2022 - Importing Existing Intel'"
-          [github_url]="''">
-          <p>
-            We added the option to import existing intel when you join or create a new team. If you have previously indexed some reports and join a new team on the same game world, you will find a popup message on the team overview.
-            This popup allows you to import all existing intel to the new team. You can find your team overview by going to My teams on grepodata.com and selecting your new team.
-          </p>
-          <br/><img style="max-width: 100%;" src="../../assets/images/intel_imports.png"><br/><br/>
-        </app-script-version>
-
-        <hr/>
-
-        <app-script-version
-          [collapsable]="false"
-          [title]="'05-11-2021 - Forum reactions'"
-          [github_url]="'https://github.com/GrepoDataTools/grepodata-backend/commit/65f4367b9500e3b563152e49f21258a6b1caefdd#diff-c99d467c47c572f6de633952fa1de8c54b36adb85d925f031b05dcad62e2d39e'">
-          <p>
-            Added forum reactions. If you have the userscript installed, you can leave reactions to posts on the in-game alliance forum. Your alliance members can see your reaction and you can see theirs, but only if they also use the userscript and are part of the same GrepoData team.
-            <br/>You can disable this feature in the settings.
-          </p>
-          <br/><img style="max-width: 80vw;" src="../../assets/images/forum_reactions.png"><br/><br/>
-        </app-script-version>
-
-        <hr/>
-
-        <app-script-version
-          [title]="'21-09-2021 - Bugfix for support overview'"
-          [github_url]="'https://github.com/GrepoDataTools/grepodata-backend/commit/9d08adba8c2a234d5b11c980c8c162c10cbb1d9a#diff-c99d467c47c572f6de633952fa1de8c54b36adb85d925f031b05dcad62e2d39e'">
-          <p>Added a bugfix for town names in the support overview. Due to a bug in the game, the support overview shows the current town instead of the source town of your units. We added a function to our userscript that fixes this bug. </p>
-        </app-script-version>
-
-        <hr/>
-
-        <app-script-version
-          [title]="'17-09-2021 - Bugfix for GrepoData dialog windows'"
-          [github_url]="'https://github.com/GrepoDataTools/grepodata-backend/commit/11537c906c7b446882e4dc3cd54e4a9d92b1b42e#diff-c99d467c47c572f6de633952fa1de8c54b36adb85d925f031b05dcad62e2d39e'">
-          <p>Fixed a bug that would cause the GrepoData dialog windows to open in a weird way. </p>
-        </app-script-version>
-
-	      <hr/>
-
-        <app-script-version
-          [title]="'11-07-2021 - Intel tooltip'"
-          [github_url]="'https://github.com/GrepoDataTools/grepodata-backend/commit/a2620466801a256728c3a979bb15f12389cf95d2#diff-c99d467c47c572f6de633952fa1de8c54b36adb85d925f031b05dcad62e2d39e'">
-          <p>Added a tooltip to spy reports in the intel viewer that shows how much silver was used. </p>
-        </app-script-version>
-
-	      <hr/>
-
-        <app-script-version
-          [title]="'26-05-2021 - Return time bugfix'"
-          [github_url]="'https://github.com/GrepoDataTools/grepodata-backend/commit/dcfc38d27ff78ce50955b13b9a4a5b94071dda9d#diff-c99d467c47c572f6de633952fa1de8c54b36adb85d925f031b05dcad62e2d39e'">
-          <p>Bugfix for return time on movements to own cities. </p>
-        </app-script-version>
-
-      </div>
-
-      <app-indexer-update></app-indexer-update>
-      <br/>
-      <br/>
-
+<div class="m-[22px] space-y-6 text-left font-normal max-[1000px]:m-3">
+  <div class="flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
+    <div class="min-w-0">
+      <h1 class="my-0 text-2xl font-bold tracking-tight text-slate-900">Changelog</h1>
+      <p class="mb-0 mt-1 text-sm text-slate-500">City Indexer userscript</p>
     </div>
+    <a href="https://github.com/GrepoDataTools/grepodata-backend/commits/master/Software/Application/Indexer/indexer.js" target="_blank" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 no-underline shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 hover:text-slate-900 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+      <svg appIcon="github" variant="game" class="size-4 flex-none"></svg>
+      Full history on GitHub
+      <svg appIcon="arrow-top-right-on-square" variant="mini" class="size-4 flex-none text-slate-400"></svg>
+    </a>
   </div>
 
-  <div class="row">
-    <div class="col-xs-12 col-sm-12">
-    </div>
+  <div role="status" class="flex gap-3 rounded-lg bg-sky-50 px-4 py-3 text-sm text-sky-800 ring-1 ring-inset ring-sky-200">
+    <svg appIcon="information-circle" class="size-5 flex-none text-sky-600"></svg>
+    <p class="m-0 min-w-0"><strong class="font-semibold">Note:</strong> You do not have to update the GrepoData userscript. Your browser will automatically use the latest version.</p>
   </div>
 
+  <section class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+    <div class="border-0 border-b border-solid border-slate-200 px-5 py-4 max-sm:px-4">
+      <h2 class="m-0 text-base font-semibold text-slate-900">Userscript updates</h2>
+    </div>
+
+    <div class="[&>*+*]:border-0 [&>*+*]:border-t [&>*+*]:border-solid [&>*+*]:border-slate-100">
+      <app-script-version
+        class="block"
+        [collapsable]="false"
+        [new]="true"
+        [title]="'08-01-2024 - Publish siege overviews to the daily scoreboard'">
+        <p>
+          Team owners and admins can now publish sieges. A published siege overview is visible to all GrepoData users on the daily scoreboard for that world (as shown below).
+          The individual attacks are not made public. The team admins can always unpublish a siege to make it hidden again.
+        </p>
+        <img class="mt-4 block h-auto w-full max-w-md rounded-lg ring-1 ring-slate-900/10" src="../../assets/images/siege_publishing.jpg">
+      </app-script-version>
+
+      <app-script-version
+        class="block"
+        [collapsable]="false"
+        [new]="false"
+        [title]="'24-09-2023 - Team Operations: push notifications & sharing attack plans'"
+        [github_url]="'https://github.com/GrepoDataTools/grepodata-backend/commit/1fec172cc0dbf602d2fefd70834ac0bba64bc3da#diff-c99d467c47c572f6de633952fa1de8c54b36adb85d925f031b05dcad62e2d39e'">
+        <ul>
+          <li>We added a 'Team Ops' button to the game menu that shows your current active operations and recent notifications.</li>
+          <li>We added a 'Share with team' button to the attack planner that allows users to upload planned commands to Team Operations.</li>
+          <li>All team members will now get push notifications in-game when new commands are shared within the team.</li>
+        </ul>
+        <img class="mt-4 block h-auto w-full max-w-md rounded-lg ring-1 ring-slate-900/10" src="../../assets/images/notifications.png">
+      </app-script-version>
+
+      <app-script-version
+        class="block"
+        [collapsable]="false"
+        [new]="false"
+        [title]="'12-03-2023 - Team Operations: Share Your Command Overview'"
+        [github_url]="'https://github.com/GrepoDataTools/grepodata-backend/commit/26a3f70c80bd4673a28c9f708e526a2d3140024b#diff-c99d467c47c572f6de633952fa1de8c54b36adb85d925f031b05dcad62e2d39e'">
+        <p>
+          We added a button to the command overview that allows users to share their commands with their GrepoData teams.
+          Team members can upload their commands and can browse a combined real-time command overview together with the entire team.
+        </p>
+        <img class="mt-4 block h-auto w-full max-w-md rounded-lg ring-1 ring-slate-900/10" src="../../assets/images/share_commands.jpg">
+      </app-script-version>
+
+      <app-script-version
+        class="block"
+        [collapsable]="false"
+        [new]="false"
+        [title]="'29-03-2022 - Importing Existing Intel'"
+        [github_url]="''">
+        <p>
+          We added the option to import existing intel when you join or create a new team. If you have previously indexed some reports and join a new team on the same game world, you will find a popup message on the team overview.
+          This popup allows you to import all existing intel to the new team. You can find your team overview by going to My teams on grepodata.com and selecting your new team.
+        </p>
+        <img class="mt-4 block h-auto w-full max-w-md rounded-lg ring-1 ring-slate-900/10" src="../../assets/images/intel_imports.png">
+      </app-script-version>
+
+      <app-script-version
+        class="block"
+        [collapsable]="false"
+        [title]="'05-11-2021 - Forum reactions'"
+        [github_url]="'https://github.com/GrepoDataTools/grepodata-backend/commit/65f4367b9500e3b563152e49f21258a6b1caefdd#diff-c99d467c47c572f6de633952fa1de8c54b36adb85d925f031b05dcad62e2d39e'">
+        <p>
+          Added forum reactions. If you have the userscript installed, you can leave reactions to posts on the in-game alliance forum. Your alliance members can see your reaction and you can see theirs, but only if they also use the userscript and are part of the same GrepoData team.
+          You can disable this feature in the settings.
+        </p>
+        <img class="mt-4 block h-auto w-full max-w-md rounded-lg ring-1 ring-slate-900/10" src="../../assets/images/forum_reactions.png">
+      </app-script-version>
+
+      <app-script-version
+        class="block"
+        [title]="'21-09-2021 - Bugfix for support overview'"
+        [github_url]="'https://github.com/GrepoDataTools/grepodata-backend/commit/9d08adba8c2a234d5b11c980c8c162c10cbb1d9a#diff-c99d467c47c572f6de633952fa1de8c54b36adb85d925f031b05dcad62e2d39e'">
+        <p>Added a bugfix for town names in the support overview. Due to a bug in the game, the support overview shows the current town instead of the source town of your units. We added a function to our userscript that fixes this bug.</p>
+      </app-script-version>
+
+      <app-script-version
+        class="block"
+        [title]="'17-09-2021 - Bugfix for GrepoData dialog windows'"
+        [github_url]="'https://github.com/GrepoDataTools/grepodata-backend/commit/11537c906c7b446882e4dc3cd54e4a9d92b1b42e#diff-c99d467c47c572f6de633952fa1de8c54b36adb85d925f031b05dcad62e2d39e'">
+        <p>Fixed a bug that would cause the GrepoData dialog windows to open in a weird way.</p>
+      </app-script-version>
+
+      <app-script-version
+        class="block"
+        [title]="'11-07-2021 - Intel tooltip'"
+        [github_url]="'https://github.com/GrepoDataTools/grepodata-backend/commit/a2620466801a256728c3a979bb15f12389cf95d2#diff-c99d467c47c572f6de633952fa1de8c54b36adb85d925f031b05dcad62e2d39e'">
+        <p>Added a tooltip to spy reports in the intel viewer that shows how much silver was used.</p>
+      </app-script-version>
+
+      <app-script-version
+        class="block"
+        [title]="'26-05-2021 - Return time bugfix'"
+        [github_url]="'https://github.com/GrepoDataTools/grepodata-backend/commit/dcfc38d27ff78ce50955b13b9a4a5b94071dda9d#diff-c99d467c47c572f6de633952fa1de8c54b36adb85d925f031b05dcad62e2d39e'">
+        <p>Bugfix for return time on movements to own cities.</p>
+      </app-script-version>
+    </div>
+  </section>
+
+  <app-indexer-update class="block"></app-indexer-update>
 </div>

@@ -6,19 +6,20 @@ import { GoogleAnalyticsEventsService } from '../services/google-analytics-event
 import { CompareService } from '../compare/compare.service';
 import { WorldService } from '../services/world.service';
 import { Globals } from '../globals';
-import { MatTabChangeEvent } from '@angular/material/tabs';
 import {MatDialog} from '@angular/material/dialog';
 import {JwtService} from '../auth/services/jwt.service';
 import {DonateDialog} from '../shared/dialogs/donate/donate.component';
+import {HOSTING_COST_PER_MONTH} from '../shared/hosting-cost';
 
 @Component({
     selector: 'app-alliance',
     templateUrl: './alliance.component.html',
-    styleUrls: ['./alliance.component.scss'],
     providers: [AllianceService, WorldService],
 })
 export class AllianceComponent implements AfterViewInit {
     @ViewChild('infoTabs', { static: false }) infoTabs: ElementRef;
+
+    readonly hostingCost = HOSTING_COST_PER_MONTH;
 
     // Chart vars
     data_default: any[];
@@ -44,6 +45,7 @@ export class AllianceComponent implements AfterViewInit {
     allianceHistoryJson = [] as any;
     allianceHistoryData = [] as any;
     allianceHistoryChart = [] as any;
+    historyColor = (name: string) => (name === 'Attack points' ? '#EB6834' : name === 'Defence points' ? '#2A78D6' : '#1BAF7A');
     allianceMembersData = [] as any;
     playerAllianceChanges = [] as any;
     allianceName = '';
@@ -57,6 +59,7 @@ export class AllianceComponent implements AfterViewInit {
     worldName = '';
     id = '';
     tabsIndex = 0;
+    membersTab = 0;
     allianceHistoryLastDay = null;
 
     // Activity
@@ -207,6 +210,14 @@ export class AllianceComponent implements AfterViewInit {
         }
     }
 
+    get warsWon(): number {
+        return (this.allianceWars || []).reduce((sum, war) => sum + war.towns_gained_from, 0);
+    }
+
+    get warsLost(): number {
+        return (this.allianceWars || []).reduce((sum, war) => sum + war.towns_lost_to, 0);
+    }
+
     activeMemberTabChange(event) {
         switch (event.index) {
             case 1:
@@ -222,11 +233,11 @@ export class AllianceComponent implements AfterViewInit {
         setTimeout((_) => this.cdr.detectChanges(), 250);
     }
 
-    onTabClick(event: MatTabChangeEvent) {
-        if (event.index == 2) {
+    onTabClick(index: number) {
+        if (index == 2) {
             this.bShowIntel = true;
         }
-        this.tabsIndex = event.index;
+        this.tabsIndex = index;
         this.cdr.detectChanges();
         setTimeout((_) => this.cdr.detectChanges(), 250);
         setTimeout((_) => this.cdr.detectChanges(), 500);

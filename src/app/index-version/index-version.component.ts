@@ -27,7 +27,6 @@ import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-index-version',
   templateUrl: './index-version.component.html',
-  styleUrls: ['./index-version.component.scss'],
   animations: [
     trigger('helpAnim',
       [

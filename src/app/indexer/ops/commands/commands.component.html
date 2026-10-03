@@ -1,686 +1,573 @@
 <div [ngClass]="{'dark-mode': !dark_mode}">
-  <div class="ops-header">
-    <app-indexer-breadcrumbs [data]="{world: world, team: team, team_name: team_name}" [type]="'ops'"></app-indexer-breadcrumbs>
-  </div>
+  <div class="fixed inset-x-0 top-0 z-[1000] flex h-[58px] items-center justify-between gap-4 border-0 border-b border-solid border-slate-200 bg-white px-4 font-normal dark:border-slate-800 dark:bg-slate-900 max-sm:px-3">
+    <app-indexer-breadcrumbs class="block min-w-0" [data]="{world: world, team: team, team_name: team_name}" [type]="'ops'"></app-indexer-breadcrumbs>
 
-  <div class="ops-action">
-
-    <div class="dark-mode-toggle" title="Toggle Dark Mode">
-      <div class="switch">
-        <input type="checkbox" class="switch__input" id="Switch" [(ngModel)]="dark_mode" (ngModelChange)="saveSettingsToCache(); draw()">
-        <label class="switch__label" for="Switch">
-          <span class="switch__indicator"></span>
-          <span class="switch__decoration"></span>
-        </label>
-      </div>
-    </div>
-
-    <div class="ops-action-buttons hidden-xs">
-      <button class="btn btn-secondary mr-1" (click)="showHelpDialog()">
-        Help <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">live_help</mat-icon>
-      </button>
-      <button class="btn btn-secondary mr-1 hidden-xs hidden-sm hidden-md" (click)="showContactDialog()">
-        Feedback <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">feedback</mat-icon>
-      </button>
-      <ng-container *ngIf="show_menu">
-        <button [disabled]="!is_admin" class="btn btn-secondary mr-1 hidden-xs hidden-sm" (click)="openUsersDialog()" title="Only the team admin/owner can manage these settings">
-          Users <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">group</mat-icon>
+    <div class="flex flex-none items-center gap-2">
+      <div class="flex items-center gap-2 max-md:hidden">
+        <button type="button" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-800 dark:text-slate-100 dark:ring-slate-700 dark:hover:bg-slate-700" (click)="showHelpDialog()">
+          <svg appIcon="question-mark-circle" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
+          Help
         </button>
-        <button class="btn btn-danger mr-1 hidden-xs" (click)="toggleOpSettings(!showOpSettings)" title="Delete or hide commands" style="margin-left: 0 !important;">
-          <span *ngIf="!showOpSettings">Delete Commands <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">settings</mat-icon></span>
-          <span *ngIf="showOpSettings">Delete Commands <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">close</mat-icon></span>
+        <button type="button" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-800 dark:text-slate-100 dark:ring-slate-700 dark:hover:bg-slate-700 max-[1199px]:hidden" (click)="showContactDialog()">
+          <svg appIcon="chat-bubble-left-ellipsis" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
+          Feedback
         </button>
-      </ng-container>
-      <button class="btn btn-primary" *ngIf="!show_menu" (click)="show_menu=true" title="Show Menu">
-        <mat-icon>settings</mat-icon>
-      </button>
-      <button class="btn btn-primary" *ngIf="show_menu" (click)="show_menu=false">
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
-
-    <div class="op-settings-container" *ngIf="deleting">
-      <div class="delete-header" fxLayout="row" style="margin-right: 15px;">
-        <h4 style="width: 100%;">
-          Processing request...<br/><br/><br/>
-          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-        </h4>
+        <ng-container *ngIf="show_menu">
+          <button type="button" [disabled]="!is_admin" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-800 dark:text-slate-100 dark:ring-slate-700 dark:hover:bg-slate-700 max-[991px]:hidden" (click)="openUsersDialog()" title="Only the team admin/owner can manage these settings">
+            <svg appIcon="user-group" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
+            Users
+          </button>
+          <button type="button" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-800 dark:text-slate-100 dark:ring-slate-700 dark:hover:bg-slate-700 !text-rose-700 dark:!text-rose-300" (click)="toggleOpSettings(!showOpSettings)" title="Delete or hide commands">
+            <svg *ngIf="!showOpSettings" appIcon="trash" class="size-4 flex-none"></svg>
+            <svg *ngIf="showOpSettings" appIcon="x-mark" class="size-4 flex-none"></svg>
+            Delete commands
+          </button>
+        </ng-container>
+        <button type="button" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-800 dark:text-slate-100 dark:ring-slate-700 dark:hover:bg-slate-700" *ngIf="!show_menu" (click)="show_menu=true" title="Show Menu">
+          <svg appIcon="cog-6-tooth" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
+          Manage
+        </button>
+        <button type="button" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-800 dark:text-slate-100 dark:ring-slate-700 dark:hover:bg-slate-700 !px-1.5" *ngIf="show_menu" (click)="show_menu=false" aria-label="Hide menu">
+          <svg appIcon="x-mark" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
+        </button>
       </div>
-    </div>
 
-    <div class="op-settings-container" *ngIf="deletingSelectUser">
-      <div class="delete-header" fxLayout="row" style="margin-right: 15px;">
-        <div class="delete-header" fxLayout="row" style="margin-right: 15px;">
-          <h4 style="width: 80%;">
-            Select the user who's commands you want to hide<br/><br/>
-            <select [(ngModel)]="deletingUserSelected">
-              <option value="{{user.key}}" *ngFor="let user of deletingUserOptions | keyvalue">{{user.value.name}}</option>
-            </select>
-            <br/>
-            <br/>
-            <button class="btn btn-danger mr-1" (click)="deleteOnBehalfOfSubmit()" title="Del" *ngIf="deletingUserSelected">
-              <span *ngIf="deletingOperation=='hide_all_user'">Hide all commands uploaded by {{deletingUserOptions[deletingUserSelected]?.name}}</span>
-              <span *ngIf="deletingOperation=='unhide_all_user'">Unhide all commands uploaded by {{deletingUserOptions[deletingUserSelected]?.name}}</span>
-              <span *ngIf="deletingOperation=='delete_all_user'">Delete all commands uploaded by {{deletingUserOptions[deletingUserSelected]?.name}}</span>
-              <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">delete</mat-icon>
-            </button>
-          </h4>
-          <a (click)="cancelDeleteOnBehalfOf()" class="close"></a>
-        </div>
-
-      </div>
-    </div>
-    <div class="op-settings-container" *ngIf="showOpSettings && !deleting && !deletingSelectUser && show_menu">
-      <div class="delete-header" fxLayout="row" style="margin-right: 15px;">
-        <p>
-          You can hide your own commands. Once your commands are hidden, <strong>only you can view them</strong>. You are signed in as <strong>{{username}}</strong> (<span *ngIf="is_admin">Admin</span><span *ngIf="!is_admin">User</span>)
-        </p>
-        <a (click)="toggleOpSettings(false)" class="close"></a>
-      </div>
-      <button class="btn btn-secondary mr-1" (click)="deleteOperation('hide_all_user', 'user')" title="Your active commands will be hidden for this team. Only you can still see them.">
-        Hide All My Commands (User) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">remove_red_eye</mat-icon>
-      </button>
-      <button class="btn btn-secondary mr-1" (click)="deleteOperation('unhide_all_user', 'user')" title="Your hidden active commands will be shown again in this team">
-        Unhide All My Commands (User) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">remove_red_eye</mat-icon>
-      </button>
-      <!--    <button class="btn btn-danger mr-1" (click)="deleteOperation('delete_all_user', 'user')" title="Your active commands will be deleted from this operation">-->
-      <!--      Delete All My Commands (User) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">delete</mat-icon>-->
-      <!--    </button>-->
-      <hr style="margin: 5px;">
-      <p>Only team admins can edit all commands.</p>
-      <button [disabled]="!is_admin" class="btn btn-danger mr-1" (click)="deleteOnBehalfOf('hide_all_user')" title="Only the team admin/owner can delete all commands">
-        Hide All From User (Admin) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">remove_red_eye</mat-icon>
-      </button>
-      <!--    <button [disabled]="!is_admin" class="btn btn-secondary mr-1" (click)="deleteOnBehalfOf('unhide_all_user')" title="Only the team admin/owner can delete all commands">-->
-      <!--      Unhide All From User (Admin) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">remove_red_eye</mat-icon>-->
-      <!--    </button>-->
-      <!--    <button [disabled]="!is_admin" class="btn btn-danger mr-1" (click)="deleteOnBehalfOf('delete_all_user')" title="Only the team admin/owner can delete all commands">-->
-      <!--      Delete All From User (Admin) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">delete</mat-icon>-->
-      <!--    </button>-->
-      <button [disabled]="!is_admin" class="btn btn-danger mr-1" (click)="deleteOperation('delete_all_team', 'admin')" title="Only the team admin/owner can delete all commands" style="margin-top: 3px;">
-        Delete All Commands (Admin) <mat-icon style="opacity: 1; vertical-align: sub; font-size: 20px;" class="hidden-xs">delete</mat-icon>
-      </button>
-      <hr style="margin: 5px;">
-      <p><strong>Note: </strong>users can always unhide or reupload their commands</p>
+      <label title="Toggle Dark Mode" class="m-0 inline-flex size-9 flex-none cursor-pointer items-center justify-center rounded-md text-slate-500 hover:bg-slate-100 hover:text-slate-900 has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-brand-700 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100">
+        <input type="checkbox" class="sr-only" id="Switch" [(ngModel)]="dark_mode" (ngModelChange)="saveSettingsToCache(); draw()">
+        <svg appIcon="moon" class="size-5 dark:hidden"></svg>
+        <svg appIcon="sun" class="size-5 [display:none] dark:[display:block]"></svg>
+        <span class="sr-only">Dark mode</span>
+      </label>
     </div>
   </div>
 
-  <div class="commands-container" [ngClass]="{'cmd-mobile': !mobileQuery.matches}">
+  <div class="fixed right-4 top-[66px] z-[1001] flex w-[360px] max-w-[calc(100vw-32px)] flex-col gap-3 rounded-xl bg-white p-4 text-sm font-normal text-slate-700 shadow-lg ring-1 ring-slate-900/5 dark:bg-slate-800 dark:text-slate-300 dark:ring-slate-700" *ngIf="deleting">
+    <p class="m-0 font-medium text-slate-900 dark:text-slate-100">Processing request...</p>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
 
-    <div class="ops-commands-list-container">
-      <!--    <div class="ops-commands-list" style="padding-top: 40px;">-->
-      <div class="ops-commands-list">
-        <div class="command-viewer">
+  <div class="fixed right-4 top-[66px] z-[1001] flex w-[360px] max-w-[calc(100vw-32px)] flex-col gap-3 rounded-xl bg-white p-4 text-sm font-normal text-slate-700 shadow-lg ring-1 ring-slate-900/5 dark:bg-slate-800 dark:text-slate-300 dark:ring-slate-700" *ngIf="deletingSelectUser">
+    <div class="flex items-start justify-between gap-3">
+      <p class="m-0 font-medium text-slate-900 dark:text-slate-100">Select the user who's commands you want to hide</p>
+      <button type="button" (click)="cancelDeleteOnBehalfOf()" aria-label="Close" class="-mr-1.5 -mt-1 inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-700 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-100">
+        <svg appIcon="x-mark" variant="mini" class="size-5"></svg>
+      </button>
+    </div>
+    <select [(ngModel)]="deletingUserSelected" class="h-9 w-full rounded-md border border-solid border-slate-300 bg-white px-2.5 text-sm text-slate-900 shadow-sm focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100">
+      <option value="{{user.key}}" *ngFor="let user of deletingUserOptions | keyvalue">{{user.value.name}}</option>
+    </select>
+    <button type="button" class="inline-flex w-full items-center justify-center gap-1.5 rounded-md border-0 px-3 py-2 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed disabled:opacity-50 bg-rose-600 text-white hover:bg-rose-700" (click)="deleteOnBehalfOfSubmit()" title="Del" *ngIf="deletingUserSelected">
+      <svg appIcon="trash" variant="mini" class="size-4 flex-none"></svg>
+      <span *ngIf="deletingOperation=='hide_all_user'">Hide all commands uploaded by {{deletingUserOptions[deletingUserSelected]?.name}}</span>
+      <span *ngIf="deletingOperation=='unhide_all_user'">Unhide all commands uploaded by {{deletingUserOptions[deletingUserSelected]?.name}}</span>
+      <span *ngIf="deletingOperation=='delete_all_user'">Delete all commands uploaded by {{deletingUserOptions[deletingUserSelected]?.name}}</span>
+    </button>
+  </div>
 
-          <div class="command-sidepanel command-filters" [ngClass]="{'opened': mobile_filters_opened}">
-            <a (click)="toggleFilterTab(false)" class="close close-mobile-tab right"></a>
-            <div class="view-controls">
-              <div class="panel-header">
-                <div class="filter-header view-name-editor">
-                  <div class="view-no-edit" *ngIf="!editting_view_name" (click)="doEditViewName()" title="Click to change view name">
-                    <h3 style="margin: 3px 0 !important;">
-                      View: <span class="gd-primary">{{active_view.tab_name}}</span>
-                    </h3>
-                    <mat-icon class="edit-owner" style="vertical-align: sub;" *ngIf="!active_view.is_default">create</mat-icon>
-                  </div>
-                  <div class="view-edit" [ngClass]="{'hidden': !editting_view_name}">
-                    <h3 style="margin: 3px 0 !important;">
-                      View:
-                    </h3>
-                    <form (submit)="saveViewName()" (keyup.enter)="saveViewName()">
-                      <input #viewNameInput autocomplete="off" name="teamname" maxlength="24" [(ngModel)]="active_view.tab_name" (ngModelChange)="viewNameChange()">
-                    </form>
-                    <mat-icon (click)="saveViewName()">save</mat-icon>
-                  </div>
+  <div class="fixed right-4 top-[66px] z-[1001] flex w-[360px] max-w-[calc(100vw-32px)] flex-col gap-3 rounded-xl bg-white p-4 text-sm font-normal text-slate-700 shadow-lg ring-1 ring-slate-900/5 dark:bg-slate-800 dark:text-slate-300 dark:ring-slate-700" *ngIf="showOpSettings && !deleting && !deletingSelectUser && show_menu">
+    <div class="flex items-start justify-between gap-3">
+      <p class="m-0">
+        You can hide your own commands. Once your commands are hidden, <strong class="font-semibold text-slate-900 dark:text-slate-100">only you can view them</strong>.
+        You are signed in as <strong class="font-semibold text-slate-900 dark:text-slate-100">{{username}}</strong> (<span *ngIf="is_admin">Admin</span><span *ngIf="!is_admin">User</span>)
+      </p>
+      <button type="button" (click)="toggleOpSettings(false)" aria-label="Close" class="-mr-1.5 -mt-1 inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-700 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-100">
+        <svg appIcon="x-mark" variant="mini" class="size-5"></svg>
+      </button>
+    </div>
+    <button type="button" class="inline-flex w-full items-center justify-center gap-1.5 rounded-md border-0 px-3 py-2 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed disabled:opacity-50 bg-white text-slate-900 ring-1 ring-inset ring-slate-300 hover:bg-slate-50 dark:bg-slate-900 dark:text-slate-100 dark:ring-slate-600 dark:hover:bg-slate-700" (click)="deleteOperation('hide_all_user', 'user')" title="Your active commands will be hidden for this team. Only you can still see them.">
+      <svg appIcon="eye-slash" variant="mini" class="size-4 flex-none text-slate-400"></svg>
+      Hide all my commands (User)
+    </button>
+    <button type="button" class="inline-flex w-full items-center justify-center gap-1.5 rounded-md border-0 px-3 py-2 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed disabled:opacity-50 bg-white text-slate-900 ring-1 ring-inset ring-slate-300 hover:bg-slate-50 dark:bg-slate-900 dark:text-slate-100 dark:ring-slate-600 dark:hover:bg-slate-700" (click)="deleteOperation('unhide_all_user', 'user')" title="Your hidden active commands will be shown again in this team">
+      <svg appIcon="eye" variant="mini" class="size-4 flex-none text-slate-400"></svg>
+      Unhide all my commands (User)
+    </button>
+    <hr class="my-1 h-px border-0 bg-slate-200 dark:bg-slate-700">
+    <p class="m-0">Only team admins can edit all commands.</p>
+    <button type="button" [disabled]="!is_admin" class="inline-flex w-full items-center justify-center gap-1.5 rounded-md border-0 px-3 py-2 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed disabled:opacity-50 bg-white text-rose-700 ring-1 ring-inset ring-rose-300 hover:bg-rose-50 dark:bg-slate-900 dark:text-rose-300 dark:ring-rose-500/40 dark:hover:bg-rose-500/10" (click)="deleteOnBehalfOf('hide_all_user')" title="Only the team admin/owner can delete all commands">
+      <svg appIcon="eye-slash" variant="mini" class="size-4 flex-none"></svg>
+      Hide all from user (Admin)
+    </button>
+    <button type="button" [disabled]="!is_admin" class="inline-flex w-full items-center justify-center gap-1.5 rounded-md border-0 px-3 py-2 text-sm font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-not-allowed disabled:opacity-50 bg-rose-600 text-white hover:bg-rose-700" (click)="deleteOperation('delete_all_team', 'admin')" title="Only the team admin/owner can delete all commands">
+      <svg appIcon="trash" variant="mini" class="size-4 flex-none"></svg>
+      Delete all commands (Admin)
+    </button>
+    <hr class="my-1 h-px border-0 bg-slate-200 dark:bg-slate-700">
+    <p class="m-0 text-xs text-slate-500 dark:text-slate-400"><strong class="font-semibold">Note: </strong>users can always unhide or reupload their commands</p>
+  </div>
 
-                </div>
-
-                <hr style="margin-bottom: 10px;">
-
-              </div>
-
-
-              <div class="panel-content filter-content">
-
-                <div class="active-view-filters" *ngIf="!active_view">
-                  Loading view
-                </div>
-                <div class="active-view-filters" *ngIf="active_view">
-
-                  <!-- <app-alert type="info2" [dismissible]="true">
-                    <span class="gd-secondary">GrepoData will be offline for maintenance on <strong>December 1, 2024 from 11:00 UTC until 13:00 UTC.</strong><br/></span>
-                  </app-alert> -->
-
-                  <div class="filter-header">
-                    <h3 style="margin: 3px 0 !important;">
-                      <mat-icon class="dm-hidden" style="vertical-align: text-bottom; color: #18BC9C">filter_list</mat-icon>
-                      Filters
-                    </h3>
-
-                    <button *ngIf="is_filtered" class="btn btn-success" (click)="clearFilter('all')" style="padding: 0 15px; margin: 5px 0;">
-                      Clear all filters
-                    </button>
-                  </div>
-
-                  <!-- Filter by text -->
-                  <div class="inline-filter" title="This filters on town names, player names and comments">
-                    <p>Filter by text</p>
-                    <input type="text" placeholder="Type here to search" [(ngModel)]="active_view.filter_text" (ngModelChange)="filterText()" [ngClass]="{'filtered': active_view?.filter_text!=''}" style="width: 70%;"/>
-                  </div>
-
-                  <!-- Filter by town -->
-                  <div class="filter-title">
-                    <p>Filter by town</p>
-                    <span *ngIf="active_view && active_view?.filter_town?.length > 0" (click)="clearFilter('town')">clear</span>
-                  </div>
-                  <div class="multiselect-input">
-                    <ng-multiselect-dropdown [data]="towns" [settings]="dropdownSettingsTowns" (click)="draw()" [(ngModel)]="active_view.filter_town" (ngModelChange)="doFilter(active_view.filter_town)" placeholder="Select Towns"></ng-multiselect-dropdown>
-                    <input class="filter-incl" *ngIf="active_view.filter_town_type=='incl'" type="reset" value="☑ Included" (click)="active_view.filter_town_type='excl'; doFilter()" title="Only these towns are included in the overview">
-                    <input class="filter-excl" *ngIf="active_view.filter_town_type=='excl'" type="reset" value="☒ Excluded" (click)="active_view.filter_town_type='incl'; doFilter()" title="These towns are excluded from the overview">
-                  </div>
-
-                  <!-- Filter by player -->
-                  <div class="filter-title">
-                    <p>Filter by player</p>
-                    <span *ngIf="active_view && active_view?.filter_player?.length > 0" (click)="clearFilter('player')">clear</span>
-                  </div>
-                  <div class="multiselect-input">
-                    <ng-multiselect-dropdown [data]="players" [settings]="dropdownSettingsPlayers" (click)="draw()" [(ngModel)]="active_view.filter_player" (ngModelChange)="doFilter(active_view.filter_player)" placeholder="Select Players"></ng-multiselect-dropdown>
-                    <input class="filter-incl" *ngIf="active_view.filter_player_type=='incl'" type="reset" value="☑ Included" (click)="active_view.filter_player_type='excl'; doFilter()" title="Only these players are included in the overview">
-                    <input class="filter-excl" *ngIf="active_view.filter_player_type=='excl'" type="reset" value="☒ Excluded" (click)="active_view.filter_player_type='incl'; doFilter()" title="These players are excluded from the overview">
-                  </div>
-
-                  <!-- Filter by uploader -->
-                  <div class="filter-title">
-                    <p>Filter by uploader</p>
-                    <span *ngIf="active_view && active_view?.filter_uploader?.length > 0" (click)="clearFilter('uploader')">clear</span>
-                  </div>
-                  <div class="multiselect-input">
-                    <ng-multiselect-dropdown [data]="uploaders" [settings]="dropdownSettingsUploaders" (click)="draw()" [(ngModel)]="active_view.filter_uploader" (ngModelChange)="doFilter(active_view.filter_uploader)" placeholder="Command uploaded by"></ng-multiselect-dropdown>
-                    <input class="filter-incl" *ngIf="active_view.filter_uploader_type=='incl'" type="reset" value="☑ Included" (click)="active_view.filter_uploader_type='excl'; doFilter()" title="Only these uploaders are included in the overview">
-                    <input class="filter-excl" *ngIf="active_view.filter_uploader_type=='excl'" type="reset" value="☒ Excluded" (click)="active_view.filter_uploader_type='incl'; doFilter()" title="These uploaders are excluded from the overview">
-                  </div>
-
-                  <hr style="margin-bottom: 10px;">
-
-
-<!--                  <div class="filter-header">-->
-<!--                    <h3 style="margin: 3px 0 !important;">-->
-<!--                      <mat-icon class="dm-hidden" style="vertical-align: text-bottom; color: #18BC9C">wb_incandescent</mat-icon>-->
-<!--                      Smart Filters-->
-<!--                    </h3>-->
-<!--                  </div>-->
-<!--                  <hr style="margin-bottom: 10px;">-->
-
-
-                  <div class="filter-header">
-                    <h3 style="margin: 3px 0 !important;">
-                      <mat-icon class="dm-hidden" style="vertical-align: text-bottom; color: #18BC9C">remove_red_eye</mat-icon>
-                      Settings
-                    </h3>
-                  </div>
-
-                  <div class="inline-filter">
-                    <p>Refresh frequency</p>
-                    <select class="frequency-select" [(ngModel)]="command_poll_frequency" (ngModelChange)="doChangeFrequency()">
-                      <option *ngFor="let freq of command_poll_frequency_options;" value="{{freq}}">
-                        {{freq}} seconds
-                      </option>
-                    </select>
-                  </div>
-
-                  <!-- Order By -->
-                  <div class="inline-filter">
-                    <p>Order by</p>
-                    <select [(ngModel)]="active_view.filter_order" (ngModelChange)="doSort()">
-                      <option value="arrival_asc" selected>Arrival time ascending</option>
-                      <option value="arrival_desc">Arrival time descending</option>
-                    </select>
-                  </div>
-
-                  <div class="inline-filter" title="Hides all commands from town X if the town has N or more outgoing commands">
-                    <p>
-                      Hide spam commands
-                      <span class="hidden-towns" *ngIf="active_view.hide_spam_commands>0 && spam_towns.length > 0" title="{{spam_towns.join(', ')}}">
-                        <br/>&nbsp;<mat-icon>info_outline</mat-icon> ({{spam_towns.length}} spam towns)
-                      </span>
-                    </p>
-                    <select class="frequency-select" [(ngModel)]="active_view.hide_spam_commands" (ngModelChange)="doFilter()" [ngClass]="{'filtered': active_view.hide_spam_commands>0 && spam_towns.length > 0}">
-                      <option value="0">Do not hide spam</option>
-                      <option value="2">if 2+ from same town</option>
-                      <option value="3">if 3+ from same town</option>
-                      <option value="4">if 4+ from same town</option>
-                      <option value="5">if 5+ from same town</option>
-                      <option value="10">if 10+ from same town</option>
-                    </select>
-                  </div>
-
-                  <div class="inline-filter">
-                    <p>Hide planned commands</p>
-                    <mat-checkbox [(ngModel)]="active_view.hide_planned_commands" (ngModelChange)="doFilter()"></mat-checkbox>
-                  </div>
-
-                  <div class="inline-filter">
-                    <p>Show total units</p>
-                    <mat-checkbox [(ngModel)]="active_view.show_total_units" (ngModelChange)="doSettings()"></mat-checkbox>
-                  </div>
-
-                  <div class="inline-filter">
-                    <p>Show cancel times</p>
-                    <mat-checkbox [(ngModel)]="active_view.showCancelTime" (ngModelChange)="doSettings()"></mat-checkbox>
-                  </div>
-
-                  <div class="inline-filter" *ngIf="hidden_commands_present">
-                    <p>Show my hidden commands</p>
-                    <mat-checkbox [(ngModel)]="active_view.showDeletedCommands" (ngModelChange)="doFilter()"></mat-checkbox>
-                  </div>
-                </div>
-
-                <div class="view-actions" *ngIf="active_view && !active_view.is_default">
-                  <button title="Share your filter settings via URL" [disabled]="!is_filtered" class="btn btn-success mr-1" (click)="copyURL(true)">
-                    Share View <mat-icon>share</mat-icon>
-                  </button>
-                  <button class="btn btn-danger" (click)="deleteView(active_view)">
-                    Delete View <mat-icon>delete</mat-icon>
-                  </button>
-                </div>
-
-              </div>
-            </div>
-
+  <div class="flex h-screen flex-col pt-[58px] font-normal">
+    <div class="flex min-h-0 flex-1">
+      <div class="flex min-w-0 flex-1 flex-col gap-3 bg-slate-50 p-4 dark:bg-[#0B1220] max-sm:p-2">
+      <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
+        <div role="tablist" aria-label="Views" class="flex min-w-0 flex-wrap items-center gap-1">
+          <div *ngFor="let view of views" role="tab" [attr.aria-selected]="view.active" (click)="toggleView(view)" class="group inline-flex max-w-[220px] cursor-pointer select-none items-center gap-1.5 rounded-md px-3 py-1.5 text-[13px] leading-5" [ngClass]="view.active ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:text-slate-100 dark:ring-slate-700' : 'font-medium text-slate-500 hover:bg-white/60 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/60 dark:hover:text-slate-100'">
+            <span class="truncate">{{view.tab_name}}</span>
+            <span *ngIf="!view.is_default" (click)="deleteView(view)" title="Delete view" class="-mr-1 inline-flex flex-none rounded p-0.5 text-slate-400 hover:bg-rose-50 hover:text-rose-600 dark:text-slate-500 dark:hover:bg-rose-500/10 dark:hover:text-rose-300">
+              <svg appIcon="x-mark" variant="micro" class="size-3.5"></svg>
+            </span>
           </div>
+          <button type="button" (click)="newView()" title="Create New View" class="inline-flex items-center gap-1 rounded-md border-0 bg-transparent px-2.5 py-1.5 text-[13px] font-medium text-slate-500 hover:bg-white/60 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/60 dark:hover:text-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+            <svg appIcon="plus" variant="mini" class="size-4 flex-none"></svg>
+            New view
+          </button>
+        </div>
+        <div class="ml-auto flex items-center gap-2">
+          <button type="button" *ngIf="active_view && !active_view.is_default && !editting_view_name" (click)="doEditViewName()" title="Click to change view name" class="inline-flex items-center gap-1.5 border-0 bg-transparent p-0 text-xs font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+            <svg appIcon="pencil-square" variant="micro" class="size-4 flex-none"></svg>
+            Rename view
+          </button>
+          <form class="m-0 flex items-center gap-2" [ngClass]="{'hidden': !editting_view_name}" (submit)="saveViewName()" (keyup.enter)="saveViewName()">
+            <input #viewNameInput autocomplete="off" name="teamname" maxlength="24" [(ngModel)]="active_view.tab_name" (ngModelChange)="viewNameChange()" class="h-8 w-48 rounded-md border-0 bg-white px-2.5 text-sm font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-700 dark:bg-slate-900 dark:text-slate-100 dark:ring-slate-700">
+            <button type="button" (click)="saveViewName()" class="inline-flex items-center gap-1 rounded-md border-0 bg-brand-700 px-2.5 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+              <svg appIcon="check" variant="micro" class="size-3.5 flex-none"></svg>
+              Save
+            </button>
+          </form>
+        </div>
+      </div>
 
-          <div class="command-overview-container">
+      <div *ngIf="!active_view" class="text-sm text-slate-500 dark:text-slate-400">Loading view</div>
+      <div *ngIf="active_view" class="flex flex-wrap items-center gap-2">
+        <label class="relative m-0 w-60 font-normal max-sm:w-full" title="This filters on town names, player names and comments">
+          <svg appIcon="magnifying-glass" variant="mini" class="pointer-events-none absolute left-2.5 top-2.5 size-4 text-slate-400"></svg>
+          <input type="text" placeholder="Filter by text" [(ngModel)]="active_view.filter_text" (ngModelChange)="filterText()" [ngClass]="{'!ring-2 !ring-brand-600': active_view?.filter_text!=''}" class="h-9 w-full rounded-md border-0 bg-white text-sm font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700 dark:bg-slate-900 dark:text-slate-100 dark:ring-slate-700 dark:placeholder:text-slate-500 pl-8 pr-3">
+        </label>
+        <div class="flex items-center gap-1.5 max-sm:w-full">
+          <ng-multiselect-dropdown class="gd-multiselect block w-56 max-sm:min-w-0 max-sm:flex-1" [data]="towns" [settings]="dropdownSettingsTowns" (click)="draw()" [(ngModel)]="active_view.filter_town" (ngModelChange)="doFilter(active_view.filter_town)" placeholder="Select Towns"></ng-multiselect-dropdown>
+          <button type="button" class="inline-flex h-9 flex-none items-center gap-1 whitespace-nowrap rounded-md border-0 px-2.5 text-xs font-semibold shadow-sm ring-1 ring-inset focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 bg-white text-emerald-700 ring-slate-300 hover:bg-slate-50 dark:bg-slate-900 dark:text-emerald-300 dark:ring-slate-700 dark:hover:bg-slate-800" *ngIf="active_view.filter_town_type=='incl'" (click)="active_view.filter_town_type='excl'; doFilter()" title="Only these towns are included in the overview">
+            <svg appIcon="check" variant="micro" class="size-3.5 flex-none"></svg>
+            Included
+          </button>
+          <button type="button" class="inline-flex h-9 flex-none items-center gap-1 whitespace-nowrap rounded-md border-0 px-2.5 text-xs font-semibold shadow-sm ring-1 ring-inset focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 bg-white text-rose-700 ring-slate-300 hover:bg-slate-50 dark:bg-slate-900 dark:text-rose-300 dark:ring-slate-700 dark:hover:bg-slate-800" *ngIf="active_view.filter_town_type=='excl'" (click)="active_view.filter_town_type='incl'; doFilter()" title="These towns are excluded from the overview">
+            <svg appIcon="no-symbol" variant="micro" class="size-3.5 flex-none"></svg>
+            Excluded
+          </button>
+          <button type="button" class="border-0 bg-transparent p-0 text-xs font-semibold text-brand-700 hover:text-brand-800 hover:underline dark:text-brand-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 ml-1" *ngIf="active_view && active_view?.filter_town?.length > 0" (click)="clearFilter('town')">Clear</button>
+        </div>
+        <div class="flex items-center gap-1.5 max-sm:w-full">
+          <ng-multiselect-dropdown class="gd-multiselect block w-56 max-sm:min-w-0 max-sm:flex-1" [data]="players" [settings]="dropdownSettingsPlayers" (click)="draw()" [(ngModel)]="active_view.filter_player" (ngModelChange)="doFilter(active_view.filter_player)" placeholder="Select Players"></ng-multiselect-dropdown>
+          <button type="button" class="inline-flex h-9 flex-none items-center gap-1 whitespace-nowrap rounded-md border-0 px-2.5 text-xs font-semibold shadow-sm ring-1 ring-inset focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 bg-white text-emerald-700 ring-slate-300 hover:bg-slate-50 dark:bg-slate-900 dark:text-emerald-300 dark:ring-slate-700 dark:hover:bg-slate-800" *ngIf="active_view.filter_player_type=='incl'" (click)="active_view.filter_player_type='excl'; doFilter()" title="Only these players are included in the overview">
+            <svg appIcon="check" variant="micro" class="size-3.5 flex-none"></svg>
+            Included
+          </button>
+          <button type="button" class="inline-flex h-9 flex-none items-center gap-1 whitespace-nowrap rounded-md border-0 px-2.5 text-xs font-semibold shadow-sm ring-1 ring-inset focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 bg-white text-rose-700 ring-slate-300 hover:bg-slate-50 dark:bg-slate-900 dark:text-rose-300 dark:ring-slate-700 dark:hover:bg-slate-800" *ngIf="active_view.filter_player_type=='excl'" (click)="active_view.filter_player_type='incl'; doFilter()" title="These players are excluded from the overview">
+            <svg appIcon="no-symbol" variant="micro" class="size-3.5 flex-none"></svg>
+            Excluded
+          </button>
+          <button type="button" class="border-0 bg-transparent p-0 text-xs font-semibold text-brand-700 hover:text-brand-800 hover:underline dark:text-brand-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 ml-1" *ngIf="active_view && active_view?.filter_player?.length > 0" (click)="clearFilter('player')">Clear</button>
+        </div>
+        <div class="flex items-center gap-1.5 max-sm:w-full">
+          <ng-multiselect-dropdown class="gd-multiselect block w-56 max-sm:min-w-0 max-sm:flex-1" [data]="uploaders" [settings]="dropdownSettingsUploaders" (click)="draw()" [(ngModel)]="active_view.filter_uploader" (ngModelChange)="doFilter(active_view.filter_uploader)" placeholder="Command uploaded by"></ng-multiselect-dropdown>
+          <button type="button" class="inline-flex h-9 flex-none items-center gap-1 whitespace-nowrap rounded-md border-0 px-2.5 text-xs font-semibold shadow-sm ring-1 ring-inset focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 bg-white text-emerald-700 ring-slate-300 hover:bg-slate-50 dark:bg-slate-900 dark:text-emerald-300 dark:ring-slate-700 dark:hover:bg-slate-800" *ngIf="active_view.filter_uploader_type=='incl'" (click)="active_view.filter_uploader_type='excl'; doFilter()" title="Only these uploaders are included in the overview">
+            <svg appIcon="check" variant="micro" class="size-3.5 flex-none"></svg>
+            Included
+          </button>
+          <button type="button" class="inline-flex h-9 flex-none items-center gap-1 whitespace-nowrap rounded-md border-0 px-2.5 text-xs font-semibold shadow-sm ring-1 ring-inset focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 bg-white text-rose-700 ring-slate-300 hover:bg-slate-50 dark:bg-slate-900 dark:text-rose-300 dark:ring-slate-700 dark:hover:bg-slate-800" *ngIf="active_view.filter_uploader_type=='excl'" (click)="active_view.filter_uploader_type='incl'; doFilter()" title="These uploaders are excluded from the overview">
+            <svg appIcon="no-symbol" variant="micro" class="size-3.5 flex-none"></svg>
+            Excluded
+          </button>
+          <button type="button" class="border-0 bg-transparent p-0 text-xs font-semibold text-brand-700 hover:text-brand-800 hover:underline dark:text-brand-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 ml-1" *ngIf="active_view && active_view?.filter_uploader?.length > 0" (click)="clearFilter('uploader')">Clear</button>
+        </div>
+        <button type="button" *ngIf="is_filtered" (click)="clearFilter('all')" class="border-0 bg-transparent p-0 text-xs font-semibold text-brand-700 hover:text-brand-800 hover:underline dark:text-brand-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 ml-1 text-[13px]">Clear all filters</button>
 
-            <div class="command-overview-tabs gd-scrollbar-trans" [ngClass]="{'many':views?.length > 7}">
-              <div *ngIf="!mobileQuery.matches" class="command-tab filter-tab" (click)="toggleFilterTab(!mobile_filters_opened)" title="Show Filter Panel">
-                <mat-icon>filter_list</mat-icon> Filters
-              </div>
-              <div class="command-tab new-tab" (click)="newView()" title="Create New View">
-                <mat-icon>library_add</mat-icon>
-              </div>
-              <div class="command-tab view-tab"
-                   [ngClass]="{ 'active-tab': view.active }"
-                   (click)="toggleView(view)"
-                   *ngFor="let view of views" >
-                {{view.tab_name}}
-                <div *ngIf="!view.is_default" class="delete-view" (click)="deleteView(view, true)">
-                  <mat-icon style="vertical-align: text-bottom;">delete_outline</mat-icon>
-                </div>
-              </div>
-
+        <details class="group relative ml-auto">
+          <summary class="inline-flex h-9 cursor-pointer list-none items-center gap-1.5 whitespace-nowrap rounded-md bg-white px-3 text-[13px] font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 group-open:bg-brand-50 group-open:ring-brand-600 dark:bg-slate-900 dark:text-slate-100 dark:ring-slate-700 dark:hover:bg-slate-800 dark:group-open:bg-brand-500/10 dark:group-open:ring-brand-500 [&::-webkit-details-marker]:hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+            <svg appIcon="adjustments-horizontal" variant="mini" class="size-4 flex-none text-slate-400 group-open:text-brand-700 dark:group-open:text-brand-500"></svg>
+            View settings
+          </summary>
+          <div class="absolute right-0 top-full z-20 mt-2 flex w-[320px] max-w-[calc(100vw-24px)] flex-col gap-3.5 rounded-xl bg-white p-4 text-left shadow-lg ring-1 ring-slate-900/5 dark:bg-slate-800 dark:ring-slate-700">
+            <div class="grid grid-cols-2 gap-3">
+              <label class="m-0 flex flex-col gap-1.5 font-normal">
+                <span class="text-[13px] font-medium text-slate-700 dark:text-slate-300">Refresh frequency</span>
+                <select class="h-8 w-full rounded-md border-0 bg-white px-2 text-[13px] font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-700 dark:bg-slate-900 dark:text-slate-100 dark:ring-slate-700" [(ngModel)]="command_poll_frequency" (ngModelChange)="doChangeFrequency()">
+                  <option *ngFor="let freq of command_poll_frequency_options;" value="{{freq}}">
+                    {{freq}} seconds
+                  </option>
+                </select>
+              </label>
+              <label class="m-0 flex flex-col gap-1.5 font-normal">
+                <span class="text-[13px] font-medium text-slate-700 dark:text-slate-300">Order by</span>
+                <select class="h-8 w-full rounded-md border-0 bg-white px-2 text-[13px] font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-700 dark:bg-slate-900 dark:text-slate-100 dark:ring-slate-700" [(ngModel)]="active_view.filter_order" (ngModelChange)="doSort()">
+                  <option value="arrival_asc" selected>Arrival time ascending</option>
+                  <option value="arrival_desc">Arrival time descending</option>
+                </select>
+              </label>
             </div>
-            <div class="game-border">
-              <div class="command-overview-title">
-                <div class="server-time" title="Server Time">
-                  {{game_time_string}}
-                </div>
-                <div class="title">
-                  <p style="margin: 0; font-weight: 500;">Combined Command Overview <span class="cmd-total-commands" *ngIf="commands && commands.length > 5">&nbsp;({{commands.length}} active commands)</span></p>
-                </div>
-                <div class="sync-status">
+            <label class="m-0 flex flex-col gap-1.5 font-normal" title="Hides all commands from town X if the town has N or more outgoing commands">
+              <span class="text-[13px] font-medium text-slate-700 dark:text-slate-300">Hide spam commands</span>
+              <select class="h-8 w-full rounded-md border-0 bg-white px-2 text-[13px] font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-700 dark:bg-slate-900 dark:text-slate-100 dark:ring-slate-700" [(ngModel)]="active_view.hide_spam_commands" (ngModelChange)="doFilter()" [ngClass]="{'!ring-2 !ring-brand-600': active_view.hide_spam_commands>0 && spam_towns.length > 0}">
+                <option value="0">Do not hide spam</option>
+                <option value="2">if 2+ from same town</option>
+                <option value="3">if 3+ from same town</option>
+                <option value="4">if 4+ from same town</option>
+                <option value="5">if 5+ from same town</option>
+                <option value="10">if 10+ from same town</option>
+              </select>
+              <span class="inline-flex cursor-help items-center gap-1 text-xs text-amber-700 dark:text-amber-300" *ngIf="active_view.hide_spam_commands>0 && spam_towns.length > 0" title="{{spam_towns.join(', ')}}">
+                <svg appIcon="eye-slash" variant="micro" class="size-3.5 flex-none"></svg>
+                {{spam_towns.length}} spam towns
+              </span>
+            </label>
+            <label class="m-0 flex cursor-pointer items-center justify-between gap-3 font-normal">
+              <span class="text-[13px] font-medium text-slate-700 dark:text-slate-300">Hide planned commands</span>
+              <input type="checkbox" class="peer sr-only" [(ngModel)]="active_view.hide_planned_commands" (ngModelChange)="doFilter()">
+              <span class="relative h-[18px] w-8 flex-none rounded-full bg-slate-200 transition-colors after:absolute after:left-0.5 after:top-0.5 after:size-3.5 after:rounded-full after:bg-white after:shadow-sm after:transition-transform after:content-[''] peer-checked:bg-brand-700 peer-checked:after:translate-x-3.5 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand-700 dark:bg-slate-700"></span>
+            </label>
+            <label class="m-0 flex cursor-pointer items-center justify-between gap-3 font-normal">
+              <span class="text-[13px] font-medium text-slate-700 dark:text-slate-300">Show total units</span>
+              <input type="checkbox" class="peer sr-only" [(ngModel)]="active_view.show_total_units" (ngModelChange)="doSettings()">
+              <span class="relative h-[18px] w-8 flex-none rounded-full bg-slate-200 transition-colors after:absolute after:left-0.5 after:top-0.5 after:size-3.5 after:rounded-full after:bg-white after:shadow-sm after:transition-transform after:content-[''] peer-checked:bg-brand-700 peer-checked:after:translate-x-3.5 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand-700 dark:bg-slate-700"></span>
+            </label>
+            <label class="m-0 flex cursor-pointer items-center justify-between gap-3 font-normal">
+              <span class="text-[13px] font-medium text-slate-700 dark:text-slate-300">Show cancel times</span>
+              <input type="checkbox" class="peer sr-only" [(ngModel)]="active_view.showCancelTime" (ngModelChange)="doSettings()">
+              <span class="relative h-[18px] w-8 flex-none rounded-full bg-slate-200 transition-colors after:absolute after:left-0.5 after:top-0.5 after:size-3.5 after:rounded-full after:bg-white after:shadow-sm after:transition-transform after:content-[''] peer-checked:bg-brand-700 peer-checked:after:translate-x-3.5 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand-700 dark:bg-slate-700"></span>
+            </label>
+            <ng-container *ngIf="hidden_commands_present">
+            <label class="m-0 flex cursor-pointer items-center justify-between gap-3 font-normal">
+              <span class="text-[13px] font-medium text-slate-700 dark:text-slate-300">Show my hidden commands</span>
+              <input type="checkbox" class="peer sr-only" [(ngModel)]="active_view.showDeletedCommands" (ngModelChange)="doFilter()">
+              <span class="relative h-[18px] w-8 flex-none rounded-full bg-slate-200 transition-colors after:absolute after:left-0.5 after:top-0.5 after:size-3.5 after:rounded-full after:bg-white after:shadow-sm after:transition-transform after:content-[''] peer-checked:bg-brand-700 peer-checked:after:translate-x-3.5 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand-700 dark:bg-slate-700"></span>
+            </label>
+            </ng-container>
+            <div class="flex gap-2 border-0 border-t border-solid border-slate-200 pt-3 dark:border-slate-700" *ngIf="active_view && !active_view.is_default">
+              <button type="button" title="Share your filter settings via URL" [disabled]="!is_filtered" (click)="copyURL(true)" class="inline-flex flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-900 dark:ring-slate-700 dark:hover:bg-slate-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 text-slate-900 dark:text-slate-100">
+                <svg appIcon="share" variant="micro" class="size-3.5 flex-none text-slate-400"></svg>
+                Share view
+              </button>
+              <button type="button" (click)="deleteView(active_view)" class="inline-flex flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-900 dark:ring-slate-700 dark:hover:bg-slate-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 text-rose-700 dark:text-rose-300">
+                <svg appIcon="trash" variant="micro" class="size-3.5 flex-none"></svg>
+                Delete view
+              </button>
+            </div>
+          </div>
+        </details>
+      </div>
+
+        <section #commandOverviewSection class="command-overview-container game-border flex min-h-0 flex-1 flex-col bg-slate-50" [ngClass]="{'cmd-mobile': !mobileQuery.matches}">
+          <div class="command-overview-title flex-none">
+            <div class="server-time" title="Server Time">
+              {{game_time_string}}
+            </div>
+            <div class="title">
+              <p style="margin: 0; font-weight: 500;">Combined Command Overview <span class="cmd-total-commands" *ngIf="commands && commands.length > 5">&nbsp;({{commands.length}} active commands)</span></p>
+            </div>
+            <div class="sync-status">
+              <button type="button" (click)="toggleFullscreen()" title="{{is_fullscreen ? 'Exit fullscreen' : 'Fullscreen'}}" class="mr-2 inline-flex size-6 flex-none items-center justify-center rounded border-0 bg-transparent p-0 align-middle text-white/80 hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+                <svg [appIcon]="is_fullscreen ? 'arrows-pointing-in' : 'arrows-pointing-out'" variant="mini" class="size-4"></svg>
+              </button>
               <span class="sync-label" [ngClass]="{ 'sync-ok': sync_status=='LIVE' || sync_status=='LOADING' }">
                 <span class="rotate-cont"><mat-icon class="rotate-loader" [ngClass]="{ 'rotate-anim': animate_refresh }">refresh</mat-icon></span>
                 {{sync_status}}
               </span>
-                </div>
-              </div>
-
-              <div class="command-overview-content gd-dm-scrollbar">
-
-                <mat-progress-bar style="" *ngIf="loading" mode="indeterminate"></mat-progress-bar>
-
-                <div *ngIf="loading || !commands" class="text-center" style="margin-top: 70px;">
-                  <h2 *ngIf="!error">Loading commands ...</h2>
-                </div>
-
-                <div class="command-list text-center" *ngIf="!loading && commands && commands.length <= 0">
-                  <div *ngIf="is_filtered">
-                    <br><h3>No active commands for these filters</h3><br>
-                    <a class="a-link-dialog gd-primary" (click)="clearFilter('all')">Clear filters</a>
-                  </div>
-                  <div *ngIf="!is_filtered">
-                    <br><h3>No active commands</h3><br>
-                  </div>
-                </div>
-
-                <div *ngIf="error" style="margin-top: 70px;">
-                  <h3>
-                    <div class="row">
-                      <div class="col-xs-6 col-xs-offset-3">
-                        <app-alert type="error" [dismissible]="false">
-                          <h5>{{error}}</h5>
-                        </app-alert>
-                      </div>
-                    </div>
-                  </h3>
-                </div>
-
-                <div class="command-list" *ngIf="!loading && commands && commands.length > 0">
-                  <div class="command-ngfor" *ngFor="let command of commands; let i = index; trackBy: trackCommandByFn" [ngClass]="{'hidden-command': command?.hidden===true, 'planned-command': command?.is_planned===true, 'selected-command': command?.cmd_id == selected_command?.cmd_id, 'command_highlight': command?.type=='attack' && !command?.is_planned}">
-                    <div class="command" (click)="selectCommand(command)" [contextMenu]="basicMenu" [contextMenuSubject]="command">
-
-                      <div class="command-content">
-                        <div class="left">
-
-                          <div class="command-type" *ngIf="command?.is_planned==true" title="This is a planned command. It has yet to depart">
-                            <img src="../../assets/images/game/planned.png" style="">
-                          </div>
-
-                          <div class="command-type">
-                            <div class="attack_type32x32 {{command.type}}" [ngClass]="{'glow': command.type=='attack' && !command?.is_planned, 'revolt_arising': command?.attacking_strategy=='revolt_arising', 'revolt_running': command?.attacking_strategy=='revolt_running'}"></div>
-                          </div>
-
-                          <div class="command-details">
-                            <div class="command-targets">
-
-                              <div *ngIf="!command.return">
-                                <ng-container *ngTemplateOutlet="origin; context: {command : command}"></ng-container>
-                                <span class="overview_outgoing icon"></span>
-                                <div class="mobile-newline"></div>
-                                <ng-container *ngTemplateOutlet="destination; context: {command : command}"></ng-container>
-                              </div>
-
-                              <div *ngIf="command.return">
-                                <ng-container *ngTemplateOutlet="destination; context: {command : command}"></ng-container>
-                                <span class="overview_incoming icon"></span>
-                                <div class="mobile-newline"></div>
-                                <ng-container *ngTemplateOutlet="origin; context: {command : command}"></ng-container>
-                              </div>
-
-                            </div>
-                            <div class="command-timing">
-                              <ng-container *ngIf="!command?.is_planned">
-                                <div class="eta">{{command.eta}}</div>
-                                (
-                                <div class="arrival-human" *ngIf="command.subtype != 'cs_eta' && command.subtype != 'attack_takeover' && command.subtype != 'ongoing_revolt'">Arrival at<span *ngIf="command.subtype == 'portal'"> portal</span>: {{command.arrival_human}}</div>
-                                <div class="arrival-human" *ngIf="command.subtype == 'cs_eta' || command.subtype == 'attack_takeover' && command.subtype != 'ongoing_revolt'">Colonized at: {{command.arrival_human}}</div>
-                                <div class="arrival-human" *ngIf="command.subtype == 'ongoing_revolt' && command.attacking_strategy=='revolt_arising'">Phase 2 start: {{command.cancel_human}},&nbsp;</div>
-                                <div class="arrival-human" *ngIf="command.subtype == 'ongoing_revolt'">Phase 2 end: {{command.arrival_human}}</div>
-                                <div class="cancel-human" *ngIf="command.cancelable && active_view && active_view?.showCancelTime">, cancelable until: {{command.cancel_human}}</div>
-                                )
-                              </ng-container>
-                              <ng-container *ngIf="command?.is_planned == true">
-                                <div class="cancel-human">
-                                  Planned departure: {{command.cancel_human}} -
-                                  Targeted arrival: {{command.arrival_human}} ({{command.eta}})
-                                </div>
-                              </ng-container>
-                              <div class="deleted-status" *ngIf="command.delete_status != ''">
-                                <mat-icon>delete</mat-icon> This command is hidden. Only you can see it
-                              </div>
-                              <div class="comments" *ngIf="command.delete_status == '' && command.comments && command.comments.length > 0" title="View comments">
-                                <span class="">{{command.comments.length}}</span> 💬
-                                <div class="comment-sneakpeek">{{command.comments.slice(-1)[0].text}}</div>
-                              </div>
-                            </div>
-                          </div>
-
-                        </div>
-
-                        <div class="right">
-                          <div class="unit-row" *ngIf="command.type == 'attack_spy'">
-                            <span class="payed_iron">{{command.units}}</span>
-                          </div>
-                          <div class="unit-row" *ngIf="command.type != 'attack_spy'">
-                            <div class="unit-icon-md" *ngFor="let unit of command.units | keyvalue" title="{{unit.key}}">
-                              <div class="unit_icon40x40 {{unit.key}}"><span class="unit-val">{{unit.value}}</span></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                    </div>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-              <div class="command-overview-footer">
-                <div class="command_filter">
-
-                  <div class="options">
-
-                    <div
-                      *ngFor="let type of command_types;"
-                      class="support_filter {{type}}"
-                      (click)="toggleCommandTypeFilter(type)"
-                      [ngClass]="{'inactive': !active_view?.command_type_toggle[type]}"
-                      title="{{type}}"
-                    ></div>
-
-                    <div class="filter-returns" [ngClass]="{ 'disabled': !active_view?.show_returns }" (click)="toggleShowReturns()" title="Show returning commands"></div>
-
-                  </div>
-                </div>
-
-                <div class="refresh-timer" *ngIf="!active_view.show_total_units">
-                  <h5>Next refresh: <div class="ops-next-refresh">{{next_refresh}}</div></h5>
-                </div>
-
-                <div class="total-units" *ngIf="active_view.show_total_units">
-                  <h5 *ngIf="total_units && objectKeys(total_units).length < 14">Total units<span *ngIf="is_filtered"> (filtered)</span>:</h5>
-                  <div class="unit-row" *ngIf="total_units">
-                    <div class="unit-icon-lg" *ngFor="let unit of total_units | keyvalue" title="{{unit.value}} {{unit.key}}" style="margin: 0px 1px 0 !important; transform: scale(0.9) !important;">
-                      <div class="unit_icon40x40 {{unit.key}}"><span class="unit-val" [ngClass]="{ 'smaller-text': unit.value>9999 }">{{unit.value}}</span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
-
           </div>
 
-          <!-- OPERATION TARGETS -->
-          <div *ngIf="!selected_command" class="command-sidepanel command-comments-container" [ngClass]="{'opened': mobile_comments_opened}">
-            <div class="panel-header">
-              <div class="comment-header comment-title">
-                <h3 title="These are currently the most targeted towns. Click on a city to filter the command overview.">
-                  Operation Targets
-                  <span *ngIf="targets.length>4">&nbsp;({{targets.length}})</span>
-                </h3>
-                <!--                <button class="btn btn-success" *ngIf="!show_menu" (click)="show_menu=true" title="Map View">-->
-                <!--                  Map View <mat-icon>map</mat-icon>-->
-                <!--                </button>-->
-              </div>
-              <hr style="margin-bottom: 10px;">
+          <div class="command-overview-content min-h-0 flex-1">
+
+            <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
+            <div *ngIf="loading || !commands" class="text-center" style="margin-top: 70px;">
+              <h2 *ngIf="!error">Loading commands ...</h2>
             </div>
 
-            <div class="panel-content gd-dm-scrollbar">
-              <div *ngIf="!targets || targets.length <= 0">
-                <h5 style="text-align: center;"><br/><br/><br/>No active targets</h5>
+            <div class="command-list text-center" *ngIf="!loading && commands && commands.length <= 0">
+              <div *ngIf="is_filtered">
+                <br><h3>No active commands for these filters</h3><br>
+                <a class="a-link-dialog gd-primary" (click)="clearFilter('all')">Clear filters</a>
               </div>
-              <div *ngIf="targets && targets.length > 0">
-
-                <div *ngIf="targets.length > 4" class="filter-targets">
-                  <input type="search" placeholder="Type here to filter targets" [(ngModel)]="filter_targets_text" (ngModelChange)="draw()" style="width: 100%;"/>
-                  <input *ngIf="filter_targets_text.length>0" type="reset" value="X" (click)="filter_targets_text=''; draw()">
-
-                  <input *ngIf="targets_sort=='movements_desc'" type="reset" value="⚔️ Incoming ↓" (click)="targets_sort='arrival_asc'; sort_targets(true)" title="Sort Targets">
-                  <input *ngIf="targets_sort=='arrival_asc'" type="reset" value="⏱️ ETA ↑" (click)="targets_sort='movements_desc'; sort_targets(true)" title="Sort Targets">
-<!--                  <select [(ngModel)]="targets_sort" (ngModelChange)="sort_targets(true)" title="Sort Targets">-->
-<!--                    <option value="movements_desc" selected>⚔️Incoming</option>-->
-<!--                    <option value="arrival_asc">⏱️ETA</option>-->
-<!--                  </select>-->
-                </div>
-
-                <ng-container *ngFor="let target of targets">
-                  <div *ngIf="filter_targets_text.length <= 0 || targetMatchesFilter(target)" class="command-target" (click)="selectTarget(target)" [ngClass]="{'active-target': isSelectedTarget(target)}">
-                    <div class="town_tooltip game-border">
-                      <div class="target-header">
-                        <h4 class="gd-brown">
-                          <img style="margin-top: -5px;" src="../../assets/images/town_ico.png">
-                          {{target.label}}
-                        </h4>
-                        <h3>
-                          ⚔️{{target.hits}}
-                        </h3>
-  <!--                      <h3>-->
-  <!--                        ⏱️{{target.eta}}-->
-  <!--                      </h3>-->
-                      </div>
-                      <div class="town_infos">
-                        <table class="popup_table_inside town_tooltip_table">
-                          <tbody>
-                            <tr *ngIf="target.ply_n">
-                              <td><img src="../../assets/images/player_ico.png"></td>
-                              <td class="gd-brown">{{target.ply_n}}</td>
-                            </tr>
-                            <tr *ngIf="target.all_n">
-                              <td><img src="../../assets/images/ally_ico.png"></td>
-                              <td class="gd-brown">{{target.all_n}}</td>
-                            </tr>
-                            <tr>
-                              <td>⚔️
-                              <td>{{target.hits}} incoming commands</td>
-                            </tr>
-                            <tr title="This is the average arrival time of all incoming commands">
-                              <td>⏱️
-                              <td>{{target.eta}} average arrival</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-
-                  </div>
-
-                </ng-container>
-
+              <div *ngIf="!is_filtered">
+                <br><h3>No active commands</h3><br>
               </div>
             </div>
 
-          </div>
-
-          <!-- COMMAND DETAILS -->
-          <div *ngIf="selected_command" class="command-sidepanel command-comments-container" [ngClass]="{'opened': mobile_comments_opened}">
-            <div class="comment-panel">
-              <div class="panel-header">
-                <div class="comment-header comment-title">
-                  <h3>Command Details</h3>
-                  <!--                <button class="btn btn-primary" title="Close Command Details" (click)="unselectCommand()">-->
-                  <!--                  <span class="hidden-xs">Close </span><mat-icon>close</mat-icon>-->
-                  <!--                </button>-->
-                  <a (click)="toggleCommentsTab(false)" class="close right" title="Close Command Details"></a>
-                </div>
-                <hr style="margin-bottom: 10px;">
-              </div>
-
-
-              <div class="panel-content comments-content">
-                <div *ngIf="!selected_command">
-                  <h5 style="text-align: center;"><br/><br/><br/>Select a command to view <span class="gd-primary">comments</span> and <span class="gd-primary">BB code</span></h5>
-                </div>
-                <div *ngIf="selected_command">
-
-                  <h5 style="text-align: center;">
-                    <div class="attack_type32x32 {{selected_command.type}}" [ngClass]="{'glow': selected_command.type=='attack' && !selected_command?.is_planned, 'revolt_arising': selected_command?.attacking_strategy=='revolt_arising', 'revolt_running': selected_command?.attacking_strategy=='revolt_running'}"></div>
-                    &nbsp;&nbsp;{{selected_command.arrival_human}} ({{selected_command.eta}})
-                  </h5>
-
-                  <div *ngIf="selected_command.src_twn_id > 0">
-                    <h5><strong>Departure</strong></h5>
-                    <ng-container *ngTemplateOutlet="contextItem; context: {id: selected_command.src_twn_id, name: selected_command.src_twn_n, type: 'town', mode: 'minimal'}"></ng-container>
-                    <ng-container *ngTemplateOutlet="contextItem; context: {id: selected_command.src_ply_id, name: selected_command.src_ply_n, type: 'player', mode: 'minimal'}"></ng-container>
-                    <ng-container *ngTemplateOutlet="contextItem; context: {id: selected_command.src_all_id, name: selected_command.src_all_n, type: 'ally', mode: 'minimal'}"></ng-container>
-                    <br/>
-                  </div>
-
-                  <div *ngIf="selected_command.trg_twn_id > 0">
-                    <h5><strong>Destination</strong></h5>
-                    <ng-container *ngTemplateOutlet="contextItem; context: {id: selected_command.trg_twn_id, name: selected_command.trg_twn_n, type: 'town', mode: 'minimal'}"></ng-container>
-                    <ng-container *ngTemplateOutlet="contextItem; context: {id: selected_command.trg_ply_id, name: selected_command.trg_ply_n, type: 'player', mode: 'minimal'}"></ng-container>
-                    <ng-container *ngTemplateOutlet="contextItem; context: {id: selected_command.trg_all_id, name: selected_command.trg_all_n, type: 'ally', mode: 'minimal'}"></ng-container>
-                    <br/>
-                  </div>
-
-                  <hr style="margin: 10px;">
-
-                  <div *ngIf="selected_command?.is_planned==true">
-                    <app-alert [dismissible]="false" type="warning" [showIcon]="false">
-                      <strong>This is a planned command.</strong><br/>It has yet to be sent by
-                      <img style="height: 18px; margin-top: -5px;" src="../../assets/images/player_ico.png"/>&nbsp;
-                      <span class="gd-brown">{{selected_command.src_ply_n}}</span>
-                      <br/><br/>
-                      <div style="font-size: 80%;">
-                        Expected departure: {{selected_command.cancel_human}}<br/>
-                        Expected arrival: {{selected_command.arrival_human}}
-                      </div>
+            <div *ngIf="error" style="margin-top: 70px;">
+              <h3>
+                <div class="row">
+                  <div class="col-xs-6 col-xs-offset-3">
+                    <app-alert type="error" [dismissible]="false">
+                      <h5>{{error}}</h5>
                     </app-alert>
-                    <hr style="margin: 10px;">
-                  </div>
-
-                  <h5><strong>Comments</strong></h5>
-                  <div class="comments-content">
-
-                    <div class="comments-list gd-scrollbar-trans">
-                      <div *ngIf="!selected_command.comments || selected_command.comments.length <= 0" class="">
-                        <p>No comments yet. Be the first!</p>
-                      </div>
-                      <div class="ops-comment" *ngFor="let comment of selected_command.comments">
-                        <div class="comment-info">
-                          <div class="user">
-                            {{comment.user}}
-                          </div>
-                          <div class="time">
-                            {{comment.time}}
-                          </div>
-                        </div>
-                        <div class="content">
-                          {{comment.text}}
-                        </div>
-                      </div>
-                      <div #commentPusher></div>
-                    </div>
-
-                    <div class="comment-input">
-                      <!--<p>Tip: mention your teammates by typing @</p>-->
-                      <textarea type="text" placeholder="Add a comment" [(ngModel)]="comment_input" (keyup.enter)="submitComment(selected_command.es_id)"></textarea>
-                      <button [disabled]="loading_comment" name="add_comment" style="" class="btn btn-primary" (click)="submitComment(selected_command.es_id)">
-                        Submit comment <mat-icon style="float: right;">send</mat-icon>
-                      </button>
-                      <mat-progress-bar *ngIf="loading_comment" style="margin-top: -10px;" mode="indeterminate"></mat-progress-bar>
-                      <p class="error-message" *ngIf="comment_error">{{comment_error}}</p>
-                    </div>
-
                   </div>
                 </div>
+              </h3>
+            </div>
 
-                <div class="admin-panel">
-                  <div class="comment-header" *ngIf="selected_command">
-                    <hr style="margin: 10px;">
-                    <h5><strong>Admin</strong></h5>
-                    <div *ngIf="!is_admin && my_uid != selected_command.upload_uid">
-                      <h5>Only team admins or the original uploader can hide this command.</h5>
+            <div class="command-list" *ngIf="!loading && commands && commands.length > 0">
+              <div class="command-ngfor" *ngFor="let command of commands; let i = index; trackBy: trackCommandByFn" [ngClass]="{'hidden-command': command?.hidden===true, 'planned-command': command?.is_planned===true, 'selected-command': command?.cmd_id == selected_command?.cmd_id, 'command_highlight': command?.type=='attack' && !command?.is_planned}">
+                <div class="command" (click)="selectCommand(command)" [contextMenu]="basicMenu" [contextMenuSubject]="command">
+
+                  <div class="command-content">
+                    <div class="left">
+
+                      <div class="command-type" *ngIf="command?.is_planned==true" title="This is a planned command. It has yet to depart">
+                        <img src="../../assets/images/game/planned.png" style="">
+                      </div>
+
+                      <div class="command-type">
+                        <div class="attack_type32x32 {{command.type}}" [ngClass]="{'glow': command.type=='attack' && !command?.is_planned, 'revolt_arising': command?.attacking_strategy=='revolt_arising', 'revolt_running': command?.attacking_strategy=='revolt_running'}"></div>
+                      </div>
+
+                      <div class="command-details">
+                        <div class="command-targets">
+
+                          <div *ngIf="!command.return">
+                            <ng-container *ngTemplateOutlet="origin; context: {command : command}"></ng-container>
+                            <span class="overview_outgoing icon"></span>
+                            <div class="mobile-newline"></div>
+                            <ng-container *ngTemplateOutlet="destination; context: {command : command}"></ng-container>
+                          </div>
+
+                          <div *ngIf="command.return">
+                            <ng-container *ngTemplateOutlet="destination; context: {command : command}"></ng-container>
+                            <span class="overview_incoming icon"></span>
+                            <div class="mobile-newline"></div>
+                            <ng-container *ngTemplateOutlet="origin; context: {command : command}"></ng-container>
+                          </div>
+
+                        </div>
+                        <div class="command-timing">
+                          <ng-container *ngIf="!command?.is_planned">
+                            <div class="eta">{{command.eta}}</div>
+                            (
+                            <div class="arrival-human" *ngIf="command.subtype != 'cs_eta' && command.subtype != 'attack_takeover' && command.subtype != 'ongoing_revolt'">Arrival at<span *ngIf="command.subtype == 'portal'"> portal</span>: {{command.arrival_human}}</div>
+                            <div class="arrival-human" *ngIf="command.subtype == 'cs_eta' || command.subtype == 'attack_takeover' && command.subtype != 'ongoing_revolt'">Colonized at: {{command.arrival_human}}</div>
+                            <div class="arrival-human" *ngIf="command.subtype == 'ongoing_revolt' && command.attacking_strategy=='revolt_arising'">Phase 2 start: {{command.cancel_human}},&nbsp;</div>
+                            <div class="arrival-human" *ngIf="command.subtype == 'ongoing_revolt'">Phase 2 end: {{command.arrival_human}}</div>
+                            <div class="cancel-human" *ngIf="command.cancelable && active_view && active_view?.showCancelTime">, cancelable until: {{command.cancel_human}}</div>
+                            )
+                          </ng-container>
+                          <ng-container *ngIf="command?.is_planned == true">
+                            <div class="cancel-human">
+                              Planned departure: {{command.cancel_human}} -
+                              Targeted arrival: {{command.arrival_human}} ({{command.eta}})
+                            </div>
+                          </ng-container>
+                          <div class="deleted-status" *ngIf="command.delete_status != ''">
+                            <mat-icon>delete</mat-icon> This command is hidden. Only you can see it
+                          </div>
+                          <div class="comments" *ngIf="command.delete_status == '' && command.comments && command.comments.length > 0" title="View comments">
+                            <span class="">{{command.comments.length}}</span> 💬
+                            <div class="comment-sneakpeek">{{command.comments.slice(-1)[0].text}}</div>
+                          </div>
+                        </div>
+                      </div>
+
                     </div>
-                    <div *ngIf="is_admin && my_uid != selected_command.upload_uid">
-                      <h5>Once you hide this command, only the original uploader can unhide it.</h5>
-                    </div>
-                    <div *ngIf="my_uid == selected_command.upload_uid">
-                      <h5>If you hide this command, only you will be able to see it.</h5>
+
+                    <div class="right">
+                      <div class="unit-row" *ngIf="command.type == 'attack_spy'">
+                        <span class="payed_iron">{{command.units}}</span>
+                      </div>
+                      <div class="unit-row" *ngIf="command.type != 'attack_spy'">
+                        <div class="unit-icon-md" *ngFor="let unit of command.units | keyvalue" title="{{unit.key}}">
+                          <div class="unit_icon40x40 {{unit.key}}"><span class="unit-val">{{unit.value}}</span></div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div class="comment-admin" *ngIf="selected_command">
-                    <button *ngIf="selected_command.delete_status == ''" [disabled]="(!is_admin && my_uid != selected_command.upload_uid) || loading_delete" style="" class="btn btn-danger" (click)="deleteCommand(selected_command.es_id, 'soft')">
-                      Hide command <mat-icon>delete</mat-icon>
-                    </button>
-                    <button *ngIf="selected_command.delete_status != ''" [disabled]="(!is_admin && my_uid != selected_command.upload_uid) || loading_delete" style="" class="btn btn-danger" (click)="deleteCommand(selected_command.es_id, 'undo')">
-                      Undo hide command&nbsp;<span *ngIf="is_admin && my_uid != selected_command.upload_uid">({{next_refresh}})&nbsp;</span><mat-icon>undo</mat-icon>
-                    </button>
-                    <mat-progress-bar *ngIf="loading_delete" style="margin-top: -10px;" mode="indeterminate"></mat-progress-bar>
-                    <p class="error-message" *ngIf="delete_error">{{delete_error}}</p>
-                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="command-overview-footer flex-none">
+            <div class="command_filter">
+
+              <div class="options">
+
+                <div
+                  *ngFor="let type of command_types;"
+                  class="support_filter {{type}}"
+                  (click)="toggleCommandTypeFilter(type)"
+                  [ngClass]="{'inactive': !active_view?.command_type_toggle[type]}"
+                  title="{{type}}"
+                ></div>
+
+                <div class="filter-returns" [ngClass]="{ 'disabled': !active_view?.show_returns }" (click)="toggleShowReturns()" title="Show returning commands"></div>
+
+              </div>
+            </div>
+
+            <div class="refresh-timer" *ngIf="!active_view.show_total_units">
+              <h5>Next refresh: <div class="ops-next-refresh">{{next_refresh}}</div></h5>
+            </div>
+
+            <div class="total-units" *ngIf="active_view.show_total_units">
+              <h5 *ngIf="total_units && objectKeys(total_units).length < 14">Total units<span *ngIf="is_filtered"> (filtered)</span>:</h5>
+              <div class="unit-row" *ngIf="total_units">
+                <div class="unit-icon-lg" *ngFor="let unit of total_units | keyvalue" title="{{unit.value}} {{unit.key}}" style="margin: 0px 1px 0 !important; transform: scale(0.9) !important;">
+                  <div class="unit_icon40x40 {{unit.key}}"><span class="unit-val" [ngClass]="{ 'smaller-text': unit.value>9999 }">{{unit.value}}</span></div>
                 </div>
               </div>
             </div>
+          </div>
+        </section>
+      </div>
+
+      <aside *ngIf="!selected_command" class="flex flex-none flex-col border-0 border-l border-solid border-slate-200 bg-white font-normal dark:border-slate-800 dark:bg-slate-900 max-lg:hidden transition-[width] duration-150" [ngClass]="{'w-11': targets_panel_collapsed, 'w-[304px]': !targets_panel_collapsed, 'max-lg:!flex max-lg:fixed max-lg:bottom-0 max-lg:right-0 max-lg:top-[58px] max-lg:z-[1001] max-lg:w-[min(360px,100vw)] max-lg:shadow-xl': mobile_comments_opened}">
+        <div class="flex flex-none flex-col gap-3 border-0 border-b border-solid border-slate-200 p-4 dark:border-slate-800" [ngClass]="{'items-center !px-0 !py-4': targets_panel_collapsed}">
+          <button type="button" (click)="targets_panel_collapsed = !targets_panel_collapsed" class="flex w-full items-center gap-2 border-0 bg-transparent p-0 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="{'!w-auto justify-center': targets_panel_collapsed}" [attr.aria-expanded]="!targets_panel_collapsed" title="{{targets_panel_collapsed ? 'Expand' : 'Collapse'}} operation targets">
+            <svg appIcon="chevron-down" variant="mini" class="size-4 flex-none text-slate-400 transition-transform dark:text-slate-500" [ngClass]="{'-rotate-90': targets_panel_collapsed}"></svg>
+            <h2 *ngIf="!targets_panel_collapsed" title="These are currently the most targeted towns. Click on a city to filter the command overview." class="m-0 flex items-center gap-2 text-base font-semibold text-slate-900 dark:text-slate-100">
+              Operation targets
+              <span *ngIf="targets.length>4" class="rounded-full bg-slate-100 px-2 text-xs font-semibold leading-5 tabular-nums text-slate-600 ring-1 ring-inset ring-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:ring-slate-700">{{targets.length}}</span>
+            </h2>
+          </button>
+          <div *ngIf="!targets_panel_collapsed && targets && targets.length > 4" class="flex gap-2">
+            <label class="relative m-0 min-w-0 flex-1 font-normal">
+              <svg appIcon="magnifying-glass" variant="mini" class="pointer-events-none absolute left-2.5 top-2.5 size-4 text-slate-400"></svg>
+              <input type="search" placeholder="Filter targets" [(ngModel)]="filter_targets_text" (ngModelChange)="draw()" class="h-9 w-full rounded-md border-0 bg-white pl-8 pr-8 text-sm font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700 dark:bg-slate-950 dark:text-slate-100 dark:ring-slate-700 dark:placeholder:text-slate-500">
+              <button type="button" *ngIf="filter_targets_text.length>0" (click)="filter_targets_text=''; draw()" aria-label="Clear target filter" class="absolute right-1.5 top-1.5 inline-flex size-6 items-center justify-center rounded border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800 dark:hover:text-slate-200">
+                <svg appIcon="x-mark" variant="micro" class="size-4"></svg>
+              </button>
+            </label>
+            <button type="button" class="inline-flex h-9 flex-none items-center gap-1 whitespace-nowrap rounded-md border-0 bg-white px-2.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-100 dark:ring-slate-700 dark:hover:bg-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" *ngIf="targets_sort=='movements_desc'" (click)="targets_sort='arrival_asc'; sort_targets(true)" title="Sort Targets">
+              <svg appIcon="bars-arrow-down" variant="micro" class="size-4 flex-none text-slate-400"></svg>
+              Incoming
+            </button>
+            <button type="button" class="inline-flex h-9 flex-none items-center gap-1 whitespace-nowrap rounded-md border-0 bg-white px-2.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-100 dark:ring-slate-700 dark:hover:bg-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" *ngIf="targets_sort=='arrival_asc'" (click)="targets_sort='movements_desc'; sort_targets(true)" title="Sort Targets">
+              <svg appIcon="clock" variant="micro" class="size-4 flex-none text-slate-400"></svg>
+              ETA
+            </button>
           </div>
         </div>
-      </div>
+
+        <div class="min-h-0 flex-1 overflow-y-auto p-3" *ngIf="!targets_panel_collapsed">
+          <p *ngIf="!targets || targets.length <= 0" class="m-0 px-2 py-12 text-center text-sm text-slate-500 dark:text-slate-400">No active targets</p>
+          <div *ngIf="targets && targets.length > 0" class="flex flex-col gap-2">
+            <ng-container *ngFor="let target of targets">
+              <button type="button" *ngIf="filter_targets_text.length <= 0 || targetMatchesFilter(target)" (click)="selectTarget(target)" class="flex w-full flex-col gap-1.5 rounded-lg border-0 p-3 text-left font-normal ring-inset focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="isSelectedTarget(target) ? 'bg-brand-50 ring-2 ring-brand-600 dark:bg-brand-500/10 dark:ring-brand-500' : 'bg-white ring-1 ring-slate-200 hover:ring-slate-300 dark:bg-slate-800/60 dark:ring-slate-700 dark:hover:ring-slate-600'">
+                <span class="flex w-full items-center justify-between gap-2">
+                  <span class="flex min-w-0 items-center gap-1 text-sm font-semibold text-slate-900 dark:text-slate-100">
+                    <svg appIcon="town_ico" variant="game" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
+                    <span class="truncate">{{target.label}}</span>
+                  </span>
+                  <span title="{{target.hits}} incoming commands" class="inline-flex flex-none items-center gap-1 rounded-full bg-rose-50 px-2 text-xs font-bold leading-[18px] tabular-nums text-rose-700 ring-1 ring-inset ring-rose-200 dark:bg-rose-500/10 dark:text-rose-300 dark:ring-rose-400/30">
+                    <svg appIcon="arrow-down-left" variant="micro" class="size-3 flex-none"></svg>
+                    {{target.hits}}
+                  </span>
+                </span>
+                <span *ngIf="target.ply_n || target.all_n" class="flex min-w-0 flex-wrap items-center gap-x-2.5 gap-y-0.5 text-xs text-slate-500 dark:text-slate-400">
+                  <span *ngIf="target.ply_n" class="inline-flex min-w-0 items-center gap-1">
+                    <svg appIcon="player_ico" variant="game" class="size-3 flex-none text-slate-400 dark:text-slate-500"></svg>
+                    <span class="truncate">{{target.ply_n}}</span>
+                  </span>
+                  <span *ngIf="target.all_n" class="inline-flex min-w-0 items-center gap-1">
+                    <svg appIcon="ally_ico" variant="game" class="size-3 flex-none text-slate-400 dark:text-slate-500"></svg>
+                    <span class="truncate">{{target.all_n}}</span>
+                  </span>
+                </span>
+                <span class="text-xs text-slate-500 dark:text-slate-400">{{target.hits}} incoming commands</span>
+                <span title="This is the average arrival time of all incoming commands" class="inline-flex items-center gap-1 text-xs text-slate-600 dark:text-slate-300">
+                  <svg appIcon="clock" variant="micro" class="size-3.5 flex-none text-slate-400 dark:text-slate-500"></svg>
+                  <span class="font-mono font-semibold tabular-nums">{{target.eta}}</span> average arrival
+                </span>
+              </button>
+            </ng-container>
+          </div>
+        </div>
+      </aside>
+
+      <aside *ngIf="selected_command" class="flex w-[304px] flex-none flex-col border-0 border-l border-solid border-slate-200 bg-white font-normal dark:border-slate-800 dark:bg-slate-900 max-lg:hidden" [ngClass]="{'max-lg:!flex max-lg:fixed max-lg:bottom-0 max-lg:right-0 max-lg:top-[58px] max-lg:z-[1001] max-lg:w-[min(360px,100vw)] max-lg:shadow-xl': mobile_comments_opened}">
+        <div class="flex flex-none items-center justify-between gap-2 px-4 pb-3 pt-4">
+          <h2 class="m-0 text-base font-semibold text-slate-900 dark:text-slate-100">Command details</h2>
+          <button type="button" (click)="toggleCommentsTab(false)" title="Close Command Details" aria-label="Close Command Details" class="-mr-1.5 inline-flex size-8 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+            <svg appIcon="x-mark" variant="mini" class="size-5"></svg>
+          </button>
+        </div>
+
+        <div class="min-h-0 flex-1 overflow-y-auto px-4 pb-4">
+          <p *ngIf="!selected_command" class="m-0 py-12 text-center text-sm text-slate-500 dark:text-slate-400">Select a command to view comments and BB code</p>
+          <div *ngIf="selected_command" class="flex flex-col gap-4">
+            <div class="flex items-center gap-3 rounded-lg px-3 py-2.5 ring-1 ring-inset" [ngClass]="selected_command.type=='attack' && !selected_command?.is_planned ? 'bg-rose-50/70 ring-rose-200 dark:bg-rose-500/[.07] dark:ring-rose-400/30' : 'bg-slate-50 ring-slate-200 dark:bg-slate-800/60 dark:ring-slate-700'">
+              <div class="attack_type32x32 {{selected_command.type}} block flex-none rounded-md" [ngClass]="{'ring-2 ring-rose-500 ring-offset-2 ring-offset-white dark:ring-offset-slate-900': selected_command.type=='attack' && !selected_command?.is_planned, 'revolt_arising': selected_command?.attacking_strategy=='revolt_arising', 'revolt_running': selected_command?.attacking_strategy=='revolt_running'}"></div>
+              <div class="min-w-0 flex-1 tabular-nums">
+                <div class="text-sm font-semibold text-slate-900 dark:text-slate-100">{{selected_command.arrival_human}}</div>
+                <div class="text-xs text-slate-500 dark:text-slate-400">Arrival</div>
+              </div>
+              <span class="font-mono text-[15px] font-semibold tabular-nums" [ngClass]="etaClass(selected_command)">{{selected_command.eta}}</span>
+            </div>
+
+            <section *ngIf="selected_command.src_twn_id > 0" class="flex flex-col gap-1">
+              <h3 class="m-0 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Departure</h3>
+              <ng-container *ngTemplateOutlet="contextItem; context: {id: selected_command.src_twn_id, name: selected_command.src_twn_n, type: 'town', mode: 'minimal'}"></ng-container>
+              <ng-container *ngTemplateOutlet="contextItem; context: {id: selected_command.src_ply_id, name: selected_command.src_ply_n, type: 'player', mode: 'minimal'}"></ng-container>
+              <ng-container *ngTemplateOutlet="contextItem; context: {id: selected_command.src_all_id, name: selected_command.src_all_n, type: 'ally', mode: 'minimal'}"></ng-container>
+            </section>
+
+            <section *ngIf="selected_command.trg_twn_id > 0" class="flex flex-col gap-1">
+              <h3 class="m-0 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Destination</h3>
+              <ng-container *ngTemplateOutlet="contextItem; context: {id: selected_command.trg_twn_id, name: selected_command.trg_twn_n, type: 'town', mode: 'minimal'}"></ng-container>
+              <ng-container *ngTemplateOutlet="contextItem; context: {id: selected_command.trg_ply_id, name: selected_command.trg_ply_n, type: 'player', mode: 'minimal'}"></ng-container>
+              <ng-container *ngTemplateOutlet="contextItem; context: {id: selected_command.trg_all_id, name: selected_command.trg_all_n, type: 'ally', mode: 'minimal'}"></ng-container>
+            </section>
+
+            <div *ngIf="selected_command?.is_planned==true" class="rounded-lg bg-amber-50 px-3 py-2.5 text-sm text-amber-800 ring-1 ring-inset ring-amber-200 dark:bg-amber-500/10 dark:text-amber-200 dark:ring-amber-400/30">
+              <p class="m-0">
+                <strong class="font-semibold">This is a planned command.</strong> It has yet to be sent by
+                <svg appIcon="player_ico" variant="game" class="inline size-3.5 align-[-2px]"></svg>
+                <span class="font-semibold">{{selected_command.src_ply_n}}</span>
+              </p>
+              <p class="mb-0 mt-1.5 text-xs tabular-nums">
+                Expected departure: {{selected_command.cancel_human}}<br/>
+                Expected arrival: {{selected_command.arrival_human}}
+              </p>
+            </div>
+
+            <section class="flex flex-col gap-2 border-0 border-t border-solid border-slate-200 pt-4 dark:border-slate-800">
+              <h3 class="m-0 text-sm font-semibold text-slate-900 dark:text-slate-100">Comments</h3>
+              <div class="flex max-h-[max(35vh,300px)] flex-col gap-1.5 overflow-y-auto">
+                <p *ngIf="!selected_command.comments || selected_command.comments.length <= 0" class="m-0 text-sm text-slate-500 dark:text-slate-400">No comments yet. Be the first!</p>
+                <div *ngFor="let comment of selected_command.comments" class="flex flex-col gap-0.5 rounded-lg bg-slate-50 px-3 py-2 ring-1 ring-inset ring-slate-200 dark:bg-slate-800/60 dark:ring-slate-700">
+                  <div class="flex items-baseline justify-between gap-2">
+                    <span class="min-w-0 truncate text-[13px] font-semibold text-slate-900 dark:text-slate-100">{{comment.user}}</span>
+                    <span class="flex-none text-xs tabular-nums text-slate-400 dark:text-slate-500">{{comment.time}}</span>
+                  </div>
+                  <div class="text-[13px] text-slate-700 [overflow-wrap:anywhere] dark:text-slate-300">{{comment.text}}</div>
+                </div>
+                <div #commentPusher></div>
+              </div>
+
+              <div class="flex flex-col gap-2">
+                <textarea placeholder="Add a comment" [(ngModel)]="comment_input" (keyup.enter)="submitComment(selected_command.es_id)" class="h-16 w-full resize-none rounded-md border-0 bg-white px-2.5 py-2 text-[13px] font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700 dark:bg-slate-950 dark:text-slate-100 dark:ring-slate-700 dark:placeholder:text-slate-500"></textarea>
+                <div class="flex justify-end">
+                  <button type="button" [disabled]="loading_comment" name="add_comment" (click)="submitComment(selected_command.es_id)" class="inline-flex items-center gap-1.5 rounded-md border-0 bg-brand-700 px-3 py-1.5 text-[13px] font-semibold text-white shadow-sm hover:bg-brand-800 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+                    <svg appIcon="paper-airplane" variant="mini" class="size-4 flex-none"></svg>
+                    Submit comment
+                  </button>
+                </div>
+                <mat-progress-bar *ngIf="loading_comment" mode="indeterminate"></mat-progress-bar>
+                <p class="m-0 text-xs text-rose-600 dark:text-rose-400" *ngIf="comment_error">{{comment_error}}</p>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <div *ngIf="selected_command" class="flex flex-none flex-col gap-2 border-0 border-t border-solid border-slate-200 px-4 py-3 dark:border-slate-800">
+          <h3 class="m-0 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Admin</h3>
+          <p *ngIf="!is_admin && my_uid != selected_command.upload_uid" class="m-0 text-xs text-slate-500 dark:text-slate-400">Only team admins or the original uploader can hide this command.</p>
+          <p *ngIf="is_admin && my_uid != selected_command.upload_uid" class="m-0 text-xs text-slate-500 dark:text-slate-400">Once you hide this command, only the original uploader can unhide it.</p>
+          <p *ngIf="my_uid == selected_command.upload_uid" class="m-0 text-xs text-slate-500 dark:text-slate-400">If you hide this command, only you will be able to see it.</p>
+          <button type="button" *ngIf="selected_command.delete_status == ''" [disabled]="(!is_admin && my_uid != selected_command.upload_uid) || loading_delete" (click)="deleteCommand(selected_command.es_id, 'soft')" class="inline-flex w-full items-center justify-center gap-1.5 rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-rose-700 shadow-sm ring-1 ring-inset ring-rose-300 hover:bg-rose-50 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-900 dark:text-rose-300 dark:ring-rose-500/40 dark:hover:bg-rose-500/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+            <svg appIcon="eye-slash" variant="mini" class="size-4 flex-none"></svg>
+            Hide command
+          </button>
+          <button type="button" *ngIf="selected_command.delete_status != ''" [disabled]="(!is_admin && my_uid != selected_command.upload_uid) || loading_delete" (click)="deleteCommand(selected_command.es_id, 'undo')" class="inline-flex w-full items-center justify-center gap-1.5 rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-rose-700 shadow-sm ring-1 ring-inset ring-rose-300 hover:bg-rose-50 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-900 dark:text-rose-300 dark:ring-rose-500/40 dark:hover:bg-rose-500/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+            <svg appIcon="arrow-uturn-left" variant="mini" class="size-4 flex-none"></svg>
+            Undo hide command<span *ngIf="is_admin && my_uid != selected_command.upload_uid" class="tabular-nums">&nbsp;({{next_refresh}})</span>
+          </button>
+          <mat-progress-bar *ngIf="loading_delete" mode="indeterminate"></mat-progress-bar>
+          <p class="m-0 text-xs text-rose-600 dark:text-rose-400" *ngIf="delete_error">{{delete_error}}</p>
+        </div>
+      </aside>
     </div>
   </div>
-
 
   <ng-template #origin let-command="command">
   <span *ngIf="command.src_twn_id > 0">
@@ -742,20 +629,23 @@
 
 
 <ng-template #contextItem let-id="id" let-name="name" let-type="type" let-mode="mode">
-  <div *ngIf="id > 0" class="context-item">
-    <div>
-      <img style="height: 18px; margin-top: -5px;" src="../../assets/images/{{type}}_ico.png"/>&nbsp;
-      <span class="gd-brown">{{name}}</span>&nbsp;
+  <div *ngIf="id > 0" class="flex min-h-7 items-center justify-between gap-2 rounded-md px-1.5 py-0.5 hover:bg-slate-50 dark:hover:bg-slate-800/60">
+    <div class="flex min-w-0 items-center gap-1.5 text-[13px] font-medium text-slate-900 dark:text-slate-100">
+      <svg [appIcon]="type + '_ico'" variant="game" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
+      <span class="truncate">{{name}}</span>
     </div>
-    <div class="context-actions" *ngIf="type!='ally'">
-      <button class="btn btn-default btn-xs mr-1" (click)="drillDown(name, type)" *ngIf="mode=='full'">
-        <i class="fa fa-filter"></i> Filter
+    <div class="flex flex-none items-center gap-0.5" *ngIf="type!='ally'">
+      <button type="button" class="inline-flex items-center gap-1 whitespace-nowrap rounded border-0 bg-transparent px-1.5 py-0.5 text-xs font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" (click)="drillDown(name, type)" *ngIf="mode=='full'">
+        <svg appIcon="funnel" variant="micro" class="size-3.5 flex-none"></svg>
+        Filter
       </button>
-      <button class="btn btn-default btn-xs mr-1" (click)="copyBB(id, name, type)">
-        <i class="fa fa-code"></i> BB code
+      <button type="button" class="inline-flex items-center gap-1 whitespace-nowrap rounded border-0 bg-transparent px-1.5 py-0.5 text-xs font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" (click)="copyBB(id, name, type)">
+        <svg appIcon="code-bracket" variant="micro" class="size-3.5 flex-none"></svg>
+        BB code
       </button>
-      <button class="btn btn-default btn-xs" (click)="openIntelDialog($event, id, type)">
-        <i class="fa fa-university"></i> Intel
+      <button type="button" class="inline-flex items-center gap-1 whitespace-nowrap rounded border-0 bg-transparent px-1.5 py-0.5 text-xs font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" (click)="openIntelDialog($event, id, type)">
+        <svg appIcon="building-library" variant="micro" class="size-3.5 flex-none"></svg>
+        Intel
       </button>
     </div>
   </div>

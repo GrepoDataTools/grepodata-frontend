@@ -1,0 +1,23 @@
+<div role="group" [attr.aria-label]="label" class="relative ml-11 mt-2 h-[200px]" [ngClass]="axisLabel ? 'mb-11' : 'mb-7'">
+  <span *ngFor="let tick of yTicks; let first = first" aria-hidden="true" class="absolute inset-x-0 border-0 border-t border-solid" [ngClass]="first ? 'border-slate-300' : 'border-slate-100'" [style.top.%]="tick.y"></span>
+  <span *ngFor="let tick of yTicks" aria-hidden="true" class="absolute right-full mr-2 -translate-y-1/2 whitespace-nowrap text-[11px] leading-[14px] tabular-nums text-slate-500" [style.top.%]="tick.y">{{tick.value | compactNumber}}</span>
+
+  <div class="absolute inset-0 flex items-end">
+    <div *ngFor="let group of groups; let i = index" class="group relative flex h-full min-w-0 flex-1 items-end justify-center gap-0.5">
+      <span aria-hidden="true" class="absolute inset-x-px inset-y-0 rounded-t-md bg-slate-100 [display:none] group-hover:[display:block]"></span>
+      <span *ngFor="let bar of group.bars" aria-hidden="true" class="relative block w-full max-w-[13px] rounded-t" [style.height.%]="bar.height" [style.background-color]="bar.color"></span>
+      <span aria-hidden="true" class="absolute top-full mt-1.5 text-[11px] leading-[14px] tabular-nums text-slate-500 group-hover:font-semibold group-hover:text-slate-900">{{group.label}}</span>
+      <button *ngIf="clickable" type="button" (click)="barSelect.emit(group.name)" [attr.aria-label]="group.name" class="absolute inset-0 cursor-pointer rounded-t-md border-0 bg-transparent p-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"></button>
+      <div role="tooltip" class="pointer-events-none absolute top-2 z-10 w-max min-w-[168px] rounded-lg bg-white px-3 py-2.5 text-xs shadow-lg ring-1 ring-slate-900/5 [display:none] group-hover:[display:block]" [ngClass]="i < groups.length / 2 ? 'left-full ml-1' : 'right-full mr-1'">
+        <p class="mb-1.5 mt-0 text-[13px] font-semibold leading-[18px] text-slate-900">{{group.name}}</p>
+        <div *ngFor="let bar of group.bars" class="flex items-center gap-2 leading-5">
+          <span aria-hidden="true" class="h-[3px] w-3 flex-none rounded-sm" [style.background-color]="bar.color"></span>
+          <span class="min-w-[44px] font-semibold tabular-nums text-slate-900">{{bar.value | number}}</span>
+          <span class="text-slate-500">{{bar.label}}</span>
+        </div>
+        <p *ngIf="hint" class="mb-0 mt-1.5 border-0 border-t border-solid border-slate-100 pt-1.5 text-slate-500">{{hint}}</p>
+      </div>
+    </div>
+  </div>
+  <p *ngIf="axisLabel" aria-hidden="true" class="absolute inset-x-0 top-full mb-0 mt-6 text-center text-[11px] leading-[14px] text-slate-400">{{axisLabel}}</p>
+</div>

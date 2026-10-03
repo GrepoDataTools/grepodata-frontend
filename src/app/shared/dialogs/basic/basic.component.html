@@ -1,24 +1,25 @@
-<a *ngIf="show_close" (click)="close()" class="close"></a>
-<h2 mat-dialog-title *ngIf="title != ''" style="margin-top: 0px;">
-	<span [outerHTML]="title"></span>
-</h2>
-<hr *ngIf="title != ''"/>
-<div mat-dialog-content *ngIf="messageHtml != ''">
-  <div *ngIf="!show_close && title == ''" style="margin-top: -25px;"></div>
-	<span [outerHTML]="messageHtml"></span>
-</div>
-<div mat-dialog-actions class="dialog-action" *ngIf="cancel_action || action">
+<div class="flex max-h-[95vh] w-[480px] max-w-full flex-col text-left font-normal text-slate-900">
+  <div class="min-h-0 flex-1 overflow-y-auto">
+    <div class="flex items-start gap-4 p-6">
+      <span *ngIf="icon" class="flex size-11 flex-none items-center justify-center rounded-full" [ngClass]="iconClass">
+        <svg [appIcon]="icon" class="size-[22px]"></svg>
+      </span>
+      <div class="min-w-0 flex-1" [ngClass]="{'pt-0.5': icon}">
+        <h2 mat-dialog-title *ngIf="title != ''" class="m-0 text-lg font-semibold leading-7 text-slate-900">
+          <span [outerHTML]="title"></span>
+        </h2>
+        <div *ngIf="messageHtml != ''" class="text-sm text-slate-600 [&_h2]:m-0 [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:leading-7 [&_h3]:m-0 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:leading-7 [&_h3]:text-slate-900 [&_h4]:mb-0 [&_h4]:mt-2 [&_h4]:text-sm [&_h4]:font-normal [&_h4]:leading-5 [&_h5]:mb-0 [&_h5]:mt-1 [&_h5]:text-sm [&_h5]:font-normal [&_h5]:leading-5 [&_h5]:text-slate-500 [&_p]:mb-0" [ngClass]="{'mt-2': title != '', '[&_.text-center]:text-left': icon}">
+          <span [outerHTML]="messageHtml"></span>
+        </div>
+      </div>
+      <button *ngIf="show_close" type="button" (click)="close()" aria-label="Close" class="-mr-2 -mt-1 inline-flex size-8 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+        <svg appIcon="x-mark" class="size-5"></svg>
+      </button>
+    </div>
+  </div>
 
-	<!--Negative action-->
-	<button mat-button (click)="close()" *ngIf="cancel_action!=null">{{cancel_action}}</button>
-
-	<!--Positive action-->
-	<button
-		mat-button
-		class="mat-focus-indicator mat-raised-button {{actionClass}} text-white mat-button mat-button-base"
-		(click)="confirm()"
-		style="float: right;">
-		{{action}}
-	</button>
-
+  <div *ngIf="cancel_action || action" class="flex flex-none items-center justify-end gap-3 border-0 border-t border-solid border-slate-200 bg-slate-50 px-6 py-4">
+    <button *ngIf="cancel_action!=null" type="button" (click)="close()" class="inline-flex items-center justify-center gap-1.5 rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{cancel_action}}</button>
+    <button type="button" (click)="confirm()" class="inline-flex items-center justify-center gap-1.5 rounded-md border-0 px-3 py-2 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="actionClass">{{action}}</button>
+  </div>
 </div>

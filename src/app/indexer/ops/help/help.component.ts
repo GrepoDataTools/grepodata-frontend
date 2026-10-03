@@ -3,8 +3,7 @@ import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'ops-help-dialog',
-  templateUrl: './help.component.html',
-  styleUrls: ['./help.component.scss']
+  templateUrl: './help.component.html'
 })
 export class OpsHelpDialog {
 
@@ -12,6 +11,7 @@ export class OpsHelpDialog {
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<OpsHelpDialog>
   ) {
+    dialogRef.addPanelClass('team-dialog');
   }
 
   close(): void {

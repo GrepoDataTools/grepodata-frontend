@@ -18,7 +18,6 @@ import {NewIndexDialog} from '../../shared/dialogs/new-index/new-index.component
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss'],
   providers: [ProfileService, IndexAuthService, JwtService],
 })
 export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
@@ -104,19 +103,25 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
     switch (token_status) {
       case 'confirmed':
         this.newBasicDialog(
-          '<span class="gd-primary">🥳 Email address confirmed successfully!</span>',
-          '<h4>You can now create or join a team to share your enemy intelligence with your allies.</h4>'
+          'Email address confirmed successfully!',
+          '<p class="m-0">You can now create or join a team to share your enemy intelligence with your allies.</p>',
+          'check-circle',
+          'bg-emerald-50 text-emerald-600'
           );
         break;
       case 'failed':
         this.newBasicDialog(
-          '<span class="gd-error">😭 Unable to verify your email address.</span>',
-          '<h4>Sorry, we were unable to verify your email activation link. Please try again later or contact us if this error persists.</h4>');
+          'Unable to verify your email address',
+          '<p class="m-0">Sorry, we were unable to verify your email activation link. Please try again later or contact us if this error persists.</p>',
+          'exclamation-triangle',
+          'bg-rose-100 text-rose-600');
         break;
       case 'invalid':
         this.newBasicDialog(
-          '<span class="gd-error">😭 Unable to verify your email address.</span>',
-          '<h4>The activation link you tried to use has expired, please request a new activation email.</h4>');
+          'Unable to verify your email address',
+          '<p class="m-0">The activation link you tried to use has expired, please request a new activation email.</p>',
+          'exclamation-triangle',
+          'bg-rose-100 text-rose-600');
         break;
       default:
         console.error("Uncaught token status: " + token_status);
@@ -124,14 +129,16 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
     this.location.replaceState('/profile');
   }
 
-  newBasicDialog(title, content) {
+  newBasicDialog(title, content, icon = '', iconClass = '') {
     const dialogRef = this.dialog.open(BasicDialog, {
       autoFocus: false,
       data: {
         title: title,
         messageHtml: content,
         closeOnNavigation: false,
-        action: ''
+        action: '',
+        icon: icon,
+        iconClass: iconClass
       }
     });
   }

@@ -14,7 +14,6 @@ import {Globals} from '../../globals';
 @Component({
   selector: 'app-index-player',
   templateUrl: './player.component.html',
-  styleUrls: ['./player.component.scss'],
   providers: [PlayerService, IndexerService, WorldService, LocalCacheService]
 })
 export class IndexPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
@@ -48,6 +47,7 @@ export class IndexPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
   message = '';
   tabsSeaIndex = 0;
   tabsLandIndex = 0;
+  activeTab = 0;
 
   routeParams: any;
   breadcrumb_data: any = {};
@@ -105,6 +105,7 @@ export class IndexPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     // Reset
     this.playerName = 'Loading..';
     this.loading = true;
+    this.activeTab = 0;
     this.noIntel = false;
     this.allCities = [];
     this.fireCities = [];
@@ -281,6 +282,19 @@ export class IndexPlayerComponent implements AfterViewInit, OnDestroy, OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {});
+  }
+
+  showPanels(): boolean {
+    return this.err == '' && !this.noIntel && !this.loading;
+  }
+
+  intelCount(cities): number {
+    return ((cities && cities.towns) || []).filter(town => town.priority !== false).length;
+  }
+
+  setActiveTab(tab: number) {
+    this.activeTab = tab;
+    this.cdr.detectChanges();
   }
 
   setSeaIndex(number: number) {

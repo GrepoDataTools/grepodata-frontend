@@ -1,27 +1,46 @@
+<div *ngIf="success=='';" role="status" class="flex gap-3 rounded-xl bg-amber-50 px-5 py-4 text-left font-normal ring-1 ring-inset ring-amber-200 max-sm:px-4">
+  <svg appIcon="envelope" class="size-6 flex-none text-amber-600"></svg>
+  <div class="min-w-0 flex-1 text-sm text-amber-800">
+    <p class="mb-1.5 mt-0 text-base font-semibold text-slate-900">Please confirm your email address to continue using the GrepoData city indexer</p>
+    <p class="m-0">You have received an email with an activation link from <strong class="font-semibold">admin@grepodata.com</strong>. <strong class="font-semibold">Also check your spam folder!</strong></p>
+    <ng-container *ngIf="!blocked">
+      <p class="mb-0 mt-2">Have you not received our email? Click the button below to request a new activation email.</p>
+      <div class="mt-3">
+        <button type="button" [disabled]="submitting" (click)="sendNewActivationMail()" class="inline-flex items-center justify-center gap-1.5 rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-progress disabled:opacity-60">
+          <svg *ngIf="!submitting" appIcon="envelope" class="size-4 flex-none text-slate-400"></svg>
+          <span *ngIf="submitting" class="size-4 flex-none animate-spin rounded-full border-2 border-solid border-slate-300 border-t-slate-600"></span>
+          Send a new activation email
+        </button>
+      </div>
+    </ng-container>
+    <mat-progress-bar *ngIf="submitting" mode="indeterminate" class="mt-3 max-w-xs rounded-full"></mat-progress-bar>
+    <p *ngIf="error!=''" class="mb-0 mt-2.5 flex gap-2 font-semibold text-rose-700">
+      <svg appIcon="exclamation-circle" class="mt-0.5 size-4 flex-none"></svg>
+      <span>{{error}}</span>
+    </p>
+  </div>
+</div>
 
-<app-alert *ngIf="success=='';" type="warning" title="Please confirm your email address to continue using the GrepoData city indexer" [dismissible]="false">
-	<h5>
-		You have received an email with an activation link from admin@grepodata.com <strong>(Also check your spam folder!)</strong>.
-		<br/><br/>
-		Have you not received our email? click the button below to request a new activation mail.<br/>
-		<button *ngIf="!blocked" [disabled]="submitting" style="margin-top: 8px;" class="btn btn-secondary mr-1" (click)="sendNewActivationMail()">Send a new activation email <mat-icon>email</mat-icon></button>
-	</h5>
-	<mat-progress-bar *ngIf="submitting" mode="indeterminate"></mat-progress-bar>
-	<h3 *ngIf="error!=''" class="gd-error"><strong>{{error}}</strong></h3>
-</app-alert>
-<app-alert *ngIf="success!='';" type="success" title="Activation email sent" [dismissible]="false">
-	<h5>
-		You have received an email with an activation link from admin@grepodata.com <strong>(Also check your spam folder!)</strong>.
-		<br/><br/>
-		<span [outerHTML]="success"></span>
-    <br/><br/>
-
-    <app-alert type="warning" title="" [dismissible]="false">
-      Is this not your email address or did you make a spelling mistake? Then please click on the button to the right to delete your account and register for a new account.
-      <br/><strong>Warning: this can not be undone!</strong><br/>
-      <button class="btn btn-danger btn-delete" [disabled]="submitting" (click)="deleteAccount()">Delete my account</button>
-      <mat-progress-bar *ngIf="submitting" mode="indeterminate"></mat-progress-bar>
-      <h3 *ngIf="error!=''" class="gd-error"><strong>{{error}}</strong></h3>
-    </app-alert>
-  </h5>
-</app-alert>
+<div *ngIf="success!='';" role="status" class="flex gap-3 rounded-xl bg-emerald-50 px-5 py-4 text-left font-normal ring-1 ring-inset ring-emerald-200 max-sm:px-4">
+  <svg appIcon="check-circle" class="size-6 flex-none text-emerald-600"></svg>
+  <div class="min-w-0 flex-1 text-sm text-emerald-700">
+    <p class="mb-1.5 mt-0 text-base font-semibold text-slate-900">Activation email sent</p>
+    <p class="m-0">You have received an email with an activation link from <strong class="font-semibold">admin@grepodata.com</strong>. <strong class="font-semibold">Also check your spam folder!</strong></p>
+    <p class="mb-0 mt-2 [&_strong]:font-semibold"><span [outerHTML]="success"></span></p>
+    <div class="mt-3 flex flex-wrap items-center gap-4 rounded-lg bg-white px-4 py-3 ring-1 ring-inset ring-amber-200">
+      <div class="min-w-0 flex-1 basis-60 text-slate-700">
+        <p class="m-0">Is this not your email address or did you make a spelling mistake? Then delete your account and register for a new account.</p>
+        <p class="mb-0 mt-0.5 font-semibold text-rose-700">Warning: this can not be undone!</p>
+        <mat-progress-bar *ngIf="submitting" mode="indeterminate" class="mt-3 max-w-xs rounded-full"></mat-progress-bar>
+        <p *ngIf="error!=''" class="mb-0 mt-2.5 flex gap-2 font-semibold text-rose-700">
+          <svg appIcon="exclamation-circle" class="mt-0.5 size-4 flex-none"></svg>
+          <span>{{error}}</span>
+        </p>
+      </div>
+      <button type="button" [disabled]="submitting" (click)="deleteAccount()" class="inline-flex flex-none items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-rose-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-600 disabled:cursor-progress disabled:opacity-60">
+        <svg appIcon="trash" class="size-4 flex-none"></svg>
+        Delete my account
+      </button>
+    </div>
+  </div>
+</div>

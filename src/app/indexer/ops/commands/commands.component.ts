@@ -23,12 +23,15 @@ import {ContextMenuComponent, ContextMenuService} from 'ngx-contextmenu';
 @Component({
   selector: 'app-commands',
   templateUrl: './commands.component.html',
-  styleUrls: ['./commands.component.scss', './commands-game.scss', './commands-mobile.scss', './commands-darkmode.scss'],
+  styleUrls: ['./commands.component.scss', './commands-game.scss'],
   providers: [IndexerService, WorldService, LocalCacheService, ContextMenuService]
 })
 export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('commentPusher') private commentPusher: ElementRef;
   @ViewChild('viewNameInput') private viewNameInput: ElementRef;
+  @ViewChild('commandOverviewSection') private commandOverviewSection: ElementRef;
+
+  is_fullscreen = false;
 
   team
   world
@@ -87,6 +90,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
   default_order = 'arrival_asc'
   filter_targets_text = '';
   targets_sort = 'movements_desc';
+  targets_panel_collapsed = false;
   typingTimer;
   debounceTime = 500;
   dropdownSettingsPlayers: IDropdownSettings = {};
@@ -231,6 +235,20 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.draw();
   }
 
+  toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      this.commandOverviewSection.nativeElement.requestFullscreen().catch(() => {});
+    } else {
+      document.exitFullscreen().catch(() => {});
+    }
+  }
+
+  @HostListener('document:fullscreenchange')
+  onFullscreenChange() {
+    this.is_fullscreen = !!document.fullscreenElement;
+    this.draw();
+  }
+
   softNotification(message, title = '', lifetime=5000) {
     this.globals.showSnackbar(
       `<h4>`+message+`</h4>`,
@@ -354,10 +372,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.active_view.name_changed = true;
   }
 
-  deleteView(delete_view: CommandView, confirm = false) {
-    if (confirm && window.confirm("Are you sure you want to delete view '"+delete_view.tab_name+"'?")!=true) {
-      return
-    }
+  deleteView(delete_view: CommandView) {
     if (delete_view.is_default) {
       console.log("Unable to delete default view!");
       return
@@ -1622,6 +1637,15 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
   /**
    * Other
    */
+
+  etaClass(command): string {
+    const parts = (command.eta || '').split(':').map(Number);
+    const seconds = parts.length === 3 ? parts[0] * 3600 + parts[1] * 60 + parts[2] : Infinity;
+    if (seconds < 300) {
+      return 'text-rose-700 dark:text-rose-300';
+    }
+    return seconds < 900 ? 'text-amber-700 dark:text-amber-300' : 'text-slate-900 dark:text-slate-100';
+  }
 
   toggleFilterTab(show) {
     this.mobile_filters_opened = show;

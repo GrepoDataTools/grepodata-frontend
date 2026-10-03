@@ -2,6 +2,11 @@
   font-size: 18px;
 }
 
+.command-overview-container:fullscreen {
+  width: 100%;
+  height: 100%;
+}
+
 .command-overview-title {
   background-image: url(~assets/images/game/header.png);
   color: #fff;

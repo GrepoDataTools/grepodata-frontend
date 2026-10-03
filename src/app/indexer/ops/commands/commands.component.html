@@ -245,7 +245,7 @@
         </details>
       </div>
 
-        <section class="command-overview-container game-border flex min-h-0 flex-1 flex-col bg-slate-50" [ngClass]="{'cmd-mobile': !mobileQuery.matches}">
+        <section #commandOverviewSection class="command-overview-container game-border flex min-h-0 flex-1 flex-col bg-slate-50" [ngClass]="{'cmd-mobile': !mobileQuery.matches}">
           <div class="command-overview-title flex-none">
             <div class="server-time" title="Server Time">
               {{game_time_string}}
@@ -254,6 +254,9 @@
               <p style="margin: 0; font-weight: 500;">Combined Command Overview <span class="cmd-total-commands" *ngIf="commands && commands.length > 5">&nbsp;({{commands.length}} active commands)</span></p>
             </div>
             <div class="sync-status">
+              <button type="button" (click)="toggleFullscreen()" title="{{is_fullscreen ? 'Exit fullscreen' : 'Fullscreen'}}" class="mr-2 inline-flex size-6 flex-none items-center justify-center rounded border-0 bg-transparent p-0 align-middle text-white/80 hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+                <svg [appIcon]="is_fullscreen ? 'arrows-pointing-in' : 'arrows-pointing-out'" variant="mini" class="size-4"></svg>
+              </button>
               <span class="sync-label" [ngClass]="{ 'sync-ok': sync_status=='LIVE' || sync_status=='LOADING' }">
                 <span class="rotate-cont"><mat-icon class="rotate-loader" [ngClass]="{ 'rotate-anim': animate_refresh }">refresh</mat-icon></span>
                 {{sync_status}}

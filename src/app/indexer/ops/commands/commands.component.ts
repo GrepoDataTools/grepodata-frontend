@@ -29,6 +29,9 @@ import {ContextMenuComponent, ContextMenuService} from 'ngx-contextmenu';
 export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('commentPusher') private commentPusher: ElementRef;
   @ViewChild('viewNameInput') private viewNameInput: ElementRef;
+  @ViewChild('commandOverviewSection') private commandOverviewSection: ElementRef;
+
+  is_fullscreen = false;
 
   team
   world
@@ -229,6 +232,20 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   toggleOpSettings(state) {
     this.showOpSettings = state;
+    this.draw();
+  }
+
+  toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      this.commandOverviewSection.nativeElement.requestFullscreen().catch(() => {});
+    } else {
+      document.exitFullscreen().catch(() => {});
+    }
+  }
+
+  @HostListener('document:fullscreenchange')
+  onFullscreenChange() {
+    this.is_fullscreen = !!document.fullscreenElement;
     this.draw();
   }
 

@@ -87,6 +87,7 @@ import { FaqComponent } from './faq/faq.component';
 import { ProfileComponent } from './auth/profile/profile.component';
 import { ConquestDialog } from './conquest/conquest.service';
 import { UnitModule } from './advertorial/unit/unit.module';
+import { InfeedAdModule } from './shared/infeed-ad/infeed-ad.module';
 import { TableComponent } from './indexer/table/table.component';
 import { AnalyticsComponent } from './indexer/analytics/analytics.component';
 import { SiegeComponent } from './indexer/siege/siege.component';
@@ -336,6 +337,7 @@ export function jwtTokenGetter(): any {
         HttpClientModule,
         HttpClientJsonpModule,
         UnitModule,
+        InfeedAdModule,
         SharedModule,
         MatMenuModule,
         MatSidenavModule,

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DonationService } from '../../services/donation.service';
 import { DonateDialog } from '../dialogs/donate/donate.component';
@@ -19,7 +19,8 @@ export class DonationKpiComponent implements OnInit {
 
   constructor(
     private donationService: DonationService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -28,6 +29,8 @@ export class DonationKpiComponent implements OnInit {
       this.tier = state.tier;
       this.tooltip = `€${state.total} of €${HOSTING_COST_PER_MONTH} donated this month (${state.percent}%) — click to donate`;
       this.loading = false;
+      // ensures the view updates even when embedded under an OnPush ancestor (e.g. the infeed ad)
+      this.cdr.markForCheck();
     });
   }
 

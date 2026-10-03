@@ -74,6 +74,7 @@ import { IndexSearchComponent } from './indexer/search/search.component';
 import { ConquestComponent } from './conquest/conquest.component';
 import { GoogleAnalyticsEventsService } from './services/google-analytics-events.service';
 import { DonationService } from './services/donation.service';
+import { AdBlockService } from './services/ad-block.service';
 import { CompareComponent } from './compare/compare.component';
 import { CompareSnackbar } from './compare/compare.service';
 import { MessageComponent } from './message/message.component';
@@ -344,7 +345,7 @@ export function jwtTokenGetter(): any {
         MatSidenavModule,
         ContextMenuModule
     ],
-    providers: [GoogleAnalyticsEventsService, Globals, SidenavService, DonationService],
+    providers: [GoogleAnalyticsEventsService, Globals, SidenavService, DonationService, AdBlockService],
     bootstrap: [AppComponent],
     entryComponents: [
         BasicDialog,

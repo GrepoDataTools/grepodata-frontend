@@ -78,6 +78,15 @@ export class ScoreboardComponent implements OnInit {
   noticeAlliance = '';
   conquestVisibleRows = 20;
 
+  toggleShowMore(sectionId: string) {
+    const wasExpanded = !this.toggleMore;
+    this.toggleMore = !this.toggleMore;
+    if (wasExpanded) {
+      document.getElementById(sectionId)?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    }
+  }
+
+
   // Datepicker
   DATE_FORMAT = 'YYYY-MM-DD';
   minDate = moment().subtract(1, 'months').format(this.DATE_FORMAT);

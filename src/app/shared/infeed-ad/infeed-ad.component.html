@@ -1,4 +1,4 @@
-<div *ngIf="environment.production==true" class="w-full py-1 text-center">
+<div *ngIf="environment.production==true && !blocking" class="w-full py-1 text-center">
   <span class="mb-1.5 block text-[11px] uppercase leading-[14px] tracking-wider text-slate-400">Advertisement</span>
   <div [id]="'script-' + adId"></div>
   <ins #ins
@@ -9,3 +9,9 @@
        data-ad-client="ca-pub-4919155139162702"
        data-ad-slot="1630710581"></ins>
 </div>
+
+<div *ngIf="!mobile && blocking" class="w-full py-2 text-center text-sm text-slate-600">
+  <h5 class="mt-2 mb-2">Ad Blocker Detected</h5>
+  Please consider supporting us by donating or disabling your adblocker on this site <app-donation-kpi class="ml-1 inline-flex align-middle"></app-donation-kpi>
+</div>
+

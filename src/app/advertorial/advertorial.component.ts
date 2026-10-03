@@ -16,6 +16,10 @@ export function getCookie(name: string) {
 
 import {Component, OnInit} from '@angular/core';
 import {environment} from '../../environments/environment';
+import {MatDialog} from '@angular/material/dialog';
+import {DonateDialog} from '../shared/dialogs/donate/donate.component';
+import {HOSTING_COST_PER_MONTH} from '../shared/hosting-cost';
+import {AdBlockService} from '../services/ad-block.service';
 
 @Component({
   selector: 'app-advertorial',
@@ -27,18 +31,19 @@ export class AdvertorialComponent implements OnInit {
   public mobile: boolean = true;
   public blocking: boolean = false;
   public hideBlockingMsg: boolean = false;
+  readonly hostingCost = HOSTING_COST_PER_MONTH;
 
-  constructor() { }
+  constructor(private dialog: MatDialog, private adBlockService: AdBlockService) { }
 
   ngOnInit() {
     if (window.screen.width > 1200) { // 768px portrait
       this.mobile = false;
     }
 
-    if(!document.getElementById('MzWAfeDdXbZt')) {
-      console.log("Client is blocking ads");
-      this.blocking = true;
-    }
+    this.adBlockService.isBlocking().subscribe((blocking) => {
+      this.blocking = blocking;
+    });
+
     if (getCookie('gd_adblocker_help')==='1') {
       this.hideBlockingMsg = true;
     }
@@ -49,6 +54,10 @@ export class AdvertorialComponent implements OnInit {
     const date = new Date();
     date.setTime(date.getTime() + (2 * 24 * 60 * 60 * 1000));
     setCookie('gd_adblocker_help','1', date);
+  }
+
+  public donate() {
+    this.dialog.open(DonateDialog);
   }
 
 }

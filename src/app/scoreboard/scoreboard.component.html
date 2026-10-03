@@ -176,7 +176,7 @@
         </li>
       </ng-container>
       <ng-container *ngFor="let p of playerData.att; let i = index;">
-      <li class="m-0 grid h-9 grid-cols-[24px_minmax(0,1fr)_56px_72px] items-center gap-2 border-0 border-solid border-slate-100 pl-3 pr-2 hover:bg-slate-50" [ngClass]="{'[display:none]': i >= (mobile ? 10 : (sieges && sieges.length > 0 && ghostsData.length > 0 ? 20 : 15)) && toggleMore, 'border-t': i > 0}">
+      <li class="m-0 grid h-9 grid-cols-[24px_minmax(0,1fr)_56px_72px] items-center gap-2 border-0 border-solid border-slate-100 pl-3 pr-2 hover:bg-slate-50" [ngClass]="{'[display:none]': (i >= 12 && toggleMore) || i >= 47, 'border-t': i > 0}">
           <span *ngIf="i == 0" title="First place" class="flex size-6 items-center justify-center text-amber-600"><svg appIcon="trophy" class="size-5"></svg><span class="sr-only">1</span></span>
           <span *ngIf="i > 0" class="block w-6 text-center text-xs tabular-nums text-slate-500">{{i+1}}</span>
           <a routerLink="/player" [queryParams]="{world: playerData.world, id: p.i}" [title]="p.n" class="block min-w-0 truncate text-sm text-slate-900 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{p.n}}</a>
@@ -186,8 +186,8 @@
             <span class="px-1.5 text-sm font-medium tabular-nums text-slate-900" [ngClass]="{'md:[display:none]': hasOverview && p.s > 0}">{{p.s | NumberFilter}}</span>
           </span>
         </li>
-      <!-- single test in-feed ad row, shown once after the 3rd attacker -->
-      <li *ngIf="i === 2" class="m-0 border-0 border-t border-solid border-slate-100 px-2">
+      <!-- in-feed ad shown after the 12th attacker, visually covering the next 3 rows while collapsed -->
+      <li *ngIf="i === 11" class="m-0 min-h-[108px] border-0 border-t border-solid border-slate-100 px-2">
         <app-infeed-ad></app-infeed-ad>
       </li>
       </ng-container>
@@ -207,7 +207,7 @@
       <span *ngIf="playerInput.length<3">Type at least 3 characters</span>
     </div>
     <div class="mt-auto flex items-center gap-2 border-0 border-t border-solid border-slate-200 px-3 py-2.5">
-      <button type="button" (click)="toggleMore = !toggleMore" [attr.aria-expanded]="!toggleMore" class="inline-flex flex-none items-center gap-1 rounded-md border-0 bg-transparent px-2 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{toggleMore ? 'Show more' : 'Show less'}}<svg [appIcon]="toggleMore ? 'chevron-down' : 'chevron-up'" variant="micro" class="size-4 flex-none"></svg></button>
+      <button type="button" (click)="toggleShowMore('sb-p-att')" [attr.aria-expanded]="!toggleMore" class="inline-flex flex-none items-center gap-1 rounded-md border-0 bg-transparent px-2 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{toggleMore ? 'Show more' : 'Show less'}}<svg [appIcon]="toggleMore ? 'chevron-down' : 'chevron-up'" variant="micro" class="size-4 flex-none"></svg></button>
       <div *ngIf="!mobile && !loadingPlayers && nextUpdate != ''" class="relative min-w-0 flex-1">
         <svg appIcon="magnifying-glass" variant="micro" class="pointer-events-none absolute left-2 top-1.5 size-4 text-slate-400"></svg>
         <input [disabled]="searching" #searchPlayerOff id="searchPlayerOff" autocomplete="off" type="text" placeholder="Find player" aria-label="Find player" (keyup)="filterKeyup($event)" class="h-7 w-full min-w-0 rounded-md border-0 bg-white pl-7 pr-7 text-xs font-normal text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700 disabled:opacity-60">
@@ -260,7 +260,7 @@
       <span *ngIf="playerInput.length<3">Type at least 3 characters</span>
     </div>
     <div class="mt-auto flex items-center gap-2 border-0 border-t border-solid border-slate-200 px-3 py-2.5">
-      <button type="button" (click)="toggleMore = !toggleMore" [attr.aria-expanded]="!toggleMore" class="inline-flex flex-none items-center gap-1 rounded-md border-0 bg-transparent px-2 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{toggleMore ? 'Show more' : 'Show less'}}<svg [appIcon]="toggleMore ? 'chevron-down' : 'chevron-up'" variant="micro" class="size-4 flex-none"></svg></button>
+      <button type="button" (click)="toggleShowMore('sb-p-def')" [attr.aria-expanded]="!toggleMore" class="inline-flex flex-none items-center gap-1 rounded-md border-0 bg-transparent px-2 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{toggleMore ? 'Show more' : 'Show less'}}<svg [appIcon]="toggleMore ? 'chevron-down' : 'chevron-up'" variant="micro" class="size-4 flex-none"></svg></button>
       <div *ngIf="!mobile && !loadingPlayers && nextUpdate != ''" class="relative min-w-0 flex-1">
         <svg appIcon="magnifying-glass" variant="micro" class="pointer-events-none absolute left-2 top-1.5 size-4 text-slate-400"></svg>
         <input [disabled]="searching" #searchPlayerDef id="searchPlayerDef" autocomplete="off" type="text" placeholder="Find player" aria-label="Find player" (keyup)="filterKeyup($event)" class="h-7 w-full min-w-0 rounded-md border-0 bg-white pl-7 pr-7 text-xs font-normal text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700 disabled:opacity-60">
@@ -301,7 +301,7 @@
     </ol>
 
     <div class="mt-auto flex items-center gap-2 border-0 border-t border-solid border-slate-200 px-3 py-2.5">
-      <button type="button" (click)="toggleMore = !toggleMore" [attr.aria-expanded]="!toggleMore" class="inline-flex flex-none items-center gap-1 rounded-md border-0 bg-transparent px-2 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{toggleMore ? 'Show more' : 'Show less'}}<svg [appIcon]="toggleMore ? 'chevron-down' : 'chevron-up'" variant="micro" class="size-4 flex-none"></svg></button>
+      <button type="button" (click)="toggleShowMore('sb-p-con')" [attr.aria-expanded]="!toggleMore" class="inline-flex flex-none items-center gap-1 rounded-md border-0 bg-transparent px-2 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{toggleMore ? 'Show more' : 'Show less'}}<svg [appIcon]="toggleMore ? 'chevron-down' : 'chevron-up'" variant="micro" class="size-4 flex-none"></svg></button>
       <button type="button" name="open_bb" (click)="openBBdialog('players_con')" title="Copy as BB code for the forum" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 ml-auto flex-none"><svg appIcon="code-bracket" variant="micro" class="size-3.5 flex-none text-slate-400"></svg>BB</button>
     </div>
   </section>
@@ -336,7 +336,7 @@
     </ol>
 
     <div class="mt-auto flex items-center gap-2 border-0 border-t border-solid border-slate-200 px-3 py-2.5">
-      <button type="button" (click)="toggleMore = !toggleMore" [attr.aria-expanded]="!toggleMore" class="inline-flex flex-none items-center gap-1 rounded-md border-0 bg-transparent px-2 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{toggleMore ? 'Show more' : 'Show less'}}<svg [appIcon]="toggleMore ? 'chevron-down' : 'chevron-up'" variant="micro" class="size-4 flex-none"></svg></button>
+      <button type="button" (click)="toggleShowMore('sb-p-los')" [attr.aria-expanded]="!toggleMore" class="inline-flex flex-none items-center gap-1 rounded-md border-0 bg-transparent px-2 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{toggleMore ? 'Show more' : 'Show less'}}<svg [appIcon]="toggleMore ? 'chevron-down' : 'chevron-up'" variant="micro" class="size-4 flex-none"></svg></button>
       <button type="button" name="open_bb" (click)="openBBdialog('players_los')" title="Copy as BB code for the forum" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 ml-auto flex-none"><svg appIcon="code-bracket" variant="micro" class="size-3.5 flex-none text-slate-400"></svg>BB</button>
     </div>
   </section>

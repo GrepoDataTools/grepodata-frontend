@@ -87,6 +87,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
   default_order = 'arrival_asc'
   filter_targets_text = '';
   targets_sort = 'movements_desc';
+  targets_panel_collapsed = false;
   typingTimer;
   debounceTime = 500;
   dropdownSettingsPlayers: IDropdownSettings = {};
@@ -354,10 +355,7 @@ export class CommandsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.active_view.name_changed = true;
   }
 
-  deleteView(delete_view: CommandView, confirm = false) {
-    if (confirm && window.confirm("Are you sure you want to delete view '"+delete_view.tab_name+"'?")!=true) {
-      return
-    }
+  deleteView(delete_view: CommandView) {
     if (delete_view.is_default) {
       console.log("Unable to delete default view!");
       return

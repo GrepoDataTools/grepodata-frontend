@@ -103,7 +103,7 @@
         <div role="tablist" aria-label="Views" class="flex min-w-0 flex-wrap items-center gap-1">
           <div *ngFor="let view of views" role="tab" [attr.aria-selected]="view.active" (click)="toggleView(view)" class="group inline-flex max-w-[220px] cursor-pointer select-none items-center gap-1.5 rounded-md px-3 py-1.5 text-[13px] leading-5" [ngClass]="view.active ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:text-slate-100 dark:ring-slate-700' : 'font-medium text-slate-500 hover:bg-white/60 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800/60 dark:hover:text-slate-100'">
             <span class="truncate">{{view.tab_name}}</span>
-            <span *ngIf="!view.is_default" (click)="deleteView(view, true)" title="Delete view" class="-mr-1 inline-flex flex-none rounded p-0.5 text-slate-400 hover:bg-rose-50 hover:text-rose-600 dark:text-slate-500 dark:hover:bg-rose-500/10 dark:hover:text-rose-300">
+            <span *ngIf="!view.is_default" (click)="deleteView(view)" title="Delete view" class="-mr-1 inline-flex flex-none rounded p-0.5 text-slate-400 hover:bg-rose-50 hover:text-rose-600 dark:text-slate-500 dark:hover:bg-rose-500/10 dark:hover:text-rose-300">
               <svg appIcon="x-mark" variant="micro" class="size-3.5"></svg>
             </span>
           </div>
@@ -407,13 +407,16 @@
         </section>
       </div>
 
-      <aside *ngIf="!selected_command" class="flex w-[304px] flex-none flex-col border-0 border-l border-solid border-slate-200 bg-white font-normal dark:border-slate-800 dark:bg-slate-900 max-lg:hidden" [ngClass]="{'max-lg:!flex max-lg:fixed max-lg:bottom-0 max-lg:right-0 max-lg:top-[58px] max-lg:z-[1001] max-lg:w-[min(360px,100vw)] max-lg:shadow-xl': mobile_comments_opened}">
-        <div class="flex flex-none flex-col gap-3 border-0 border-b border-solid border-slate-200 p-4 dark:border-slate-800">
-          <h2 title="These are currently the most targeted towns. Click on a city to filter the command overview." class="m-0 flex items-center gap-2 text-base font-semibold text-slate-900 dark:text-slate-100">
-            Operation targets
-            <span *ngIf="targets.length>4" class="rounded-full bg-slate-100 px-2 text-xs font-semibold leading-5 tabular-nums text-slate-600 ring-1 ring-inset ring-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:ring-slate-700">{{targets.length}}</span>
-          </h2>
-          <div *ngIf="targets && targets.length > 4" class="flex gap-2">
+      <aside *ngIf="!selected_command" class="flex flex-none flex-col border-0 border-l border-solid border-slate-200 bg-white font-normal dark:border-slate-800 dark:bg-slate-900 max-lg:hidden transition-[width] duration-150" [ngClass]="{'w-11': targets_panel_collapsed, 'w-[304px]': !targets_panel_collapsed, 'max-lg:!flex max-lg:fixed max-lg:bottom-0 max-lg:right-0 max-lg:top-[58px] max-lg:z-[1001] max-lg:w-[min(360px,100vw)] max-lg:shadow-xl': mobile_comments_opened}">
+        <div class="flex flex-none flex-col gap-3 border-0 border-b border-solid border-slate-200 p-4 dark:border-slate-800" [ngClass]="{'items-center !px-0 !py-4': targets_panel_collapsed}">
+          <button type="button" (click)="targets_panel_collapsed = !targets_panel_collapsed" class="flex w-full items-center gap-2 border-0 bg-transparent p-0 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="{'!w-auto justify-center': targets_panel_collapsed}" [attr.aria-expanded]="!targets_panel_collapsed" title="{{targets_panel_collapsed ? 'Expand' : 'Collapse'}} operation targets">
+            <svg appIcon="chevron-down" variant="mini" class="size-4 flex-none text-slate-400 transition-transform dark:text-slate-500" [ngClass]="{'-rotate-90': targets_panel_collapsed}"></svg>
+            <h2 *ngIf="!targets_panel_collapsed" title="These are currently the most targeted towns. Click on a city to filter the command overview." class="m-0 flex items-center gap-2 text-base font-semibold text-slate-900 dark:text-slate-100">
+              Operation targets
+              <span *ngIf="targets.length>4" class="rounded-full bg-slate-100 px-2 text-xs font-semibold leading-5 tabular-nums text-slate-600 ring-1 ring-inset ring-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:ring-slate-700">{{targets.length}}</span>
+            </h2>
+          </button>
+          <div *ngIf="!targets_panel_collapsed && targets && targets.length > 4" class="flex gap-2">
             <label class="relative m-0 min-w-0 flex-1 font-normal">
               <svg appIcon="magnifying-glass" variant="mini" class="pointer-events-none absolute left-2.5 top-2.5 size-4 text-slate-400"></svg>
               <input type="search" placeholder="Filter targets" [(ngModel)]="filter_targets_text" (ngModelChange)="draw()" class="h-9 w-full rounded-md border-0 bg-white pl-8 pr-8 text-sm font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700 dark:bg-slate-950 dark:text-slate-100 dark:ring-slate-700 dark:placeholder:text-slate-500">
@@ -432,7 +435,7 @@
           </div>
         </div>
 
-        <div class="min-h-0 flex-1 overflow-y-auto p-3">
+        <div class="min-h-0 flex-1 overflow-y-auto p-3" *ngIf="!targets_panel_collapsed">
           <p *ngIf="!targets || targets.length <= 0" class="m-0 px-2 py-12 text-center text-sm text-slate-500 dark:text-slate-400">No active targets</p>
           <div *ngIf="targets && targets.length > 0" class="flex flex-col gap-2">
             <ng-container *ngFor="let target of targets">
@@ -468,7 +471,7 @@
         </div>
       </aside>
 
-      <aside *ngIf="selected_command" class="flex w-[336px] flex-none flex-col border-0 border-l border-solid border-slate-200 bg-white font-normal dark:border-slate-800 dark:bg-slate-900 max-lg:hidden" [ngClass]="{'max-lg:!flex max-lg:fixed max-lg:bottom-0 max-lg:right-0 max-lg:top-[58px] max-lg:z-[1001] max-lg:w-[min(360px,100vw)] max-lg:shadow-xl': mobile_comments_opened}">
+      <aside *ngIf="selected_command" class="flex w-[304px] flex-none flex-col border-0 border-l border-solid border-slate-200 bg-white font-normal dark:border-slate-800 dark:bg-slate-900 max-lg:hidden" [ngClass]="{'max-lg:!flex max-lg:fixed max-lg:bottom-0 max-lg:right-0 max-lg:top-[58px] max-lg:z-[1001] max-lg:w-[min(360px,100vw)] max-lg:shadow-xl': mobile_comments_opened}">
         <div class="flex flex-none items-center justify-between gap-2 px-4 pb-3 pt-4">
           <h2 class="m-0 text-base font-semibold text-slate-900 dark:text-slate-100">Command details</h2>
           <button type="button" (click)="toggleCommentsTab(false)" title="Close Command Details" aria-label="Close Command Details" class="-mr-1.5 inline-flex size-8 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">

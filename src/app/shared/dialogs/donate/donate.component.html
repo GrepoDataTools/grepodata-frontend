@@ -1,11 +1,12 @@
 <div class="flex max-h-[95vh] w-[600px] max-w-full flex-col text-left font-normal text-slate-900 lg:w-[900px]">
   <div class="flex flex-none items-start gap-4 border-0 border-b border-solid border-slate-200 px-6 py-5 max-sm:px-4">
-    <span class="flex size-10 flex-none items-center justify-center rounded-lg bg-navy-800 text-brand-500">
+    <span class="flex size-10 flex-none self-center items-center justify-center rounded-lg bg-navy-800 text-brand-500">
       <svg appIcon="heart" class="size-6"></svg>
     </span>
     <div class="min-w-0 flex-1">
       <h2 mat-dialog-title class="m-0 text-xl font-semibold text-slate-900">Thank you for supporting GrepoData!</h2>
       <p class="mb-0 mt-0.5 text-sm text-slate-600">Hosting costs are currently <strong class="font-semibold tabular-nums text-slate-700">€{{hostingCost}}</strong>/month — <button type="button" (click)="showProof = true" class="border-0 bg-transparent p-0 text-sm font-medium text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">view proof</button></p>
+      <p class="mb-0 mt-0.5 text-sm text-slate-600">Your donations are what let us keep ads to a bare minimum.</p>
     </div>
     <button type="button" (click)="close()" aria-label="Close" class="-mr-2 -mt-1 inline-flex size-8 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
       <svg appIcon="x-mark" class="size-5"></svg>
@@ -45,7 +46,10 @@
     </div>
 
     <div class="max-sm:hidden rounded-lg p-4 ring-1 ring-slate-200 lg:order-1">
-      <h3 class="mb-2 mt-0 text-sm font-semibold text-slate-900">Donations per month</h3>
+      <div class="mb-2 flex items-center justify-between gap-2">
+        <h3 class="m-0 text-sm font-semibold text-slate-900">Donations per month</h3>
+        <span *ngIf="!chartLoading" class="flex-none rounded-full px-2 py-0.5 text-xs font-semibold tabular-nums" [ngClass]="targetPercent < 25 ? 'bg-rose-50 text-rose-700' : targetPercent < 50 ? 'bg-amber-50 text-amber-700' : 'bg-emerald-50 text-emerald-700'">{{targetPercent}}% to target</span>
+      </div>
       <div *ngIf="chartLoading" aria-hidden="true" class="h-[140px] animate-pulse rounded-lg bg-slate-50 lg:h-[220px]"></div>
       <app-line-chart *ngIf="!chartLoading" [results]="chartData" [color]="donationChartColor" [width]="donationChartWidth" [prefix]="'€'" [zero]="true" [months]="1" ends="value" plot="h-[140px] lg:h-[220px]" label="Donations per month vs hosting costs"></app-line-chart>
     </div>

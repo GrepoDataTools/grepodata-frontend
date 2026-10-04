@@ -4,7 +4,7 @@
     <div aria-hidden="true" class="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0)_0,rgba(255,255,255,0)_150px,rgba(255,255,255,0.94)_300px,#fff_520px)] max-lg:[display:none]"></div>
     <div class="relative flex min-h-[120px] flex-wrap items-end justify-between gap-x-6 gap-y-4 py-5 pl-[236px] pr-6 max-lg:pl-6 max-sm:px-4 max-sm:py-4">
       <div class="min-w-0 self-center">
-        <h1 id="sb-title" class="m-0 text-2xl font-bold tracking-tight text-slate-900 max-sm:text-xl">Daily Scoreboard</h1>
+        <h1 id="sb-title" class="m-0 text-2xl font-bold tracking-tight text-slate-900 max-sm:text-xl">Daily Scoreboard  {{worldName || world}}</h1>
         <p *ngIf="scoreboardDateInfo" class="mb-0 mt-1 text-sm text-slate-600">Points gained {{scoreboardDateInfo}}<ng-container *ngIf="nextUpdate"> · {{nextUpdate}}</ng-container></p>
         <p *ngIf="!scoreboardDateInfo && loadingPlayers" aria-hidden="true" class="mb-0 mt-2.5 h-2.5 w-72 max-w-full rounded bg-slate-200"></p>
       </div>
@@ -66,12 +66,12 @@
         <div *ngFor="let copy of [0, 1]" [attr.aria-hidden]="copy == 1 ? 'true' : null" class="flex min-w-[calc(100cqw_+_16px)] flex-none items-center gap-2 pr-6 motion-reduce:min-w-0" [ngClass]="{'motion-reduce:[display:none]': copy == 1}">
           <ng-container *ngIf="playerDiffs.att">
             <span class="flex-none text-xs font-semibold text-slate-500">Attack</span>
-            <span *ngFor="let d of playerDiffs.att" class="inline-flex h-6 flex-none items-center gap-1.5 whitespace-nowrap rounded-full bg-slate-50 px-2.5 text-xs ring-1 ring-inset ring-slate-200"><span aria-hidden="true" class="size-2 flex-none rounded-[3px] bg-[#EB6834]"></span><span class="font-medium text-slate-900">{{d.name}}</span><span class="tabular-nums text-slate-700">+{{d.diff | NumberFilter}}</span></span>
+            <button *ngFor="let d of playerDiffs.att" type="button" [disabled]="!hasOverview" (click)="openPlayerOverview(d.id, d.name)" [title]="'Show hourly breakdown for ' + d.name" class="inline-flex h-6 flex-none items-center gap-1.5 whitespace-nowrap rounded-full border-0 bg-slate-50 px-2.5 text-xs ring-1 ring-inset ring-slate-200 enabled:hover:bg-slate-100 enabled:cursor-pointer disabled:cursor-default focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><span aria-hidden="true" class="size-2 flex-none rounded-[3px] bg-[#EB6834]"></span><span class="font-medium text-slate-900">{{d.name}}</span><span class="tabular-nums text-slate-700">+{{d.diff | NumberFilter}}</span></button>
           </ng-container>
           <span *ngIf="playerDiffs.att && playerDiffs.def" aria-hidden="true" class="w-2 flex-none"></span>
           <ng-container *ngIf="playerDiffs.def">
             <span class="flex-none text-xs font-semibold text-slate-500">Defence</span>
-            <span *ngFor="let d of playerDiffs.def" class="inline-flex h-6 flex-none items-center gap-1.5 whitespace-nowrap rounded-full bg-slate-50 px-2.5 text-xs ring-1 ring-inset ring-slate-200"><span aria-hidden="true" class="size-2 flex-none rounded-[3px] bg-[#2A78D6]"></span><span class="font-medium text-slate-900">{{d.name}}</span><span class="tabular-nums text-slate-700">+{{d.diff | NumberFilter}}</span></span>
+            <button *ngFor="let d of playerDiffs.def" type="button" [disabled]="!hasOverview" (click)="openPlayerOverview(d.id, d.name)" [title]="'Show hourly breakdown for ' + d.name" class="inline-flex h-6 flex-none items-center gap-1.5 whitespace-nowrap rounded-full border-0 bg-slate-50 px-2.5 text-xs ring-1 ring-inset ring-slate-200 enabled:hover:bg-slate-100 enabled:cursor-pointer disabled:cursor-default focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><span aria-hidden="true" class="size-2 flex-none rounded-[3px] bg-[#2A78D6]"></span><span class="font-medium text-slate-900">{{d.name}}</span><span class="tabular-nums text-slate-700">+{{d.diff | NumberFilter}}</span></button>
           </ng-container>
         </div>
       </div>
@@ -163,7 +163,7 @@
   <section aria-labelledby="sb-p-att" class="flex min-w-0 flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
     <div class="relative flex min-h-[56px] items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 py-2.5 pl-5 pr-3">
       <div class="flex min-w-0 items-center gap-2"><span aria-hidden="true" class="size-2.5 flex-none rounded-[3px] bg-[#EB6834]"></span><h3 id="sb-p-att" class="m-0 truncate text-base font-semibold text-slate-900">Attack points</h3></div>
-      <button type="button" matTooltip="This table shows battle points gained as attacker. Click on a number to see a detailed hourly breakdown." aria-label="This table shows battle points gained as attacker. Click on a number to see a detailed hourly breakdown." class="inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="information-circle" class="size-5"></svg></button>
+      <button type="button" matTooltip="This table shows battle points gained as attacker. Click on a number to see a detailed hourly breakdown." aria-label="This table shows battle points gained as attacker. Click on a number to see a detailed hourly breakdown." class="inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><img src="/assets/images/game/award_att.png" alt="" class="size-7"></button>
       <mat-progress-bar *ngIf="loadingPlayers" mode="indeterminate" class="!absolute inset-x-0 bottom-0 !h-0.5"></mat-progress-bar>
     </div>
     <ol class="m-0 list-none p-0" [ngClass]="{'opacity-50': loadingPlayers}">
@@ -222,7 +222,7 @@
   <section aria-labelledby="sb-p-def" class="flex min-w-0 flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
     <div class="relative flex min-h-[56px] items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 py-2.5 pl-5 pr-3">
       <div class="flex min-w-0 items-center gap-2"><span aria-hidden="true" class="size-2.5 flex-none rounded-[3px] bg-[#2A78D6]"></span><h3 id="sb-p-def" class="m-0 truncate text-base font-semibold text-slate-900">Defence points</h3></div>
-      <button type="button" matTooltip="This table combines battle points gained as a defender and battle points gained as a supporter. Click on a number to see a detailed hourly breakdown." aria-label="This table combines battle points gained as a defender and battle points gained as a supporter. Click on a number to see a detailed hourly breakdown." class="inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="information-circle" class="size-5"></svg></button>
+      <button type="button" matTooltip="This table combines battle points gained as a defender and battle points gained as a supporter. Click on a number to see a detailed hourly breakdown." aria-label="This table combines battle points gained as a defender and battle points gained as a supporter. Click on a number to see a detailed hourly breakdown." class="inline-flex size-7 flex-none items-center justify-center gap-0.5 rounded-md border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 mr-4"><img src="/assets/images/game/award_def.png" alt="" class="size-7"><img src="/assets/images/game/award_sup.png" alt="" class="size-7"></button>
       <mat-progress-bar *ngIf="loadingPlayers" mode="indeterminate" class="!absolute inset-x-0 bottom-0 !h-0.5"></mat-progress-bar>
     </div>
     <ol class="m-0 list-none p-0" [ngClass]="{'opacity-50': loadingPlayers}">
@@ -234,7 +234,8 @@
           <span class="ml-auto block h-2.5 w-12 rounded bg-slate-200"></span>
         </li>
       </ng-container>
-      <li *ngFor="let p of playerData.def; let i = index;" class="m-0 grid h-9 grid-cols-[24px_minmax(0,1fr)_56px_72px] items-center gap-2 border-0 border-solid border-slate-100 pl-3 pr-2 hover:bg-slate-50" [ngClass]="{'[display:none]': i >= (mobile ? 10 : (sieges && sieges.length > 0 && ghostsData.length > 0 ? 20 : 15)) && toggleMore, 'border-t': i > 0}">
+      <ng-container *ngFor="let p of playerData.def; let i = index;">
+      <li class="m-0 grid h-9 grid-cols-[24px_minmax(0,1fr)_56px_72px] items-center gap-2 border-0 border-solid border-slate-100 pl-3 pr-2 hover:bg-slate-50" [ngClass]="{'[display:none]': (i >= 12 && toggleMore) || i >= 47, 'border-t': i > 0}">
           <span *ngIf="i == 0" title="First place" class="flex size-6 items-center justify-center text-amber-600"><svg appIcon="trophy" class="size-5"></svg><span class="sr-only">1</span></span>
           <span *ngIf="i > 0" class="block w-6 text-center text-xs tabular-nums text-slate-500">{{i+1}}</span>
           <a routerLink="/player" [queryParams]="{world: playerData.world, id: p.i}" [title]="p.n" class="block min-w-0 truncate text-sm text-slate-900 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{p.n}}</a>
@@ -244,6 +245,11 @@
             <span class="px-1.5 text-sm font-medium tabular-nums text-slate-900" [ngClass]="{'md:[display:none]': hasOverview && p.s > 0}">{{p.s | NumberFilter}}</span>
           </span>
         </li>
+      <!-- in-feed ad shown after the 12th defender, visually covering the next 3 rows while collapsed -->
+      <li *ngIf="i === 11" class="m-0 min-h-[108px] border-0 border-t border-solid border-slate-100 px-2">
+        <app-infeed-ad></app-infeed-ad>
+      </li>
+      </ng-container>
       <li *ngFor="let p of searchResults; let i = index;" class="m-0 grid h-9 grid-cols-[24px_minmax(0,1fr)_56px_72px] items-center gap-2 border-0 border-solid pl-3 pr-2 bg-brand-50/60" [ngClass]="i == 0 ? 'border-t-2 border-brand-500' : 'border-t border-slate-100'">
           <span class="block w-6 text-center text-xs tabular-nums text-slate-500">{{p.def_rank_scoreboard ? p.def_rank_scoreboard : '>50'}}</span>
           <a routerLink="/player" [queryParams]="{world: playerData.world, id: p.id}" [title]="p.name" class="block min-w-0 truncate text-sm text-slate-900 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{p.name}}</a>
@@ -275,7 +281,7 @@
   <section aria-labelledby="sb-p-con" class="flex min-w-0 flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
     <div class="relative flex min-h-[56px] items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 py-2.5 pl-5 pr-3">
       <div class="flex min-w-0 items-center gap-2"><span aria-hidden="true" class="size-2.5 flex-none rounded-[3px] bg-[#1BAF7A]"></span><h3 id="sb-p-con" class="m-0 truncate text-base font-semibold text-slate-900">Conquests</h3></div>
-      <button type="button" matTooltip="This table shows the number of conquests. Founded cities are excluded from this table. Click on a number to see a detailed breakdown." aria-label="This table shows the number of conquests. Founded cities are excluded from this table. Click on a number to see a detailed breakdown." class="inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="information-circle" class="size-5"></svg></button>
+      <button type="button" matTooltip="This table shows the number of conquests. Founded cities are excluded from this table. Click on a number to see a detailed breakdown." aria-label="This table shows the number of conquests. Founded cities are excluded from this table. Click on a number to see a detailed breakdown." class="inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><img src="/assets/images/game/award_con.png" alt="" class="size-7"></button>
       <mat-progress-bar *ngIf="loadingPlayers" mode="indeterminate" class="!absolute inset-x-0 bottom-0 !h-0.5"></mat-progress-bar>
     </div>
     <ol class="m-0 list-none p-0" [ngClass]="{'opacity-50': loadingPlayers}">
@@ -311,7 +317,7 @@
   <section aria-labelledby="sb-p-los" class="flex min-w-0 flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
     <div class="relative flex min-h-[56px] items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 py-2.5 pl-5 pr-3">
       <div class="flex min-w-0 items-center gap-2"><span aria-hidden="true" class="size-2.5 flex-none rounded-[3px] bg-[#94A3B8]"></span><h3 id="sb-p-los" class="m-0 truncate text-base font-semibold text-slate-900">Lost cities</h3></div>
-      <button type="button" matTooltip="This table shows how many towns were lost by the player. Click on a number to see a detailed breakdown." aria-label="This table shows how many towns were lost by the player. Click on a number to see a detailed breakdown." class="inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="information-circle" class="size-5"></svg></button>
+      <button type="button" matTooltip="This table shows how many towns were lost by the player. Click on a number to see a detailed breakdown." aria-label="This table shows how many towns were lost by the player. Click on a number to see a detailed breakdown." class="inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><img src="/assets/images/game/award_los.png" alt="" class="size-7"></button>
       <mat-progress-bar *ngIf="loadingPlayers" mode="indeterminate" class="!absolute inset-x-0 bottom-0 !h-0.5"></mat-progress-bar>
     </div>
     <ol class="m-0 list-none p-0" [ngClass]="{'opacity-50': loadingPlayers}">
@@ -557,9 +563,24 @@
     </div>
   </div>
 
-  <ng-container *ngTemplateOutlet="ticker"></ng-container>
-
   <ng-container *ngIf="!noPlayerData">
+    <div class="-mb-2 flex items-baseline gap-2"><h2 class="m-0 text-lg font-semibold text-slate-900">Players</h2><span class="text-sm text-slate-500">{{nextUpdate != '' ? 'Today' : (selectedDate | Datex : 'D MMM YYYY')}}</span></div>
+    
+    <ng-container *ngTemplateOutlet="ticker"></ng-container>
+    
+    <div class="grid grid-cols-4 gap-6 max-[1279px]:grid-cols-2 max-sm:grid-cols-1 max-sm:gap-4">
+      <ng-container *ngTemplateOutlet="players_att"></ng-container>
+      <ng-container *ngTemplateOutlet="players_def"></ng-container>
+      <ng-container *ngTemplateOutlet="players_con"></ng-container>
+      <ng-container *ngTemplateOutlet="players_los"></ng-container>
+    </div>
+
+    <section *ngIf="!loadingPlayers && !loadingAlliances && playerData && allianceData && playerData?.att && playerData?.att.length > 20" aria-label="Support GrepoData" class="flex items-center gap-3 rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-900/[.08] max-sm:flex-wrap">
+      <app-donation-kpi class="flex-none"></app-donation-kpi>
+      <p class="m-0 min-w-0 flex-1 text-sm text-slate-700"><strong class="font-semibold">Hosting GrepoData costs €{{hostingCost}}/month.</strong> Your donation helps us keep ads to a minimum. Thank you!</p>
+      <button type="button" (click)="donate()" class="inline-flex flex-none items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-brand-700 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Donate</button>
+    </section>
+
     <div *ngIf="(!mobile && playerData.overview && playerData.overview.length > 2) || (!!ghostsData && ghostsData.length > 0)" class="grid gap-6 max-sm:gap-4" [ngClass]="{'min-[1200px]:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]': (!mobile && playerData.overview && playerData.overview.length > 2) && (!!ghostsData && ghostsData.length > 0)}">
       <ng-container *ngIf="!mobile && playerData.overview && playerData.overview.length > 2">
         <ng-container *ngTemplateOutlet="points_per_hour"></ng-container>
@@ -572,14 +593,6 @@
     <ng-container *ngIf="!mobile && sieges.length > 0">
       <ng-container *ngTemplateOutlet="siege_list"></ng-container>
     </ng-container>
-
-    <div class="-mb-2 flex items-baseline gap-2"><h2 class="m-0 text-lg font-semibold text-slate-900">Players</h2><span class="text-sm text-slate-500">{{nextUpdate != '' ? 'Today' : (selectedDate | Datex : 'D MMM YYYY')}}</span></div>
-    <div class="grid grid-cols-4 gap-6 max-[1279px]:grid-cols-2 max-sm:grid-cols-1 max-sm:gap-4">
-      <ng-container *ngTemplateOutlet="players_att"></ng-container>
-      <ng-container *ngTemplateOutlet="players_def"></ng-container>
-      <ng-container *ngTemplateOutlet="players_con"></ng-container>
-      <ng-container *ngTemplateOutlet="players_los"></ng-container>
-    </div>
   </ng-container>
 
   <div *ngIf="(noticeAlliance != '' || noAllianceData) && noticePlayer == '' && !noPlayerData" role="status" class="flex gap-3 rounded-xl bg-amber-50 p-4 ring-1 ring-inset ring-amber-600/20">
@@ -593,16 +606,7 @@
   <ng-container *ngIf="!noAllianceData">
     <ng-container *ngTemplateOutlet="map"></ng-container>
 
-    <ng-container *ngIf="!loadingPlayers && !loadingAlliances && playerData && allianceData && playerData?.att && playerData?.att.length > 20">
-      <app-alert #donateAlert type="info" [dismissible]="true" [dismissPermanentId]="'daily_donate24'" class="[display:none]"></app-alert>
-      <section *ngIf="!donateAlert.alertHidden" aria-label="Support GrepoData" class="flex items-center gap-3 rounded-xl bg-brand-50 py-3 pl-4 pr-3 ring-1 ring-inset ring-brand-700/20 max-sm:flex-wrap">
-        <svg appIcon="heart" class="size-5 flex-none text-brand-700"></svg>
-        <p class="m-0 min-w-0 flex-1 text-sm text-teal-900 max-sm:basis-[calc(100%-32px)]"><strong class="font-semibold">The GrepoData hosting costs are currently €{{hostingCost}}/month.</strong> If you like what we do, please consider donating. Thank you!</p>
-        <app-donation-kpi class="flex-none"></app-donation-kpi>
-        <button type="button" (click)="donate()" class="inline-flex flex-none items-center max-sm:ml-8 gap-1.5 whitespace-nowrap rounded-md border-0 bg-brand-700 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Donate</button>
-        <button type="button" (click)="donateAlert.hideAlert()" aria-label="Dismiss" title="Dismiss" class="inline-flex size-8 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-brand-700 hover:bg-brand-500/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="x-mark" class="size-5"></svg></button>
-      </section>
-    </ng-container>
+    <app-advertorial class="block empty:hidden"></app-advertorial>
 
     <div class="-mb-2 flex items-baseline gap-2"><h2 class="m-0 text-lg font-semibold text-slate-900">Alliances</h2><span class="text-sm text-slate-500">{{nextUpdate != '' ? 'Today' : (selectedDate | Datex : 'D MMM YYYY')}}</span></div>
     <div class="grid grid-cols-4 gap-6 max-[1279px]:grid-cols-2 max-sm:grid-cols-1 max-sm:gap-4">

@@ -22,6 +22,7 @@ export class DonateDialog implements OnInit {
   marqueeDonations: any[] = [];
   listExpanded = false;
   showProof = false;
+  targetPercent = 0;
   readonly hostingCost = HOSTING_COST_PER_MONTH;
 
   constructor(
@@ -94,6 +95,9 @@ export class DonateDialog implements OnInit {
       { name: 'Donations', series: totals },
       { name: 'Hosting costs', series: months.map((month) => ({ name: month.format('YYYY-MM-DD'), value: HOSTING_COST })) }
     ];
+    // Use the current (most recent) month's total to show progress towards covering hosting costs
+    const currentMonthTotal = totals[totals.length - 1]?.value || 0;
+    this.targetPercent = Math.round((currentMonthTotal / HOSTING_COST) * 100);
     this.chartLoading = false;
   }
 

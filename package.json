@@ -51,6 +51,7 @@
     "font-awesome": "^4.7.0",
     "heroicons": "^2.2.0",
     "jquery": "^3.4.1",
+    "just-detect-adblock": "^1.1.0",
     "jwt-decode": "^2.2.0",
     "moment": "^2.19.1",
     "ng-multiselect-dropdown": "^0.3.9",

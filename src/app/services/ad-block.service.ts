@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
+import { detectAnyAdblocker } from 'just-detect-adblock';
 import { environment } from '../../environments/environment';
 
 @Injectable()
@@ -8,6 +9,9 @@ export class AdBlockService {
 
   // null = detection still in progress
   private state$ = new BehaviorSubject<boolean | null>(null);
+  // intermediate signals combined (OR'd) into state$ once both have settled
+  private networkBlocked$ = new BehaviorSubject<boolean | null>(null);
+  private libraryBlocked$ = new BehaviorSubject<boolean | null>(null);
 
   constructor() {
     this.detect();
@@ -18,6 +22,27 @@ export class AdBlockService {
     return this.state$.pipe(filter((v): v is boolean => v !== null), take(1));
   }
 
+  private scriptLoadPromise: Promise<void> | null = null;
+
+  /**
+   * Loads the real adsbygoogle.js exactly once app-wide. Every ad component must use this
+   * instead of injecting its own <script> tag: loading the real script more than once causes
+   * it to re-run its init, which can reset `.loaded` and corrupt this service's detection.
+   */
+  ensureAdScriptLoaded(): Promise<void> {
+    if (!this.scriptLoadPromise) {
+      this.scriptLoadPromise = new Promise((resolve) => {
+        const script = document.createElement('script');
+        script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4919155139162702';
+        script.async = true;
+        script.onerror = () => resolve();
+        script.onload = () => resolve();
+        document.body.appendChild(script);
+      });
+    }
+    return this.scriptLoadPromise;
+  }
+
   private detect() {
     // localhost/acc are never an AdSense-approved domain, so the real script loads but
     // silently never sets `.loaded` there - that would always register as a false positive
@@ -26,11 +51,12 @@ export class AdBlockService {
       return;
     }
 
-    // the real adsbygoogle.js sets this flag; `adsbygoogle` itself may already exist as a
-    // pre-declared command queue from other ad components even when the script is blocked
+    // the real adsbygoogle.js sets this flag once it finishes initializing; note it REPLACES
+    // window.adsbygoogle (a plain object, no longer the pre-declared command-queue array) at
+    // that point, so this must NOT require it to still be an array
     const isLoaded = () => {
       const ads = (window as any).adsbygoogle;
-      return Array.isArray(ads) && (ads as any).loaded === true;
+      return !!ads && (ads as any).loaded === true;
     };
 
     let settled = false;
@@ -38,21 +64,16 @@ export class AdBlockService {
       if (settled) { return; }
       settled = true;
       if (blocked) {
-        this.state$.next(true);
+        this.networkBlocked$.next(true);
         return;
       }
       const bait = document.getElementById('adBait');
       const baitHidden = !bait || bait.offsetParent === null || bait.offsetHeight === 0 || window.getComputedStyle(bait).display === 'none';
-      this.state$.next(baitHidden);
+      this.networkBlocked$.next(baitHidden);
     };
 
     // load the real ad-vendor script: this is the request actual ad blockers target by domain
-    const script = document.createElement('script');
-    script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4919155139162702';
-    script.async = true;
-    script.onerror = () => finish(true);
-    script.onload = () => finish(!isLoaded());
-    document.body.appendChild(script);
+    this.ensureAdScriptLoaded().then(() => finish(!isLoaded()));
 
     // poll instead of a single fixed timeout: on a cold cache/slow network the script can
     // legitimately take a while to load, so keep checking before concluding it's blocked
@@ -71,5 +92,19 @@ export class AdBlockService {
         finish(true);
       }
     }, pollIntervalMs);
+
+    // independent signal that also catches browser-native blockers (Brave Shields, Opera)
+    // which don't block the network request our bait/script check above relies on
+    detectAnyAdblocker()
+      .then((detected) => this.libraryBlocked$.next(detected))
+      .catch(() => this.libraryBlocked$.next(false));
+
+    // blocked if either signal says so; both must have reported before emitting
+    Promise.all([
+      this.networkBlocked$.pipe(filter((v): v is boolean => v !== null), take(1)).toPromise(),
+      this.libraryBlocked$.pipe(filter((v): v is boolean => v !== null), take(1)).toPromise(),
+    ]).then(([networkBlocked, libraryBlocked]) => {
+      this.state$.next(networkBlocked || libraryBlocked);
+    });
   }
 }

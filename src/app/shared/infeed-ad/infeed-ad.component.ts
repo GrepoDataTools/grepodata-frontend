@@ -39,12 +39,7 @@ export class InfeedAdComponent implements OnInit, AfterViewInit {
             return;
         }
 
-        const node = document.createElement('script');
-        node.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4919155139162702';
-        node.async = true;
-        node.crossOrigin = 'anonymous';
-        node.onload = () => this.push();
-        document.getElementById('script-' + this.adId)?.appendChild(node);
+        this.adBlockService.ensureAdScriptLoaded().then(() => this.push());
     }
 
     push() {

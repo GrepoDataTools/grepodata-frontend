@@ -9,6 +9,7 @@ import {
     ElementRef,
     ChangeDetectorRef,
 } from '@angular/core';
+import { AdBlockService } from '../../services/ad-block.service';
 
 @Component({
     selector: 'ad-unit',
@@ -41,7 +42,7 @@ export class UnitComponent implements OnInit, AfterViewInit, OnDestroy {
     // data-ad-slot="6507245945" // fixed banner
     // data-ad-slot="9527243060" // responsive-1
 
-    constructor(private cdr: ChangeDetectorRef) {}
+    constructor(private cdr: ChangeDetectorRef, private adBlockService: AdBlockService) {}
 
     ngOnInit() {}
 
@@ -74,26 +75,7 @@ export class UnitComponent implements OnInit, AfterViewInit, OnDestroy {
         // 	}
         // }, this.timeOutRetry);
 
-        let that = this;
-        function pushing() {
-            console.log('Pushing onload');
-            const res = that.push();
-            // if (res instanceof TypeError) {
-            // 	setTimeout(() => {
-            // 		console.log("Retrying ad push");
-            // 		that.push()
-            // 	}, that.timeOutRetry);
-            // }
-        }
-
-        let node = document.createElement('script');
-        node.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
-        node.type = 'text/javascript';
-        node.async = false;
-        node.onload = function () {
-            pushing();
-        };
-        document.getElementById('script-' + this.adId).appendChild(node);
+        this.adBlockService.ensureAdScriptLoaded().then(() => this.push());
     }
 
     push() {

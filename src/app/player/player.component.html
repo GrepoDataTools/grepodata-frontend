@@ -145,8 +145,6 @@
       </dl>
     </section>
 
-    <app-advertorial *ngIf="!loadingInfo && towns > 1 && rank <= 1000" class="block empty:hidden"></app-advertorial>
-
     <section aria-label="Player details" class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
       <div #infoTabs class="scroll-mt-6"></div>
       <div class="flex justify-between gap-4 border-0 border-b border-solid border-slate-200 px-5 pt-1 max-sm:px-4">
@@ -283,6 +281,9 @@
         <app-ghost-towns [id]="id" [world]="world"></app-ghost-towns>
       </div>
     </section>
+
+    <app-advertorial *ngIf="!loadingInfo && towns > 1 && rank <= 1000" class="block empty:hidden"></app-advertorial>
+
     <div class="grid items-stretch gap-6 max-sm:gap-4 min-[1360px]:grid-cols-[minmax(0,1fr)_minmax(min-content,1fr)]">
       <section aria-labelledby="daily-history-title" class="relative min-w-0 overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] [container-type:inline-size] min-[1360px]:min-h-[520px]">
         <div class="flex flex-col min-[1360px]:absolute min-[1360px]:inset-0">

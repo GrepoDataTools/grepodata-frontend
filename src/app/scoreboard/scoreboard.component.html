@@ -176,7 +176,7 @@
         </li>
       </ng-container>
       <ng-container *ngFor="let p of playerData.att; let i = index;">
-      <li class="m-0 grid h-9 grid-cols-[24px_minmax(0,1fr)_56px_72px] items-center gap-2 border-0 border-solid border-slate-100 pl-3 pr-2 hover:bg-slate-50" [ngClass]="{'[display:none]': (i >= 12 && toggleMore) || i >= 47, 'border-t': i > 0}">
+      <li class="m-0 grid h-9 grid-cols-[24px_minmax(0,1fr)_56px_72px] items-center gap-2 border-0 border-solid border-slate-100 pl-3 pr-2 hover:bg-slate-50" [ngClass]="{'[display:none]': (i >= (mobile ? 10 : 15) && toggleMore) || i >= 50, 'border-t': i > 0}">
           <span *ngIf="i == 0" title="First place" class="flex size-6 items-center justify-center text-amber-600"><svg appIcon="trophy" class="size-5"></svg><span class="sr-only">1</span></span>
           <span *ngIf="i > 0" class="block w-6 text-center text-xs tabular-nums text-slate-500">{{i+1}}</span>
           <a routerLink="/player" [queryParams]="{world: playerData.world, id: p.i}" [title]="p.n" class="block min-w-0 truncate text-sm text-slate-900 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{p.n}}</a>
@@ -186,8 +186,8 @@
             <span class="px-1.5 text-sm font-medium tabular-nums text-slate-900" [ngClass]="{'md:[display:none]': hasOverview && p.s > 0}">{{p.s | NumberFilter}}</span>
           </span>
         </li>
-      <!-- in-feed ad shown after the 12th attacker, visually covering the next 3 rows while collapsed -->
-      <li *ngIf="i === 11" class="m-0 min-h-[108px] border-0 border-t border-solid border-slate-100 px-2">
+      <!-- in-feed ad shown after the 12th attacker, mobile only -->
+      <li *ngIf="mobile && i === 11" class="m-0 min-h-[108px] border-0 border-t border-solid border-slate-100 px-2">
         <app-infeed-ad></app-infeed-ad>
       </li>
       </ng-container>
@@ -235,7 +235,7 @@
         </li>
       </ng-container>
       <ng-container *ngFor="let p of playerData.def; let i = index;">
-      <li class="m-0 grid h-9 grid-cols-[24px_minmax(0,1fr)_56px_72px] items-center gap-2 border-0 border-solid border-slate-100 pl-3 pr-2 hover:bg-slate-50" [ngClass]="{'[display:none]': (i >= 12 && toggleMore) || i >= 47, 'border-t': i > 0}">
+      <li class="m-0 grid h-9 grid-cols-[24px_minmax(0,1fr)_56px_72px] items-center gap-2 border-0 border-solid border-slate-100 pl-3 pr-2 hover:bg-slate-50" [ngClass]="{'[display:none]': (i >= (mobile ? 10 : 15) && toggleMore) || i >= 50, 'border-t': i > 0}">
           <span *ngIf="i == 0" title="First place" class="flex size-6 items-center justify-center text-amber-600"><svg appIcon="trophy" class="size-5"></svg><span class="sr-only">1</span></span>
           <span *ngIf="i > 0" class="block w-6 text-center text-xs tabular-nums text-slate-500">{{i+1}}</span>
           <a routerLink="/player" [queryParams]="{world: playerData.world, id: p.i}" [title]="p.n" class="block min-w-0 truncate text-sm text-slate-900 no-underline hover:text-brand-700 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{p.n}}</a>
@@ -245,8 +245,8 @@
             <span class="px-1.5 text-sm font-medium tabular-nums text-slate-900" [ngClass]="{'md:[display:none]': hasOverview && p.s > 0}">{{p.s | NumberFilter}}</span>
           </span>
         </li>
-      <!-- in-feed ad shown after the 12th defender, visually covering the next 3 rows while collapsed -->
-      <li *ngIf="i === 11" class="m-0 min-h-[108px] border-0 border-t border-solid border-slate-100 px-2">
+      <!-- in-feed ad shown after the 12th defender, mobile only -->
+      <li *ngIf="mobile && i === 11" class="m-0 min-h-[108px] border-0 border-t border-solid border-slate-100 px-2">
         <app-infeed-ad></app-infeed-ad>
       </li>
       </ng-container>

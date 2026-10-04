@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import {Globals} from '../../../globals';
 import {GoogleAnalyticsEventsService} from "../../../services/google-analytics-events.service";
 import {DonationService} from "../../../services/donation.service";
+import {formatDonationAmount} from "../../../services/donation.service";
 import {HOSTING_COST_PER_MONTH} from "../../hosting-cost";
 
 const HOSTING_COST = HOSTING_COST_PER_MONTH;
@@ -20,7 +21,6 @@ export class DonateDialog implements OnInit {
   chartData: any[] = [];
   rawDonations: any[] = [];
   marqueeDonations: any[] = [];
-  listExpanded = false;
   showProof = false;
   targetPercent = 0;
   readonly hostingCost = HOSTING_COST_PER_MONTH;
@@ -51,12 +51,8 @@ export class DonateDialog implements OnInit {
   donationChartColors = ['#CBD5E1', '#0E7C67'];
   donationChartLabels = ['Google AdSense', 'Donations'];
 
-  toggleList(): void {
-    this.listExpanded = !this.listExpanded;
-  }
-
-  toggleNote(row: any): void {
-    row.noteExpanded = !row.noteExpanded;
+  formatAmount(value: number): string {
+    return formatDonationAmount(value);
   }
 
   private renderChart(response: any): void {

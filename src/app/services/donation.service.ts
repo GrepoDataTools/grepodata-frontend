@@ -14,6 +14,11 @@ export interface DonationKpi {
   tier: 'red' | 'orange' | 'green';
 }
 
+export function formatDonationAmount(value: number): string {
+  const num = +value || 0;
+  return Number.isInteger(num) ? `${num}` : num.toFixed(2);
+}
+
 @Injectable()
 export class DonationService {
 
@@ -37,7 +42,7 @@ export class DonationService {
 
   private toState(total: number): DonationKpi {
     const percent = Math.round((total / HOSTING_COST) * 100);
-    const tier = percent < 25 ? 'red' : percent < 50 ? 'orange' : 'green';
+    const tier = percent < 40 ? 'red' : percent < 80 ? 'orange' : 'green';
     return { total, percent, tier };
   }
 

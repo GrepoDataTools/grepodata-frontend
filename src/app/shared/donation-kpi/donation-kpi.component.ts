@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DonationService } from '../../services/donation.service';
+import { formatDonationAmount } from '../../services/donation.service';
 import { DonateDialog } from '../dialogs/donate/donate.component';
 import { HOSTING_COST_PER_MONTH } from '../hosting-cost';
 
@@ -27,7 +28,7 @@ export class DonationKpiComponent implements OnInit {
     this.donationService.getDonationKpi().subscribe((state) => {
       this.percent = state.percent;
       this.tier = state.tier;
-      this.tooltip = `€${state.total} of €${HOSTING_COST_PER_MONTH} donated this month (${state.percent}%) — click to donate`;
+      this.tooltip = `€${formatDonationAmount(state.total)} of €${HOSTING_COST_PER_MONTH} donated this month (${state.percent}%) — click to donate`;
       this.loading = false;
       // ensures the view updates even when embedded under an OnPush ancestor (e.g. the infeed ad)
       this.cdr.markForCheck();

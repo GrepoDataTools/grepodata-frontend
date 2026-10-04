@@ -1,10 +1,9 @@
 <div role="group" [attr.aria-label]="label" class="relative mb-6 ml-11 mt-6 h-44">
   <span *ngFor="let tick of yTicks; let first = first" aria-hidden="true" class="absolute inset-x-0 border-0 border-t border-solid" [ngClass]="first ? 'border-slate-300' : 'border-slate-100'" [style.top.%]="tick.y"></span>
-  <span *ngFor="let tick of yTicks" aria-hidden="true" class="absolute right-full mr-2 -translate-y-1/2 whitespace-nowrap text-[11px] leading-[14px] tabular-nums text-slate-500" [style.top.%]="tick.y">{{tick.value | compactNumber}}</span>
+  <span *ngFor="let tick of yTicks" aria-hidden="true" class="absolute right-full mr-2 -translate-y-1/2 whitespace-nowrap text-[11px] leading-[14px] tabular-nums text-slate-500" [style.top.%]="tick.y">{{prefix}}{{tick.value | compactNumber}}</span>
 
   <div class="absolute inset-0 flex items-end gap-0.5">
     <div *ngFor="let bar of bars; let i = index" class="group relative flex h-full min-w-0 flex-1 flex-col items-center justify-end">
-      <span *ngIf="i == peak" aria-hidden="true" class="mb-1 whitespace-nowrap text-[11px] font-semibold leading-[14px] tabular-nums text-slate-700">{{bar.total | compactNumber}}</span>
       <span aria-hidden="true" class="flex w-full max-w-5 flex-col-reverse overflow-hidden rounded-t" [style.height.%]="bar.height" [ngClass]="{'group-hover:opacity-80': clickable}">
         <span *ngFor="let segment of bar.segments; let first = first" class="block w-full flex-none border-0 border-solid border-white" [ngClass]="{'border-b-2': !first && segment.value > 0}" [style.height.%]="segment.share" [style.background-color]="segment.color"></span>
       </span>
@@ -15,9 +14,14 @@
         <div *ngFor="let segment of bar.segments" class="flex items-center gap-2 leading-5">
           <span aria-hidden="true" class="size-2.5 flex-none rounded-[3px]" [style.background-color]="segment.color"></span>
           <span class="min-w-0 flex-1 truncate text-slate-600">{{segment.name}}</span>
-          <span class="font-semibold tabular-nums text-slate-900">{{segment.value | number}}</span>
+          <span class="font-semibold tabular-nums text-slate-900">{{prefix}}{{segment.value | number}}</span>
         </div>
       </div>
     </div>
   </div>
+
+  <ng-container *ngIf="targetY !== null">
+    <span aria-hidden="true" class="pointer-events-none absolute inset-x-0 border-0 border-t-2 [border-style:dashed] [border-color:#F97316]" [style.top.%]="targetY"></span>
+    <span aria-hidden="true" class="pointer-events-none absolute left-0 z-10 -translate-y-1/2 whitespace-nowrap rounded bg-white px-1 text-[11px] font-semibold leading-[14px] tabular-nums text-[#F97316]" [style.top.%]="targetY">{{prefix}}{{target | compactNumber}} target</span>
+  </ng-container>
 </div>

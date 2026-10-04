@@ -48,9 +48,8 @@ export class DonateDialog implements OnInit {
     );
   }
 
-  donationChartColor = (name: string) => name === 'Hosting costs' ? '#F97316' : '#2A78D6';
-
-  donationChartWidth = (name: string) => name === 'Hosting costs' ? 3 : 2;
+  donationChartColors = ['#CBD5E1', '#0E7C67'];
+  donationChartLabels = ['Google AdSense', 'Donations'];
 
   toggleList(): void {
     this.listExpanded = !this.listExpanded;
@@ -61,9 +60,12 @@ export class DonateDialog implements OnInit {
   }
 
   private renderChart(response: any): void {
-    const donations: any[] = response?.items || [];
+    const allDonations: any[] = response?.items || [];
+    const donations = allDonations.filter((row) => row.name !== 'Google AdSense');
+    const adsense = allDonations.filter((row) => row.name === 'Google AdSense');
     const cutoff = moment().subtract(MONTHS_SHOWN - 1, 'months').startOf('month');
 
+    // ad revenue is automated, not a human supporter, so it's excluded from the table and marquee
     this.rawDonations = donations
       .filter((row) => moment(row.date, 'YYYY-MM-DD HH:mm:ss').isSameOrAfter(cutoff))
       .sort((a, b) => moment(b.date, 'YYYY-MM-DD HH:mm:ss').valueOf() - moment(a.date, 'YYYY-MM-DD HH:mm:ss').valueOf())
@@ -84,19 +86,21 @@ export class DonateDialog implements OnInit {
       months.push(moment().subtract(i, 'months').startOf('month'));
     }
 
-    const totals = months.map((month) => {
-      const total = donations
-        .filter((row) => moment(row.date, 'YYYY-MM-DD HH:mm:ss').isSame(month, 'month'))
-        .reduce((sum, row) => sum + (+row.donation || 0), 0);
-      return { name: month.format('YYYY-MM-DD'), value: total };
-    });
+    const totalFor = (rows: any[], month: moment.Moment) => rows
+      .filter((row) => moment(row.date, 'YYYY-MM-DD HH:mm:ss').isSame(month, 'month'))
+      .reduce((sum, row) => sum + (+row.donation || 0), 0);
 
-    this.chartData = [
-      { name: 'Donations', series: totals },
-      { name: 'Hosting costs', series: months.map((month) => ({ name: month.format('YYYY-MM-DD'), value: HOSTING_COST })) }
-    ];
-    // Use the current (most recent) month's total to show progress towards covering hosting costs
-    const currentMonthTotal = totals[totals.length - 1]?.value || 0;
+    // bottom-up stacking order: AdSense forms the base, donations stack on top; a month with nothing in it renders no color
+    this.chartData = months.map((month) => ({
+      name: month.format('MMM YYYY'),
+      series: [
+        { value: totalFor(adsense, month) },
+        { value: totalFor(donations, month) }
+      ]
+    }));
+
+    const currentMonth = months[months.length - 1];
+    const currentMonthTotal = totalFor(adsense, currentMonth) + totalFor(donations, currentMonth);
     this.targetPercent = Math.round((currentMonthTotal / HOSTING_COST) * 100);
     this.chartLoading = false;
   }

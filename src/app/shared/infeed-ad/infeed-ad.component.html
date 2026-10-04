@@ -1,4 +1,5 @@
 <div *ngIf="environment.production==true && !blocking" class="w-full py-1 text-center">
+  <!-- <span class="mb-1.5 block text-[11px] uppercase leading-[14px] tracking-wider text-slate-400" title="We show ads to pay for our servers. Please consider disabling your adblocker.">Advertisement</span> -->
   <div [id]="'script-' + adId"></div>
   <ins #ins
        class="adsbygoogle"

@@ -11,27 +11,32 @@ export class StackedBarChartComponent implements OnChanges {
     @Input() seriesLabels: string[] = [];
     @Input() clickable = false;
     @Input() label = '';
+    @Input() prefix = '';
+    @Input() target: number | null = null;
     @Output() barSelect = new EventEmitter<string>();
 
     bars: any[] = [];
     yTicks: any[] = [];
     peak = -1;
+    targetY: number | null = null;
 
     ngOnChanges(): void {
         const groups = (this.results || []).filter((group) => group && group.series);
         const totals = groups.map((group) => group.series.reduce((sum, item) => sum + (+item.value || 0), 0));
-        const max = Math.max(0, ...totals);
-        const step = this.niceStep(max / 3);
-        const top = Math.max(step, Math.ceil(max / step) * step);
+        const maxTotal = Math.max(0, ...totals);
+        const scaleMax = Math.max(maxTotal, this.target || 0);
+        const step = this.niceStep(scaleMax / 3);
+        const top = Math.max(step, Math.ceil(scaleMax / step) * step);
 
         this.yTicks = [];
         for (let value = 0; value <= top; value += step) {
             this.yTicks.push({ value: value, y: 100 - (value / top) * 100 });
         }
-        this.peak = max > 0 ? totals.indexOf(max) : -1;
+        this.targetY = this.target != null ? 100 - (this.target / top) * 100 : null;
+        this.peak = maxTotal > 0 ? totals.indexOf(maxTotal) : -1;
         this.bars = groups.map((group, index) => ({
             name: group.name,
-            label: String(group.name).substr(0, 2),
+            label: String(group.name).substr(0, 3),
             total: totals[index],
             height: (totals[index] / top) * 100,
             segments: group.series.map((item, position) => ({

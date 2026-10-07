@@ -1055,6 +1055,11 @@ fieldset[disabled] .btn-success.active {
   max-height: 95vh !important;
   max-width: 95vw !important;
 }
+.dark-mode .mat-dialog-container {
+  // !important needed: gd-theme.scss loads after styles.scss and sets its own background
+  background: #1e293b !important; // slate-800
+  color: #fff !important;
+}
 .tight-dialog-container .mat-dialog-container {
   padding: 0 !important;
   overflow: hidden !important;

@@ -28,7 +28,7 @@ export class DonationKpiComponent implements OnInit {
     this.donationService.getDonationKpi().subscribe((state) => {
       this.percent = state.percent;
       this.tier = state.tier;
-      this.tooltip = `€${formatDonationAmount(state.total)} of €${HOSTING_COST_PER_MONTH} donated this month (${state.percent}%) — click to donate`;
+      this.tooltip = `Current month funding: €${formatDonationAmount(state.total)} of €${HOSTING_COST_PER_MONTH} hosting cost (${state.percent}% funded) — click to donate`;
       this.loading = false;
       // ensures the view updates even when embedded under an OnPush ancestor (e.g. the infeed ad)
       this.cdr.markForCheck();

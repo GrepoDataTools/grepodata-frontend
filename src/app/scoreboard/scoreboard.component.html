@@ -1,7 +1,7 @@
 <ng-template #header>
   <section aria-labelledby="sb-title" class="relative overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
     <div aria-hidden="true" class="absolute inset-0 bg-[url(/assets/images/scoreboard_banner.png)] bg-cover bg-left max-lg:[display:none]"></div>
-    <div aria-hidden="true" class="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0)_0,rgba(255,255,255,0)_150px,rgba(255,255,255,0.94)_300px,#fff_520px)] max-lg:[display:none]"></div>
+    <div aria-hidden="true" class="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0)_0,rgba(255,255,255,0)_150px,rgba(255,255,255,0.94)_300px,#fff_520px)] max-lg:[display:none] dark:bg-[linear-gradient(90deg,rgba(30,41,59,0)_0,rgba(30,41,59,0)_150px,rgba(30,41,59,0.94)_300px,#1e293b_520px)]"></div>
     <div class="relative flex min-h-[120px] flex-wrap items-end justify-between gap-x-6 gap-y-4 py-5 pl-[236px] pr-6 max-lg:pl-6 max-sm:px-4 max-sm:py-4">
       <div class="min-w-0 self-center">
         <h1 id="sb-title" class="m-0 text-2xl font-bold tracking-tight text-slate-900 max-sm:text-xl dark:text-white">Daily Scoreboard  {{worldName || world}}</h1>

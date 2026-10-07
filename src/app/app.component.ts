@@ -11,6 +11,7 @@ import {SidenavService} from './layout/sidebar/sidenav-service';
 import {Globals} from './globals';
 import {IndexerService} from './indexer/indexer.service';
 import {Title} from '@angular/platform-browser';
+import {DarkModeService} from './services/dark-mode.service';
 
 declare let ga: Function;
 
@@ -32,8 +33,10 @@ export class AppComponent {
     private router: Router,
     private dialogRef: MatDialog,
     private sidenavService: SidenavService,
-    private titleService: Title
+    private titleService: Title,
+    private darkModeService: DarkModeService
   ) {
+    this.darkModeService.init();
 
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {

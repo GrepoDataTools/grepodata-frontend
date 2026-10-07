@@ -1,4 +1,4 @@
-<div class="text-left font-normal text-slate-900">
+<div class="text-left font-normal text-slate-900 dark:text-slate-100">
   <section aria-label="GrepoData" class="border-0 border-t border-solid border-white/[.06] bg-navy-800 bg-[radial-gradient(ellipse_55%_85%_at_50%_0%,rgba(24,188,156,0.20),rgba(24,188,156,0)_70%),radial-gradient(ellipse_40%_60%_at_85%_100%,rgba(24,188,156,0.08),rgba(24,188,156,0)_70%)] px-6 pb-32 pt-[76px] text-center max-sm:px-4 max-sm:pb-[76px] max-sm:pt-9">
     <div #headerText class="min-h-[72px] max-sm:min-h-[44px]">
       <h1 *ngIf="headerInView" [@enterTop] class="m-0 text-[72px] font-extrabold leading-none tracking-[-0.03em] max-sm:text-[44px]"><span class="text-white">GREPO</span><span class="text-brand-500">DATA</span></h1>
@@ -9,76 +9,76 @@
   </section>
 
   <div class="mx-auto flex max-w-[1248px] flex-col gap-12 px-6 max-sm:gap-8 max-sm:px-4">
-    <section aria-label="Search and features" class="relative -mt-20 overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-slate-900/[.08] max-sm:-mt-[52px]">
+    <section aria-label="Search and features" class="relative -mt-20 overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-slate-900/[.08] max-sm:-mt-[52px] dark:bg-slate-800 dark:ring-white/10">
       <app-search [homepage]="true"></app-search>
-      <div class="grid gap-8 border-0 border-t border-solid border-slate-100 px-6 pb-7 pt-6 md:grid-cols-3 max-md:gap-0 max-md:p-0">
-        <div class="flex min-w-0 gap-3.5 max-md:border-0 max-md:border-solid max-md:border-slate-100 max-md:p-4">
-          <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-full bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-700/15 max-md:size-8"><svg appIcon="chart-bar" class="size-5 max-md:size-[18px]"></svg></span>
+      <div class="grid gap-8 border-0 border-t border-solid border-slate-100 px-6 pb-7 pt-6 md:grid-cols-3 max-md:gap-0 max-md:p-0 dark:border-slate-700">
+        <div class="flex min-w-0 gap-3.5 max-md:border-0 max-md:border-solid max-md:border-slate-100 max-md:p-4 dark:max-md:border-slate-700">
+          <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-full bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-700/15 max-md:size-8 dark:bg-brand-500/10 dark:text-brand-400 dark:ring-brand-400/20"><svg appIcon="chart-bar" class="size-5 max-md:size-[18px]"></svg></span>
           <div class="min-w-0">
-            <h3 class="m-0 text-base font-semibold leading-6 text-slate-900 max-md:text-[15px]">Game statistics</h3>
-            <p class="mb-0 mt-0.5 text-sm text-slate-600 max-md:text-[13px]">We collect data from the Grepolis API once every hour. You can browse daily scoreboards for each game world as well as detailed player and alliance statistics.</p>
+            <h3 class="m-0 text-base font-semibold leading-6 text-slate-900 max-md:text-[15px] dark:text-white">Game statistics</h3>
+            <p class="mb-0 mt-0.5 text-sm text-slate-600 max-md:text-[13px] dark:text-slate-400">We collect data from the Grepolis API once every hour. You can browse daily scoreboards for each game world as well as detailed player and alliance statistics.</p>
           </div>
         </div>
-        <div class="flex min-w-0 gap-3.5 max-md:border-0 max-md:border-solid max-md:border-slate-100 max-md:p-4 max-md:border-t">
-          <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-full bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-700/15 max-md:size-8"><svg appIcon="code-bracket" class="size-5 max-md:size-[18px]"></svg></span>
+        <div class="flex min-w-0 gap-3.5 max-md:border-0 max-md:border-solid max-md:border-slate-100 max-md:p-4 max-md:border-t dark:max-md:border-slate-700">
+          <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-full bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-700/15 max-md:size-8 dark:bg-brand-500/10 dark:text-brand-400 dark:ring-brand-400/20"><svg appIcon="code-bracket" class="size-5 max-md:size-[18px]"></svg></span>
           <div class="min-w-0">
-            <h3 class="m-0 text-base font-semibold leading-6 text-slate-900 max-md:text-[15px]">Open source</h3>
-            <p class="mb-0 mt-0.5 text-sm text-slate-600 max-md:text-[13px]">GrepoData is 100% open source! Interested in contributing? Check out our <a href="https://github.com/GrepoDataTools" target="_blank" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline focus:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">GitHub<svg appIcon="arrow-top-right-on-square" variant="micro" class="ml-0.5 inline-block size-3.5 align-[-2px] opacity-70"></svg></a> page.</p>
+            <h3 class="m-0 text-base font-semibold leading-6 text-slate-900 max-md:text-[15px] dark:text-white">Open source</h3>
+            <p class="mb-0 mt-0.5 text-sm text-slate-600 max-md:text-[13px] dark:text-slate-400">GrepoData is 100% open source! Interested in contributing? Check out our <a href="https://github.com/GrepoDataTools" target="_blank" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline focus:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:text-brand-400 dark:hover:text-brand-300 dark:focus:text-brand-400">GitHub<svg appIcon="arrow-top-right-on-square" variant="micro" class="ml-0.5 inline-block size-3.5 align-[-2px] opacity-70"></svg></a> page.</p>
           </div>
         </div>
-        <div class="flex min-w-0 gap-3.5 max-md:border-0 max-md:border-solid max-md:border-slate-100 max-md:p-4 max-md:border-t">
-          <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-full bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-700/15 max-md:size-8"><svg appIcon="wrench-screwdriver" class="size-5 max-md:size-[18px]"></svg></span>
+        <div class="flex min-w-0 gap-3.5 max-md:border-0 max-md:border-solid max-md:border-slate-100 max-md:p-4 max-md:border-t dark:max-md:border-slate-700">
+          <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-full bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-700/15 max-md:size-8 dark:bg-brand-500/10 dark:text-brand-400 dark:ring-brand-400/20"><svg appIcon="wrench-screwdriver" class="size-5 max-md:size-[18px]"></svg></span>
           <div class="min-w-0">
-            <h3 class="m-0 text-base font-semibold leading-6 text-slate-900 max-md:text-[15px]">Tools</h3>
-            <p class="mb-0 mt-0.5 text-sm text-slate-600 max-md:text-[13px]">Add our Discord bot to your server or get started using our city indexer userscript to collect &amp; share enemy intelligence with your alliance.</p>
+            <h3 class="m-0 text-base font-semibold leading-6 text-slate-900 max-md:text-[15px] dark:text-white">Tools</h3>
+            <p class="mb-0 mt-0.5 text-sm text-slate-600 max-md:text-[13px] dark:text-slate-400">Add our Discord bot to your server or get started using our city indexer userscript to collect &amp; share enemy intelligence with your alliance.</p>
           </div>
         </div>
       </div>
     </section>
 
     <section aria-labelledby="h-explore" class="flex flex-col gap-4 max-sm:gap-3">
-      <h2 id="h-explore" class="m-0 text-xl font-semibold text-slate-900 max-sm:text-lg">Explore GrepoData</h2>
+      <h2 id="h-explore" class="m-0 text-xl font-semibold text-slate-900 max-sm:text-lg dark:text-white">Explore GrepoData</h2>
       <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-sm:gap-4">
-        <a routerLink="/points" class="group flex min-w-0 flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] no-underline hover:no-underline hover:shadow-md focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
-          <span class="block h-[200px] flex-none overflow-hidden border-0 border-b border-solid border-slate-200 bg-slate-100 max-sm:h-[150px]"><img src="../../assets/images/scoreboard.jpg?v=2" alt="" class="block size-full object-cover object-top"></span>
+        <a routerLink="/points" class="group flex min-w-0 flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] no-underline hover:no-underline hover:shadow-md focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:bg-slate-800 dark:ring-white/10">
+          <span class="block h-[200px] flex-none overflow-hidden border-0 border-b border-solid border-slate-200 bg-slate-100 max-sm:h-[150px] dark:border-slate-700 dark:bg-slate-700"><img src="../../assets/images/scoreboard.jpg?v=2" alt="" class="block size-full object-cover object-top"></span>
           <span class="flex flex-col items-start gap-0.5 px-5 pb-4 pt-3.5">
-            <span class="min-w-0 text-base font-semibold text-slate-900">Daily scoreboard</span>
-            <span class="inline-flex items-center gap-1 whitespace-nowrap text-sm font-medium text-brand-700 group-hover:underline">View<svg appIcon="arrow-right" variant="mini" class="size-4 flex-none"></svg></span>
+            <span class="min-w-0 text-base font-semibold text-slate-900 dark:text-white">Daily scoreboard</span>
+            <span class="inline-flex items-center gap-1 whitespace-nowrap text-sm font-medium text-brand-700 group-hover:underline dark:text-brand-400">View<svg appIcon="arrow-right" variant="mini" class="size-4 flex-none"></svg></span>
           </span>
         </a>
-        <a routerLink="/points" class="group flex min-w-0 flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] no-underline hover:no-underline hover:shadow-md focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
-          <span class="block h-[200px] flex-none overflow-hidden border-0 border-b border-solid border-slate-200 bg-slate-100 max-sm:h-[150px]"><img src="../../assets/images/player.jpg?v=2" alt="" class="block size-full object-cover object-top"></span>
+        <a routerLink="/points" class="group flex min-w-0 flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] no-underline hover:no-underline hover:shadow-md focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:bg-slate-800 dark:ring-white/10">
+          <span class="block h-[200px] flex-none overflow-hidden border-0 border-b border-solid border-slate-200 bg-slate-100 max-sm:h-[150px] dark:border-slate-700 dark:bg-slate-700"><img src="../../assets/images/player.jpg?v=2" alt="" class="block size-full object-cover object-top"></span>
           <span class="flex flex-col items-start gap-0.5 px-5 pb-4 pt-3.5">
-            <span class="min-w-0 text-base font-semibold text-slate-900">Player &amp; alliance statistics</span>
-            <span class="inline-flex items-center gap-1 whitespace-nowrap text-sm font-medium text-brand-700 group-hover:underline">Explore<svg appIcon="arrow-right" variant="mini" class="size-4 flex-none"></svg></span>
+            <span class="min-w-0 text-base font-semibold text-slate-900 dark:text-white">Player &amp; alliance statistics</span>
+            <span class="inline-flex items-center gap-1 whitespace-nowrap text-sm font-medium text-brand-700 group-hover:underline dark:text-brand-400">Explore<svg appIcon="arrow-right" variant="mini" class="size-4 flex-none"></svg></span>
           </span>
         </a>
-        <a routerLink="/compare" class="group flex min-w-0 flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] no-underline hover:no-underline hover:shadow-md focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
-          <span class="block h-[200px] flex-none overflow-hidden border-0 border-b border-solid border-slate-200 bg-slate-100 max-sm:h-[150px]"><img src="../../assets/images/compare.jpg" alt="" class="block size-full object-cover object-top"></span>
+        <a routerLink="/compare" class="group flex min-w-0 flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] no-underline hover:no-underline hover:shadow-md focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:bg-slate-800 dark:ring-white/10">
+          <span class="block h-[200px] flex-none overflow-hidden border-0 border-b border-solid border-slate-200 bg-slate-100 max-sm:h-[150px] dark:border-slate-700 dark:bg-slate-700"><img src="../../assets/images/compare.jpg" alt="" class="block size-full object-cover object-top"></span>
           <span class="flex flex-col items-start gap-0.5 px-5 pb-4 pt-3.5">
-            <span class="min-w-0 text-base font-semibold text-slate-900">Compare</span>
-            <span class="inline-flex items-center gap-1 whitespace-nowrap text-sm font-medium text-brand-700 group-hover:underline">Start comparing<svg appIcon="arrow-right" variant="mini" class="size-4 flex-none"></svg></span>
+            <span class="min-w-0 text-base font-semibold text-slate-900 dark:text-white">Compare</span>
+            <span class="inline-flex items-center gap-1 whitespace-nowrap text-sm font-medium text-brand-700 group-hover:underline dark:text-brand-400">Start comparing<svg appIcon="arrow-right" variant="mini" class="size-4 flex-none"></svg></span>
           </span>
         </a>
-        <a routerLink="/discord" class="group flex min-w-0 flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] no-underline hover:no-underline hover:shadow-md focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
-          <span class="block h-[200px] flex-none overflow-hidden border-0 border-b border-solid border-slate-200 bg-slate-100 max-sm:h-[150px]"><img src="../../assets/images/discord.png" alt="" class="block size-full object-cover object-top"></span>
+        <a routerLink="/discord" class="group flex min-w-0 flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] no-underline hover:no-underline hover:shadow-md focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:bg-slate-800 dark:ring-white/10">
+          <span class="block h-[200px] flex-none overflow-hidden border-0 border-b border-solid border-slate-200 bg-slate-100 max-sm:h-[150px] dark:border-slate-700 dark:bg-slate-700"><img src="../../assets/images/discord.png" alt="" class="block size-full object-cover object-top"></span>
           <span class="flex flex-col items-start gap-0.5 px-5 pb-4 pt-3.5">
-            <span class="min-w-0 text-base font-semibold text-slate-900">Discord bot</span>
-            <span class="inline-flex items-center gap-1 whitespace-nowrap text-sm font-medium text-brand-700 group-hover:underline">Add to Discord<svg appIcon="arrow-right" variant="mini" class="size-4 flex-none"></svg></span>
+            <span class="min-w-0 text-base font-semibold text-slate-900 dark:text-white">Discord bot</span>
+            <span class="inline-flex items-center gap-1 whitespace-nowrap text-sm font-medium text-brand-700 group-hover:underline dark:text-brand-400">Add to Discord<svg appIcon="arrow-right" variant="mini" class="size-4 flex-none"></svg></span>
           </span>
         </a>
-        <a routerLink="/indexer" class="group flex min-w-0 flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] no-underline hover:no-underline hover:shadow-md focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
-          <span class="block h-[200px] flex-none overflow-hidden border-0 border-b border-solid border-slate-200 bg-slate-100 max-sm:h-[150px]"><img src="../../assets/images/indexer_town_sm.png" alt="" class="block size-full object-cover object-center"></span>
+        <a routerLink="/indexer" class="group flex min-w-0 flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] no-underline hover:no-underline hover:shadow-md focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:bg-slate-800 dark:ring-white/10">
+          <span class="block h-[200px] flex-none overflow-hidden border-0 border-b border-solid border-slate-200 bg-slate-100 max-sm:h-[150px] dark:border-slate-700 dark:bg-slate-700"><img src="../../assets/images/indexer_town_sm.png" alt="" class="block size-full object-cover object-center"></span>
           <span class="flex flex-col items-start gap-0.5 px-5 pb-4 pt-3.5">
-            <span class="min-w-0 text-base font-semibold text-slate-900">Userscript: city indexer</span>
-            <span class="inline-flex items-center gap-1 whitespace-nowrap text-sm font-medium text-brand-700 group-hover:underline">Start sharing intel<svg appIcon="arrow-right" variant="mini" class="size-4 flex-none"></svg></span>
+            <span class="min-w-0 text-base font-semibold text-slate-900 dark:text-white">Userscript: city indexer</span>
+            <span class="inline-flex items-center gap-1 whitespace-nowrap text-sm font-medium text-brand-700 group-hover:underline dark:text-brand-400">Start sharing intel<svg appIcon="arrow-right" variant="mini" class="size-4 flex-none"></svg></span>
           </span>
         </a>
-        <a routerLink="/indexer" class="group flex min-w-0 flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] no-underline hover:no-underline hover:shadow-md focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
-          <span class="block h-[200px] flex-none overflow-hidden border-0 border-b border-solid border-slate-200 bg-slate-100 max-sm:h-[150px]"><img src="../../assets/images/operations.jpg" alt="" class="block size-full object-cover object-top"></span>
+        <a routerLink="/indexer" class="group flex min-w-0 flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] no-underline hover:no-underline hover:shadow-md focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:bg-slate-800 dark:ring-white/10">
+          <span class="block h-[200px] flex-none overflow-hidden border-0 border-b border-solid border-slate-200 bg-slate-100 max-sm:h-[150px] dark:border-slate-700 dark:bg-slate-700"><img src="../../assets/images/operations.jpg" alt="" class="block size-full object-cover object-top"></span>
           <span class="flex flex-col items-start gap-0.5 px-5 pb-4 pt-3.5">
-            <span class="min-w-0 text-base font-semibold text-slate-900">Real-time team operations</span>
-            <span class="inline-flex items-center gap-1 whitespace-nowrap text-sm font-medium text-brand-700 group-hover:underline">Start sharing commands<svg appIcon="arrow-right" variant="mini" class="size-4 flex-none"></svg></span>
+            <span class="min-w-0 text-base font-semibold text-slate-900 dark:text-white">Real-time team operations</span>
+            <span class="inline-flex items-center gap-1 whitespace-nowrap text-sm font-medium text-brand-700 group-hover:underline dark:text-brand-400">Start sharing commands<svg appIcon="arrow-right" variant="mini" class="size-4 flex-none"></svg></span>
           </span>
         </a>
       </div>
@@ -110,42 +110,42 @@
   </div>
 
   <div class="mx-auto flex max-w-[1248px] flex-col gap-12 px-6 pb-14 pt-12 max-sm:gap-8 max-sm:px-4 max-sm:pb-8 max-sm:pt-8">
-    <section aria-labelledby="h-thanks" class="rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] px-10 py-8 max-sm:px-4 max-sm:py-5">
+    <section aria-labelledby="h-thanks" class="rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] px-10 py-8 max-sm:px-4 max-sm:py-5 dark:bg-slate-800 dark:ring-white/10">
       <div class="flex items-start gap-4">
         <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-lg bg-navy-800 text-brand-500"><svg appIcon="heart" class="size-6"></svg></span>
         <div class="min-w-0">
-          <h2 id="h-thanks" class="m-0 text-xl font-semibold text-slate-900 max-sm:text-lg">Acknowledgement</h2>
-          <p class="mb-0 mt-1 text-sm text-slate-600">GrepoData is created for the community, by the community. A special thanks to the following people for their contributions:</p>
+          <h2 id="h-thanks" class="m-0 text-xl font-semibold text-slate-900 max-sm:text-lg dark:text-white">Acknowledgement</h2>
+          <p class="mb-0 mt-1 text-sm text-slate-600 dark:text-slate-400">GrepoData is created for the community, by the community. A special thanks to the following people for their contributions:</p>
         </div>
       </div>
       <ul class="mb-0 mt-6 grid list-none gap-x-8 gap-y-5 p-0 md:grid-cols-2 lg:grid-cols-3 max-sm:mt-4 max-sm:gap-y-3">
-        <li class="m-0 min-w-0"><p class="m-0 text-sm font-semibold text-slate-900">Vít Dolínek (LG)</p><p class="mb-0 mt-0.5 text-sm text-slate-600">For your countless contributions, creating the Discord bot, and pushing the frontend to the next level</p></li>
-        <li class="m-0 min-w-0"><p class="m-0 text-sm font-semibold text-slate-900">David1327</p><p class="mb-0 mt-0.5 text-sm text-slate-600">For your help and for integrating GrepoData statistics into the <a href="https://dio-david1327.github.io" target="_blank" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline focus:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">DIO-Tools<svg appIcon="arrow-top-right-on-square" variant="micro" class="ml-0.5 inline-block size-3.5 align-[-2px] opacity-70"></svg></a> userscript</p></li>
-        <li class="m-0 min-w-0"><p class="m-0 text-sm font-semibold text-slate-900">Marcel-Z</p><p class="mb-0 mt-0.5 text-sm text-slate-600">For integrating GrepoData statistics into the <a href="https://www.grepotools.nl/en/" target="_blank" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline focus:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">GrepoTools<svg appIcon="arrow-top-right-on-square" variant="micro" class="ml-0.5 inline-block size-3.5 align-[-2px] opacity-70"></svg></a> userscript</p></li>
-        <li class="m-0 min-w-0"><p class="m-0 text-sm font-semibold text-slate-900">Shuri2060</p><p class="mb-0 mt-0.5 text-sm text-slate-600">For your feedback, ideas and contributions to the discussion</p></li>
-        <li class="m-0 min-w-0"><p class="m-0 text-sm font-semibold text-slate-900">Megasmorf</p><p class="mb-0 mt-0.5 text-sm text-slate-600">For your ideas &amp; contributions to the indexer &amp; Discord bot</p></li>
-        <li class="m-0 min-w-0"><p class="m-0 text-sm font-semibold text-slate-900">Gandalf13</p><p class="mb-0 mt-0.5 text-sm text-slate-600">For your help setting up the first GrepoData version in 2016</p></li>
+        <li class="m-0 min-w-0"><p class="m-0 text-sm font-semibold text-slate-900 dark:text-white">Vít Dolínek (LG)</p><p class="mb-0 mt-0.5 text-sm text-slate-600 dark:text-slate-400">For your countless contributions, creating the Discord bot, and pushing the frontend to the next level</p></li>
+        <li class="m-0 min-w-0"><p class="m-0 text-sm font-semibold text-slate-900 dark:text-white">David1327</p><p class="mb-0 mt-0.5 text-sm text-slate-600 dark:text-slate-400">For your help and for integrating GrepoData statistics into the <a href="https://dio-david1327.github.io" target="_blank" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline focus:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:text-brand-400 dark:hover:text-brand-300 dark:focus:text-brand-400">DIO-Tools<svg appIcon="arrow-top-right-on-square" variant="micro" class="ml-0.5 inline-block size-3.5 align-[-2px] opacity-70"></svg></a> userscript</p></li>
+        <li class="m-0 min-w-0"><p class="m-0 text-sm font-semibold text-slate-900 dark:text-white">Marcel-Z</p><p class="mb-0 mt-0.5 text-sm text-slate-600 dark:text-slate-400">For integrating GrepoData statistics into the <a href="https://www.grepotools.nl/en/" target="_blank" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline focus:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:text-brand-400 dark:hover:text-brand-300 dark:focus:text-brand-400">GrepoTools<svg appIcon="arrow-top-right-on-square" variant="micro" class="ml-0.5 inline-block size-3.5 align-[-2px] opacity-70"></svg></a> userscript</p></li>
+        <li class="m-0 min-w-0"><p class="m-0 text-sm font-semibold text-slate-900 dark:text-white">Shuri2060</p><p class="mb-0 mt-0.5 text-sm text-slate-600 dark:text-slate-400">For your feedback, ideas and contributions to the discussion</p></li>
+        <li class="m-0 min-w-0"><p class="m-0 text-sm font-semibold text-slate-900 dark:text-white">Megasmorf</p><p class="mb-0 mt-0.5 text-sm text-slate-600 dark:text-slate-400">For your ideas &amp; contributions to the indexer &amp; Discord bot</p></li>
+        <li class="m-0 min-w-0"><p class="m-0 text-sm font-semibold text-slate-900 dark:text-white">Gandalf13</p><p class="mb-0 mt-0.5 text-sm text-slate-600 dark:text-slate-400">For your help setting up the first GrepoData version in 2016</p></li>
       </ul>
-      <div class="mt-7 flex flex-wrap items-center justify-between gap-4 border-0 border-t border-solid border-slate-100 pt-5">
-        <p class="m-0 text-sm text-slate-700">And finally, a big thank you to everybody else that contributed with ideas, bug reports or feedback!</p>
-        <button type="button" aria-haspopup="dialog" (click)="showContactDialog()" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 max-sm:w-full"><svg appIcon="chat-bubble-left-right" class="size-[18px] flex-none text-slate-500"></svg>Contact us</button>
+      <div class="mt-7 flex flex-wrap items-center justify-between gap-4 border-0 border-t border-solid border-slate-100 pt-5 dark:border-slate-700">
+        <p class="m-0 text-sm text-slate-700 dark:text-slate-400">And finally, a big thank you to everybody else that contributed with ideas, bug reports or feedback!</p>
+        <button type="button" aria-haspopup="dialog" (click)="showContactDialog()" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 max-sm:w-full dark:bg-slate-700 dark:text-white dark:ring-slate-600 dark:hover:bg-slate-600"><svg appIcon="chat-bubble-left-right" class="size-[18px] flex-none text-slate-500 dark:text-slate-400"></svg>Contact us</button>
       </div>
     </section>
   </div>
 
-  <div class="border-0 border-t border-solid border-slate-200 bg-white">
+  <div class="border-0 border-t border-solid border-slate-200 bg-white dark:border-slate-700 dark:bg-navy-800">
     <div class="mx-auto flex max-w-[1600px] flex-wrap items-center justify-between gap-x-6 gap-y-3 px-6 pb-4 pt-5 max-sm:flex-col max-sm:items-start max-sm:px-4">
-      <a routerLink="/" aria-label="GrepoData home" class="whitespace-nowrap text-lg font-extrabold leading-none tracking-tight no-underline hover:no-underline focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><span class="text-navy-800">GREPO</span><span class="text-brand-500">DATA</span></a>
+      <a routerLink="/" aria-label="GrepoData home" class="whitespace-nowrap text-lg font-extrabold leading-none tracking-tight no-underline hover:no-underline focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><span class="text-navy-800 dark:text-white">GREPO</span><span class="text-brand-500">DATA</span></a>
       <nav aria-label="Footer" class="flex flex-wrap items-center gap-x-5 gap-y-2">
-        <button type="button" aria-haspopup="dialog" (click)="showDisclaimerDialog()" class="border-0 bg-transparent p-0 text-sm font-medium leading-5 text-slate-600 no-underline hover:text-slate-900 hover:underline focus:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Disclaimer</button>
-        <a routerLink="/privacy" class="border-0 bg-transparent p-0 text-sm font-medium leading-5 text-slate-600 no-underline hover:text-slate-900 hover:underline focus:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Privacy</a>
-        <a routerLink="/analytics" class="border-0 bg-transparent p-0 text-sm font-medium leading-5 text-slate-600 no-underline hover:text-slate-900 hover:underline focus:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Statistics</a>
+        <button type="button" aria-haspopup="dialog" (click)="showDisclaimerDialog()" class="border-0 bg-transparent p-0 text-sm font-medium leading-5 text-slate-600 no-underline hover:text-slate-900 hover:underline focus:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:text-slate-400 dark:hover:text-white dark:focus:text-slate-400">Disclaimer</button>
+        <a routerLink="/privacy" class="border-0 bg-transparent p-0 text-sm font-medium leading-5 text-slate-600 no-underline hover:text-slate-900 hover:underline focus:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:text-slate-400 dark:hover:text-white dark:focus:text-slate-400">Privacy</a>
+        <a routerLink="/analytics" class="border-0 bg-transparent p-0 text-sm font-medium leading-5 text-slate-600 no-underline hover:text-slate-900 hover:underline focus:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:text-slate-400 dark:hover:text-white dark:focus:text-slate-400">Statistics</a>
       </nav>
     </div>
-    <div class="border-0 border-t border-solid border-slate-100">
-      <div class="mx-auto flex max-w-[1600px] flex-wrap items-start justify-between gap-x-6 gap-y-2 px-6 pb-5 pt-3.5 text-xs text-slate-500 max-sm:px-4">
+    <div class="border-0 border-t border-solid border-slate-100 dark:border-slate-700">
+      <div class="mx-auto flex max-w-[1600px] flex-wrap items-start justify-between gap-x-6 gap-y-2 px-6 pb-5 pt-3.5 text-xs text-slate-500 max-sm:px-4 dark:text-slate-500">
         <p class="m-0">Grepolis is a browser game by InnoGames GmbH. This is an unofficial 3rd party site.<br/>Gameplay images related to Grepolis are copyright of InnoGames GmbH.</p>
-        <p class="m-0 flex flex-wrap items-center gap-x-2 gap-y-1"><span class="whitespace-nowrap">Copyright &copy; GrepoData {{date | date:'yyyy'}}</span><span aria-hidden="true" class="text-slate-300">·</span><span class="whitespace-nowrap">Powered by <a href="https://camiel.dev" target="_blank" class="font-medium text-slate-700 no-underline hover:text-slate-900 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">camiel.dev</a></span></p>
+        <p class="m-0 flex flex-wrap items-center gap-x-2 gap-y-1"><span class="whitespace-nowrap">Copyright &copy; GrepoData {{date | date:'yyyy'}}</span><span aria-hidden="true" class="text-slate-300 dark:text-slate-600">·</span><span class="whitespace-nowrap">Powered by <a href="https://camiel.dev" target="_blank" class="font-medium text-slate-700 no-underline hover:text-slate-900 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:text-slate-300 dark:hover:text-white">camiel.dev</a></span></p>
       </div>
     </div>
   </div>

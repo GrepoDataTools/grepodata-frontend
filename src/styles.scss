@@ -23,6 +23,25 @@ body {
   //height: 100% !important;
 }
 
+// Site-wide dark mode base colors. Component-level dark styling is added incrementally via Tailwind `dark:` utilities.
+.dark-mode body {
+  background: #0F172A;
+  color: #E2E8F0;
+}
+.dark-mode .gd-scrollbar-trans::-webkit-scrollbar-track,
+.dark-mode .gd-scrollbar-sm::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0);
+}
+.dark-mode .gd-scrollbar::-webkit-scrollbar-track {
+  background: #1E293B;
+}
+.dark-mode .gd-scrollbar::-webkit-scrollbar-thumb,
+.dark-mode .gd-scrollbar-trans::-webkit-scrollbar-thumb,
+.dark-mode .gd-scrollbar-sm::-webkit-scrollbar-thumb {
+  background-color: #64748B;
+}
+
+
 pre {
   max-height: 60vh !important;
   height: 60vh !important;

@@ -32,3 +32,10 @@ $my-app-warn:    mat-palette($mat-deep-orange);
 $my-app-theme: mat-light-theme($my-app-primary, $my-app-accent, $my-app-warn);
 
 @include angular-material-theme($my-app-theme);
+
+// Dark theme, scoped to .dark-mode so it only applies when the site-wide dark mode toggle is on.
+$my-app-dark-theme: mat-dark-theme($my-app-primary, $my-app-accent, $my-app-warn);
+
+.dark-mode {
+  @include angular-material-theme($my-app-dark-theme);
+}

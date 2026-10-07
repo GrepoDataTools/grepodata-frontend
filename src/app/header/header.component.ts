@@ -7,6 +7,7 @@ import {RecaptchaComponent} from 'ng-recaptcha';
 import {environment} from '../../environments/environment';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {SidenavService} from '../layout/sidebar/sidenav-service';
+import {DarkModeService} from '../services/dark-mode.service';
 
 @Component({
   selector: 'app-header',
@@ -31,7 +32,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private router: Router,
     public dialog: MatDialog,
     changeDetectorRef: ChangeDetectorRef,
-    media: MediaMatcher
+    media: MediaMatcher,
+    public darkModeService: DarkModeService
   ) {
     this.mobileQuery = media.matchMedia('(min-width: 900px)');
     this._mediaQueryListener = () => changeDetectorRef.detectChanges();
@@ -110,6 +112,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public showContactDialog(): void {
     let dialogRef = this.dialog.open(ContactDialog, {autoFocus: false});
     dialogRef.afterClosed().subscribe(result => {});
+  }
+
+  public toggleDarkMode(): void {
+    this.darkModeService.toggle();
   }
 
 }

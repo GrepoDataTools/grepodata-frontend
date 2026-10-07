@@ -1,19 +1,19 @@
 <section class="grid grid-cols-[300px_minmax(0,1fr)] items-start gap-8 text-left font-normal max-lg:grid-cols-1 max-lg:gap-4">
 	<div class="flex gap-3">
-		<span aria-hidden="true" class="flex size-9 flex-none items-center justify-center rounded-lg bg-rose-50 text-rose-600">
+		<span aria-hidden="true" class="flex size-9 flex-none items-center justify-center rounded-lg bg-rose-50 text-rose-600 dark:bg-rose-500/10 dark:text-rose-400">
 			<svg appIcon="trash" class="size-5"></svg>
 		</span>
 		<div class="min-w-0">
-			<h2 class="m-0 text-base font-semibold text-slate-900">Delete account</h2>
-			<p class="mb-0 mt-1 text-sm text-slate-600">This will permanently remove your account on grepodata.com. All your personal information will be removed.</p>
+			<h2 class="m-0 text-base font-semibold text-slate-900 dark:text-white">Delete account</h2>
+			<p class="mb-0 mt-1 text-sm text-slate-600 dark:text-slate-400">This will permanently remove your account on grepodata.com. All your personal information will be removed.</p>
 		</div>
 	</div>
 
-	<div class="overflow-hidden rounded-xl bg-white shadow-sm ring-1" [ngClass]="success ? 'ring-slate-900/[.08]' : 'ring-rose-200'">
+	<div class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 dark:bg-slate-800" [ngClass]="success ? 'ring-slate-900/[.08] dark:ring-white/10' : 'ring-rose-200 dark:ring-rose-500/30'">
 		<ng-container *ngIf="!success">
 			<div class="flex flex-col gap-5 p-5">
-				<div role="alert" class="flex gap-3 rounded-lg bg-rose-50 px-4 py-3 text-sm text-rose-700 ring-1 ring-inset ring-rose-200">
-					<svg appIcon="exclamation-circle" class="size-5 flex-none text-rose-600"></svg>
+				<div role="alert" class="flex gap-3 rounded-lg bg-rose-50 px-4 py-3 text-sm text-rose-700 ring-1 ring-inset ring-rose-200 dark:bg-rose-500/10 dark:text-rose-400">
+					<svg appIcon="exclamation-circle" class="size-5 flex-none text-rose-600 dark:text-rose-400"></svg>
 					<div class="min-w-0 flex-1">
 						<p class="m-0 font-semibold">Warning</p>
 						<ul class="mb-0 mt-0.5 pl-[18px]">
@@ -24,17 +24,17 @@
 					</div>
 				</div>
 
-				<p class="m-0 text-sm text-slate-600">After submitting the form below, you may receive an email to confirm the request.</p>
+				<p class="m-0 text-sm text-slate-600 dark:text-slate-400">After submitting the form below, you may receive an email to confirm the request.</p>
 
 				<div>
-					<label class="m-0 flex cursor-pointer gap-2.5 text-sm font-normal text-slate-900">
+					<label class="m-0 flex cursor-pointer gap-2.5 text-sm font-normal text-slate-900 dark:text-white">
 						<input type="checkbox" class="peer sr-only" [(ngModel)]="confirmed">
-						<span aria-hidden="true" class="mt-0.5 flex size-4 flex-none items-center justify-center rounded border border-solid border-slate-400 bg-white text-transparent peer-checked:border-brand-700 peer-checked:bg-brand-700 peer-checked:text-white peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand-700">
+						<span aria-hidden="true" class="mt-0.5 flex size-4 flex-none items-center justify-center rounded border border-solid border-slate-400 bg-white text-transparent peer-checked:border-brand-700 peer-checked:bg-brand-700 peer-checked:text-white peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand-700 dark:bg-slate-800">
 							<svg appIcon="check" variant="micro" class="size-3"></svg>
 						</span>
 						<span>I have read the above warning and I agree with the removal of my data.</span>
 					</label>
-					<div *ngIf="confirmNeeded" class="ml-[26px] mt-1 text-xs text-rose-600">
+					<div *ngIf="confirmNeeded" class="ml-[26px] mt-1 text-xs text-rose-600 dark:text-rose-400">
 						<div>Please confirm that you have read the warning message</div>
 					</div>
 				</div>
@@ -43,25 +43,25 @@
 			<form [formGroup]="passwordForm" (ngSubmit)="deleteAccount()" class="m-0">
 				<div class="flex flex-col gap-5 px-5 pb-5">
 					<div class="w-full max-w-md">
-						<label for="delete-password" class="mb-1.5 block text-sm font-medium text-slate-900">Enter your password</label>
+						<label for="delete-password" class="mb-1.5 block text-sm font-medium text-slate-900 dark:text-white">Enter your password</label>
 						<div class="relative">
-							<input id="delete-password" autocomplete="off" type="password" formControlName="password" class="h-9 w-full rounded-md border border-solid border-slate-300 bg-white px-2.5 text-sm text-slate-900 shadow-sm focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700" [ngClass]="{ '!border-rose-400 pr-9 focus:!border-rose-500 focus:!ring-rose-500': submitted && f.password.errors }" />
+							<input id="delete-password" autocomplete="off" type="password" formControlName="password" class="h-9 w-full rounded-md border border-solid border-slate-300 bg-white px-2.5 text-sm text-slate-900 shadow-sm focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700 dark:border-slate-600 dark:bg-slate-800 dark:text-white" [ngClass]="{ '!border-rose-400 pr-9 focus:!border-rose-500 focus:!ring-rose-500': submitted && f.password.errors }" />
 							<svg *ngIf="submitted && f.password.errors" appIcon="exclamation-circle" class="pointer-events-none absolute right-2.5 top-2.5 size-4 text-rose-500"></svg>
 						</div>
-						<div *ngIf="submitted && f.password.errors" class="mt-1.5 text-xs text-rose-600">
+						<div *ngIf="submitted && f.password.errors" class="mt-1.5 text-xs text-rose-600 dark:text-rose-400">
 							<div *ngIf="f.password.errors.required">Password verification is required</div>
 						</div>
 					</div>
 
-					<div *ngIf="error" role="alert" class="flex gap-3 rounded-lg bg-rose-50 px-4 py-3 text-sm text-rose-700 ring-1 ring-inset ring-rose-200">
-						<svg appIcon="exclamation-circle" class="size-5 flex-none text-rose-600"></svg>
+					<div *ngIf="error" role="alert" class="flex gap-3 rounded-lg bg-rose-50 px-4 py-3 text-sm text-rose-700 ring-1 ring-inset ring-rose-200 dark:bg-rose-500/10 dark:text-rose-400">
+						<svg appIcon="exclamation-circle" class="size-5 flex-none text-rose-600 dark:text-rose-400"></svg>
 						<p class="m-0 min-w-0">{{error}}</p>
 					</div>
 
 					<mat-progress-bar *ngIf="loading" mode="indeterminate" class="max-w-md rounded-full"></mat-progress-bar>
 				</div>
 
-				<div class="flex items-center justify-end gap-3 border-0 border-t border-solid border-slate-200 bg-slate-50 px-5 py-3">
+				<div class="flex items-center justify-end gap-3 border-0 border-t border-solid border-slate-200 bg-slate-50 px-5 py-3 dark:border-slate-700 dark:bg-slate-700/40">
 					<button type="submit" [disabled]="loading" class="inline-flex items-center justify-center gap-1.5 rounded-md border-0 bg-rose-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-600 disabled:cursor-progress disabled:opacity-60">
 						<span *ngIf="loading" class="size-4 flex-none animate-spin rounded-full border-2 border-solid border-white/35 border-t-white"></span>
 						<svg *ngIf="!loading" appIcon="trash" class="size-4 flex-none"></svg>
@@ -72,8 +72,8 @@
 		</ng-container>
 
 		<div *ngIf="success && !deleted" class="p-5">
-			<div role="status" class="flex gap-3 rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-800 ring-1 ring-inset ring-amber-200">
-				<svg appIcon="exclamation-triangle" class="size-5 flex-none text-amber-600"></svg>
+			<div role="status" class="flex gap-3 rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-800 ring-1 ring-inset ring-amber-200 dark:bg-amber-500/10 dark:text-amber-400">
+				<svg appIcon="exclamation-triangle" class="size-5 flex-none text-amber-600 dark:text-amber-400"></svg>
 				<div class="min-w-0">
 					<p class="m-0 font-semibold">Email confirmation required.</p>
 					<p class="mb-0 mt-0.5">You received an email with a confirmation link to complete your request <strong class="font-semibold">(Check your spam folder!)</strong></p>
@@ -83,7 +83,7 @@
 		</div>
 
 		<div *ngIf="success && deleted" class="p-5">
-			<div role="status" class="flex gap-3 rounded-lg bg-emerald-50 px-4 py-3 text-sm text-emerald-700 ring-1 ring-inset ring-emerald-200">
+			<div role="status" class="flex gap-3 rounded-lg bg-emerald-50 px-4 py-3 text-sm text-emerald-700 ring-1 ring-inset ring-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400">
 				<svg appIcon="check-circle" class="size-5 flex-none text-emerald-600"></svg>
 				<div class="min-w-0">
 					<p class="m-0 font-semibold">Account deleted.</p>

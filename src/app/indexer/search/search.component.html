@@ -1,31 +1,31 @@
 <div #searchContainer class="search-container relative">
   <div class="grid grid-cols-1 gap-3 md:grid-cols-3 md:gap-6 xl:gap-14">
     <div class="relative" [ngClass]="{'max-[767px]:hidden': !searching_players && num_results > 0}">
-      <form class="relative m-0 flex h-9 overflow-hidden rounded-md border border-solid border-slate-300 bg-white shadow-sm focus-within:border-brand-700 focus-within:ring-1 focus-within:ring-brand-700">
+      <form class="relative m-0 flex h-9 overflow-hidden rounded-md border border-solid border-slate-300 bg-white shadow-sm focus-within:border-brand-700 focus-within:ring-1 focus-within:ring-brand-700 dark:border-slate-600 dark:bg-slate-800">
         <label class="m-0 flex min-w-0 flex-1 items-center gap-2 px-3">
-          <svg appIcon="player_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
-          <input (click)="clickedPlayerInput()" autocomplete="off" class="h-full min-w-0 flex-1 border-0 bg-transparent p-0 text-sm font-normal text-slate-900 placeholder:text-slate-500 focus:outline-none" placeholder="Search players..." aria-label="Search players" type="search" value="" name="search" id="search-players" (keyup)="searchPlayers($event)">
+          <svg appIcon="player_ico" variant="game" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
+          <input (click)="clickedPlayerInput()" autocomplete="off" class="h-full min-w-0 flex-1 border-0 bg-transparent p-0 text-sm font-normal text-slate-900 placeholder:text-slate-500 focus:outline-none dark:text-white" placeholder="Search players..." aria-label="Search players" type="search" value="" name="search" id="search-players" (keyup)="searchPlayers($event)">
         </label>
-        <button type="button" aria-label="Search players" (click)="doSearchPlayers()" class="flex w-11 flex-none items-center justify-center border-0 border-l border-solid border-slate-300 bg-slate-50 text-slate-500 hover:bg-slate-100 hover:text-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+        <button type="button" aria-label="Search players" (click)="doSearchPlayers()" class="flex w-11 flex-none items-center justify-center border-0 border-l border-solid border-slate-300 bg-slate-50 text-slate-500 hover:bg-slate-100 hover:text-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:border-slate-600 dark:bg-slate-700/40 dark:text-slate-400 dark:hover:bg-slate-700">
           <svg appIcon="magnifying-glass" class="size-5 flex-none"></svg>
         </button>
         <mat-progress-bar *ngIf="searching_players && loading" class="!absolute inset-x-0 bottom-0 z-10" mode="indeterminate"></mat-progress-bar>
       </form>
 
       <!--Player results-->
-      <div *ngIf="!hide_results && searching_players && !loading" class="absolute top-full z-[10000] mt-1 w-full min-w-[300px] max-w-[calc(100vw-24px)] overflow-hidden rounded-lg bg-white text-left font-normal shadow-lg ring-1 ring-slate-900/10 left-0">
-        <p *ngIf="players?.length < 1" class="m-0 px-4 py-3 text-sm text-slate-600">No player found for '<span class="font-medium text-slate-900">{{playerInput}}</span>'</p>
+      <div *ngIf="!hide_results && searching_players && !loading" class="absolute top-full z-[10000] mt-1 w-full min-w-[300px] max-w-[calc(100vw-24px)] overflow-hidden rounded-lg bg-white text-left font-normal shadow-lg ring-1 ring-slate-900/10 left-0 dark:bg-slate-800">
+        <p *ngIf="players?.length < 1" class="m-0 px-4 py-3 text-sm text-slate-600 dark:text-slate-400">No player found for '<span class="font-medium text-slate-900 dark:text-white">{{playerInput}}</span>'</p>
         <ul *ngIf="num_results > 0" id="search_output" class="gd-scrollbar m-0 max-h-[calc(100vh-240px)] list-none overflow-y-auto p-0 max-[1100px]:max-h-none">
-          <li *ngFor="let player of players" class="flex items-start gap-3 border-0 border-b border-solid border-slate-100 px-4 py-2.5 last:border-b-0 hover:bg-slate-50">
-            <svg appIcon="player_ico" variant="game" class="mt-0.5 size-4 flex-none text-slate-400"></svg>
+          <li *ngFor="let player of players" class="flex items-start gap-3 border-0 border-b border-solid border-slate-100 px-4 py-2.5 last:border-b-0 hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-700/60">
+            <svg appIcon="player_ico" variant="game" class="mt-0.5 size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
             <div class="min-w-0 flex-1">
-              <a routerLink="/intel/player/{{player?.world}}/{{player?.id}}" class="block truncate text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{player?.name}}</a>
-              <div class="mt-0.5 flex flex-wrap items-center gap-x-1.5 text-xs text-slate-500 [&_.bg-flag]:[zoom:0.5]"><span [outerHTML]="player?.world | WorldNamePipe"></span></div>
+              <a routerLink="/intel/player/{{player?.world}}/{{player?.id}}" class="block truncate text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:text-white">{{player?.name}}</a>
+              <div class="mt-0.5 flex flex-wrap items-center gap-x-1.5 text-xs text-slate-500 [&_.bg-flag]:[zoom:0.5] dark:text-slate-400"><span [outerHTML]="player?.world | WorldNamePipe"></span></div>
             </div>
           </li>
         </ul>
-        <div class="flex justify-center border-0 border-t border-solid border-slate-200 px-4 py-2">
-          <button type="button" (click)="hide_results = true; cdr.detectChanges();" class="inline-flex items-center gap-1.5 border-0 bg-transparent p-0 text-sm font-medium text-slate-600 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+        <div class="flex justify-center border-0 border-t border-solid border-slate-200 px-4 py-2 dark:border-slate-700">
+          <button type="button" (click)="hide_results = true; cdr.detectChanges();" class="inline-flex items-center gap-1.5 border-0 bg-transparent p-0 text-sm font-medium text-slate-600 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:text-slate-400 dark:hover:text-white">
             Close search results
             <svg appIcon="x-mark" class="size-4 flex-none"></svg>
           </button>
@@ -33,26 +33,26 @@
       </div>
     </div>
     <div class="relative" [ngClass]="{'max-[767px]:hidden': !searching_alliances && num_results > 0}">
-      <form class="relative m-0 flex h-9 overflow-hidden rounded-md border border-solid border-slate-300 bg-white shadow-sm focus-within:border-brand-700 focus-within:ring-1 focus-within:ring-brand-700">
+      <form class="relative m-0 flex h-9 overflow-hidden rounded-md border border-solid border-slate-300 bg-white shadow-sm focus-within:border-brand-700 focus-within:ring-1 focus-within:ring-brand-700 dark:border-slate-600 dark:bg-slate-800">
         <label class="m-0 flex min-w-0 flex-1 items-center gap-2 px-3">
-          <svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
-          <input (click)="clickedAllianceInput()" autocomplete="off" class="h-full min-w-0 flex-1 border-0 bg-transparent p-0 text-sm font-normal text-slate-900 placeholder:text-slate-500 focus:outline-none" placeholder="Search alliances..." aria-label="Search alliances" type="search" value="" name="search" id="search-alliances" (keyup)="searchAlliances($event)">
+          <svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
+          <input (click)="clickedAllianceInput()" autocomplete="off" class="h-full min-w-0 flex-1 border-0 bg-transparent p-0 text-sm font-normal text-slate-900 placeholder:text-slate-500 focus:outline-none dark:text-white" placeholder="Search alliances..." aria-label="Search alliances" type="search" value="" name="search" id="search-alliances" (keyup)="searchAlliances($event)">
         </label>
-        <button type="button" aria-label="Search alliances" (click)="doSearchAlliances()" class="flex w-11 flex-none items-center justify-center border-0 border-l border-solid border-slate-300 bg-slate-50 text-slate-500 hover:bg-slate-100 hover:text-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+        <button type="button" aria-label="Search alliances" (click)="doSearchAlliances()" class="flex w-11 flex-none items-center justify-center border-0 border-l border-solid border-slate-300 bg-slate-50 text-slate-500 hover:bg-slate-100 hover:text-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:border-slate-600 dark:bg-slate-700/40 dark:text-slate-400 dark:hover:bg-slate-700">
           <svg appIcon="magnifying-glass" class="size-5 flex-none"></svg>
         </button>
         <mat-progress-bar *ngIf="searching_alliances && loading" class="!absolute inset-x-0 bottom-0 z-10" mode="indeterminate"></mat-progress-bar>
       </form>
 
       <!--Alliance results-->
-      <div *ngIf="!hide_results && searching_alliances && !loading" class="absolute top-full z-[10000] mt-1 w-full min-w-[300px] max-w-[calc(100vw-24px)] overflow-hidden rounded-lg bg-white text-left font-normal shadow-lg ring-1 ring-slate-900/10 left-0">
-        <p *ngIf="alliances?.length < 1" class="m-0 px-4 py-3 text-sm text-slate-600">No alliance found for '<span class="font-medium text-slate-900">{{allianceInput}}</span>'</p>
+      <div *ngIf="!hide_results && searching_alliances && !loading" class="absolute top-full z-[10000] mt-1 w-full min-w-[300px] max-w-[calc(100vw-24px)] overflow-hidden rounded-lg bg-white text-left font-normal shadow-lg ring-1 ring-slate-900/10 left-0 dark:bg-slate-800">
+        <p *ngIf="alliances?.length < 1" class="m-0 px-4 py-3 text-sm text-slate-600 dark:text-slate-400">No alliance found for '<span class="font-medium text-slate-900 dark:text-white">{{allianceInput}}</span>'</p>
         <ul *ngIf="num_results > 0" id="search_output_alliances" class="gd-scrollbar m-0 max-h-[calc(100vh-240px)] list-none overflow-y-auto p-0 max-[1100px]:max-h-none">
-          <li *ngFor="let alliance of alliances" class="flex items-start gap-3 border-0 border-b border-solid border-slate-100 px-4 py-2.5 last:border-b-0 hover:bg-slate-50">
-            <svg appIcon="ally_ico" variant="game" class="mt-0.5 size-4 flex-none text-slate-400"></svg>
+          <li *ngFor="let alliance of alliances" class="flex items-start gap-3 border-0 border-b border-solid border-slate-100 px-4 py-2.5 last:border-b-0 hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-700/60">
+            <svg appIcon="ally_ico" variant="game" class="mt-0.5 size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
             <div class="min-w-0 flex-1">
-              <a routerLink="/intel/alliance/{{alliance?.world}}/{{alliance?.id}}" class="block truncate text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{alliance?.name}}</a>
-              <div class="mt-0.5 flex flex-wrap items-center gap-x-1.5 text-xs text-slate-500 [&_.bg-flag]:[zoom:0.5]">
+              <a routerLink="/intel/alliance/{{alliance?.world}}/{{alliance?.id}}" class="block truncate text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:text-white">{{alliance?.name}}</a>
+              <div class="mt-0.5 flex flex-wrap items-center gap-x-1.5 text-xs text-slate-500 [&_.bg-flag]:[zoom:0.5] dark:text-slate-400">
                 <span class="tabular-nums">Rank {{alliance?.rank}}</span>
                 <span aria-hidden="true">·</span>
                 <span class="tabular-nums">{{alliance?.points | NumberFilter}} points</span>
@@ -62,8 +62,8 @@
             </div>
           </li>
         </ul>
-        <div class="flex justify-center border-0 border-t border-solid border-slate-200 px-4 py-2">
-          <button type="button" (click)="hide_results = true; cdr.detectChanges();" class="inline-flex items-center gap-1.5 border-0 bg-transparent p-0 text-sm font-medium text-slate-600 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+        <div class="flex justify-center border-0 border-t border-solid border-slate-200 px-4 py-2 dark:border-slate-700">
+          <button type="button" (click)="hide_results = true; cdr.detectChanges();" class="inline-flex items-center gap-1.5 border-0 bg-transparent p-0 text-sm font-medium text-slate-600 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:text-slate-400 dark:hover:text-white">
             Close search results
             <svg appIcon="x-mark" class="size-4 flex-none"></svg>
           </button>
@@ -71,28 +71,28 @@
       </div>
     </div>
     <div class="relative" [ngClass]="{'max-[767px]:hidden': !searching_towns && num_results > 0}">
-      <form class="relative m-0 flex h-9 overflow-hidden rounded-md border border-solid border-slate-300 bg-white shadow-sm focus-within:border-brand-700 focus-within:ring-1 focus-within:ring-brand-700">
+      <form class="relative m-0 flex h-9 overflow-hidden rounded-md border border-solid border-slate-300 bg-white shadow-sm focus-within:border-brand-700 focus-within:ring-1 focus-within:ring-brand-700 dark:border-slate-600 dark:bg-slate-800">
         <label class="m-0 flex min-w-0 flex-1 items-center gap-2 px-3">
-          <svg appIcon="town_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
-          <input (click)="clickedTownInput()" autocomplete="off" class="h-full min-w-0 flex-1 border-0 bg-transparent p-0 text-sm font-normal text-slate-900 placeholder:text-slate-500 focus:outline-none" placeholder="Search towns..." aria-label="Search towns" type="search" value="" name="search" id="search-towns" (keyup)="searchTowns($event)">
+          <svg appIcon="town_ico" variant="game" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
+          <input (click)="clickedTownInput()" autocomplete="off" class="h-full min-w-0 flex-1 border-0 bg-transparent p-0 text-sm font-normal text-slate-900 placeholder:text-slate-500 focus:outline-none dark:text-white" placeholder="Search towns..." aria-label="Search towns" type="search" value="" name="search" id="search-towns" (keyup)="searchTowns($event)">
         </label>
-        <button type="button" aria-label="Search towns" (click)="doSearchTowns()" class="flex w-11 flex-none items-center justify-center border-0 border-l border-solid border-slate-300 bg-slate-50 text-slate-500 hover:bg-slate-100 hover:text-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+        <button type="button" aria-label="Search towns" (click)="doSearchTowns()" class="flex w-11 flex-none items-center justify-center border-0 border-l border-solid border-slate-300 bg-slate-50 text-slate-500 hover:bg-slate-100 hover:text-slate-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:border-slate-600 dark:bg-slate-700/40 dark:text-slate-400 dark:hover:bg-slate-700">
           <svg appIcon="magnifying-glass" class="size-5 flex-none"></svg>
         </button>
         <mat-progress-bar *ngIf="searching_towns && loading" class="!absolute inset-x-0 bottom-0 z-10" mode="indeterminate"></mat-progress-bar>
       </form>
 
       <!--Town results-->
-      <div *ngIf="!hide_results && searching_towns && !loading" class="absolute top-full z-[10000] mt-1 w-full min-w-[300px] max-w-[calc(100vw-24px)] overflow-hidden rounded-lg bg-white text-left font-normal shadow-lg ring-1 ring-slate-900/10 right-0">
-        <p *ngIf="towns?.length < 1" class="m-0 px-4 py-3 text-sm text-slate-600">No towns found matching '<span class="font-medium text-slate-900">{{townInput}}</span>'</p>
+      <div *ngIf="!hide_results && searching_towns && !loading" class="absolute top-full z-[10000] mt-1 w-full min-w-[300px] max-w-[calc(100vw-24px)] overflow-hidden rounded-lg bg-white text-left font-normal shadow-lg ring-1 ring-slate-900/10 right-0 dark:bg-slate-800">
+        <p *ngIf="towns?.length < 1" class="m-0 px-4 py-3 text-sm text-slate-600 dark:text-slate-400">No towns found matching '<span class="font-medium text-slate-900 dark:text-white">{{townInput}}</span>'</p>
         <ul *ngIf="num_results > 0" id="search_output_towns" class="gd-scrollbar m-0 max-h-[calc(100vh-240px)] list-none overflow-y-auto p-0 max-[1100px]:max-h-none">
-          <li *ngFor="let town of towns" class="flex items-start gap-3 border-0 border-b border-solid border-slate-100 px-4 py-2.5 last:border-b-0 hover:bg-slate-50">
-            <svg appIcon="town_ico" variant="game" class="mt-0.5 size-4 flex-none text-slate-400"></svg>
+          <li *ngFor="let town of towns" class="flex items-start gap-3 border-0 border-b border-solid border-slate-100 px-4 py-2.5 last:border-b-0 hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-700/60">
+            <svg appIcon="town_ico" variant="game" class="mt-0.5 size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
             <div class="min-w-0 flex-1">
-              <a routerLink="/intel/town/{{town?.world}}/{{town?.id}}" class="block truncate text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{town?.name}}</a>
-              <div class="mt-0.5 flex flex-wrap items-center gap-x-1.5 text-xs text-slate-500 [&_.bg-flag]:[zoom:0.5]">
-                <a routerLink="/intel/player/{{town?.world}}/{{town?.player_id}}" *ngIf="town?.player_id>0" class="inline-flex items-center gap-1 text-slate-600 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
-                  <svg appIcon="player_ico" variant="game" class="size-3.5 flex-none text-slate-400"></svg>
+              <a routerLink="/intel/town/{{town?.world}}/{{town?.id}}" class="block truncate text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:text-white">{{town?.name}}</a>
+              <div class="mt-0.5 flex flex-wrap items-center gap-x-1.5 text-xs text-slate-500 [&_.bg-flag]:[zoom:0.5] dark:text-slate-400">
+                <a routerLink="/intel/player/{{town?.world}}/{{town?.player_id}}" *ngIf="town?.player_id>0" class="inline-flex items-center gap-1 text-slate-600 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:text-slate-400">
+                  <svg appIcon="player_ico" variant="game" class="size-3.5 flex-none text-slate-400 dark:text-slate-500"></svg>
                   {{town?.player_name}}
                 </a>
                 <span *ngIf="town?.player_id<=0" class="italic">Ghost</span>
@@ -102,8 +102,8 @@
             </div>
           </li>
         </ul>
-        <div class="flex justify-center border-0 border-t border-solid border-slate-200 px-4 py-2">
-          <button type="button" (click)="hide_results = true; cdr.detectChanges();" class="inline-flex items-center gap-1.5 border-0 bg-transparent p-0 text-sm font-medium text-slate-600 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+        <div class="flex justify-center border-0 border-t border-solid border-slate-200 px-4 py-2 dark:border-slate-700">
+          <button type="button" (click)="hide_results = true; cdr.detectChanges();" class="inline-flex items-center gap-1.5 border-0 bg-transparent p-0 text-sm font-medium text-slate-600 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:text-slate-400 dark:hover:text-white">
             Close search results
             <svg appIcon="x-mark" class="size-4 flex-none"></svg>
           </button>

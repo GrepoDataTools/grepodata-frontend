@@ -1,31 +1,31 @@
-<div class="flex max-h-[95vh] w-[720px] max-w-full flex-col text-left font-normal text-slate-900">
-  <div class="flex flex-none items-start gap-4 border-0 border-b border-solid border-slate-200 px-6 py-5 max-sm:px-4">
+<div class="flex max-h-[95vh] w-[720px] max-w-full flex-col text-left font-normal text-slate-900 dark:text-white">
+  <div class="flex flex-none items-start gap-4 border-0 border-b border-solid border-slate-200 px-6 py-5 max-sm:px-4 dark:border-slate-700">
     <span class="flex size-10 flex-none items-center justify-center rounded-lg bg-navy-800 text-brand-500">
       <svg appIcon="code-bracket" class="size-6"></svg>
     </span>
     <div class="min-w-0 flex-1">
-      <h2 mat-dialog-title class="m-0 text-xl font-semibold text-slate-900">BB code</h2>
-      <p *ngIf="subtitle" class="mb-0 mt-0.5 truncate text-sm text-slate-600">{{subtitle}}</p>
+      <h2 mat-dialog-title class="m-0 text-xl font-semibold text-slate-900 dark:text-white">BB code</h2>
+      <p *ngIf="subtitle" class="mb-0 mt-0.5 truncate text-sm text-slate-600 dark:text-slate-400">{{subtitle}}</p>
     </div>
-    <button type="button" (click)="dialogRef.close()" aria-label="Close" class="-mr-2 -mt-1 inline-flex size-8 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+    <button type="button" (click)="dialogRef.close()" aria-label="Close" class="-mr-2 -mt-1 inline-flex size-8 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:text-slate-400 dark:hover:bg-slate-700">
       <svg appIcon="x-mark" class="size-5"></svg>
     </button>
   </div>
 
   <div class="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-6 py-5 max-sm:px-4">
     <div *ngIf="type!='alliances_indexed' && type!='players_indexed' && type!='island'" class="flex flex-wrap items-center gap-x-3 gap-y-1">
-      <label *ngIf="hideAvailable && (24 + dataBB.data.length * (type=='player_fire'||type=='player_bir'?8:6)) <= 500" class="m-0 inline-flex cursor-pointer items-center gap-2 text-[13px] font-normal leading-5 text-slate-700">
+      <label *ngIf="hideAvailable && (24 + dataBB.data.length * (type=='player_fire'||type=='player_bir'?8:6)) <= 500" class="m-0 inline-flex cursor-pointer items-center gap-2 text-[13px] font-normal leading-5 text-slate-700 dark:text-slate-300">
         <input type="checkbox" class="peer sr-only" [(ngModel)]="showNonPriority">
-        <span class="flex h-[18px] w-8 flex-none items-center rounded-full bg-slate-200 p-0.5 transition-colors after:block after:size-3.5 after:rounded-full after:bg-white after:shadow after:transition-transform after:content-[''] peer-checked:bg-brand-700 peer-checked:after:translate-x-3.5 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand-700"></span>
-        <span>Show duplicate intel<span *ngIf="olderCount > 0" class="text-slate-500"> · {{olderCount}} older {{olderCount == 1 ? 'report' : 'reports'}}</span></span>
+        <span class="flex h-[18px] w-8 flex-none items-center rounded-full bg-slate-200 p-0.5 transition-colors after:block after:size-3.5 after:rounded-full after:bg-white after:shadow after:transition-transform after:content-[''] peer-checked:bg-brand-700 peer-checked:after:translate-x-3.5 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand-700 dark:bg-slate-600"></span>
+        <span>Show duplicate intel<span *ngIf="olderCount > 0" class="text-slate-500 dark:text-slate-400"> · {{olderCount}} older {{olderCount == 1 ? 'report' : 'reports'}}</span></span>
       </label>
-      <span class="ml-auto text-xs text-slate-500">{{townCount}} {{townCount == 1 ? 'town' : 'towns'}}</span>
+      <span class="ml-auto text-xs text-slate-500 dark:text-slate-400">{{townCount}} {{townCount == 1 ? 'town' : 'towns'}}</span>
     </div>
 
 <!--Player fire-->
 <!--num_brackets = 24 + (6*rows || 8*rows) -->
 <!--suppress XmlDuplicatedId -->
-      <pre *ngIf="type=='player_fire'" id="bb_code" class="m-0 !h-auto !max-h-[min(400px,50vh)] !min-w-0 overflow-auto whitespace-pre-wrap rounded-lg border-0 bg-slate-50 px-4 py-3.5 font-mono text-xs leading-[18px] text-slate-800 ring-1 ring-inset ring-slate-200 [overflow-wrap:anywhere] [word-break:normal]">[quote]
+      <pre *ngIf="type=='player_fire'" id="bb_code" class="m-0 !h-auto !max-h-[min(400px,50vh)] !min-w-0 overflow-auto whitespace-pre-wrap rounded-lg border-0 bg-slate-50 px-4 py-3.5 font-mono text-xs leading-[18px] text-slate-800 ring-1 ring-inset ring-slate-200 [overflow-wrap:anywhere] [word-break:normal] dark:bg-slate-700/40 dark:text-slate-100 dark:ring-slate-700">[quote]
 [size=12][b]{{dataBB.world.substring(0, 2)=='en'?'Light ship':'Fireship'}} intel for [player]{{dataBB.name}}[/player] ([ally]{{dataBB.a_name}}[/ally])[/b][/size]
 
 [table]
@@ -37,7 +37,7 @@
 <!--Player myth-->
 <!--num_brackets = 24 + 6*rows -->
 <!--suppress XmlDuplicatedId -->
-      <pre *ngIf="type=='player_myth'" id="bb_code" class="m-0 !h-auto !max-h-[min(400px,50vh)] !min-w-0 overflow-auto whitespace-pre-wrap rounded-lg border-0 bg-slate-50 px-4 py-3.5 font-mono text-xs leading-[18px] text-slate-800 ring-1 ring-inset ring-slate-200 [overflow-wrap:anywhere] [word-break:normal]">[quote]
+      <pre *ngIf="type=='player_myth'" id="bb_code" class="m-0 !h-auto !max-h-[min(400px,50vh)] !min-w-0 overflow-auto whitespace-pre-wrap rounded-lg border-0 bg-slate-50 px-4 py-3.5 font-mono text-xs leading-[18px] text-slate-800 ring-1 ring-inset ring-slate-200 [overflow-wrap:anywhere] [word-break:normal] dark:bg-slate-700/40 dark:text-slate-100 dark:ring-slate-700">[quote]
 [size=12][b]Mythical unit intel for [player]{{dataBB.name}}[/player] ([ally]{{dataBB.a_name}}[/ally])[/b][/size]
 
 [table]
@@ -52,7 +52,7 @@
 <!--Player bir-->
 <!--num_brackets = 24 + (6*rows || 8*rows) -->
 <!--suppress XmlDuplicatedId -->
-      <pre *ngIf="type=='player_bir'" id="bb_code" class="m-0 !h-auto !max-h-[min(400px,50vh)] !min-w-0 overflow-auto whitespace-pre-wrap rounded-lg border-0 bg-slate-50 px-4 py-3.5 font-mono text-xs leading-[18px] text-slate-800 ring-1 ring-inset ring-slate-200 [overflow-wrap:anywhere] [word-break:normal]">[quote]
+      <pre *ngIf="type=='player_bir'" id="bb_code" class="m-0 !h-auto !max-h-[min(400px,50vh)] !min-w-0 overflow-auto whitespace-pre-wrap rounded-lg border-0 bg-slate-50 px-4 py-3.5 font-mono text-xs leading-[18px] text-slate-800 ring-1 ring-inset ring-slate-200 [overflow-wrap:anywhere] [word-break:normal] dark:bg-slate-700/40 dark:text-slate-100 dark:ring-slate-700">[quote]
 [size=12][b]Bireme intel for [player]{{dataBB.name}}[/player] ([ally]{{dataBB.a_name}}[/ally])[/b][/size]
 
 [table]
@@ -67,7 +67,7 @@
 <!--Player trir-->
 <!--num_brackets = 24 + (6*rows || 8*rows) -->
 <!--suppress XmlDuplicatedId -->
-<pre *ngIf="type=='player_trir'" id="bb_code" class="m-0 !h-auto !max-h-[min(400px,50vh)] !min-w-0 overflow-auto whitespace-pre-wrap rounded-lg border-0 bg-slate-50 px-4 py-3.5 font-mono text-xs leading-[18px] text-slate-800 ring-1 ring-inset ring-slate-200 [overflow-wrap:anywhere] [word-break:normal]">[quote]
+<pre *ngIf="type=='player_trir'" id="bb_code" class="m-0 !h-auto !max-h-[min(400px,50vh)] !min-w-0 overflow-auto whitespace-pre-wrap rounded-lg border-0 bg-slate-50 px-4 py-3.5 font-mono text-xs leading-[18px] text-slate-800 ring-1 ring-inset ring-slate-200 [overflow-wrap:anywhere] [word-break:normal] dark:bg-slate-700/40 dark:text-slate-100 dark:ring-slate-700">[quote]
   [size=12][b]Trireme intel for [player]{{dataBB.name}}[/player] ([ally]{{dataBB.a_name}}[/ally])[/b][/size]
 
   [table]
@@ -79,7 +79,7 @@
 <!--Player off-->
 <!--num_brackets = 24 + 6*rows -->
 <!--suppress XmlDuplicatedId -->
-      <pre *ngIf="type=='player_off'" id="bb_code" class="m-0 !h-auto !max-h-[min(400px,50vh)] !min-w-0 overflow-auto whitespace-pre-wrap rounded-lg border-0 bg-slate-50 px-4 py-3.5 font-mono text-xs leading-[18px] text-slate-800 ring-1 ring-inset ring-slate-200 [overflow-wrap:anywhere] [word-break:normal]">[quote]
+      <pre *ngIf="type=='player_off'" id="bb_code" class="m-0 !h-auto !max-h-[min(400px,50vh)] !min-w-0 overflow-auto whitespace-pre-wrap rounded-lg border-0 bg-slate-50 px-4 py-3.5 font-mono text-xs leading-[18px] text-slate-800 ring-1 ring-inset ring-slate-200 [overflow-wrap:anywhere] [word-break:normal] dark:bg-slate-700/40 dark:text-slate-100 dark:ring-slate-700">[quote]
 [size=12][b]Offensive land unit intel for [player]{{dataBB.name}}[/player] ([ally]{{dataBB.a_name}}[/ally])[/b][/size]
 
 [table]
@@ -94,7 +94,7 @@
 <!--Player def-->
 <!--num_brackets = 24 + 6*rows -->
 <!--suppress XmlDuplicatedId -->
-      <pre *ngIf="type=='player_def'" id="bb_code" class="m-0 !h-auto !max-h-[min(400px,50vh)] !min-w-0 overflow-auto whitespace-pre-wrap rounded-lg border-0 bg-slate-50 px-4 py-3.5 font-mono text-xs leading-[18px] text-slate-800 ring-1 ring-inset ring-slate-200 [overflow-wrap:anywhere] [word-break:normal]">[quote]
+      <pre *ngIf="type=='player_def'" id="bb_code" class="m-0 !h-auto !max-h-[min(400px,50vh)] !min-w-0 overflow-auto whitespace-pre-wrap rounded-lg border-0 bg-slate-50 px-4 py-3.5 font-mono text-xs leading-[18px] text-slate-800 ring-1 ring-inset ring-slate-200 [overflow-wrap:anywhere] [word-break:normal] dark:bg-slate-700/40 dark:text-slate-100 dark:ring-slate-700">[quote]
 [size=12][b]Defensive land unit intel for [player]{{dataBB.name}}[/player] ([ally]{{dataBB.a_name}}[/ally])[/b][/size]
 
 [table]
@@ -108,7 +108,7 @@
 
 <!--Players indexed-->
 <!--suppress XmlDuplicatedId -->
-      <pre *ngIf="type=='players_indexed'" id="bb_code" class="m-0 !h-auto !max-h-[min(400px,50vh)] !min-w-0 overflow-auto whitespace-pre-wrap rounded-lg border-0 bg-slate-50 px-4 py-3.5 font-mono text-xs leading-[18px] text-slate-800 ring-1 ring-inset ring-slate-200 [overflow-wrap:anywhere] [word-break:normal]">[quote]
+      <pre *ngIf="type=='players_indexed'" id="bb_code" class="m-0 !h-auto !max-h-[min(400px,50vh)] !min-w-0 overflow-auto whitespace-pre-wrap rounded-lg border-0 bg-slate-50 px-4 py-3.5 font-mono text-xs leading-[18px] text-slate-800 ring-1 ring-inset ring-slate-200 [overflow-wrap:anywhere] [word-break:normal] dark:bg-slate-700/40 dark:text-slate-100 dark:ring-slate-700">[quote]
     [size=12][b]Most indexed players (index: [url=https://grepodata.com/profile/team/{{dataBB.key}}]{{dataBB.key}}[/url])[/b][/size]
 
 [table]
@@ -122,7 +122,7 @@ An up-to-date version can be found [url=https://grepodata.com/profile/team/{{dat
 
 <!--Alliances indexed-->
 <!--suppress XmlDuplicatedId -->
-      <pre *ngIf="type=='alliances_indexed'" id="bb_code" class="m-0 !h-auto !max-h-[min(400px,50vh)] !min-w-0 overflow-auto whitespace-pre-wrap rounded-lg border-0 bg-slate-50 px-4 py-3.5 font-mono text-xs leading-[18px] text-slate-800 ring-1 ring-inset ring-slate-200 [overflow-wrap:anywhere] [word-break:normal]">[quote]
+      <pre *ngIf="type=='alliances_indexed'" id="bb_code" class="m-0 !h-auto !max-h-[min(400px,50vh)] !min-w-0 overflow-auto whitespace-pre-wrap rounded-lg border-0 bg-slate-50 px-4 py-3.5 font-mono text-xs leading-[18px] text-slate-800 ring-1 ring-inset ring-slate-200 [overflow-wrap:anywhere] [word-break:normal] dark:bg-slate-700/40 dark:text-slate-100 dark:ring-slate-700">[quote]
 [size=12][b]Most indexed alliances (index: [url=https://grepodata.com/profile/team/{{dataBB.key}}]{{dataBB.key}}[/url])[/b][/size]
 
 [table]
@@ -137,7 +137,7 @@ An up-to-date version can be found [url=https://grepodata.com/profile/team/{{dat
 <!--Islands-->
 <!--suppress XmlDuplicatedId -->
         <!--173399-->
-      <pre *ngIf="type=='island'" id="bb_code" class="m-0 !h-auto !max-h-[min(400px,50vh)] !min-w-0 overflow-auto whitespace-pre-wrap rounded-lg border-0 bg-slate-50 px-4 py-3.5 font-mono text-xs leading-[18px] text-slate-800 ring-1 ring-inset ring-slate-200 [overflow-wrap:anywhere] [word-break:normal]">[quote]
+      <pre *ngIf="type=='island'" id="bb_code" class="m-0 !h-auto !max-h-[min(400px,50vh)] !min-w-0 overflow-auto whitespace-pre-wrap rounded-lg border-0 bg-slate-50 px-4 py-3.5 font-mono text-xs leading-[18px] text-slate-800 ring-1 ring-inset ring-slate-200 [overflow-wrap:anywhere] [word-break:normal] dark:bg-slate-700/40 dark:text-slate-100 dark:ring-slate-700">[quote]
 [size=12][b]Intel for [island]{{dataBB.data.island}}[/island] (index: [url=https://grepodata.com/profile/team/{{dataBB.key}}]{{dataBB.key}}[/url])[/b][/size]
 
 [table]
@@ -150,9 +150,9 @@ An up-to-date version can be found [url=https://grepodata.com/profile/team/{{dat
 
   </div>
 
-  <div class="flex flex-none items-center justify-end gap-3 border-0 border-t border-solid border-slate-200 bg-slate-50 px-6 py-4 max-sm:px-4">
-    <span class="flex-1 text-xs text-slate-500 max-sm:hidden">Paste it in a forum post or an in-game message.</span>
-    <button type="button" (click)="dialogRef.close()" class="inline-flex items-center justify-center gap-1.5 rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Close</button>
+  <div class="flex flex-none items-center justify-end gap-3 border-0 border-t border-solid border-slate-200 bg-slate-50 px-6 py-4 max-sm:px-4 dark:border-slate-700 dark:bg-slate-700/40">
+    <span class="flex-1 text-xs text-slate-500 max-sm:hidden dark:text-slate-400">Paste it in a forum post or an in-game message.</span>
+    <button type="button" (click)="dialogRef.close()" class="inline-flex items-center justify-center gap-1.5 rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:bg-slate-800 dark:text-white dark:ring-slate-600 dark:hover:bg-slate-700/60">Close</button>
     <button type="button" (click)="copyBB()" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-brand-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
       <svg [appIcon]="copied ? 'check' : 'clipboard-document'" variant="mini" class="size-4 flex-none"></svg>
       <span *ngIf="!copied">Copy to clipboard</span><span *ngIf="copied">Copied to clipboard!</span>

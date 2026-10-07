@@ -1,17 +1,17 @@
-<section *ngIf="!hasIntel && !hasIndexes" class="m-[22px] flex gap-4 rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-900/[.08] max-[1000px]:m-3 max-sm:p-4">
-  <span class="flex size-12 flex-none items-center justify-center rounded-full bg-brand-50 text-brand-700 max-sm:size-10">
+<section *ngIf="!hasIntel && !hasIndexes" class="m-[22px] flex gap-4 rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-900/[.08] max-[1000px]:m-3 max-sm:p-4 dark:bg-slate-800 dark:ring-white/10">
+  <span class="flex size-12 flex-none items-center justify-center rounded-full bg-brand-50 text-brand-700 max-sm:size-10 dark:bg-brand-500/10">
     <svg appIcon="sparkles" class="size-6"></svg>
   </span>
   <div class="min-w-0">
-    <h2 class="my-0 text-lg font-semibold text-slate-900">Welcome to your personal enemy intelligence overview</h2>
-    <p class="mb-0 mt-1 text-sm text-slate-600">You can start collecting intel after installing our userscript. The intel you collect will show up here.</p>
-    <p class="mb-0 mt-2 text-sm text-slate-500">Once you confirm your email address, you can also create or join a team. A team allows you to share your intel with other people. For example, you can create a new team together with your alliance members and work together to collect enemy intelligence!</p>
+    <h2 class="my-0 text-lg font-semibold text-slate-900 dark:text-white">Welcome to your personal enemy intelligence overview</h2>
+    <p class="mb-0 mt-1 text-sm text-slate-600 dark:text-slate-400">You can start collecting intel after installing our userscript. The intel you collect will show up here.</p>
+    <p class="mb-0 mt-2 text-sm text-slate-500 dark:text-slate-400">Once you confirm your email address, you can also create or join a team. A team allows you to share your intel with other people. For example, you can create a new team together with your alliance members and work together to collect enemy intelligence!</p>
   </div>
 </section>
 
 <section *ngIf="confirmed" class="m-[22px] space-y-3 [container-type:inline-size] max-[1000px]:m-3">
   <div class="flex items-center justify-between gap-4">
-    <h2 class="my-0 text-base font-semibold text-slate-900">Your top teams</h2>
+    <h2 class="my-0 text-base font-semibold text-slate-900 dark:text-white">Your top teams</h2>
     <a *ngIf="topIndexes.length > 0" routerLink="/profile/teams" class="inline-flex items-center gap-1 text-sm font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
       View all my teams
       <svg appIcon="arrow-right" variant="mini" class="size-4 flex-none"></svg>
@@ -22,36 +22,36 @@
 
   <div *ngIf="!loadingIndexes && confirmed && topIndexes.length <= 0" class="grid gap-4 sm:grid-cols-[220px_minmax(0,1fr)]">
     <ng-container *ngTemplateOutlet="createTile"></ng-container>
-    <div class="flex gap-3 rounded-xl bg-white px-5 py-4 shadow-sm ring-1 ring-slate-900/[.08]">
-      <svg appIcon="user-group" class="size-5 flex-none text-slate-400"></svg>
+    <div class="flex gap-3 rounded-xl bg-white px-5 py-4 shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
+      <svg appIcon="user-group" class="size-5 flex-none text-slate-400 dark:text-slate-500"></svg>
       <div class="min-w-0">
-        <p class="my-0 text-sm font-semibold text-slate-900">You have not yet created or joined any teams</p>
-        <p class="mb-0 mt-1 text-sm text-slate-600">You can create your own team and invite your allies or you can join an existing team by asking your allies to invite you.</p>
-        <p class="mb-0 mt-1 text-sm text-slate-500">You can still collect intelligence if you are not part of a team, but you will only be able to share this intel by adding it to a team.</p>
+        <p class="my-0 text-sm font-semibold text-slate-900 dark:text-white">You have not yet created or joined any teams</p>
+        <p class="mb-0 mt-1 text-sm text-slate-600 dark:text-slate-400">You can create your own team and invite your allies or you can join an existing team by asking your allies to invite you.</p>
+        <p class="mb-0 mt-1 text-sm text-slate-500 dark:text-slate-400">You can still collect intelligence if you are not part of a team, but you will only be able to share this intel by adding it to a team.</p>
       </div>
     </div>
   </div>
 
   <div *ngIf="!loadingIndexes && confirmed && topIndexes.length > 0" class="grid grid-cols-2 gap-4 max-sm:gap-3 [@container(min-width:640px)_and_(max-width:879px)]:grid-cols-3 [@container(min-width:880px)_and_(max-width:1099px)]:grid-cols-4 [@container(min-width:1100px)]:grid-cols-5">
-    <a *ngFor="let index of topIndexes" routerLink="/profile/team/{{index.key}}" class="group flex min-w-0 flex-col gap-3 rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-900/[.08] hover:no-underline hover:shadow-md hover:ring-slate-900/[.12] focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 max-sm:p-3">
+    <a *ngFor="let index of topIndexes" routerLink="/profile/team/{{index.key}}" class="group flex min-w-0 flex-col gap-3 rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-900/[.08] hover:no-underline hover:shadow-md hover:ring-slate-900/[.12] focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 max-sm:p-3 dark:bg-slate-800 dark:ring-white/10">
       <div class="flex min-w-0 items-start gap-2.5">
         <span class="flex size-8 flex-none items-center justify-center rounded-lg bg-navy-800 text-brand-500">
           <svg appIcon="user-group" class="size-5"></svg>
         </span>
         <div class="min-w-0">
-          <div class="truncate text-sm font-semibold text-slate-900 group-hover:text-brand-800 group-hover:underline">{{index.name}}</div>
-          <div class="truncate text-xs text-slate-500 [&_.bg-flag]:[zoom:0.5]"><span [outerHTML]="index.world | WorldNamePipe"></span></div>
+          <div class="truncate text-sm font-semibold text-slate-900 group-hover:text-brand-800 group-hover:underline dark:text-white">{{index.name}}</div>
+          <div class="truncate text-xs text-slate-500 [&_.bg-flag]:[zoom:0.5] dark:text-slate-400"><span [outerHTML]="index.world | WorldNamePipe"></span></div>
         </div>
       </div>
-      <div *ngIf="index.stats?.owners?.length > 0" class="flex min-w-0 items-center gap-1.5 text-xs text-slate-600">
-        <svg appIcon="ally_ico" variant="game" class="size-3.5 flex-none text-slate-400"></svg>
+      <div *ngIf="index.stats?.owners?.length > 0" class="flex min-w-0 items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400">
+        <svg appIcon="ally_ico" variant="game" class="size-3.5 flex-none text-slate-400 dark:text-slate-500"></svg>
         <span class="truncate">{{index.stats.owners[0].alliance_name}}</span>
-        <span *ngIf="index.stats.owners.length > 1" [matTooltip]="otherOwners(index)" class="flex-none rounded-full bg-slate-100 px-1.5 font-medium leading-[18px] text-slate-600">+{{index.stats.owners.length - 1}}</span>
+        <span *ngIf="index.stats.owners.length > 1" [matTooltip]="otherOwners(index)" class="flex-none rounded-full bg-slate-100 px-1.5 font-medium leading-[18px] text-slate-600 dark:bg-slate-700 dark:text-slate-400">+{{index.stats.owners.length - 1}}</span>
       </div>
-      <div class="mt-auto flex flex-wrap items-center justify-between gap-x-2 gap-y-1 border-0 border-t border-solid border-slate-100 pt-2.5 text-xs text-slate-500">
-        <span><strong class="text-sm font-semibold tabular-nums text-slate-900">{{index.stats.total_reports | NumberFilter}}</strong> reports</span>
-        <span *ngIf="index.stats?.latest_report" title="Last report {{index.stats.latest_report}}" class="inline-flex items-center gap-1 whitespace-nowrap tabular-nums" [ngClass]="isStale(index) ? 'font-semibold text-amber-700' : 'text-slate-500'">
-          <svg appIcon="clock" class="size-3.5 flex-none" [ngClass]="isStale(index) ? 'text-amber-500' : 'text-slate-400'"></svg>
+      <div class="mt-auto flex flex-wrap items-center justify-between gap-x-2 gap-y-1 border-0 border-t border-solid border-slate-100 pt-2.5 text-xs text-slate-500 dark:border-slate-700 dark:text-slate-400">
+        <span><strong class="text-sm font-semibold tabular-nums text-slate-900 dark:text-white">{{index.stats.total_reports | NumberFilter}}</strong> reports</span>
+        <span *ngIf="index.stats?.latest_report" title="Last report {{index.stats.latest_report}}" class="inline-flex items-center gap-1 whitespace-nowrap tabular-nums" [ngClass]="isStale(index) ? 'font-semibold text-amber-700 dark:text-amber-400' : 'text-slate-500 dark:text-slate-400'">
+          <svg appIcon="clock" class="size-3.5 flex-none" [ngClass]="isStale(index) ? 'text-amber-500 dark:text-amber-400' : 'text-slate-400 dark:text-slate-500'"></svg>
           {{reportAge(index)}}
         </span>
       </div>
@@ -61,11 +61,11 @@
 </section>
 
 <ng-template #createTile>
-  <button type="button" (click)="newIndex()" class="flex min-h-[132px] flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-slate-300 bg-transparent p-4 text-center hover:border-brand-600 hover:bg-brand-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
-    <span class="flex size-10 items-center justify-center rounded-full bg-brand-50 text-brand-700">
+  <button type="button" (click)="newIndex()" class="flex min-h-[132px] flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-slate-300 bg-transparent p-4 text-center hover:border-brand-600 hover:bg-brand-50 dark:border-slate-600 dark:hover:border-brand-600 dark:hover:bg-brand-500/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+    <span class="flex size-10 items-center justify-center rounded-full bg-brand-50 text-brand-700 dark:bg-brand-500/10">
       <svg appIcon="plus" class="size-5"></svg>
     </span>
-    <span class="text-sm font-semibold text-slate-900">Create a new team</span>
+    <span class="text-sm font-semibold text-slate-900 dark:text-white">Create a new team</span>
   </button>
 </ng-template>
 
@@ -73,13 +73,13 @@
   <app-userscript></app-userscript>
 </div>
 
-<section *ngIf="num_results > 0" class="m-[22px] overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] max-[1000px]:m-3">
-  <div class="flex min-h-[61px] flex-wrap items-center justify-between gap-x-4 gap-y-2 border-0 border-b border-solid border-slate-200 px-5 py-3 max-sm:px-4">
+<section *ngIf="num_results > 0" class="m-[22px] overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] max-[1000px]:m-3 dark:bg-slate-800 dark:ring-white/10">
+  <div class="flex min-h-[61px] flex-wrap items-center justify-between gap-x-4 gap-y-2 border-0 border-b border-solid border-slate-200 px-5 py-3 max-sm:px-4 dark:border-slate-700">
     <div class="min-w-0">
-      <h2 class="my-0 text-base font-semibold text-slate-900">Your recently indexed reports</h2>
-      <p *ngIf="!loading" class="mb-0 mt-0.5 text-xs tabular-nums text-slate-500">{{num_results | NumberFilter}} reports indexed by you</p>
+      <h2 class="my-0 text-base font-semibold text-slate-900 dark:text-white">Your recently indexed reports</h2>
+      <p *ngIf="!loading" class="mb-0 mt-0.5 text-xs tabular-nums text-slate-500 dark:text-slate-400">{{num_results | NumberFilter}} reports indexed by you</p>
     </div>
-    <mat-paginator *ngIf="!loading && (from > 0 || num_results > 20)" class="block bg-transparent !text-xs !font-normal text-slate-600 [&_.mat-button-wrapper]:flex [&_.mat-form-field-infix]:!w-16 [&_.mat-form-field-infix]:!p-0 [&_.mat-form-field-subscript-wrapper]:hidden [&_.mat-form-field-underline]:hidden [&_.mat-form-field-wrapper]:!m-0 [&_.mat-form-field-wrapper]:!p-0 [&_.mat-icon-button:not(.mat-button-disabled):hover]:bg-slate-100 [&_.mat-icon-button]:inline-flex [&_.mat-icon-button]:size-8 [&_.mat-icon-button]:items-center [&_.mat-icon-button]:justify-center [&_.mat-icon-button]:rounded-md [&_.mat-icon-button]:leading-8 [&_.mat-paginator-container]:min-h-0 [&_.mat-paginator-container]:flex-nowrap [&_.mat-paginator-container]:gap-3 [&_.mat-paginator-container]:p-0 [&_.mat-paginator-icon]:w-5 [&_.mat-paginator-page-size-label]:m-0 [&_.mat-paginator-page-size]:m-0 [&_.mat-paginator-page-size]:items-center [&_.mat-paginator-page-size]:gap-2 [&_.mat-paginator-page-size]:!pt-0 [&_.mat-paginator-range-actions]:gap-1 [&_.mat-paginator-range-label]:m-0 [&_.mat-paginator-range-label]:mr-1 [&_.mat-paginator-range-label]:tabular-nums [&_.mat-select-arrow-wrapper]:![transform:none] [&_.mat-select-arrow]:text-slate-400 [&_.mat-select-trigger]:flex [&_.mat-select-trigger]:h-full [&_.mat-select-trigger]:w-full [&_.mat-select-trigger]:items-center [&_.mat-select-trigger]:pl-2.5 [&_.mat-select-trigger]:pr-1.5 [&_.mat-select-value]:min-w-0 [&_.mat-select-value]:max-w-none [&_.mat-select:focus]:ring-2 [&_.mat-select:focus]:ring-brand-700 [&_.mat-select]:flex [&_.mat-select]:h-8 [&_.mat-select]:items-center [&_.mat-select]:rounded-md [&_.mat-select]:bg-white [&_.mat-select]:text-xs [&_.mat-select]:shadow-sm [&_.mat-select]:ring-1 [&_.mat-select]:ring-inset [&_.mat-select]:ring-slate-300"
+    <mat-paginator *ngIf="!loading && (from > 0 || num_results > 20)" class="block bg-transparent !text-xs !font-normal text-slate-600 [&_.mat-button-wrapper]:flex [&_.mat-form-field-infix]:!w-16 [&_.mat-form-field-infix]:!p-0 [&_.mat-form-field-subscript-wrapper]:hidden [&_.mat-form-field-underline]:hidden [&_.mat-form-field-wrapper]:!m-0 [&_.mat-form-field-wrapper]:!p-0 [&_.mat-icon-button:not(.mat-button-disabled):hover]:bg-slate-100 [&_.mat-icon-button]:inline-flex [&_.mat-icon-button]:size-8 [&_.mat-icon-button]:items-center [&_.mat-icon-button]:justify-center [&_.mat-icon-button]:rounded-md [&_.mat-icon-button]:leading-8 [&_.mat-paginator-container]:min-h-0 [&_.mat-paginator-container]:flex-nowrap [&_.mat-paginator-container]:gap-3 [&_.mat-paginator-container]:p-0 [&_.mat-paginator-icon]:w-5 [&_.mat-paginator-page-size-label]:m-0 [&_.mat-paginator-page-size]:m-0 [&_.mat-paginator-page-size]:items-center [&_.mat-paginator-page-size]:gap-2 [&_.mat-paginator-page-size]:!pt-0 [&_.mat-paginator-range-actions]:gap-1 [&_.mat-paginator-range-label]:m-0 [&_.mat-paginator-range-label]:mr-1 [&_.mat-paginator-range-label]:tabular-nums [&_.mat-select-arrow-wrapper]:![transform:none] [&_.mat-select-arrow]:text-slate-400 [&_.mat-select-trigger]:flex [&_.mat-select-trigger]:h-full [&_.mat-select-trigger]:w-full [&_.mat-select-trigger]:items-center [&_.mat-select-trigger]:pl-2.5 [&_.mat-select-trigger]:pr-1.5 [&_.mat-select-value]:min-w-0 [&_.mat-select-value]:max-w-none [&_.mat-select:focus]:ring-2 [&_.mat-select:focus]:ring-brand-700 [&_.mat-select]:flex [&_.mat-select]:h-8 [&_.mat-select]:items-center [&_.mat-select]:rounded-md [&_.mat-select]:bg-white [&_.mat-select]:text-xs [&_.mat-select]:shadow-sm [&_.mat-select]:ring-1 [&_.mat-select]:ring-inset [&_.mat-select]:ring-slate-300 dark:text-slate-400"
                    [length]="num_results"
                    [pageSize]="size"
                    [pageIndex]="from/size"
@@ -103,17 +103,17 @@
       </colgroup>
       <thead>
         <tr>
-          <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 pl-5 pr-3 text-left text-xs font-medium text-slate-700">Type</th>
-          <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700">World</th>
-          <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700">Town</th>
-          <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700">Date</th>
-          <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700">Units</th>
-          <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 pl-3 pr-5 text-right text-xs font-medium text-slate-700">Shared with</th>
+          <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 pl-5 pr-3 text-left text-xs font-medium text-slate-700 dark:border-slate-700 dark:bg-slate-700/40 dark:text-slate-300">Type</th>
+          <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700 dark:border-slate-700 dark:bg-slate-700/40 dark:text-slate-300">World</th>
+          <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700 dark:border-slate-700 dark:bg-slate-700/40 dark:text-slate-300">Town</th>
+          <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700 dark:border-slate-700 dark:bg-slate-700/40 dark:text-slate-300">Date</th>
+          <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 px-3 py-2 text-left text-xs font-medium text-slate-700 dark:border-slate-700 dark:bg-slate-700/40 dark:text-slate-300">Units</th>
+          <th scope="col" class="whitespace-nowrap border-0 border-b border-solid border-slate-200 bg-slate-50 py-2 pl-3 pr-5 text-right text-xs font-medium text-slate-700 dark:border-slate-700 dark:bg-slate-700/40 dark:text-slate-300">Shared with</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let town of intel" class="hover:bg-slate-50">
-          <td class="border-0 border-b border-solid border-slate-100 py-3 pl-5 pr-3 align-middle" matTooltip="{{getAttackTooltipText(town)}}">
+        <tr *ngFor="let town of intel" class="hover:bg-slate-50 dark:hover:bg-slate-700/60">
+          <td class="border-0 border-b border-solid border-slate-100 py-3 pl-5 pr-3 align-middle dark:border-slate-700" matTooltip="{{getAttackTooltipText(town)}}">
             <img src="../../assets/images/game/towninfo/attack.png" *ngIf="town.type === 'friendly_attack'" class="block size-8 rounded-md ring-1 ring-slate-900/10">
             <img src="../../assets/images/game/towninfo/attack.png" *ngIf="town.type === 'enemy_attack'" class="block size-8 -scale-x-100 rounded-md ring-1 ring-slate-900/10">
             <img src="../../assets/images/game/towninfo/wisdom.png" *ngIf="town.type === 'wisdom'" class="block size-8 rounded-md ring-1 ring-slate-900/10">
@@ -121,48 +121,48 @@
             <img src="../../assets/images/game/towninfo/conquer.png" *ngIf="town.type === 'attack_on_conquest'" class="block size-8 rounded-md ring-1 ring-slate-900/10">
             <img src="../../assets/images/game/towninfo/espionage_2.67.png" *ngIf="town.type === 'spy'" class="block size-8 rounded-md ring-1 ring-slate-900/10">
           </td>
-          <td class="border-0 border-b border-solid border-slate-100 p-3 align-middle">
+          <td class="border-0 border-b border-solid border-slate-100 p-3 align-middle dark:border-slate-700">
             <div class="flex min-w-0 items-center gap-1.5 text-sm">
               <div class="bg-flag flag-{{town?.world.substring(0, 2)}} flex-none [zoom:0.625]"></div>
-              <a routerLink="/points/{{town?.world}}" class="min-w-0 truncate text-slate-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{town?.world}}</a>
+              <a routerLink="/points/{{town?.world}}" class="min-w-0 truncate text-slate-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:text-slate-300">{{town?.world}}</a>
             </div>
           </td>
-          <td class="border-0 border-b border-solid border-slate-100 p-3 align-middle">
+          <td class="border-0 border-b border-solid border-slate-100 p-3 align-middle dark:border-slate-700">
             <div class="flex min-w-0 items-center gap-1">
-              <svg appIcon="town_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
-              <a routerLink="/intel/town/{{town?.world}}/{{town?.town_id}}" title="{{town?.town_name}}" class="min-w-0 truncate text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{town?.town_name}}</a>
+              <svg appIcon="town_ico" variant="game" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
+              <a routerLink="/intel/town/{{town?.world}}/{{town?.town_id}}" title="{{town?.town_name}}" class="min-w-0 truncate text-sm font-medium text-slate-900 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:text-white">{{town?.town_name}}</a>
             </div>
-            <div class="mt-0.5 flex min-w-0 items-center text-xs text-slate-500">
-              <svg appIcon="player_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
-              <a routerLink="/intel/player/{{town?.world}}/{{town?.player_id}}" title="{{town?.player_name}}" class="ml-1 min-w-0 truncate text-slate-600 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{town?.player_name}}</a>
+            <div class="mt-0.5 flex min-w-0 items-center text-xs text-slate-500 dark:text-slate-400">
+              <svg appIcon="player_ico" variant="game" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
+              <a routerLink="/intel/player/{{town?.world}}/{{town?.player_id}}" title="{{town?.player_name}}" class="ml-1 min-w-0 truncate text-slate-600 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:text-slate-400">{{town?.player_name}}</a>
               <span class="ml-1 flex-none">(</span>
-              <svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
-              <a routerLink="/intel/alliance/{{town?.world}}/{{town?.alliance_id}}" title="{{town?.alliance_name}}" class="ml-1 min-w-0 truncate text-slate-600 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">{{town?.alliance_name}}</a>
+              <svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
+              <a routerLink="/intel/alliance/{{town?.world}}/{{town?.alliance_id}}" title="{{town?.alliance_name}}" class="ml-1 min-w-0 truncate text-slate-600 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:text-slate-400">{{town?.alliance_name}}</a>
               <span class="flex-none">)</span>
             </div>
           </td>
-          <td class="whitespace-nowrap border-0 border-b border-solid border-slate-100 p-3 align-middle tabular-nums">
-            <div class="text-sm text-slate-700">{{town.date | IndexDate | slice:0:-6}}</div>
-            <div class="text-xs text-slate-500">{{town.date | IndexDate | slice:-5}}</div>
+          <td class="whitespace-nowrap border-0 border-b border-solid border-slate-100 p-3 align-middle tabular-nums dark:border-slate-700">
+            <div class="text-sm text-slate-700 dark:text-slate-300">{{town.date | IndexDate | slice:0:-6}}</div>
+            <div class="text-xs text-slate-500 dark:text-slate-400">{{town.date | IndexDate | slice:-5}}</div>
           </td>
-          <td class="border-0 border-b border-solid border-slate-100 p-3 align-middle">
-            <p *ngIf="town?.parsed_err == true" class="my-0 text-xs text-rose-700">Sorry, we were unable to parse this report. Reason: {{town?.parsed_msg}}. Developers have been notified.</p>
-            <p *ngIf="town?.parsed_err != true && town?.parsed != true" class="my-0 text-xs text-rose-700">This report is invalid. Reason: {{town?.parsed_msg}}.</p>
+          <td class="border-0 border-b border-solid border-slate-100 p-3 align-middle dark:border-slate-700">
+            <p *ngIf="town?.parsed_err == true" class="my-0 text-xs text-rose-700 dark:text-rose-400">Sorry, we were unable to parse this report. Reason: {{town?.parsed_msg}}. Developers have been notified.</p>
+            <p *ngIf="town?.parsed_err != true && town?.parsed != true" class="my-0 text-xs text-rose-700 dark:text-rose-400">This report is invalid. Reason: {{town?.parsed_msg}}.</p>
             <div *ngIf="town?.parsed == true" class="flex flex-wrap gap-1.5">
               <div class="w-10 flex-none" *ngFor="let unit of town.units | ValuesPipe; let i = index;" matTooltip="{{unit.name.replace('_',' ')}}">
                 <div class="unit_icon40x40 {{unit.name}} relative rounded-md border-0 ring-1 ring-inset ring-slate-900/[.18]">
                   <span class="absolute bottom-0 right-0 rounded-br-md rounded-tl bg-slate-900/[.78] px-[3px] text-[11px] font-medium leading-[14px] tabular-nums text-white">{{unit.count}}</span>
                 </div>
-                <div class="mt-0.5 text-center text-xs font-medium tabular-nums text-rose-700" *ngIf="unit.killed && unit.killed!=0">-{{unit.killed}}</div>
+                <div class="mt-0.5 text-center text-xs font-medium tabular-nums text-rose-700 dark:text-rose-400" *ngIf="unit.killed && unit.killed!=0">-{{unit.killed}}</div>
               </div>
             </div>
           </td>
-          <td class="border-0 border-b border-solid border-slate-100 py-3 pl-3 pr-5 text-right align-middle">
-            <button *ngIf="town.shared_via_indexes" type="button" (click)="openShareInfoDialog(town)" matTooltip="Click here to see who this intel was shared with" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
-              <svg appIcon="users" variant="micro" class="size-4 flex-none text-slate-400"></svg>
+          <td class="border-0 border-b border-solid border-slate-100 py-3 pl-3 pr-5 text-right align-middle dark:border-slate-700">
+            <button *ngIf="town.shared_via_indexes" type="button" (click)="openShareInfoDialog(town)" matTooltip="Click here to see who this intel was shared with" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:bg-slate-800 dark:text-white dark:ring-slate-600 dark:hover:bg-slate-700/60">
+              <svg appIcon="users" variant="micro" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
               {{sharedCount(town)}} {{sharedCount(town) === 1 ? 'team' : 'teams'}}
             </button>
-            <span *ngIf="!town.shared_via_indexes" class="text-xs text-slate-400">Not shared</span>
+            <span *ngIf="!town.shared_via_indexes" class="text-xs text-slate-400 dark:text-slate-500">Not shared</span>
           </td>
         </tr>
       </tbody>
@@ -170,8 +170,8 @@
   </div>
 </section>
 
-<section *ngIf="!loading && num_results > 10 && topIndexes.length > 1" class="m-[22px] flex flex-col items-center justify-center gap-2 rounded-xl bg-white px-5 py-4 text-center shadow-sm ring-1 ring-slate-900/[.08] max-[1000px]:m-3 sm:flex-row sm:gap-3">
+<section *ngIf="!loading && num_results > 10 && topIndexes.length > 1" class="m-[22px] flex flex-col items-center justify-center gap-2 rounded-xl bg-white px-5 py-4 text-center shadow-sm ring-1 ring-slate-900/[.08] max-[1000px]:m-3 sm:flex-row sm:gap-3 dark:bg-slate-800 dark:ring-white/10">
   <svg appIcon="heart" class="size-5 flex-none text-rose-500"></svg>
-  <p class="my-0 text-sm text-slate-600"><strong class="font-semibold text-slate-900">The GrepoData hosting costs are currently €{{hostingCost}}/month.</strong> If you like what we do, please consider <button type="button" (click)="donate()" class="border-0 bg-transparent p-0 font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">donating</button>. Thank you! 🤗</p>
+  <p class="my-0 text-sm text-slate-600 dark:text-slate-400"><strong class="font-semibold text-slate-900 dark:text-white">The GrepoData hosting costs are currently €{{hostingCost}}/month.</strong> If you like what we do, please consider <button type="button" (click)="donate()" class="border-0 bg-transparent p-0 font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">donating</button>. Thank you! 🤗</p>
   <app-donation-kpi class="ml-2 align-middle"></app-donation-kpi>
 </section>

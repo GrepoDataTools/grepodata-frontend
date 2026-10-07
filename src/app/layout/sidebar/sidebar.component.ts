@@ -27,7 +27,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   parentIndex = 0;
   childIndex = 0;
   donationPercent = 0;
-  donationBadgeClasses = 'bg-slate-100 text-slate-400';
+  donationBadgeClasses = 'bg-slate-100 text-slate-400 dark:bg-slate-700 dark:text-slate-500';
 
   constructor(
     private sidenavService: SidenavService,
@@ -55,9 +55,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.donationService.getDonationKpi().subscribe((state) => {
       this.donationPercent = state.percent;
       const palette = {
-        red: 'bg-rose-50 text-rose-700 ring-1 ring-inset ring-rose-600/20',
-        orange: 'bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-600/20',
-        green: 'bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-600/25',
+        red: 'bg-rose-50 text-rose-700 ring-1 ring-inset ring-rose-600/20 dark:bg-rose-500/10 dark:text-rose-400 dark:ring-rose-500/30',
+        orange: 'bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-600/20 dark:bg-amber-500/10 dark:text-amber-400 dark:ring-amber-500/30',
+        green: 'bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-600/25 dark:bg-emerald-500/10 dark:text-emerald-400 dark:ring-emerald-500/30',
       };
       this.donationBadgeClasses = palette[state.tier];
     });

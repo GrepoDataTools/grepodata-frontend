@@ -1,13 +1,13 @@
 <div class="m-[22px] space-y-6 text-left font-normal max-[1000px]:m-3">
   <div class="min-w-0">
-    <h1 class="my-0 text-2xl font-bold tracking-tight text-slate-900">Report a bug</h1>
-    <p class="mb-0 mt-1 text-sm text-slate-500">Please let us know what bug or issue you encountered.</p>
+    <h1 class="my-0 text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Report a bug</h1>
+    <p class="mb-0 mt-1 text-sm text-slate-500 dark:text-slate-400">Please let us know what bug or issue you encountered.</p>
   </div>
 
   <div class="grid grid-cols-[minmax(0,1fr)_320px] items-start gap-6 max-lg:grid-cols-1">
-    <section class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+    <section class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
       <div *ngIf="submitted" class="p-5">
-        <div role="status" class="flex gap-3 rounded-lg bg-emerald-50 px-4 py-3 text-sm text-emerald-700 ring-1 ring-inset ring-emerald-200">
+        <div role="status" class="flex gap-3 rounded-lg bg-emerald-50 px-4 py-3 text-sm text-emerald-700 ring-1 ring-inset ring-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400">
           <svg appIcon="check-circle" class="size-5 flex-none text-emerald-600"></svg>
           <div class="min-w-0">
             <p class="m-0 font-semibold">Bug report received</p>
@@ -19,37 +19,37 @@
       <ng-container *ngIf="!submitted">
         <div class="flex flex-col gap-5 p-5">
           <div>
-            <label for="bug-report" class="mb-1.5 block text-sm font-medium text-slate-900">Describe the issue you encountered</label>
-            <textarea id="bug-report" [disabled]="loading" [ngModel]="bug_report" (ngModelChange)="bug_report=$event" required placeholder="Describe the issue" rows="5" class="block w-full resize-y rounded-md border border-solid border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700 disabled:bg-slate-50 disabled:text-slate-400"></textarea>
+            <label for="bug-report" class="mb-1.5 block text-sm font-medium text-slate-900 dark:text-white">Describe the issue you encountered</label>
+            <textarea id="bug-report" [disabled]="loading" [ngModel]="bug_report" (ngModelChange)="bug_report=$event" required placeholder="Describe the issue" rows="5" class="block w-full resize-y rounded-md border border-solid border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-brand-700 focus:outline-none focus:ring-1 focus:ring-brand-700 disabled:bg-slate-50 disabled:text-slate-400 dark:border-slate-600 dark:bg-slate-800 dark:text-white dark:disabled:bg-slate-700/40"></textarea>
           </div>
 
           <div>
-            <p class="mb-1.5 mt-0 text-sm font-medium text-slate-900">Images of the issue <span class="font-normal text-slate-500">(optional)</span></p>
-            <div class="flex flex-wrap items-center gap-4 rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 p-4">
-              <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-full bg-white text-slate-400 ring-1 ring-inset ring-slate-200">
+            <p class="mb-1.5 mt-0 text-sm font-medium text-slate-900 dark:text-white">Images of the issue <span class="font-normal text-slate-500 dark:text-slate-400">(optional)</span></p>
+            <div class="flex flex-wrap items-center gap-4 rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 p-4 dark:border-slate-600 dark:bg-slate-700/40">
+              <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-full bg-white text-slate-400 ring-1 ring-inset ring-slate-200 dark:bg-slate-800 dark:text-slate-500 dark:ring-slate-700">
                 <svg appIcon="arrow-up-tray" class="size-5"></svg>
               </span>
               <div class="min-w-0 flex-1 basis-48">
-                <p class="m-0 text-sm text-slate-700">Upload one or more images of the issue</p>
-                <p class="mb-0 mt-0.5 text-xs text-slate-500">Up to 10 files</p>
+                <p class="m-0 text-sm text-slate-700 dark:text-slate-300">Upload one or more images of the issue</p>
+                <p class="mb-0 mt-0.5 text-xs text-slate-500 dark:text-slate-400">Up to 10 files</p>
               </div>
               <input type="file" name="file" id="file" (change)="onFileChanged($event)" multiple class="peer sr-only">
-              <label for="file" class="m-0 inline-flex flex-none cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand-700">
-                <svg appIcon="photo" class="size-4 flex-none text-slate-400"></svg>
+              <label for="file" class="m-0 inline-flex flex-none cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand-700 dark:bg-slate-800 dark:text-white dark:ring-slate-600 dark:hover:bg-slate-700/60">
+                <svg appIcon="photo" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
                 Choose images
               </label>
             </div>
-            <ul *ngIf="files && files.length > 0" class="mb-0 mt-3 list-none rounded-lg bg-white p-0 ring-1 ring-inset ring-slate-200">
+            <ul *ngIf="files && files.length > 0" class="mb-0 mt-3 list-none rounded-lg bg-white p-0 ring-1 ring-inset ring-slate-200 dark:bg-slate-800 dark:ring-slate-700">
               <li *ngFor="let file of files; let first = first" class="flex items-center gap-2 px-3 py-2" [ngClass]="{'border-0 border-t border-solid border-slate-100': !first}">
-                <svg appIcon="photo" class="size-4 flex-none text-slate-400"></svg>
-                <span class="min-w-0 flex-1 truncate text-sm text-slate-900">{{file.name}}</span>
-                <span class="text-xs tabular-nums text-slate-500">{{file.size / 1024 | number:'1.0-0'}} KB</span>
+                <svg appIcon="photo" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
+                <span class="min-w-0 flex-1 truncate text-sm text-slate-900 dark:text-white">{{file.name}}</span>
+                <span class="text-xs tabular-nums text-slate-500 dark:text-slate-400">{{file.size / 1024 | number:'1.0-0'}} KB</span>
               </li>
             </ul>
           </div>
 
-          <div *ngIf="error!=''" role="alert" class="flex gap-3 rounded-lg bg-rose-50 px-4 py-3 text-sm text-rose-700 ring-1 ring-inset ring-rose-200">
-            <svg appIcon="exclamation-circle" class="size-5 flex-none text-rose-600"></svg>
+          <div *ngIf="error!=''" role="alert" class="flex gap-3 rounded-lg bg-rose-50 px-4 py-3 text-sm text-rose-700 ring-1 ring-inset ring-rose-200 dark:bg-rose-500/10 dark:text-rose-400">
+            <svg appIcon="exclamation-circle" class="size-5 flex-none text-rose-600 dark:text-rose-400"></svg>
             <div class="min-w-0">
               <p class="m-0 font-semibold">Invalid input!</p>
               <p class="mb-0 mt-0.5">{{error}}</p>
@@ -59,7 +59,7 @@
           <mat-progress-bar *ngIf="loading" mode="indeterminate" class="rounded-full"></mat-progress-bar>
         </div>
 
-        <div class="flex items-center justify-end gap-3 border-0 border-t border-solid border-slate-200 bg-slate-50 px-5 py-3">
+        <div class="flex items-center justify-end gap-3 border-0 border-t border-solid border-slate-200 bg-slate-50 px-5 py-3 dark:border-slate-700 dark:bg-slate-700/40">
           <button type="button" [disabled]="loading" (click)="captchaRef.execute()" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-brand-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-progress disabled:opacity-60">
             <svg *ngIf="!loading" appIcon="paper-airplane" variant="mini" class="size-4 flex-none"></svg>
             <span *ngIf="loading" class="size-4 flex-none animate-spin rounded-full border-2 border-solid border-white/35 border-t-white"></span>
@@ -70,12 +70,12 @@
       </ng-container>
     </section>
 
-    <aside class="flex flex-col gap-3 rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-900/[.08]">
+    <aside class="flex flex-col gap-3 rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
       <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-lg bg-navy-800 text-brand-500">
         <svg appIcon="discord" variant="game" class="size-6"></svg>
       </span>
-      <h2 class="m-0 text-base font-semibold text-slate-900">Need help or support?</h2>
-      <p class="m-0 text-sm text-slate-600">Join our Discord server!</p>
+      <h2 class="m-0 text-base font-semibold text-slate-900 dark:text-white">Need help or support?</h2>
+      <p class="m-0 text-sm text-slate-600 dark:text-slate-400">Join our Discord server!</p>
       <div>
         <a href="https://discord.gg/E95bhqR3Ns" target="_blank" class="inline-flex items-center gap-1 text-sm font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">discord.gg/E95bhqR3Ns<svg appIcon="arrow-top-right-on-square" variant="micro" class="size-3.5 flex-none"></svg></a>
       </div>

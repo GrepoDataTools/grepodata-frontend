@@ -1,34 +1,34 @@
 <div class="space-y-5 text-left font-normal">
-  <p class="m-0 text-sm text-slate-600">You can share this team with your allies to collect intel together. Invite them by sending them an invite link.</p>
+  <p class="m-0 text-sm text-slate-600 dark:text-slate-400">You can share this team with your allies to collect intel together. Invite them by sending them an invite link.</p>
 
   <div>
-    <label for="siegeShareUrl" class="mb-1.5 block text-sm font-medium text-slate-900">Invite link</label>
-    <div (click)="copyLink()" class="flex overflow-hidden rounded-md border border-solid shadow-sm transition-opacity" [ngClass]="{'pointer-events-none opacity-40': loadingLink, 'border-brand-700 ring-1 ring-brand-700': copied, 'border-slate-300': !copied}">
-      <input #shareLink readonly type="url" value="{{share_link}}" id="siegeShareUrl" aria-describedby="inputGroup-sizing-default" class="h-10 min-w-0 flex-1 cursor-pointer border-0 bg-slate-50 px-3 font-mono text-[13px] text-slate-900 focus:outline-none">
-      <button type="button" (click)="copyLink()" class="inline-flex flex-none items-center gap-1.5 border-0 border-l border-solid border-slate-300 bg-white px-3.5 text-sm font-semibold hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-700" [ngClass]="copied ? 'text-brand-700' : 'text-slate-900'">
-        <svg [appIcon]="copied ? 'clipboard-document-check' : 'clipboard-document'" class="size-[18px] flex-none" [ngClass]="copied ? 'text-brand-700' : 'text-slate-400'"></svg>
+    <label for="siegeShareUrl" class="mb-1.5 block text-sm font-medium text-slate-900 dark:text-white">Invite link</label>
+    <div (click)="copyLink()" class="flex overflow-hidden rounded-md border border-solid shadow-sm transition-opacity" [ngClass]="{'pointer-events-none opacity-40': loadingLink, 'border-brand-700 ring-1 ring-brand-700': copied, 'border-slate-300 dark:border-slate-600': !copied}">
+      <input #shareLink readonly type="url" value="{{share_link}}" id="siegeShareUrl" aria-describedby="inputGroup-sizing-default" class="h-10 min-w-0 flex-1 cursor-pointer border-0 bg-slate-50 px-3 font-mono text-[13px] text-slate-900 focus:outline-none dark:bg-slate-700/40 dark:text-white">
+      <button type="button" (click)="copyLink()" class="inline-flex flex-none items-center gap-1.5 border-0 border-l border-solid border-slate-300 bg-white px-3.5 text-sm font-semibold hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-700 dark:border-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700/60" [ngClass]="copied ? 'text-brand-700 dark:text-brand-500' : 'text-slate-900 dark:text-white'">
+        <svg [appIcon]="copied ? 'clipboard-document-check' : 'clipboard-document'" class="size-[18px] flex-none" [ngClass]="copied ? 'text-brand-700 dark:text-brand-500' : 'text-slate-400 dark:text-slate-500'"></svg>
         {{copied ? 'Copied' : 'Copy link'}}
       </button>
     </div>
-    <p *ngIf="!copied" class="mb-0 mt-2 text-xs text-slate-500">Send this link to your allies to give them access to your team.</p>
+    <p *ngIf="!copied" class="mb-0 mt-2 text-xs text-slate-500 dark:text-slate-400">Send this link to your allies to give them access to your team.</p>
     <p *ngIf="copied" class="mb-0 mt-2 flex items-center gap-1 text-xs font-medium text-brand-700">
       <svg appIcon="check" variant="micro" class="size-3.5 flex-none"></svg>
       Link copied!
     </p>
   </div>
 
-  <div class="flex gap-3 rounded-lg bg-sky-50 px-4 py-3 text-sm text-sky-800 ring-1 ring-inset ring-sky-200">
+  <div class="flex gap-3 rounded-lg bg-sky-50 px-4 py-3 text-sm text-sky-800 ring-1 ring-inset ring-sky-200 dark:bg-sky-500/10 dark:text-sky-400">
     <svg appIcon="information-circle" class="size-5 flex-none text-sky-700"></svg>
     <p class="m-0">When your allies click on this link, they will be able to gain access to your team after they create a GrepoData account. You will always be able to manage and revoke their access later on.</p>
   </div>
 
-  <div class="flex flex-wrap items-center gap-4 border-0 border-t border-solid border-slate-200 pt-5">
+  <div class="flex flex-wrap items-center gap-4 border-0 border-t border-solid border-slate-200 pt-5 dark:border-slate-700">
     <div class="min-w-0 flex-1">
-      <p class="m-0 text-sm font-medium text-slate-900">Reset invite link</p>
-      <p class="mb-0 mt-0.5 text-sm text-slate-500">The previous link will stop working!</p>
+      <p class="m-0 text-sm font-medium text-slate-900 dark:text-white">Reset invite link</p>
+      <p class="mb-0 mt-0.5 text-sm text-slate-500 dark:text-slate-400">The previous link will stop working!</p>
     </div>
-    <button type="button" [disabled]="loadingLink" (click)="getNewLink()" class="inline-flex items-center justify-center gap-1.5 rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-rose-700 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-default disabled:opacity-50">
-      <svg appIcon="arrow-path" class="size-[18px] flex-none text-rose-600" [@rotate]="animate_refresh ? 'open' : 'closed'"></svg>
+    <button type="button" [disabled]="loadingLink" (click)="getNewLink()" class="inline-flex items-center justify-center gap-1.5 rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-rose-700 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 disabled:cursor-default disabled:opacity-50 dark:bg-slate-800 dark:text-rose-400 dark:ring-slate-600 dark:hover:bg-slate-700/60">
+      <svg appIcon="arrow-path" class="size-[18px] flex-none text-rose-600 dark:text-rose-400" [@rotate]="animate_refresh ? 'open' : 'closed'"></svg>
       Reset link
     </button>
   </div>

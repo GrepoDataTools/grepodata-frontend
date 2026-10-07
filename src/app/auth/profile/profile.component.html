@@ -1,16 +1,16 @@
 <app-index-version *ngIf="active_tab !== 'script'"></app-index-version>
 
-<mat-sidenav-container class="sidenav-container !bg-slate-50 text-left font-normal" [style.marginTop.px]="mobileQuery.matches ? 0 : 0">
+<mat-sidenav-container class="sidenav-container !bg-slate-50 text-left font-normal dark:!bg-slate-900" [style.marginTop.px]="mobileQuery.matches ? 0 : 0">
   <div *ngIf="!logged_in" class="flex justify-center px-4 pt-[180px] max-sm:pt-24">
-    <section role="status" class="flex w-[400px] max-w-full flex-col items-center rounded-xl bg-white p-8 text-center shadow-sm ring-1 ring-slate-900/[.08]">
-      <span aria-hidden="true" class="flex size-12 items-center justify-center rounded-full bg-brand-50 text-brand-700">
+    <section role="status" class="flex w-[400px] max-w-full flex-col items-center rounded-xl bg-white p-8 text-center shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
+      <span aria-hidden="true" class="flex size-12 items-center justify-center rounded-full bg-brand-50 text-brand-700 dark:bg-brand-500/10">
         <svg appIcon="lock-closed" class="size-6"></svg>
       </span>
-      <h1 class="mb-0 mt-4 text-lg font-semibold text-slate-900">Signing you in...</h1>
+      <h1 class="mb-0 mt-4 text-lg font-semibold text-slate-900 dark:text-white">Signing you in...</h1>
       <mat-progress-bar mode="indeterminate" class="mt-5 w-full rounded-full"></mat-progress-bar>
     </section>
   </div>
-  <mat-sidenav #snav class="!border-slate-200 !bg-white" [mode]="mobileQuery.matches ? 'side' : 'over'" fixedTopGap="0" [opened]="mobileQuery.matches" [disableClose]="mobileQuery.matches"  >
+  <mat-sidenav #snav class="!border-slate-200 !bg-white dark:!border-slate-700 dark:!bg-slate-800" [mode]="mobileQuery.matches ? 'side' : 'over'" fixedTopGap="0" [opened]="mobileQuery.matches" [disableClose]="mobileQuery.matches"  >
     <app-sidebar [username]="username"></app-sidebar>
   </mat-sidenav>
   <div *ngIf="logged_in" class="flex min-h-full flex-col">
@@ -44,7 +44,7 @@
         <span class="gd-secondary">GrepoData will be offline for maintenance on <strong>December 1, 2024 from 11:00 UTC until 13:00 UTC.</strong><br/></span>
       </app-alert> -->
 
-      <div *ngIf="account_confirmed && ['intel', 'player', 'alliance', 'town', 'team'].indexOf(active_tab)>=0" class="m-[22px] rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-900/[.08] max-[1000px]:m-0 max-[1000px]:mb-[25px] max-[1000px]:p-3">
+      <div *ngIf="account_confirmed && ['intel', 'player', 'alliance', 'town', 'team'].indexOf(active_tab)>=0" class="m-[22px] rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-900/[.08] max-[1000px]:m-0 max-[1000px]:mb-[25px] max-[1000px]:p-3 dark:bg-slate-800 dark:ring-white/10">
         <app-index-search></app-index-search>
       </div>
 
@@ -83,31 +83,31 @@
       <span *ngIf="active_tab === 'changelog'"><app-changelog></app-changelog></span>
       <div *ngIf="active_tab === 'faq'" class="m-[22px] space-y-6 max-[1000px]:m-3">
         <div class="min-w-0">
-          <h1 class="my-0 text-2xl font-bold tracking-tight text-slate-900">Help</h1>
-          <p class="mb-0 mt-1 text-sm text-slate-500">Frequently asked questions</p>
+          <h1 class="my-0 text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Help</h1>
+          <p class="mb-0 mt-1 text-sm text-slate-500 dark:text-slate-400">Frequently asked questions</p>
         </div>
         <div class="grid grid-cols-[minmax(0,1fr)_300px] items-start gap-6 max-lg:grid-cols-1">
           <app-faq class="block min-w-0"></app-faq>
           <aside class="flex flex-col gap-4">
-            <section class="flex flex-col gap-3 rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-900/[.08]">
-              <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-lg bg-brand-50 text-brand-700">
+            <section class="flex flex-col gap-3 rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
+              <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-lg bg-brand-50 text-brand-700 dark:bg-brand-500/10">
                 <svg appIcon="chat-bubble-left-right" class="size-6"></svg>
               </span>
-              <h2 class="m-0 text-base font-semibold text-slate-900">Can't find what you are looking for?</h2>
-              <p class="m-0 text-sm text-slate-600">Feel free to send us a message and we will respond as soon as possible.</p>
+              <h2 class="m-0 text-base font-semibold text-slate-900 dark:text-white">Can't find what you are looking for?</h2>
+              <p class="m-0 text-sm text-slate-600 dark:text-slate-400">Feel free to send us a message and we will respond as soon as possible.</p>
               <div>
-                <button type="button" (click)="showContactDialog()" class="inline-flex items-center justify-center gap-1.5 rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
-                  <svg appIcon="envelope" class="size-4 flex-none text-slate-400"></svg>
+                <button type="button" (click)="showContactDialog()" class="inline-flex items-center justify-center gap-1.5 rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:bg-slate-800 dark:text-white dark:ring-slate-600 dark:hover:bg-slate-700/60">
+                  <svg appIcon="envelope" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
                   Send us a message
                 </button>
               </div>
             </section>
-            <section class="flex flex-col gap-3 rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-900/[.08]">
+            <section class="flex flex-col gap-3 rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
               <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-lg bg-navy-800 text-brand-500">
                 <svg appIcon="discord" variant="game" class="size-6"></svg>
               </span>
-              <h2 class="m-0 text-base font-semibold text-slate-900">Need help or support?</h2>
-              <p class="m-0 text-sm text-slate-600">Join our Discord server!</p>
+              <h2 class="m-0 text-base font-semibold text-slate-900 dark:text-white">Need help or support?</h2>
+              <p class="m-0 text-sm text-slate-600 dark:text-slate-400">Join our Discord server!</p>
               <div>
                 <a href="https://discord.gg/E95bhqR3Ns" target="_blank" class="inline-flex items-center gap-1 text-sm font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">discord.gg/E95bhqR3Ns<svg appIcon="arrow-top-right-on-square" variant="micro" class="size-3.5 flex-none"></svg></a>
               </div>
@@ -118,7 +118,7 @@
 
     </div>
 
-    <footer class="flex justify-between gap-6 border-0 border-t border-solid border-slate-200 bg-white px-6 py-5 text-xs text-slate-500 max-sm:flex-col max-sm:gap-3 max-sm:px-4">
+    <footer class="flex justify-between gap-6 border-0 border-t border-solid border-slate-200 bg-white px-6 py-5 text-xs text-slate-500 max-sm:flex-col max-sm:gap-3 max-sm:px-4 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400">
       <p class="m-0">Grepolis is a browser game by InnoGames GmbH. This is an unofficial 3rd party site.<br/>Gameplay images related to Grepolis are copyright of InnoGames GmbH.</p>
       <p class="m-0 sm:text-right">
         Copyright &copy; GrepoData {{date| date:'yyyy'}}

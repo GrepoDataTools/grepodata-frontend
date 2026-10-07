@@ -1,7 +1,7 @@
 <div [ngClass]="embedded ? 'h-full bg-white' : 'min-h-full'">
   <div [ngClass]="embedded ? 'h-full overflow-y-auto bg-slate-50' : 'm-[22px] space-y-6 max-[1000px]:m-3'">
 
-  <section class="bg-white" [ngClass]="embedded ? 'sticky top-0 z-20 border-0 border-b border-solid border-slate-200' : 'overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]'">
+  <section class="bg-white dark:bg-slate-800" [ngClass]="embedded ? 'sticky top-0 z-20 border-0 border-b border-solid border-slate-200' : 'overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]'">
     <div class="flex flex-col px-6 pt-5 max-sm:px-4" [ngClass]="(mobile && showPanels() ? 'pb-0 ' : 'pb-5 ') + (embedded ? 'gap-2 pr-14' : 'gap-3.5')">
       <app-indexer-breadcrumbs *ngIf="!embedded" class="block" [data]="breadcrumb_data"></app-indexer-breadcrumbs>
       <div class="flex items-center gap-4 max-sm:gap-3">
@@ -9,19 +9,19 @@
           <svg appIcon="ally_ico" variant="game" class="size-6"></svg>
         </span>
         <div class="min-w-0 flex-1">
-          <h1 *ngIf="!embedded" class="my-0 truncate text-2xl font-bold tracking-tight text-slate-900 max-sm:text-xl">{{allianceName}}</h1>
-          <h2 *ngIf="embedded" class="my-0 truncate text-xl font-bold tracking-tight text-slate-900">{{allianceName}}</h2>
-          <p *ngIf="!embedded" class="mb-0 mt-0.5 text-sm text-slate-500">Your combined intel from all your teams<span *ngIf="playerCount(allPlayers) > 0"> · {{playerCount(allPlayers)}} players</span></p>
+          <h1 *ngIf="!embedded" class="my-0 truncate text-2xl font-bold tracking-tight text-slate-900 max-sm:text-xl dark:text-white">{{allianceName}}</h1>
+          <h2 *ngIf="embedded" class="my-0 truncate text-xl font-bold tracking-tight text-slate-900 dark:text-white">{{allianceName}}</h2>
+          <p *ngIf="!embedded" class="mb-0 mt-0.5 text-sm text-slate-500 dark:text-slate-400">Your combined intel from all your teams<span *ngIf="playerCount(allPlayers) > 0"> · {{playerCount(allPlayers)}} players</span></p>
           <app-indexer-breadcrumbs *ngIf="embedded" class="mt-0.5 block" [data]="breadcrumb_data"></app-indexer-breadcrumbs>
         </div>
       </div>
     </div>
     <div *ngIf="mobile && showPanels()" role="tablist" class="mt-2.5 flex gap-6 px-6 max-sm:gap-4 max-sm:px-4">
-      <button type="button" role="tab" [attr.aria-selected]="activeTab === 0" (click)="setActiveTab(0)" class="-mb-px inline-flex items-center gap-2 whitespace-nowrap border-0 border-b-2 border-solid bg-transparent px-1 py-3 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="activeTab === 0 ? 'border-brand-700 font-semibold text-brand-700' : 'border-transparent font-medium text-slate-500 hover:border-slate-300 hover:text-slate-900'">
+      <button type="button" role="tab" [attr.aria-selected]="activeTab === 0" (click)="setActiveTab(0)" class="-mb-px inline-flex items-center gap-2 whitespace-nowrap border-0 border-b-2 border-solid bg-transparent px-1 py-3 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="activeTab === 0 ? 'border-brand-700 font-semibold text-brand-700 dark:text-brand-500' : 'border-transparent font-medium text-slate-500 hover:border-slate-300 hover:text-slate-900 dark:text-slate-400 dark:hover:border-slate-600 dark:hover:text-white'">
         <span class="block size-5 flex-none overflow-hidden rounded-full"><span class="unit_icon40x40 unknown_naval block border-0 [zoom:0.5]"></span></span>
         Sea units
       </button>
-      <button type="button" role="tab" [attr.aria-selected]="activeTab === 1" (click)="setActiveTab(1)" class="-mb-px inline-flex items-center gap-2 whitespace-nowrap border-0 border-b-2 border-solid bg-transparent px-1 py-3 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="activeTab === 1 ? 'border-brand-700 font-semibold text-brand-700' : 'border-transparent font-medium text-slate-500 hover:border-slate-300 hover:text-slate-900'">
+      <button type="button" role="tab" [attr.aria-selected]="activeTab === 1" (click)="setActiveTab(1)" class="-mb-px inline-flex items-center gap-2 whitespace-nowrap border-0 border-b-2 border-solid bg-transparent px-1 py-3 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="activeTab === 1 ? 'border-brand-700 font-semibold text-brand-700 dark:text-brand-500' : 'border-transparent font-medium text-slate-500 hover:border-slate-300 hover:text-slate-900 dark:text-slate-400 dark:hover:border-slate-600 dark:hover:text-white'">
         <span class="block size-5 flex-none overflow-hidden rounded-full"><span class="unit_icon40x40 unknown block border-0 [zoom:0.5]"></span></span>
         Land units
       </button>
@@ -29,23 +29,23 @@
   </section>
 
   <div [ngClass]="embedded ? 'space-y-5 p-5 max-sm:p-3' : 'space-y-6'">
-    <section *ngIf="err != ''" class="flex flex-col items-center px-6 py-10 text-center rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
-      <span class="flex size-12 items-center justify-center rounded-full bg-amber-50 text-amber-600">
+    <section *ngIf="err != ''" class="flex flex-col items-center px-6 py-10 text-center rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
+      <span class="flex size-12 items-center justify-center rounded-full bg-amber-50 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400">
         <svg appIcon="eye-slash" class="size-6"></svg>
       </span>
-      <h2 class="mb-0 mt-3 text-base font-semibold text-slate-900">No alliance intel available</h2>
-      <p class="mb-0 mt-1 max-w-md text-sm text-slate-600">You have not yet gained any intel on this alliance. Note: Intel about your allies (index owners) is unavailable.</p>
+      <h2 class="mb-0 mt-3 text-base font-semibold text-slate-900 dark:text-white">No alliance intel available</h2>
+      <p class="mb-0 mt-1 max-w-md text-sm text-slate-600 dark:text-slate-400">You have not yet gained any intel on this alliance. Note: Intel about your allies (index owners) is unavailable.</p>
     </section>
 
-    <section *ngIf="err == '' && loading" class="px-6 py-10 text-center rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
-      <p class="my-0 text-sm font-medium text-slate-600">Loading alliance intel...</p>
+    <section *ngIf="err == '' && loading" class="px-6 py-10 text-center rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
+      <p class="my-0 text-sm font-medium text-slate-600 dark:text-slate-400">Loading alliance intel...</p>
       <mat-progress-bar class="mx-auto mt-3 max-w-md" mode="indeterminate"></mat-progress-bar>
     </section>
 
     <ng-container *ngIf="showPanels()">
-      <div *ngIf="viewIsLimited" role="status" class="flex gap-3 rounded-xl bg-amber-50 px-5 py-4 ring-1 ring-inset ring-amber-200">
-        <svg appIcon="exclamation-triangle" class="size-5 flex-none text-amber-600"></svg>
-        <div class="min-w-0 text-sm text-amber-800">
+      <div *ngIf="viewIsLimited" role="status" class="flex gap-3 rounded-xl bg-amber-50 px-5 py-4 ring-1 ring-inset ring-amber-200 dark:bg-amber-500/10">
+        <svg appIcon="exclamation-triangle" class="size-5 flex-none text-amber-600 dark:text-amber-400"></svg>
+        <div class="min-w-0 text-sm text-amber-800 dark:text-amber-400">
           <h2 class="my-0 text-sm font-semibold">Showing partial overview</h2>
           <p class="mb-0 mt-1">You have too much intel about this alliance to show in a single overview. The intel you see here is limited to only the 3000 most recent reports.</p>
         </div>
@@ -66,11 +66,11 @@
       </div>
     </ng-container>
 
-    <section *ngIf="err == '' && noIntel && !loading" class="flex flex-col items-center px-6 py-10 text-center rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
-      <span class="flex size-12 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+    <section *ngIf="err == '' && noIntel && !loading" class="flex flex-col items-center px-6 py-10 text-center rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
+      <span class="flex size-12 items-center justify-center rounded-full bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400">
         <svg appIcon="document-magnifying-glass" class="size-6"></svg>
       </span>
-      <h2 class="mb-0 mt-3 text-base font-semibold text-slate-900">You have not yet gained any intel on alliance <strong class="font-semibold">{{allianceName}}</strong></h2>
+      <h2 class="mb-0 mt-3 text-base font-semibold text-slate-900 dark:text-white">You have not yet gained any intel on alliance <strong class="font-semibold">{{allianceName}}</strong></h2>
     </section>
   </div>
 
@@ -78,27 +78,27 @@
 </div>
 
 <ng-template #seaunits>
-  <section class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
-    <div *ngIf="!mobile" class="flex items-center gap-2.5 border-0 border-b border-solid border-slate-200 px-5 py-3.5 max-sm:px-3">
+  <section class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
+    <div *ngIf="!mobile" class="flex items-center gap-2.5 border-0 border-b border-solid border-slate-200 px-5 py-3.5 max-sm:px-3 dark:border-slate-700">
       <span class="block size-6 flex-none overflow-hidden rounded-md"><span class="unit_icon40x40 unknown_naval block border-0 [zoom:0.6]"></span></span>
-      <h2 class="my-0 text-base font-semibold text-slate-900">Sea units</h2>
+      <h2 class="my-0 text-base font-semibold text-slate-900 dark:text-white">Sea units</h2>
     </div>
     <div class="px-5 pb-3 pt-4 max-sm:px-3">
-      <div role="group" aria-label="Sea unit type" class="flex gap-0.5 rounded-lg bg-slate-100 p-[3px]">
-        <button type="button" [attr.aria-pressed]="tabsSeaIndex===0" (click)="setSeaIndex(0)" class="inline-flex min-w-0 flex-1 items-center justify-center gap-2 rounded-md border-0 px-2 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tabsSeaIndex===0 ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">
+      <div role="group" aria-label="Sea unit type" class="flex gap-0.5 rounded-lg bg-slate-100 p-[3px] dark:bg-slate-700">
+        <button type="button" [attr.aria-pressed]="tabsSeaIndex===0" (click)="setSeaIndex(0)" class="inline-flex min-w-0 flex-1 items-center justify-center gap-2 rounded-md border-0 px-2 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tabsSeaIndex===0 ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 dark:bg-slate-800 dark:text-white dark:ring-slate-600' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'">
           <span class="block size-5 flex-none overflow-hidden rounded max-sm:hidden"><span class="unit_icon40x40 attack_ship block border-0 [zoom:0.5]"></span></span>
           <span class="truncate">{{world.substring(0, 2)=='en'?'Light ships':'Fireships'}}</span>
-          <span class="flex-none rounded-full px-1.5 text-[11px] font-semibold leading-4 tabular-nums" [ngClass]="tabsSeaIndex===0 ? 'bg-brand-50 text-brand-700' : 'bg-slate-200 text-slate-600'">{{playerCount(firePlayers)}}</span>
+          <span class="flex-none rounded-full px-1.5 text-[11px] font-semibold leading-4 tabular-nums" [ngClass]="tabsSeaIndex===0 ? 'bg-brand-50 text-brand-700 dark:bg-brand-500/10 dark:text-brand-500' : 'bg-slate-200 text-slate-600 dark:bg-slate-600 dark:text-slate-300'">{{playerCount(firePlayers)}}</span>
         </button>
-        <button type="button" [attr.aria-pressed]="tabsSeaIndex===1" (click)="setSeaIndex(1)" class="inline-flex min-w-0 flex-1 items-center justify-center gap-2 rounded-md border-0 px-2 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tabsSeaIndex===1 ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">
+        <button type="button" [attr.aria-pressed]="tabsSeaIndex===1" (click)="setSeaIndex(1)" class="inline-flex min-w-0 flex-1 items-center justify-center gap-2 rounded-md border-0 px-2 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tabsSeaIndex===1 ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 dark:bg-slate-800 dark:text-white dark:ring-slate-600' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'">
           <span class="block size-5 flex-none overflow-hidden rounded max-sm:hidden"><span class="unit_icon40x40 bireme block border-0 [zoom:0.5]"></span></span>
           <span class="truncate">Biremes</span>
-          <span class="flex-none rounded-full px-1.5 text-[11px] font-semibold leading-4 tabular-nums" [ngClass]="tabsSeaIndex===1 ? 'bg-brand-50 text-brand-700' : 'bg-slate-200 text-slate-600'">{{playerCount(birPlayers)}}</span>
+          <span class="flex-none rounded-full px-1.5 text-[11px] font-semibold leading-4 tabular-nums" [ngClass]="tabsSeaIndex===1 ? 'bg-brand-50 text-brand-700 dark:bg-brand-500/10 dark:text-brand-500' : 'bg-slate-200 text-slate-600 dark:bg-slate-600 dark:text-slate-300'">{{playerCount(birPlayers)}}</span>
         </button>
-        <button type="button" [attr.aria-pressed]="tabsSeaIndex===2" (click)="setSeaIndex(2)" class="inline-flex min-w-0 flex-1 items-center justify-center gap-2 rounded-md border-0 px-2 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tabsSeaIndex===2 ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">
+        <button type="button" [attr.aria-pressed]="tabsSeaIndex===2" (click)="setSeaIndex(2)" class="inline-flex min-w-0 flex-1 items-center justify-center gap-2 rounded-md border-0 px-2 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tabsSeaIndex===2 ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 dark:bg-slate-800 dark:text-white dark:ring-slate-600' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'">
           <span class="block size-5 flex-none overflow-hidden rounded max-sm:hidden"><span class="unit_icon40x40 trireme block border-0 [zoom:0.5]"></span></span>
           <span class="truncate">Triremes</span>
-          <span class="flex-none rounded-full px-1.5 text-[11px] font-semibold leading-4 tabular-nums" [ngClass]="tabsSeaIndex===2 ? 'bg-brand-50 text-brand-700' : 'bg-slate-200 text-slate-600'">{{playerCount(trirPlayers)}}</span>
+          <span class="flex-none rounded-full px-1.5 text-[11px] font-semibold leading-4 tabular-nums" [ngClass]="tabsSeaIndex===2 ? 'bg-brand-50 text-brand-700 dark:bg-brand-500/10 dark:text-brand-500' : 'bg-slate-200 text-slate-600 dark:bg-slate-600 dark:text-slate-300'">{{playerCount(trirPlayers)}}</span>
         </button>
       </div>
     </div>
@@ -107,20 +107,20 @@
       <div *ngIf="(firePlayers | ValuesPipe).length>3" class="px-5 pb-3 max-sm:px-3">
         <form class="m-0">
           <div class="relative">
-            <svg appIcon="magnifying-glass" variant="mini" class="pointer-events-none absolute left-2.5 top-2.5 size-4 text-slate-400"></svg>
-            <input type="text" autocomplete="off" name="playerNameFilter" placeholder="Filter by player name" aria-label="Filter by player name" [(ngModel)]="playerNameFilterSea" (keyup)="filterPlayers('sea');" class="h-9 w-full rounded-md border-0 bg-white pl-8 pr-8 text-sm font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700"/>
-            <button *ngIf="playerNameFilterSea != ''" type="button" (click)="clearFilter()" aria-label="Clear filter" class="absolute right-1.5 top-1.5 inline-flex size-6 items-center justify-center rounded border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-700">
+            <svg appIcon="magnifying-glass" variant="mini" class="pointer-events-none absolute left-2.5 top-2.5 size-4 text-slate-400 dark:text-slate-500"></svg>
+            <input type="text" autocomplete="off" name="playerNameFilter" placeholder="Filter by player name" aria-label="Filter by player name" [(ngModel)]="playerNameFilterSea" (keyup)="filterPlayers('sea');" class="h-9 w-full rounded-md border-0 bg-white pl-8 pr-8 text-sm font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700 dark:bg-slate-800 dark:text-white dark:ring-slate-600"/>
+            <button *ngIf="playerNameFilterSea != ''" type="button" (click)="clearFilter()" aria-label="Clear filter" class="absolute right-1.5 top-1.5 inline-flex size-6 items-center justify-center rounded border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:text-slate-500 dark:hover:bg-slate-700">
               <svg appIcon="x-mark" variant="micro" class="size-4"></svg>
             </button>
           </div>
         </form>
       </div>
-      <div *ngIf="firePlayers.length<=0" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center">
-        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+      <div *ngIf="firePlayers.length<=0" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center dark:border-slate-700">
+        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400">
           <svg appIcon="document-magnifying-glass" class="size-5"></svg>
         </span>
-        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900">No fireship intel available</h3>
-        <p class="mb-0 mt-1 text-sm text-slate-600">Index more reports to collect intel</p>
+        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900 dark:text-white">No fireship intel available</h3>
+        <p class="mb-0 mt-1 text-sm text-slate-600 dark:text-slate-400">Index more reports to collect intel</p>
       </div>
       <div *ngIf="(firePlayers | ValuesPipe).length>0" aria-hidden="true" class="gd-scrollbar overflow-x-auto">
         <table class="w-full min-w-[360px] table-fixed border-separate border-spacing-0 text-left font-normal">
@@ -131,9 +131,9 @@
           </colgroup>
           <thead>
             <tr>
-              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-5 pr-3 text-left max-sm:pl-3">Town</th>
-              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 truncate px-3 text-left">Attack ships</th>
-              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-3 pr-5 text-right max-sm:pr-3">Date</th>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-5 pr-3 text-left max-sm:pl-3 dark:border-slate-700 dark:bg-slate-700/40 dark:text-slate-300">Town</th>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 truncate px-3 text-left dark:border-slate-700 dark:bg-slate-700/40 dark:text-slate-300">Attack ships</th>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-3 pr-5 text-right max-sm:pr-3 dark:border-slate-700 dark:bg-slate-700/40 dark:text-slate-300">Date</th>
             </tr>
           </thead>
         </table>
@@ -144,32 +144,32 @@
                        [playerName]="player.name" [allianceName]="allianceName" [parentType]="'alliance'"></intel-table>
         </div>
       </div>
-      <div *ngIf="playerNameFilterSea!=''&&hasMatch==false&&showNoResults" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center">
-        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+      <div *ngIf="playerNameFilterSea!=''&&hasMatch==false&&showNoResults" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center dark:border-slate-700">
+        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400">
           <svg appIcon="user" class="size-5"></svg>
         </span>
-        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900">No intel found for <span class="text-brand-700">{{playerNameFilter}}</span> in this alliance.</h3>
-        <p class="mb-0 mt-1 text-sm text-slate-600"><button type="button" (click)="clearFilter()" class="border-0 bg-transparent p-0 font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Clear</button> your search or try a different name.</p>
+        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900 dark:text-white">No intel found for <span class="text-brand-700">{{playerNameFilter}}</span> in this alliance.</h3>
+        <p class="mb-0 mt-1 text-sm text-slate-600 dark:text-slate-400"><button type="button" (click)="clearFilter()" class="border-0 bg-transparent p-0 font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Clear</button> your search or try a different name.</p>
       </div>
     </div>
     <div *ngIf="tabsSeaIndex===1">
       <div *ngIf="(birPlayers | ValuesPipe).length>3" class="px-5 pb-3 max-sm:px-3">
         <form class="m-0">
           <div class="relative">
-            <svg appIcon="magnifying-glass" variant="mini" class="pointer-events-none absolute left-2.5 top-2.5 size-4 text-slate-400"></svg>
-            <input type="text" autocomplete="off" name="playerNameFilter" placeholder="Filter by player name" aria-label="Filter by player name" [(ngModel)]="playerNameFilterSea" (keyup)="filterPlayers('sea');" class="h-9 w-full rounded-md border-0 bg-white pl-8 pr-8 text-sm font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700"/>
-            <button *ngIf="playerNameFilterSea != ''" type="button" (click)="clearFilter()" aria-label="Clear filter" class="absolute right-1.5 top-1.5 inline-flex size-6 items-center justify-center rounded border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-700">
+            <svg appIcon="magnifying-glass" variant="mini" class="pointer-events-none absolute left-2.5 top-2.5 size-4 text-slate-400 dark:text-slate-500"></svg>
+            <input type="text" autocomplete="off" name="playerNameFilter" placeholder="Filter by player name" aria-label="Filter by player name" [(ngModel)]="playerNameFilterSea" (keyup)="filterPlayers('sea');" class="h-9 w-full rounded-md border-0 bg-white pl-8 pr-8 text-sm font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700 dark:bg-slate-800 dark:text-white dark:ring-slate-600"/>
+            <button *ngIf="playerNameFilterSea != ''" type="button" (click)="clearFilter()" aria-label="Clear filter" class="absolute right-1.5 top-1.5 inline-flex size-6 items-center justify-center rounded border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:text-slate-500 dark:hover:bg-slate-700">
               <svg appIcon="x-mark" variant="micro" class="size-4"></svg>
             </button>
           </div>
         </form>
       </div>
-      <div *ngIf="birPlayers.length<=0" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center">
-        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+      <div *ngIf="birPlayers.length<=0" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center dark:border-slate-700">
+        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400">
           <svg appIcon="document-magnifying-glass" class="size-5"></svg>
         </span>
-        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900">No bireme intel available</h3>
-        <p class="mb-0 mt-1 text-sm text-slate-600">Index more reports to collect intel</p>
+        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900 dark:text-white">No bireme intel available</h3>
+        <p class="mb-0 mt-1 text-sm text-slate-600 dark:text-slate-400">Index more reports to collect intel</p>
       </div>
       <div *ngIf="(birPlayers | ValuesPipe).length>0" aria-hidden="true" class="gd-scrollbar overflow-x-auto">
         <table class="w-full min-w-[360px] table-fixed border-separate border-spacing-0 text-left font-normal">
@@ -180,9 +180,9 @@
           </colgroup>
           <thead>
             <tr>
-              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-5 pr-3 text-left max-sm:pl-3">Town</th>
-              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 truncate px-3 text-left">Biremes</th>
-              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-3 pr-5 text-right max-sm:pr-3">Date</th>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-5 pr-3 text-left max-sm:pl-3 dark:border-slate-700 dark:bg-slate-700/40 dark:text-slate-300">Town</th>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 truncate px-3 text-left dark:border-slate-700 dark:bg-slate-700/40 dark:text-slate-300">Biremes</th>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-3 pr-5 text-right max-sm:pr-3 dark:border-slate-700 dark:bg-slate-700/40 dark:text-slate-300">Date</th>
             </tr>
           </thead>
         </table>
@@ -193,32 +193,32 @@
                        [playerName]="player.name" [allianceName]="allianceName" [parentType]="'alliance'"></intel-table>
         </div>
       </div>
-      <div *ngIf="playerNameFilterSea!=''&&hasMatch==false&&showNoResults" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center">
-        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+      <div *ngIf="playerNameFilterSea!=''&&hasMatch==false&&showNoResults" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center dark:border-slate-700">
+        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400">
           <svg appIcon="user" class="size-5"></svg>
         </span>
-        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900">No intel found for <span class="text-brand-700">{{playerNameFilter}}</span> in this alliance.</h3>
-        <p class="mb-0 mt-1 text-sm text-slate-600"><button type="button" (click)="clearFilter()" class="border-0 bg-transparent p-0 font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Clear</button> your search or try a different name.</p>
+        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900 dark:text-white">No intel found for <span class="text-brand-700">{{playerNameFilter}}</span> in this alliance.</h3>
+        <p class="mb-0 mt-1 text-sm text-slate-600 dark:text-slate-400"><button type="button" (click)="clearFilter()" class="border-0 bg-transparent p-0 font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Clear</button> your search or try a different name.</p>
       </div>
     </div>
     <div *ngIf="tabsSeaIndex===2">
       <div *ngIf="(trirPlayers | ValuesPipe).length>3" class="px-5 pb-3 max-sm:px-3">
         <form class="m-0">
           <div class="relative">
-            <svg appIcon="magnifying-glass" variant="mini" class="pointer-events-none absolute left-2.5 top-2.5 size-4 text-slate-400"></svg>
-            <input type="text" autocomplete="off" name="playerNameFilter" placeholder="Filter by player name" aria-label="Filter by player name" [(ngModel)]="playerNameFilterSea" (keyup)="filterPlayers('sea');" class="h-9 w-full rounded-md border-0 bg-white pl-8 pr-8 text-sm font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700"/>
-            <button *ngIf="playerNameFilterSea != ''" type="button" (click)="clearFilter()" aria-label="Clear filter" class="absolute right-1.5 top-1.5 inline-flex size-6 items-center justify-center rounded border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-700">
+            <svg appIcon="magnifying-glass" variant="mini" class="pointer-events-none absolute left-2.5 top-2.5 size-4 text-slate-400 dark:text-slate-500"></svg>
+            <input type="text" autocomplete="off" name="playerNameFilter" placeholder="Filter by player name" aria-label="Filter by player name" [(ngModel)]="playerNameFilterSea" (keyup)="filterPlayers('sea');" class="h-9 w-full rounded-md border-0 bg-white pl-8 pr-8 text-sm font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700 dark:bg-slate-800 dark:text-white dark:ring-slate-600"/>
+            <button *ngIf="playerNameFilterSea != ''" type="button" (click)="clearFilter()" aria-label="Clear filter" class="absolute right-1.5 top-1.5 inline-flex size-6 items-center justify-center rounded border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:text-slate-500 dark:hover:bg-slate-700">
               <svg appIcon="x-mark" variant="micro" class="size-4"></svg>
             </button>
           </div>
         </form>
       </div>
-      <div *ngIf="trirPlayers.length<=0" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center">
-        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+      <div *ngIf="trirPlayers.length<=0" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center dark:border-slate-700">
+        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400">
           <svg appIcon="document-magnifying-glass" class="size-5"></svg>
         </span>
-        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900">No trireme intel available</h3>
-        <p class="mb-0 mt-1 text-sm text-slate-600">Index more reports to collect intel</p>
+        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900 dark:text-white">No trireme intel available</h3>
+        <p class="mb-0 mt-1 text-sm text-slate-600 dark:text-slate-400">Index more reports to collect intel</p>
       </div>
       <div *ngIf="(trirPlayers | ValuesPipe).length>0" aria-hidden="true" class="gd-scrollbar overflow-x-auto">
         <table class="w-full min-w-[360px] table-fixed border-separate border-spacing-0 text-left font-normal">
@@ -229,9 +229,9 @@
           </colgroup>
           <thead>
             <tr>
-              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-5 pr-3 text-left max-sm:pl-3">Town</th>
-              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 truncate px-3 text-left">Triremes</th>
-              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-3 pr-5 text-right max-sm:pr-3">Date</th>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-5 pr-3 text-left max-sm:pl-3 dark:border-slate-700 dark:bg-slate-700/40 dark:text-slate-300">Town</th>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 truncate px-3 text-left dark:border-slate-700 dark:bg-slate-700/40 dark:text-slate-300">Triremes</th>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-3 pr-5 text-right max-sm:pr-3 dark:border-slate-700 dark:bg-slate-700/40 dark:text-slate-300">Date</th>
             </tr>
           </thead>
         </table>
@@ -242,39 +242,39 @@
                        [playerName]="player.name" [allianceName]="allianceName" [parentType]="'alliance'"></intel-table>
         </div>
       </div>
-      <div *ngIf="playerNameFilterSea!=''&&hasMatch==false&&showNoResults" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center">
-        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+      <div *ngIf="playerNameFilterSea!=''&&hasMatch==false&&showNoResults" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center dark:border-slate-700">
+        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400">
           <svg appIcon="user" class="size-5"></svg>
         </span>
-        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900">No intel found for <span class="text-brand-700">{{playerNameFilter}}</span> in this alliance.</h3>
-        <p class="mb-0 mt-1 text-sm text-slate-600"><button type="button" (click)="clearFilter()" class="border-0 bg-transparent p-0 font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Clear</button> your search or try a different name.</p>
+        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900 dark:text-white">No intel found for <span class="text-brand-700">{{playerNameFilter}}</span> in this alliance.</h3>
+        <p class="mb-0 mt-1 text-sm text-slate-600 dark:text-slate-400"><button type="button" (click)="clearFilter()" class="border-0 bg-transparent p-0 font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Clear</button> your search or try a different name.</p>
       </div>
     </div>
   </section>
 </ng-template>
 
 <ng-template #landunits>
-  <section class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
-    <div *ngIf="!mobile" class="flex items-center gap-2.5 border-0 border-b border-solid border-slate-200 px-5 py-3.5 max-sm:px-3">
+  <section class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
+    <div *ngIf="!mobile" class="flex items-center gap-2.5 border-0 border-b border-solid border-slate-200 px-5 py-3.5 max-sm:px-3 dark:border-slate-700">
       <span class="block size-6 flex-none overflow-hidden rounded-md"><span class="unit_icon40x40 unknown block border-0 [zoom:0.6]"></span></span>
-      <h2 class="my-0 text-base font-semibold text-slate-900">Land units</h2>
+      <h2 class="my-0 text-base font-semibold text-slate-900 dark:text-white">Land units</h2>
     </div>
     <div class="px-5 pb-3 pt-4 max-sm:px-3">
-      <div role="group" aria-label="Land unit type" class="flex gap-0.5 rounded-lg bg-slate-100 p-[3px]">
-        <button type="button" [attr.aria-pressed]="tabsLandIndex===0" (click)="setLandIndex(0)" class="inline-flex min-w-0 flex-1 items-center justify-center gap-2 rounded-md border-0 px-2 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tabsLandIndex===0 ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">
+      <div role="group" aria-label="Land unit type" class="flex gap-0.5 rounded-lg bg-slate-100 p-[3px] dark:bg-slate-700">
+        <button type="button" [attr.aria-pressed]="tabsLandIndex===0" (click)="setLandIndex(0)" class="inline-flex min-w-0 flex-1 items-center justify-center gap-2 rounded-md border-0 px-2 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tabsLandIndex===0 ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 dark:bg-slate-800 dark:text-white dark:ring-slate-600' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'">
           <span class="block size-5 flex-none overflow-hidden rounded max-sm:hidden"><span class="unit_icon40x40 manticore block border-0 [zoom:0.5]"></span></span>
           <span class="truncate">Mythical units</span>
-          <span class="flex-none rounded-full px-1.5 text-[11px] font-semibold leading-4 tabular-nums" [ngClass]="tabsLandIndex===0 ? 'bg-brand-50 text-brand-700' : 'bg-slate-200 text-slate-600'">{{playerCount(mythPlayers)}}</span>
+          <span class="flex-none rounded-full px-1.5 text-[11px] font-semibold leading-4 tabular-nums" [ngClass]="tabsLandIndex===0 ? 'bg-brand-50 text-brand-700 dark:bg-brand-500/10 dark:text-brand-500' : 'bg-slate-200 text-slate-600 dark:bg-slate-600 dark:text-slate-300'">{{playerCount(mythPlayers)}}</span>
         </button>
-        <button type="button" [attr.aria-pressed]="tabsLandIndex===1" (click)="setLandIndex(1)" class="inline-flex min-w-0 flex-1 items-center justify-center gap-2 rounded-md border-0 px-2 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tabsLandIndex===1 ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">
+        <button type="button" [attr.aria-pressed]="tabsLandIndex===1" (click)="setLandIndex(1)" class="inline-flex min-w-0 flex-1 items-center justify-center gap-2 rounded-md border-0 px-2 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tabsLandIndex===1 ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 dark:bg-slate-800 dark:text-white dark:ring-slate-600' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'">
           <span class="block size-5 flex-none overflow-hidden rounded max-sm:hidden"><span class="unit_icon40x40 slinger block border-0 [zoom:0.5]"></span></span>
           <span class="truncate">Offensive</span>
-          <span class="flex-none rounded-full px-1.5 text-[11px] font-semibold leading-4 tabular-nums" [ngClass]="tabsLandIndex===1 ? 'bg-brand-50 text-brand-700' : 'bg-slate-200 text-slate-600'">{{playerCount(offPlayers)}}</span>
+          <span class="flex-none rounded-full px-1.5 text-[11px] font-semibold leading-4 tabular-nums" [ngClass]="tabsLandIndex===1 ? 'bg-brand-50 text-brand-700 dark:bg-brand-500/10 dark:text-brand-500' : 'bg-slate-200 text-slate-600 dark:bg-slate-600 dark:text-slate-300'">{{playerCount(offPlayers)}}</span>
         </button>
-        <button type="button" [attr.aria-pressed]="tabsLandIndex===2" (click)="setLandIndex(2)" class="inline-flex min-w-0 flex-1 items-center justify-center gap-2 rounded-md border-0 px-2 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tabsLandIndex===2 ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">
+        <button type="button" [attr.aria-pressed]="tabsLandIndex===2" (click)="setLandIndex(2)" class="inline-flex min-w-0 flex-1 items-center justify-center gap-2 rounded-md border-0 px-2 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="tabsLandIndex===2 ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 dark:bg-slate-800 dark:text-white dark:ring-slate-600' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'">
           <span class="block size-5 flex-none overflow-hidden rounded max-sm:hidden"><span class="unit_icon40x40 sword block border-0 [zoom:0.5]"></span></span>
           <span class="truncate">Defensive</span>
-          <span class="flex-none rounded-full px-1.5 text-[11px] font-semibold leading-4 tabular-nums" [ngClass]="tabsLandIndex===2 ? 'bg-brand-50 text-brand-700' : 'bg-slate-200 text-slate-600'">{{playerCount(defPlayers)}}</span>
+          <span class="flex-none rounded-full px-1.5 text-[11px] font-semibold leading-4 tabular-nums" [ngClass]="tabsLandIndex===2 ? 'bg-brand-50 text-brand-700 dark:bg-brand-500/10 dark:text-brand-500' : 'bg-slate-200 text-slate-600 dark:bg-slate-600 dark:text-slate-300'">{{playerCount(defPlayers)}}</span>
         </button>
       </div>
     </div>
@@ -283,20 +283,20 @@
       <div *ngIf="(mythPlayers | ValuesPipe).length>3" class="px-5 pb-3 max-sm:px-3">
         <form class="m-0">
           <div class="relative">
-            <svg appIcon="magnifying-glass" variant="mini" class="pointer-events-none absolute left-2.5 top-2.5 size-4 text-slate-400"></svg>
-            <input type="text" autocomplete="off" name="playerNameFilter" placeholder="Filter by player name" aria-label="Filter by player name" [(ngModel)]="playerNameFilterLand" (keyup)="filterPlayers('land');" class="h-9 w-full rounded-md border-0 bg-white pl-8 pr-8 text-sm font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700"/>
-            <button *ngIf="playerNameFilterLand != ''" type="button" (click)="clearFilter()" aria-label="Clear filter" class="absolute right-1.5 top-1.5 inline-flex size-6 items-center justify-center rounded border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-700">
+            <svg appIcon="magnifying-glass" variant="mini" class="pointer-events-none absolute left-2.5 top-2.5 size-4 text-slate-400 dark:text-slate-500"></svg>
+            <input type="text" autocomplete="off" name="playerNameFilter" placeholder="Filter by player name" aria-label="Filter by player name" [(ngModel)]="playerNameFilterLand" (keyup)="filterPlayers('land');" class="h-9 w-full rounded-md border-0 bg-white pl-8 pr-8 text-sm font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700 dark:bg-slate-800 dark:text-white dark:ring-slate-600"/>
+            <button *ngIf="playerNameFilterLand != ''" type="button" (click)="clearFilter()" aria-label="Clear filter" class="absolute right-1.5 top-1.5 inline-flex size-6 items-center justify-center rounded border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:text-slate-500 dark:hover:bg-slate-700">
               <svg appIcon="x-mark" variant="micro" class="size-4"></svg>
             </button>
           </div>
         </form>
       </div>
-      <div *ngIf="mythPlayers.length<=0" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center">
-        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+      <div *ngIf="mythPlayers.length<=0" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center dark:border-slate-700">
+        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400">
           <svg appIcon="document-magnifying-glass" class="size-5"></svg>
         </span>
-        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900">No mythical unit intel available</h3>
-        <p class="mb-0 mt-1 text-sm text-slate-600">Index more reports to collect intel</p>
+        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900 dark:text-white">No mythical unit intel available</h3>
+        <p class="mb-0 mt-1 text-sm text-slate-600 dark:text-slate-400">Index more reports to collect intel</p>
       </div>
       <div *ngIf="(mythPlayers | ValuesPipe).length>0" aria-hidden="true" class="gd-scrollbar overflow-x-auto">
         <table class="w-full min-w-[360px] table-fixed border-separate border-spacing-0 text-left font-normal">
@@ -307,9 +307,9 @@
           </colgroup>
           <thead>
             <tr>
-              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-5 pr-3 text-left max-sm:pl-3">Town</th>
-              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 truncate px-3 text-left">Mythical units</th>
-              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-3 pr-5 text-right max-sm:pr-3">Date</th>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-5 pr-3 text-left max-sm:pl-3 dark:border-slate-700 dark:bg-slate-700/40 dark:text-slate-300">Town</th>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 truncate px-3 text-left dark:border-slate-700 dark:bg-slate-700/40 dark:text-slate-300">Mythical units</th>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-3 pr-5 text-right max-sm:pr-3 dark:border-slate-700 dark:bg-slate-700/40 dark:text-slate-300">Date</th>
             </tr>
           </thead>
         </table>
@@ -320,32 +320,32 @@
                        [playerName]="player.name" [allianceName]="allianceName" [parentType]="'alliance'"></intel-table>
         </div>
       </div>
-      <div *ngIf="playerNameFilter!=''&&hasMatch==false&&showNoResults" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center">
-        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+      <div *ngIf="playerNameFilter!=''&&hasMatch==false&&showNoResults" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center dark:border-slate-700">
+        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400">
           <svg appIcon="user" class="size-5"></svg>
         </span>
-        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900">No intel found for <span class="text-brand-700">{{playerNameFilter}}</span> in this alliance.</h3>
-        <p class="mb-0 mt-1 text-sm text-slate-600"><button type="button" (click)="playerNameFilter=''; hasMatch=true; cdr.detectChanges();" class="border-0 bg-transparent p-0 font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Clear</button> your search or try a different name.</p>
+        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900 dark:text-white">No intel found for <span class="text-brand-700">{{playerNameFilter}}</span> in this alliance.</h3>
+        <p class="mb-0 mt-1 text-sm text-slate-600 dark:text-slate-400"><button type="button" (click)="playerNameFilter=''; hasMatch=true; cdr.detectChanges();" class="border-0 bg-transparent p-0 font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Clear</button> your search or try a different name.</p>
       </div>
     </div>
     <div *ngIf="tabsLandIndex===1">
       <div *ngIf="(offPlayers | ValuesPipe).length>3" class="px-5 pb-3 max-sm:px-3">
         <form class="m-0">
           <div class="relative">
-            <svg appIcon="magnifying-glass" variant="mini" class="pointer-events-none absolute left-2.5 top-2.5 size-4 text-slate-400"></svg>
-            <input type="text" autocomplete="off" name="playerNameFilter" placeholder="Filter by player name" aria-label="Filter by player name" [(ngModel)]="playerNameFilterLand" (keyup)="filterPlayers('land');" class="h-9 w-full rounded-md border-0 bg-white pl-8 pr-8 text-sm font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700"/>
-            <button *ngIf="playerNameFilterLand != ''" type="button" (click)="clearFilter()" aria-label="Clear filter" class="absolute right-1.5 top-1.5 inline-flex size-6 items-center justify-center rounded border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-700">
+            <svg appIcon="magnifying-glass" variant="mini" class="pointer-events-none absolute left-2.5 top-2.5 size-4 text-slate-400 dark:text-slate-500"></svg>
+            <input type="text" autocomplete="off" name="playerNameFilter" placeholder="Filter by player name" aria-label="Filter by player name" [(ngModel)]="playerNameFilterLand" (keyup)="filterPlayers('land');" class="h-9 w-full rounded-md border-0 bg-white pl-8 pr-8 text-sm font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700 dark:bg-slate-800 dark:text-white dark:ring-slate-600"/>
+            <button *ngIf="playerNameFilterLand != ''" type="button" (click)="clearFilter()" aria-label="Clear filter" class="absolute right-1.5 top-1.5 inline-flex size-6 items-center justify-center rounded border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:text-slate-500 dark:hover:bg-slate-700">
               <svg appIcon="x-mark" variant="micro" class="size-4"></svg>
             </button>
           </div>
         </form>
       </div>
-      <div *ngIf="offPlayers.length<=0" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center">
-        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+      <div *ngIf="offPlayers.length<=0" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center dark:border-slate-700">
+        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400">
           <svg appIcon="document-magnifying-glass" class="size-5"></svg>
         </span>
-        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900">No offensive unit intel available</h3>
-        <p class="mb-0 mt-1 text-sm text-slate-600">Index more reports to collect intel</p>
+        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900 dark:text-white">No offensive unit intel available</h3>
+        <p class="mb-0 mt-1 text-sm text-slate-600 dark:text-slate-400">Index more reports to collect intel</p>
       </div>
       <div *ngIf="(offPlayers | ValuesPipe).length>0" aria-hidden="true" class="gd-scrollbar overflow-x-auto">
         <table class="w-full min-w-[360px] table-fixed border-separate border-spacing-0 text-left font-normal">
@@ -356,9 +356,9 @@
           </colgroup>
           <thead>
             <tr>
-              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-5 pr-3 text-left max-sm:pl-3">Town</th>
-              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 truncate px-3 text-left">Offensive units</th>
-              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-3 pr-5 text-right max-sm:pr-3">Date</th>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-5 pr-3 text-left max-sm:pl-3 dark:border-slate-700 dark:bg-slate-700/40 dark:text-slate-300">Town</th>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 truncate px-3 text-left dark:border-slate-700 dark:bg-slate-700/40 dark:text-slate-300">Offensive units</th>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-3 pr-5 text-right max-sm:pr-3 dark:border-slate-700 dark:bg-slate-700/40 dark:text-slate-300">Date</th>
             </tr>
           </thead>
         </table>
@@ -369,32 +369,32 @@
                        [playerName]="player.name" [allianceName]="allianceName" [parentType]="'alliance'"></intel-table>
         </div>
       </div>
-      <div *ngIf="playerNameFilter!=''&&hasMatch==false&&showNoResults" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center">
-        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+      <div *ngIf="playerNameFilter!=''&&hasMatch==false&&showNoResults" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center dark:border-slate-700">
+        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400">
           <svg appIcon="user" class="size-5"></svg>
         </span>
-        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900">No intel found for <span class="text-brand-700">{{playerNameFilter}}</span> in this alliance.</h3>
-        <p class="mb-0 mt-1 text-sm text-slate-600"><button type="button" (click)="playerNameFilter=''; hasMatch=true; cdr.detectChanges();" class="border-0 bg-transparent p-0 font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Clear</button> your search or try a different name.</p>
+        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900 dark:text-white">No intel found for <span class="text-brand-700">{{playerNameFilter}}</span> in this alliance.</h3>
+        <p class="mb-0 mt-1 text-sm text-slate-600 dark:text-slate-400"><button type="button" (click)="playerNameFilter=''; hasMatch=true; cdr.detectChanges();" class="border-0 bg-transparent p-0 font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Clear</button> your search or try a different name.</p>
       </div>
     </div>
     <div *ngIf="tabsLandIndex===2">
       <div *ngIf="(defPlayers | ValuesPipe).length>3" class="px-5 pb-3 max-sm:px-3">
         <form class="m-0">
           <div class="relative">
-            <svg appIcon="magnifying-glass" variant="mini" class="pointer-events-none absolute left-2.5 top-2.5 size-4 text-slate-400"></svg>
-            <input type="text" autocomplete="off" name="playerNameFilter" placeholder="Filter by player name" aria-label="Filter by player name" [(ngModel)]="playerNameFilterLand" (keyup)="filterPlayers('land');" class="h-9 w-full rounded-md border-0 bg-white pl-8 pr-8 text-sm font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700"/>
-            <button *ngIf="playerNameFilterLand != ''" type="button" (click)="clearFilter()" aria-label="Clear filter" class="absolute right-1.5 top-1.5 inline-flex size-6 items-center justify-center rounded border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-700">
+            <svg appIcon="magnifying-glass" variant="mini" class="pointer-events-none absolute left-2.5 top-2.5 size-4 text-slate-400 dark:text-slate-500"></svg>
+            <input type="text" autocomplete="off" name="playerNameFilter" placeholder="Filter by player name" aria-label="Filter by player name" [(ngModel)]="playerNameFilterLand" (keyup)="filterPlayers('land');" class="h-9 w-full rounded-md border-0 bg-white pl-8 pr-8 text-sm font-normal text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-700 dark:bg-slate-800 dark:text-white dark:ring-slate-600"/>
+            <button *ngIf="playerNameFilterLand != ''" type="button" (click)="clearFilter()" aria-label="Clear filter" class="absolute right-1.5 top-1.5 inline-flex size-6 items-center justify-center rounded border-0 bg-transparent p-0 text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:text-slate-500 dark:hover:bg-slate-700">
               <svg appIcon="x-mark" variant="micro" class="size-4"></svg>
             </button>
           </div>
         </form>
       </div>
-      <div *ngIf="defPlayers.length<=0" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center">
-        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+      <div *ngIf="defPlayers.length<=0" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center dark:border-slate-700">
+        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400">
           <svg appIcon="document-magnifying-glass" class="size-5"></svg>
         </span>
-        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900">No defensive unit intel available</h3>
-        <p class="mb-0 mt-1 text-sm text-slate-600">Index more reports to collect intel</p>
+        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900 dark:text-white">No defensive unit intel available</h3>
+        <p class="mb-0 mt-1 text-sm text-slate-600 dark:text-slate-400">Index more reports to collect intel</p>
       </div>
       <div *ngIf="(defPlayers | ValuesPipe).length>0" aria-hidden="true" class="gd-scrollbar overflow-x-auto">
         <table class="w-full min-w-[360px] table-fixed border-separate border-spacing-0 text-left font-normal">
@@ -405,9 +405,9 @@
           </colgroup>
           <thead>
             <tr>
-              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-5 pr-3 text-left max-sm:pl-3">Town</th>
-              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 truncate px-3 text-left">Defensive units</th>
-              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-3 pr-5 text-right max-sm:pr-3">Date</th>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-5 pr-3 text-left max-sm:pl-3 dark:border-slate-700 dark:bg-slate-700/40 dark:text-slate-300">Town</th>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 truncate px-3 text-left dark:border-slate-700 dark:bg-slate-700/40 dark:text-slate-300">Defensive units</th>
+              <th class="whitespace-nowrap border-0 border-b border-t border-solid border-slate-200 bg-slate-50 py-2 text-xs font-medium text-slate-700 pl-3 pr-5 text-right max-sm:pr-3 dark:border-slate-700 dark:bg-slate-700/40 dark:text-slate-300">Date</th>
             </tr>
           </thead>
         </table>
@@ -418,12 +418,12 @@
                        [playerName]="player.name" [allianceName]="allianceName" [parentType]="'alliance'"></intel-table>
         </div>
       </div>
-      <div *ngIf="playerNameFilter!=''&&hasMatch==false&&showNoResults" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center">
-        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+      <div *ngIf="playerNameFilter!=''&&hasMatch==false&&showNoResults" class="flex flex-col items-center border-0 border-t border-solid border-slate-200 px-6 py-8 text-center dark:border-slate-700">
+        <span class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400">
           <svg appIcon="user" class="size-5"></svg>
         </span>
-        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900">No intel found for <span class="text-brand-700">{{playerNameFilter}}</span> in this alliance.</h3>
-        <p class="mb-0 mt-1 text-sm text-slate-600"><button type="button" (click)="playerNameFilter=''; hasMatch=true; cdr.detectChanges();" class="border-0 bg-transparent p-0 font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Clear</button> your search or try a different name.</p>
+        <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900 dark:text-white">No intel found for <span class="text-brand-700">{{playerNameFilter}}</span> in this alliance.</h3>
+        <p class="mb-0 mt-1 text-sm text-slate-600 dark:text-slate-400"><button type="button" (click)="playerNameFilter=''; hasMatch=true; cdr.detectChanges();" class="border-0 bg-transparent p-0 font-medium text-brand-700 hover:text-brand-800 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Clear</button> your search or try a different name.</p>
       </div>
     </div>
   </section>

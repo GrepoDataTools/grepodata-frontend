@@ -1,19 +1,19 @@
-<div class="flex max-h-[95vh] w-[800px] max-w-full flex-col text-left font-normal text-slate-900">
-  <div class="flex flex-none items-start gap-4 border-0 border-b border-solid border-slate-200 px-6 py-5 max-sm:px-4">
+<div class="flex max-h-[95vh] w-[800px] max-w-full flex-col text-left font-normal text-slate-900 dark:text-white">
+  <div class="flex flex-none items-start gap-4 border-0 border-b border-solid border-slate-200 px-6 py-5 max-sm:px-4 dark:border-slate-700">
     <span class="flex size-10 flex-none items-center justify-center rounded-lg bg-navy-800 text-brand-500">
       <svg appIcon="user-group" class="size-6"></svg>
     </span>
     <div class="min-w-0 flex-1">
-      <h2 mat-dialog-title class="m-0 text-xl font-semibold text-slate-900">All sieges</h2>
-      <p class="mb-0 mt-0.5 flex min-w-0 items-center gap-1.5 text-sm text-slate-600">
-        <span class="truncate font-medium text-slate-700">{{index_name}}</span>
+      <h2 mat-dialog-title class="m-0 text-xl font-semibold text-slate-900 dark:text-white">All sieges</h2>
+      <p class="mb-0 mt-0.5 flex min-w-0 items-center gap-1.5 text-sm text-slate-600 dark:text-slate-400">
+        <span class="truncate font-medium text-slate-700 dark:text-slate-300">{{index_name}}</span>
         <ng-container *ngIf="world">
           <span class="text-slate-300">·</span>
           <span class="truncate [&_.bg-flag]:[zoom:0.625]"><span [outerHTML]="world | WorldNamePipe"></span></span>
         </ng-container>
       </p>
     </div>
-    <button type="button" (click)="dialogRef.close()" aria-label="Close" class="-mr-2 -mt-1 inline-flex size-8 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+    <button type="button" (click)="dialogRef.close()" aria-label="Close" class="-mr-2 -mt-1 inline-flex size-8 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:text-slate-400 dark:hover:bg-slate-700">
       <svg appIcon="x-mark" class="size-5"></svg>
     </button>
   </div>
@@ -22,14 +22,14 @@
     <mat-progress-bar *ngIf="!loading && !error && paging" mode="indeterminate" class="!absolute inset-x-0 top-0 z-10"></mat-progress-bar>
     <div class="gd-scrollbar min-h-0 flex-1 overflow-y-auto [container-type:inline-size]">
       <div *ngIf="loading" class="flex flex-col items-center justify-center gap-3 px-6 py-24 text-center">
-        <span class="size-6 animate-spin rounded-full border-2 border-solid border-slate-200 border-t-brand-700"></span>
-        <p class="m-0 text-sm font-medium text-slate-700">Loading siege list...</p>
+        <span class="size-6 animate-spin rounded-full border-2 border-solid border-slate-200 border-t-brand-700 dark:border-slate-700"></span>
+        <p class="m-0 text-sm font-medium text-slate-700 dark:text-slate-300">Loading siege list...</p>
       </div>
 
       <div *ngIf="!loading && error" class="px-6 py-5 max-sm:px-4">
-        <div role="alert" class="flex gap-3 rounded-lg bg-rose-50 px-4 py-3 ring-1 ring-inset ring-rose-200">
-          <svg appIcon="exclamation-circle" class="size-5 flex-none text-rose-600"></svg>
-          <div class="min-w-0 text-sm text-rose-700">
+        <div role="alert" class="flex gap-3 rounded-lg bg-rose-50 px-4 py-3 ring-1 ring-inset ring-rose-200 dark:bg-rose-500/10">
+          <svg appIcon="exclamation-circle" class="size-5 flex-none text-rose-600 dark:text-rose-400"></svg>
+          <div class="min-w-0 text-sm text-rose-700 dark:text-rose-400">
             <p class="m-0 font-semibold">Could not load the siege list</p>
             <p class="mb-0 mt-0.5">Sorry, we can not load the siege list for this team at the moment. Try again later.</p>
           </div>
@@ -38,11 +38,11 @@
 
       <ng-container *ngIf="!loading && !error">
         <div *ngIf="sieges.length == 0" class="flex flex-col items-center px-6 py-16 text-center">
-          <span class="flex size-12 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+          <span class="flex size-12 items-center justify-center rounded-full bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400">
             <svg appIcon="flag" class="size-6"></svg>
           </span>
-          <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900">No sieges yet</h3>
-          <p class="mb-0 mt-1 text-sm text-slate-600">There are no sieges for this team.</p>
+          <h3 class="mb-0 mt-3 text-sm font-semibold text-slate-900 dark:text-white">No sieges yet</h3>
+          <p class="mb-0 mt-1 text-sm text-slate-600 dark:text-slate-400">There are no sieges for this team.</p>
         </div>
         <div *ngIf="sieges.length > 0" class="grid grid-cols-1 gap-5 px-6 py-5 max-sm:px-4 [@container(min-width:760px)]:grid-cols-2">
           <div *ngFor="let conquest of sieges" class="min-w-0" [ngClass]="{'gd-loading-overlay': paging}">
@@ -62,10 +62,10 @@
     </div>
   </div>
 
-  <div class="flex flex-none flex-wrap items-center justify-end gap-3 border-0 border-t border-solid border-slate-200 bg-slate-50 px-6 py-4 max-sm:px-4">
+  <div class="flex flex-none flex-wrap items-center justify-end gap-3 border-0 border-t border-solid border-slate-200 bg-slate-50 px-6 py-4 max-sm:px-4 dark:border-slate-700 dark:bg-slate-700/40">
     <div class="mr-auto min-w-0">
       <ng-container *ngIf="!loading && !error">
-        <mat-paginator *ngIf="from > 0 || num_results > 20" class="block bg-transparent !text-xs !font-normal text-slate-600 [&_.mat-button-wrapper]:flex [&_.mat-form-field-infix]:!w-16 [&_.mat-form-field-infix]:!p-0 [&_.mat-form-field-subscript-wrapper]:hidden [&_.mat-form-field-underline]:hidden [&_.mat-form-field-wrapper]:!m-0 [&_.mat-form-field-wrapper]:!p-0 [&_.mat-icon-button:not(.mat-button-disabled):hover]:bg-slate-100 [&_.mat-icon-button]:inline-flex [&_.mat-icon-button]:size-8 [&_.mat-icon-button]:items-center [&_.mat-icon-button]:justify-center [&_.mat-icon-button]:rounded-md [&_.mat-icon-button]:leading-8 [&_.mat-paginator-container]:min-h-0 [&_.mat-paginator-container]:flex-nowrap [&_.mat-paginator-container]:gap-3 [&_.mat-paginator-container]:p-0 [&_.mat-paginator-icon]:w-5 [&_.mat-paginator-page-size-label]:m-0 [&_.mat-paginator-page-size]:m-0 [&_.mat-paginator-page-size]:items-center [&_.mat-paginator-page-size]:gap-2 [&_.mat-paginator-page-size]:!pt-0 [&_.mat-paginator-range-actions]:gap-1 [&_.mat-paginator-range-label]:m-0 [&_.mat-paginator-range-label]:mr-1 [&_.mat-paginator-range-label]:tabular-nums [&_.mat-select-arrow-wrapper]:![transform:none] [&_.mat-select-arrow]:text-slate-400 [&_.mat-select-trigger]:h-auto [&_.mat-select-trigger]:w-full [&_.mat-select:focus]:ring-2 [&_.mat-select:focus]:ring-brand-700 [&_.mat-select]:flex [&_.mat-select]:h-8 [&_.mat-select]:items-center [&_.mat-select]:rounded-md [&_.mat-select]:bg-white [&_.mat-select]:pl-2.5 [&_.mat-select]:pr-1.5 [&_.mat-select]:text-xs [&_.mat-select]:shadow-sm [&_.mat-select]:ring-1 [&_.mat-select]:ring-inset [&_.mat-select]:ring-slate-300"
+        <mat-paginator *ngIf="from > 0 || num_results > 20" class="block bg-transparent !text-xs !font-normal text-slate-600 [&_.mat-button-wrapper]:flex [&_.mat-form-field-infix]:!w-16 [&_.mat-form-field-infix]:!p-0 [&_.mat-form-field-subscript-wrapper]:hidden [&_.mat-form-field-underline]:hidden [&_.mat-form-field-wrapper]:!m-0 [&_.mat-form-field-wrapper]:!p-0 [&_.mat-icon-button:not(.mat-button-disabled):hover]:bg-slate-100 [&_.mat-icon-button]:inline-flex [&_.mat-icon-button]:size-8 [&_.mat-icon-button]:items-center [&_.mat-icon-button]:justify-center [&_.mat-icon-button]:rounded-md [&_.mat-icon-button]:leading-8 [&_.mat-paginator-container]:min-h-0 [&_.mat-paginator-container]:flex-nowrap [&_.mat-paginator-container]:gap-3 [&_.mat-paginator-container]:p-0 [&_.mat-paginator-icon]:w-5 [&_.mat-paginator-page-size-label]:m-0 [&_.mat-paginator-page-size]:m-0 [&_.mat-paginator-page-size]:items-center [&_.mat-paginator-page-size]:gap-2 [&_.mat-paginator-page-size]:!pt-0 [&_.mat-paginator-range-actions]:gap-1 [&_.mat-paginator-range-label]:m-0 [&_.mat-paginator-range-label]:mr-1 [&_.mat-paginator-range-label]:tabular-nums [&_.mat-select-arrow-wrapper]:![transform:none] [&_.mat-select-arrow]:text-slate-400 [&_.mat-select-trigger]:h-auto [&_.mat-select-trigger]:w-full [&_.mat-select:focus]:ring-2 [&_.mat-select:focus]:ring-brand-700 [&_.mat-select]:flex [&_.mat-select]:h-8 [&_.mat-select]:items-center [&_.mat-select]:rounded-md [&_.mat-select]:bg-white [&_.mat-select]:pl-2.5 [&_.mat-select]:pr-1.5 [&_.mat-select]:text-xs [&_.mat-select]:shadow-sm [&_.mat-select]:ring-1 [&_.mat-select]:ring-inset [&_.mat-select]:ring-slate-300 dark:text-slate-400"
                        [length]="num_results"
                        [pageSize]="size"
                        [pageSizeOptions]="[20, 50, 100]"
@@ -74,6 +74,6 @@
         </mat-paginator>
       </ng-container>
     </div>
-    <button type="button" (click)="dialogRef.close()" class="inline-flex items-center justify-center gap-1.5 rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Close</button>
+    <button type="button" (click)="dialogRef.close()" class="inline-flex items-center justify-center gap-1.5 rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:bg-slate-800 dark:text-white dark:ring-slate-600 dark:hover:bg-slate-700/60">Close</button>
   </div>
 </div>

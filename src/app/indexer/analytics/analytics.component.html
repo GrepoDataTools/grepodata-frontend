@@ -1,48 +1,48 @@
-<div class="mx-auto flex max-w-[1600px] flex-col gap-6 px-6 pb-12 pt-6 text-left font-normal text-slate-900 max-sm:gap-4 max-sm:px-4 max-sm:pb-8 max-sm:pt-4">
+<div class="mx-auto flex max-w-[1600px] flex-col gap-6 px-6 pb-12 pt-6 text-left font-normal text-slate-900 max-sm:gap-4 max-sm:px-4 max-sm:pb-8 max-sm:pt-4 dark:text-white">
   <div class="min-w-0">
-    <h1 class="my-0 text-2xl font-bold tracking-tight text-slate-900">Usage statistics</h1>
-    <p class="mb-0 mt-1 text-sm text-slate-500">The figures on this page are based on aggregated usage data. This page is intended to monitor the status of the service.</p>
+    <h1 class="my-0 text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Usage statistics</h1>
+    <p class="mb-0 mt-1 text-sm text-slate-500 dark:text-slate-400">The figures on this page are based on aggregated usage data. This page is intended to monitor the status of the service.</p>
   </div>
 
   <mat-progress-bar *ngIf="loading_index" mode="indeterminate" class="!h-1 rounded-full"></mat-progress-bar>
 
-  <div *ngIf="error" role="alert" class="flex items-center gap-3 rounded-lg bg-rose-50 px-4 py-3 text-sm text-rose-700 ring-1 ring-inset ring-rose-200">
-    <svg appIcon="exclamation-circle" class="size-5 flex-none text-rose-600"></svg>
+  <div *ngIf="error" role="alert" class="flex items-center gap-3 rounded-lg bg-rose-50 px-4 py-3 text-sm text-rose-700 ring-1 ring-inset ring-rose-200 dark:bg-rose-500/10 dark:text-rose-400">
+    <svg appIcon="exclamation-circle" class="size-5 flex-none text-rose-600 dark:text-rose-400"></svg>
     <p class="m-0">Sorry, we are unable to load statistics at this moment.</p>
   </div>
 
   <div *ngIf="cards_data && cards_data.length > 0" class="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-5 max-sm:gap-3">
-    <section *ngFor="let card of cards_data" class="flex min-w-0 flex-col gap-1 rounded-xl bg-white px-5 py-4 shadow-sm ring-1 ring-slate-900/[.08] max-sm:px-3.5 max-sm:py-3">
-      <p class="m-0 flex min-w-0 items-center gap-2 text-[13px] font-medium leading-5 text-slate-600"><svg [appIcon]="card.icon" class="size-[18px] flex-none text-slate-400"></svg><span class="truncate">{{card.name}}</span></p>
-      <p class="m-0 truncate text-[26px] font-semibold leading-8 tracking-[-0.01em] tabular-nums text-slate-900 max-sm:text-xl max-sm:leading-7">{{card.value | number}}</p>
-      <p *ngIf="card.extra !== null && card.extra !== undefined" class="m-0 flex flex-wrap items-center gap-x-1 text-[13px] leading-5 text-slate-500"><svg appIcon="arrow-trending-up" class="size-4 flex-none text-emerald-600"></svg><span class="font-semibold tabular-nums text-emerald-700">+{{card.extra | number}}</span>in 24 hours</p>
+    <section *ngFor="let card of cards_data" class="flex min-w-0 flex-col gap-1 rounded-xl bg-white px-5 py-4 shadow-sm ring-1 ring-slate-900/[.08] max-sm:px-3.5 max-sm:py-3 dark:bg-slate-800 dark:ring-white/10">
+      <p class="m-0 flex min-w-0 items-center gap-2 text-[13px] font-medium leading-5 text-slate-600 dark:text-slate-400"><svg [appIcon]="card.icon" class="size-[18px] flex-none text-slate-400 dark:text-slate-500"></svg><span class="truncate">{{card.name}}</span></p>
+      <p class="m-0 truncate text-[26px] font-semibold leading-8 tracking-[-0.01em] tabular-nums text-slate-900 max-sm:text-xl max-sm:leading-7 dark:text-white">{{card.value | number}}</p>
+      <p *ngIf="card.extra !== null && card.extra !== undefined" class="m-0 flex flex-wrap items-center gap-x-1 text-[13px] leading-5 text-slate-500 dark:text-slate-400"><svg appIcon="arrow-trending-up" class="size-4 flex-none text-emerald-600"></svg><span class="font-semibold tabular-nums text-emerald-700 dark:text-emerald-400">+{{card.extra | number}}</span>in 24 hours</p>
     </section>
   </div>
 
   <div *ngIf="loading_index" aria-hidden="true" class="grid gap-6 lg:grid-cols-2 max-sm:gap-4">
-    <section *ngFor="let skeleton of [0, 1]" class="flex flex-col gap-2.5 rounded-xl bg-white px-5 py-4 shadow-sm ring-1 ring-slate-900/[.08]">
-      <span class="block h-3.5 w-[45%] animate-pulse rounded bg-slate-200"></span>
-      <span class="block h-2.5 w-[70%] animate-pulse rounded bg-slate-200"></span>
-      <span class="mt-2 block h-[180px] rounded-lg bg-slate-50 ring-1 ring-inset ring-slate-100"></span>
+    <section *ngFor="let skeleton of [0, 1]" class="flex flex-col gap-2.5 rounded-xl bg-white px-5 py-4 shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
+      <span class="block h-3.5 w-[45%] animate-pulse rounded bg-slate-200 dark:bg-slate-600"></span>
+      <span class="block h-2.5 w-[70%] animate-pulse rounded bg-slate-200 dark:bg-slate-600"></span>
+      <span class="mt-2 block h-[180px] rounded-lg bg-slate-50 ring-1 ring-inset ring-slate-100 dark:bg-slate-700/40"></span>
     </section>
   </div>
 
   <section *ngIf="!loading_index && (indexer_error_rate.length > 0 || warning_rate.length > 0)" aria-labelledby="usage-health" class="flex flex-col gap-3">
-    <h2 id="usage-health" class="m-0 flex items-center gap-2 text-xs font-semibold uppercase leading-4 tracking-wider text-slate-400"><span aria-hidden="true" class="h-px w-6 flex-none bg-slate-300"></span>Service health</h2>
+    <h2 id="usage-health" class="m-0 flex items-center gap-2 text-xs font-semibold uppercase leading-4 tracking-wider text-slate-400 dark:text-slate-500"><span aria-hidden="true" class="h-px w-6 flex-none bg-slate-300"></span>Service health</h2>
     <div class="grid items-stretch gap-6 lg:grid-cols-2 max-sm:gap-4">
-      <section *ngIf="indexer_error_rate.length > 0" class="flex min-w-0 flex-col rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+      <section *ngIf="indexer_error_rate.length > 0" class="flex min-w-0 flex-col rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
         <div class="px-5 pt-4 max-sm:px-4">
-          <h3 class="m-0 text-[15px] font-semibold leading-[22px] text-slate-900">Report parsing error rate (%)</h3>
-          <p class="mb-0 mt-0.5 text-[13px] leading-[18px] text-slate-500">Some report parsing errors are expected. Elevated error rates may indicate a change in report structure (parser changes required). <a href="http://api-grepodata-com.debugger:8080/bEk6BmaBZBRTeRtM.php?level=all&error=true" target="_blank" class="text-slate-400 underline underline-offset-2 hover:text-slate-500 focus:text-slate-400">debug</a></p>
+          <h3 class="m-0 text-[15px] font-semibold leading-[22px] text-slate-900 dark:text-white">Report parsing error rate (%)</h3>
+          <p class="mb-0 mt-0.5 text-[13px] leading-[18px] text-slate-500 dark:text-slate-400">Some report parsing errors are expected. Elevated error rates may indicate a change in report structure (parser changes required). <a href="http://api-grepodata-com.debugger:8080/bEk6BmaBZBRTeRtM.php?level=all&error=true" target="_blank" class="text-slate-400 underline underline-offset-2 hover:text-slate-500 focus:text-slate-400 dark:text-slate-500">debug</a></p>
         </div>
         <div class="flex min-w-0 flex-col gap-3 px-5 pb-4 pt-3.5 max-sm:px-4">
           <app-bar-chart [results]="indexer_error_rate" color="#F43F5E" [min]="indexer_error_rate_maxy" suffix="%" [dates]="true" [peak]="true" axisLabel="% of daily parsed reports" unit="of daily parsed reports" label="Report parsing error rate per day"></app-bar-chart>
         </div>
       </section>
-      <section *ngIf="warning_rate.length > 0" class="flex min-w-0 flex-col rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+      <section *ngIf="warning_rate.length > 0" class="flex min-w-0 flex-col rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
         <div class="px-5 pt-4 max-sm:px-4">
-          <h3 class="m-0 text-[15px] font-semibold leading-[22px] text-slate-900">GrepoData logger warning count</h3>
-          <p class="mb-0 mt-0.5 text-[13px] leading-[18px] text-slate-500">Elevated warning rates may indicate an issue with the service.</p>
+          <h3 class="m-0 text-[15px] font-semibold leading-[22px] text-slate-900 dark:text-white">GrepoData logger warning count</h3>
+          <p class="mb-0 mt-0.5 text-[13px] leading-[18px] text-slate-500 dark:text-slate-400">Elevated warning rates may indicate an issue with the service.</p>
         </div>
         <div class="flex min-w-0 flex-col gap-3 px-5 pb-4 pt-3.5 max-sm:px-4">
           <app-line-chart [results]="warning_rate" [color]="chartColor" [zero]="true" [area]="true" [peak]="true" ends="none" plot="h-[200px]" label="Logger warnings per day"></app-line-chart>
@@ -52,15 +52,15 @@
   </section>
 
   <section *ngIf="!loading_index && total_per_day.length > 0" aria-labelledby="usage-activity" class="flex flex-col gap-3">
-    <h2 id="usage-activity" class="m-0 flex items-center gap-2 text-xs font-semibold uppercase leading-4 tracking-wider text-slate-400"><span aria-hidden="true" class="h-px w-6 flex-none bg-slate-300"></span>Reports and commands</h2>
+    <h2 id="usage-activity" class="m-0 flex items-center gap-2 text-xs font-semibold uppercase leading-4 tracking-wider text-slate-400 dark:text-slate-500"><span aria-hidden="true" class="h-px w-6 flex-none bg-slate-300"></span>Reports and commands</h2>
     <div class="grid items-stretch gap-6 lg:grid-cols-2 max-sm:gap-4">
-      <section *ngIf="total_per_day.length > 0" class="flex min-w-0 flex-col rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+      <section *ngIf="total_per_day.length > 0" class="flex min-w-0 flex-col rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
         <div class="px-5 pt-4 max-sm:px-4">
-          <h3 class="m-0 text-[15px] font-semibold leading-[22px] text-slate-900">Number of reports indexed &amp; commands shared per day</h3>
-          <p class="mb-0 mt-0.5 text-[13px] leading-[18px] text-slate-500">Duplicate uploads are ignored; only unique uploads are counted. MA7 = 7-day moving average.</p>
+          <h3 class="m-0 text-[15px] font-semibold leading-[22px] text-slate-900 dark:text-white">Number of reports indexed &amp; commands shared per day</h3>
+          <p class="mb-0 mt-0.5 text-[13px] leading-[18px] text-slate-500 dark:text-slate-400">Duplicate uploads are ignored; only unique uploads are counted. MA7 = 7-day moving average.</p>
         </div>
         <div class="flex min-w-0 flex-col gap-3 px-5 pb-4 pt-3.5 max-sm:px-4">
-        <ul class="m-0 flex list-none flex-wrap gap-x-4 gap-y-1 p-0 text-xs leading-4 text-slate-600">
+        <ul class="m-0 flex list-none flex-wrap gap-x-4 gap-y-1 p-0 text-xs leading-4 text-slate-600 dark:text-slate-400">
           <li class="m-0 flex items-center gap-1.5"><span aria-hidden="true" class="h-[3px] w-3.5 rounded-full flex-none" style="background-color: #B4D0F1"></span>Indexed reports</li>
           <li class="m-0 flex items-center gap-1.5"><span aria-hidden="true" class="h-[3px] w-3.5 rounded-full flex-none" style="background-color: #2A78D6"></span>Indexed reports (MA7)</li>
           <li class="m-0 flex items-center gap-1.5"><span aria-hidden="true" class="h-[3px] w-3.5 rounded-full flex-none" style="background-color: #F8CAB8"></span>Shared commands</li>
@@ -69,18 +69,18 @@
           <app-line-chart [results]="total_per_day" [color]="chartColor" [width]="chartWidth" [zero]="true" [months]="2" ends="none" plot="h-[200px]" label="Reports indexed and commands shared per day"></app-line-chart>
         </div>
       </section>
-      <section *ngIf="total_per_day.length > 0" class="flex min-w-0 flex-col rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+      <section *ngIf="total_per_day.length > 0" class="flex min-w-0 flex-col rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
         <div class="px-5 pt-4 max-sm:px-4">
-          <h3 class="m-0 text-[15px] font-semibold leading-[22px] text-slate-900">Number of new reports indexed per hour</h3>
-          <p class="mb-0 mt-0.5 text-[13px] leading-[18px] text-slate-500">Duplicate report uploads are ignored, only unique new reports are counted.</p>
+          <h3 class="m-0 text-[15px] font-semibold leading-[22px] text-slate-900 dark:text-white">Number of new reports indexed per hour</h3>
+          <p class="mb-0 mt-0.5 text-[13px] leading-[18px] text-slate-500 dark:text-slate-400">Duplicate report uploads are ignored, only unique new reports are counted.</p>
         </div>
         <div class="flex min-w-0 flex-col gap-3 px-5 pb-4 pt-3.5 max-sm:px-4">
           <div>
-            <p class="mb-1 ml-11 mt-0 text-xs font-semibold leading-4 text-slate-700">New reports per hour</p>
+            <p class="mb-1 ml-11 mt-0 text-xs font-semibold leading-4 text-slate-700 dark:text-slate-300">New reports per hour</p>
             <app-line-chart [results]="[hourly_reports[0]]" [color]="chartColor" [width]="chartWidth" [zero]="true" [hourly]="true" ends="none" plot="h-[110px]" label="New reports per hour"></app-line-chart>
           </div>
           <div>
-            <p class="mb-1 ml-11 mt-0 text-xs font-semibold leading-4 text-slate-700">Active users per hour</p>
+            <p class="mb-1 ml-11 mt-0 text-xs font-semibold leading-4 text-slate-700 dark:text-slate-300">Active users per hour</p>
             <app-line-chart [results]="[hourly_reports[1]]" [color]="chartColor" [width]="chartWidth" [zero]="true" [hourly]="true" ends="none" plot="h-[90px]" label="Active users per hour"></app-line-chart>
           </div>
         </div>
@@ -89,49 +89,49 @@
   </section>
 
   <section *ngIf="!loading_index && (users_per_day.length > 0 || indexes_per_day.length > 0)" aria-labelledby="usage-active" class="flex flex-col gap-3">
-    <h2 id="usage-active" class="m-0 flex items-center gap-2 text-xs font-semibold uppercase leading-4 tracking-wider text-slate-400"><span aria-hidden="true" class="h-px w-6 flex-none bg-slate-300"></span>Active users and teams</h2>
+    <h2 id="usage-active" class="m-0 flex items-center gap-2 text-xs font-semibold uppercase leading-4 tracking-wider text-slate-400 dark:text-slate-500"><span aria-hidden="true" class="h-px w-6 flex-none bg-slate-300"></span>Active users and teams</h2>
     <div class="grid items-stretch gap-6 lg:grid-cols-2 max-sm:gap-4">
-      <section *ngIf="users_per_day.length > 0" class="flex min-w-0 flex-col rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+      <section *ngIf="users_per_day.length > 0" class="flex min-w-0 flex-col rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
         <div class="px-5 pt-4 max-sm:px-4">
-          <h3 class="m-0 text-[15px] font-semibold leading-[22px] text-slate-900">Number of active users &amp; teams (GrepoData City Indexer)</h3>
-          <p class="mb-0 mt-0.5 text-[13px] leading-[18px] text-slate-500">A City Indexer user/team is considered active if they indexed at least 1 new report in the last 24 hours, 7 days or 1 month respectively.</p>
+          <h3 class="m-0 text-[15px] font-semibold leading-[22px] text-slate-900 dark:text-white">Number of active users &amp; teams (GrepoData City Indexer)</h3>
+          <p class="mb-0 mt-0.5 text-[13px] leading-[18px] text-slate-500 dark:text-slate-400">A City Indexer user/team is considered active if they indexed at least 1 new report in the last 24 hours, 7 days or 1 month respectively.</p>
         </div>
         <div class="flex min-w-0 flex-col gap-3 px-5 pb-4 pt-3.5 max-sm:px-4">
-        <ul class="m-0 flex list-none flex-wrap gap-x-4 gap-y-1 p-0 text-xs leading-4 text-slate-600">
+        <ul class="m-0 flex list-none flex-wrap gap-x-4 gap-y-1 p-0 text-xs leading-4 text-slate-600 dark:text-slate-400">
           <li class="m-0 flex items-center gap-1.5"><span aria-hidden="true" class="h-[3px] w-3.5 rounded-full flex-none" style="background-color: #86B6EF"></span>Daily active</li>
           <li class="m-0 flex items-center gap-1.5"><span aria-hidden="true" class="h-[3px] w-3.5 rounded-full flex-none" style="background-color: #2A78D6"></span>Weekly active</li>
           <li class="m-0 flex items-center gap-1.5"><span aria-hidden="true" class="h-[3px] w-3.5 rounded-full flex-none" style="background-color: #104281"></span>Monthly active</li>
         </ul>
           <div class="grid gap-6 sm:grid-cols-2 max-sm:gap-4">
             <div class="min-w-0">
-              <p class="mb-1 ml-11 mt-0 text-xs font-semibold leading-4 text-slate-700">Users</p>
+              <p class="mb-1 ml-11 mt-0 text-xs font-semibold leading-4 text-slate-700 dark:text-slate-300">Users</p>
               <app-line-chart [results]="[users_per_day[0], users_per_day[1], users_per_day[2]]" [color]="chartColor" [width]="chartWidth" [zero]="true" [months]="3" ends="none" plot="h-40" label="Active City Indexer users"></app-line-chart>
             </div>
             <div class="min-w-0">
-              <p class="mb-1 ml-11 mt-0 text-xs font-semibold leading-4 text-slate-700">Teams</p>
+              <p class="mb-1 ml-11 mt-0 text-xs font-semibold leading-4 text-slate-700 dark:text-slate-300">Teams</p>
               <app-line-chart [results]="[users_per_day[3], users_per_day[4], users_per_day[5]]" [color]="chartColor" [width]="chartWidth" [zero]="true" [months]="3" ends="none" plot="h-40" label="Active City Indexer teams"></app-line-chart>
             </div>
           </div>
         </div>
       </section>
-      <section *ngIf="indexes_per_day.length > 0" class="flex min-w-0 flex-col rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+      <section *ngIf="indexes_per_day.length > 0" class="flex min-w-0 flex-col rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
         <div class="px-5 pt-4 max-sm:px-4">
-          <h3 class="m-0 text-[15px] font-semibold leading-[22px] text-slate-900">Number of active users &amp; teams (GrepoData Operations)</h3>
-          <p class="mb-0 mt-0.5 text-[13px] leading-[18px] text-slate-500">An Operations user/team is considered active if they shared at least 1 command in the last 24 hours, 7 days or 1 month respectively.</p>
+          <h3 class="m-0 text-[15px] font-semibold leading-[22px] text-slate-900 dark:text-white">Number of active users &amp; teams (GrepoData Operations)</h3>
+          <p class="mb-0 mt-0.5 text-[13px] leading-[18px] text-slate-500 dark:text-slate-400">An Operations user/team is considered active if they shared at least 1 command in the last 24 hours, 7 days or 1 month respectively.</p>
         </div>
         <div class="flex min-w-0 flex-col gap-3 px-5 pb-4 pt-3.5 max-sm:px-4">
-        <ul class="m-0 flex list-none flex-wrap gap-x-4 gap-y-1 p-0 text-xs leading-4 text-slate-600">
+        <ul class="m-0 flex list-none flex-wrap gap-x-4 gap-y-1 p-0 text-xs leading-4 text-slate-600 dark:text-slate-400">
           <li class="m-0 flex items-center gap-1.5"><span aria-hidden="true" class="h-[3px] w-3.5 rounded-full flex-none" style="background-color: #86B6EF"></span>Daily active</li>
           <li class="m-0 flex items-center gap-1.5"><span aria-hidden="true" class="h-[3px] w-3.5 rounded-full flex-none" style="background-color: #2A78D6"></span>Weekly active</li>
           <li class="m-0 flex items-center gap-1.5"><span aria-hidden="true" class="h-[3px] w-3.5 rounded-full flex-none" style="background-color: #104281"></span>Monthly active</li>
         </ul>
           <div class="grid gap-6 sm:grid-cols-2 max-sm:gap-4">
             <div class="min-w-0">
-              <p class="mb-1 ml-11 mt-0 text-xs font-semibold leading-4 text-slate-700">Users</p>
+              <p class="mb-1 ml-11 mt-0 text-xs font-semibold leading-4 text-slate-700 dark:text-slate-300">Users</p>
               <app-line-chart [results]="[indexes_per_day[0], indexes_per_day[1], indexes_per_day[2]]" [color]="chartColor" [width]="chartWidth" [zero]="true" [months]="3" ends="none" plot="h-40" label="Active Operations users"></app-line-chart>
             </div>
             <div class="min-w-0">
-              <p class="mb-1 ml-11 mt-0 text-xs font-semibold leading-4 text-slate-700">Teams</p>
+              <p class="mb-1 ml-11 mt-0 text-xs font-semibold leading-4 text-slate-700 dark:text-slate-300">Teams</p>
               <app-line-chart [results]="[indexes_per_day[3], indexes_per_day[4], indexes_per_day[5]]" [color]="chartColor" [width]="chartWidth" [zero]="true" [months]="3" ends="none" plot="h-40" label="Active Operations teams"></app-line-chart>
             </div>
           </div>
@@ -141,15 +141,15 @@
   </section>
 
   <section *ngIf="!loading_index && (total_reports.length > 0 || total_users.length > 0)" aria-labelledby="usage-totals" class="flex flex-col gap-3">
-    <h2 id="usage-totals" class="m-0 flex items-center gap-2 text-xs font-semibold uppercase leading-4 tracking-wider text-slate-400"><span aria-hidden="true" class="h-px w-6 flex-none bg-slate-300"></span>Totals</h2>
+    <h2 id="usage-totals" class="m-0 flex items-center gap-2 text-xs font-semibold uppercase leading-4 tracking-wider text-slate-400 dark:text-slate-500"><span aria-hidden="true" class="h-px w-6 flex-none bg-slate-300"></span>Totals</h2>
     <div class="grid items-stretch gap-6 lg:grid-cols-2 max-sm:gap-4">
-      <section *ngIf="total_reports.length > 0" class="flex min-w-0 flex-col rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+      <section *ngIf="total_reports.length > 0" class="flex min-w-0 flex-col rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
         <div class="px-5 pt-4 max-sm:px-4">
-          <h3 class="m-0 text-[15px] font-semibold leading-[22px] text-slate-900">Total number of reports &amp; commands (accumulative)</h3>
-          <p class="mb-0 mt-0.5 text-[13px] leading-[18px] text-slate-500">How many reports have been indexed (City Indexer) and how many commands have been uploaded (Operations)?</p>
+          <h3 class="m-0 text-[15px] font-semibold leading-[22px] text-slate-900 dark:text-white">Total number of reports &amp; commands (accumulative)</h3>
+          <p class="mb-0 mt-0.5 text-[13px] leading-[18px] text-slate-500 dark:text-slate-400">How many reports have been indexed (City Indexer) and how many commands have been uploaded (Operations)?</p>
         </div>
         <div class="flex min-w-0 flex-col gap-3 px-5 pb-4 pt-3.5 max-sm:px-4">
-        <ul class="m-0 flex list-none flex-wrap gap-x-4 gap-y-1 p-0 text-xs leading-4 text-slate-600">
+        <ul class="m-0 flex list-none flex-wrap gap-x-4 gap-y-1 p-0 text-xs leading-4 text-slate-600 dark:text-slate-400">
           <li class="m-0 flex items-center gap-1.5"><span aria-hidden="true" class="h-[3px] w-3.5 rounded-full flex-none" style="background-color: #2A78D6"></span>Total unique reports</li>
           <li class="m-0 flex items-center gap-1.5"><span aria-hidden="true" class="h-[3px] w-3.5 rounded-full flex-none" style="background-color: #1BAF7A"></span>Total reports shared</li>
           <li class="m-0 flex items-center gap-1.5"><span aria-hidden="true" class="h-[3px] w-3.5 rounded-full flex-none" style="background-color: #EB6834"></span>Total commands shared</li>
@@ -157,13 +157,13 @@
           <app-line-chart [results]="total_reports" [color]="chartColor" [zero]="true" [months]="2" ends="value" plot="h-[200px]" label="Total reports and commands"></app-line-chart>
         </div>
       </section>
-      <section *ngIf="total_users.length > 0" class="flex min-w-0 flex-col rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+      <section *ngIf="total_users.length > 0" class="flex min-w-0 flex-col rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
         <div class="px-5 pt-4 max-sm:px-4">
-          <h3 class="m-0 text-[15px] font-semibold leading-[22px] text-slate-900">Total number of registered users &amp; teams (accumulative)</h3>
-          <p class="mb-0 mt-0.5 text-[13px] leading-[18px] text-slate-500">How many users have registered and how many teams have been created in total?</p>
+          <h3 class="m-0 text-[15px] font-semibold leading-[22px] text-slate-900 dark:text-white">Total number of registered users &amp; teams (accumulative)</h3>
+          <p class="mb-0 mt-0.5 text-[13px] leading-[18px] text-slate-500 dark:text-slate-400">How many users have registered and how many teams have been created in total?</p>
         </div>
         <div class="flex min-w-0 flex-col gap-3 px-5 pb-4 pt-3.5 max-sm:px-4">
-        <ul class="m-0 flex list-none flex-wrap gap-x-4 gap-y-1 p-0 text-xs leading-4 text-slate-600">
+        <ul class="m-0 flex list-none flex-wrap gap-x-4 gap-y-1 p-0 text-xs leading-4 text-slate-600 dark:text-slate-400">
           <li class="m-0 flex items-center gap-1.5"><span aria-hidden="true" class="h-[3px] w-3.5 rounded-full flex-none" style="background-color: #2A78D6"></span>Registered users</li>
           <li class="m-0 flex items-center gap-1.5"><span aria-hidden="true" class="h-[3px] w-3.5 rounded-full flex-none" style="background-color: #EB6834"></span>Number of teams</li>
         </ul>
@@ -174,24 +174,24 @@
   </section>
 
   <section *ngIf="!loading_index && (index_world_bins.length > 0 || report_type_per_day.length > 0)" aria-labelledby="usage-sources" class="flex flex-col gap-3">
-    <h2 id="usage-sources" class="m-0 flex items-center gap-2 text-xs font-semibold uppercase leading-4 tracking-wider text-slate-400"><span aria-hidden="true" class="h-px w-6 flex-none bg-slate-300"></span>Teams and report sources</h2>
+    <h2 id="usage-sources" class="m-0 flex items-center gap-2 text-xs font-semibold uppercase leading-4 tracking-wider text-slate-400 dark:text-slate-500"><span aria-hidden="true" class="h-px w-6 flex-none bg-slate-300"></span>Teams and report sources</h2>
     <div class="grid items-stretch gap-6 lg:grid-cols-2 max-sm:gap-4">
-      <section *ngIf="index_world_bins.length > 0" class="flex min-w-0 flex-col rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+      <section *ngIf="index_world_bins.length > 0" class="flex min-w-0 flex-col rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
         <div class="px-5 pt-4 max-sm:px-4">
-          <h3 class="m-0 text-[15px] font-semibold leading-[22px] text-slate-900">Number of active teams by country</h3>
-          <p class="mb-0 mt-0.5 text-[13px] leading-[18px] text-slate-500">For this graph, a team is considered active if it gained at least 1 new report in the last 3 months.</p>
+          <h3 class="m-0 text-[15px] font-semibold leading-[22px] text-slate-900 dark:text-white">Number of active teams by country</h3>
+          <p class="mb-0 mt-0.5 text-[13px] leading-[18px] text-slate-500 dark:text-slate-400">For this graph, a team is considered active if it gained at least 1 new report in the last 3 months.</p>
         </div>
         <div class="flex min-w-0 flex-col gap-3 px-5 pb-4 pt-3.5 max-sm:px-4">
           <app-bar-chart [results]="index_world_bins" color="#2A78D6" [caps]="true" titleSuffix=" servers" unit="active teams" label="Active teams by country"></app-bar-chart>
         </div>
       </section>
-      <section *ngIf="report_type_per_day.length > 0" class="flex min-w-0 flex-col rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+      <section *ngIf="report_type_per_day.length > 0" class="flex min-w-0 flex-col rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
         <div class="px-5 pt-4 max-sm:px-4">
-          <h3 class="m-0 text-[15px] font-semibold leading-[22px] text-slate-900">Report source types</h3>
-          <p class="mb-0 mt-0.5 text-[13px] leading-[18px] text-slate-500">What percentage of new reports is coming from the inbox versus the forum?</p>
+          <h3 class="m-0 text-[15px] font-semibold leading-[22px] text-slate-900 dark:text-white">Report source types</h3>
+          <p class="mb-0 mt-0.5 text-[13px] leading-[18px] text-slate-500 dark:text-slate-400">What percentage of new reports is coming from the inbox versus the forum?</p>
         </div>
         <div class="flex min-w-0 flex-col gap-3 px-5 pb-4 pt-3.5 max-sm:px-4">
-        <ul class="m-0 flex list-none flex-wrap gap-x-4 gap-y-1 p-0 text-xs leading-4 text-slate-600">
+        <ul class="m-0 flex list-none flex-wrap gap-x-4 gap-y-1 p-0 text-xs leading-4 text-slate-600 dark:text-slate-400">
           <li class="m-0 flex items-center gap-1.5"><span aria-hidden="true" class="size-2.5 rounded-[3px] flex-none" style="background-color: #2A78D6"></span>Inbox reports</li>
           <li class="m-0 flex items-center gap-1.5"><span aria-hidden="true" class="size-2.5 rounded-[3px] flex-none" style="background-color: #EB6834"></span>Forum reports</li>
         </ul>

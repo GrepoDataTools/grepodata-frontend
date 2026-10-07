@@ -1,8 +1,8 @@
-<div class="mx-auto w-[1008px] max-w-full px-6 pb-20 pt-12 text-left font-normal text-slate-900 max-sm:px-4 max-sm:pt-8">
+<div class="mx-auto w-[1008px] max-w-full px-6 pb-20 pt-12 text-left font-normal text-slate-900 max-sm:px-4 max-sm:pt-8 dark:text-white">
 
-  <section *ngIf="verification_loading || verifying_script || verifying_invite" role="status" class="mx-auto flex w-[440px] max-w-full flex-col items-center gap-4 rounded-xl bg-white px-7 py-12 shadow-sm ring-1 ring-slate-900/[.08]">
+  <section *ngIf="verification_loading || verifying_script || verifying_invite" role="status" class="mx-auto flex w-[440px] max-w-full flex-col items-center gap-4 rounded-xl bg-white px-7 py-12 shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
     <span aria-hidden="true" class="size-7 flex-none animate-spin rounded-full border-[3px] border-solid border-brand-700/25 border-t-brand-700"></span>
-    <p class="m-0 text-sm font-semibold text-slate-900">Loading…</p>
+    <p class="m-0 text-sm font-semibold text-slate-900 dark:text-white">Loading…</p>
     <mat-progress-bar mode="indeterminate" class="!w-60 max-w-full rounded-full"></mat-progress-bar>
   </section>
 
@@ -14,9 +14,9 @@
           <svg appIcon="link" class="size-[26px]"></svg>
         </span>
         <div>
-          <h1 class="m-0 text-2xl font-bold tracking-tight text-slate-900">Almost there!</h1>
-          <p class="mb-0 mt-1.5 text-base text-slate-600"><strong class="font-semibold text-brand-700">Sign in</strong> or <strong class="font-semibold text-brand-700">register</strong> to activate your userscript.</p>
-          <p class="mb-0 mt-0.5 text-sm text-slate-500">You can view and share the collected intel using your GrepoData account.</p>
+          <h1 class="m-0 text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Almost there!</h1>
+          <p class="mb-0 mt-1.5 text-base text-slate-600 dark:text-slate-400"><strong class="font-semibold text-brand-700">Sign in</strong> or <strong class="font-semibold text-brand-700">register</strong> to activate your userscript.</p>
+          <p class="mb-0 mt-0.5 text-sm text-slate-500 dark:text-slate-400">You can view and share the collected intel using your GrepoData account.</p>
         </div>
       </div>
 
@@ -25,8 +25,8 @@
           <svg appIcon="clock" class="size-[26px]"></svg>
         </span>
         <div>
-          <h1 class="m-0 text-2xl font-bold tracking-tight text-slate-900">Sorry, this invite link has expired</h1>
-          <p class="mb-0 mt-1.5 text-base text-slate-600">Please ask the owner of the team for a new invite link</p>
+          <h1 class="m-0 text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Sorry, this invite link has expired</h1>
+          <p class="mb-0 mt-1.5 text-base text-slate-600 dark:text-slate-400">Please ask the owner of the team for a new invite link</p>
         </div>
       </div>
 
@@ -36,21 +36,21 @@
             <svg appIcon="user-group" class="size-[26px]"></svg>
           </span>
           <div class="min-w-0">
-            <h1 class="m-0 text-2xl font-bold tracking-tight text-slate-900">You have to be logged in to view this index</h1>
-            <p class="mb-0 mt-1.5 text-base text-slate-600">As of April 2021, you need to be signed in to collect and share enemy intelligence.</p>
+            <h1 class="m-0 text-2xl font-bold tracking-tight text-slate-900 dark:text-white">You have to be logged in to view this index</h1>
+            <p class="mb-0 mt-1.5 text-base text-slate-600 dark:text-slate-400">As of April 2021, you need to be signed in to collect and share enemy intelligence.</p>
           </div>
         </div>
 
-        <div role="note" class="flex gap-3 rounded-lg bg-sky-50 px-4 py-3 text-sm text-sky-800 ring-1 ring-inset ring-sky-200">
+        <div role="note" class="flex gap-3 rounded-lg bg-sky-50 px-4 py-3 text-sm text-sky-800 ring-1 ring-inset ring-sky-200 dark:bg-sky-500/10 dark:text-sky-400">
           <svg appIcon="information-circle" class="size-5 flex-none text-sky-700"></svg>
-          <p class="m-0 min-w-0"><strong class="font-semibold text-slate-900">Note:</strong> if you created this index, please register using the same email address that you used to create the index.</p>
+          <p class="m-0 min-w-0"><strong class="font-semibold text-slate-900 dark:text-white">Note:</strong> if you created this index, please register using the same email address that you used to create the index.</p>
         </div>
 
-        <div *ngIf="!v2_scriptlink && !expired && !invalid_link && v1_redirect && read_more" class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
+        <div *ngIf="!v2_scriptlink && !expired && !invalid_link && v1_redirect && read_more" class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
           <div class="px-5 py-4">
-            <h3 class="m-0 text-sm font-semibold text-slate-900">Why do I need a GrepoData account?</h3>
-            <div class="mt-2 flex flex-col gap-2.5 text-sm text-slate-600">
-              <p class="m-0"><strong class="font-semibold text-slate-900">We made this change in order to get official approval for our city indexer tool.</strong></p>
+            <h3 class="m-0 text-sm font-semibold text-slate-900 dark:text-white">Why do I need a GrepoData account?</h3>
+            <div class="mt-2 flex flex-col gap-2.5 text-sm text-slate-600 dark:text-slate-400">
+              <p class="m-0"><strong class="font-semibold text-slate-900 dark:text-white">We made this change in order to get official approval for our city indexer tool.</strong></p>
               <p class="m-0">
                 A GrepoData account is required to guarantee the security of the intel you collect and the people you share it with.
                 This way, the admin of an team (formerly known as an 'index') can manage exactly who has access to the intel and can revoke their access whenever needed.
@@ -62,12 +62,12 @@
               </p>
             </div>
           </div>
-          <div class="border-0 border-t border-solid border-slate-200 px-5 py-4">
-            <h3 class="m-0 text-sm font-semibold text-slate-900">Is my old intel/index still available?</h3>
-            <div class="mt-2 flex flex-col gap-2.5 text-sm text-slate-600">
+          <div class="border-0 border-t border-solid border-slate-200 px-5 py-4 dark:border-slate-700">
+            <h3 class="m-0 text-sm font-semibold text-slate-900 dark:text-white">Is my old intel/index still available?</h3>
+            <div class="mt-2 flex flex-col gap-2.5 text-sm text-slate-600 dark:text-slate-400">
               <p class="m-0">Once you create a GrepoData account and import one of your old indexes, you will be able to view the intel you have collected so far.</p>
-              <p class="m-0">If you are the person that created the old index, please <strong class="font-semibold text-slate-900">make sure that your new GrepoData account has the same email address that you used to create the old index</strong>. If you verify your email address, you will automatically become the owner of that index. You can then remove or add users as you wish.</p>
-              <p class="m-0"><strong class="font-semibold text-slate-900">Before April 2021, a team used to be known as an 'index'.</strong> Teams are the replacement of the old index system, but their functionality is still very similar.</p>
+              <p class="m-0">If you are the person that created the old index, please <strong class="font-semibold text-slate-900 dark:text-white">make sure that your new GrepoData account has the same email address that you used to create the old index</strong>. If you verify your email address, you will automatically become the owner of that index. You can then remove or add users as you wish.</p>
+              <p class="m-0"><strong class="font-semibold text-slate-900 dark:text-white">Before April 2021, a team used to be known as an 'index'.</strong> Teams are the replacement of the old index system, but their functionality is still very similar.</p>
             </div>
           </div>
         </div>
@@ -89,8 +89,8 @@
           <svg appIcon="user-group" class="size-[26px]"></svg>
         </span>
         <div>
-          <h1 class="m-0 text-2xl font-bold tracking-tight text-slate-900">Sign in to accept this invitation</h1>
-          <p class="mb-0 mt-1.5 text-base text-slate-600">Sign in with an existing account or register for a new account to join this team</p>
+          <h1 class="m-0 text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Sign in to accept this invitation</h1>
+          <p class="mb-0 mt-1.5 text-base text-slate-600 dark:text-slate-400">Sign in with an existing account or register for a new account to join this team</p>
         </div>
       </div>
     </div>
@@ -99,33 +99,33 @@
       <app-login-register [require_explicit_action]="true" [useCallback]="true" (onEmbeddedCallback)="loginCallback($event[0])"></app-login-register>
     </div>
 
-    <section *ngIf="invalid_link || error" class="mx-auto flex w-[560px] max-w-full flex-col items-center gap-4 rounded-xl bg-white px-7 pb-7 pt-8 text-center shadow-sm ring-1 ring-slate-900/[.08] max-sm:px-5">
+    <section *ngIf="invalid_link || error" class="mx-auto flex w-[560px] max-w-full flex-col items-center gap-4 rounded-xl bg-white px-7 pb-7 pt-8 text-center shadow-sm ring-1 ring-slate-900/[.08] max-sm:px-5 dark:bg-slate-800 dark:ring-white/10">
       <ng-container *ngIf="!error && !logged_in && !v2_scriptlink && !expired && invalid_link">
-        <span aria-hidden="true" class="flex size-12 flex-none items-center justify-center rounded-full bg-rose-50 text-rose-600 ring-1 ring-inset ring-rose-100">
+        <span aria-hidden="true" class="flex size-12 flex-none items-center justify-center rounded-full bg-rose-50 text-rose-600 ring-1 ring-inset ring-rose-100 dark:bg-rose-500/10 dark:text-rose-400">
           <svg appIcon="no-symbol" class="size-6"></svg>
         </span>
         <div class="min-w-0">
-          <h2 class="m-0 text-lg font-semibold leading-7 text-slate-900">Oops, this is not a valid invite link</h2>
-          <p class="mb-0 mt-1.5 text-sm text-slate-600"><strong class="break-all font-semibold text-slate-900">grepodata.com/invite/{{invite_link}}</strong> is not a valid invite link.<br/>Please ask the owner of the team for a new invite link</p>
+          <h2 class="m-0 text-lg font-semibold leading-7 text-slate-900 dark:text-white">Oops, this is not a valid invite link</h2>
+          <p class="mb-0 mt-1.5 text-sm text-slate-600 dark:text-slate-400"><strong class="break-all font-semibold text-slate-900 dark:text-white">grepodata.com/invite/{{invite_link}}</strong> is not a valid invite link.<br/>Please ask the owner of the team for a new invite link</p>
         </div>
       </ng-container>
 
       <ng-container *ngIf="error">
-        <span aria-hidden="true" class="flex size-12 flex-none items-center justify-center rounded-full ring-1 ring-inset" [ngClass]="error_icon == 'clock' || error_icon == 'lock-closed' || error_icon == 'globe-europe-africa' ? 'bg-amber-50 text-amber-600 ring-amber-100' : error_icon == 'magnifying-glass' ? 'bg-slate-100 text-slate-500 ring-slate-200' : 'bg-rose-50 text-rose-600 ring-rose-100'">
+        <span aria-hidden="true" class="flex size-12 flex-none items-center justify-center rounded-full ring-1 ring-inset" [ngClass]="error_icon == 'clock' || error_icon == 'lock-closed' || error_icon == 'globe-europe-africa' ? 'bg-amber-50 text-amber-600 ring-amber-100 dark:bg-amber-500/10 dark:text-amber-400 dark:ring-amber-500/30' : error_icon == 'magnifying-glass' ? 'bg-slate-100 text-slate-500 ring-slate-200 dark:bg-slate-700 dark:text-slate-400 dark:ring-slate-600' : 'bg-rose-50 text-rose-600 ring-rose-100 dark:bg-rose-500/10 dark:text-rose-400 dark:ring-rose-500/30'">
           <svg [appIcon]="error_icon" class="size-6"></svg>
         </span>
-        <div class="w-full min-w-0 text-sm text-slate-600 [&_strong]:font-semibold [&_h4_strong]:text-slate-900 [&_h2]:m-0 [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:leading-7 [&_h2]:text-slate-900 [&_h4]:mb-0 [&_h4]:mt-1.5 [&_h4]:text-sm [&_h4]:font-normal [&_h4]:leading-5 [&_h4]:text-slate-600 [&_pre]:mb-0 [&_pre]:mt-4 [&_pre]:!max-h-40 [&_pre]:overflow-auto [&_pre]:rounded-lg [&_pre]:border-0 [&_pre]:bg-slate-50 [&_pre]:px-3 [&_pre]:py-2.5 [&_pre]:text-left [&_pre]:font-mono [&_pre]:text-xs [&_pre]:text-slate-700 [&_pre]:!whitespace-pre-wrap [&_pre]:break-all [&_pre]:ring-1 [&_pre]:ring-inset [&_pre]:ring-slate-200">
+        <div class="w-full min-w-0 text-sm text-slate-600 [&_strong]:font-semibold [&_h4_strong]:text-slate-900 [&_h2]:m-0 [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:leading-7 [&_h2]:text-slate-900 [&_h4]:mb-0 [&_h4]:mt-1.5 [&_h4]:text-sm [&_h4]:font-normal [&_h4]:leading-5 [&_h4]:text-slate-600 [&_pre]:mb-0 [&_pre]:mt-4 [&_pre]:!max-h-40 [&_pre]:overflow-auto [&_pre]:rounded-lg [&_pre]:border-0 [&_pre]:bg-slate-50 [&_pre]:px-3 [&_pre]:py-2.5 [&_pre]:text-left [&_pre]:font-mono [&_pre]:text-xs [&_pre]:text-slate-700 [&_pre]:!whitespace-pre-wrap [&_pre]:break-all [&_pre]:ring-1 [&_pre]:ring-inset [&_pre]:ring-slate-200 dark:text-slate-400">
           <div [outerHTML]="error"></div>
         </div>
       </ng-container>
 
       <div class="flex flex-wrap justify-center gap-3">
-        <a routerLink="/indexer" *ngIf="!logged_in" class="inline-flex items-center justify-center gap-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 no-underline shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 hover:text-slate-900 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
-          <svg appIcon="arrow-left" class="size-[18px] flex-none text-slate-400"></svg>
+        <a routerLink="/indexer" *ngIf="!logged_in" class="inline-flex items-center justify-center gap-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 no-underline shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 hover:text-slate-900 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:bg-slate-800 dark:text-white dark:ring-slate-600 dark:hover:bg-slate-700/60 dark:hover:text-white">
+          <svg appIcon="arrow-left" class="size-[18px] flex-none text-slate-400 dark:text-slate-500"></svg>
           Back to indexer overview
         </a>
-        <a routerLink="/profile" *ngIf="logged_in" class="inline-flex items-center justify-center gap-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 no-underline shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 hover:text-slate-900 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
-          <svg appIcon="arrow-left" class="size-[18px] flex-none text-slate-400"></svg>
+        <a routerLink="/profile" *ngIf="logged_in" class="inline-flex items-center justify-center gap-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 no-underline shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 hover:text-slate-900 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:bg-slate-800 dark:text-white dark:ring-slate-600 dark:hover:bg-slate-700/60 dark:hover:text-white">
+          <svg appIcon="arrow-left" class="size-[18px] flex-none text-slate-400 dark:text-slate-500"></svg>
           Back to my intel
         </a>
       </div>

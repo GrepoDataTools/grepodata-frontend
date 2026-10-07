@@ -1,14 +1,14 @@
-<div class="flex min-h-full flex-col bg-white text-left font-normal text-slate-900">
+<div class="flex min-h-full flex-col bg-white text-left font-normal text-slate-900 dark:bg-slate-800 dark:text-white">
   <div class="relative h-[120px] flex-none bg-cover bg-[center_30%]" style="background-image: url('assets/images/menu-background.jpg')">
     <button type="button" [matMenuTriggerFor]="sdprofile" class="absolute inset-x-0 bottom-0 flex w-full items-center gap-3 border-0 bg-slate-900/60 py-2.5 pl-6 pr-4 text-left hover:bg-slate-900/70 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-white">
-      <img src="../../../assets/images/zeus.png" alt="" class="size-10 flex-none rounded-full bg-slate-100 ring-2 ring-white"/>
+      <img src="../../../assets/images/zeus.png" alt="" class="size-10 flex-none rounded-full bg-slate-100 ring-2 ring-white dark:bg-slate-700"/>
       <span *ngIf="username" class="min-w-0 flex-1 truncate text-sm font-semibold text-white">{{ username }}</span>
       <span *ngIf="!username" class="min-w-0 flex-1"><span aria-hidden="true" class="block h-2.5 w-24 rounded-full bg-white/40"></span></span>
       <svg appIcon="chevron-down" variant="mini" class="size-4 flex-none text-white/70"></svg>
     </button>
     <mat-menu #sdprofile="matMenu" class="!min-w-[200px] !rounded-lg">
-      <button mat-menu-item type="button" (click)="logout()" class="!flex !h-10 !items-center !gap-2.5 !px-3 !text-sm !font-medium !leading-5 !text-slate-900">
-        <svg appIcon="arrow-right-on-rectangle" class="size-5 flex-none text-slate-400"></svg>
+      <button mat-menu-item type="button" (click)="logout()" class="!flex !h-10 !items-center !gap-2.5 !px-3 !text-sm !font-medium !leading-5 !text-slate-900 dark:!text-white">
+        <svg appIcon="arrow-right-on-rectangle" class="size-5 flex-none text-slate-400 dark:text-slate-500"></svg>
         Sign out
       </button>
     </mat-menu>
@@ -17,7 +17,7 @@
   <nav aria-label="Indexer menu" class="flex flex-col px-4 py-5">
     <ng-container *ngFor="let menuItem of loadMenuItems()">
       <div *ngIf="!menuItem.mobileOnly || !mobileQuery.matches" (click)="handleMenuAction(menuItem.action)" [ngClass]="menuItem.type === 'separator' ? 'mb-1 mt-6 first:mt-0' : 'mt-0.5'">
-        <p *ngIf="menuItem.type === 'separator'" class="m-0 px-2 text-xs font-semibold leading-6 text-slate-500">{{ menuItem.name }}</p>
+        <p *ngIf="menuItem.type === 'separator'" class="m-0 px-2 text-xs font-semibold leading-6 text-slate-500 dark:text-slate-400">{{ menuItem.name }}</p>
 
         <a
           *ngIf="menuItem.type === 'link'"
@@ -25,22 +25,22 @@
           routerLinkActive="is-active"
           [ngClass]="activePath?.indexOf(menuItem?.active)>=0 ? 'is-active' : ''"
           (click)="clickedLink()"
-          class="group flex w-full items-center gap-3 rounded-md px-2 py-1.5 text-sm font-medium leading-6 text-slate-700 no-underline hover:bg-slate-50 hover:text-slate-900 hover:no-underline focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-700 [&.is-active]:bg-brand-50 [&.is-active]:font-semibold [&.is-active]:text-brand-700"
+          class="group flex w-full items-center gap-3 rounded-md px-2 py-1.5 text-sm font-medium leading-6 text-slate-700 no-underline hover:bg-slate-50 hover:text-slate-900 hover:no-underline focus:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-700 [&.is-active]:bg-brand-50 [&.is-active]:font-semibold [&.is-active]:text-brand-700 dark:text-slate-300 dark:hover:bg-slate-700/60 dark:hover:text-white dark:[&.is-active]:bg-brand-500/10 dark:[&.is-active]:text-brand-500"
         >
-          <svg [appIcon]="menuItem.icon" [variant]="menuItem.iconVariant || 'outline'" class="size-5 flex-none text-slate-400 group-[.is-active]:text-brand-700"></svg>
+          <svg [appIcon]="menuItem.icon" [variant]="menuItem.iconVariant || 'outline'" class="size-5 flex-none text-slate-400 group-[.is-active]:text-brand-700 dark:text-slate-500 dark:group-[.is-active]:text-brand-500"></svg>
           <span class="min-w-0 flex-1 truncate">{{ menuItem.name }}</span>
-          <span *ngIf="menuItem.name === 'Changelog' && new_updates" class="flex-none rounded-full bg-brand-50 px-2 text-xs font-medium leading-5 text-brand-700 ring-1 ring-inset ring-brand-700/20">New</span>
+          <span *ngIf="menuItem.name === 'Changelog' && new_updates" class="flex-none rounded-full bg-brand-50 px-2 text-xs font-medium leading-5 text-brand-700 ring-1 ring-inset ring-brand-700/20 dark:bg-brand-500/10">New</span>
         </a>
 
         <button
           *ngIf="menuItem.type === 'action'"
           type="button"
-          class="flex w-full items-center gap-3 rounded-md border-0 bg-transparent px-2 py-1.5 text-left text-sm font-medium leading-6 text-slate-700 hover:bg-slate-50 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-700"
+          class="flex w-full items-center gap-3 rounded-md border-0 bg-transparent px-2 py-1.5 text-left text-sm font-medium leading-6 text-slate-700 hover:bg-slate-50 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-700 dark:text-slate-300 dark:hover:bg-slate-700/60 dark:hover:text-white"
         >
-          <svg [appIcon]="menuItem.icon" [variant]="menuItem.iconVariant || 'outline'" class="size-5 flex-none text-slate-400"></svg>
+          <svg [appIcon]="menuItem.icon" [variant]="menuItem.iconVariant || 'outline'" class="size-5 flex-none text-slate-400 dark:text-slate-500"></svg>
           <span class="min-w-0 flex-1 truncate">{{ menuItem.name }}</span>
           <span *ngIf="menuItem.name === 'Donate'" class="flex-none rounded-full px-2 text-xs font-medium leading-5" [ngClass]="donationBadgeClasses">{{donationPercent}}%</span>
-          <svg *ngIf="menuItem.external" appIcon="arrow-top-right-on-square" variant="micro" class="size-3.5 flex-none text-slate-300"></svg>
+          <svg *ngIf="menuItem.external" appIcon="arrow-top-right-on-square" variant="micro" class="size-3.5 flex-none text-slate-300 dark:text-slate-600"></svg>
         </button>
       </div>
     </ng-container>

@@ -1,9 +1,9 @@
 <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
 <!--  <div *ngIf="error">{{error}}</div>-->
-<section *ngIf="!error && !loading && (events.length > 1 || event_type == 'user')" class="overflow-hidden rounded-xl bg-white text-left font-normal shadow-sm ring-1 ring-slate-900/[.08]">
-  <div class="flex min-h-[61px] flex-wrap items-center justify-between gap-x-3 border-0 border-b border-solid border-slate-200 px-5 py-2">
-    <h3 *ngIf="event_type=='team'" class="m-0 text-base font-medium text-slate-900">Team Events</h3>
-    <h3 *ngIf="event_type=='user'" class="m-0 text-base font-medium text-slate-900">Your GrepoData Team Events</h3>
+<section *ngIf="!error && !loading && (events.length > 1 || event_type == 'user')" class="overflow-hidden rounded-xl bg-white text-left font-normal shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
+  <div class="flex min-h-[61px] flex-wrap items-center justify-between gap-x-3 border-0 border-b border-solid border-slate-200 px-5 py-2 dark:border-slate-700">
+    <h3 *ngIf="event_type=='team'" class="m-0 text-base font-medium text-slate-900 dark:text-white">Team Events</h3>
+    <h3 *ngIf="event_type=='user'" class="m-0 text-base font-medium text-slate-900 dark:text-white">Your GrepoData Team Events</h3>
 
     <mat-paginator *ngIf="total_events > size"
                    [length]="total_events"
@@ -21,15 +21,15 @@
     </div>
 
     <div class="pl-5 [container-type:inline-size]" [ngClass]="{'opacity-40': paging}">
-      <div *ngFor="let event of events" class="grid grid-cols-[96px_minmax(0,1fr)] items-start gap-x-4 gap-y-1 border-0 border-b border-solid border-slate-100 py-3 pr-5 text-sm last:border-b-0 [@container(min-width:600px)]:flex [@container(min-width:600px)]:gap-4">
+      <div *ngFor="let event of events" class="grid grid-cols-[96px_minmax(0,1fr)] items-start gap-x-4 gap-y-1 border-0 border-b border-solid border-slate-100 py-3 pr-5 text-sm last:border-b-0 [@container(min-width:600px)]:flex [@container(min-width:600px)]:gap-4 dark:border-slate-700">
         <div class="w-24 flex-none tabular-nums">
-          <div class="text-slate-700">{{event.local_time | Datex : 'D MMM YYYY'}}</div>
-          <div class="text-xs text-slate-500">{{event.local_time | Datex : 'HH:mm'}}</div>
+          <div class="text-slate-700 dark:text-slate-300">{{event.local_time | Datex : 'D MMM YYYY'}}</div>
+          <div class="text-xs text-slate-500 dark:text-slate-400">{{event.local_time | Datex : 'HH:mm'}}</div>
         </div>
-        <div class="min-w-0 flex-1 text-slate-600">
+        <div class="min-w-0 flex-1 text-slate-600 dark:text-slate-400">
           <ng-container *ngFor="let part of event['json'];">
             <span *ngIf="part.type == 'text'">{{part.text}}</span>
-            <span *ngIf="part.type == 'bold'"><strong class="font-medium text-slate-900">{{part.text}}</strong></span>
+            <span *ngIf="part.type == 'bold'"><strong class="font-medium text-slate-900 dark:text-white">{{part.text}}</strong></span>
             <span *ngIf="part.type == 'user'" class="font-medium text-brand-700"><svg appIcon="user" class="inline-block size-4 align-middle"></svg> {{part.text}}</span>
             <span *ngIf="part.type == 'alliance'" class="font-medium text-brand-700"><svg appIcon="ally_ico" variant="game" class="inline-block size-4 align-middle"></svg> {{part.text}}</span>
             <span *ngIf="part.type == 'player'" class="font-medium text-brand-700"><svg appIcon="player_ico" variant="game" class="inline-block size-4 align-middle"></svg> {{part.text}}</span>

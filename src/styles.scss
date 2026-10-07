@@ -1078,6 +1078,18 @@ fieldset[disabled] .btn-success.active {
     }
   }
 }
+.dark-mode .mat-menu-panel {
+  // same cascade issue as .mat-dialog-container above
+  background: #1e293b !important; // slate-800
+
+  .mat-menu-item {
+    color: #fff !important;
+
+    &:hover:not([disabled]), &:focus:not([disabled]) {
+      background: #334155 !important; // slate-700
+    }
+  }
+}
 .tight-dialog-container .mat-dialog-container {
   padding: 0 !important;
   overflow: hidden !important;

@@ -1,42 +1,42 @@
-<div id="pagehead" class="mx-auto flex max-w-[1600px] flex-col gap-6 px-6 py-6 text-left font-normal text-slate-900 max-sm:px-4">
+<div id="pagehead" class="mx-auto flex max-w-[1600px] flex-col gap-6 px-6 py-6 text-left font-normal text-slate-900 max-sm:px-4 dark:text-white">
   <app-search [secondary]="false" [compare]="true" [close]="showSearch$"></app-search>
 
   <div>
-    <h1 class="m-0 text-2xl font-bold tracking-tight text-slate-900">Compare</h1>
-    <p class="mb-0 mt-1 text-sm text-slate-500">Use the search above to add players or alliances to the comparison.</p>
+    <h1 class="m-0 text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Compare</h1>
+    <p class="mb-0 mt-1 text-sm text-slate-500 dark:text-slate-400">Use the search above to add players or alliances to the comparison.</p>
   </div>
 
   <div class="grid items-start gap-6" [ngClass]="{'lg:grid-cols-[304px_minmax(0,1fr)]': playerWorlds.length > 0 || allianceWorlds.length > 0}">
-    <aside *ngIf="playerWorlds.length > 0 || allianceWorlds.length > 0" aria-label="Comparison list" class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] lg:sticky lg:top-6 lg:max-h-[calc(100vh-48px)] lg:overflow-y-auto min-[1200px]:top-[92px] min-[1200px]:max-h-[calc(100vh-116px)]">
-      <div class="flex min-h-[61px] items-center justify-between gap-4 border-0 border-b border-solid border-slate-200 px-5 py-3.5">
-        <h2 class="m-0 whitespace-nowrap text-base font-semibold text-slate-900">Comparison list</h2>
-        <span class="rounded-full bg-slate-100 px-2 text-xs font-semibold leading-5 tabular-nums text-slate-600">{{listCount}}</span>
+    <aside *ngIf="playerWorlds.length > 0 || allianceWorlds.length > 0" aria-label="Comparison list" class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] lg:sticky lg:top-6 lg:max-h-[calc(100vh-48px)] lg:overflow-y-auto min-[1200px]:top-[92px] min-[1200px]:max-h-[calc(100vh-116px)] dark:bg-slate-800 dark:ring-white/10">
+      <div class="flex min-h-[61px] items-center justify-between gap-4 border-0 border-b border-solid border-slate-200 px-5 py-3.5 dark:border-slate-700">
+        <h2 class="m-0 whitespace-nowrap text-base font-semibold text-slate-900 dark:text-white">Comparison list</h2>
+        <span class="rounded-full bg-slate-100 px-2 text-xs font-semibold leading-5 tabular-nums text-slate-600 dark:bg-slate-700 dark:text-slate-400">{{listCount}}</span>
       </div>
 
       <div class="flex flex-col gap-5 p-4">
         <section *ngIf="playerWorlds.length > 0" class="flex flex-col gap-2">
-          <h3 class="m-0 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[.04em] text-slate-500">
-            <svg appIcon="player_ico" variant="game" class="size-3.5 flex-none text-slate-400"></svg>
+          <h3 class="m-0 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[.04em] text-slate-500 dark:text-slate-400">
+            <svg appIcon="player_ico" variant="game" class="size-3.5 flex-none text-slate-400 dark:text-slate-500"></svg>
             Players
           </h3>
-        <div *ngFor="let w of playerWorlds" class="rounded-lg ring-1 ring-inset" [ngClass]="playerWorld==w.id && comparingPlayers ? 'bg-brand-50 ring-brand-700/35' : 'bg-white ring-slate-200'">
-          <div class="flex items-center justify-between gap-2 border-0 border-b border-solid py-2 pl-3 pr-2" [ngClass]="playerWorld==w.id && comparingPlayers ? 'border-brand-700/[.18]' : 'border-slate-100'">
-            <span class="flex min-w-0 items-center gap-2 text-[13px] font-semibold leading-5 text-slate-900">
+        <div *ngFor="let w of playerWorlds" class="rounded-lg ring-1 ring-inset" [ngClass]="playerWorld==w.id && comparingPlayers ? 'bg-brand-50 ring-brand-700/35 dark:bg-brand-500/10 dark:ring-brand-500/30' : 'bg-white ring-slate-200 dark:bg-slate-800 dark:ring-slate-700'">
+          <div class="flex items-center justify-between gap-2 border-0 border-b border-solid py-2 pl-3 pr-2" [ngClass]="playerWorld==w.id && comparingPlayers ? 'border-brand-700/[.18] dark:border-brand-500/20' : 'border-slate-100 dark:border-slate-700'">
+            <span class="flex min-w-0 items-center gap-2 text-[13px] font-semibold leading-5 text-slate-900 dark:text-white">
               <span aria-hidden="true" class="bg-flag flag-{{w.id.substring(0, 2)}} flex-none [zoom:0.625]"></span>
               <span class="truncate">{{w.name}} ({{w.id}})</span>
             </span>
-            <button type="button" (click)="doComparePlayers(w.id)" class="inline-flex flex-none items-center gap-1 whitespace-nowrap rounded-full border-0 text-xs font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="playerWorld==w.id && comparingPlayers ? 'bg-white py-[3px] pl-[7px] pr-[9px] text-brand-700 ring-1 ring-inset ring-brand-700/30' : 'rounded-md bg-white px-2.5 py-1.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50'">
+            <button type="button" (click)="doComparePlayers(w.id)" class="inline-flex flex-none items-center gap-1 whitespace-nowrap rounded-full border-0 text-xs font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="playerWorld==w.id && comparingPlayers ? 'bg-white py-[3px] pl-[7px] pr-[9px] text-brand-700 ring-1 ring-inset ring-brand-700/30 dark:bg-slate-800 dark:ring-brand-500/30' : 'rounded-md bg-white px-2.5 py-1.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 dark:bg-slate-800 dark:text-white dark:ring-slate-600 dark:hover:bg-slate-700/60'">
               <svg *ngIf="playerWorld==w.id && comparingPlayers" appIcon="check" class="size-3.5 flex-none"></svg>
               <span *ngIf="playerWorld==w.id && comparingPlayers">Comparing</span>
               <span *ngIf="!(playerWorld==w.id && comparingPlayers)">Compare</span>
-              <svg *ngIf="!(playerWorld==w.id && comparingPlayers)" appIcon="arrow-right" class="size-3.5 flex-none text-slate-500"></svg>
+              <svg *ngIf="!(playerWorld==w.id && comparingPlayers)" appIcon="arrow-right" class="size-3.5 flex-none text-slate-500 dark:text-slate-400"></svg>
             </button>
           </div>
           <ul role="list" class="m-0 list-none py-1 pl-0">
             <li *ngFor="let p of comparedPlayers[w.id]; let idx = index" class="m-0 flex min-h-9 items-center gap-2 py-0 pl-3 pr-1">
               <span *ngIf="playerWorld==w.id && comparingPlayers" aria-hidden="true" class="size-2.5 flex-none rounded-[3px]" [style.background-color]="palette[idx % palette.length]"></span>
-              <a routerLink="/player" [queryParams]="{world: w.id, id: p.id}" [title]="p.name" class="min-w-0 flex-1 truncate text-sm text-slate-800 no-underline hover:text-brand-700 hover:underline">{{p.name}}</a>
-              <button type="button" (click)="compare.removePlayer(p.id, w.id)" [attr.aria-label]="'Remove ' + p.name + ' from the comparison'" title="Remove from the comparison" class="inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-rose-50 hover:text-rose-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+              <a routerLink="/player" [queryParams]="{world: w.id, id: p.id}" [title]="p.name" class="min-w-0 flex-1 truncate text-sm text-slate-800 no-underline hover:text-brand-700 hover:underline dark:text-slate-100">{{p.name}}</a>
+              <button type="button" (click)="compare.removePlayer(p.id, w.id)" [attr.aria-label]="'Remove ' + p.name + ' from the comparison'" title="Remove from the comparison" class="inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-rose-50 hover:text-rose-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:text-slate-400 dark:hover:text-rose-400">
                 <svg appIcon="x-mark" class="size-4"></svg>
               </button>
             </li>
@@ -45,28 +45,28 @@
         </section>
 
         <section *ngIf="allianceWorlds.length > 0" class="flex flex-col gap-2">
-          <h3 class="m-0 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[.04em] text-slate-500">
-            <svg appIcon="ally_ico" variant="game" class="size-3.5 flex-none text-slate-400"></svg>
+          <h3 class="m-0 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[.04em] text-slate-500 dark:text-slate-400">
+            <svg appIcon="ally_ico" variant="game" class="size-3.5 flex-none text-slate-400 dark:text-slate-500"></svg>
             Alliances
           </h3>
-        <div *ngFor="let w of allianceWorlds" class="rounded-lg ring-1 ring-inset" [ngClass]="allianceWorld==w.id && comparingAlliances ? 'bg-brand-50 ring-brand-700/35' : 'bg-white ring-slate-200'">
-          <div class="flex items-center justify-between gap-2 border-0 border-b border-solid py-2 pl-3 pr-2" [ngClass]="allianceWorld==w.id && comparingAlliances ? 'border-brand-700/[.18]' : 'border-slate-100'">
-            <span class="flex min-w-0 items-center gap-2 text-[13px] font-semibold leading-5 text-slate-900">
+        <div *ngFor="let w of allianceWorlds" class="rounded-lg ring-1 ring-inset" [ngClass]="allianceWorld==w.id && comparingAlliances ? 'bg-brand-50 ring-brand-700/35 dark:bg-brand-500/10 dark:ring-brand-500/30' : 'bg-white ring-slate-200 dark:bg-slate-800 dark:ring-slate-700'">
+          <div class="flex items-center justify-between gap-2 border-0 border-b border-solid py-2 pl-3 pr-2" [ngClass]="allianceWorld==w.id && comparingAlliances ? 'border-brand-700/[.18] dark:border-brand-500/20' : 'border-slate-100 dark:border-slate-700'">
+            <span class="flex min-w-0 items-center gap-2 text-[13px] font-semibold leading-5 text-slate-900 dark:text-white">
               <span aria-hidden="true" class="bg-flag flag-{{w.id.substring(0, 2)}} flex-none [zoom:0.625]"></span>
               <span class="truncate">{{w.name}} ({{w.id}})</span>
             </span>
-            <button type="button" (click)="doCompareAlliances(w.id)" class="inline-flex flex-none items-center gap-1 whitespace-nowrap rounded-full border-0 text-xs font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="allianceWorld==w.id && comparingAlliances ? 'bg-white py-[3px] pl-[7px] pr-[9px] text-brand-700 ring-1 ring-inset ring-brand-700/30' : 'rounded-md bg-white px-2.5 py-1.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50'">
+            <button type="button" (click)="doCompareAlliances(w.id)" class="inline-flex flex-none items-center gap-1 whitespace-nowrap rounded-full border-0 text-xs font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="allianceWorld==w.id && comparingAlliances ? 'bg-white py-[3px] pl-[7px] pr-[9px] text-brand-700 ring-1 ring-inset ring-brand-700/30 dark:bg-slate-800 dark:ring-brand-500/30' : 'rounded-md bg-white px-2.5 py-1.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 dark:bg-slate-800 dark:text-white dark:ring-slate-600 dark:hover:bg-slate-700/60'">
               <svg *ngIf="allianceWorld==w.id && comparingAlliances" appIcon="check" class="size-3.5 flex-none"></svg>
               <span *ngIf="allianceWorld==w.id && comparingAlliances">Comparing</span>
               <span *ngIf="!(allianceWorld==w.id && comparingAlliances)">Compare</span>
-              <svg *ngIf="!(allianceWorld==w.id && comparingAlliances)" appIcon="arrow-right" class="size-3.5 flex-none text-slate-500"></svg>
+              <svg *ngIf="!(allianceWorld==w.id && comparingAlliances)" appIcon="arrow-right" class="size-3.5 flex-none text-slate-500 dark:text-slate-400"></svg>
             </button>
           </div>
           <ul role="list" class="m-0 list-none py-1 pl-0">
             <li *ngFor="let p of comparedAlliances[w.id]; let idx = index" class="m-0 flex min-h-9 items-center gap-2 py-0 pl-3 pr-1">
               <span *ngIf="allianceWorld==w.id && comparingAlliances" aria-hidden="true" class="size-2.5 flex-none rounded-[3px]" [style.background-color]="palette[idx % palette.length]"></span>
-              <a routerLink="/alliance" [queryParams]="{world: w.id, id: p.id}" [title]="p.name" class="min-w-0 flex-1 truncate text-sm text-slate-800 no-underline hover:text-brand-700 hover:underline">{{p.name}}</a>
-              <button type="button" (click)="compare.removeAlliance(p.id, w.id)" [attr.aria-label]="'Remove ' + p.name + ' from the comparison'" title="Remove from the comparison" class="inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-rose-50 hover:text-rose-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+              <a routerLink="/alliance" [queryParams]="{world: w.id, id: p.id}" [title]="p.name" class="min-w-0 flex-1 truncate text-sm text-slate-800 no-underline hover:text-brand-700 hover:underline dark:text-slate-100">{{p.name}}</a>
+              <button type="button" (click)="compare.removeAlliance(p.id, w.id)" [attr.aria-label]="'Remove ' + p.name + ' from the comparison'" title="Remove from the comparison" class="inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-rose-50 hover:text-rose-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:text-slate-400 dark:hover:text-rose-400">
                 <svg appIcon="x-mark" class="size-4"></svg>
               </button>
             </li>
@@ -74,39 +74,39 @@
         </div>
         </section>
 
-        <p class="m-0 flex gap-2 text-[13px] leading-5 text-slate-500">
-          <svg appIcon="magnifying-glass" class="mt-0.5 size-4 flex-none text-slate-400"></svg>
+        <p class="m-0 flex gap-2 text-[13px] leading-5 text-slate-500 dark:text-slate-400">
+          <svg appIcon="magnifying-glass" class="mt-0.5 size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
           Add more with the search above. Each list compares one world.
         </p>
       </div>
     </aside>
 
     <div class="flex min-w-0 flex-col gap-6">
-      <section *ngIf="!comparingPlayers && !comparingAlliances" class="flex flex-col items-center rounded-xl bg-white px-6 py-12 text-center shadow-sm ring-1 ring-slate-900/[.08] max-sm:px-4">
-        <span aria-hidden="true" class="flex size-12 items-center justify-center rounded-full bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-700/15">
+      <section *ngIf="!comparingPlayers && !comparingAlliances" class="flex flex-col items-center rounded-xl bg-white px-6 py-12 text-center shadow-sm ring-1 ring-slate-900/[.08] max-sm:px-4 dark:bg-slate-800 dark:ring-white/10">
+        <span aria-hidden="true" class="flex size-12 items-center justify-center rounded-full bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-700/15 dark:bg-brand-500/10">
           <svg appIcon="scale" class="size-6"></svg>
         </span>
-        <h2 class="mb-0 mt-4 text-lg font-semibold text-slate-900">Your comparison list is empty</h2>
-        <p class="mb-0 mt-1 text-sm text-slate-600">Use the search above to add players or alliances and start comparing.</p>
-        <ol class="m-0 mt-5 flex list-none flex-wrap justify-center gap-x-8 gap-y-3 p-0 text-sm text-slate-700">
-          <li class="m-0 flex items-center gap-2"><span class="flex size-6 flex-none items-center justify-center rounded-full bg-brand-50 text-xs font-semibold text-brand-700">1</span>Search for a player or alliance</li>
-          <li class="m-0 flex items-center gap-2"><span class="flex size-6 flex-none items-center justify-center rounded-full bg-brand-50 text-xs font-semibold text-brand-700">2</span>Click Compare in the results</li>
-          <li class="m-0 flex items-center gap-2"><span class="flex size-6 flex-none items-center justify-center rounded-full bg-brand-50 text-xs font-semibold text-brand-700">3</span>Pick a list: each world has its own</li>
+        <h2 class="mb-0 mt-4 text-lg font-semibold text-slate-900 dark:text-white">Your comparison list is empty</h2>
+        <p class="mb-0 mt-1 text-sm text-slate-600 dark:text-slate-400">Use the search above to add players or alliances and start comparing.</p>
+        <ol class="m-0 mt-5 flex list-none flex-wrap justify-center gap-x-8 gap-y-3 p-0 text-sm text-slate-700 dark:text-slate-300">
+          <li class="m-0 flex items-center gap-2"><span class="flex size-6 flex-none items-center justify-center rounded-full bg-brand-50 text-xs font-semibold text-brand-700 dark:bg-brand-500/10">1</span>Search for a player or alliance</li>
+          <li class="m-0 flex items-center gap-2"><span class="flex size-6 flex-none items-center justify-center rounded-full bg-brand-50 text-xs font-semibold text-brand-700 dark:bg-brand-500/10">2</span>Click Compare in the results</li>
+          <li class="m-0 flex items-center gap-2"><span class="flex size-6 flex-none items-center justify-center rounded-full bg-brand-50 text-xs font-semibold text-brand-700 dark:bg-brand-500/10">3</span>Pick a list: each world has its own</li>
         </ol>
-        <p class="mb-0 mt-5 text-xs text-slate-500">You can also click Compare on any player or alliance page.</p>
+        <p class="mb-0 mt-5 text-xs text-slate-500 dark:text-slate-400">You can also click Compare on any player or alliance page.</p>
       </section>
 
-      <section *ngIf="(comparingPlayers || comparingAlliances) && (firstRun || loadingStats)" aria-label="Overview" aria-busy="true" class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
-        <div class="flex min-h-[61px] items-center justify-between gap-4 border-0 border-b border-solid border-slate-200 px-5 py-3.5 max-sm:px-4">
+      <section *ngIf="(comparingPlayers || comparingAlliances) && (firstRun || loadingStats)" aria-label="Overview" aria-busy="true" class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
+        <div class="flex min-h-[61px] items-center justify-between gap-4 border-0 border-b border-solid border-slate-200 px-5 py-3.5 max-sm:px-4 dark:border-slate-700">
           <div class="min-w-0">
-            <h2 class="m-0 text-base font-semibold text-slate-900">Overview</h2>
-            <p *ngIf="(comparingPlayers ? playerWorld : allianceWorld) as world" class="mb-0 mt-0.5 flex flex-wrap items-center gap-1.5 text-[13px] leading-5 text-slate-500">
+            <h2 class="m-0 text-base font-semibold text-slate-900 dark:text-white">Overview</h2>
+            <p *ngIf="(comparingPlayers ? playerWorld : allianceWorld) as world" class="mb-0 mt-0.5 flex flex-wrap items-center gap-1.5 text-[13px] leading-5 text-slate-500 dark:text-slate-400">
               {{activeList().length}} {{comparingPlayers ? (activeList().length == 1 ? 'player' : 'players') : (activeList().length == 1 ? 'alliance' : 'alliances')}} on
               <span aria-hidden="true" class="bg-flag flag-{{world.substring(0, 2)}} flex-none [zoom:0.625]"></span>
               <span class="font-medium text-brand-700">{{world | WorldNamePipe:false}}</span>
             </p>
           </div>
-          <span class="flex flex-none items-center gap-2 text-xs text-slate-500">
+          <span class="flex flex-none items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
             <span aria-hidden="true" class="size-3.5 flex-none animate-spin rounded-full border-2 border-solid border-brand-700/25 border-t-brand-700"></span>
             Loading {{activeList().length}} {{comparingPlayers ? (activeList().length == 1 ? 'player' : 'players') : (activeList().length == 1 ? 'alliance' : 'alliances')}}…
           </span>
@@ -115,20 +115,20 @@
           <table class="w-full table-fixed border-collapse text-left" [style.min-width.px]="200 + activeList().length * 170">
             <thead>
               <tr>
-                <th scope="col" class="w-[200px] border-0 border-b border-solid border-slate-200 bg-slate-50 px-5 py-2 align-bottom text-xs font-semibold text-slate-700 max-sm:w-[140px] max-sm:px-4">{{comparingPlayers ? 'Player' : 'Alliance'}}</th>
-                <th *ngFor="let entity of activeList(); let idx = index" scope="col" class="border-0 border-b border-l border-solid border-b-slate-200 border-l-slate-100 bg-slate-50 py-2.5 pl-3 pr-1.5 align-top">
+                <th scope="col" class="w-[200px] border-0 border-b border-solid border-slate-200 bg-slate-50 px-5 py-2 align-bottom text-xs font-semibold text-slate-700 max-sm:w-[140px] max-sm:px-4 dark:border-slate-700 dark:bg-slate-700/40 dark:text-slate-300">{{comparingPlayers ? 'Player' : 'Alliance'}}</th>
+                <th *ngFor="let entity of activeList(); let idx = index" scope="col" class="border-0 border-b border-l border-solid border-b-slate-200 border-l-slate-100 bg-slate-50 py-2.5 pl-3 pr-1.5 align-top dark:bg-slate-700/40">
                   <div class="flex items-start gap-2">
                     <span aria-hidden="true" class="mt-[5px] size-2.5 flex-none rounded-[3px]" [style.background-color]="palette[idx % palette.length]"></span>
-                    <span class="min-w-0 flex-1 truncate text-sm font-semibold text-slate-900">{{entity.name}}</span>
+                    <span class="min-w-0 flex-1 truncate text-sm font-semibold text-slate-900 dark:text-white">{{entity.name}}</span>
                   </div>
                 </th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let row of (comparingPlayers ? ['Towns', 'Points', 'Fighting points', 'Attack points', 'Defence points'] : ['Rank', 'Towns', 'Members', 'Points', 'Fighting points', 'Attack points', 'Defence points'])">
-                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4">{{row}}</th>
-                <td *ngFor="let entity of activeList()" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top">
-                  <span aria-hidden="true" class="block h-3 w-3/5 max-w-[84px] animate-pulse rounded bg-slate-100"></span>
+                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4 dark:border-slate-700 dark:text-white">{{row}}</th>
+                <td *ngFor="let entity of activeList()" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top dark:border-slate-700">
+                  <span aria-hidden="true" class="block h-3 w-3/5 max-w-[84px] animate-pulse rounded bg-slate-100 dark:bg-slate-700"></span>
                 </td>
               </tr>
             </tbody>
@@ -136,11 +136,11 @@
         </div>
       </section>
 
-      <section *ngIf="(comparingPlayers || comparingAlliances) && !firstRun && !loadingStats" aria-label="Overview" class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
-        <div class="flex min-h-[61px] items-center justify-between gap-4 border-0 border-b border-solid border-slate-200 px-5 py-3.5 max-sm:px-4">
+      <section *ngIf="(comparingPlayers || comparingAlliances) && !firstRun && !loadingStats" aria-label="Overview" class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
+        <div class="flex min-h-[61px] items-center justify-between gap-4 border-0 border-b border-solid border-slate-200 px-5 py-3.5 max-sm:px-4 dark:border-slate-700">
           <div class="min-w-0">
-            <h2 class="m-0 text-base font-semibold text-slate-900">Overview</h2>
-            <p *ngIf="(comparingPlayers ? playerWorld : allianceWorld) as world" class="mb-0 mt-0.5 flex flex-wrap items-center gap-1.5 text-[13px] leading-5 text-slate-500">
+            <h2 class="m-0 text-base font-semibold text-slate-900 dark:text-white">Overview</h2>
+            <p *ngIf="(comparingPlayers ? playerWorld : allianceWorld) as world" class="mb-0 mt-0.5 flex flex-wrap items-center gap-1.5 text-[13px] leading-5 text-slate-500 dark:text-slate-400">
               {{activeList().length}} {{comparingPlayers ? (activeList().length == 1 ? 'player' : 'players') : (activeList().length == 1 ? 'alliance' : 'alliances')}} on
               <span aria-hidden="true" class="bg-flag flag-{{world.substring(0, 2)}} flex-none [zoom:0.625]"></span>
               <a routerLink="/points" [queryParams]="{world: world}" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline">{{world | WorldNamePipe:false}}</a>
@@ -148,8 +148,8 @@
           </div>
         </div>
 
-        <div *ngIf="infoData.length == 1" role="note" class="mx-5 mt-4 flex gap-3 rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-800 ring-1 ring-inset ring-amber-200 max-sm:mx-4">
-          <svg appIcon="exclamation-triangle" class="size-5 flex-none text-amber-600"></svg>
+        <div *ngIf="infoData.length == 1" role="note" class="mx-5 mt-4 flex gap-3 rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-800 ring-1 ring-inset ring-amber-200 max-sm:mx-4 dark:bg-amber-500/10 dark:text-amber-400">
+          <svg appIcon="exclamation-triangle" class="size-5 flex-none text-amber-600 dark:text-amber-400"></svg>
           <p class="m-0 min-w-0">You have only added 1 {{comparingPlayers ? 'player' : 'alliance'}} to the comparison. Use the search above to add more.</p>
         </div>
 
@@ -157,22 +157,22 @@
           <table class="w-full table-fixed border-collapse text-left" [style.min-width.px]="200 + infoData.length * 170">
             <thead>
               <tr>
-                <th scope="col" class="w-[200px] border-0 border-b border-solid border-slate-200 bg-slate-50 px-5 py-2 align-bottom text-xs font-semibold text-slate-700 max-sm:w-[140px] max-sm:px-4">{{comparingPlayers ? 'Player' : 'Alliance'}}</th>
-                <th *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" scope="col" class="border-0 border-b border-l border-solid border-b-slate-200 border-l-slate-100 bg-slate-50 py-2.5 pl-3 pr-1.5 align-top">
+                <th scope="col" class="w-[200px] border-0 border-b border-solid border-slate-200 bg-slate-50 px-5 py-2 align-bottom text-xs font-semibold text-slate-700 max-sm:w-[140px] max-sm:px-4 dark:border-slate-700 dark:bg-slate-700/40 dark:text-slate-300">{{comparingPlayers ? 'Player' : 'Alliance'}}</th>
+                <th *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" scope="col" class="border-0 border-b border-l border-solid border-b-slate-200 border-l-slate-100 bg-slate-50 py-2.5 pl-3 pr-1.5 align-top dark:bg-slate-700/40">
                   <div class="flex items-start gap-2">
                     <span aria-hidden="true" class="mt-[5px] size-2.5 flex-none rounded-[3px]" [style.background-color]="colorFor(i.grep_id, 'id')"></span>
                     <div *ngIf="comparingPlayers" class="min-w-0 flex-1">
-                      <a routerLink="/player" [queryParams]="{world: i.world, id: i.grep_id}" [title]="i.name" class="block truncate text-sm font-semibold text-slate-900 no-underline hover:text-brand-700 hover:underline">{{i.name}}</a>
-                      <a *ngIf="i.alliance_id != 0 && i.alliance_name != ''" routerLink="/alliance" [queryParams]="{world: i.world, id: i.alliance_id}" [title]="i.alliance_name" class="mt-0.5 flex max-w-full items-center gap-1 text-xs font-normal text-slate-500 no-underline hover:text-brand-700 hover:underline">
-                        <svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400"></svg>
+                      <a routerLink="/player" [queryParams]="{world: i.world, id: i.grep_id}" [title]="i.name" class="block truncate text-sm font-semibold text-slate-900 no-underline hover:text-brand-700 hover:underline dark:text-white">{{i.name}}</a>
+                      <a *ngIf="i.alliance_id != 0 && i.alliance_name != ''" routerLink="/alliance" [queryParams]="{world: i.world, id: i.alliance_id}" [title]="i.alliance_name" class="mt-0.5 flex max-w-full items-center gap-1 text-xs font-normal text-slate-500 no-underline hover:text-brand-700 hover:underline dark:text-slate-400">
+                        <svg appIcon="ally_ico" variant="game" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>
                         <span class="truncate">{{i.alliance_name}}</span>
                       </a>
-                      <span *ngIf="!(i.alliance_id != 0 && i.alliance_name != '')" class="mt-0.5 block text-xs font-normal text-slate-500">No alliance</span>
+                      <span *ngIf="!(i.alliance_id != 0 && i.alliance_name != '')" class="mt-0.5 block text-xs font-normal text-slate-500 dark:text-slate-400">No alliance</span>
                     </div>
                     <div *ngIf="comparingAlliances" class="min-w-0 flex-1">
-                      <a routerLink="/alliance" [queryParams]="{world: i.world, id: i.grep_id}" [title]="i.name" class="block truncate text-sm font-semibold text-slate-900 no-underline hover:text-brand-700 hover:underline">{{i.name}}</a>
+                      <a routerLink="/alliance" [queryParams]="{world: i.world, id: i.grep_id}" [title]="i.name" class="block truncate text-sm font-semibold text-slate-900 no-underline hover:text-brand-700 hover:underline dark:text-white">{{i.name}}</a>
                     </div>
-                    <button type="button" (click)="removePlayer(i.grep_id, i.world)" [attr.aria-label]="'Remove ' + i.name + ' from the comparison'" title="Remove from the comparison" class="inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-rose-50 hover:text-rose-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">
+                    <button type="button" (click)="removePlayer(i.grep_id, i.world)" [attr.aria-label]="'Remove ' + i.name + ' from the comparison'" title="Remove from the comparison" class="inline-flex size-7 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-rose-50 hover:text-rose-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:text-slate-400 dark:hover:text-rose-400">
                       <svg appIcon="x-mark" class="size-4"></svg>
                     </button>
                   </div>
@@ -181,100 +181,100 @@
             </thead>
 
             <tbody *ngIf="comparingPlayers">
-              <tr class="hover:bg-slate-50">
-                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4">Towns</th>
-                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top">
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/60">
+                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4 dark:border-slate-700 dark:text-white">Towns</th>
+                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top dark:border-slate-700">
                   <a routerLink="/conquest/player/{{i.world}}/{{i.grep_id}}" [title]="'Conquests of ' + i.name" class="text-sm font-medium tabular-nums text-brand-700 no-underline hover:text-brand-800 hover:underline">{{i.towns}}</a>
                 </td>
               </tr>
-              <tr class="hover:bg-slate-50">
-                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4">
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/60">
+                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4 dark:border-slate-700 dark:text-white">
                   Points
-                  <div class="text-xs font-normal text-slate-500">⌀ per town · overall rank</div>
+                  <div class="text-xs font-normal text-slate-500 dark:text-slate-400">⌀ per town · overall rank</div>
                 </th>
-                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top">
-                  <div class="text-sm font-semibold tabular-nums text-slate-900">{{i.points | NumberFilter}}</div>
-                  <div class="whitespace-nowrap text-xs tabular-nums text-slate-500">⌀ {{math.floor(i.points / math.max(1, i.towns)) | NumberFilter}} per town · <a routerLink="/ranking/player/{{i.world}}/points/{{i.rank}}/{{i.grep_id}}" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline">Rank #{{i.rank}}</a></div>
+                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top dark:border-slate-700">
+                  <div class="text-sm font-semibold tabular-nums text-slate-900 dark:text-white">{{i.points | NumberFilter}}</div>
+                  <div class="whitespace-nowrap text-xs tabular-nums text-slate-500 dark:text-slate-400">⌀ {{math.floor(i.points / math.max(1, i.towns)) | NumberFilter}} per town · <a routerLink="/ranking/player/{{i.world}}/points/{{i.rank}}/{{i.grep_id}}" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline">Rank #{{i.rank}}</a></div>
                 </td>
               </tr>
-              <tr class="hover:bg-slate-50">
-                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4">
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/60">
+                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4 dark:border-slate-700 dark:text-white">
                   Fighting points
-                  <div class="text-xs font-normal text-slate-500">⌀ per town · fighting rank</div>
+                  <div class="text-xs font-normal text-slate-500 dark:text-slate-400">⌀ per town · fighting rank</div>
                 </th>
-                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top">
-                  <div class="text-sm font-semibold tabular-nums text-slate-900">{{i.att + i.def | NumberFilter}}</div>
-                  <div class="whitespace-nowrap text-xs tabular-nums text-slate-500">⌀ {{math.floor((i.att + i.def) / math.max(1, i.towns)) | NumberFilter}} per town · <a routerLink="/ranking/player/{{i.world}}/fight/{{i.fight_rank}}/{{i.grep_id}}" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline">Rank #{{i.fight_rank}}</a></div>
+                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top dark:border-slate-700">
+                  <div class="text-sm font-semibold tabular-nums text-slate-900 dark:text-white">{{i.att + i.def | NumberFilter}}</div>
+                  <div class="whitespace-nowrap text-xs tabular-nums text-slate-500 dark:text-slate-400">⌀ {{math.floor((i.att + i.def) / math.max(1, i.towns)) | NumberFilter}} per town · <a routerLink="/ranking/player/{{i.world}}/fight/{{i.fight_rank}}/{{i.grep_id}}" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline">Rank #{{i.fight_rank}}</a></div>
                 </td>
               </tr>
-              <tr class="hover:bg-slate-50">
-                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4">
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/60">
+                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4 dark:border-slate-700 dark:text-white">
                   Attack points
-                  <div class="text-xs font-normal text-slate-500">⌀ per town · attack rank</div>
+                  <div class="text-xs font-normal text-slate-500 dark:text-slate-400">⌀ per town · attack rank</div>
                 </th>
-                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top">
-                  <div class="text-sm font-semibold tabular-nums text-slate-900">{{i.att | NumberFilter}}</div>
-                  <div class="whitespace-nowrap text-xs tabular-nums text-slate-500">⌀ {{math.floor(i.att / math.max(1, i.towns)) | NumberFilter}} per town · <a routerLink="/ranking/player/{{i.world}}/attack/{{i.att_rank}}/{{i.grep_id}}" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline">Rank #{{i.att_rank}}</a></div>
+                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top dark:border-slate-700">
+                  <div class="text-sm font-semibold tabular-nums text-slate-900 dark:text-white">{{i.att | NumberFilter}}</div>
+                  <div class="whitespace-nowrap text-xs tabular-nums text-slate-500 dark:text-slate-400">⌀ {{math.floor(i.att / math.max(1, i.towns)) | NumberFilter}} per town · <a routerLink="/ranking/player/{{i.world}}/attack/{{i.att_rank}}/{{i.grep_id}}" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline">Rank #{{i.att_rank}}</a></div>
                 </td>
               </tr>
-              <tr class="hover:bg-slate-50">
-                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4">
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/60">
+                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4 dark:border-slate-700 dark:text-white">
                   Defence points
-                  <div class="text-xs font-normal text-slate-500">⌀ per town · defence rank</div>
+                  <div class="text-xs font-normal text-slate-500 dark:text-slate-400">⌀ per town · defence rank</div>
                 </th>
-                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top">
-                  <div class="text-sm font-semibold tabular-nums text-slate-900">{{i.def |NumberFilter}}</div>
-                  <div class="whitespace-nowrap text-xs tabular-nums text-slate-500">⌀ {{math.floor(i.def / math.max(1, i.towns)) | NumberFilter}} per town · <a routerLink="/ranking/player/{{i.world}}/defence/{{i.def_rank}}/{{i.grep_id}}" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline">Rank #{{i.def_rank}}</a></div>
+                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top dark:border-slate-700">
+                  <div class="text-sm font-semibold tabular-nums text-slate-900 dark:text-white">{{i.def |NumberFilter}}</div>
+                  <div class="whitespace-nowrap text-xs tabular-nums text-slate-500 dark:text-slate-400">⌀ {{math.floor(i.def / math.max(1, i.towns)) | NumberFilter}} per town · <a routerLink="/ranking/player/{{i.world}}/defence/{{i.def_rank}}/{{i.grep_id}}" class="font-medium text-brand-700 no-underline hover:text-brand-800 hover:underline">Rank #{{i.def_rank}}</a></div>
                 </td>
               </tr>
             </tbody>
 
             <tbody *ngIf="comparingAlliances">
-              <tr class="hover:bg-slate-50">
-                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4">Rank</th>
-                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top">
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/60">
+                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4 dark:border-slate-700 dark:text-white">Rank</th>
+                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top dark:border-slate-700">
                   <a routerLink="/ranking/player/{{i.world}}/points/{{i.rank}}/{{i.grep_id}}" class="text-sm font-medium tabular-nums text-brand-700 no-underline hover:text-brand-800 hover:underline">#{{i.rank}}</a>
                 </td>
               </tr>
-              <tr class="hover:bg-slate-50">
-                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4">Towns</th>
-                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top">
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/60">
+                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4 dark:border-slate-700 dark:text-white">Towns</th>
+                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top dark:border-slate-700">
                   <a routerLink="/conquest/alliance/{{i.world}}/{{i.grep_id}}" [title]="'Conquests of ' + i.name" class="text-sm font-medium tabular-nums text-brand-700 no-underline hover:text-brand-800 hover:underline">{{i.towns}}</a>
                 </td>
               </tr>
-              <tr class="hover:bg-slate-50">
-                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4">Members</th>
-                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top text-sm tabular-nums text-slate-900">{{i.members}}</td>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/60">
+                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4 dark:border-slate-700 dark:text-white">Members</th>
+                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top text-sm tabular-nums text-slate-900 dark:border-slate-700 dark:text-white">{{i.members}}</td>
               </tr>
-              <tr class="hover:bg-slate-50">
-                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4">Points</th>
-                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top text-sm font-semibold tabular-nums text-slate-900">{{i.points | NumberFilter}}</td>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/60">
+                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4 dark:border-slate-700 dark:text-white">Points</th>
+                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top text-sm font-semibold tabular-nums text-slate-900 dark:border-slate-700 dark:text-white">{{i.points | NumberFilter}}</td>
               </tr>
-              <tr class="hover:bg-slate-50">
-                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4">Fighting points</th>
-                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top text-sm font-semibold tabular-nums text-slate-900">{{i.att + i.def | NumberFilter}}</td>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/60">
+                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4 dark:border-slate-700 dark:text-white">Fighting points</th>
+                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top text-sm font-semibold tabular-nums text-slate-900 dark:border-slate-700 dark:text-white">{{i.att + i.def | NumberFilter}}</td>
               </tr>
-              <tr class="hover:bg-slate-50">
-                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4">Attack points</th>
-                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top text-sm font-semibold tabular-nums text-slate-900">{{i.att | NumberFilter}}</td>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/60">
+                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4 dark:border-slate-700 dark:text-white">Attack points</th>
+                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top text-sm font-semibold tabular-nums text-slate-900 dark:border-slate-700 dark:text-white">{{i.att | NumberFilter}}</td>
               </tr>
-              <tr class="hover:bg-slate-50">
-                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4">Defence points</th>
-                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top text-sm font-semibold tabular-nums text-slate-900">{{i.def |NumberFilter}}</td>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/60">
+                <th scope="row" class="border-0 border-t border-solid border-slate-100 px-5 py-3 align-top text-sm font-medium text-slate-900 max-sm:px-4 dark:border-slate-700 dark:text-white">Defence points</th>
+                <td *ngFor="let i of inListOrder(infoData, 'grep_id', 'id')" class="border-0 border-l border-t border-solid border-slate-100 p-3 align-top text-sm font-semibold tabular-nums text-slate-900 dark:border-slate-700 dark:text-white">{{i.def |NumberFilter}}</td>
               </tr>
             </tbody>
           </table>
         </div>
       </section>
 
-      <section *ngIf="(comparingPlayers || comparingAlliances) && !firstRun && !loadingStats" aria-label="Fighting points" class="rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
-        <div class="flex min-h-[61px] flex-wrap items-center justify-between gap-x-4 gap-y-2 border-0 border-b border-solid border-slate-200 px-5 py-3.5 max-sm:px-4">
+      <section *ngIf="(comparingPlayers || comparingAlliances) && !firstRun && !loadingStats" aria-label="Fighting points" class="rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
+        <div class="flex min-h-[61px] flex-wrap items-center justify-between gap-x-4 gap-y-2 border-0 border-b border-solid border-slate-200 px-5 py-3.5 max-sm:px-4 dark:border-slate-700">
           <div class="min-w-0">
-            <h2 class="m-0 text-base font-semibold text-slate-900">Fighting points</h2>
-            <p class="mb-0 mt-0.5 text-[13px] leading-5 text-slate-500">Each one’s share of the combined total</p>
+            <h2 class="m-0 text-base font-semibold text-slate-900 dark:text-white">Fighting points</h2>
+            <p class="mb-0 mt-0.5 text-[13px] leading-5 text-slate-500 dark:text-slate-400">Each one’s share of the combined total</p>
           </div>
           <div class="flex flex-wrap items-center gap-x-4 gap-y-1.5">
-            <span *ngFor="let entity of activeList(); let idx = index" class="inline-flex min-w-0 items-center gap-1.5 whitespace-nowrap text-xs text-slate-600">
+            <span *ngFor="let entity of activeList(); let idx = index" class="inline-flex min-w-0 items-center gap-1.5 whitespace-nowrap text-xs text-slate-600 dark:text-slate-400">
               <span aria-hidden="true" class="size-2.5 flex-none rounded-[3px]" [style.background-color]="palette[idx % palette.length]"></span>
               <span class="truncate">{{entity.name}}</span>
             </span>
@@ -290,8 +290,8 @@
       <ng-template #shareBar let-items let-label="label" let-note="note" let-unit="unit">
         <div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-5 gap-y-2 sm:grid-cols-[150px_minmax(0,1fr)_auto]">
           <div class="min-w-0">
-            <div class="text-sm font-medium text-slate-900">{{label}}</div>
-            <div *ngIf="note" class="text-xs text-slate-500">{{note}}</div>
+            <div class="text-sm font-medium text-slate-900 dark:text-white">{{label}}</div>
+            <div *ngIf="note" class="text-xs text-slate-500 dark:text-slate-400">{{note}}</div>
           </div>
           <div class="col-span-2 row-start-2 flex gap-0.5 sm:col-span-1 sm:col-start-2 sm:row-start-1 [&:has(>div:hover)>div:not(:hover)]:opacity-40">
             <div *ngFor="let item of inListOrder(items); let first = first; let last = last" class="group relative flex h-5 min-w-0 items-center justify-center transition-opacity [container-type:inline-size]" [style.flex]="item.value + ' 1 0px'" [style.background-color]="colorFor(item.name)" [ngClass]="{'rounded-l': first, 'rounded-r': last}">
@@ -299,10 +299,10 @@
                 <span class="min-w-0 truncate [@container(max-width:109px)]:[display:none]">{{item.name}}&nbsp;·&nbsp;</span>
                 <span class="flex-none">{{item.value / math.max(1, total(items)) * 100 | number:'1.1-1'}}%</span>
               </span>
-              <span role="tooltip" class="pointer-events-none absolute bottom-full left-1/2 z-10 mb-1.5 -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-lg bg-white px-2.5 py-0.5 text-xs leading-5 shadow-lg ring-1 ring-slate-900/5 [display:none] group-hover:[display:flex]">
-                <span class="tabular-nums"><span class="text-[13px] font-semibold text-slate-900">{{item.value | number}}</span><span class="text-slate-500"> {{unit}} · {{item.value / math.max(1, total(items)) * 100 | number:'1.1-1'}}%</span></span>
-                <span aria-hidden="true" class="h-3 w-px bg-slate-200"></span>
-                <span class="inline-flex items-center gap-1.5 text-slate-600">
+              <span role="tooltip" class="pointer-events-none absolute bottom-full left-1/2 z-10 mb-1.5 -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-lg bg-white px-2.5 py-0.5 text-xs leading-5 shadow-lg ring-1 ring-slate-900/5 [display:none] group-hover:[display:flex] dark:bg-slate-800">
+                <span class="tabular-nums"><span class="text-[13px] font-semibold text-slate-900 dark:text-white">{{item.value | number}}</span><span class="text-slate-500 dark:text-slate-400"> {{unit}} · {{item.value / math.max(1, total(items)) * 100 | number:'1.1-1'}}%</span></span>
+                <span aria-hidden="true" class="h-3 w-px bg-slate-200 dark:bg-slate-600"></span>
+                <span class="inline-flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
                   <span aria-hidden="true" class="size-2.5 flex-none rounded-[3px]" [style.background-color]="colorFor(item.name)"></span>
                   {{item.name}}
                 </span>
@@ -310,42 +310,42 @@
             </div>
           </div>
           <div class="text-right">
-            <div class="text-sm font-semibold tabular-nums text-slate-900">{{total(items) | number}}</div>
-            <div class="text-xs text-slate-500">combined</div>
+            <div class="text-sm font-semibold tabular-nums text-slate-900 dark:text-white">{{total(items) | number}}</div>
+            <div class="text-xs text-slate-500 dark:text-slate-400">combined</div>
           </div>
         </div>
       </ng-template>
 
-      <section *ngIf="(comparingPlayers || comparingAlliances) && !firstRun && !loadingStats" aria-label="Play style" class="rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
-        <div class="flex min-h-[61px] flex-wrap items-center justify-between gap-x-4 gap-y-2 border-0 border-b border-solid border-slate-200 px-5 py-3.5 max-sm:px-4">
+      <section *ngIf="(comparingPlayers || comparingAlliances) && !firstRun && !loadingStats" aria-label="Play style" class="rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
+        <div class="flex min-h-[61px] flex-wrap items-center justify-between gap-x-4 gap-y-2 border-0 border-b border-solid border-slate-200 px-5 py-3.5 max-sm:px-4 dark:border-slate-700">
           <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
-            <h2 class="m-0 text-base font-semibold text-slate-900">Play style</h2>
-            <div class="inline-flex gap-0.5 rounded-lg bg-slate-100 p-[3px]">
-              <button type="button" [attr.aria-pressed]="!playStyleTotal" (click)="playStyleTotal = false" class="whitespace-nowrap rounded-md border-0 px-3 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="!playStyleTotal ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">Per town</button>
-              <button type="button" [attr.aria-pressed]="playStyleTotal" (click)="playStyleTotal = true" class="whitespace-nowrap rounded-md border-0 px-3 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="playStyleTotal ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">Total</button>
+            <h2 class="m-0 text-base font-semibold text-slate-900 dark:text-white">Play style</h2>
+            <div class="inline-flex gap-0.5 rounded-lg bg-slate-100 p-[3px] dark:bg-slate-700">
+              <button type="button" [attr.aria-pressed]="!playStyleTotal" (click)="playStyleTotal = false" class="whitespace-nowrap rounded-md border-0 px-3 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="!playStyleTotal ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 dark:bg-slate-800 dark:text-white dark:ring-slate-600' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'">Per town</button>
+              <button type="button" [attr.aria-pressed]="playStyleTotal" (click)="playStyleTotal = true" class="whitespace-nowrap rounded-md border-0 px-3 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="playStyleTotal ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 dark:bg-slate-800 dark:text-white dark:ring-slate-600' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'">Total</button>
             </div>
           </div>
           <div class="flex flex-wrap items-center gap-x-4 gap-y-1.5">
-            <span *ngFor="let entity of activeList(); let idx = index" class="inline-flex min-w-0 items-center gap-1.5 whitespace-nowrap text-xs text-slate-600">
+            <span *ngFor="let entity of activeList(); let idx = index" class="inline-flex min-w-0 items-center gap-1.5 whitespace-nowrap text-xs text-slate-600 dark:text-slate-400">
               <span aria-hidden="true" class="size-2.5 flex-none rounded-[3px]" [style.background-color]="palette[idx % palette.length]"></span>
               <span class="truncate">{{entity.name}}</span>
             </span>
           </div>
         </div>
         <div class="px-5 pb-5 pt-4 max-sm:px-4">
-          <p class="mb-4 mt-0 text-[13px] leading-5 text-slate-500">{{playStyleTotal ? 'Total attack, defence and town points.' : 'Average attack, defence and town points per town.'}}</p>
+          <p class="mb-4 mt-0 text-[13px] leading-5 text-slate-500 dark:text-slate-400">{{playStyleTotal ? 'Total attack, defence and town points.' : 'Average attack, defence and town points per town.'}}</p>
           <div class="flex flex-col gap-[18px]">
             <div *ngFor="let metric of [0, 1, 2]" class="grid grid-cols-1 gap-x-3 gap-y-2 sm:grid-cols-[170px_minmax(0,1fr)] sm:items-center">
               <div>
-                <div class="text-sm font-medium text-slate-900">{{playStyleTotal ? ['Attacking', 'Defending', 'Town points'][metric] : ['Attack per town', 'Defence per town', 'Town points per town'][metric]}}</div>
-                <div *ngIf="!playStyleTotal" class="text-xs text-slate-500">{{['APPT', 'DPPT', 'TPPT'][metric]}}</div>
+                <div class="text-sm font-medium text-slate-900 dark:text-white">{{playStyleTotal ? ['Attacking', 'Defending', 'Town points'][metric] : ['Attack per town', 'Defence per town', 'Town points per town'][metric]}}</div>
+                <div *ngIf="!playStyleTotal" class="text-xs text-slate-500 dark:text-slate-400">{{['APPT', 'DPPT', 'TPPT'][metric]}}</div>
               </div>
               <div class="flex flex-col gap-[3px] border-0 border-l border-solid border-slate-300 py-0.5">
                 <div *ngFor="let item of inListOrder(playStyleTotal ? polar_chart_data_abs : polar_chart_data)" [title]="item.name + ': ' + (item.series[metric].value | number)" class="flex h-4 items-center gap-1.5">
                   <span aria-hidden="true" class="block h-3 flex-none rounded-r" [style.width.%]="item.series[metric].value / metricMax(playStyleTotal ? polar_chart_data_abs : polar_chart_data, metric) * 78" [style.background-color]="colorFor(item.name)"></span>
                   <span class="flex min-w-0 gap-1.5 whitespace-nowrap text-[11px] leading-[14px]">
-                    <span class="flex-none font-semibold tabular-nums text-slate-700">{{item.series[metric].value | compactNumber}}</span>
-                    <span *ngIf="metric == 0" class="truncate font-medium text-slate-600">{{item.name}}</span>
+                    <span class="flex-none font-semibold tabular-nums text-slate-700 dark:text-slate-300">{{item.series[metric].value | compactNumber}}</span>
+                    <span *ngIf="metric == 0" class="truncate font-medium text-slate-600 dark:text-slate-400">{{item.name}}</span>
                   </span>
                 </div>
               </div>
@@ -354,19 +354,19 @@
         </div>
       </section>
 
-      <section *ngIf="comparingPlayers || comparingAlliances" aria-label="History" class="rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08]">
-        <div class="flex min-h-[61px] flex-wrap items-center justify-between gap-x-4 gap-y-2 border-0 border-b border-solid border-slate-200 px-5 py-3.5 max-sm:px-4">
+      <section *ngIf="comparingPlayers || comparingAlliances" aria-label="History" class="rounded-xl bg-white shadow-sm ring-1 ring-slate-900/[.08] dark:bg-slate-800 dark:ring-white/10">
+        <div class="flex min-h-[61px] flex-wrap items-center justify-between gap-x-4 gap-y-2 border-0 border-b border-solid border-slate-200 px-5 py-3.5 max-sm:px-4 dark:border-slate-700">
           <div class="flex min-w-0 flex-wrap items-center gap-x-4 gap-y-2">
-            <h2 class="m-0 text-base font-semibold text-slate-900">History</h2>
-            <div class="inline-flex max-w-full gap-0.5 overflow-x-auto rounded-lg bg-slate-100 p-[3px]">
-              <button type="button" [attr.aria-pressed]="historyTab == 'points'" (click)="historyTab = 'points'" class="whitespace-nowrap rounded-md border-0 px-3 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 max-sm:px-2.5" [ngClass]="historyTab == 'points' ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">Points</button>
-              <button type="button" [attr.aria-pressed]="historyTab == 'att'" (click)="historyTab = 'att'" class="whitespace-nowrap rounded-md border-0 px-3 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 max-sm:px-2.5" [ngClass]="historyTab == 'att' ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">Attack<span class="max-sm:[display:none]"> points</span></button>
-              <button type="button" [attr.aria-pressed]="historyTab == 'def'" (click)="historyTab = 'def'" class="whitespace-nowrap rounded-md border-0 px-3 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 max-sm:px-2.5" [ngClass]="historyTab == 'def' ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">Defence<span class="max-sm:[display:none]"> points</span></button>
-              <button type="button" [attr.aria-pressed]="historyTab == 'towns'" (click)="historyTab = 'towns'" class="whitespace-nowrap rounded-md border-0 px-3 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 max-sm:px-2.5" [ngClass]="historyTab == 'towns' ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900'">Towns</button>
+            <h2 class="m-0 text-base font-semibold text-slate-900 dark:text-white">History</h2>
+            <div class="inline-flex max-w-full gap-0.5 overflow-x-auto rounded-lg bg-slate-100 p-[3px] dark:bg-slate-700">
+              <button type="button" [attr.aria-pressed]="historyTab == 'points'" (click)="historyTab = 'points'" class="whitespace-nowrap rounded-md border-0 px-3 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 max-sm:px-2.5" [ngClass]="historyTab == 'points' ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 dark:bg-slate-800 dark:text-white dark:ring-slate-600' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'">Points</button>
+              <button type="button" [attr.aria-pressed]="historyTab == 'att'" (click)="historyTab = 'att'" class="whitespace-nowrap rounded-md border-0 px-3 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 max-sm:px-2.5" [ngClass]="historyTab == 'att' ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 dark:bg-slate-800 dark:text-white dark:ring-slate-600' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'">Attack<span class="max-sm:[display:none]"> points</span></button>
+              <button type="button" [attr.aria-pressed]="historyTab == 'def'" (click)="historyTab = 'def'" class="whitespace-nowrap rounded-md border-0 px-3 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 max-sm:px-2.5" [ngClass]="historyTab == 'def' ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 dark:bg-slate-800 dark:text-white dark:ring-slate-600' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'">Defence<span class="max-sm:[display:none]"> points</span></button>
+              <button type="button" [attr.aria-pressed]="historyTab == 'towns'" (click)="historyTab = 'towns'" class="whitespace-nowrap rounded-md border-0 px-3 py-1.5 text-[13px] leading-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 max-sm:px-2.5" [ngClass]="historyTab == 'towns' ? 'bg-white font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 dark:bg-slate-800 dark:text-white dark:ring-slate-600' : 'bg-transparent font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'">Towns</button>
             </div>
           </div>
           <div class="flex flex-wrap items-center gap-x-4 gap-y-1.5">
-            <span *ngFor="let entity of activeList(); let idx = index" class="inline-flex min-w-0 items-center gap-1.5 whitespace-nowrap text-xs text-slate-600">
+            <span *ngFor="let entity of activeList(); let idx = index" class="inline-flex min-w-0 items-center gap-1.5 whitespace-nowrap text-xs text-slate-600 dark:text-slate-400">
               <span aria-hidden="true" class="h-[3px] w-3.5 flex-none rounded-sm" [style.background-color]="palette[idx % palette.length]"></span>
               <span class="truncate">{{entity.name}}</span>
             </span>
@@ -374,7 +374,7 @@
         </div>
         <div class="px-5 pb-3 pt-4 max-sm:px-4">
           <app-line-chart *ngIf="!firstRun && !loadingHistory" [results]="historyTab == 'att' ? data_att : historyTab == 'def' ? data_def : historyTab == 'towns' ? data_towns : data_points" [color]="colorFor" [label]="(historyTab == 'att' ? 'Attack points' : historyTab == 'def' ? 'Defence points' : historyTab == 'towns' ? 'Towns' : 'Points') + ' history'"></app-line-chart>
-          <div *ngIf="firstRun || loadingHistory" aria-hidden="true" class="mb-6 ml-11 h-60 animate-pulse rounded-md bg-slate-100"></div>
+          <div *ngIf="firstRun || loadingHistory" aria-hidden="true" class="mb-6 ml-11 h-60 animate-pulse rounded-md bg-slate-100 dark:bg-slate-700"></div>
         </div>
       </section>
     </div>

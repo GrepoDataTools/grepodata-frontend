@@ -1,49 +1,49 @@
-<div class="flex max-h-[90vh] w-[880px] max-w-full flex-col text-left font-normal text-slate-900">
-  <div class="relative flex-none border-0 border-b border-solid border-slate-200 px-6 py-5 max-sm:px-4">
+<div class="flex max-h-[90vh] w-[880px] max-w-full flex-col text-left font-normal text-slate-900 dark:text-white">
+  <div class="relative flex-none border-0 border-b border-solid border-slate-200 px-6 py-5 max-sm:px-4 dark:border-slate-700">
     <div class="flex items-start gap-4">
       <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-lg bg-navy-800 text-brand-500"><svg appIcon="ally_ico" variant="game" class="size-[22px]"></svg></span>
       <div class="min-w-0 flex-1">
-        <h2 mat-dialog-title class="m-0 truncate text-xl font-semibold text-slate-900">{{alliance_name}}</h2>
-        <p class="mb-0 mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-slate-600"><span>Points gained</span><span aria-hidden="true" class="text-slate-300">·</span><span class="inline-flex items-center gap-1.5"><span class="bg-flag flag-{{world?.substr(0,2)}} flex-none [zoom:0.625]"></span>{{world}}</span><span aria-hidden="true" class="text-slate-300">·</span><span class="inline-flex items-center gap-1.5"><svg appIcon="calendar-days" class="size-4 flex-none text-slate-400"></svg>{{date | Datex : 'D MMM YYYY'}}</span></p>
+        <h2 mat-dialog-title class="m-0 truncate text-xl font-semibold text-slate-900 dark:text-white">{{alliance_name}}</h2>
+        <p class="mb-0 mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-slate-600 dark:text-slate-400"><span>Points gained</span><span aria-hidden="true" class="text-slate-300">·</span><span class="inline-flex items-center gap-1.5"><span class="bg-flag flag-{{world?.substr(0,2)}} flex-none [zoom:0.625]"></span>{{world}}</span><span aria-hidden="true" class="text-slate-300">·</span><span class="inline-flex items-center gap-1.5"><svg appIcon="calendar-days" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>{{date | Datex : 'D MMM YYYY'}}</span></p>
       </div>
-      <a routerLink="/alliance" [queryParams]="{world: world, id: alliance_id}" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 px-2.5 py-1.5 text-xs font-semibold shadow-sm ring-1 ring-inset focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 bg-white text-slate-900 ring-slate-300 no-underline hover:bg-slate-50 hover:text-slate-900 hover:no-underline focus:text-slate-900 focus:no-underline flex-none max-sm:[display:none]">Alliance profile<svg appIcon="arrow-right" variant="micro" class="size-3.5 flex-none text-slate-400"></svg></a>
-      <button type="button" (click)="dialogRef.close()" aria-label="Close" class="-mr-2 -mt-1 inline-flex size-8 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="x-mark" class="size-5"></svg></button>
+      <a routerLink="/alliance" [queryParams]="{world: world, id: alliance_id}" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 px-2.5 py-1.5 text-xs font-semibold shadow-sm ring-1 ring-inset focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 bg-white text-slate-900 ring-slate-300 no-underline hover:bg-slate-50 hover:text-slate-900 hover:no-underline focus:text-slate-900 focus:no-underline flex-none max-sm:[display:none] dark:bg-slate-800 dark:text-white dark:ring-slate-600 dark:hover:bg-slate-700/60 dark:hover:text-white">Alliance profile<svg appIcon="arrow-right" variant="micro" class="size-3.5 flex-none text-slate-400 dark:text-slate-500"></svg></a>
+      <button type="button" (click)="dialogRef.close()" aria-label="Close" class="-mr-2 -mt-1 inline-flex size-8 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:text-slate-400 dark:hover:bg-slate-700"><svg appIcon="x-mark" class="size-5"></svg></button>
     </div>
     <mat-progress-bar *ngIf="loading" mode="indeterminate" class="!absolute inset-x-0 bottom-0 !h-0.5"></mat-progress-bar>
   </div>
 
   <div class="gd-scrollbar min-h-0 flex-1 overflow-y-auto px-6 py-5 max-sm:px-4">
     <div *ngIf="error">
-    <div class="flex flex-col items-center rounded-[10px] px-6 py-10 text-center ring-1 ring-inset ring-slate-200">
-      <span aria-hidden="true" class="flex size-12 items-center justify-center rounded-full bg-rose-50 text-rose-600"><svg appIcon="exclamation-triangle" class="size-6"></svg></span>
-      <h3 class="mb-0 mt-3 text-base font-semibold text-slate-900">Unable to load data for this alliance</h3>
-      <p class="mb-0 mt-1 text-sm text-slate-600">Close the dialog and try again in a moment.</p>
+    <div class="flex flex-col items-center rounded-[10px] px-6 py-10 text-center ring-1 ring-inset ring-slate-200 dark:ring-slate-700">
+      <span aria-hidden="true" class="flex size-12 items-center justify-center rounded-full bg-rose-50 text-rose-600 dark:bg-rose-500/10 dark:text-rose-400"><svg appIcon="exclamation-triangle" class="size-6"></svg></span>
+      <h3 class="mb-0 mt-3 text-base font-semibold text-slate-900 dark:text-white">Unable to load data for this alliance</h3>
+      <p class="mb-0 mt-1 text-sm text-slate-600 dark:text-slate-400">Close the dialog and try again in a moment.</p>
     </div>
     </div>
 
     <ng-container *ngIf="!error">
       <div class="flex flex-wrap items-end justify-between gap-3">
         <div class="grid w-[412px] max-w-full grid-cols-2 gap-3">
-        <div class="flex min-w-0 flex-col gap-1 rounded-lg bg-slate-50 px-4 py-3 ring-1 ring-inset ring-slate-200">
-          <span class="inline-flex items-center gap-1.5 text-[13px] font-medium leading-4 text-slate-600"><span aria-hidden="true" class="size-2.5 flex-none rounded-[3px] bg-[#EB6834]"></span>Attack points</span>
-          <span *ngIf="loading" aria-hidden="true" class="my-1.5 block h-5 w-24 rounded bg-slate-200"></span>
-          <span *ngIf="!loading" class="text-[22px] font-semibold leading-7 tabular-nums text-slate-900">{{total('Attacking') | NumberFilter}}</span>
+        <div class="flex min-w-0 flex-col gap-1 rounded-lg bg-slate-50 px-4 py-3 ring-1 ring-inset ring-slate-200 dark:bg-slate-700/40 dark:ring-slate-700">
+          <span class="inline-flex items-center gap-1.5 text-[13px] font-medium leading-4 text-slate-600 dark:text-slate-400"><span aria-hidden="true" class="size-2.5 flex-none rounded-[3px] bg-[#EB6834]"></span>Attack points</span>
+          <span *ngIf="loading" aria-hidden="true" class="my-1.5 block h-5 w-24 rounded bg-slate-200 dark:bg-slate-600"></span>
+          <span *ngIf="!loading" class="text-[22px] font-semibold leading-7 tabular-nums text-slate-900 dark:text-white">{{total('Attacking') | NumberFilter}}</span>
         </div>
-        <div class="flex min-w-0 flex-col gap-1 rounded-lg bg-slate-50 px-4 py-3 ring-1 ring-inset ring-slate-200">
-          <span class="inline-flex items-center gap-1.5 text-[13px] font-medium leading-4 text-slate-600"><span aria-hidden="true" class="size-2.5 flex-none rounded-[3px] bg-[#2A78D6]"></span>Defence points</span>
-          <span *ngIf="loading" aria-hidden="true" class="my-1.5 block h-5 w-24 rounded bg-slate-200"></span>
-          <span *ngIf="!loading" class="text-[22px] font-semibold leading-7 tabular-nums text-slate-900">{{total('Defending') | NumberFilter}}</span>
+        <div class="flex min-w-0 flex-col gap-1 rounded-lg bg-slate-50 px-4 py-3 ring-1 ring-inset ring-slate-200 dark:bg-slate-700/40 dark:ring-slate-700">
+          <span class="inline-flex items-center gap-1.5 text-[13px] font-medium leading-4 text-slate-600 dark:text-slate-400"><span aria-hidden="true" class="size-2.5 flex-none rounded-[3px] bg-[#2A78D6]"></span>Defence points</span>
+          <span *ngIf="loading" aria-hidden="true" class="my-1.5 block h-5 w-24 rounded bg-slate-200 dark:bg-slate-600"></span>
+          <span *ngIf="!loading" class="text-[22px] font-semibold leading-7 tabular-nums text-slate-900 dark:text-white">{{total('Defending') | NumberFilter}}</span>
         </div>
         </div>
-        <span class="inline-flex min-w-0 items-center gap-1.5 text-[13px] leading-5 text-slate-500 max-sm:[display:none]"><svg appIcon="cursor-arrow-rays" class="size-4 flex-none text-slate-400"></svg>Click a player to open their day</span>
+        <span class="inline-flex min-w-0 items-center gap-1.5 text-[13px] leading-5 text-slate-500 max-sm:[display:none] dark:text-slate-400"><svg appIcon="cursor-arrow-rays" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>Click a player to open their day</span>
       </div>
 
-      <section class="mt-5 rounded-[10px] ring-1 ring-inset ring-slate-200">
-        <div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-0 border-b border-solid border-slate-200 py-3 pl-4 pr-3">
-          <h3 class="m-0 flex items-center gap-2 text-sm font-semibold text-slate-900">Points per player<span *ngIf="!loading && data" class="font-normal text-slate-500">{{data.length}} {{data.length == 1 ? 'player' : 'players'}}</span></h3>
-          <div class="flex items-center gap-3"><span class="inline-flex items-center gap-1.5 whitespace-nowrap text-xs text-slate-600"><span aria-hidden="true" class="size-2.5 flex-none rounded-[3px] bg-[#EB6834]"></span>Attack</span><span class="inline-flex items-center gap-1.5 whitespace-nowrap text-xs text-slate-600"><span aria-hidden="true" class="size-2.5 flex-none rounded-[3px] bg-[#2A78D6]"></span>Defence</span></div>
+      <section class="mt-5 rounded-[10px] ring-1 ring-inset ring-slate-200 dark:ring-slate-700">
+        <div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-0 border-b border-solid border-slate-200 py-3 pl-4 pr-3 dark:border-slate-700">
+          <h3 class="m-0 flex items-center gap-2 text-sm font-semibold text-slate-900 dark:text-white">Points per player<span *ngIf="!loading && data" class="font-normal text-slate-500 dark:text-slate-400">{{data.length}} {{data.length == 1 ? 'player' : 'players'}}</span></h3>
+          <div class="flex items-center gap-3"><span class="inline-flex items-center gap-1.5 whitespace-nowrap text-xs text-slate-600 dark:text-slate-400"><span aria-hidden="true" class="size-2.5 flex-none rounded-[3px] bg-[#EB6834]"></span>Attack</span><span class="inline-flex items-center gap-1.5 whitespace-nowrap text-xs text-slate-600 dark:text-slate-400"><span aria-hidden="true" class="size-2.5 flex-none rounded-[3px] bg-[#2A78D6]"></span>Defence</span></div>
         </div>
-        <div *ngIf="loading || !data" class="flex h-[236px] items-center justify-center px-4 text-center text-sm text-slate-500">Loading the players of {{alliance_name}}…</div>
+        <div *ngIf="loading || !data" class="flex h-[236px] items-center justify-center px-4 text-center text-sm text-slate-500 dark:text-slate-400">Loading the players of {{alliance_name}}…</div>
         <ng-container *ngIf="!loading && data">
           <div>
             <app-grouped-hbar-chart [results]="data" [keys]="['Attacking', 'Defending']" [labels]="['Attack', 'Defence']" [colors]="['#EB6834', '#2A78D6']" [clickable]="true" icon="player_ico" label="Points per player" (rowSelect)="onSelect({series: $event})"></app-grouped-hbar-chart>
@@ -53,7 +53,7 @@
     </ng-container>
   </div>
 
-  <div class="flex flex-none items-center gap-3 border-0 border-t border-solid border-slate-200 bg-slate-50 px-6 py-4 max-sm:px-4">
-    <button type="button" (click)="dialogRef.close()" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 ml-auto">Close</button>
+  <div class="flex flex-none items-center gap-3 border-0 border-t border-solid border-slate-200 bg-slate-50 px-6 py-4 max-sm:px-4 dark:border-slate-700 dark:bg-slate-700/40">
+    <button type="button" (click)="dialogRef.close()" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 ml-auto dark:bg-slate-800 dark:text-white dark:ring-slate-600 dark:hover:bg-slate-700/60">Close</button>
   </div>
 </div>

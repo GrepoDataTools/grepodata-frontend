@@ -1,12 +1,12 @@
-<div class="flex max-h-[90vh] w-[1040px] max-w-full flex-col text-left font-normal text-slate-900">
-  <div class="relative flex-none border-0 border-b border-solid border-slate-200 px-6 py-5 max-sm:px-4">
+<div class="flex max-h-[90vh] w-[1040px] max-w-full flex-col text-left font-normal text-slate-900 dark:text-white">
+  <div class="relative flex-none border-0 border-b border-solid border-slate-200 px-6 py-5 max-sm:px-4 dark:border-slate-700">
     <div class="flex items-start gap-4">
       <span aria-hidden="true" class="flex size-10 flex-none items-center justify-center rounded-lg bg-navy-800 text-brand-500"><svg appIcon="chart-bar" class="size-6"></svg></span>
       <div class="min-w-0 flex-1">
-        <h2 mat-dialog-title class="m-0 truncate text-xl font-semibold text-slate-900">Points gained between ±{{hourStart}} and ±{{hourEnd}}</h2>
-        <p class="mb-0 mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-slate-600"><span class="inline-flex items-center gap-1.5"><span class="bg-flag flag-{{world?.substr(0,2)}} flex-none [zoom:0.625]"></span>{{world}}</span><span aria-hidden="true" class="text-slate-300">·</span><span class="inline-flex items-center gap-1.5"><svg appIcon="calendar-days" class="size-4 flex-none text-slate-400"></svg>{{date | Datex : 'D MMM YYYY'}}</span></p>
+        <h2 mat-dialog-title class="m-0 truncate text-xl font-semibold text-slate-900 dark:text-white">Points gained between ±{{hourStart}} and ±{{hourEnd}}</h2>
+        <p class="mb-0 mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-slate-600 dark:text-slate-400"><span class="inline-flex items-center gap-1.5"><span class="bg-flag flag-{{world?.substr(0,2)}} flex-none [zoom:0.625]"></span>{{world}}</span><span aria-hidden="true" class="text-slate-300">·</span><span class="inline-flex items-center gap-1.5"><svg appIcon="calendar-days" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>{{date | Datex : 'D MMM YYYY'}}</span></p>
       </div>
-      <button type="button" (click)="dialogRef.close()" aria-label="Close" class="-mr-2 -mt-1 inline-flex size-8 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="x-mark" class="size-5"></svg></button>
+      <button type="button" (click)="dialogRef.close()" aria-label="Close" class="-mr-2 -mt-1 inline-flex size-8 flex-none items-center justify-center rounded-md border-0 bg-transparent p-0 text-slate-500 hover:bg-slate-100 hover:text-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:text-slate-400 dark:hover:bg-slate-700"><svg appIcon="x-mark" class="size-5"></svg></button>
     </div>
     <mat-progress-bar *ngIf="loading" mode="indeterminate" class="!absolute inset-x-0 bottom-0 !h-0.5"></mat-progress-bar>
   </div>
@@ -14,120 +14,120 @@
   <div class="gd-scrollbar min-h-0 flex-1 overflow-y-auto px-6 py-5 max-sm:px-4">
     <div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
       <div role="group" aria-label="Change hour" class="flex gap-2">
-        <button *ngIf="hour!=2" type="button" (click)="setHour(hour-1)" [disabled]="loading" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700"><svg appIcon="chevron-left" variant="mini" class="size-4 flex-none text-slate-400"></svg>Previous hour</button>
-        <button *ngIf="hour!=1" type="button" (click)="setHour(hour+1)" [disabled]="loading" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700">Next hour<svg appIcon="chevron-right" variant="mini" class="size-4 flex-none text-slate-400"></svg></button>
+        <button *ngIf="hour!=2" type="button" (click)="setHour(hour-1)" [disabled]="loading" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:bg-slate-800 dark:text-white dark:ring-slate-600 dark:hover:bg-slate-700/60"><svg appIcon="chevron-left" variant="mini" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>Previous hour</button>
+        <button *ngIf="hour!=1" type="button" (click)="setHour(hour+1)" [disabled]="loading" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 dark:bg-slate-800 dark:text-white dark:ring-slate-600 dark:hover:bg-slate-700/60">Next hour<svg appIcon="chevron-right" variant="mini" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg></button>
       </div>
-      <span class="inline-flex min-w-0 items-center gap-1.5 text-[13px] leading-5 text-slate-500"><svg appIcon="information-circle" class="size-4 flex-none text-slate-400"></svg>Attack and defence hours can differ by ±1 hour because of the Grepolis data dump delay.</span>
+      <span class="inline-flex min-w-0 items-center gap-1.5 text-[13px] leading-5 text-slate-500 dark:text-slate-400"><svg appIcon="information-circle" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>Attack and defence hours can differ by ±1 hour because of the Grepolis data dump delay.</span>
     </div>
 
     <div *ngIf="error" class="mt-5">
-    <div class="flex flex-col items-center rounded-[10px] px-6 py-10 text-center ring-1 ring-inset ring-slate-200">
-      <span aria-hidden="true" class="flex size-12 items-center justify-center rounded-full bg-rose-50 text-rose-600"><svg appIcon="exclamation-triangle" class="size-6"></svg></span>
-      <h3 class="mb-0 mt-3 text-base font-semibold text-slate-900">Unable to load data for this hour</h3>
-      <p class="mb-0 mt-1 text-sm text-slate-600">Close the dialog and try again in a moment.</p>
+    <div class="flex flex-col items-center rounded-[10px] px-6 py-10 text-center ring-1 ring-inset ring-slate-200 dark:ring-slate-700">
+      <span aria-hidden="true" class="flex size-12 items-center justify-center rounded-full bg-rose-50 text-rose-600 dark:bg-rose-500/10 dark:text-rose-400"><svg appIcon="exclamation-triangle" class="size-6"></svg></span>
+      <h3 class="mb-0 mt-3 text-base font-semibold text-slate-900 dark:text-white">Unable to load data for this hour</h3>
+      <p class="mb-0 mt-1 text-sm text-slate-600 dark:text-slate-400">Close the dialog and try again in a moment.</p>
     </div>
     </div>
 
     <div *ngIf="!error" class="mt-5 grid items-start gap-5 md:grid-cols-2">
-      <section aria-labelledby="ov-att" class="relative min-w-0 rounded-[10px] ring-1 ring-inset ring-slate-200">
-        <div class="flex items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 py-3 pl-4 pr-3">
-          <h3 id="ov-att" class="m-0 flex min-w-0 items-center gap-2 text-sm font-semibold text-slate-900"><span aria-hidden="true" class="size-2.5 flex-none rounded-[3px] bg-[#EB6834]"></span><span class="truncate">Attack points</span><span class="whitespace-nowrap font-normal text-slate-500">{{data.att.length}} {{data.att.length == 1 ? 'player' : 'players'}}</span></h3>
-          <button type="button" [matMenuTriggerFor]="attFilter" [disabled]="loading" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 px-2.5 py-1.5 text-xs font-semibold shadow-sm ring-1 ring-inset focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 flex-none disabled:cursor-not-allowed disabled:opacity-50" [ngClass]="att_all_selected ? 'bg-white text-slate-900 ring-slate-300 hover:bg-slate-50' : 'bg-brand-50 text-brand-700 ring-brand-600'">
-            <svg appIcon="funnel" variant="micro" class="size-3.5 flex-none" [ngClass]="att_all_selected ? 'text-slate-400' : 'text-brand-700'"></svg>{{att_all_selected ? 'All alliances' : toggledCount(alliances_att) + ' of ' + alliances_att?.length + ' alliances'}}<svg appIcon="chevron-down" variant="micro" class="size-3.5 flex-none" [ngClass]="att_all_selected ? 'text-slate-400' : 'text-brand-700'"></svg>
+      <section aria-labelledby="ov-att" class="relative min-w-0 rounded-[10px] ring-1 ring-inset ring-slate-200 dark:ring-slate-700">
+        <div class="flex items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 py-3 pl-4 pr-3 dark:border-slate-700">
+          <h3 id="ov-att" class="m-0 flex min-w-0 items-center gap-2 text-sm font-semibold text-slate-900 dark:text-white"><span aria-hidden="true" class="size-2.5 flex-none rounded-[3px] bg-[#EB6834]"></span><span class="truncate">Attack points</span><span class="whitespace-nowrap font-normal text-slate-500 dark:text-slate-400">{{data.att.length}} {{data.att.length == 1 ? 'player' : 'players'}}</span></h3>
+          <button type="button" [matMenuTriggerFor]="attFilter" [disabled]="loading" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 px-2.5 py-1.5 text-xs font-semibold shadow-sm ring-1 ring-inset focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 flex-none disabled:cursor-not-allowed disabled:opacity-50" [ngClass]="att_all_selected ? 'bg-white text-slate-900 ring-slate-300 hover:bg-slate-50 dark:bg-slate-800 dark:text-white dark:ring-slate-600 dark:hover:bg-slate-700/60' : 'bg-brand-50 text-brand-700 ring-brand-600 dark:bg-brand-500/10 dark:ring-brand-500/40'">
+            <svg appIcon="funnel" variant="micro" class="size-3.5 flex-none" [ngClass]="att_all_selected ? 'text-slate-400 dark:text-slate-500' : 'text-brand-700'"></svg>{{att_all_selected ? 'All alliances' : toggledCount(alliances_att) + ' of ' + alliances_att?.length + ' alliances'}}<svg appIcon="chevron-down" variant="micro" class="size-3.5 flex-none" [ngClass]="att_all_selected ? 'text-slate-400 dark:text-slate-500' : 'text-brand-700'"></svg>
           </button>
           <mat-menu #attFilter="matMenu" xPosition="before" class="!w-[272px] !max-w-none !rounded-lg !shadow-lg [&_.mat-menu-content]:!py-1.5">
             <div (click)="$event.stopPropagation()" class="text-left font-normal">
-              <p class="m-0 px-3 pb-1 pt-1.5 text-xs font-semibold text-slate-500">Show players from</p>
-              <label class="m-0 flex cursor-pointer items-center gap-2 border-0 border-b border-solid border-slate-100 px-3 pb-2 pt-1.5 text-[13px] font-normal leading-5 text-slate-900 hover:bg-slate-50">
+              <p class="m-0 px-3 pb-1 pt-1.5 text-xs font-semibold text-slate-500 dark:text-slate-400">Show players from</p>
+              <label class="m-0 flex cursor-pointer items-center gap-2 border-0 border-b border-solid border-slate-100 px-3 pb-2 pt-1.5 text-[13px] font-normal leading-5 text-slate-900 hover:bg-slate-50 dark:border-slate-700 dark:text-white dark:hover:bg-slate-700/60">
                 <input type="checkbox" (ngModelChange)="doSelectAllAtt($event)" [(ngModel)]="att_all_selected" class="m-0 size-4 flex-none cursor-pointer accent-brand-700">Select all
               </label>
-              <label *ngFor="let alliance of alliances_att" class="m-0 flex cursor-pointer items-center gap-2 px-3 py-1.5 text-[13px] font-normal leading-5 text-slate-900 hover:bg-slate-50">
+              <label *ngFor="let alliance of alliances_att" class="m-0 flex cursor-pointer items-center gap-2 px-3 py-1.5 text-[13px] font-normal leading-5 text-slate-900 hover:bg-slate-50 dark:text-white dark:hover:bg-slate-700/60">
                 <input type="checkbox" [(ngModel)]="alliance.toggle" (ngModelChange)="doFilterAlliances(); att_all_selected=false;" class="m-0 size-4 flex-none cursor-pointer accent-brand-700">
-                <svg appIcon="ally_ico" variant="game" class="size-3.5 flex-none text-slate-400"></svg><span class="min-w-0 truncate">{{alliance.name}}</span><span class="ml-auto pl-2 text-xs tabular-nums text-slate-500">{{alliance.score | NumberFilter}}</span>
+                <svg appIcon="ally_ico" variant="game" class="size-3.5 flex-none text-slate-400 dark:text-slate-500"></svg><span class="min-w-0 truncate">{{alliance.name}}</span><span class="ml-auto pl-2 text-xs tabular-nums text-slate-500 dark:text-slate-400">{{alliance.score | NumberFilter}}</span>
               </label>
             </div>
           </mat-menu>
         </div>
-        <div class="flex flex-wrap items-center gap-1.5 border-0 border-b border-solid border-slate-100 px-4 py-2.5">
-          <span class="mr-0.5 text-xs text-slate-500">Hour</span>
-          <button *ngFor="let h of hours; let i = index" type="button" (click)="onAttSelect(h)" [disabled]="loading" [attr.aria-pressed]="data_is_filtered && att_colors_actual[0] == att_colors[i]" [title]="data_is_filtered ? 'Show all hours' : 'Show only ' + h" class="inline-flex items-center gap-1.5 rounded-full border-0 py-[3px] pl-2 pr-2.5 text-xs font-medium tabular-nums ring-1 ring-inset disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="(data_is_filtered && att_colors_actual[0] == att_colors[i]) ? 'bg-brand-50 text-slate-900 ring-brand-600' : (data_is_filtered ? 'bg-white text-slate-400 ring-slate-200 hover:bg-slate-50' : 'bg-white text-slate-700 ring-slate-200 hover:bg-slate-50')">
+        <div class="flex flex-wrap items-center gap-1.5 border-0 border-b border-solid border-slate-100 px-4 py-2.5 dark:border-slate-700">
+          <span class="mr-0.5 text-xs text-slate-500 dark:text-slate-400">Hour</span>
+          <button *ngFor="let h of hours; let i = index" type="button" (click)="onAttSelect(h)" [disabled]="loading" [attr.aria-pressed]="data_is_filtered && att_colors_actual[0] == att_colors[i]" [title]="data_is_filtered ? 'Show all hours' : 'Show only ' + h" class="inline-flex items-center gap-1.5 rounded-full border-0 py-[3px] pl-2 pr-2.5 text-xs font-medium tabular-nums ring-1 ring-inset disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="(data_is_filtered && att_colors_actual[0] == att_colors[i]) ? 'bg-brand-50 text-slate-900 ring-brand-600 dark:bg-brand-500/10 dark:text-white dark:ring-brand-500/40' : (data_is_filtered ? 'bg-white text-slate-400 ring-slate-200 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-500 dark:ring-slate-700' : 'bg-white text-slate-700 ring-slate-200 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-300 dark:ring-slate-700 dark:hover:bg-slate-700/60')">
             <span aria-hidden="true" class="size-2.5 flex-none rounded-[3px]" [style.background-color]="(data_is_filtered && !(data_is_filtered && att_colors_actual[0] == att_colors[i])) ? '#E2E8F0' : ['#F6936F', '#EB6834', '#A24017'][i]"></span>{{h}}
           </button>
         </div>
         <ol class="m-0 list-none px-0 py-1.5" [ngClass]="{'opacity-45': loading}">
-          <li *ngFor="let p of data.att; let i = index" class="group relative m-0 grid h-8 grid-cols-[124px_minmax(0,1fr)_52px_16px] items-center gap-2.5 pl-4 pr-2 hover:bg-slate-50 max-sm:grid-cols-[96px_minmax(0,1fr)_48px_16px]">
-            <span class="truncate text-[13px] font-medium leading-5 text-slate-900 group-hover:font-semibold">{{p.name}}</span>
+          <li *ngFor="let p of data.att; let i = index" class="group relative m-0 grid h-8 grid-cols-[124px_minmax(0,1fr)_52px_16px] items-center gap-2.5 pl-4 pr-2 hover:bg-slate-50 max-sm:grid-cols-[96px_minmax(0,1fr)_48px_16px] dark:hover:bg-slate-700/60">
+            <span class="truncate text-[13px] font-medium leading-5 text-slate-900 group-hover:font-semibold dark:text-white">{{p.name}}</span>
             <span aria-hidden="true" class="flex min-w-0 items-center gap-0.5">
               <ng-container *ngFor="let s of p.series"><span *ngIf="s.value > 0" class="h-3 min-w-[2px] flex-none last:rounded-r" [style.width]="'calc(' + (s.value / seriesMax(data.att) * 100) + '% - 2px)'" [style.background-color]="['#F6936F', '#EB6834', '#A24017'][hours.indexOf(s.name)]"></span></ng-container>
             </span>
-            <span class="text-right text-[13px] font-medium leading-5 tabular-nums text-slate-700">{{seriesSum(p) | NumberFilter}}</span>
-            <svg appIcon="chevron-right" variant="mini" class="size-4 flex-none text-slate-400 opacity-0 group-hover:opacity-100"></svg>
+            <span class="text-right text-[13px] font-medium leading-5 tabular-nums text-slate-700 dark:text-slate-300">{{seriesSum(p) | NumberFilter}}</span>
+            <svg appIcon="chevron-right" variant="mini" class="size-4 flex-none text-slate-400 opacity-0 group-hover:opacity-100 dark:text-slate-500"></svg>
             <button type="button" (click)="onAttSelect({series: p.name})" [attr.aria-label]="'Show the hourly breakdown for ' + p.name" class="absolute inset-0 cursor-pointer border-0 bg-transparent p-0 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-700"></button>
-            <div role="tooltip" class="pointer-events-none absolute left-[140px] z-20 w-[204px] rounded-lg bg-white px-3 py-2.5 text-xs shadow-lg ring-1 ring-slate-900/5 [display:none] group-hover:[display:block] max-sm:left-[112px]" [ngClass]="i > 3 && i >= data.att.length - 4 ? 'bottom-full mb-1' : 'top-full mt-1'">
-              <p class="m-0 text-[13px] font-semibold leading-[18px] text-slate-900">{{p.name}}</p>
-              <p *ngIf="p.alliance_name" class="mb-0 mt-0.5 flex items-center gap-1 text-slate-500"><svg appIcon="ally_ico" variant="game" class="size-3 flex-none text-slate-400"></svg><span class="truncate">{{p.alliance_name}}</span></p>
+            <div role="tooltip" class="pointer-events-none absolute left-[140px] z-20 w-[204px] rounded-lg bg-white px-3 py-2.5 text-xs shadow-lg ring-1 ring-slate-900/5 [display:none] group-hover:[display:block] max-sm:left-[112px] dark:bg-slate-800" [ngClass]="i > 3 && i >= data.att.length - 4 ? 'bottom-full mb-1' : 'top-full mt-1'">
+              <p class="m-0 text-[13px] font-semibold leading-[18px] text-slate-900 dark:text-white">{{p.name}}</p>
+              <p *ngIf="p.alliance_name" class="mb-0 mt-0.5 flex items-center gap-1 text-slate-500 dark:text-slate-400"><svg appIcon="ally_ico" variant="game" class="size-3 flex-none text-slate-400 dark:text-slate-500"></svg><span class="truncate">{{p.alliance_name}}</span></p>
               <div class="mt-1.5 flex flex-col gap-1">
-                <div *ngFor="let s of p.series" class="flex items-center gap-2"><span aria-hidden="true" class="h-[3px] w-3 flex-none rounded-sm" [style.background-color]="['#F6936F', '#EB6834', '#A24017'][hours.indexOf(s.name)]"></span><span class="min-w-[48px] font-semibold tabular-nums text-slate-900">{{s.value | NumberFilter}}</span><span class="tabular-nums text-slate-500">{{s.name}}</span></div>
+                <div *ngFor="let s of p.series" class="flex items-center gap-2"><span aria-hidden="true" class="h-[3px] w-3 flex-none rounded-sm" [style.background-color]="['#F6936F', '#EB6834', '#A24017'][hours.indexOf(s.name)]"></span><span class="min-w-[48px] font-semibold tabular-nums text-slate-900 dark:text-white">{{s.value | NumberFilter}}</span><span class="tabular-nums text-slate-500 dark:text-slate-400">{{s.name}}</span></div>
               </div>
-              <div class="mt-1.5 flex justify-between border-0 border-t border-solid border-slate-100 pt-1.5 text-slate-600"><span>Total</span><span class="font-semibold tabular-nums text-slate-900">{{seriesSum(p) | NumberFilter}}</span></div>
-              <p class="mb-0 mt-1 text-slate-500">Click to open their day</p>
+              <div class="mt-1.5 flex justify-between border-0 border-t border-solid border-slate-100 pt-1.5 text-slate-600 dark:border-slate-700 dark:text-slate-400"><span>Total</span><span class="font-semibold tabular-nums text-slate-900 dark:text-white">{{seriesSum(p) | NumberFilter}}</span></div>
+              <p class="mb-0 mt-1 text-slate-500 dark:text-slate-400">Click to open their day</p>
             </div>
           </li>
-          <li *ngIf="data.att.length == 0 && !loading" class="m-0 px-4 py-6 text-center text-sm text-slate-500">No players in these hours</li>
+          <li *ngIf="data.att.length == 0 && !loading" class="m-0 px-4 py-6 text-center text-sm text-slate-500 dark:text-slate-400">No players in these hours</li>
         </ol>
       </section>
-      <section aria-labelledby="ov-def" class="relative min-w-0 rounded-[10px] ring-1 ring-inset ring-slate-200">
-        <div class="flex items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 py-3 pl-4 pr-3">
-          <h3 id="ov-def" class="m-0 flex min-w-0 items-center gap-2 text-sm font-semibold text-slate-900"><span aria-hidden="true" class="size-2.5 flex-none rounded-[3px] bg-[#2A78D6]"></span><span class="truncate">Defence points</span><span class="whitespace-nowrap font-normal text-slate-500">{{data.def.length}} {{data.def.length == 1 ? 'player' : 'players'}}</span></h3>
-          <button type="button" [matMenuTriggerFor]="defFilter" [disabled]="loading" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 px-2.5 py-1.5 text-xs font-semibold shadow-sm ring-1 ring-inset focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 flex-none disabled:cursor-not-allowed disabled:opacity-50" [ngClass]="def_all_selected ? 'bg-white text-slate-900 ring-slate-300 hover:bg-slate-50' : 'bg-brand-50 text-brand-700 ring-brand-600'">
-            <svg appIcon="funnel" variant="micro" class="size-3.5 flex-none" [ngClass]="def_all_selected ? 'text-slate-400' : 'text-brand-700'"></svg>{{def_all_selected ? 'All alliances' : toggledCount(alliances_def) + ' of ' + alliances_def?.length + ' alliances'}}<svg appIcon="chevron-down" variant="micro" class="size-3.5 flex-none" [ngClass]="def_all_selected ? 'text-slate-400' : 'text-brand-700'"></svg>
+      <section aria-labelledby="ov-def" class="relative min-w-0 rounded-[10px] ring-1 ring-inset ring-slate-200 dark:ring-slate-700">
+        <div class="flex items-center justify-between gap-3 border-0 border-b border-solid border-slate-200 py-3 pl-4 pr-3 dark:border-slate-700">
+          <h3 id="ov-def" class="m-0 flex min-w-0 items-center gap-2 text-sm font-semibold text-slate-900 dark:text-white"><span aria-hidden="true" class="size-2.5 flex-none rounded-[3px] bg-[#2A78D6]"></span><span class="truncate">Defence points</span><span class="whitespace-nowrap font-normal text-slate-500 dark:text-slate-400">{{data.def.length}} {{data.def.length == 1 ? 'player' : 'players'}}</span></h3>
+          <button type="button" [matMenuTriggerFor]="defFilter" [disabled]="loading" class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border-0 px-2.5 py-1.5 text-xs font-semibold shadow-sm ring-1 ring-inset focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 flex-none disabled:cursor-not-allowed disabled:opacity-50" [ngClass]="def_all_selected ? 'bg-white text-slate-900 ring-slate-300 hover:bg-slate-50 dark:bg-slate-800 dark:text-white dark:ring-slate-600 dark:hover:bg-slate-700/60' : 'bg-brand-50 text-brand-700 ring-brand-600 dark:bg-brand-500/10 dark:ring-brand-500/40'">
+            <svg appIcon="funnel" variant="micro" class="size-3.5 flex-none" [ngClass]="def_all_selected ? 'text-slate-400 dark:text-slate-500' : 'text-brand-700'"></svg>{{def_all_selected ? 'All alliances' : toggledCount(alliances_def) + ' of ' + alliances_def?.length + ' alliances'}}<svg appIcon="chevron-down" variant="micro" class="size-3.5 flex-none" [ngClass]="def_all_selected ? 'text-slate-400 dark:text-slate-500' : 'text-brand-700'"></svg>
           </button>
           <mat-menu #defFilter="matMenu" xPosition="before" class="!w-[272px] !max-w-none !rounded-lg !shadow-lg [&_.mat-menu-content]:!py-1.5">
             <div (click)="$event.stopPropagation()" class="text-left font-normal">
-              <p class="m-0 px-3 pb-1 pt-1.5 text-xs font-semibold text-slate-500">Show players from</p>
-              <label class="m-0 flex cursor-pointer items-center gap-2 border-0 border-b border-solid border-slate-100 px-3 pb-2 pt-1.5 text-[13px] font-normal leading-5 text-slate-900 hover:bg-slate-50">
+              <p class="m-0 px-3 pb-1 pt-1.5 text-xs font-semibold text-slate-500 dark:text-slate-400">Show players from</p>
+              <label class="m-0 flex cursor-pointer items-center gap-2 border-0 border-b border-solid border-slate-100 px-3 pb-2 pt-1.5 text-[13px] font-normal leading-5 text-slate-900 hover:bg-slate-50 dark:border-slate-700 dark:text-white dark:hover:bg-slate-700/60">
                 <input type="checkbox" (ngModelChange)="doSelectAllDef($event)" [(ngModel)]="def_all_selected" class="m-0 size-4 flex-none cursor-pointer accent-brand-700">Select all
               </label>
-              <label *ngFor="let alliance of alliances_def" class="m-0 flex cursor-pointer items-center gap-2 px-3 py-1.5 text-[13px] font-normal leading-5 text-slate-900 hover:bg-slate-50">
+              <label *ngFor="let alliance of alliances_def" class="m-0 flex cursor-pointer items-center gap-2 px-3 py-1.5 text-[13px] font-normal leading-5 text-slate-900 hover:bg-slate-50 dark:text-white dark:hover:bg-slate-700/60">
                 <input type="checkbox" [(ngModel)]="alliance.toggle" (ngModelChange)="doFilterAlliances(); def_all_selected=false;" class="m-0 size-4 flex-none cursor-pointer accent-brand-700">
-                <svg appIcon="ally_ico" variant="game" class="size-3.5 flex-none text-slate-400"></svg><span class="min-w-0 truncate">{{alliance.name}}</span><span class="ml-auto pl-2 text-xs tabular-nums text-slate-500">{{alliance.score | NumberFilter}}</span>
+                <svg appIcon="ally_ico" variant="game" class="size-3.5 flex-none text-slate-400 dark:text-slate-500"></svg><span class="min-w-0 truncate">{{alliance.name}}</span><span class="ml-auto pl-2 text-xs tabular-nums text-slate-500 dark:text-slate-400">{{alliance.score | NumberFilter}}</span>
               </label>
             </div>
           </mat-menu>
         </div>
-        <div class="flex flex-wrap items-center gap-1.5 border-0 border-b border-solid border-slate-100 px-4 py-2.5">
-          <span class="mr-0.5 text-xs text-slate-500">Hour</span>
-          <button *ngFor="let h of hours; let i = index" type="button" (click)="onDefSelect(h)" [disabled]="loading" [attr.aria-pressed]="data_is_filtered && def_colors_actual[0] == def_colors[i]" [title]="data_is_filtered ? 'Show all hours' : 'Show only ' + h" class="inline-flex items-center gap-1.5 rounded-full border-0 py-[3px] pl-2 pr-2.5 text-xs font-medium tabular-nums ring-1 ring-inset disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="(data_is_filtered && def_colors_actual[0] == def_colors[i]) ? 'bg-brand-50 text-slate-900 ring-brand-600' : (data_is_filtered ? 'bg-white text-slate-400 ring-slate-200 hover:bg-slate-50' : 'bg-white text-slate-700 ring-slate-200 hover:bg-slate-50')">
+        <div class="flex flex-wrap items-center gap-1.5 border-0 border-b border-solid border-slate-100 px-4 py-2.5 dark:border-slate-700">
+          <span class="mr-0.5 text-xs text-slate-500 dark:text-slate-400">Hour</span>
+          <button *ngFor="let h of hours; let i = index" type="button" (click)="onDefSelect(h)" [disabled]="loading" [attr.aria-pressed]="data_is_filtered && def_colors_actual[0] == def_colors[i]" [title]="data_is_filtered ? 'Show all hours' : 'Show only ' + h" class="inline-flex items-center gap-1.5 rounded-full border-0 py-[3px] pl-2 pr-2.5 text-xs font-medium tabular-nums ring-1 ring-inset disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700" [ngClass]="(data_is_filtered && def_colors_actual[0] == def_colors[i]) ? 'bg-brand-50 text-slate-900 ring-brand-600 dark:bg-brand-500/10 dark:text-white dark:ring-brand-500/40' : (data_is_filtered ? 'bg-white text-slate-400 ring-slate-200 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-500 dark:ring-slate-700' : 'bg-white text-slate-700 ring-slate-200 hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-300 dark:ring-slate-700 dark:hover:bg-slate-700/60')">
             <span aria-hidden="true" class="size-2.5 flex-none rounded-[3px]" [style.background-color]="(data_is_filtered && !(data_is_filtered && def_colors_actual[0] == def_colors[i])) ? '#E2E8F0' : ['#86B6EF', '#2A78D6', '#104281'][i]"></span>{{h}}
           </button>
         </div>
         <ol class="m-0 list-none px-0 py-1.5" [ngClass]="{'opacity-45': loading}">
-          <li *ngFor="let p of data.def; let i = index" class="group relative m-0 grid h-8 grid-cols-[124px_minmax(0,1fr)_52px_16px] items-center gap-2.5 pl-4 pr-2 hover:bg-slate-50 max-sm:grid-cols-[96px_minmax(0,1fr)_48px_16px]">
-            <span class="truncate text-[13px] font-medium leading-5 text-slate-900 group-hover:font-semibold">{{p.name}}</span>
+          <li *ngFor="let p of data.def; let i = index" class="group relative m-0 grid h-8 grid-cols-[124px_minmax(0,1fr)_52px_16px] items-center gap-2.5 pl-4 pr-2 hover:bg-slate-50 max-sm:grid-cols-[96px_minmax(0,1fr)_48px_16px] dark:hover:bg-slate-700/60">
+            <span class="truncate text-[13px] font-medium leading-5 text-slate-900 group-hover:font-semibold dark:text-white">{{p.name}}</span>
             <span aria-hidden="true" class="flex min-w-0 items-center gap-0.5">
               <ng-container *ngFor="let s of p.series"><span *ngIf="s.value > 0" class="h-3 min-w-[2px] flex-none last:rounded-r" [style.width]="'calc(' + (s.value / seriesMax(data.def) * 100) + '% - 2px)'" [style.background-color]="['#86B6EF', '#2A78D6', '#104281'][hours.indexOf(s.name)]"></span></ng-container>
             </span>
-            <span class="text-right text-[13px] font-medium leading-5 tabular-nums text-slate-700">{{seriesSum(p) | NumberFilter}}</span>
-            <svg appIcon="chevron-right" variant="mini" class="size-4 flex-none text-slate-400 opacity-0 group-hover:opacity-100"></svg>
+            <span class="text-right text-[13px] font-medium leading-5 tabular-nums text-slate-700 dark:text-slate-300">{{seriesSum(p) | NumberFilter}}</span>
+            <svg appIcon="chevron-right" variant="mini" class="size-4 flex-none text-slate-400 opacity-0 group-hover:opacity-100 dark:text-slate-500"></svg>
             <button type="button" (click)="onDefSelect({series: p.name})" [attr.aria-label]="'Show the hourly breakdown for ' + p.name" class="absolute inset-0 cursor-pointer border-0 bg-transparent p-0 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-700"></button>
-            <div role="tooltip" class="pointer-events-none absolute left-[140px] z-20 w-[204px] rounded-lg bg-white px-3 py-2.5 text-xs shadow-lg ring-1 ring-slate-900/5 [display:none] group-hover:[display:block] max-sm:left-[112px]" [ngClass]="i > 3 && i >= data.def.length - 4 ? 'bottom-full mb-1' : 'top-full mt-1'">
-              <p class="m-0 text-[13px] font-semibold leading-[18px] text-slate-900">{{p.name}}</p>
-              <p *ngIf="p.alliance_name" class="mb-0 mt-0.5 flex items-center gap-1 text-slate-500"><svg appIcon="ally_ico" variant="game" class="size-3 flex-none text-slate-400"></svg><span class="truncate">{{p.alliance_name}}</span></p>
+            <div role="tooltip" class="pointer-events-none absolute left-[140px] z-20 w-[204px] rounded-lg bg-white px-3 py-2.5 text-xs shadow-lg ring-1 ring-slate-900/5 [display:none] group-hover:[display:block] max-sm:left-[112px] dark:bg-slate-800" [ngClass]="i > 3 && i >= data.def.length - 4 ? 'bottom-full mb-1' : 'top-full mt-1'">
+              <p class="m-0 text-[13px] font-semibold leading-[18px] text-slate-900 dark:text-white">{{p.name}}</p>
+              <p *ngIf="p.alliance_name" class="mb-0 mt-0.5 flex items-center gap-1 text-slate-500 dark:text-slate-400"><svg appIcon="ally_ico" variant="game" class="size-3 flex-none text-slate-400 dark:text-slate-500"></svg><span class="truncate">{{p.alliance_name}}</span></p>
               <div class="mt-1.5 flex flex-col gap-1">
-                <div *ngFor="let s of p.series" class="flex items-center gap-2"><span aria-hidden="true" class="h-[3px] w-3 flex-none rounded-sm" [style.background-color]="['#86B6EF', '#2A78D6', '#104281'][hours.indexOf(s.name)]"></span><span class="min-w-[48px] font-semibold tabular-nums text-slate-900">{{s.value | NumberFilter}}</span><span class="tabular-nums text-slate-500">{{s.name}}</span></div>
+                <div *ngFor="let s of p.series" class="flex items-center gap-2"><span aria-hidden="true" class="h-[3px] w-3 flex-none rounded-sm" [style.background-color]="['#86B6EF', '#2A78D6', '#104281'][hours.indexOf(s.name)]"></span><span class="min-w-[48px] font-semibold tabular-nums text-slate-900 dark:text-white">{{s.value | NumberFilter}}</span><span class="tabular-nums text-slate-500 dark:text-slate-400">{{s.name}}</span></div>
               </div>
-              <div class="mt-1.5 flex justify-between border-0 border-t border-solid border-slate-100 pt-1.5 text-slate-600"><span>Total</span><span class="font-semibold tabular-nums text-slate-900">{{seriesSum(p) | NumberFilter}}</span></div>
-              <p class="mb-0 mt-1 text-slate-500">Click to open their day</p>
+              <div class="mt-1.5 flex justify-between border-0 border-t border-solid border-slate-100 pt-1.5 text-slate-600 dark:border-slate-700 dark:text-slate-400"><span>Total</span><span class="font-semibold tabular-nums text-slate-900 dark:text-white">{{seriesSum(p) | NumberFilter}}</span></div>
+              <p class="mb-0 mt-1 text-slate-500 dark:text-slate-400">Click to open their day</p>
             </div>
           </li>
-          <li *ngIf="data.def.length == 0 && !loading" class="m-0 px-4 py-6 text-center text-sm text-slate-500">No players in these hours</li>
+          <li *ngIf="data.def.length == 0 && !loading" class="m-0 px-4 py-6 text-center text-sm text-slate-500 dark:text-slate-400">No players in these hours</li>
         </ol>
       </section>
     </div>
   </div>
 
-  <div class="flex flex-none items-center gap-3 border-0 border-t border-solid border-slate-200 bg-slate-50 px-6 py-4 max-sm:px-4">
-    <span class="inline-flex min-w-0 items-center gap-1.5 text-[13px] leading-5 text-slate-500 flex-1 max-sm:[display:none]"><svg appIcon="cursor-arrow-rays" class="size-4 flex-none text-slate-400"></svg>Click a player to open their day, or an hour to show only that hour.</span>
-    <button type="button" (click)="dialogRef.close()" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 ml-auto">Close</button>
+  <div class="flex flex-none items-center gap-3 border-0 border-t border-solid border-slate-200 bg-slate-50 px-6 py-4 max-sm:px-4 dark:border-slate-700 dark:bg-slate-700/40">
+    <span class="inline-flex min-w-0 items-center gap-1.5 text-[13px] leading-5 text-slate-500 flex-1 max-sm:[display:none] dark:text-slate-400"><svg appIcon="cursor-arrow-rays" class="size-4 flex-none text-slate-400 dark:text-slate-500"></svg>Click a player to open their day, or an hour to show only that hour.</span>
+    <button type="button" (click)="dialogRef.close()" class="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border-0 bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700 ml-auto dark:bg-slate-800 dark:text-white dark:ring-slate-600 dark:hover:bg-slate-700/60">Close</button>
   </div>
 </div>

@@ -1060,6 +1060,24 @@ fieldset[disabled] .btn-success.active {
   background: #1e293b !important; // slate-800
   color: #fff !important;
 }
+.dark-mode mat-paginator {
+  // same cascade issue as .mat-dialog-container above
+  background: transparent !important;
+  color: #fff !important;
+}
+.dark-mode .mat-select-panel {
+  // same cascade issue as .mat-dialog-container above
+  background: #1e293b !important; // slate-800
+  color: #fff !important;
+
+  .mat-option {
+    color: #fff !important;
+
+    &:hover:not(.mat-option-disabled), &:focus:not(.mat-option-disabled) {
+      background: #334155 !important; // slate-700
+    }
+  }
+}
 .tight-dialog-container .mat-dialog-container {
   padding: 0 !important;
   overflow: hidden !important;
